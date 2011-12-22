@@ -43,5 +43,6 @@ EOT
         //$server = (Boolean) $input->getOption('server');
         //$port = $input->getOption('port');
         $url = $input->getOption('url');
+        $sculpin = $this->getSculpinApplication()->createSculpin();
     }
 }

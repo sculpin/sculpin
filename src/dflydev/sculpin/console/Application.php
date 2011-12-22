@@ -11,6 +11,12 @@
 
 namespace dflydev\sculpin\console;
 
+use dflydev\sculpin\configuration\Util;
+
+use dflydev\sculpin\configuration\Configuration;
+
+use dflydev\sculpin\configuration\YamlConfigurationBuilder;
+
 use dflydev\sculpin\Sculpin;
 
 use Symfony\Component\Console\Application as BaseApplication;
@@ -32,6 +38,24 @@ class Application extends BaseApplication
         $this->add(new command\InitCommand());
         $this->add(new command\GenerateCommand());
         return parent::doRun($input, $output);
+    }
+
+    public function createSculpin() {
+        $defaultConfiguration = new Configuration(array(
+            'site' => array(
+                'name' => 'Sculpin Site',
+            ),
+        ));
+        $siteConfigurationBuilder = new YamlConfigurationBuilder(array(
+            'sculpin.yml.dist',
+            'sculpin.yml',
+        ));
+        $siteConfiguration = $siteConfigurationBuilder->build();
+        $configuration = Util::MERGE_CONFIGURATIONS(array(
+            $defaultConfiguration,
+            $siteConfiguration,
+        ));
+        return new Sculpin($configuration);
     }
 
 }

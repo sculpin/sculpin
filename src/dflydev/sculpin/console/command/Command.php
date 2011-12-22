@@ -15,4 +15,12 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 
 abstract class Command extends BaseCommand
 {
+    /**
+     * Get the Sculpin application
+     * @return \dflydev\sculpin\console\Application
+     */
+    public function getSculpinApplication()
+    {
+        return $this->getApplication();
+    }
 }
