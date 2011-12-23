@@ -48,8 +48,9 @@ Not Invented Here
 
 There are other fine projects that are more mature than this one.
 If you are looking for a stable project with an established community,
-try something on admittedly incomplete list:
+try something on the following admittedly incomplete list:
 
  * [Jekyll](http://github.com/mojombo/jekyll) &mdash; Ruby
  * [Hyde](http://ringce.com/hyde) &mdash; Python
  * [Phrozn](http://phrozn.info) &mdash; PHP
+ * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
