@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dflydev\sculpin\console\command;
+namespace sculpin\console\command;
 
 use Symfony\Component\Console\Command\Command as BaseCommand;
 
@@ -17,7 +17,7 @@ abstract class Command extends BaseCommand
 {
     /**
      * Get the Sculpin application
-     * @return \dflydev\sculpin\console\Application
+     * @return \sculpin\console\Application
      */
     public function getSculpinApplication()
     {

@@ -20,7 +20,7 @@ if (!@include __DIR__.'/../vendor/.composer/autoload.php') {
 ');
 }
 
-use dflydev\sculpin\console\Application;
+use sculpin\console\Application;
 
 // run the console application
 $application = new Application();

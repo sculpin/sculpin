@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace dflydev\sculpin\console;
+namespace sculpin\console;
 
-use dflydev\sculpin\configuration\Util;
+use sculpin\configuration\Util;
 
-use dflydev\sculpin\configuration\Configuration;
+use sculpin\configuration\Configuration;
 
-use dflydev\sculpin\configuration\YamlConfigurationBuilder;
+use sculpin\configuration\YamlConfigurationBuilder;
 
-use dflydev\sculpin\Sculpin;
+use sculpin\Sculpin;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;

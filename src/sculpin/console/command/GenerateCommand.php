@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dflydev\sculpin\console\command;
+namespace sculpin\console\command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dflydev\sculpin\configuration;
+namespace sculpin\configuration;
 
 use Symfony\Component\Yaml\Yaml;
 

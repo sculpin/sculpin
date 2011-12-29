@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace dflydev\sculpin;
+namespace sculpin;
 
-use dflydev\sculpin\configuration\Configuration;
+use sculpin\configuration\Configuration;
 
 class Sculpin {
     
