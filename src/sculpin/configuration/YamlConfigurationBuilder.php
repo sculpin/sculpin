@@ -37,9 +37,7 @@ class YamlConfigurationBuilder implements IConfigurationBuilder {
     {
         $config = array();
         foreach ( $this->yamlConfigurationFilenames as $yamlConfigurationFilename ) {
-            if ( file_exists($yamlConfigurationFilename) ) {
-                $config = Util::MERGE_ASSOC_ARRAY($config, Yaml::parse($yamlConfigurationFilename));
-            }
+            $config = Util::MERGE_ASSOC_ARRAY($config, Yaml::parse($yamlConfigurationFilename));
         }
         return new Configuration($config);
     }

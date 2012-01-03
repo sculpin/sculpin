@@ -41,20 +41,12 @@ class Application extends BaseApplication
     }
 
     public function createSculpin() {
-        $defaultConfiguration = new Configuration(array(
-            'site' => array(
-                'name' => 'Sculpin Site',
-            ),
-        ));
-        $siteConfigurationBuilder = new YamlConfigurationBuilder(array(
+        $configurationBuilder = new YamlConfigurationBuilder(array(
+            __DIR__.'/../resources/configuration/sculpin.yml',
             'sculpin.yml.dist',
             'sculpin.yml',
         ));
-        $siteConfiguration = $siteConfigurationBuilder->build();
-        $configuration = Util::MERGE_CONFIGURATIONS(array(
-            $defaultConfiguration,
-            $siteConfiguration,
-        ));
+        $configuration = $configurationBuilder->build();
         return new Sculpin($configuration);
     }
 

@@ -44,5 +44,8 @@ EOT
         //$port = $input->getOption('port');
         $url = $input->getOption('url');
         $sculpin = $this->getSculpinApplication()->createSculpin();
+        $sculpin->start();
+        $sculpin->run($watch);
+        $sculpin->stop();
     }
 }

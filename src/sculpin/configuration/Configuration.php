@@ -18,7 +18,8 @@ class Configuration {
         $this->config = $config;
     }
     
-    public function get($key) {
+    public function get($key)
+    {
         $currentValue = $this->config;
         $keyPath = explode('.', $key);
         for ( $i = 0; $i < count($keyPath); $i++ ) {
@@ -31,6 +32,27 @@ class Configuration {
 
     public function export() {
         return $this->config;
+    }
+    
+    public function getPath($key)
+    {
+        $path = $this->get($key);
+        if ('/' == $path[0]) {
+            return $path;
+        }
+        if ('.' == $path) {
+            return getcwd();
+        }
+        return getcwd().'/'.$path;
+    }
+    public function getConfiguration($key)
+    {
+        $value = $this->get($key);
+        if (Util::IS_ASSOC($value)) {
+            return new Configuration($value);
+        }
+        // TODO: This should probably throw an exception?
+        return $value;
     }
 
 }
