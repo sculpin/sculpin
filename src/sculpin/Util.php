@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace sculpin\configuration;
-
-use sculpin\Util as SculpinUtil;
+namespace sculpin;
 
 class Util {
 
@@ -26,7 +24,7 @@ class Util {
      */
     static public function IS_ASSOC(array $arr)
     {
-        return SculpinUtil::IS_ASSOC($arr);
+        return (is_array($arr) && (!count($arr) || count(array_filter(array_keys($arr),'is_string')) == count($arr)));
     }
     
     /**
@@ -37,19 +35,18 @@ class Util {
      */
     static public function MERGE_ASSOC_ARRAY($to, $from, $clobber = true)
     {
-        return SculpinUtil::MERGE_ASSOC_ARRAY($to, $from, $clobber);
-    }
-
-    /**
-     * Merge configuration instances
-     * @param array $configurations
-     */
-    static public function MERGE_CONFIGURATIONS(array $configurations) {
-        $config = array();
-        foreach ( $configurations as $configuration ) {
-            $config = self::MERGE_ASSOC_ARRAY($config, $configuration->export());
+        if ( is_array($from) ) {
+            foreach ( $from as $k => $v ) {
+                if ( ! isset($to[$k]) ) {
+                    $to[$k] = $v;
+                }
+                else {
+                    $to[$k] = self::MERGE_ASSOC_ARRAY($to[$k], $v, $clobber);
+                }
+            }
+            return $to;
         }
-        return new Configuration($config);
+        return $clobber ? $from : $to;
     }
 
 }

@@ -21,7 +21,7 @@ class Event extends BaseEvent {
      * Sculpin
      * @var Sculpin
      */
-    public $sculpin;
+    protected $sculpin;
 
     /**
      * Constructor
@@ -39,6 +39,15 @@ class Event extends BaseEvent {
     public function configuration()
     {
         return $this->sculpin->configuration();
+    }
+    
+    /**
+     * Sculpin
+     * @return \sculpin\Sculpin
+     */
+    public function sculpin()
+    {
+        return $this->sculpin;
     }
 
 }

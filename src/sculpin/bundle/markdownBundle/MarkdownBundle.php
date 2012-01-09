@@ -13,11 +13,11 @@ namespace sculpin\bundle\markdownBundle;
 
 use sculpin\Sculpin;
 
-use sculpin\event\InputFilesChangedEvent;
+use sculpin\event\SourceFilesChangedEvent;
 
-use sculpin\bundle\IBundle;
+use sculpin\bundle\AbstractBundle;
 
-class MarkdownBundle implements IBundle {
+class MarkdownBundle extends AbstractBundle {
     
     const CONFIG_ENABLED = 'markdown.enabled';
     const CONFIG_PARSERS = 'markdown.parsers';
@@ -26,14 +26,14 @@ class MarkdownBundle implements IBundle {
 
     /**
      * (non-PHPdoc)
-     * @see Symfony\Component\EventDispatcher.EventSubscriberInterface::getSubscribedEvents()
+     * @see sculpin\bundle.AbstractBundle::getBundleEvents()
      */
-    static function getSubscribedEvents()
+    static function getBundleEvents()
     {
         return array(Sculpin::EVENT_CONVERT => 'convert');
     }
 
-    public function convert(InputFilesChangedEvent $event)
+    public function convert(SourceFilesChangedEvent $event)
     {
         $configuration = $event->configuration();
         if (!$configuration->get(self::CONFIG_ENABLED)) { return; }
@@ -41,7 +41,8 @@ class MarkdownBundle implements IBundle {
         $parser = new $parserClass;
         $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
         $placeholder = "\n".'<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>'."\n";
-        foreach ( array_merge($event->newFiles, $event->updatedFiles) as $inputFile ) {
+        foreach ( $event->inputFiles()->changedFiles() as $inputFile ) {
+            /* @var $inputFile \sculpin\source\SourceFile */
             foreach ($extensions as $extension) {
                 if (fnmatch('*.'.$extension, $inputFile->file()->getFilename())) {
                     $content = $inputFile->content();

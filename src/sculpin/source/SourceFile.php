@@ -9,13 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace sculpin;
+namespace sculpin\source;
+
+use Symfony\Component\Finder\SplFileInfo;
 
 use sculpin\configuration\YamlConfigurationBuilder;
 
 use sculpin\configuration\Configuration;
 
-class InputFile {
+class SourceFile {
     
     /**
      * File
@@ -36,9 +38,20 @@ class InputFile {
     protected $data;
     
     /**
+     * Represents a normal file
+     * 
+     * Normal files are files that are not handled specially by
+     * a bundle. Files that are not normal will not be formatted
+     * directly.
+     * 
+     * @var boolean
+     */
+    protected $isNormal = true;
+    
+    /**
      * Constructor
      */
-    public function __construct(\SplFileInfo $file)
+    public function __construct(SplFileInfo $file)
     {
         $this->file = $file;
         $content = file_get_contents($file);
@@ -66,6 +79,10 @@ class InputFile {
         return $this->content;
     }
     
+    /**
+     * Data
+     * @return \sculpin\configuration\Configuration
+     */
     public function data()
     {
         return $this->data;
@@ -74,6 +91,31 @@ class InputFile {
     public function file()
     {
         return $this->file;
+    }
+    
+    public function setIsNormal()
+    {
+        $this->isNormal = true;
+    }
+    
+    public function setIsNotNormal()
+    {
+        $this->isNormal = false;
+    }
+    
+    public function isNormal()
+    {
+        return $this->isNormal;
+    }
+    
+    public function id()
+    {
+        return $this->file->getRelativePathname();
+    }
+    
+    public function context()
+    {
+        return $this->data->export();
     }
 
 }

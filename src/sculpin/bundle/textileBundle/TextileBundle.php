@@ -11,17 +11,8 @@
 
 namespace sculpin\bundle\textileBundle;
 
-use sculpin\bundle\IBundle;
+use sculpin\bundle\AbstractBundle;
 
-class TextileBundle implements IBundle {
+class TextileBundle extends AbstractBundle {
     
-    /**
-     * (non-PHPdoc)
-     * @see Symfony\Component\EventDispatcher.EventSubscriberInterface::getSubscribedEvents()
-     */
-    static function getSubscribedEvents()
-    {
-        return array();
-    }
-
 }

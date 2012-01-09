@@ -1,38 +1,37 @@
+
+#
+# This file is a part of Sculpin.
+#
+# (c) Dragonfly Development Inc.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+
+#
+# Default configuration
+#
+
 site:
   name: Sculpin Site
 
 core_exclude: ["sculpin.yml*"]
 exclude: []
 
+# Core bundles that have been abled. These are distributed with
+# Sculpin.
 core_bundles:
   - sculpin\bundle\markdownBundle\MarkdownBundle
   - sculpin\bundle\postsBundle\PostsBundle
   - sculpin\bundle\textileBundle\TextileBundle
   - sculpin\bundle\twigBundle\TwigBundle
 
+# Users can enable additional bundles by adding them here.
 bundles: []
 
-# Provides a way to disable core bundles one at
-# a time without having to add the whole list.
+# Provides a way to disable core bundles one at a time without having to add
+# the whole list.
 disabled_core_bundles: []
 
 source: .
 destination: _site
-
-posts:
-  directory: _posts
-
-markdown:
-  enabled: true
-  parsers:
-    extra: dflydev\markdown\MarkdownExtraParser
-    standard: dflydev\markdown\MarkdownParser
-  parser: standard
-  extensions: [md, mkd, markdown]
-
-textile:
-  enabled: true
-  extensions: [textile]
-
-twig:
-  views: _views

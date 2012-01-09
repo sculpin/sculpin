@@ -1,0 +1,21 @@
+
+#
+# This file is a part of Sculpin.
+#
+# (c) Dragonfly Development Inc.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+
+#
+# Default configuration for the core Markdown Bundle
+#
+
+markdown:
+  enabled: true
+  parsers:
+    extra: dflydev\markdown\MarkdownExtraParser
+    standard: dflydev\markdown\MarkdownParser
+  parser: standard
+  extensions: [md, mkd, markdown]

@@ -11,8 +11,21 @@
 
 namespace sculpin\bundle;
 
+use sculpin\Sculpin;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 interface IBundle extends EventSubscriberInterface {
+    
+    /**
+     * Initialize the bundle.
+     */
+    public function initBundle(Sculpin $sculpin);
+    
+    /**
+     * Get a full path to a resource
+     * @param string $partialPath
+     */
+    public function getResourcePath($partialPath);
 
 }

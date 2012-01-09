@@ -30,6 +30,50 @@ class Configuration {
         return $currentValue;
     }
 
+    public function set($key, $value)
+    {
+        $currentValue =& $this->config;
+        $keyPath = explode('.', $key);
+        if (count($keyPath)==0) {
+            throw new \RuntimeException("key cannot be an empty string");
+        }
+        if (count($keyPath)==1) {
+            $currentValue[$key] = $value;
+            return;
+        }
+        $endKey = array_pop($keyPath);
+        for ( $i = 0; $i < count($keyPath); $i++ ) {
+            $currentKey =& $keyPath[$i];
+            if ( ! isset($currentValue[$currentKey]) ) {
+                $currentValue[$currentKey] = array();
+            }
+            $currentValue =& $currentValue[$currentKey];
+        }
+        $currentValue[$endKey] = $value;
+    }
+
+    public function append($key, $value)
+    {
+        $currentValue =& $this->config;
+        $keyPath = explode('.', $key);
+        if (count($keyPath)==0) {
+            throw new \RuntimeException("key cannot be an empty string");
+        }
+        if (count($keyPath)==1) {
+            $currentValue[$key] = $value;
+            return;
+        }
+        $endKey = array_pop($keyPath);
+        for ( $i = 0; $i < count($keyPath); $i++ ) {
+            $currentKey =& $keyPath[$i];
+            if ( ! isset($currentValue[$currentKey]) ) {
+                $currentValue[$currentKey] = array();
+            }
+            $currentValue =& $currentValue[$currentKey];
+        }
+        $currentValue[$endKey][] = $value;
+    }
+    
     public function export() {
         return $this->config;
     }
@@ -45,6 +89,7 @@ class Configuration {
         }
         return getcwd().'/'.$path;
     }
+
     public function getConfiguration($key)
     {
         $value = $this->get($key);
@@ -53,6 +98,11 @@ class Configuration {
         }
         // TODO: This should probably throw an exception?
         return $value;
+    }
+    
+    public function import(Configuration $imported, $clobber = true)
+    {
+        $this->config = Util::MERGE_ASSOC_ARRAY($this->config, $imported->export(), $clobber);
     }
 
 }
