@@ -11,9 +11,13 @@
 
 namespace sculpin\bundle\markdownTwigBundle;
 
-use sculpin\Sculpin;
+use sculpin\bundle\twigBundle\TwigBundle;
 
-use sculpin\event\SourceFilesChangedEvent;
+use sculpin\event\ConvertSourceFileEvent;
+
+use sculpin\bundle\markdownBundle\MarkdownBundle;
+
+use sculpin\Sculpin;
 
 use sculpin\bundle\AbstractBundle;
 
@@ -38,37 +42,27 @@ class MarkdownTwigBundle extends AbstractBundle {
      * Called before conversion
      * @param SourceFilesChangedEvent $event
      */
-    public function beforeConvert(SourceFilesChangedEvent $event)
+    public function beforeConvert(ConvertSourceFileEvent $event)
     {
-        foreach ( $event->inputFiles()->changedFiles() as $inputFile ) {
-            /* @var $inputFile \sculpin\source\SourceFile */
-            if ($converters = $inputFile->data()->get('converters') and is_array($converters) and in_array('markdown', $converters)) {
-                // TODO: converters should be a const
-                $content = $inputFile->content();
-                $content = preg_replace('/^({%\s+(\w+).+?%})$/m', self::$PLACEHOLDER, $content);
-                $content = preg_replace('/^({{.+?}})$/m', self::$PLACEHOLDER, $content);
-                $inputFile->setContent($content);
-            }
+        if ($event->converter() == MarkdownBundle::CONVERTER_NAME and $event->sculpin()->deriveSourceFileFormatter($event->sourceFile()) == TwigBundle::FORMATTER_NAME) {
+            $content = $event->sourceFile()->content();
+            $content = preg_replace('/^({%\s+(\w+).+?%})$/m', self::$PLACEHOLDER, $content);
+            $content = preg_replace('/^({{.+?}})$/m', self::$PLACEHOLDER, $content);
+            $event->sourceFile()->setContent($content);
         }
-        //
     }
 
     /**
      * Called after conversion
      * @param SourceFilesChangedEvent $event
      */
-    public function afterConvert(SourceFilesChangedEvent $event)
+    public function afterConvert(ConvertSourceFileEvent $event)
     {
-        foreach ( $event->inputFiles()->changedFiles() as $inputFile ) {
-            /* @var $inputFile \sculpin\source\SourceFile */
-            if ($converters = $inputFile->data()->get('converters') and is_array($converters) and in_array('markdown', $converters)) {
-                // TODO: converters should be a const
-                $content = $inputFile->content();
-                $content = preg_replace(self::$PLACEHOLDER_RE, '', $content);
-                $inputFile->setContent($content);
-            }
+        if ($event->converter() == MarkdownBundle::CONVERTER_NAME and $event->sculpin()->deriveSourceFileFormatter($event->sourceFile()) == TwigBundle::FORMATTER_NAME) {
+            $content = $event->sourceFile()->content();
+            $content = preg_replace(self::$PLACEHOLDER_RE, '', $content);
+            $event->sourceFile()->setContent($content);
         }
     }
-    
 
 }

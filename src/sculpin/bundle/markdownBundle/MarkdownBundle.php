@@ -19,6 +19,8 @@ use sculpin\bundle\AbstractBundle;
 
 class MarkdownBundle extends AbstractBundle {
     
+    const CONVERTER_NAME = 'markdown';
+    
     const CONFIG_ENABLED = 'markdown.enabled';
     const CONFIG_PARSERS = 'markdown.parsers';
     const CONFIG_PARSER = 'markdown.parser';
@@ -32,8 +34,18 @@ class MarkdownBundle extends AbstractBundle {
     {
         return array(
             Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
-            Sculpin::EVENT_CONVERT => 'convert',
         );
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see sculpin\bundle.AbstractBundle::configureBundle()
+     */
+    public function configureBundle(Sculpin $sculpin)
+    {
+        $configuration = $sculpin->configuration();
+        $parserClass = $configuration->getConfiguration(self::CONFIG_PARSERS)->get($configuration->get(self::CONFIG_PARSER));
+        $sculpin->registerConverter('markdown', new MarkdownConverter(new $parserClass));
     }
     
     /**
@@ -50,24 +62,9 @@ class MarkdownBundle extends AbstractBundle {
             foreach ($extensions as $extension) {
                 if (fnmatch('*.'.$extension, $inputFile->file()->getFilename())) {
                     // TODO: converters should be a const (where?)
-                    $inputFile->data()->append('converters', 'markdown');
+                    $inputFile->data()->append('converters', self::CONVERTER_NAME);
                     break;
                 }
-            }
-        }
-    }
-
-    public function convert(SourceFilesChangedEvent $event)
-    {
-        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
-        $configuration = $event->configuration();
-        $parserClass = $configuration->getConfiguration(self::CONFIG_PARSERS)->get($configuration->get(self::CONFIG_PARSER));
-        $parser = new $parserClass;
-        foreach ( $event->inputFiles()->changedFiles() as $inputFile ) {
-            /* @var $inputFile \sculpin\source\SourceFile */
-            if ($converters = $inputFile->data()->get('converters') and is_array($converters) and in_array('markdown', $converters)) {
-                // TODO: converters should be a const
-                $inputFile->setContent($parser->transformMarkdown($inputFile->content()));
             }
         }
     }

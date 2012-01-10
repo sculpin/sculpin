@@ -11,12 +11,15 @@
 
 namespace sculpin;
 
-use sculpin\event\FormatEvent;
+use sculpin\converter\SourceFileConverterContext;
 
 use sculpin\configuration\Configuration;
 use sculpin\configuration\YamlConfigurationBuilder;
+use sculpin\converter\IConverter;
+use sculpin\event\ConvertSourceFileEvent;
 use sculpin\event\Event;
 use sculpin\event\SourceFilesChangedEvent;
+use sculpin\event\FormatEvent;
 use sculpin\formatter\IFormatter;
 use sculpin\formatter\FormatContext;
 use sculpin\source\SourceFile;
@@ -48,7 +51,6 @@ class Sculpin {
     const EVENT_AFTER_CONVERT = 'sculpin.core.afterConvert';
     const EVENT_PROCESSED = 'sculpin.core.processed';
     const EVENT_BEFORE_FORMAT = 'sculpin.core.beforeFormat';
-    const EVENT_FORMAT = 'sculpin.core.format';
     const EVENT_AFTER_FORMAT = 'sculpin.core.afterFormat';
     
     /**
@@ -79,7 +81,7 @@ class Sculpin {
      * List of all know input files
      * @var array
      */
-    protected $inputFiles;
+    protected $sourceFiles;
     
     /**
      * Twig
@@ -111,6 +113,12 @@ class Sculpin {
      */
     protected $defaultFormatter;
     
+    /**
+     * Registered converters
+     * @var array
+     */
+    protected $converters = array();
+
     /**
      * Constructor
      * @param Configuration $configuration
@@ -201,52 +209,43 @@ class Sculpin {
                 }
             }
 
-            $inputFileSet = new SourceFileSet($newFiles, $updatedFiles, $unchangedFiles);
+            $sourceFileSet = new SourceFileSet($newFiles, $updatedFiles, $unchangedFiles);
 
-            if ( $inputFileSet->hasChangedFiles() ) {
-                $inputFilesChangedEvent = new SourceFilesChangedEvent($this, $inputFileSet);
+            if ( $sourceFileSet->hasChangedFiles() ) {
+                $sourceFilesChangedEvent = new SourceFilesChangedEvent($this, $sourceFileSet);
                 $this->eventDispatcher->dispatch(
                     self::EVENT_SOURCE_FILES_CHANGED,
-                    new SourceFilesChangedEvent($this, $inputFileSet)
+                    new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_BEFORE_CONVERT,
-                    new SourceFilesChangedEvent($this, $inputFileSet)
-                );
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_CONVERT,
-                    new SourceFilesChangedEvent($this, $inputFileSet)
-                );
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_AFTER_CONVERT,
-                    new SourceFilesChangedEvent($this, $inputFileSet)
-                );
+                foreach ($sourceFileSet->changedFiles() as $sourceFile) {
+                    /* @var $sourceFile SourceFile */
+                    print $this->convertSourceFile($sourceFile);
+                }
                 $this->eventDispatcher->dispatch(
                     self::EVENT_PROCESSED,
-                    new SourceFilesChangedEvent($this, $inputFileSet)
+                    new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
                 $this->eventDispatcher->dispatch(
-                        self::EVENT_BEFORE_GENERATE,
-                        new SourceFilesChangedEvent($this, $inputFileSet)
+                    self::EVENT_BEFORE_GENERATE,
+                    new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
                 $this->eventDispatcher->dispatch(
-                        self::EVENT_GENERATE,
-                        new SourceFilesChangedEvent($this, $inputFileSet)
+                    self::EVENT_GENERATE,
+                    new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
                 $this->eventDispatcher->dispatch(
-                        self::EVENT_AFTER_GENERATE,
-                        new SourceFilesChangedEvent($this, $inputFileSet)
+                    self::EVENT_AFTER_GENERATE,
+                    new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
                 
-                foreach ($inputFileSet->changedFiles() as $inputFile) {
-                    /* @var $inputFile SourceFile */
-                    // $this->formatPage($inputFile->content(), $inputFile->context()) . "\n";
+                foreach ($sourceFileSet->changedFiles() as $sourceFile) {
+                    /* @var $sourceFile SourceFile */
+                    // $this->formatPage($sourceFile->content(), $sourceFile->context()) . "\n";
                 }
 
-                
-                foreach ($inputFileSet->changedFiles() as $inputFile) {
-                    /* @var $inputFile SourceFile */
-                    if ($inputFile->isNormal()) {
+                foreach ($sourceFileSet->changedFiles() as $sourceFile) {
+                    /* @var $sourceFile SourceFile */
+                    if ($sourceFile->isNormal()) {
                         // Do do something with normal files.
                     }
                 }
@@ -341,6 +340,11 @@ class Sculpin {
         return $response;
     }
     
+    /**
+     * Register a formatter
+     * @param string $name
+     * @param IFormatter $formatter
+     */
     public function registerFormatter($name, IFormatter $formatter)
     {
         $this->formatters[$name] = $formatter;
@@ -377,6 +381,60 @@ class Sculpin {
         $defaultContext['formatter'] = $this->defaultFormatter;
         $defaultContext['converters'] = array();
         return $defaultContext;
+    }
+    
+    /**
+     * Register a converter
+     * @param string $name
+     * @param IConverter $formatter
+     */
+    public function registerConverter($name, IConverter $converter)
+    {
+        $this->converters[$name] = $converter;
+    }
+    
+    /**
+     * Get converter
+     * @param string $name
+     * @return IConverter
+     */
+    public function converter($name)
+    {
+        // TODO: Throw an exception of the requested converter does not exist?
+        return isset($this->converters[$name]) ? $this->converters[$name] : null;
+    }
+    
+    public function convertSourceFile(SourceFile $sourceFile)
+    {
+        $converters = $sourceFile->data()->get('converters');
+        if (!$converters or !is_array($converters)) { return; }
+        foreach ($sourceFile->data()->get('converters') as $converter) {
+            $this->eventDispatcher->dispatch(
+                self::EVENT_BEFORE_CONVERT,
+                new ConvertSourceFileEvent($this, $sourceFile, $converter)
+            );
+            $this->converter($converter)->convert($this, new SourceFileConverterContext($sourceFile));
+            $this->eventDispatcher->dispatch(
+                self::EVENT_AFTER_CONVERT,
+                new ConvertSourceFileEvent($this, $sourceFile, $converter)
+            );
+        }
+    }
+
+    /**
+     * Derive the formatter for a source file
+     * 
+     * Convenience method. Is not DRY. Similar functionality exists in
+     * buildDefaultFormatContext and buildFormatContext.
+     * 
+     * @param SourceFile $sourceFile
+     */
+    public function deriveSourceFileFormatter(SourceFile $sourceFile)
+    {
+        if ($formatter = $sourceFile->data()->get('formatter')) {
+            return $formatter;
+        }
+        return $this->defaultFormatter;
     }
     
 }
