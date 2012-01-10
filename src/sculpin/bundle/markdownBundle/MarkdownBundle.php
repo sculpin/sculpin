@@ -30,29 +30,44 @@ class MarkdownBundle extends AbstractBundle {
      */
     static function getBundleEvents()
     {
-        return array(Sculpin::EVENT_CONVERT => 'convert');
+        return array(
+            Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
+            Sculpin::EVENT_CONVERT => 'convert',
+        );
+    }
+    
+    /**
+     * Called when Sculpin detects any source files have changed
+     * @param SourceFilesChangedEvent $event
+     */
+    public function sourceFilesChanged(SourceFilesChangedEvent $event)
+    {
+        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
+        $configuration = $event->configuration();
+        $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
+        foreach ($event->inputFiles()->changedFiles() as $inputFile) {
+            /* @var $inputFile \sculpin\source\SourceFile */
+            foreach ($extensions as $extension) {
+                if (fnmatch('*.'.$extension, $inputFile->file()->getFilename())) {
+                    // TODO: converters should be a const (where?)
+                    $inputFile->data()->append('converters', 'markdown');
+                    break;
+                }
+            }
+        }
     }
 
     public function convert(SourceFilesChangedEvent $event)
     {
+        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
         $configuration = $event->configuration();
-        if (!$configuration->get(self::CONFIG_ENABLED)) { return; }
         $parserClass = $configuration->getConfiguration(self::CONFIG_PARSERS)->get($configuration->get(self::CONFIG_PARSER));
         $parser = new $parserClass;
-        $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
-        $placeholder = "\n".'<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>'."\n";
         foreach ( $event->inputFiles()->changedFiles() as $inputFile ) {
             /* @var $inputFile \sculpin\source\SourceFile */
-            foreach ($extensions as $extension) {
-                if (fnmatch('*.'.$extension, $inputFile->file()->getFilename())) {
-                    $content = $inputFile->content();
-                    $content = preg_replace('/^({%\s+(\w+).+?%})$/m', $placeholder, $content);
-                    $content = preg_replace('/^({{.+?}})$/m', $placeholder, $content);
-                    $content = $parser->transformMarkdown($content);
-                    $content = preg_replace('/(<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>)/m', '', $content);
-                    $inputFile->setContent($content);
-                    break;
-                }
+            if ($converters = $inputFile->data()->get('converters') and is_array($converters) and in_array('markdown', $converters)) {
+                // TODO: converters should be a const
+                $inputFile->setContent($parser->transformMarkdown($inputFile->content()));
             }
         }
     }

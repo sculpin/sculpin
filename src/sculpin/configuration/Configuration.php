@@ -60,7 +60,13 @@ class Configuration {
             throw new \RuntimeException("key cannot be an empty string");
         }
         if (count($keyPath)==1) {
-            $currentValue[$key] = $value;
+            if (!isset($currentValue[$key])) {
+                $currentValue[$key] = array();
+            }
+            if (!is_array($currentValue[$key])) {
+                $currentValue[$key] = array($currentValue[$key]);
+            }
+            $currentValue[$key][] = $value;
             return;
         }
         $endKey = array_pop($keyPath);
@@ -70,6 +76,12 @@ class Configuration {
                 $currentValue[$currentKey] = array();
             }
             $currentValue =& $currentValue[$currentKey];
+        }
+        if(!isset($currentValue[$endKey])) {
+            $currentValue[$endKey] = array();
+        }
+        if (!is_array($currentValue[$endKey])) {
+            $currentValue[$endKey] = array($currentValue[$endKey]);
         }
         $currentValue[$endKey][] = $value;
     }

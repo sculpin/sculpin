@@ -22,6 +22,7 @@ exclude: []
 # Sculpin.
 core_bundles:
   - sculpin\bundle\markdownBundle\MarkdownBundle
+  - sculpin\bundle\markdownTwigBundle\MarkdownTwigBundle
   - sculpin\bundle\postsBundle\PostsBundle
   - sculpin\bundle\textileBundle\TextileBundle
   - sculpin\bundle\twigBundle\TwigBundle

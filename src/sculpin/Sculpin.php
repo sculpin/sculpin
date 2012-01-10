@@ -11,11 +11,14 @@
 
 namespace sculpin;
 
+use sculpin\event\FormatEvent;
+
 use sculpin\configuration\Configuration;
 use sculpin\configuration\YamlConfigurationBuilder;
 use sculpin\event\Event;
 use sculpin\event\SourceFilesChangedEvent;
 use sculpin\formatter\IFormatter;
+use sculpin\formatter\FormatContext;
 use sculpin\source\SourceFile;
 use sculpin\source\SourceFileSet;
 
@@ -36,13 +39,14 @@ class Sculpin {
     const EVENT_AFTER_RUN = 'sculpin.core.afterRun';
     const EVENT_BEFORE_STOP = 'sculpin.core.beforeStop';
     const EVENT_AFTER_STOP = 'sculpin.core.afterStop';
-    const EVENT_INPUT_FILES_CHANGED = 'sculpin.core.inputFilesChanged'; // TODO: Needed?
+    const EVENT_SOURCE_FILES_CHANGED = 'sculpin.core.inputFilesChanged'; // TODO: Needed?
     const EVENT_BEFORE_GENERATE = 'sculpin.core.beforeGenerate';
     const EVENT_GENERATE = 'sculpin.core.generate';
     const EVENT_AFTER_GENERATE = 'sculpin.core.afterGenerate';
     const EVENT_BEFORE_CONVERT = 'sculpin.core.beforeConvert';
     const EVENT_CONVERT = 'sculpin.core.convert';
     const EVENT_AFTER_CONVERT = 'sculpin.core.afterConvert';
+    const EVENT_PROCESSED = 'sculpin.core.processed';
     const EVENT_BEFORE_FORMAT = 'sculpin.core.beforeFormat';
     const EVENT_FORMAT = 'sculpin.core.format';
     const EVENT_AFTER_FORMAT = 'sculpin.core.afterFormat';
@@ -202,49 +206,43 @@ class Sculpin {
             if ( $inputFileSet->hasChangedFiles() ) {
                 $inputFilesChangedEvent = new SourceFilesChangedEvent($this, $inputFileSet);
                 $this->eventDispatcher->dispatch(
-                    self::EVENT_INPUT_FILES_CHANGED,
-                    $inputFilesChangedEvent
-                );
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_BEFORE_GENERATE,
-                    $inputFilesChangedEvent
-                );
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_GENERATE,
-                    $inputFilesChangedEvent
-                );
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_AFTER_GENERATE,
-                    $inputFilesChangedEvent
+                    self::EVENT_SOURCE_FILES_CHANGED,
+                    new SourceFilesChangedEvent($this, $inputFileSet)
                 );
                 $this->eventDispatcher->dispatch(
                     self::EVENT_BEFORE_CONVERT,
-                    $inputFilesChangedEvent
+                    new SourceFilesChangedEvent($this, $inputFileSet)
                 );
                 $this->eventDispatcher->dispatch(
                     self::EVENT_CONVERT,
-                    $inputFilesChangedEvent
+                    new SourceFilesChangedEvent($this, $inputFileSet)
                 );
                 $this->eventDispatcher->dispatch(
                     self::EVENT_AFTER_CONVERT,
-                    $inputFilesChangedEvent
+                    new SourceFilesChangedEvent($this, $inputFileSet)
                 );
                 $this->eventDispatcher->dispatch(
-                    self::EVENT_BEFORE_FORMAT,
-                    $inputFilesChangedEvent
+                    self::EVENT_PROCESSED,
+                    new SourceFilesChangedEvent($this, $inputFileSet)
                 );
                 $this->eventDispatcher->dispatch(
-                    self::EVENT_FORMAT,
-                    $inputFilesChangedEvent
+                        self::EVENT_BEFORE_GENERATE,
+                        new SourceFilesChangedEvent($this, $inputFileSet)
                 );
+                $this->eventDispatcher->dispatch(
+                        self::EVENT_GENERATE,
+                        new SourceFilesChangedEvent($this, $inputFileSet)
+                );
+                $this->eventDispatcher->dispatch(
+                        self::EVENT_AFTER_GENERATE,
+                        new SourceFilesChangedEvent($this, $inputFileSet)
+                );
+                
                 foreach ($inputFileSet->changedFiles() as $inputFile) {
                     /* @var $inputFile SourceFile */
-                    //$this->formatPage($inputFile->content(), $inputFile->context()) . "\n";
+                    // $this->formatPage($inputFile->content(), $inputFile->context()) . "\n";
                 }
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_AFTER_FORMAT,
-                    $inputFilesChangedEvent
-                );
+
                 
                 foreach ($inputFileSet->changedFiles() as $inputFile) {
                     /* @var $inputFile SourceFile */
@@ -315,14 +313,32 @@ class Sculpin {
     
     public function formatBlocks($template, $context)
     {
-        $context = $this->buildFormatContext($context);
-        return $this->formatter($context['formatter'])->formatBlocks($this, $template, $context);
+        $formatContext = $this->buildFormatContext($template, $context);
+        $this->eventDispatcher->dispatch(
+                self::EVENT_BEFORE_FORMAT,
+                new FormatEvent($this, $formatContext)
+        );
+        $response = $this->formatter($formatContext->context()->get('formatter'))->formatBlocks($this, $formatContext);
+        $this->eventDispatcher->dispatch(
+                self::EVENT_AFTER_FORMAT,
+                new FormatEvent($this, $formatContext)
+        );
+        return $response;
     }
     
     public function formatPage($template, $context)
     {
-        $context = $this->buildFormatContext($context);
-        return $this->formatter($context['formatter'])->formatPage($this, $template, $context);
+        $formatContext = $this->buildFormatContext($template, $context);
+        $this->eventDispatcher->dispatch(
+            self::EVENT_BEFORE_FORMAT,
+            new FormatEvent($this, $formatContext)
+        );
+        $response = $this->formatter($formatContext->context()->get('formatter'))->formatPage($this, $formatContext);
+        $this->eventDispatcher->dispatch(
+            self::EVENT_AFTER_FORMAT,
+            new FormatEvent($this, $formatContext)
+        );
+        return $response;
     }
     
     public function registerFormatter($name, IFormatter $formatter)
@@ -344,21 +360,22 @@ class Sculpin {
         return isset($this->formatters[$name]) ? $this->formatters[$name] : null;
     }
     
-    public function buildFormatContext($pageContext)
+    public function buildFormatContext($template, $pageContext)
     {
         $context = Util::MERGE_ASSOC_ARRAY($this->buildDefaultFormatContext(), array('page' => $pageContext));
-        foreach (array('layout', 'formatter') as $key) {
+        foreach (array('layout', 'formatter', 'converters') as $key) {
             if (isset($pageContext[$key])) {
                 $context[$key] = $pageContext[$key];
             }
         }
-        return $context;
+        return new FormatContext($template, $context);
     }
 
     public function buildDefaultFormatContext()
     {
         $defaultContext = $this->configuration->export();
         $defaultContext['formatter'] = $this->defaultFormatter;
+        $defaultContext['converters'] = array();
         return $defaultContext;
     }
     

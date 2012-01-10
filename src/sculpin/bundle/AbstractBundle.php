@@ -13,10 +13,9 @@ namespace sculpin\bundle;
 
 use sculpin\configuration\YamlConfigurationBuilder;
 
-use sculpin\event\Event;
-
 use sculpin\Sculpin;
 use sculpin\bundle\IBundle;
+use sculpin\event\Event;
 
 abstract class AbstractBundle implements IBundle {
     
@@ -108,6 +107,19 @@ abstract class AbstractBundle implements IBundle {
     public function getResourcePath($partialPath)
     {
         return $this->bundleRoot().'/resources/'.$partialPath;
+    }
+
+    /**
+     * Is this bundle enabled?
+     * Convenience method.
+     * @param Event $event
+     * @param string $key
+     * @return boolean
+     */
+    public function isEnabled(Event $event, $key)
+    {
+        $configuration = $event->configuration();
+        return $configuration->get($key);
     }
 
 }

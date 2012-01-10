@@ -44,19 +44,19 @@ class PostsBundle extends AbstractBundle {
     static function getBundleEvents()
     {
         return array(
-            Sculpin::EVENT_INPUT_FILES_CHANGED => 'inputFilesChanged',
-            Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
+            Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
+            Sculpin::EVENT_PROCESSED => 'processed',
         );
     }
 
     /**
-     * Called when Sculpin detects any input files have changed
+     * Called when Sculpin detects any source files have changed
      * @param SourceFilesChangedEvent $event
      */
-    public function inputFilesChanged(SourceFilesChangedEvent $event)
+    public function sourceFilesChanged(SourceFilesChangedEvent $event)
     {
+        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
         $configuration = $event->configuration();
-        if (!$configuration->get(self::CONFIG_ENABLED)) { return; }
         $pattern = $configuration->get(self::CONFIG_DIRECTORY).'/**';
         foreach ($event->inputFiles()->allFiles() as $inputFile) {
             /* @var $inputFile \sculpin\source\SourceFile */
@@ -66,8 +66,9 @@ class PostsBundle extends AbstractBundle {
         }
     }
 
-    public function afterConvert(SourceFilesChangedEvent $event)
+    public function processed(SourceFilesChangedEvent $event)
     {
+        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
         foreach ($this->posts as $post) {
             $post->processBlocks($event->sculpin());
         }

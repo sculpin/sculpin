@@ -11,22 +11,26 @@
 
 namespace sculpin\formatter;
 
+use sculpin\formatter\FormatContext;
+
 use sculpin\Sculpin;
 
 interface IFormatter {
 
     /**
      * Format the input blocks
-     * @param SourceFile $inputFile
+     * @param Sculpin $sculpin
+     * @param FormatContext $formatContext
      * @return array
      */
-    public function formatBlocks(Sculpin $sculpin, $template, $context);
+    public function formatBlocks(Sculpin $sculpin, FormatContext $formatContext);
 
     /**
      * Format an entire page
-     * @param SourceFile $inputFile
+     * @param Sculpin $sculpin
+     * @param FormatContext $formatContext
      * @return string
      */
-    public function formatPage(Sculpin $sculpin, $template, $context);
+    public function formatPage(Sculpin $sculpin, FormatContext $formatContext);
 
 }
