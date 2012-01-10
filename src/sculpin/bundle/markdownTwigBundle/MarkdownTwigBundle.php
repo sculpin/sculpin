@@ -21,10 +21,41 @@ use sculpin\Sculpin;
 
 use sculpin\bundle\AbstractBundle;
 
+/**
+ * Support for combining Markdown converstion with Twig formatting
+ * 
+ * Markdown will wrap <p></p> around things like {% block content %}
+ * or {{ post.blocks.content|raw }} which is most likely not the
+ * desired behaviour.
+ * 
+ * This bundle attaches to before and after convert events and wraps
+ * these Twig elements in a block level element (<div></div>) which
+ * should cause well behaved Markdown parsers to not wrap these elements.
+ * 
+ * @author Beau Simensen <beau@dflydev.com>
+ */
 class MarkdownTwigBundle extends AbstractBundle {
-    
+
+    /**
+     * List of regular expresses needing placeholders
+     * @var array
+     */
+    protected static $ADD_PLACEHOLDER_RES = array(
+        '/^({%\s+(\w+).+?%})$/m',  // {% %} style code
+        '/^({{.+?}})$/m',          // {{ }} style code
+    );
+
+    /**
+     * Placeholder text
+     * @var string
+     */
     protected static $PLACEHOLDER = "\n<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>\n";
-    protected static $PLACEHOLDER_RE = '/(<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>)/m';
+
+    /**
+     * Regex used to remove placeholder
+     * @var unknown_type
+     */
+    protected static $REMOVE_PLACEHOLDER_RE = '/(<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>)/m';
 
     /**
      * (non-PHPdoc)
@@ -46,8 +77,9 @@ class MarkdownTwigBundle extends AbstractBundle {
     {
         if ($event->converter() == MarkdownBundle::CONVERTER_NAME and $event->sculpin()->deriveSourceFileFormatter($event->sourceFile()) == TwigBundle::FORMATTER_NAME) {
             $content = $event->sourceFile()->content();
-            $content = preg_replace('/^({%\s+(\w+).+?%})$/m', self::$PLACEHOLDER, $content);
-            $content = preg_replace('/^({{.+?}})$/m', self::$PLACEHOLDER, $content);
+            foreach (self::$ADD_PLACEHOLDER_RES as $re) {
+                $content = preg_replace($re, self::$PLACEHOLDER, $content);
+            }
             $event->sourceFile()->setContent($content);
         }
     }
@@ -60,7 +92,7 @@ class MarkdownTwigBundle extends AbstractBundle {
     {
         if ($event->converter() == MarkdownBundle::CONVERTER_NAME and $event->sculpin()->deriveSourceFileFormatter($event->sourceFile()) == TwigBundle::FORMATTER_NAME) {
             $content = $event->sourceFile()->content();
-            $content = preg_replace(self::$PLACEHOLDER_RE, '', $content);
+            $content = preg_replace(self::$REMOVE_PLACEHOLDER_RE, '', $content);
             $event->sourceFile()->setContent($content);
         }
     }
