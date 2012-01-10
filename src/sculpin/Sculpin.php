@@ -217,10 +217,14 @@ class Sculpin {
                     self::EVENT_SOURCE_FILES_CHANGED,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
+
                 foreach ($sourceFileSet->changedFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
-                    print $this->convertSourceFile($sourceFile);
+                    if ($sourceFile->canBeProcessed()) {
+                        $this->convertSourceFile($sourceFile);
+                    }
                 }
+
                 $this->eventDispatcher->dispatch(
                     self::EVENT_CONVERTED,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
@@ -240,7 +244,9 @@ class Sculpin {
                 
                 foreach ($sourceFileSet->changedFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
-                    // $this->formatPage($sourceFile->content(), $sourceFile->context()) . "\n";
+                    if ($sourceFile->canBeProcessed()) {
+                        $sourceFile->setContent($this->formatPage($sourceFile->content(), $sourceFile->context()));
+                    }
                 }
 
                 foreach ($sourceFileSet->changedFiles() as $sourceFile) {
