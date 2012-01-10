@@ -45,7 +45,7 @@ class PostsBundle extends AbstractBundle {
     {
         return array(
             Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
-            Sculpin::EVENT_PROCESSED => 'processed',
+            Sculpin::EVENT_CONVERTED => 'converted',
         );
     }
 
@@ -66,7 +66,11 @@ class PostsBundle extends AbstractBundle {
         }
     }
 
-    public function processed(SourceFilesChangedEvent $event)
+    /**
+     * Called when Sculpin detects that source files have been converted
+     * @param SourceFilesChangedEvent $event
+     */
+    public function converted(SourceFilesChangedEvent $event)
     {
         if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
         foreach ($this->posts as $post) {

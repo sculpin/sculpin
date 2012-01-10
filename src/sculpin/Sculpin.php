@@ -49,7 +49,7 @@ class Sculpin {
     const EVENT_BEFORE_CONVERT = 'sculpin.core.beforeConvert';
     const EVENT_CONVERT = 'sculpin.core.convert';
     const EVENT_AFTER_CONVERT = 'sculpin.core.afterConvert';
-    const EVENT_PROCESSED = 'sculpin.core.processed';
+    const EVENT_CONVERTED = 'sculpin.core.converted';
     const EVENT_BEFORE_FORMAT = 'sculpin.core.beforeFormat';
     const EVENT_AFTER_FORMAT = 'sculpin.core.afterFormat';
     
@@ -222,7 +222,7 @@ class Sculpin {
                     print $this->convertSourceFile($sourceFile);
                 }
                 $this->eventDispatcher->dispatch(
-                    self::EVENT_PROCESSED,
+                    self::EVENT_CONVERTED,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
                 $this->eventDispatcher->dispatch(
