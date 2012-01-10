@@ -61,5 +61,36 @@ class ConvertSourceFileEvent extends Event {
     {
         return $this->converter;
     }
+    
+    /**
+     * Test if represented source file is converted by requested converter
+     * @param string $converter
+     * @return boolean
+     */
+    public function isConvertedBy($converter)
+    {
+        return $converter == $this->converter;
+    }
+    
+    /**
+     * Test if represented source file is formatted by requested formatter
+     * @param string $formatter
+     * @return boolean
+     */
+    public function isFormattedBy($formatter)
+    {
+        return $this->sculpin->deriveSourceFileFormatter($this->sourceFile) == $formatter;
+    }
+    
+    /**
+     * Test if represented source file is converted and formatted by requested converter and formatter
+     * @param string $converter
+     * @param string $formatter
+     * @return boolean
+     */
+    public function isHandledBy($converter, $formatter)
+    {
+        return $this->isConvertedBy($converter) and $this->isFormattedBy($formatter);
+    }
 
 }

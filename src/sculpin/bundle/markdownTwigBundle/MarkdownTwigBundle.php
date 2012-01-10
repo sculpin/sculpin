@@ -75,7 +75,7 @@ class MarkdownTwigBundle extends AbstractBundle {
      */
     public function beforeConvert(ConvertSourceFileEvent $event)
     {
-        if ($event->converter() == MarkdownBundle::CONVERTER_NAME and $event->sculpin()->deriveSourceFileFormatter($event->sourceFile()) == TwigBundle::FORMATTER_NAME) {
+        if ($event->isHandledBy(MarkdownBundle::CONVERTER_NAME, TwigBundle::FORMATTER_NAME)) {
             $content = $event->sourceFile()->content();
             foreach (self::$ADD_PLACEHOLDER_RES as $re) {
                 $content = preg_replace($re, self::$PLACEHOLDER, $content);
@@ -90,7 +90,7 @@ class MarkdownTwigBundle extends AbstractBundle {
      */
     public function afterConvert(ConvertSourceFileEvent $event)
     {
-        if ($event->converter() == MarkdownBundle::CONVERTER_NAME and $event->sculpin()->deriveSourceFileFormatter($event->sourceFile()) == TwigBundle::FORMATTER_NAME) {
+        if ($event->isHandledBy(MarkdownBundle::CONVERTER_NAME, TwigBundle::FORMATTER_NAME)) {
             $content = $event->sourceFile()->content();
             $content = preg_replace(self::$REMOVE_PLACEHOLDER_RE, '', $content);
             $event->sourceFile()->setContent($content);
