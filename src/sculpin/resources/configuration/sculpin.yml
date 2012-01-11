@@ -26,6 +26,7 @@ core_bundles:
   - sculpin\bundle\postsBundle\PostsBundle
   - sculpin\bundle\textileBundle\TextileBundle
   - sculpin\bundle\twigBundle\TwigBundle
+  - sculpin\bundle\twigLiquidCompatibilityBundle\TwigLiquidCompatibilityBundle
 
 # Users can enable additional bundles by adding them here.
 bundles: []

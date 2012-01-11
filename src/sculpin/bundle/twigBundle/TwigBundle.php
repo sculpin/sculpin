@@ -30,9 +30,12 @@ class TwigBundle extends AbstractBundle
      */
     public function configureBundle(Sculpin $sculpin)
     {
-        $sculpin->exclude($sculpin->configuration()->get(self::CONFIG_VIEWS).'/**');
+        $viewsPaths = $sculpin->configuration()->get(self::CONFIG_VIEWS);
+        foreach ($viewsPaths as $viewsPath) {
+            $sculpin->exclude($viewsPath.'/**');
+        }
         $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
-            $sculpin->configuration()->getPath(self::CONFIG_VIEWS),
+            array_map(function($path) use($sculpin) { return $sculpin->configuration()->getPath('source').'/'.$path; }, $viewsPaths),
             $sculpin->configuration()->get(self::CONFIG_EXTENSIONS)
         ));
     }

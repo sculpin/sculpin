@@ -32,13 +32,15 @@ class TwigFormatter implements IFormatter
      */
     protected $arrayLoader;
     
-    public function __construct($viewsPath, array $extensions)
+    public function __construct(array $viewsPaths, array $extensions)
     {
         
-        $this->twig = new \Twig_Environment(new \Twig_Loader_Chain(array(
+        $loader = new \Twig_Loader_Chain(array(
             $this->arrayLoader = new \Twig_Loader_Array(array()),
-            new FlexibleExtensionFilesystemTwigLoader(array($viewsPath), $extensions),
-        )));
+            new FlexibleExtensionFilesystemTwigLoader($viewsPaths, $extensions),
+        ));
+
+        $this->twig = new \Twig_Environment($loader);
         
     }
     
@@ -87,7 +89,17 @@ class TwigFormatter implements IFormatter
             }
             $template = '{% extends "' . $layout . '" %}' . $template;
         }
+        $template = preg_replace('/{% gist .+? %}/', '', $template);
         return $template;
+    }
+    
+    /**
+     * Twig
+     * @return \Twig_Environment
+     */
+    public function twig()
+    {
+        return $this->twig;
     }
 
 }

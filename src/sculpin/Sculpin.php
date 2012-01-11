@@ -111,7 +111,16 @@ class Sculpin {
      * @var array
      */
     protected $formatters = array();
-    
+
+    /**
+     * Configuration callbacks for formatters
+     * 
+     * Required because configuration callbacks may be assigned before
+     * a formatter is actually registered.
+     * @var array
+     */
+    protected $formatterConfigurationCallbacks = array();
+
     /**
      * Name of the default formatter to use.
      * @var string
@@ -374,6 +383,30 @@ class Sculpin {
         $this->formatters[$name] = $formatter;
         if (!$this->defaultFormatter) {
             $this->defaultFormatter = $name;
+        }
+        $this->triggerFormatterConfiguration($name);
+    }
+    
+    public function registerFormatterConfigurationCallback($name, $callback)
+    {
+        if (!isset($this->formatterConfigurationCallbacks[$name])) {
+            $this->formatterConfigurationCallbacks[$name] = array();
+        }
+        $this->formatterConfigurationCallbacks[$name][] = $callback;
+        if ($formatter = $this->formatter($name)) {
+            $this->triggerFormatterConfiguration($name);
+        }
+    }
+    
+    protected function triggerFormatterConfiguration($name)
+    {
+        if (isset($this->formatterConfigurationCallbacks[$name])) {
+            foreach ($this->formatterConfigurationCallbacks[$name] as $callback) {
+                call_user_func($callback, $this, $this->formatter($name));
+            }
+            // Clear the array so that future calls to this method will not run
+            // these callbacks again.
+            $this->formatterConfigurationCallbacks[$name] = array();
         }
     }
     

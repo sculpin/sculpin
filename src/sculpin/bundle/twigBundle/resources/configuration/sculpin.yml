@@ -13,5 +13,5 @@
 #
 
 twig:
-  views: _views
+  views: ['_views']
   extensions: ['', 'twig', 'html', 'html.twig', 'twig.html']
