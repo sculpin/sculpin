@@ -26,12 +26,18 @@ class TwigFormatter implements IFormatter
      */
     protected $twig;
     
-    public function __construct($viewsPath)
+    /**
+     * Array loader
+     * @var \Twig_Loader_Array
+     */
+    protected $arrayLoader;
+    
+    public function __construct($viewsPath, array $extensions)
     {
         
         $this->twig = new \Twig_Environment(new \Twig_Loader_Chain(array(
-                new \Twig_Loader_Filesystem(array($viewsPath)),
-                new \Twig_Loader_String(),
+            $this->arrayLoader = new \Twig_Loader_Array(array()),
+            new FlexibleExtensionFilesystemTwigLoader(array($viewsPath), $extensions),
         )));
         
     }
@@ -43,7 +49,8 @@ class TwigFormatter implements IFormatter
     public function formatBlocks(Sculpin $sculpin, FormatContext $formatContext)
     {
         try {
-            $template = $this->twig->loadTemplate($this->massageTemplate($sculpin, $formatContext));
+            $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($sculpin, $formatContext));
+            $template = $this->twig->loadTemplate($formatContext->templateId());
             if (!count($blockNames = $template->getBlockNames())) {
                 return array('content' => $template->render($context));
             }
@@ -64,7 +71,8 @@ class TwigFormatter implements IFormatter
     public function formatPage(Sculpin $sculpin, FormatContext $formatContext)
     {
         try {
-            return $this->twig->render($this->massageTemplate($sculpin, $formatContext), $formatContext->context()->export());
+            $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($sculpin, $formatContext));
+            return $this->twig->render($formatContext->templateId(), $formatContext->context()->export());
         } catch (Exception $e) {
             print " [ exception ]\n";
         }
@@ -79,7 +87,6 @@ class TwigFormatter implements IFormatter
             }
             $template = '{% extends "' . $layout . '" %}' . $template;
         }
-        $template = preg_replace('/{% gist .+? %}/', '', $template);
         return $template;
     }
 

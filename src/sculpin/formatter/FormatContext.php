@@ -17,6 +17,13 @@ use sculpin\Sculpin;
 
 class FormatContext
 {
+    
+    /**
+     * Template ID
+     * @var string
+     */
+    protected $templateId;
+
     /**
      * Template
      * @var string
@@ -29,10 +36,20 @@ class FormatContext
      */
     protected $context;
     
-    public function __construct($template, $context)
+    public function __construct($templateId, $template, $context)
     {
+        $this->templateId = $templateId;
         $this->template = $template;
         $this->context = new Configuration($context);
+    }
+    
+    /**
+     * Template ID
+     * @return string
+     */
+    public function templateId()
+    {
+        return $this->templateId;
     }
     
     /**

@@ -21,16 +21,22 @@ class PostsBundle extends AbstractBundle {
 
     /**
      * Configuration key for determining if bundle is enabled
-     * @var unknown_type
+     * @var string
      */
     const CONFIG_ENABLED = 'posts.enabled';
     
     /**
      * Configuration key for directory in which posts are kept
-     * @var unknown_type
+     * @var string
      */
     const CONFIG_DIRECTORY = 'posts.directory';
     
+    /**
+     * Configuration key for permalink style for posts
+     * @var string
+     */
+    const CONFIG_PERMALINK = 'posts.permalink';
+
     /**
      * Posts
      * @var Post[]
@@ -60,7 +66,11 @@ class PostsBundle extends AbstractBundle {
         $pattern = $configuration->get(self::CONFIG_DIRECTORY).'/**';
         foreach ($event->inputFiles()->allFiles() as $inputFile) {
             /* @var $inputFile \sculpin\source\SourceFile */
-            if ($event->sculpin()->matcher()->match($pattern, $inputFile->file()->getRelativePathname())) {
+            $relativePathname = $inputFile->file()->getRelativePathname();
+            if ($event->sculpin()->matcher()->match($pattern, $relativePathname)) {
+                if (!$inputFile->data()->get('permalink')) {
+                    $inputFile->data()->set('permalink', $event->sculpin()->configuration()->get(self::CONFIG_PERMALINK));
+                }
                 $this->posts[$inputFile->id()] = $post = new Post($inputFile);
             }
         }

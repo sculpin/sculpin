@@ -11,6 +11,8 @@
 
 namespace sculpin\output;
 
+use Symfony\Component\Finder\SplFileInfo;
+
 interface IOutput {
     
     /**
@@ -18,5 +20,41 @@ interface IOutput {
      * @return string
      */
     public function outputId();
+    
+    /**
+     * Pathname (relative)
+     * @return string 
+     */
+    public function pathname();
+    
+    /**
+     * Can have a permalink
+     * @return boolean
+     */
+    public function canHavePermalink();
+    
+    /**
+     * Suggested permalink
+     * @return string
+     */
+    public function permalink();
+    
+    /**
+     * Has a file reference?
+     * @return bool
+     */
+    public function hasFileReference();    
+    
+    /**
+     * File reference. (if hasFileReference)
+     * @return \Symfony\Component\Finder\SplFileInfo
+     */
+    public function file();
 
+    /**
+     * Content (if not hasFileReference)
+     * @return string
+     */
+    public function content();
+    
 }

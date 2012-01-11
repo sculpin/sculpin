@@ -14,3 +14,4 @@
 
 twig:
   views: _views
+  extensions: ['', 'twig', 'html', 'html.twig', 'twig.html']

@@ -34,7 +34,7 @@ class Post
     
     public function processBlocks(Sculpin $sculpin)
     {
-        $blocks = $sculpin->formatBlocks($this->inputFile->content(), $this->inputFile->context());
+        $blocks = $sculpin->formatBlocks($this->inputFile->id(), $this->inputFile->content(), $this->inputFile->context());
         $this->inputFile->data()->set('blocks', $blocks);
     }
     

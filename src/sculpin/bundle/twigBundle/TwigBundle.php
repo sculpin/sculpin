@@ -22,6 +22,7 @@ class TwigBundle extends AbstractBundle
 
     const FORMATTER_NAME = 'twig';
     const CONFIG_VIEWS = 'twig.views';
+    const CONFIG_EXTENSIONS = 'twig.extensions';
     
     /**
      * (non-PHPdoc)
@@ -30,7 +31,10 @@ class TwigBundle extends AbstractBundle
     public function configureBundle(Sculpin $sculpin)
     {
         $sculpin->exclude($sculpin->configuration()->get(self::CONFIG_VIEWS).'/**');
-        $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter($sculpin->configuration()->getPath(self::CONFIG_VIEWS)));
+        $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
+            $sculpin->configuration()->getPath(self::CONFIG_VIEWS),
+            $sculpin->configuration()->get(self::CONFIG_EXTENSIONS)
+        ));
     }
 
 }

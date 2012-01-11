@@ -11,6 +11,9 @@
 
 namespace sculpin;
 
+use sculpin\output\IOutput;
+use sculpin\output\Writer;
+
 use sculpin\output\SourceFileOutput;
 
 use sculpin\converter\SourceFileConverterContext;
@@ -78,18 +81,18 @@ class Sculpin {
      * @var dflydev\util\antPathMatcher\IAntPathMatcher
      */
     protected $matcher;
+    
+    /**
+     * Writer
+     * @var \sculpin\output\Writer
+     */
+    protected $writer;
 
     /**
      * List of all know input files
      * @var array
      */
     protected $sourceFiles;
-    
-    /**
-     * Twig
-     * @var \Twig_Environment
-     */
-    protected $twig;
     
     /**
      * Bundles (by name)
@@ -120,12 +123,6 @@ class Sculpin {
      * @var array
      */
     protected $converters = array();
-    
-    /**
-     * Output
-     * @var array
-     */
-    protected $outputs = array();
 
     /**
      * Constructor
@@ -134,15 +131,17 @@ class Sculpin {
      * @param Finder $finder
      * @param IAntPathMatcher $matcher
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, Finder $finder = null, IAntPathMatcher $matcher = null)
+    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, Finder $finder = null, IAntPathMatcher $matcher = null, Writer $writer = null)
     {
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher !== null ? $eventDispatcher : new EventDispatcher();
         $this->finder = $finder !== null ? $finder : new Finder();
         $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher();
+        $this->writer = $writer !== null ? $writer : new Writer();
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
             $this->exclude($pattern);
         }
+        $this->exclude($this->configuration->get('destination').'/**');
     }
     
     /**
@@ -185,11 +184,15 @@ class Sculpin {
             
             // This is where the work should get done.
             
+            // Contains all of the content that should be output
+            $outputs = array();
+
             // Get all of the files in the site.
             $files = array();
 
             // Trigger before all files processing
             $allFiles = $this->finder->files()->ignoreVCS(true)->in($this->configuration->getPath('source'));
+
             foreach ( $allFiles as $file ) {
                 foreach ($this->exclusions as $pattern) {
                     if ($this->matcher->match($pattern, $file->getRelativePathname())) {
@@ -255,11 +258,9 @@ class Sculpin {
                 foreach ($sourceFileSet->changedFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
                     if ($sourceFile->canBeProcessed()) {
-                        $sourceFile->setContent($this->formatPage($sourceFile->content(), $sourceFile->context()));
+                        $sourceFile->setContent($this->formatPage($sourceFile->id(), $sourceFile->content(), $sourceFile->context()));
                     }
                 }
-                
-                $outputs = array();
 
                 foreach ($sourceFileSet->allFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
@@ -269,7 +270,7 @@ class Sculpin {
                 }
                 
                 foreach ($outputs as $output) {
-                    $this->outputs[$output->outputId()] = $output;
+                    $this->writer->write($this, $output);
                 }
 
             }
@@ -333,9 +334,9 @@ class Sculpin {
         }
     }
     
-    public function formatBlocks($template, $context)
+    public function formatBlocks($templateId, $template, $context)
     {
-        $formatContext = $this->buildFormatContext($template, $context);
+        $formatContext = $this->buildFormatContext($templateId, $template, $context);
         $this->eventDispatcher->dispatch(
                 self::EVENT_BEFORE_FORMAT,
                 new FormatEvent($this, $formatContext)
@@ -348,9 +349,9 @@ class Sculpin {
         return $response;
     }
     
-    public function formatPage($template, $context)
+    public function formatPage($templateId, $template, $context)
     {
-        $formatContext = $this->buildFormatContext($template, $context);
+        $formatContext = $this->buildFormatContext($templateId, $template, $context);
         $this->eventDispatcher->dispatch(
             self::EVENT_BEFORE_FORMAT,
             new FormatEvent($this, $formatContext)
@@ -387,7 +388,7 @@ class Sculpin {
         return isset($this->formatters[$name]) ? $this->formatters[$name] : null;
     }
     
-    public function buildFormatContext($template, $pageContext)
+    public function buildFormatContext($templateId, $template, $pageContext)
     {
         $context = Util::MERGE_ASSOC_ARRAY($this->buildDefaultFormatContext(), array('page' => $pageContext));
         foreach (array('layout', 'formatter', 'converters') as $key) {
@@ -395,7 +396,7 @@ class Sculpin {
                 $context[$key] = $pageContext[$key];
             }
         }
-        return new FormatContext($template, $context);
+        return new FormatContext($templateId, $template, $context);
     }
 
     public function buildDefaultFormatContext()

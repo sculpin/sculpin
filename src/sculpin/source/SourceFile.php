@@ -74,7 +74,7 @@ class SourceFile {
             $content = file_get_contents($file);
             if (preg_match('/^\s*(?:---[\r\n]+|)(.+?)(?:---[\r\n]+)(.*?)$/s', $content, $matches)) {
                 $this->content = $matches[2];
-                if (preg_match('/^\s*[-]+\s*$/', $matches[1])) {
+                if (preg_match('/^(\s*[-]+\s*|\s*)$/', $matches[1])) {
                     $this->data = new Configuration(array());
                 } else {
                     $builder = new YamlConfigurationBuilder(array($matches[1]));
@@ -83,6 +83,7 @@ class SourceFile {
             } else {
                 $this->content = $content;
                 $this->data = new Configuration(array());
+                $this->canBeProcessed = false;
             }
         } else {
             $this->content = null;

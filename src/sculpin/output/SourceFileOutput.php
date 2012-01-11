@@ -35,5 +35,35 @@ class SourceFileOutput implements IOutput
     {
         return $this->sourceFile->id();
     }
+    
+    public function pathname()
+    {
+        return $this->sourceFile->file()->getRelativePathname();
+    }
+    
+    public function canHavePermalink()
+    {
+        return $this->sourceFile->canBeProcessed();
+    }
+    
+    public function permalink()
+    {
+        return $this->sourceFile->data()->get('permalink');
+    }
+    
+    public function hasFileReference()
+    {
+        return !$this->sourceFile->canBeProcessed();
+    }
+    
+    public function file()
+    {
+        return $this->sourceFile->canBeProcessed()?null:$this->sourceFile->file();
+    }
+    
+    public function content()
+    {
+        return $this->sourceFile->canBeProcessed()?$this->sourceFile->content():null;
+    }
 
 }

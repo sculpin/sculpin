@@ -15,3 +15,4 @@
 posts:
   enabled: true
   directory: _posts
+  permalink: date
