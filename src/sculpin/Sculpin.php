@@ -11,6 +11,8 @@
 
 namespace sculpin;
 
+use sculpin\output\SourceFileOutput;
+
 use sculpin\converter\SourceFileConverterContext;
 
 use sculpin\configuration\Configuration;
@@ -118,6 +120,12 @@ class Sculpin {
      * @var array
      */
     protected $converters = array();
+    
+    /**
+     * Output
+     * @var array
+     */
+    protected $outputs = array();
 
     /**
      * Constructor
@@ -199,13 +207,15 @@ class Sculpin {
                     // File existed before.
                     if ($file->getCTime()>$this->inputFiles[$file->getPathname()]->getCTime()) {
                         // TODO: Maybe also check sum?
-                        $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file);
+                        $sourceFile = $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file);
+                        $sourceFile->setHasChanged();
                     } else {
-                        $unchangedFiles[] = new SourceFile($file);
+                        $sourceFile = $unchangedFiles[] = new SourceFile($file);
                     }
                 } else {
                     // File is new.
-                    $this->inputFiles[$file->getPathname()] = $newFiles[] = new SourceFile($file);
+                    $sourceFile = $this->inputFiles[$file->getPathname()] = $newFiles[] = new SourceFile($file);
+                    $sourceFile->setHasChanged();
                 }
             }
 
@@ -248,13 +258,20 @@ class Sculpin {
                         $sourceFile->setContent($this->formatPage($sourceFile->content(), $sourceFile->context()));
                     }
                 }
+                
+                $outputs = array();
 
-                foreach ($sourceFileSet->changedFiles() as $sourceFile) {
+                foreach ($sourceFileSet->allFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
-                    if ($sourceFile->isNormal()) {
-                        // Do do something with normal files.
+                    if ($sourceFile->isNormal() and $sourceFile->hasChanged()) {
+                        $outputs[] = new SourceFileOutput($sourceFile);
                     }
                 }
+                
+                foreach ($outputs as $output) {
+                    $this->outputs[$output->outputId()] = $output;
+                }
+
             }
             
             if ($watch) {

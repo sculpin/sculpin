@@ -55,6 +55,12 @@ class SourceFile {
     protected $canBeProcessed;
     
     /**
+     * Represetns a file that has changed
+     * @var boolean
+     */
+    protected $hasChanged;
+    
+    /**
      * Constructor
      */
     public function __construct(SplFileInfo $file)
@@ -129,9 +135,24 @@ class SourceFile {
         return $this->canBeProcessed;
     }
     
+    public function hasChanged()
+    {
+        return $this->hasChanged;
+    }
+    
+    public function setHasChanged()
+    {
+        $this->hasChanged = true;
+    }
+    
+    public function setHasNotChanged()
+    {
+        $this->hasChanged = false;
+    }
+    
     public function id()
     {
-        return $this->file->getRelativePathname();
+        return 'SourceFile:'.$this->file->getRelativePathname();
     }
     
     public function context()
