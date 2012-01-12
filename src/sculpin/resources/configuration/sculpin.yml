@@ -38,3 +38,5 @@ disabled_core_bundles: []
 
 source: .
 destination: _site
+
+permalink: date

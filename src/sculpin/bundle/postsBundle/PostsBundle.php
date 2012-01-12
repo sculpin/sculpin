@@ -69,7 +69,9 @@ class PostsBundle extends AbstractBundle {
             $relativePathname = $inputFile->file()->getRelativePathname();
             if ($event->sculpin()->matcher()->match($pattern, $relativePathname)) {
                 if (!$inputFile->data()->get('permalink')) {
-                    $inputFile->data()->set('permalink', $event->sculpin()->configuration()->get(self::CONFIG_PERMALINK));
+                    if ($permalink = $event->sculpin()->configuration()->get(self::CONFIG_PERMALINK)) {
+                        $inputFile->data()->set('permalink',$permalink);
+                    }
                 }
                 $this->posts[$inputFile->id()] = $post = new Post($inputFile);
             }

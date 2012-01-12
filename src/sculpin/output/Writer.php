@@ -42,7 +42,7 @@ class Writer {
                 break;
             case 'pretty':
                 if ($response = $this->isDatePath($output->pathname())) {
-                    return implode('/', array_merge($response, 'index.html'));
+                    return implode('/', array_merge($response, array('index.html')));
                 } else {
                     return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $output->pathname()).'/index.html';
                 }
@@ -52,9 +52,6 @@ class Writer {
                     return implode('/', $response).'.html';
                 }
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $output->pathname()).'.html';
-                //if (preg_match('/(\d{4})(\d{2})(\d{2})\-(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', $output->pathname(), $matches)) {
-                //    return implode('/', array($matches[1], $matches[2], $matches[3], $matches[4], 'index.html'));
-                //}
                 break;
             default:
                 return $output->pathname();
