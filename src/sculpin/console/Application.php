@@ -25,6 +25,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Application extends BaseApplication
 {
+
+    /**
+     * Configuration
+     * @var \sculpin\configuration\Configuration
+     */
+    private $configuration;
+    
     public function __construct()
     {
         parent::__construct('Sculpin', Sculpin::VERSION);
@@ -37,17 +44,35 @@ class Application extends BaseApplication
     {
         $this->add(new command\InitCommand());
         $this->add(new command\GenerateCommand());
+        foreach (Sculpin::GET_CONFIGURED_BUNDLES($this->configuration()) as $bundleClassName) {
+            try {
+                $obj = new \ReflectionClass($bundleClassName);
+                if ($obj->hasMethod('CONFIGURE_CONSOLE_APPLICATION')) {
+                    call_user_func(array($bundleClassName, 'CONFIGURE_CONSOLE_APPLICATION'), $this, $input, $output);
+                }
+            } catch (Exception $e) {
+                // probably nothing...
+            }
+        }
         return parent::doRun($input, $output);
     }
+    
+    public function configuration()
+    {
+        if ($this->configuration === null) {
+            $configurationBuilder = new YamlConfigurationBuilder(array(
+                __DIR__.'/../resources/configuration/sculpin.yml',
+                'sculpin.yml.dist',
+                'sculpin.yml',
+            ));
+            $this->configuration = $configurationBuilder->build();
+        }
+        return $this->configuration;
+    }
 
-    public function createSculpin() {
-        $configurationBuilder = new YamlConfigurationBuilder(array(
-            __DIR__.'/../resources/configuration/sculpin.yml',
-            'sculpin.yml.dist',
-            'sculpin.yml',
-        ));
-        $configuration = $configurationBuilder->build();
-        return new Sculpin($configuration);
+    public function createSculpin()
+    {
+        return new Sculpin($this->configuration());
     }
 
 }

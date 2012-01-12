@@ -11,11 +11,14 @@
 
 namespace sculpin\bundle;
 
-use sculpin\configuration\YamlConfigurationBuilder;
-
 use sculpin\Sculpin;
 use sculpin\bundle\IBundle;
+use sculpin\configuration\YamlConfigurationBuilder;
+use sculpin\console\Application;
 use sculpin\event\Event;
+
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
 
 abstract class AbstractBundle implements IBundle {
     
@@ -122,4 +125,13 @@ abstract class AbstractBundle implements IBundle {
         return $configuration->get($key);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see sculpin\bundle.IBundle::CONFIGURE_CONSOLE_APPLICATION()
+     */
+    static public function CONFIGURE_CONSOLE_APPLICATION(Application $application, InputInterface $input, OutputInterface $output)
+    {
+        // noop
+    }
+    
 }

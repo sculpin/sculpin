@@ -1,0 +1,2 @@
+composer:
+  exclude: ["composer.json", "composer.lock", "vendor/**"]

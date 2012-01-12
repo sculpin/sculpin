@@ -11,27 +11,23 @@
 
 namespace sculpin;
 
-use sculpin\output\IOutput;
-use sculpin\output\Writer;
-
-use sculpin\output\SourceFileOutput;
-
-use sculpin\converter\SourceFileConverterContext;
-
 use sculpin\configuration\Configuration;
 use sculpin\configuration\YamlConfigurationBuilder;
 use sculpin\converter\IConverter;
+use sculpin\converter\SourceFileConverterContext;
 use sculpin\event\ConvertSourceFileEvent;
 use sculpin\event\Event;
 use sculpin\event\SourceFilesChangedEvent;
 use sculpin\event\FormatEvent;
 use sculpin\formatter\IFormatter;
 use sculpin\formatter\FormatContext;
+use sculpin\output\IOutput;
+use sculpin\output\Writer;
+use sculpin\output\SourceFileOutput;
 use sculpin\source\SourceFile;
 use sculpin\source\SourceFileSet;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-
 use Symfony\Component\Finder\Finder;
 
 use dflydev\util\antPathMatcher\IAntPathMatcher;
@@ -47,7 +43,7 @@ class Sculpin {
     const EVENT_AFTER_RUN = 'sculpin.core.afterRun';
     const EVENT_BEFORE_STOP = 'sculpin.core.beforeStop';
     const EVENT_AFTER_STOP = 'sculpin.core.afterStop';
-    const EVENT_SOURCE_FILES_CHANGED = 'sculpin.core.inputFilesChanged'; // TODO: Needed?
+    const EVENT_SOURCE_FILES_CHANGED = 'sculpin.core.inputFilesChanged';
     const EVENT_BEFORE_GENERATE = 'sculpin.core.beforeGenerate';
     const EVENT_GENERATE = 'sculpin.core.generate';
     const EVENT_AFTER_GENERATE = 'sculpin.core.afterGenerate';
@@ -154,6 +150,26 @@ class Sculpin {
     }
     
     /**
+     * Get list of configured bundle class names from a configuration
+     * @param Configuration $configuration
+     */
+    static public function GET_CONFIGURED_BUNDLES(Configuration $configuration)
+    {
+        $configuredBundles = array();
+        foreach ($configuration->get('core_bundles') as $bundleClassName) {
+            if (!in_array($bundleClassName, $configuration->get('disabled_core_bundles'))) {
+                // Add core bundles if they are not disabled.
+                $configuredBundles[] = $bundleClassName;
+            }
+        }
+        foreach ($configuration->get('bundles') as $bundleClassName) {
+            // Add 3rd party bundles.
+            $configuredBundles[] = $bundleClassName;
+        }
+        return $configuredBundles;
+    }
+    
+    /**
      * Starts up Sculpin
      * 
      * This process is called to initialize plugins
@@ -161,14 +177,7 @@ class Sculpin {
     public function start()
     {
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_START, new Event($this));
-        foreach ($this->configuration->get('core_bundles') as $bundleClassName) {
-            if (!in_array($bundleClassName, $this->configuration->get('disabled_core_bundles'))) {
-                // Add core bundles if they are not disabled.
-                $this->addBundle($bundleClassName);
-            }
-        }
-        foreach ($this->configuration->get('bundles') as $bundleClassName) {
-            // Add 3rd party bundles.
+        foreach (self::GET_CONFIGURED_BUNDLES($this->configuration) as $bundleClassName) {
             $this->addBundle($bundleClassName);
         }
         $this->eventDispatcher->dispatch(self::EVENT_CONFIGURE_BUNDLES, new Event($this));

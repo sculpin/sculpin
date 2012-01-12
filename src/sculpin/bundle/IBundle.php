@@ -11,6 +11,12 @@
 
 namespace sculpin\bundle;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
+use Symfony\Component\Console\Input\InputInterface;
+
+use sculpin\console\Application;
+
 use sculpin\Sculpin;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -27,5 +33,13 @@ interface IBundle extends EventSubscriberInterface {
      * @param string $partialPath
      */
     public function getResourcePath($partialPath);
+
+    /**
+     * Configure console application
+     * @param Application $application
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
+    static public function CONFIGURE_CONSOLE_APPLICATION(Application $application, InputInterface $input, OutputInterface $output);
 
 }

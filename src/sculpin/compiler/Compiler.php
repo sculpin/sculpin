@@ -61,9 +61,10 @@ class Compiler {
             ->ignoreVCS(true)
             ->name('*.php')
             ->in(array(
-                $this->projectRoot . '/vendor/symfony',
+                $this->projectRoot . '/vendor/composer/composer/src',
                 $this->projectRoot . '/vendor/dflydev/ant-path-matcher/src',
                 $this->projectRoot . '/vendor/dflydev/markdown/src',
+                $this->projectRoot . '/vendor/symfony',
                 $this->projectRoot . '/vendor/twig/twig/lib',
             ))
         ;
@@ -93,7 +94,6 @@ class Compiler {
     private function addFile(\Phar $phar, $file, $strip = true)
     {
         $path = str_replace($this->projectRoot.'/', '', $file->getRealPath());
-        print " [$path]\n";
         if ($strip) {
             $content = php_strip_whitespace($file);
         } else {

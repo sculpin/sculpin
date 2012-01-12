@@ -21,6 +21,7 @@ exclude: []
 # Core bundles that have been abled. These are distributed with
 # Sculpin.
 core_bundles:
+  - sculpin\bundle\composerBundle\ComposerBundle
   - sculpin\bundle\markdownBundle\MarkdownBundle
   - sculpin\bundle\markdownTwigBundle\MarkdownTwigBundle
   - sculpin\bundle\postsBundle\PostsBundle
