@@ -37,6 +37,8 @@ bundles: []
 disabled_core_bundles: []
 
 source: .
-destination: _site
+destination: ./_site
 
 permalink: date
+
+baseurl: /
