@@ -13,7 +13,7 @@ namespace sculpin\bundle;
 
 use sculpin\Sculpin;
 use sculpin\bundle\IBundle;
-use sculpin\configuration\YamlConfigurationBuilder;
+use sculpin\configuration\YamlFileConfigurationBuilder;
 use sculpin\console\Application;
 use sculpin\event\Event;
 
@@ -38,7 +38,7 @@ abstract class AbstractBundle implements IBundle {
             // read and imported into the Sculpin configuration. We do not want
             // our imported configuration to clobber the existing configuration
             // values, tho. (since user overrides will have already been read)
-            $configurationBuilder = new YamlConfigurationBuilder(array($defaultBundleConfiguration));
+            $configurationBuilder = new YamlFileConfigurationBuilder(array($defaultBundleConfiguration));
             $sculpin->configuration()->import($configurationBuilder->build(), false);
         }
     }

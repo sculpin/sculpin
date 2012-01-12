@@ -16,30 +16,30 @@ use Symfony\Component\Yaml\Yaml;
 class YamlConfigurationBuilder implements IConfigurationBuilder {
     
     /**
-     * YAML Configuration Filenames
-     * @var array
+     * YAML input string
+     * @var string
      */
-    private $yamlConfigurationFilenames;
+    private $input;
 
     /**
      * Constructor
-     * @param array $yamlConfigurationFilenames
+     * @param string $input
      */
-    public function __construct(array $yamlConfigurationFilenames)
+    public function __construct($input = null)
     {
-        $this->yamlConfigurationFilenames = $yamlConfigurationFilenames;
+        $this->input = $input;
     }
     
     /**
-     * {@inheritDoc}
+     * (non-PHPdoc)
+     * @see sculpin\configuration.IConfigurationBuilder::build()
      */
     public function build()
     {
-        $config = array();
-        foreach ( $this->yamlConfigurationFilenames as $yamlConfigurationFilename ) {
-            $config = Util::MERGE_ASSOC_ARRAY($config, Yaml::parse($yamlConfigurationFilename));
+        if ($this->input) {
+            return new Configuration(Yaml::parse($this->input));
         }
-        return new Configuration($config);
+        return new Configuration(array());
     }
 
 }

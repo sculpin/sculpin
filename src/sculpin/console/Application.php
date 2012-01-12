@@ -15,7 +15,7 @@ use sculpin\configuration\Util;
 
 use sculpin\configuration\Configuration;
 
-use sculpin\configuration\YamlConfigurationBuilder;
+use sculpin\configuration\YamlFileConfigurationBuilder;
 
 use sculpin\Sculpin;
 
@@ -60,7 +60,7 @@ class Application extends BaseApplication
     public function configuration()
     {
         if ($this->configuration === null) {
-            $configurationBuilder = new YamlConfigurationBuilder(array(
+            $configurationBuilder = new YamlFileConfigurationBuilder(array(
                 __DIR__.'/../resources/configuration/sculpin.yml',
                 'sculpin.yml.dist',
                 'sculpin.yml',

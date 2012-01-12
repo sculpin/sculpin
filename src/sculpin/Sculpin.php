@@ -12,7 +12,6 @@
 namespace sculpin;
 
 use sculpin\configuration\Configuration;
-use sculpin\configuration\YamlConfigurationBuilder;
 use sculpin\converter\IConverter;
 use sculpin\converter\SourceFileConverterContext;
 use sculpin\event\ConvertSourceFileEvent;

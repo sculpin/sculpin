@@ -77,7 +77,7 @@ class SourceFile {
                 if (preg_match('/^(\s*[-]+\s*|\s*)$/', $matches[1])) {
                     $this->data = new Configuration(array());
                 } else {
-                    $builder = new YamlConfigurationBuilder(array($matches[1]));
+                    $builder = new YamlConfigurationBuilder($matches[1]);
                     $this->data = $builder->build();
                 }
             } else {
