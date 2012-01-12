@@ -25,7 +25,6 @@
         "symfony/event-dispatcher": "2.0.9",
         "symfony/finder": "2.0.9",
         "symfony/process": "2.0.9",
-        "symfony/templating": "2.0.9",
         "symfony/yaml": "2.0.9",
         "twig/twig": "1.4.0"
     },
