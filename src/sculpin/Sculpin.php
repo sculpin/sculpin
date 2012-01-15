@@ -458,7 +458,7 @@ class Sculpin {
             'converters' => array(),
         ));
         foreach ($this->dataProviders() as $dataProvider) {
-            $defaultContext->set($dataProvider, $this->dataProvider($dataProvider));
+            $defaultContext->set('data.'.$dataProvider, $this->dataProvider($dataProvider));
         }
         return $defaultContext;
     }

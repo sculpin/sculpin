@@ -73,7 +73,7 @@ class PostsBundle extends AbstractBundle {
     public function configureBundle(Sculpin $sculpin)
     {
         $posts = $this->posts;
-        $sculpin->registerDataProvider('site.posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
+        $sculpin->registerDataProvider('posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
     }
 
     /**
