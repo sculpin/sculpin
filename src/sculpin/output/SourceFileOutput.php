@@ -65,5 +65,15 @@ class SourceFileOutput implements IOutput
     {
         return $this->sourceFile->canBeProcessed()?$this->sourceFile->content():null;
     }
+    
+    public function date()
+    {
+        return $this->sourceFile->data()->get('calculatedDate');
+    }
+    
+    public function title()
+    {
+        return $this->sourceFile->data()->get('title');
+    }
 
 }

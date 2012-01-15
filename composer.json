@@ -27,7 +27,7 @@
         "symfony/finder": "2.0.9",
         "symfony/process": "2.0.9",
         "symfony/yaml": "2.0.9",
-        "twig/twig": "1.4.0"
+        "twig/twig": "1.6.0-dev"
     },
     "autoload": {
         "psr-0": { "sculpin": "src" }

@@ -54,14 +54,31 @@ class Writer {
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $output->pathname()).'.html';
                 break;
             default:
-                return $output->pathname();
+                list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', $output->date()));
+                $permalink = preg_replace('/:year/', $year, $permalink);
+                $permalink = preg_replace('/:yr/', $yr, $permalink);
+                $permalink = preg_replace('/:year/', $year, $permalink);
+                $permalink = preg_replace('/:month/', $month, $permalink);
+                $permalink = preg_replace('/:mo/', $mo, $permalink);
+                $permalink = preg_replace('/:day/', $day, $permalink);
+                $permalink = preg_replace('/:dy/', $dy, $permalink);
+                $permalink = preg_replace('/:title/', $this->normalize($output->title()), $permalink);
+                $filename = $output->pathname();
+                if ($isDatePath = $this->isDatePath($output->pathname())) {
+                    $filename = $isDatePath[3];
+                }
+                $permalink = preg_replace('/:filename/', $filename, $permalink);
+                if (substr($permalink, -1, 1) == '/') {
+                    $permalink .= 'index.html';
+                }
+                return $permalink;
                 break;
         }
     }
     
     private function isDatePath($path)
     {
-        if (preg_match('/(\d{4})\-(\d{2})\-(\d{2})\-(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', $path, $matches)) {
+        if (preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', $path, $matches)) {
             return array($matches[1], $matches[2], $matches[3], $matches[4]);
         }
         return null;
@@ -79,6 +96,26 @@ class Writer {
             return mkdir($path);
         }
         return true;
+    }
+    
+    /**
+     * Normalize parameter to be used in human readable URL
+     * 
+     * "Inspired" by Phrozn's normalize implementation.
+     * @param string $param Parameter to normalize
+     * @param string $space What to use as space separator
+     * @return string
+     */
+    private function normalize($param, $space = '-')
+    {
+        $param = trim($param);
+        if (function_exists('iconv')) {
+            $param = @iconv('utf-8', 'us-ascii//TRANSLIT', $param);
+        }
+        $param = preg_replace('/[^a-zA-Z0-9 -]/', '', $param);
+        $param = strtolower($param);
+        $param = preg_replace('/[\s-]+/', $space, $param);
+        return $param;
     }
 
 }

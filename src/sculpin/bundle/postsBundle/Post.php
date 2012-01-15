@@ -38,4 +38,24 @@ class Post
         $this->inputFile->data()->set('blocks', $blocks);
     }
     
+    public function id()
+    {
+        return $this->inputFile->id();
+    }
+    
+    public function date()
+    {
+        return $this->inputFile->data()->get('calculatedDate');
+    }
+    
+    public function meta()
+    {
+        return $this->inputFile->data()->export();
+    }
+    
+    public function title()
+    {
+        return $this->inputFile->data()->get('title');
+    }
+    
 }

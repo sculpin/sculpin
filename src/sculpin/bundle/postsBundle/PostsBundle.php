@@ -11,6 +11,8 @@
 
 namespace sculpin\bundle\postsBundle;
 
+use sculpin\configuration\Configuration;
+
 use sculpin\event\SourceFilesChangedEvent;
 
 use sculpin\Sculpin;
@@ -39,9 +41,18 @@ class PostsBundle extends AbstractBundle {
 
     /**
      * Posts
-     * @var Post[]
+     * @var Posts
      */
-    protected $posts = array();
+    protected $posts;
+    
+    /**
+     * Constructor
+     * @param Posts $posts
+     */
+    public function __construct(Posts $posts = null)
+    {
+        $this->posts = $posts !== null ? $posts : new Posts();
+    }
 
     /**
      * (non-PHPdoc)
@@ -53,6 +64,16 @@ class PostsBundle extends AbstractBundle {
             Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
             Sculpin::EVENT_CONVERTED => 'converted',
         );
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see sculpin\bundle.AbstractBundle::configureBundle()
+     */
+    public function configureBundle(Sculpin $sculpin)
+    {
+        $posts = $this->posts;
+        $sculpin->registerDataProvider('site.posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
     }
 
     /**
@@ -73,9 +94,21 @@ class PostsBundle extends AbstractBundle {
                         $inputFile->data()->set('permalink',$permalink);
                     }
                 }
+                if (!$inputFile->data()->get('calculatedDate')) {
+                    // we should calculate date from filename
+                    if (preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+?|)/', $inputFile->file()->getRelativePathname(), $matches)) {
+                        list($dummy, $year, $month, $day, $time) = $matches;
+                        $parts = array(implode('-', array($year, $month, $day)));
+                        if ($time) {
+                            $parts[] = $time;
+                        }
+                        $inputFile->data()->set('calculatedDate', strtotime(implode(' ', $parts)));
+                    }
+                }
                 $this->posts[$inputFile->id()] = $post = new Post($inputFile);
             }
         }
+        $this->posts->init();
     }
 
     /**

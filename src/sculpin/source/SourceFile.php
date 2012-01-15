@@ -90,6 +90,9 @@ class SourceFile {
             $this->data = new Configuration(array());
             $this->canBeProcessed = false;
         }
+        if ($this->data->get('date')) {
+            $this->data->set('calculatedDate', strtotime($this->data->get('date')));
+        }
     }
     
     public function setContent($content = null)
@@ -111,6 +114,10 @@ class SourceFile {
         return $this->data;
     }
     
+    /**
+     * File
+     * @return SplFileInfo
+     */
     public function file()
     {
         return $this->file;

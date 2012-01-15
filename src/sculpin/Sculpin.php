@@ -127,6 +127,12 @@ class Sculpin {
      * @var array
      */
     protected $converters = array();
+    
+    /**
+     * Callbacks providing additional data
+     * @var array
+     */
+    protected $dataProviders = array();
 
     /**
      * Constructor
@@ -346,6 +352,9 @@ class Sculpin {
      */
     public function exclude($pattern)
     {
+        if (substr($pattern, 0, 2)=='./') {
+            $pattern = substr($pattern, 2);
+        }
         if (!in_array($pattern, $this->exclusions)) {
             $this->exclusions[] = $pattern;
         }
@@ -431,20 +440,26 @@ class Sculpin {
     
     public function buildFormatContext($templateId, $template, $pageContext)
     {
-        $context = Util::MERGE_ASSOC_ARRAY($this->buildDefaultFormatContext(), array('page' => $pageContext));
+        $context = $this->buildDefaultFormatContext($pageContext);
         foreach (array('layout', 'formatter', 'converters') as $key) {
             if (isset($pageContext[$key])) {
-                $context[$key] = $pageContext[$key];
+                $context->set($key, $pageContext[$key]);
             }
         }
-        return new FormatContext($templateId, $template, $context);
+        return new FormatContext($templateId, $template, $context->export());
     }
 
-    public function buildDefaultFormatContext()
+    public function buildDefaultFormatContext(array $pageContext)
     {
-        $defaultContext = $this->configuration->export();
-        $defaultContext['formatter'] = $this->defaultFormatter;
-        $defaultContext['converters'] = array();
+        $defaultContext = new Configuration(array(
+            'site' => $this->configuration->export(),
+            'page' => $pageContext,
+            'formatter' => $this->defaultFormatter,
+            'converters' => array(),
+        ));
+        foreach ($this->dataProviders() as $dataProvider) {
+            $defaultContext->set($dataProvider, $this->dataProvider($dataProvider));
+        }
         return $defaultContext;
     }
     
@@ -484,6 +499,33 @@ class Sculpin {
                 new ConvertSourceFileEvent($this, $sourceFile, $converter)
             );
         }
+    }
+    
+    /**
+     * Register a provider of data
+     * @param string $name
+     * @param Callable $callback
+     */
+    public function registerDataProvider($name, $callback)
+    {
+        $this->dataProviders[$name] = $callback;
+    }
+    
+    /**
+     * List of all named data providers
+     * @return array
+     */
+    public function dataProviders() {
+        return array_keys($this->dataProviders);
+    }
+    
+    /**
+     * Get a data provider
+     * @param string $name
+     * @return mixed
+     */
+    public function dataProvider($name) {
+        return call_user_func($this->dataProviders[$name], $this);
     }
 
     /**

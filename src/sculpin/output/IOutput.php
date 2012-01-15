@@ -57,4 +57,16 @@ interface IOutput {
      */
     public function content();
     
+    /**
+     * Date
+     * @return integer
+     */
+    public function date();
+
+    /**
+     * Title
+     * @return string
+     */
+    public function title();
+    
 }
