@@ -20,8 +20,8 @@
     "require": {
         "php": ">=5.3.0",
         "composer/composer": "master",
-        "dflydev/ant-path-matcher": "1.0.0",
-        "dflydev/markdown": "1.0.1",
+        "dflydev/ant-path-matcher": "1.*",
+        "dflydev/markdown": "1.*",
         "symfony/console": "2.0.9",
         "symfony/event-dispatcher": "2.0.9",
         "symfony/finder": "2.0.9",
