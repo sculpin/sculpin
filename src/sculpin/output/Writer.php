@@ -11,6 +11,8 @@
 
 namespace sculpin\output;
 
+use sculpin\Util;
+
 use sculpin\Sculpin;
 
 class Writer {
@@ -84,18 +86,13 @@ class Writer {
         return null;
     }
     
+    /**
+     * Recursively make directories to to and including specified path
+     * @param string $path
+     */
     private function recursiveMkdir($path)
     {
-        $parent = dirname($path);
-        if (!file_exists($parent)) {
-            if (!$this->recursiveMkdir($parent)) {
-                return false;
-            }
-        }
-        if (!file_exists($path)) {
-            return mkdir($path);
-        }
-        return true;
+        return Util::RECURSIVE_MKDIR($path);
     }
     
     /**

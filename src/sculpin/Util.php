@@ -49,4 +49,21 @@ class Util {
         return $clobber ? $from : $to;
     }
 
+    /**
+     * Recursively make directories to to and including specified path
+     * @param string $path
+     */
+    static public function RECURSIVE_MKDIR($path)
+    {
+        $parent = dirname($path);
+        if (!file_exists($parent)) {
+            if (!self::RECURSIVE_MKDIR($parent)) {
+                return false;
+            }
+        }
+        if (!file_exists($path)) {
+            return mkdir($path);
+        }
+        return true;
+    }
 }

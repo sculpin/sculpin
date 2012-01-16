@@ -1,0 +1,20 @@
+#
+# Sculpin configuration file
+#
+
+#
+# Everything here will be available with the `site.` prefix
+# in this site's pages. For example, `title:` would be
+# accessible as {{ site.title }} for Twig formatted content.
+#
+
+# Site's title.
+title: Minimal Sculpin Site
+
+# Location of this site's source files. These are all
+# pages, posts, and other files (images, .htaccess, etc.)
+# that make up the site.
+# source: .
+
+# Location of the generated output.
+# destination: ./_site
