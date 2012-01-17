@@ -27,6 +27,8 @@ class GenerateCommand extends Command
                 //new InputOption('server', null, InputOption::VALUE_NONE, 'Serve generated site.'),
                 //new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Specify the port that the server should listen on.', 5000),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override site.url configuration.'),
+                new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Override site.destination configuration.'),
+                new InputOption('source', null, InputOption::VALUE_REQUIRED, 'Override site.source configuration.'),
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site from source.
@@ -43,6 +45,11 @@ EOT
         //$server = (Boolean) $input->getOption('server');
         //$port = $input->getOption('port');
         $url = $input->getOption('url');
+        $destination = $input->getOption('destination');
+        $source = $input->getOption('source');
+        if ($url) { $this->getSculpinApplication()->configuration()->set('url', $url); }
+        if ($destination) { $this->getSculpinApplication()->configuration()->set('destination', $destination); }
+        if ($source) { $this->getSculpinApplication()->configuration()->set('source', $source); }
         $sculpin = $this->getSculpinApplication()->createSculpin();
         $sculpin->start();
         $sculpin->run($watch);

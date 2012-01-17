@@ -66,10 +66,10 @@ class Sculpin {
     protected $eventDispatcher;
     
     /**
-     * Finder
-     * @var Symfony\Component\Finder\Finder
+     * Finder Generator
+     * @var \Callable
      */
-    protected $finder;
+    protected $finderGenerator;
     
     /**
      * Matcher
@@ -138,14 +138,14 @@ class Sculpin {
      * Constructor
      * @param Configuration $configuration
      * @param EventDispatcher $eventDispatcher
-     * @param Finder $finder
+     * @param Callable $finderGenerator
      * @param IAntPathMatcher $matcher
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, Finder $finder = null, IAntPathMatcher $matcher = null, Writer $writer = null)
+    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderGenerator = null, IAntPathMatcher $matcher = null, Writer $writer = null)
     {
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher !== null ? $eventDispatcher : new EventDispatcher();
-        $this->finder = $finder !== null ? $finder : new Finder();
+        $this->finderGenerator = $finderGenerator !== null ? $finderGenerator : function(Sculpin $sculpin) { return new Finder(); };
         $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher();
         $this->writer = $writer !== null ? $writer : new Writer();
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
@@ -214,7 +214,7 @@ class Sculpin {
             $files = array();
 
             // Trigger before all files processing
-            $allFiles = $this->finder->files()->ignoreVCS(true)->in($this->configuration->getPath('source'));
+            $allFiles = $this->finder()->files()->ignoreVCS(true)->in($this->configuration->getPath('source'));
 
             foreach ( $allFiles as $file ) {
                 foreach ($this->exclusions as $pattern) {
@@ -229,9 +229,10 @@ class Sculpin {
             $updatedFiles = array();
             $unchangedFiles = array();
             foreach ($files as $file) {
+                /* @var $file \Symfony\Component\Finder\SplFileInfo */
                 if (isset($this->inputFiles[$file->getPathname()])) {
                     // File existed before.
-                    if ($file->getCTime()>$this->inputFiles[$file->getPathname()]->getCTime()) {
+                    if ($file->getMTime()>$this->inputFiles[$file->getPathname()]->cachedMTime()) {
                         // TODO: Maybe also check sum?
                         $sourceFile = $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file);
                         $sourceFile->setHasChanged();
@@ -291,16 +292,22 @@ class Sculpin {
                         $outputs[] = new SourceFileOutput($sourceFile);
                     }
                 }
-                
-                foreach ($outputs as $output) {
-                    $this->writer->write($this, $output);
+
+                if (count($outputs)) {
+                    print "Detected new or updated files\n";
+                    foreach ($outputs as $output) {
+                        print ' + '.$output->outputId();
+                        $this->writer->write($this, $output);
+                        print " [done]\n";
+                    }
                 }
 
             }
             
             if ($watch) {
                 // Temporary.
-                sleep(5);
+                sleep(2);
+                clearstatcache();
             } else {
                 $this->running = false;
             }
@@ -542,6 +549,15 @@ class Sculpin {
             return $formatter;
         }
         return $this->defaultFormatter;
+    }
+    
+    /**
+     * Finder
+     * @return \Symfony\Component\Finder\Finder
+     */
+    public function finder()
+    {
+        return call_user_func($this->finderGenerator, $this);
     }
     
 }

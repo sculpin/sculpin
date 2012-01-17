@@ -61,6 +61,12 @@ class SourceFile {
     protected $hasChanged;
     
     /**
+     * Stores the cached MTime
+     * @var integer
+     */
+    protected $cachedMTime;
+    
+    /**
      * Constructor
      */
     public function __construct(SplFileInfo $file)
@@ -93,6 +99,7 @@ class SourceFile {
         if ($this->data->get('date')) {
             $this->data->set('calculatedDate', strtotime($this->data->get('date')));
         }
+        $this->cachedMTime = $file->getMTime();
     }
     
     public function setContent($content = null)
@@ -166,6 +173,11 @@ class SourceFile {
     public function context()
     {
         return $this->data->export();
+    }
+    
+    public function cachedMTime()
+    {
+        return $this->cachedMTime;
     }
 
 }
