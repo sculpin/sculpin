@@ -16,13 +16,13 @@ class FlexibleExtensionFilesystemTwigLoader implements \Twig_LoaderInterface
     
     /**
      * Filesystem loader
-     * @var \Twig_Loader_Filesystem
+     * @var FilesystemTwigLoader
      */
     protected $filesystemLoader;
 
     public function __construct(array $paths, array $extensions)
     {
-        $this->filesystemLoader = new \Twig_Loader_Filesystem($paths);
+        $this->filesystemLoader = new FilesystemTwigLoader($paths);
         $this->extensions = array_map(function($ext) { return $ext?'.'.$ext:$ext; }, $extensions);
     }
 

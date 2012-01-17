@@ -27,6 +27,12 @@ class TwigFormatter implements IFormatter
     protected $twig;
     
     /**
+     * Loader
+     * @var \Twig_LoaderInterface
+     */
+    protected $loader;
+    
+    /**
      * Array loader
      * @var \Twig_Loader_Array
      */
@@ -35,12 +41,12 @@ class TwigFormatter implements IFormatter
     public function __construct(array $viewsPaths, array $extensions)
     {
         
-        $loader = new \Twig_Loader_Chain(array(
-            $this->arrayLoader = new \Twig_Loader_Array(array()),
+        $this->loader = new \Twig_Loader_Chain(array(
             new FlexibleExtensionFilesystemTwigLoader($viewsPaths, $extensions),
+            $this->arrayLoader = new \Twig_Loader_Array(array()),
         ));
 
-        $this->twig = new \Twig_Environment($loader);
+        $this->twig = new \Twig_Environment($this->loader);
         
     }
     
@@ -78,6 +84,16 @@ class TwigFormatter implements IFormatter
         } catch (Exception $e) {
             print " [ exception ]\n";
         }
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see sculpin\formatter.IFormatter::resetFormatter()
+     */
+    public function resetFormatter()
+    {
+        $this->twig->clearCacheFiles();
+        $this->twig->clearTemplateCache();
     }
     
     protected function massageTemplate(Sculpin $sculpin, FormatContext $formatContext)

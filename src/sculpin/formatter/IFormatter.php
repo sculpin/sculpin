@@ -32,5 +32,14 @@ interface IFormatter {
      * @return string
      */
     public function formatPage(Sculpin $sculpin, FormatContext $formatContext);
+    
+    /**
+     * Reset formatter
+     * 
+     * Provides formatters with the ability to do things like clear cache
+     * (if applicable) or do anything else they need to do after having
+     * run once.
+     */
+    public function resetFormatter();
 
 }

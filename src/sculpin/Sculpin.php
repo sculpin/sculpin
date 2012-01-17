@@ -215,10 +215,18 @@ class Sculpin {
 
             // Trigger before all files processing
             $allFiles = $this->finder()->files()->ignoreVCS(true)->in($this->configuration->getPath('source'));
+            
+            // We regenerate the whole site if an excluded file changes.
+            // TODO: Does this make sense?
+            $excludedFilesHaveChanged = false;
 
             foreach ( $allFiles as $file ) {
                 foreach ($this->exclusions as $pattern) {
                     if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                        if ((!isset($this->excludedFiles[$file->getPathname()])) or $file->getMTime()>$this->excludedFiles[$file->getPathname()]) {
+                            $this->excludedFiles[$file->getPathname()] = $file->getMTime();
+                            $excludedFilesHaveChanged = true;
+                        }
                         continue 2;
                     }
                 }
@@ -237,7 +245,15 @@ class Sculpin {
                         $sourceFile = $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file);
                         $sourceFile->setHasChanged();
                     } else {
-                        $sourceFile = $unchangedFiles[] = new SourceFile($file);
+                        $sourceFile = new SourceFile($file);
+                        if ($excludedFilesHaveChanged and $sourceFile->canBeProcessed()) {
+                            // If excluded files have changed, we want to treat
+                            // any file that can be processed as changed/updated.
+                            $updatedFiles[] = $sourceFile;
+                            $sourceFile->setHasChanged();
+                        } else {
+                            $unchangedFiles[] = $sourceFile;
+                        }
                     }
                 } else {
                     // File is new.
@@ -299,6 +315,10 @@ class Sculpin {
                         print ' + '.$output->outputId();
                         $this->writer->write($this, $output);
                         print " [done]\n";
+                    }
+                    foreach ($this->formatters as $name => $formatter) {
+                        /* @var $formatter \sculpin\formatter\IFormatter */
+                        $formatter->resetFormatter();
                     }
                 }
 
