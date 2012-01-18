@@ -9,12 +9,12 @@
 #
 
 # Site's title.
-title: Minimal Sculpin Site
+title: Jekyllesque Sculpin Site
 
 # Location of this site's source files. These are all
 # pages, posts, and other files (images, .htaccess, etc.)
 # that make up the site.
-# source: .
+source: .
 
 # Location of the generated output.
-# destination: ./_site
+destination: ./_site

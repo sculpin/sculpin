@@ -9,12 +9,12 @@
 #
 
 # Site's title.
-title: Minimal Sculpin Site
+title: Standard Sculpin Site
 
 # Location of this site's source files. These are all
 # pages, posts, and other files (images, .htaccess, etc.)
 # that make up the site.
-source: source
+# source: source
 
 # Location of the generated output.
-destination: public
+# destination: public

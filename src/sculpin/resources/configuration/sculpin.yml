@@ -36,9 +36,8 @@ bundles: []
 # the whole list.
 disabled_core_bundles: []
 
-source: .
-destination: ./_site
+source: source
+destination: public
 
-permalink: date
-
-baseurl: /
+# Fallack permalink strategy
+permalink: pretty
