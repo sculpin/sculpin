@@ -60,15 +60,11 @@ class Application extends BaseApplication
     public function configuration()
     {
         if ($this->configuration === null) {
-            $configurationFiles = array(
+            $configurationBuilder = new YamlFileConfigurationBuilder(array(
                 __DIR__.'/../resources/configuration/sculpin.yml',
-            );
-            if (file_exists('sculpin.yml')) {
-                $configurationFiles[] = 'sculpin.yml';
-            } elseif (file_exists('sculpin.yml.dist')) {
-                $configurationFiles[] = 'sculpin.yml.dist';
-            }
-            $configurationBuilder = new YamlFileConfigurationBuilder($configurationFiles);
+                'sculpin.yml.dist',
+                'sculpin.yml',
+            ));
             $this->configuration = $configurationBuilder->build();
         }
         return $this->configuration;
