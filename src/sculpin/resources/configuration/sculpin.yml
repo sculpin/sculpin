@@ -12,9 +12,6 @@
 # Default configuration
 #
 
-site:
-  name: Sculpin Site
-
 core_exclude: ["sculpin.yml*"]
 exclude: []
 

@@ -42,8 +42,6 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->add(new command\InitCommand());
-        $this->add(new command\GenerateCommand());
         foreach (Sculpin::GET_CONFIGURED_BUNDLES($this->configuration()) as $bundleClassName) {
             try {
                 $obj = new \ReflectionClass($bundleClassName);
@@ -54,6 +52,9 @@ class Application extends BaseApplication
                 // probably nothing...
             }
         }
+        $this->add(new command\ConfigurationDumpCommand());
+        $this->add(new command\GenerateCommand());
+        $this->add(new command\InitCommand());
         return parent::doRun($input, $output);
     }
     
