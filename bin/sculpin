@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-if (!@include __DIR__.'/../vendor/.composer/autoload.php') {
+if ((!@include __DIR__.'/../vendor/.composer/autoload.php') and (!@include 'vendor/.composer/autoload.php')) {
         die('You must set up the project dependencies, run the following commands:
 
     cd ' . dirname(__DIR__) . '
