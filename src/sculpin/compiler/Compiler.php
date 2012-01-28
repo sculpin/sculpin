@@ -30,30 +30,36 @@ class Compiler {
     public function compile($pharFile = 'sculpin.phar')
     {
 
-        $process = new Process('git status --porcelain');
-        if ($process->run() != 0) {
-            throw new \RuntimeException('Could not determine clean state from git.');
-        }
-        if (preg_match('/\w/', $process->getOutput())) {
-            // TODO: This should mabe be able to be forced?
-            throw new \RuntimeException('Working directory has changes, refusing to build.');
-        }
-
-        if (file_exists($pharFile)) {
-            unlink($pharFile);
-        }
-        
         $process = new Process('git log --pretty="%h" -n1 HEAD');
         if ($process->run() != 0) {
             throw new \RuntimeException('Could not determine current version from git.');
         }
         $this->version = trim($process->getOutput());
 
+        $process = new Process('git branch --contains HEAD');
+        if ($process->run() == 0) {
+            if (preg_match('/^\*\s+(.+?)$/', trim($process->getOutput()), $matches)) {
+                $this->version = $matches[1].'-dev-'.$this->version;
+            }
+        }
+
         $process = new Process('git describe --exact-match HEAD');
         if ($process->run() == 0) {
             $this->version = trim($process->getOutput());
         }
         
+        $process = new Process('git status --porcelain');
+        if ($process->run() != 0) {
+            throw new \RuntimeException('Could not determine clean state from git.');
+        }
+        if (preg_match('/\w/', $process->getOutput())) {
+            $this->version .= '-dirty';
+        }
+
+        if (file_exists($pharFile)) {
+            unlink($pharFile);
+        }
+
         $phar = new \Phar($pharFile, 0, 'sculpin.phar');
         $phar->setSignatureAlgorithm(\Phar::SHA1);
         
