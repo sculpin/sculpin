@@ -27,7 +27,7 @@ class Compiler {
      * Compiles Sculpin into a single phar file
      * @param string $pharFile The full path to the file to create
      */
-    public function compile($pharFile = 'sculpin.phar')
+    public function compile($pharFile = null)
     {
 
         $process = new Process('git log --pretty="%h" -n1 HEAD');
@@ -55,12 +55,20 @@ class Compiler {
         if (preg_match('/\w/', $process->getOutput())) {
             $this->version .= '-dirty';
         }
-
+        
+        if (null === $pharFile) {
+            $pharFile = $alias = 'sculpin-'.$this->version.'.phar';
+        } else {
+            $alias = basename($pharFile);
+        }
+        
         if (file_exists($pharFile)) {
             unlink($pharFile);
         }
+        
+        echo $pharFile . "\n";
 
-        $phar = new \Phar($pharFile, 0, 'sculpin.phar');
+        $phar = new \Phar($pharFile, 0, $alias);
         $phar->setSignatureAlgorithm(\Phar::SHA1);
         
         $phar->startBuffering();
@@ -99,7 +107,7 @@ class Compiler {
         
         $this->addSculpinBin($phar);
         
-        $phar->setStub($this->getStub());
+        $phar->setStub($this->getStub($alias));
         
         $phar->stopBuffering();
         
@@ -131,9 +139,9 @@ class Compiler {
         $phar->addFromString('bin/sculpin', $content);
     }
 
-    private function getStub()
+    private function getStub($alias)
     {
-        return <<<'EOF'
+        return <<<EOF
 #!/usr/bin/env php
 <?php
 
@@ -146,7 +154,7 @@ class Compiler {
  * file that was distributed with this source code.
  */
 
-Phar::mapPhar('sculpin.phar');
+Phar::mapPhar('$alias');
 
 define('SCULPIN_RUNNING_AS_PHAR', true);
 
