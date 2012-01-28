@@ -97,9 +97,9 @@ class Configuration {
             return $path;
         }
         if ('.' == $path) {
-            return getcwd();
+            return $this->get('project_root') ?: getcwd();
         }
-        return getcwd().'/'.$path;
+        return ($this->get('project_root') ?: getcwd()).'/'.$path;
     }
 
     public function getConfiguration($key)

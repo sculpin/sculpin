@@ -32,8 +32,10 @@ class ComposerBundle extends AbstractBundle{
      */
     public function configureBundle(Sculpin $sculpin)
     {
-        foreach($sculpin->configuration()->get(self::CONFIG_EXCLUDE) as $exclude) {
-            $sculpin->exclude($exclude);
+        if ($sculpin->sourceIsProjectRoot()) {
+            foreach($sculpin->configuration()->get(self::CONFIG_EXCLUDE) as $exclude) {
+                $sculpin->exclude($exclude);
+            }
         }
     }
 

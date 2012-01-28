@@ -12,7 +12,7 @@
 # Default configuration
 #
 
-core_exclude: ["sculpin.yml*"]
+core_exclude: []
 exclude: []
 
 # Core bundles that have been abled. These are distributed with

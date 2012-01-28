@@ -1,1 +1,41 @@
-{"hash":"2979067266b9ad7017ea06a23b0b5f6a","packages":[{"package":"symfony\/yaml","version":"2.1.0-dev"},{"package":"symfony\/event-dispatcher","version":"2.1.0-dev"},{"package":"dflydev\/markdown","version":"master-dev"},{"package":"symfony\/process","version":"2.1.0-dev"},{"package":"symfony\/finder","version":"2.1.0-dev"},{"package":"symfony\/console","version":"2.1.0-dev"},{"package":"twig\/twig","version":"1.6.0-dev"},{"package":"dflydev\/ant-path-matcher","version":"master-dev"},{"package":"composer\/composer","version":"master-dev"}]}
+{
+    "hash": "2979067266b9ad7017ea06a23b0b5f6a",
+    "packages": [
+        {
+            "package": "symfony\/yaml",
+            "version": "2.1.0-dev"
+        },
+        {
+            "package": "symfony\/event-dispatcher",
+            "version": "2.1.0-dev"
+        },
+        {
+            "package": "dflydev\/markdown",
+            "version": "master-dev"
+        },
+        {
+            "package": "symfony\/process",
+            "version": "2.1.0-dev"
+        },
+        {
+            "package": "symfony\/console",
+            "version": "2.1.0-dev"
+        },
+        {
+            "package": "symfony\/finder",
+            "version": "2.1.0-dev"
+        },
+        {
+            "package": "twig\/twig",
+            "version": "1.6.0-dev"
+        },
+        {
+            "package": "dflydev\/ant-path-matcher",
+            "version": "master-dev"
+        },
+        {
+            "package": "composer\/composer",
+            "version": "master-dev"
+        }
+    ]
+}

@@ -31,8 +31,10 @@ class TwigBundle extends AbstractBundle
     public function configureBundle(Sculpin $sculpin)
     {
         $viewsPaths = $sculpin->configuration()->get(self::CONFIG_VIEWS);
-        foreach ($viewsPaths as $viewsPath) {
-            $sculpin->exclude($viewsPath.'/**');
+        if ($sculpin->sourceIsProjectRoot()) {
+            foreach ($viewsPaths as $viewsPath) {
+                $sculpin->exclude($viewsPath.'/**');
+            }
         }
         $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
             array_map(function($path) use($sculpin) { return $sculpin->configuration()->getPath('source').'/'.$path; }, $viewsPaths),

@@ -151,7 +151,10 @@ class Sculpin {
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
             $this->exclude($pattern);
         }
-        $this->exclude($this->configuration->get('destination').'/**');
+        if ($this->sourceIsProjectRoot()) {
+            $this->exclude('sculpin.yml*');
+            $this->exclude($this->configuration->get('destination').'/**');
+        }
     }
     
     /**
@@ -187,6 +190,7 @@ class Sculpin {
         }
         $this->eventDispatcher->dispatch(self::EVENT_CONFIGURE_BUNDLES, new Event($this));
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
+        print_r($this->exclusions);
     }
     
     public function run($watch)
@@ -578,6 +582,19 @@ class Sculpin {
     public function finder()
     {
         return call_user_func($this->finderGenerator, $this);
+    }
+
+    /**
+     * Is the source folder the project root?
+     * 
+     * Useful for determining whether or not certain files should be
+     * excluded from the file scanner. For example, if the source
+     * is not the project root, likely nothing needs to be excluded. :)
+     * @return boolean
+     */
+    public function sourceIsProjectRoot()
+    {
+        return $this->configuration->get('source_is_project_root');
     }
     
 }
