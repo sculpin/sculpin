@@ -38,6 +38,18 @@ class Application extends BaseApplication
     private $classLoader;
     
     /**
+     * Path to internal vendor root if exists
+     * @var string
+     */
+    private $internalVendorRoot;
+
+    /**
+     * Enable the internally installed repository (composer)
+     * @var bool
+     */
+    private $internallyInstalledRepositoryEnabled = false;
+
+    /**
      * Default value for project root.
      * @var unknown_type
      */
@@ -48,6 +60,8 @@ class Application extends BaseApplication
         parent::__construct('Sculpin', Sculpin::VERSION);
         $this->getDefinition()->addOption(new InputOption('project-root', null, InputOption::VALUE_REQUIRED, 'Project root.', self::DEFAULT_PROJECT_ROOT));
         $this->classLoader = $classLoader;
+        $obj = new \ReflectionClass($this->classLoader);
+        $this->internalVendorRoot = dirname(dirname($obj->getFileName()));
     }
 
     /**
@@ -55,10 +69,9 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $projectRoot = $input->getParameterOption('--project-root') ?: self::DEFAULT_PROJECT_ROOT;
-        $obj = new \ReflectionClass($this->classLoader);
+        $projectRoot = realpath($input->getParameterOption('--project-root') ?: self::DEFAULT_PROJECT_ROOT);
         if ($autoloadNamespacesFile = realpath($projectRoot.'/vendor/.composer/autoload_namespaces.php')) {
-            if (dirname($obj->getFileName()) != dirname($autoloadNamespacesFile)) {
+            if ($this->internalVendorRoot != dirname(dirname($autoloadNamespacesFile))) {
                 // We have an autoload file that is *not* the same as the
                 // autoload that bootstrapped this application.
                 $map = require $autoloadNamespacesFile;
@@ -67,8 +80,14 @@ class Application extends BaseApplication
                 }
             }
         }
+        if (strpos($this->internalVendorRoot, $projectRoot)===false) {
+            // If our vendor root does not contain our project root then we
+            // can assume that we should enable the internally installed
+            // repository.
+            $this->internallyInstalledRepositoryEnabled = true;
+        }
         //if (realpath($projectRoot.'/vendor/autoload.php') != realpath())
-        $this->initializeConfiguration(realpath($projectRoot));
+        $this->initializeConfiguration($projectRoot);
         foreach (Sculpin::GET_CONFIGURED_BUNDLES($this->configuration()) as $bundleClassName) {
             try {
                 $obj = new \ReflectionClass($bundleClassName);
@@ -106,7 +125,42 @@ class Application extends BaseApplication
     {
         return new Sculpin($this->configuration());
     }
-    
+
+    /**
+     * Class loader
+     * @return \Composer\Autoload\ClassLoader
+     */
+    public function classLoader()
+    {
+        return $this->classLoader;
+    }
+
+    /**
+     * Internal vendor root
+     *
+     * This is the vendor root for the class loader used to bootstrap
+     * the application. In some cases  this may be embedded in a phar,
+     * in a development directory, or the vendor for the package using
+     * Sculpin.
+     * @return string
+     */
+    public function internalVendorRoot()
+    {
+        return $this->internalVendorRoot;
+    }
+
+    /**
+     * Whether or not Composer should use the internally installed repsoitory
+     *
+     * This is done when the Sculpin instance running is located in another
+     * directory or is embedded in a phar. It instructs Composer to include
+     * the installed repository from the internal vendor root.
+     */
+    public function internallyInstalledRepositoryEnabled()
+    {
+        return $this->internallyInstalledRepositoryEnabled;
+    }
+
     /**
      * Initialize Sculpin configuration
      * @throws \RuntimeException

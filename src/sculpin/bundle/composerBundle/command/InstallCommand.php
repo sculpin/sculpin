@@ -11,6 +11,8 @@
 
 namespace sculpin\bundle\composerBundle\command;
 
+use Composer\Package\MemoryPackage;
+
 use Composer\DependencyResolver\Request;
 
 
@@ -55,9 +57,12 @@ EOT
                 $input, $output, $this->getApplication()->getHelperSet()
             )
         );
-        $filesystemRepository = new FilesystemRepository(
-            new JsonFile('/home/altern8/k/vendor/.composer/installed.json')
-        );
+        if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
+            $internalRepositoryFile = $this->getApplication()->internalVendorRoot().'/.composer/installed.json';
+            $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
+        } else {
+            $filesystemRepository = null;
+        }
         return $this->install(
             $composer,
             $input,

@@ -18,14 +18,9 @@ Try downloading again?');
  } else {
 
     if (
-        // Check project directory (cwd == project directory)
-        //(!@include 'vendor/.composer/autoload.php') and
-        // Check parent directory to see if it is a project directory
-        // (cwd == project/* directory)
-        //(!@include '../vendor/.composer/autoload.php') and
         // Check where autoload would be if this is Sculpin included
         // as a dependency.
-        (!$classLoader = @include __DIR__.'/../../../vendor/.composer/autoload.php') and
+        (!$classLoader = @include __DIR__.'/../../../.composer/autoload.php') and
         // Check where autoload would be if this is a development version
         // of Sculpin. (based on actual file)
         (!$classLoader = @include __DIR__.'/../vendor/.composer/autoload.php')
