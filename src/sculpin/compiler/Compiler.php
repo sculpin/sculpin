@@ -27,7 +27,7 @@ class Compiler {
      * Compiles Sculpin into a single phar file
      * @param string $pharFile The full path to the file to create
      */
-    public function compile($pharFile = null)
+    public function compile($pharFile = 'sculpin.phar')
     {
 
         $process = new Process('git log --pretty="%h" -n1 HEAD');
@@ -53,20 +53,15 @@ class Compiler {
             throw new \RuntimeException('Could not determine clean state from git.');
         }
         if (preg_match('/\w/', $process->getOutput())) {
+            // TODO: We might not want to allow dirty builds
             $this->version .= '-dirty';
         }
         
-        if (null === $pharFile) {
-            $pharFile = $alias = 'sculpin-'.$this->version.'.phar';
-        } else {
-            $alias = basename($pharFile);
-        }
+        $alias = 'sculpin-'.$this->version.'.phar';
         
         if (file_exists($pharFile)) {
             unlink($pharFile);
         }
-        
-        echo $pharFile . "\n";
 
         $phar = new \Phar($pharFile, 0, $alias);
         $phar->setSignatureAlgorithm(\Phar::SHA1);
