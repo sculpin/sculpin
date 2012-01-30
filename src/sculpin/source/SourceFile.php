@@ -11,6 +11,8 @@
 
 namespace sculpin\source;
 
+use sculpin\permalink\IPermalink;
+
 use Symfony\Component\Finder\SplFileInfo;
 
 use sculpin\configuration\YamlConfigurationBuilder;
@@ -65,6 +67,12 @@ class SourceFile {
      * @var integer
      */
     protected $cachedMTime;
+    
+    /**
+     * Permalink
+     * @var IPermalink
+     */
+    protected $permalink;
     
     /**
      * Constructor
@@ -178,6 +186,24 @@ class SourceFile {
     public function cachedMTime()
     {
         return $this->cachedMTime;
+    }
+    
+    /**
+     * Permalink
+     * @param IPermalink $permalink
+     */
+    public function setPermalink(IPermalink $permalink)
+    {
+        $this->permalink = $permalink;
+    }
+    
+    /**
+     * Permalink
+     * @return IPermalink
+     */
+    public function permalink()
+    {
+        return $this->permalink;
     }
 
 }

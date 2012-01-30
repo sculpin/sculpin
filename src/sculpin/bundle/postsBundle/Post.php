@@ -58,4 +58,14 @@ class Post
         return $this->inputFile->data()->get('title');
     }
     
+    public function url()
+    {
+        return $this->inputFile->permalink()->relativeUrlPath();
+    }
+    
+    public function blocks()
+    {
+        return $this->inputFile->data()->get('blocks');
+    }
+    
 }

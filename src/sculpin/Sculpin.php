@@ -11,6 +11,8 @@
 
 namespace sculpin;
 
+use sculpin\permalink\SourceFilePermalink;
+
 use sculpin\configuration\Configuration;
 use sculpin\converter\IConverter;
 use sculpin\converter\SourceFileConverterContext;
@@ -224,6 +226,7 @@ class Sculpin {
             $excludedFilesHaveChanged = false;
 
             foreach ( $allFiles as $file ) {
+                if ($this->matcher->match('**/.*.swp', $file->getRelativePathname())) { continue; }
                 foreach ($this->exclusions as $pattern) {
                     if ($this->matcher->match($pattern, $file->getRelativePathname())) {
                         if ((!isset($this->excludedFiles[$file->getPathname()])) or $file->getMTime()>$this->excludedFiles[$file->getPathname()]) {
@@ -268,11 +271,18 @@ class Sculpin {
             $sourceFileSet = new SourceFileSet($newFiles, $updatedFiles, $unchangedFiles);
 
             if ( $sourceFileSet->hasChangedFiles() ) {
+
                 $sourceFilesChangedEvent = new SourceFilesChangedEvent($this, $sourceFileSet);
+                
                 $this->eventDispatcher->dispatch(
                     self::EVENT_SOURCE_FILES_CHANGED,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
+
+                foreach ($sourceFileSet->allFiles() as $sourceFile) {
+                    /* @var $sourceFile SourceFile */
+                    $sourceFile->setPermalink(new SourceFilePermalink($this, $sourceFile));
+                }
 
                 foreach ($sourceFileSet->changedFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
@@ -285,19 +295,22 @@ class Sculpin {
                     self::EVENT_CONVERTED,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
+
                 $this->eventDispatcher->dispatch(
                     self::EVENT_BEFORE_GENERATE,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
+
                 $this->eventDispatcher->dispatch(
                     self::EVENT_GENERATE,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
+
                 $this->eventDispatcher->dispatch(
                     self::EVENT_AFTER_GENERATE,
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
-                
+
                 foreach ($sourceFileSet->changedFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
                     if ($sourceFile->canBeProcessed()) {
@@ -311,7 +324,7 @@ class Sculpin {
                         $outputs[] = new SourceFileOutput($sourceFile);
                     }
                 }
-
+                
                 if (count($outputs)) {
                     print "Detected new or updated files\n";
                     foreach ($outputs as $output) {

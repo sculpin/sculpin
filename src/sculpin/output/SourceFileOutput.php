@@ -41,14 +41,9 @@ class SourceFileOutput implements IOutput
         return $this->sourceFile->file()->getRelativePathname();
     }
     
-    public function canHavePermalink()
-    {
-        return $this->sourceFile->canBeProcessed();
-    }
-    
     public function permalink()
     {
-        return $this->sourceFile->data()->get('permalink');
+        return $this->sourceFile->permalink();
     }
     
     public function hasFileReference()

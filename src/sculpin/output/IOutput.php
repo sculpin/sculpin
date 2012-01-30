@@ -26,16 +26,10 @@ interface IOutput {
      * @return string 
      */
     public function pathname();
-    
-    /**
-     * Can have a permalink
-     * @return boolean
-     */
-    public function canHavePermalink();
-    
+
     /**
      * Suggested permalink
-     * @return string
+     * @return \sculpin\permalink\IPermalink
      */
     public function permalink();
     
