@@ -13,7 +13,7 @@ Getting Started
 
 Clone the official repository. Or fork and clone your fork. Your call.
 
-    git clone https://github.com/dflydev/sculpin.git
+    git clone https://github.com/sculpin/sculpin.git
 
 Dependencies are managed by the most excellent [Composer](http://packagist.org/).
 From inside your freshly cloned Sculpin, run the following commands to get
