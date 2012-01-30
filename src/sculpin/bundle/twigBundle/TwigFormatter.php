@@ -60,7 +60,7 @@ class TwigFormatter implements IFormatter
             $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($sculpin, $formatContext));
             $template = $this->twig->loadTemplate($formatContext->templateId());
             if (!count($blockNames = $template->getBlockNames())) {
-                return array('content' => $template->render($context));
+                return array('content' => $template->render($formatContext->context()->export()));
             }
             $blocks = array();
             foreach ($blockNames as $blockName) {

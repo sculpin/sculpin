@@ -38,9 +38,17 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $installCommand = $this->getApplication()->find('composer:install');
-        $composer = Factory::create(new ConsoleIO($input, $output, $this->getApplication()->getHelperSet()));
-        $filesystemRepository = new FilesystemRepository(new JsonFile('/home/altern8/k/vendor/.composer/installed.json'));
-        //$composer->getRepositoryManager()->addRepository($filesystemRepository);
+        $composer = Factory::create(
+            new ConsoleIO(
+                $input, $output, $this->getApplication()->getHelperSet()
+            )
+        );
+        if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
+            $internalRepositoryFile = $this->getApplication()->internalVendorRoot().'/.composer/installed.json';
+            $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
+        } else {
+            $filesystemRepository = null;
+        }
         return $installCommand->install(
             $composer,
             $input,

@@ -94,7 +94,7 @@ class Application extends BaseApplication
                 if ($obj->hasMethod('CONFIGURE_CONSOLE_APPLICATION')) {
                     call_user_func(array($bundleClassName, 'CONFIGURE_CONSOLE_APPLICATION'), $this, $input, $output);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // probably nothing...
             }
         }

@@ -190,7 +190,6 @@ class Sculpin {
         }
         $this->eventDispatcher->dispatch(self::EVENT_CONFIGURE_BUNDLES, new Event($this));
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
-        print_r($this->exclusions);
     }
     
     public function run($watch)
