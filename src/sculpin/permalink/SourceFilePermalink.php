@@ -73,7 +73,12 @@ class SourceFilePermalink implements IPermalink
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', array_merge($response, array('index.html')));
                 } else {
-                    return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'/index.html';
+                    $pretty = preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname);
+                    if (basename($pretty) == 'index') {
+                        return $pretty . '.html';
+                    } else {
+                        return $pretty . '/index.html';
+                    }
                 }
                 break;
             case 'date':
