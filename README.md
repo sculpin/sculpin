@@ -2,11 +2,14 @@ Sculpin - Static Site Generator
 ===============================
 
 Sculpin is a static site generator written in PHP.
+Visit [getsculpin.com](http://getsculpin.com) for more information.
+
 
 Requirements
 ------------
 
- * PHP 5.3+
+ * PHP: >=5.3.2
+
 
 Getting Started
 ---------------
@@ -38,10 +41,24 @@ To generate the site, issue the `generate` command.
 
     sculpin generate
 
+
 License
 -------
 
 Sculpin is licensed under the New BSD License - see the LICENSE file for details.
+
+
+Community
+---------
+
+Want to get involved? Here are a few ways:
+
+* Find us in the [#sculpin](irc://irc.freenode.org/sculpin) IRC
+  channel on irc.freenode.org.
+* Join the [Sculpin Users](http://groups.google.com/group/sculpin-users)
+  mailing list.
+* Mention [@getsculpin](http://twitter.com/getsculpin) on Twitter.
+
 
 Not Invented Here
 -----------------
