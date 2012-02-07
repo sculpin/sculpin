@@ -1,5 +1,5 @@
 {
-    "hash": "11b52816ea2f78a4211e30778656d3cb",
+    "hash": "9e492d6eae9dd058f5058ac42408a042",
     "packages": [
         {
             "package": "symfony\/yaml",
@@ -22,16 +22,16 @@
             "version": "2.1.0-dev"
         },
         {
-            "package": "symfony\/console",
-            "version": "2.1.0-dev"
-        },
-        {
             "package": "symfony\/finder",
             "version": "2.1.0-dev"
         },
         {
+            "package": "symfony\/console",
+            "version": "2.1.0-dev"
+        },
+        {
             "package": "twig\/twig",
-            "version": "1.6.0-dev"
+            "version": "1.6.0"
         },
         {
             "package": "composer\/composer",

@@ -11,20 +11,12 @@
 
 namespace sculpin\bundle\composerBundle\command;
 
-use Composer\Package\MemoryPackage;
-
-use Composer\DependencyResolver\Request;
-
-
-use Composer\Package\LinkConstraint\VersionConstraint;
-
-use Composer\Json\JsonFile;
-
-use Composer\Repository\FilesystemRepository;
-
 use Composer\Command\InstallCommand as BaseInstallCommand;
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
+use Composer\Json\JsonFile;
+use Composer\Repository\FilesystemRepository;
+use Composer\Script\EventDispatcher;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -52,11 +44,9 @@ EOT
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $composer = Factory::create(
-            new ConsoleIO(
-                $input, $output, $this->getApplication()->getHelperSet()
-            )
-        );
+        $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
+        $composer = Factory::create($io);
+        $eventDispatcher = new EventDispatcher($composer, $io);
         if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
             $internalRepositoryFile = $this->getApplication()->internalVendorRoot().'/.composer/installed.json';
             $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
@@ -64,15 +54,15 @@ EOT
             $filesystemRepository = null;
         }
         return $this->install(
+            $io,
             $composer,
-            $input,
-            $output,
-            false,
+            $eventDispatcher,
             (Boolean)$input->getOption('dev'),
             (Boolean)$input->getOption('dry-run'),
             (Boolean)$input->getOption('verbose'),
             (Boolean)$input->getOption('no-install-recommends'),
             (Boolean)$input->getOption('install-suggests'),
+            false,
             $filesystemRepository
         );
     }
