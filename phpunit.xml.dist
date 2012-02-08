@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="tests/bootstrap.php">
+    <testsuites>
+        <testsuite name="Sculpin Test Suite">
+            <directory>./tests/sculpin/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/sculpin/</directory>
+            <exclude>
+                <directory>./src/sculpin/*/resources</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

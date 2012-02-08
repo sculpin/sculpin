@@ -66,4 +66,27 @@ class Util {
         }
         return true;
     }
+
+    /**
+     * Recursively remove files and directories from a path
+     * @param string $path
+     * @param boolean $onlyRemoveChildren
+     */
+    static public function RECURSIVE_UNLINK($path, $onlyRemoveChildren = false)
+    {
+        if (is_link($path) or is_file($path)) {
+            unlink($path);
+            return;
+        }
+        if (is_dir($path)) {
+            foreach (scandir($path) as $leaf) {
+                if ($leaf != "." && $leaf != "..") {
+                    self::RECURSIVE_UNLINK($path.'/'.$leaf);
+                }
+            }
+            if (!$onlyRemoveChildren) {
+                rmdir($path);
+            }
+        }
+    }
 }

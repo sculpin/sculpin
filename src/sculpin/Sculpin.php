@@ -156,6 +156,7 @@ class Sculpin {
         if ($this->sourceIsProjectRoot()) {
             $this->exclude('sculpin.yml*');
             $this->exclude($this->configuration->get('destination').'/**');
+            $this->exclude($this->configuration->get('cache').'/**');
         }
     }
     
@@ -586,7 +587,7 @@ class Sculpin {
         }
         return $this->defaultFormatter;
     }
-    
+
     /**
      * Finder
      * @return \Symfony\Component\Finder\Finder
@@ -594,6 +595,52 @@ class Sculpin {
     public function finder()
     {
         return call_user_func($this->finderGenerator, $this);
+    }
+
+    /**
+     * Path to where cache should be stored
+     * @return string
+     */
+    protected function cachePath()
+    {
+        return $this->configuration->getPath('cache');
+    }
+
+    /**
+     * Path to where cache should be stored for a specificy directory
+     * @return string
+     */
+    protected function cachePathFor($directory)
+    {
+        return $this->cachePath().'/'.$directory;
+    }
+
+    /**
+     * Prepare cache for directory
+     * @return string
+     */
+    public function prepareCacheFor($directory)
+    {
+        $cacheDirectory = $this->cachePathFor($directory);
+        Util::RECURSIVE_MKDIR($cacheDirectory);
+        return $cacheDirectory;
+    }
+
+    /**
+     * Clear cache for directory
+     */
+    public function clearCacheFor($directory)
+    {
+        $cacheDirectory = $this->cachePathFor($directory);
+        Util::RECURSIVE_UNLINK($cacheDirectory, true);
+    }
+
+    /**
+     * Clear cache
+     */
+    public function clearCache()
+    {
+        Util::RECURSIVE_UNLINK($this->cachePath(), true);
     }
 
     /**

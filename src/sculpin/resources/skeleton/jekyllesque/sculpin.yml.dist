@@ -18,3 +18,6 @@ source: .
 
 # Location of the generated output.
 destination: ./_site
+
+# Location of cached content.
+cache: ./.cache

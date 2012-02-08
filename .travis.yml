@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 5.3.2
+  - 5.3
+  - 5.4
+
+before_script:
+  - pyrus channel-discover pear.php-tools.net
+  - pyrus install http://pear.php-tools.net/get/vfsStream-0.11.1.tgz
+  - phpenv rehash
+  - wget -nc http://getcomposer.org/composer.phar
+  - php composer.phar install
+
+script: phpunit --coverage-text
