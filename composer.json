@@ -2,7 +2,7 @@
     "name": "sculpin/sculpin",
     "type": "application",
     "description": "Static Site Generator",
-    "homepage": "http://github.com/sculpin/sculpin",
+    "homepage": "http://getsculpin.com",
     "keywords": ["static", "site", "generator"],
     "license": "New BSD License",
     "authors": [
