@@ -27,8 +27,7 @@ class ComposerBundle extends AbstractBundle{
     const CONFIG_EXCLUDE = 'composer.exclude';
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::configureBundle()
+     * @{inheritdoc}
      */
     public function configureBundle(Sculpin $sculpin)
     {
@@ -40,14 +39,11 @@ class ComposerBundle extends AbstractBundle{
     }
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.IBundle::CONFIGURE_CONSOLE_APPLICATION()
+     * @{inheritdoc}
      */
     static public function CONFIGURE_CONSOLE_APPLICATION(Application $application, InputInterface $input, OutputInterface $output)
     {
         $application->add(new InstallCommand());
         $application->add(new UpdateCommand());
-        //$application->add()
     }
-    
 }
