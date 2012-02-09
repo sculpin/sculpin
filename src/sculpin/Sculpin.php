@@ -621,6 +621,9 @@ class Sculpin {
      */
     public function prepareCacheFor($directory)
     {
+        if (!$directory) {
+            throw new \InvalidArgumentException("No cache directory specified");
+        }
         $cacheDirectory = $this->cachePathFor($directory);
         Util::RECURSIVE_MKDIR($cacheDirectory);
         return $cacheDirectory;
@@ -631,6 +634,9 @@ class Sculpin {
      */
     public function clearCacheFor($directory)
     {
+        if (!$directory) {
+            throw new \InvalidArgumentException("No cache directory specified");
+        }
         $cacheDirectory = $this->cachePathFor($directory);
         Util::RECURSIVE_UNLINK($cacheDirectory, true);
     }
