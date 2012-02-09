@@ -101,6 +101,7 @@ class Application extends BaseApplication
         $this->add(new command\ConfigurationDumpCommand());
         $this->add(new command\GenerateCommand());
         $this->add(new command\InitCommand());
+        $this->add(new command\cache\ClearCommand());
         return parent::doRun($input, $output);
     }
         
