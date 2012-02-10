@@ -102,12 +102,25 @@ class Posts implements \ArrayAccess, \Iterator, \Countable
 
     public function init()
     {
+
         uasort($this->posts, function($a, $b) {
             /* @var $a Post */
             /* @var $b Post */
             return $a->date() < $b->date();
         });
-        //krsort($this->posts);
+
+        /* @var $previousPost Post */
+        $previousPost = null;
+
+        foreach (array_reverse($this->posts) as $post) {
+            /* @var $post Post */
+            if ($previousPost !== null) {
+                $previousPost->setNextPost($post);
+                $post->setPreviousPost($previousPost);
+            }
+            $previousPost = $post;
+        }
+
     }
 
     public function first()

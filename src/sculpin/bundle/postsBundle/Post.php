@@ -24,6 +24,18 @@ class Post
     protected $inputFile;
     
     /**
+     * Previous post
+     * @var Post
+     */
+    protected $previousPost;
+
+    /**
+     * Next post
+     * @var Post
+     */
+    protected $nextPost;
+
+    /**
      * Constructor
      * @param SourceFile $inputFile
      */
@@ -67,5 +79,42 @@ class Post
     {
         return $this->inputFile->data()->get('blocks');
     }
-    
+
+    /**
+     * Previous post
+     * @return \sculpin\bundle\postsBundle\Post
+     */
+    public function previousPost()
+    {
+        return $this->previousPost;
+    }
+
+    /**
+     * Set previous post
+     * @param Post $post
+     */
+    public function setPreviousPost(Post $post)
+    {
+        $this->previousPost = $post;
+        $this->inputFile->data()->set('previousPost', $post);
+    }
+
+    /**
+     * Next post
+     * @return \sculpin\bundle\postsBundle\Post
+     */
+    public function nextPost()
+    {
+        return $this->nextPost;
+    }
+
+    /**
+     * Set next post
+     * @param Post $post
+     */
+    public function setNextPost(Post $post)
+    {
+        $this->nextPost = $post;
+        $this->inputFile->data()->set('nextPost', $post);
+    }
 }
