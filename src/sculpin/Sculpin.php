@@ -201,10 +201,10 @@ class Sculpin {
         // Allow for cleanup to happen in case control-c is detected.
         declare(ticks = 1);
         $sculpin = $this;
-        pcntl_signal(SIGINT, function() use ($sculpin) {
-            // We are no longer running.
-            $sculpin->running = false;
-        });
+        //pcntl_signal(SIGINT, function() use ($sculpin) {
+        //    // We are no longer running.
+        //    $sculpin->running = false;
+        //});
         
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN);
         $this->running = true;
