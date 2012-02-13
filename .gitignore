@@ -1,4 +1,5 @@
+build
+build.properties
 composer.phar
-repos
 sculpin.phar
 vendor

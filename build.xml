@@ -1,30 +1,25 @@
 <?xml version="1.0"?>
 <project name="sculpin" default="default" basedir=".">
     <property file="build.properties" />
+    <property file="build.properties.dist" />
 
-    <property name="paths.build" value="${project.basedir}/build" />
-    <property name="paths.repo" value="${project.basedir}/repos" />
+    <property name="repository.path" value="${project.basedir}/build/repo" />
 
-    <property name="repository.url" value="git://github.com/sculpin/sculpin.git" />
-    <property name="repository.path" value="${paths.repo}/sculpin" />
-
-    <target name="fetch">
+    <target name="clone">
         <if>
             <available file="${repository.path}" />
             <then>
-                <echo>Fetching changes from remote repository</echo>
-                <gitfetch repository="${repository.path}" tags="true" />
+                <delete dir="${repository.path}" />
             </then>
-            <else>
-                <echo>Cloning remote repository</echo>
-                <mkdir dir="${repository.path}" />
-                <gitclone repository="${repository.url}" targetPath="${repository.path}" />
-            </else>
         </if>
+        <echo>Cloning remote repository</echo>
+        <mkdir dir="${repository.path}" />
+        <gitclone repository="${repository.url}" targetPath="${repository.path}" />
         <if>
             <isset property="tag" />
             <then>
                 <gitcheckout repository="${repository.path}" branchname="${tag}" />
+                <property name="deploy.category" value="release/${tag}" />
             </then>
             <else>
                 <if>
@@ -33,19 +28,35 @@
                         <gitcheckout repository="${repository.path}" branchname="${branch}" startPoint="origin/${branch}" />
                     </then>
                     <else>
+                        <property name="branch" value="master" />
                         <gitcheckout repository="${repository.path}" branchname="master" />
                     </else>
                 </if>
+                <property name="deploy.category" value="latest/${branch}" />
             </else>
         </if>
     </target>
 
-    <target name="release" depends="fetch">
-        <delete file="${repository.path}/composer.lock" />
-        <delete dir="${repository.path}/vendor" />
+    <target name="build">
         <httpget url="http://getcomposer.org/composer.phar" dir="${repository.path}" />
-        <exec command="php composer.phar install" dir="${repository.path}" logoutput="true" />
-        <exec command="php bin/compile-sculpin" dir="${repository.path}" logoutput="true" />
-        <exec command="php sculpin.phar --version" dir="${repository.path}" logoutput="true" />
+        <exec command="php composer.phar install" dir="${repository.path}" logoutput="true" checkreturn="true" />
+        <exec command="php ${build.builder}" dir="${repository.path}" logoutput="true" checkreturn="true" />
+        <exec command="php ${build.image} --version" dir="${repository.path}" logoutput="true" checkreturn="true" outputProperty="build.version" />
+    </target>
+
+    <target name="deploy">
+        <if>
+            <equals arg1="master" arg2="${branch}" />
+            <then>
+                <echo>Deploying ${build.image} to /</echo>
+                <scp username="${deploy.username}" port="${deploy.port}" host="${deploy.host}" privkeyfile="${deploy.privkeyfile}" pubkeyfile="${deploy.pubkeyfile}" file="${repository.path}/${build.image}" todir="${deploy.todir}" autocreate="true" />
+            </then>
+        </if>
+        <echo>Deploying ${build.image} to /builds/${deploy.category}</echo>
+        <scp username="${deploy.username}" port="${deploy.port}" host="${deploy.host}" privkeyfile="${deploy.privkeyfile}" pubkeyfile="${deploy.pubkeyfile}" file="${repository.path}/${build.image}" todir="${deploy.todir}/builds/${deploy.category}/${build.image}" autocreate="true" />
+    </target>
+
+    <target name="release" depends="clone,build,deploy">
+        <echo>Released ${build.version}</echo>
     </target>
 </project>

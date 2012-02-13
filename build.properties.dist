@@ -1,0 +1,11 @@
+repository.url=git://github.com/sculpin/sculpin.git
+
+build.builder=bin/compile-sculpin
+build.image=sculpin.phar
+
+deploy.username=user
+deploy.port=22
+deploy.host=getsculpin.com
+deploy.privkeyfile=/path/to/.ssh/id_rsa
+deploy.pubkeyfile=/path/to/.ssh/id_rsa.pub
+deploy.todir=/path/to/public_html
