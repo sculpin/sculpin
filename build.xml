@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project name="sculpin" default="default" basedir=".">
+    <property file="build.properties" />
+
+    <property name="paths.build" value="${project.basedir}/build" />
+    <property name="paths.repo" value="${project.basedir}/repos" />
+
+    <property name="repository.url" value="git://github.com/sculpin/sculpin.git" />
+    <property name="repository.path" value="${paths.repo}/sculpin" />
+
+    <target name="fetch">
+        <if>
+            <available file="${repository.path}" />
+            <then>
+                <echo>Fetching changes from remote repository</echo>
+                <gitfetch repository="${repository.path}" tags="true" />
+            </then>
+            <else>
+                <echo>Cloning remote repository</echo>
+                <mkdir dir="${repository.path}" />
+                <gitclone repository="${repository.url}" targetPath="${repository.path}" />
+            </else>
+        </if>
+        <if>
+            <isset property="tag" />
+            <then>
+                <gitcheckout repository="${repository.path}" branchname="${tag}" />
+            </then>
+            <else>
+                <if>
+                    <isset property="branch" />
+                    <then>
+                        <gitcheckout repository="${repository.path}" branchname="${branch}" startPoint="origin/${branch}" />
+                    </then>
+                    <else>
+                        <gitcheckout repository="${repository.path}" branchname="master" />
+                    </else>
+                </if>
+            </else>
+        </if>
+    </target>
+
+    <target name="release" depends="fetch">
+        <delete file="${repository.path}/composer.lock" />
+        <delete dir="${repository.path}/vendor" />
+        <httpget url="http://getcomposer.org/composer.phar" dir="${repository.path}" />
+        <exec command="php composer.phar install" dir="${repository.path}" logoutput="true" />
+        <exec command="php bin/compile-sculpin" dir="${repository.path}" logoutput="true" />
+        <exec command="php sculpin.phar --version" dir="${repository.path}" logoutput="true" />
+    </target>
+</project>

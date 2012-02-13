@@ -48,15 +48,6 @@ class Compiler {
             $this->version = trim($process->getOutput());
         }
         
-        $process = new Process('git status --porcelain');
-        if ($process->run() != 0) {
-            throw new \RuntimeException('Could not determine clean state from git.');
-        }
-        if (preg_match('/\w/', $process->getOutput())) {
-            // TODO: We might not want to allow dirty builds
-            $this->version .= '-dirty';
-        }
-        
         $alias = 'sculpin-'.$this->version.'.phar';
         
         if (file_exists($pharFile)) {
