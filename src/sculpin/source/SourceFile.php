@@ -76,13 +76,16 @@ class SourceFile {
     
     /**
      * Constructor
+     * 
+     * @param SplFileInfo $file
+     * @param boolean $raw
      */
-    public function __construct(SplFileInfo $file)
+    public function __construct(SplFileInfo $file, $raw)
     {
         $this->file = $file;
         $finfo = finfo_open(FILEINFO_MIME);
         $this->mime = finfo_file($finfo, $file);
-        if (substr($this->mime, 0, 4) == 'text') {
+        if (substr($this->mime, 0, 4) == 'text' and !$raw) {
             // Only text files can be processed by Sculpin
             $this->canBeProcessed = true;
             $content = file_get_contents($file);

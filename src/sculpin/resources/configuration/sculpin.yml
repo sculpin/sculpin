@@ -12,8 +12,33 @@
 # Default configuration
 #
 
-core_exclude: []
+# These files will not be published and they will not be processed
+# but Sculpin is aware of them. Changes to these files will trigger
+# a file change notice.
 exclude: []
+
+# These files do not exist as far as Sculpin is concerned. Consider
+# the behavior of .gitignore and svn:ignore. Changes to these files
+# will not trigger a file change notice.
+ignore: []
+
+# These files will not be processed but Sculpin is aware of them and
+# they will be published as is. Changes to these files will trigger
+# a file change notice.
+raw: []
+
+# In the case that the project root is the source root (Jekyllesque)
+# project files should be ignored. For example, sculpin.yml would be
+# a great candidate for a project ignore file.
+project_ignore: []
+
+# Core exclude patterns.
+core_exclude: []
+
+# Core project ignore patterns.
+core_project_ignore:
+  - sculpin.yml
+  - sculpin.yml.dist
 
 # Core bundles that have been abled. These are distributed with
 # Sculpin.
@@ -33,8 +58,14 @@ bundles: []
 # the whole list.
 disabled_core_bundles: []
 
+# Directory that contains the source files for the site.
 source: source
+
+# Directory that will contain the rendered site.
 destination: public
+
+# Directory that will contain any cache files created while
+# rendering the site.
 cache: cache
 
 # Fallack permalink strategy

@@ -98,11 +98,23 @@ class Sculpin {
     protected $bundles = array();
     
     /**
-     * List of additional exclusions
+     * List of exclusions
      * @var array
      */
     protected $exclusions = array();
     
+    /**
+     * List of ignores
+     * @var array
+     */
+    protected $ignores = array();
+
+    /**
+     * List of raws
+     * @var array
+     */
+    protected $raws = array();
+
     /**
      * Registered formatters
      * @var array
@@ -151,13 +163,27 @@ class Sculpin {
         $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher();
         $this->writer = $writer !== null ? $writer : new Writer();
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
-            $this->exclude($pattern);
+            $this->addExclude($pattern);
         }
-        if ($this->sourceIsProjectRoot()) {
-            $this->exclude('sculpin.yml*');
-            $this->exclude($this->configuration->get('destination').'/**');
-            $this->exclude($this->configuration->get('cache').'/**');
+        foreach ($this->configuration->get('raw') as $pattern) {
+            $this->addRaw($pattern);
         }
+        foreach ($this->configuration->get('ignore') as $pattern) {
+            $this->addIgnore($pattern);
+        }
+        foreach (array_merge($this->configuration->get('core_project_ignore'), $this->configuration->get('project_ignore')) as $pattern) {
+            $this->addProjectIgnore($pattern);
+        }
+
+        // These need to be added here until Configuration can be updated to be
+        // able to have references resolved.
+        //
+        // Think:
+        //
+        //     core_project_ignore: ["%destination%/**", "%cache%/**"]"
+        //
+        $this->addProjectIgnore($this->configuration->get('destination').'/**');
+        $this->addProjectIgnore($this->configuration->get('cache').'/**');
     }
     
     /**
@@ -227,7 +253,11 @@ class Sculpin {
             $excludedFilesHaveChanged = false;
 
             foreach ( $allFiles as $file ) {
-                if ($this->matcher->match('**/.*.swp', $file->getRelativePathname())) { continue; }
+                foreach ($this->ignores as $pattern) {
+                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                        continue 2;
+                    }
+                }
                 foreach ($this->exclusions as $pattern) {
                     if ($this->matcher->match($pattern, $file->getRelativePathname())) {
                         if ((!isset($this->excludedFiles[$file->getPathname()])) or $file->getMTime()>$this->excludedFiles[$file->getPathname()]) {
@@ -264,7 +294,14 @@ class Sculpin {
                     }
                 } else {
                     // File is new.
-                    $sourceFile = $this->inputFiles[$file->getPathname()] = $newFiles[] = new SourceFile($file);
+                    $raw = false;
+                    foreach ($this->raws as $pattern) {
+                        if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                            $raw = true;
+                            break;
+                        }
+                    }
+                    $sourceFile = $this->inputFiles[$file->getPathname()] = $newFiles[] = new SourceFile($file, $raw);
                     $sourceFile->setHasChanged();
                 }
             }
@@ -404,6 +441,60 @@ class Sculpin {
         }
     }
     
+    
+    /**
+     * Add an exclude pattern
+     * @param string $pattern
+     */
+    public function addExclude($pattern)
+    {
+        if (substr($pattern, 0, 2)=='./') {
+            $pattern = substr($pattern, 2);
+        }
+        if (!in_array($pattern, $this->exclusions)) {
+            $this->exclusions[] = $pattern;
+        }
+    }    
+
+    /**
+     * Add an ignore pattern
+     * @param string $pattern
+     */
+    public function addIgnore($pattern)
+    {
+        if (substr($pattern, 0, 2)=='./') {
+            $pattern = substr($pattern, 2);
+        }
+        if (!in_array($pattern, $this->ignores)) {
+            $this->ignores[] = $pattern;
+        }
+    }
+
+    /**
+     * Add a raw pattern
+     * @param string $pattern
+     */
+    public function addRaw($pattern)
+    {
+        if (substr($pattern, 0, 2)=='./') {
+            $pattern = substr($pattern, 2);
+        }
+        if (!in_array($pattern, $this->raws)) {
+            $this->raws[] = $pattern;
+        }
+    }
+
+    /**
+     * Add a project ignore pattern
+     * @param string $pattern
+     */
+    public function addProjectIgnore($pattern)
+    {
+        if ($this->sourceIsProjectRoot()) {
+            $this->addIgnore($pattern);
+        }
+    }
+
     public function formatBlocks($templateId, $template, $context)
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);

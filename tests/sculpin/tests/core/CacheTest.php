@@ -34,7 +34,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValueMap(array(
                 array('exclude', array()),
+                array('ignore', array()),
+                array('raw', array()),
+                array('project_ignore', array()),
                 array('core_exclude', array()),
+                array('core_project_ignore', array()),
                 array('source_is_project_root', false),
             )));
         if (!$expectEarlyFailure) {
