@@ -37,7 +37,7 @@
         </if>
     </target>
 
-    <target name="build">
+    <target name="compile">
         <httpget url="http://getcomposer.org/composer.phar" dir="${repository.path}" />
         <exec command="php composer.phar install" dir="${repository.path}" logoutput="true" checkreturn="true" />
         <exec command="php ${build.builder}" dir="${repository.path}" logoutput="true" checkreturn="true" />
@@ -56,7 +56,7 @@
         <s3put source="${repository.path}/${build.image}" object="${deploy.category}/${build.image}" bucket="${deploy.aws.bucket}" key="${deploy.aws.key}" secret="${deploy.aws.secret}" />
     </target>
 
-    <target name="release" depends="clone,build,deploy">
+    <target name="release" depends="clone,compile,deploy">
         <echo>Released ${build.version}</echo>
     </target>
 </project>
