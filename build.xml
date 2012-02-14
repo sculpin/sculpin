@@ -49,11 +49,11 @@
             <equals arg1="master" arg2="${branch}" />
             <then>
                 <echo>Deploying ${build.image} to /</echo>
-                <scp username="${deploy.username}" port="${deploy.port}" host="${deploy.host}" privkeyfile="${deploy.privkeyfile}" pubkeyfile="${deploy.pubkeyfile}" file="${repository.path}/${build.image}" todir="${deploy.todir}" autocreate="true" />
+                <s3put source="${repository.path}/${build.image}" object="${build.image}" bucket="${deploy.aws.bucket}" key="${deploy.aws.key}" secret="${deploy.aws.secret}" />
             </then>
         </if>
         <echo>Deploying ${build.image} to /builds/${deploy.category}</echo>
-        <scp username="${deploy.username}" port="${deploy.port}" host="${deploy.host}" privkeyfile="${deploy.privkeyfile}" pubkeyfile="${deploy.pubkeyfile}" file="${repository.path}/${build.image}" todir="${deploy.todir}/builds/${deploy.category}/${build.image}" autocreate="true" />
+        <s3put source="${repository.path}/${build.image}" object="${deploy.category}/${build.image}" bucket="${deploy.aws.bucket}" key="${deploy.aws.key}" secret="${deploy.aws.secret}" />
     </target>
 
     <target name="release" depends="clone,build,deploy">
