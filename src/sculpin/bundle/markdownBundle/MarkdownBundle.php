@@ -57,7 +57,7 @@ class MarkdownBundle extends AbstractBundle {
         if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
         $configuration = $event->configuration();
         $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
-        foreach ($event->inputFiles()->changedFiles() as $inputFile) {
+        foreach ($event->inputFiles()->allFiles() as $inputFile) {
             /* @var $inputFile \sculpin\source\SourceFile */
             foreach ($extensions as $extension) {
                 if (fnmatch('*.'.$extension, $inputFile->file()->getFilename())) {

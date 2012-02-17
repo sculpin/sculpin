@@ -117,4 +117,21 @@ class Post
         $this->nextPost = $post;
         $this->inputFile->data()->set('nextPost', $post);
     }
+
+    /**
+     * Post needs to be reprocessed
+     */
+    public function reprocess()
+    {
+        $this->inputFile->setHasChanged();
+    }
+    
+    /**
+     * Has the post changed?
+     * @return boolean
+     */
+    public function hasChanged()
+    {
+        return $this->inputFile->hasChanged();
+    }
 }

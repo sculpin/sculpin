@@ -62,6 +62,7 @@ class PostsBundle extends AbstractBundle {
     {
         return array(
             Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
+            Sculpin::EVENT_SOURCE_FILES_CHANGED_POST => 'sourceFilesChangedPost',
             Sculpin::EVENT_CONVERTED => 'converted',
         );
     }
@@ -109,6 +110,46 @@ class PostsBundle extends AbstractBundle {
             }
         }
         $this->posts->init();
+    }
+
+    /**
+     * @param SourceFilesChangedEvent $event
+     */
+    public function sourceFilesChangedPost(SourceFilesChangedEvent $event)
+    {
+        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) {
+            return;
+        }
+        $reprocessAllPosts = false;
+        $reprocessAllUsers = false;
+        $users = array();
+        foreach ($event->inputFiles()->allFiles() as $inputFile) {
+            if ($inputFile->data()->get('use') and in_array('posts', $inputFile->data()->get('use'))) {
+                $users[] = $inputFile;
+                if ($inputFile->hasChanged()) {
+                    // Need to rebuild all posts if something that uses
+                    // posts has changed.
+                    $reprocessAllPosts = true;
+                }
+            }
+        }
+        foreach ($this->posts as $post) {
+            /* @var $post Post */
+            if ($post->hasChanged()) {
+                $reprocessAllUsers = true;
+            }
+        }
+        if ($reprocessAllUsers) {
+            foreach ($users as $user) {
+                $user->setHasChanged();
+            }
+            $reprocessAllPosts = true;
+        }
+        if ($reprocessAllPosts) {
+            foreach ($this->posts as $post) {
+                $post->reprocess();
+            }
+        }
     }
 
     /**

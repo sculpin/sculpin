@@ -45,6 +45,7 @@ class Sculpin {
     const EVENT_BEFORE_STOP = 'sculpin.core.beforeStop';
     const EVENT_AFTER_STOP = 'sculpin.core.afterStop';
     const EVENT_SOURCE_FILES_CHANGED = 'sculpin.core.inputFilesChanged';
+    const EVENT_SOURCE_FILES_CHANGED_POST = 'sculpin.core.inputFilesChangedPost';
     const EVENT_BEFORE_GENERATE = 'sculpin.core.beforeGenerate';
     const EVENT_GENERATE = 'sculpin.core.generate';
     const EVENT_AFTER_GENERATE = 'sculpin.core.afterGenerate';
@@ -279,10 +280,10 @@ class Sculpin {
                     // File existed before.
                     if ($file->getMTime()>$this->inputFiles[$file->getPathname()]->cachedMTime()) {
                         // TODO: Maybe also check sum?
-                        $sourceFile = $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file);
+                        $sourceFile = $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file, false);
                         $sourceFile->setHasChanged();
                     } else {
-                        $sourceFile = new SourceFile($file);
+                        $sourceFile = new SourceFile($file, false);
                         if ($excludedFilesHaveChanged and $sourceFile->canBeProcessed()) {
                             // If excluded files have changed, we want to treat
                             // any file that can be processed as changed/updated.
@@ -322,9 +323,14 @@ class Sculpin {
                     $sourceFile->setPermalink(new SourceFilePermalink($this, $sourceFile));
                 }
 
-                foreach ($sourceFileSet->changedFiles() as $sourceFile) {
+                $this->eventDispatcher->dispatch(
+                    self::EVENT_SOURCE_FILES_CHANGED_POST,
+                    new SourceFilesChangedEvent($this, $sourceFileSet)
+                );
+
+                foreach ($sourceFileSet->allFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
-                    if ($sourceFile->canBeProcessed()) {
+                    if ($sourceFile->hasChanged() and $sourceFile->canBeProcessed()) {
                         $this->convertSourceFile($sourceFile);
                     }
                 }
@@ -349,9 +355,9 @@ class Sculpin {
                     new SourceFilesChangedEvent($this, $sourceFileSet)
                 );
 
-                foreach ($sourceFileSet->changedFiles() as $sourceFile) {
+                foreach ($sourceFileSet->allFiles() as $sourceFile) {
                     /* @var $sourceFile SourceFile */
-                    if ($sourceFile->canBeProcessed()) {
+                    if ($sourceFile->hasChanged() and $sourceFile->canBeProcessed()) {
                         $sourceFile->setContent($this->formatPage($sourceFile->id(), $sourceFile->content(), $sourceFile->context()));
                     }
                 }
@@ -593,7 +599,9 @@ class Sculpin {
             'converters' => array(),
         ));
         foreach ($this->dataProviders() as $dataProvider) {
-            $defaultContext->set('data.'.$dataProvider, $this->dataProvider($dataProvider));
+            if (isset($pageContext['use']) and in_array($dataProvider, $pageContext['use'])) {
+                $defaultContext->set('data.'.$dataProvider, $this->dataProvider($dataProvider));
+            }
         }
         return $defaultContext;
     }
