@@ -39,6 +39,7 @@ class SourceFilePermalink implements IPermalink
         } else {
             $this->relativeFilePath = $this->relativeUrlPath = $sourceFile->file()->getRelativePathname();
         }
+        $sourceFile->data()->set('url', $this->relativeUrlPath);
     }
 
     /**
