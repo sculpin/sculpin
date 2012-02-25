@@ -90,7 +90,8 @@ class Compiler {
         $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/ClassLoader.php'));
         $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/autoload.php'));
         $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/autoload_namespaces.php'));
-        
+        $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/installed.json'));
+
         $this->addSculpinBin($phar);
         
         $phar->setStub($this->getStub($alias));

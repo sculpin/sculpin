@@ -80,13 +80,12 @@ class Application extends BaseApplication
                 }
             }
         }
-        if (strpos($this->internalVendorRoot, $projectRoot)===false) {
+        if (strpos($this->internalVendorRoot, 'phar://')==0 || strpos($this->internalVendorRoot, $projectRoot)===false) {
             // If our vendor root does not contain our project root then we
             // can assume that we should enable the internally installed
             // repository.
             $this->internallyInstalledRepositoryEnabled = true;
         }
-        //if (realpath($projectRoot.'/vendor/autoload.php') != realpath())
         $this->initializeConfiguration($projectRoot);
         foreach (Sculpin::GET_CONFIGURED_BUNDLES($this->configuration()) as $bundleClassName) {
             try {
