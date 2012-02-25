@@ -57,7 +57,7 @@ EOT
             $io,
             $composer,
             $eventDispatcher,
-            (Boolean)$input->getOption('dev'),
+            (Boolean)$input->getOption('prefer-source'),
             (Boolean)$input->getOption('dry-run'),
             (Boolean)$input->getOption('verbose'),
             (Boolean)$input->getOption('no-install-recommends'),
