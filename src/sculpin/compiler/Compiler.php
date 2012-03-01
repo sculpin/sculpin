@@ -39,7 +39,7 @@ class Compiler {
         $process = new Process('git branch --contains HEAD');
         if ($process->run() == 0) {
             if (preg_match('/^\*\s+(.+?)$/', trim($process->getOutput()), $matches)) {
-                $this->version = $matches[1].'-dev-'.$this->version;
+                $this->version = "dev-{$matches[1]}-{$this->version}";
             }
         }
 
