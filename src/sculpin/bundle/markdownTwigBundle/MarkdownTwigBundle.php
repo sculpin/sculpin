@@ -11,15 +11,11 @@
 
 namespace sculpin\bundle\markdownTwigBundle;
 
-use sculpin\bundle\twigBundle\TwigBundle;
-
-use sculpin\event\ConvertSourceFileEvent;
-
-use sculpin\bundle\markdownBundle\MarkdownBundle;
-
-use sculpin\Sculpin;
-
 use sculpin\bundle\AbstractBundle;
+use sculpin\bundle\markdownBundle\MarkdownBundle;
+use sculpin\bundle\twigBundle\TwigBundle;
+use sculpin\event\ConvertSourceEvent;
+use sculpin\Sculpin;
 
 /**
  * Support for combining Markdown converstion with Twig formatting
@@ -71,29 +67,29 @@ class MarkdownTwigBundle extends AbstractBundle {
     
     /**
      * Called before conversion
-     * @param SourceFilesChangedEvent $event
+     * @param ConvertSourceEvent $event
      */
-    public function beforeConvert(ConvertSourceFileEvent $event)
+    public function beforeConvert(ConvertSourceEvent $convertSourceEvent)
     {
-        if ($event->isHandledBy(MarkdownBundle::CONVERTER_NAME, TwigBundle::FORMATTER_NAME)) {
-            $content = $event->sourceFile()->content();
+        if ($convertSourceEvent->isHandledBy(MarkdownBundle::CONVERTER_NAME, TwigBundle::FORMATTER_NAME)) {
+            $content = $convertSourceEvent->source()->content();
             foreach (self::$ADD_PLACEHOLDER_RES as $re) {
                 $content = preg_replace($re, self::$PLACEHOLDER, $content);
             }
-            $event->sourceFile()->setContent($content);
+            $convertSourceEvent->source()->setContent($content);
         }
     }
 
     /**
      * Called after conversion
-     * @param SourceFilesChangedEvent $event
+     * @param ConvertSourceEvent $event
      */
-    public function afterConvert(ConvertSourceFileEvent $event)
+    public function afterConvert(ConvertSourceEvent $convertSourceEvent)
     {
-        if ($event->isHandledBy(MarkdownBundle::CONVERTER_NAME, TwigBundle::FORMATTER_NAME)) {
-            $content = $event->sourceFile()->content();
+        if ($convertSourceEvent->isHandledBy(MarkdownBundle::CONVERTER_NAME, TwigBundle::FORMATTER_NAME)) {
+            $content = $convertSourceEvent->source()->content();
             $content = preg_replace(self::$REMOVE_PLACEHOLDER_RE, '', $content);
-            $event->sourceFile()->setContent($content);
+            $convertSourceEvent->source()->setContent($content);
         }
     }
 

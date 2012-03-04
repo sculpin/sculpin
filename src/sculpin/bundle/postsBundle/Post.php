@@ -11,7 +11,7 @@
 
 namespace sculpin\bundle\postsBundle;
 
-use sculpin\source\SourceFile;
+use sculpin\source\ISource;
 
 use sculpin\Sculpin;
 
@@ -19,9 +19,9 @@ class Post
 {
     /**
      * Input file
-     * @var \sculpin\source\SourceFile
+     * @var \sculpin\source\ISource
      */
-    protected $inputFile;
+    protected $source;
     
     /**
      * Previous post
@@ -37,47 +37,47 @@ class Post
 
     /**
      * Constructor
-     * @param SourceFile $inputFile
+     * @param ISource $source
      */
-    public function __construct(SourceFile $inputFile)
+    public function __construct(ISource $source)
     {
-        $this->inputFile = $inputFile;
+        $this->source = $source;
     }
     
     public function processBlocks(Sculpin $sculpin)
     {
-        $blocks = $sculpin->formatBlocks($this->inputFile->id(), $this->inputFile->content(), $this->inputFile->context());
-        $this->inputFile->data()->set('blocks', $blocks);
+        $blocks = $sculpin->formatBlocks($this->source->sourceId(), $this->source->content(), $this->source->data()->export());
+        $this->source->data()->set('blocks', $blocks);
     }
     
     public function id()
     {
-        return $this->inputFile->id();
+        return $this->source->sourceId();
     }
     
     public function date()
     {
-        return $this->inputFile->data()->get('calculatedDate');
+        return $this->source->data()->get('calculatedDate');
     }
     
     public function meta()
     {
-        return $this->inputFile->data()->export();
+        return $this->source->data()->export();
     }
     
     public function title()
     {
-        return $this->inputFile->data()->get('title');
+        return $this->source->data()->get('title');
     }
     
     public function url()
     {
-        return $this->inputFile->permalink()->relativeUrlPath();
+        return $this->source->permalink()->relativeUrlPath();
     }
     
     public function blocks()
     {
-        return $this->inputFile->data()->get('blocks');
+        return $this->source->data()->get('blocks');
     }
 
     /**
@@ -96,7 +96,7 @@ class Post
     public function setPreviousPost(Post $post)
     {
         $this->previousPost = $post;
-        $this->inputFile->data()->set('previousPost', $post);
+        $this->source->data()->set('previousPost', $post);
     }
 
     /**
@@ -115,7 +115,7 @@ class Post
     public function setNextPost(Post $post)
     {
         $this->nextPost = $post;
-        $this->inputFile->data()->set('nextPost', $post);
+        $this->source->data()->set('nextPost', $post);
     }
 
     /**
@@ -123,7 +123,7 @@ class Post
      */
     public function reprocess()
     {
-        $this->inputFile->setHasChanged();
+        $this->source->setHasChanged();
     }
     
     /**
@@ -132,6 +132,6 @@ class Post
      */
     public function hasChanged()
     {
-        return $this->inputFile->hasChanged();
+        return $this->source->hasChanged();
     }
 }

@@ -11,9 +11,11 @@
 
 namespace sculpin\bundle\postsBundle;
 
-use sculpin\configuration\Configuration;
+use sculpin\event\ConvertSourceEvent;
 
-use sculpin\event\SourceFilesChangedEvent;
+use sculpin\event\SourceSetEvent;
+
+use sculpin\configuration\Configuration;
 
 use sculpin\Sculpin;
 
@@ -61,9 +63,9 @@ class PostsBundle extends AbstractBundle {
     static function getBundleEvents()
     {
         return array(
-            Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
-            Sculpin::EVENT_SOURCE_FILES_CHANGED_POST => 'sourceFilesChangedPost',
-            Sculpin::EVENT_CONVERTED => 'converted',
+            Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged',
+            Sculpin::EVENT_SOURCE_SET_CHANGED_POST => 'sourceSetChangedPost',
+            Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
         );
     }
 
@@ -78,89 +80,87 @@ class PostsBundle extends AbstractBundle {
     }
 
     /**
-     * Called when Sculpin detects any source files have changed
-     * @param SourceFilesChangedEvent $event
+     * Called when Sculpin detects source set has changed sources
+     * 
+     * @param SourceSetEvent $sourceSetEvent
      */
-    public function sourceFilesChanged(SourceFilesChangedEvent $event)
+    public function sourceSetChanged(SourceSetEvent $sourceSetEvent)
     {
-        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
-        $configuration = $event->configuration();
+        if (!$this->isEnabled($sourceSetEvent, self::CONFIG_ENABLED)) {
+            return;
+        }
+
+        $configuration = $sourceSetEvent->configuration();
         $pattern = $configuration->get(self::CONFIG_DIRECTORY).'/**';
-        foreach ($event->inputFiles()->allFiles() as $inputFile) {
-            /* @var $inputFile \sculpin\source\SourceFile */
-            $relativePathname = $inputFile->file()->getRelativePathname();
-            if ($event->sculpin()->matcher()->match($pattern, $relativePathname)) {
-                if (!$inputFile->data()->get('permalink')) {
-                    if ($permalink = $event->sculpin()->configuration()->get(self::CONFIG_PERMALINK)) {
-                        $inputFile->data()->set('permalink',$permalink);
+
+        foreach ($sourceSetEvent->updatedSources() as $source) {
+            /* @var $source \sculpin\source\ISource */
+            $relativePathname = $source->relativePathname();
+            if ($sourceSetEvent->sculpin()->matcher()->match($pattern, $relativePathname)) {
+                if (!$source->data()->get('permalink')) {
+                    if ($permalink = $sourceSetEvent->sculpin()->configuration()->get(self::CONFIG_PERMALINK)) {
+                        $source->data()->set('permalink', $permalink);
                     }
                 }
-                if (!$inputFile->data()->get('calculatedDate')) {
+                if (!$source->data()->get('calculatedDate')) {
                     // we should calculate date from filename
-                    if (preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+?|)/', $inputFile->file()->getRelativePathname(), $matches)) {
+                    if (preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+?|)/', $source->filename(), $matches)) {
                         list($dummy, $year, $month, $day, $time) = $matches;
                         $parts = array(implode('-', array($year, $month, $day)));
                         if ($time) {
                             $parts[] = $time;
                         }
-                        $inputFile->data()->set('calculatedDate', strtotime(implode(' ', $parts)));
+                        $source->data()->set('calculatedDate', strtotime(implode(' ', $parts)));
                     }
                 }
-                $this->posts[$inputFile->id()] = $post = new Post($inputFile);
+                $this->posts[$source->sourceId()] = $post = new Post($source);
             }
         }
         $this->posts->init();
     }
 
     /**
-     * @param SourceFilesChangedEvent $event
+     * Called when Sculpin detects source set has changed sources (post)
+     * 
+     * @param SourceSetEvent $sourceSetEvent
      */
-    public function sourceFilesChangedPost(SourceFilesChangedEvent $event)
-    {
-        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) {
+    public function sourceSetChangedPost(SourceSetEvent $sourceSetEvent) {
+        if (!$this->isEnabled($sourceSetEvent, self::CONFIG_ENABLED)) {
             return;
         }
-        $reprocessAllPosts = false;
-        $reprocessAllUsers = false;
-        $users = array();
-        foreach ($event->inputFiles()->allFiles() as $inputFile) {
-            if ($inputFile->data()->get('use') and in_array('posts', $inputFile->data()->get('use'))) {
-                $users[] = $inputFile;
-                if ($inputFile->hasChanged()) {
-                    // Need to rebuild all posts if something that uses
-                    // posts has changed.
-                    $reprocessAllPosts = true;
-                }
-            }
-        }
+        $aPostHasChanged = false;
         foreach ($this->posts as $post) {
-            /* @var $post Post */
+            /* @var $post \sculpin\bundle\postsBundle\Post */
             if ($post->hasChanged()) {
-                $reprocessAllUsers = true;
+                $aPostHasChanged = true;
+                break;
             }
         }
-        if ($reprocessAllUsers) {
-            foreach ($users as $user) {
-                $user->setHasChanged();
-            }
-            $reprocessAllPosts = true;
-        }
-        if ($reprocessAllPosts) {
-            foreach ($this->posts as $post) {
-                $post->reprocess();
+        if ($aPostHasChanged) {
+            foreach ($sourceSetEvent->allSources() as $source) {
+                /* @var $source \sculpin\source\ISource */
+                if ($source->data()->get('use') and in_array('posts', $source->data()->get('use'))) {
+                    // Trigger rebuild for anything that uses posts.
+                    $source->forceReprocess();
+                }
             }
         }
     }
 
     /**
      * Called when Sculpin detects that source files have been converted
-     * @param SourceFilesChangedEvent $event
+     * 
+     * @param ConvertSourceEvent $event
      */
-    public function converted(SourceFilesChangedEvent $event)
+    public function afterConvert(ConvertSourceEvent $convertSourceEvent)
     {
-        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
-        foreach ($this->posts as $post) {
-            $post->processBlocks($event->sculpin());
+        if (!$this->isEnabled($convertSourceEvent, self::CONFIG_ENABLED)) {
+            return;
+        }
+        $sourceId = $convertSourceEvent->source()->sourceId();
+        if (isset($this->posts[$sourceId])) {
+            $post = $this->posts[$sourceId];
+            $post->processBlocks($convertSourceEvent->sculpin());
         }
     }
 

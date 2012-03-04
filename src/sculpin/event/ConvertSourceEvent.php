@@ -11,19 +11,16 @@
 
 namespace sculpin\event;
 
-use sculpin\source\SourceFile;
-
-use sculpin\formatter\FormatContext;
-
 use sculpin\Sculpin;
+use sculpin\source\ISource;
 
-class ConvertSourceFileEvent extends Event {
+class ConvertSourceEvent extends Event {
     
     /**
-     * Source file
-     * @var \sculpin\source\SourceFile
+     * Source
+     * @var \sculpin\source\ISource
      */
-    protected $sourceFile;
+    protected $source;
     
     /**
      * Converter
@@ -34,27 +31,29 @@ class ConvertSourceFileEvent extends Event {
     /**
      * Constructor
      * @param Sculpin $sculpin
-     * @param SourceFile $sourceFile
+     * @param ISource $source
      * @param string $converter
      */
-    public function __construct(Sculpin $sculpin, SourceFile $sourceFile, $converter)
+    public function __construct(Sculpin $sculpin, ISource $source, $converter)
     {
         parent::__construct($sculpin);
-        $this->sourceFile = $sourceFile;
+        $this->source = $source;
         $this->converter = $converter;
     }
     
     /**
-     * Source file
-     * @return \sculpin\source\SourceFile
+     * Source
+     * 
+     * @return \sculpin\source\ISource
      */
-    public function sourceFile()
+    public function source()
     {
-        return $this->sourceFile;
+        return $this->source;
     }
     
     /**
      * Converter
+     * 
      * @return string
      */
     public function converter()
@@ -64,6 +63,7 @@ class ConvertSourceFileEvent extends Event {
     
     /**
      * Test if represented source file is converted by requested converter
+     * 
      * @param string $converter
      * @return boolean
      */
@@ -73,17 +73,19 @@ class ConvertSourceFileEvent extends Event {
     }
     
     /**
-     * Test if represented source file is formatted by requested formatter
+     * Test if represented source  is formatted by requested formatter
+     * 
      * @param string $formatter
      * @return boolean
      */
     public function isFormattedBy($formatter)
     {
-        return $this->sculpin->deriveSourceFileFormatter($this->sourceFile) == $formatter;
+        return $this->sculpin->deriveSourceFormatter($this->source) == $formatter;
     }
     
     /**
-     * Test if represented source file is converted and formatted by requested converter and formatter
+     * Test if represented source is converted and formatted by requested converter and formatter
+     * 
      * @param string $converter
      * @param string $formatter
      * @return boolean
@@ -92,5 +94,4 @@ class ConvertSourceFileEvent extends Event {
     {
         return $this->isConvertedBy($converter) and $this->isFormattedBy($formatter);
     }
-
 }

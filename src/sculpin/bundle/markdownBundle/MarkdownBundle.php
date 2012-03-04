@@ -11,11 +11,9 @@
 
 namespace sculpin\bundle\markdownBundle;
 
-use sculpin\Sculpin;
-
-use sculpin\event\SourceFilesChangedEvent;
-
 use sculpin\bundle\AbstractBundle;
+use sculpin\event\SourceSetEvent;
+use sculpin\Sculpin;
 
 class MarkdownBundle extends AbstractBundle {
     
@@ -27,19 +25,17 @@ class MarkdownBundle extends AbstractBundle {
     const CONFIG_EXTENSIONS = 'markdown.extensions';
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::getBundleEvents()
+     * @{inheritdoc}
      */
     static function getBundleEvents()
     {
         return array(
-            Sculpin::EVENT_SOURCE_FILES_CHANGED => 'sourceFilesChanged',
+            Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged'
         );
     }
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::configureBundle()
+     * @{inheritdoc}
      */
     public function configureBundle(Sculpin $sculpin)
     {
@@ -47,26 +43,30 @@ class MarkdownBundle extends AbstractBundle {
         $parserClass = $configuration->getConfiguration(self::CONFIG_PARSERS)->get($configuration->get(self::CONFIG_PARSER));
         $sculpin->registerConverter('markdown', new MarkdownConverter(new $parserClass));
     }
-    
+
     /**
-     * Called when Sculpin detects any source files have changed
-     * @param SourceFilesChangedEvent $event
+     * Called when Sculpin detects source set has changed sources
+     *
+     * @param SourceSetEvent $sourceSetEvent
      */
-    public function sourceFilesChanged(SourceFilesChangedEvent $event)
+    public function sourceSetChanged(SourceSetEvent $sourceSetEvent)
     {
-        if (!$this->isEnabled($event, self::CONFIG_ENABLED)) { return; }
-        $configuration = $event->configuration();
+        if (!$this->isEnabled($sourceSetEvent, self::CONFIG_ENABLED)) {
+            return;
+        }
+
+        $configuration = $sourceSetEvent->configuration();
         $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
-        foreach ($event->inputFiles()->allFiles() as $inputFile) {
-            /* @var $inputFile \sculpin\source\SourceFile */
+
+        foreach ($sourceSetEvent->updatedSources() as $source) {
+            /* @var $source \sculpin\source\ISource */
             foreach ($extensions as $extension) {
-                if (fnmatch('*.'.$extension, $inputFile->file()->getFilename())) {
+                if (fnmatch("*.{$extension}", $source->filename())) {
                     // TODO: converters should be a const (where?)
-                    $inputFile->data()->append('converters', self::CONVERTER_NAME);
+                    $source->data()->append('converters', self::CONVERTER_NAME);
                     break;
                 }
             }
         }
     }
-
 }

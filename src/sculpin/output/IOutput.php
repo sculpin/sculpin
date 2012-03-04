@@ -17,50 +17,43 @@ interface IOutput {
     
     /**
      * Unique ID
+     * 
      * @return string
      */
     public function outputId();
     
     /**
      * Pathname (relative)
+     * 
      * @return string 
      */
     public function pathname();
 
     /**
      * Suggested permalink
+     * 
      * @return \sculpin\permalink\IPermalink
      */
     public function permalink();
     
     /**
      * Has a file reference?
-     * @return bool
+     * 
+     * @return boolean
      */
     public function hasFileReference();    
     
     /**
      * File reference. (if hasFileReference)
+     * 
      * @return \Symfony\Component\Finder\SplFileInfo
      */
     public function file();
 
     /**
      * Content (if not hasFileReference)
+     * 
      * @return string
      */
     public function content();
-    
-    /**
-     * Date
-     * @return integer
-     */
-    public function date();
-
-    /**
-     * Title
-     * @return string
-     */
-    public function title();
-    
 }

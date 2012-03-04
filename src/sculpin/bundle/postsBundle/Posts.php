@@ -22,7 +22,7 @@ class Posts implements \ArrayAccess, \Iterator, \Countable
     
     /**
      * Constructor
-     * @param SourceFile $inputFile
+     * @param array $posts
      */
     public function __construct(array $posts = null)
     {

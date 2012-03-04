@@ -12,21 +12,34 @@
 namespace sculpin\permalink;
 
 use sculpin\Sculpin;
+use sculpin\source\ISource;
 
-use sculpin\source\SourceFile;
-
-class SourceFilePermalink implements IPermalink
+class SourcePermalink implements IPermalink
 {
+    /**
+     * Relative file path
+     * 
+     * @var string
+     */
     private $relativeFilePath;
+
+    /**
+     * Realtive URL path
+     * 
+     * @var string
+     */
     private $relativeUrlPath;
+
     /**
      * Constructor
-     * @param SourceFile $sourceFile
+     * 
+     * @param Sculpin $sculpin
+     * @param ISource $source
      */
-    public function __construct(Sculpin $sculpin, SourceFile $sourceFile)
+    public function __construct(Sculpin $sculpin, ISource $source)
     {
-        if ($sourceFile->canBeProcessed()) {
-            $this->relativeFilePath = $this->generatePermalinkPathname($sculpin, $sourceFile);
+        if ($source->canBeFormatted()) {
+            $this->relativeFilePath = $this->generatePermalinkPathname($sculpin, $source);
             // TODO: Make this configurable... not all index files are named index.*
             if (strpos(basename($this->relativeFilePath), 'index.') === false) {
                 $this->relativeUrlPath = $this->relativeFilePath;
@@ -37,9 +50,9 @@ class SourceFilePermalink implements IPermalink
                 $this->relativeUrlPath = '/';
             }
         } else {
-            $this->relativeFilePath = $this->relativeUrlPath = $sourceFile->file()->getRelativePathname();
+            $this->relativeFilePath = $this->relativeUrlPath = $source->relativePathname();
         }
-        $sourceFile->data()->set('url', $this->relativeUrlPath);
+        $source->data()->set('url', $this->relativeUrlPath);
     }
 
     /**
@@ -58,12 +71,12 @@ class SourceFilePermalink implements IPermalink
         return $this->relativeUrlPath;
     }
 
-    protected function generatePermalinkPathname(Sculpin $sculpin, SourceFile $sourceFile)
+    protected function generatePermalinkPathname(Sculpin $sculpin, ISource $source)
     {
-        $pathname = $sourceFile->file()->getRelativePathname();
-        $date = $sourceFile->data()->get('calculatedDate');
-        $title = $sourceFile->data()->get('title');
-        if (!$permalink = $sourceFile->data()->get('permalink')) {
+        $pathname = $source->relativePathname();
+        $date = $source->data()->get('calculatedDate');
+        $title = $source->data()->get('title');
+        if (!$permalink = $source->data()->get('permalink')) {
             $permalink = $sculpin->configuration()->get('permalink');
         }
         switch($permalink) {

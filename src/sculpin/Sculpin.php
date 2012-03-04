@@ -11,28 +11,26 @@
 
 namespace sculpin;
 
-use sculpin\permalink\SourceFilePermalink;
-
+use dflydev\util\antPathMatcher\AntPathMatcher;
+use dflydev\util\antPathMatcher\IAntPathMatcher;
 use sculpin\configuration\Configuration;
 use sculpin\converter\IConverter;
-use sculpin\converter\SourceFileConverterContext;
-use sculpin\event\ConvertSourceFileEvent;
+use sculpin\converter\SourceConverterContext;
+use sculpin\event\ConvertSourceEvent;
 use sculpin\event\Event;
-use sculpin\event\SourceFilesChangedEvent;
 use sculpin\event\FormatEvent;
-use sculpin\formatter\IFormatter;
+use sculpin\event\SourceSetEvent;
 use sculpin\formatter\FormatContext;
+use sculpin\formatter\IFormatter;
 use sculpin\output\IOutput;
+use sculpin\output\SourceOutput;
 use sculpin\output\Writer;
-use sculpin\output\SourceFileOutput;
-use sculpin\source\SourceFile;
-use sculpin\source\SourceFileSet;
-
+use sculpin\permalink\SourcePermalink;
+use sculpin\source\FileSource;
+use sculpin\source\ISource;
+use sculpin\source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
-
-use dflydev\util\antPathMatcher\IAntPathMatcher;
-use dflydev\util\antPathMatcher\AntPathMatcher;
 
 class Sculpin {
     
@@ -44,6 +42,8 @@ class Sculpin {
     const EVENT_AFTER_RUN = 'sculpin.core.afterRun';
     const EVENT_BEFORE_STOP = 'sculpin.core.beforeStop';
     const EVENT_AFTER_STOP = 'sculpin.core.afterStop';
+    const EVENT_SOURCE_SET_CHANGED = 'sculpin.core.sourceSetChanged';
+    const EVENT_SOURCE_SET_CHANGED_POST = 'sculpin.core.sourceSetChangedPost';
     const EVENT_SOURCE_FILES_CHANGED = 'sculpin.core.inputFilesChanged';
     const EVENT_SOURCE_FILES_CHANGED_POST = 'sculpin.core.inputFilesChangedPost';
     const EVENT_BEFORE_GENERATE = 'sculpin.core.beforeGenerate';
@@ -87,10 +87,11 @@ class Sculpin {
     protected $writer;
 
     /**
-     * List of all know input files
-     * @var array
+     * Source Set
+     * 
+     * @var \sculpin\source\SourceSet
      */
-    protected $sourceFiles;
+    protected $sourceSet;
     
     /**
      * Bundles (by name)
@@ -156,13 +157,14 @@ class Sculpin {
      * @param Callable $finderGenerator
      * @param IAntPathMatcher $matcher
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderGenerator = null, IAntPathMatcher $matcher = null, Writer $writer = null)
+    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderGenerator = null, IAntPathMatcher $matcher = null, Writer $writer = null, SourceSet $sourceSet = null)
     {
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher !== null ? $eventDispatcher : new EventDispatcher();
         $this->finderGenerator = $finderGenerator !== null ? $finderGenerator : function(Sculpin $sculpin) { return new Finder(); };
-        $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher();
-        $this->writer = $writer !== null ? $writer : new Writer();
+        $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher;
+        $this->writer = $writer !== null ? $writer : new Writer;
+        $this->sourceSet = $sourceSet !== null ? $sourceSet : new SourceSet;
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
             $this->addExclude($pattern);
         }
@@ -222,186 +224,157 @@ class Sculpin {
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
     }
     
-    public function run($watch)
+    public function run($watch = false, $pollWait = 2)
     {
-
-        // Allow for cleanup to happen in case control-c is detected.
-        declare(ticks = 1);
-        $sculpin = $this;
-        //pcntl_signal(SIGINT, function() use ($sculpin) {
-        //    // We are no longer running.
-        //    $sculpin->running = false;
-        //});
-        
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN);
-        $this->running = true;
 
-        while ($this->running) {
+        // Assume we want files updated since UNIX time began.
+        $sinceTime = '1970-01-01T00:00:00Z';
+
+        $running = true;
+
+        while ($running) {
+
+            // Get the last reported since time.
+            $sinceTimeLast = $sinceTime;
             
-            // This is where the work should get done.
-            
-            // Contains all of the content that should be output
-            $outputs = array();
+            // Do this *before* we actually look for files
+            // to avoid race conditions.
+            $sinceTime = date('c');
 
-            // Get all of the files in the site.
-            $files = array();
-
-            // Trigger before all files processing
-            $allFiles = $this->finder()->files()->ignoreVCS(true)->in($this->configuration->getPath('source'));
+            $files = $this->finder()
+                ->files()
+                ->ignoreVCS(true)
+                ->date('> '.$sinceTimeLast)
+                ->in($this->configuration->getPath('source'));
             
             // We regenerate the whole site if an excluded file changes.
-            // TODO: Does this make sense?
             $excludedFilesHaveChanged = false;
-
-            foreach ( $allFiles as $file ) {
-                foreach ($this->ignores as $pattern) {
-                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
-                        continue 2;
-                    }
-                }
-                foreach ($this->exclusions as $pattern) {
-                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
-                        if ((!isset($this->excludedFiles[$file->getPathname()])) or $file->getMTime()>$this->excludedFiles[$file->getPathname()]) {
-                            $this->excludedFiles[$file->getPathname()] = $file->getMTime();
-                            $excludedFilesHaveChanged = true;
-                        }
-                        continue 2;
-                    }
-                }
-                $files[] = $file;
-            }
             
-            $newFiles = array();
-            $updatedFiles = array();
-            $unchangedFiles = array();
             foreach ($files as $file) {
                 /* @var $file \Symfony\Component\Finder\SplFileInfo */
-                if (isset($this->inputFiles[$file->getPathname()])) {
-                    // File existed before.
-                    if ($file->getMTime()>$this->inputFiles[$file->getPathname()]->cachedMTime()) {
-                        // TODO: Maybe also check sum?
-                        $sourceFile = $this->inputFiles[$file->getPathname()] = $updatedFiles[] = new SourceFile($file, false);
-                        $sourceFile->setHasChanged();
-                    } else {
-                        $sourceFile = new SourceFile($file, false);
-                        if ($excludedFilesHaveChanged and $sourceFile->canBeProcessed()) {
-                            // If excluded files have changed, we want to treat
-                            // any file that can be processed as changed/updated.
-                            $updatedFiles[] = $sourceFile;
-                            $sourceFile->setHasChanged();
-                        } else {
-                            $unchangedFiles[] = $sourceFile;
-                        }
-                    }
-                } else {
-                    // File is new.
-                    $raw = false;
-                    foreach ($this->raws as $pattern) {
-                        if ($this->matcher->match($pattern, $file->getRelativePathname())) {
-                            $raw = true;
-                            break;
-                        }
-                    }
-                    $sourceFile = $this->inputFiles[$file->getPathname()] = $newFiles[] = new SourceFile($file, $raw);
-                    $sourceFile->setHasChanged();
-                }
-            }
-
-            $sourceFileSet = new SourceFileSet($newFiles, $updatedFiles, $unchangedFiles);
-
-            if ( $sourceFileSet->hasChangedFiles() ) {
-
-                $sourceFilesChangedEvent = new SourceFilesChangedEvent($this, $sourceFileSet);
-                
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_SOURCE_FILES_CHANGED,
-                    new SourceFilesChangedEvent($this, $sourceFileSet)
-                );
-
-                foreach ($sourceFileSet->allFiles() as $sourceFile) {
-                    /* @var $sourceFile SourceFile */
-                    $sourceFile->setPermalink(new SourceFilePermalink($this, $sourceFile));
-                }
-
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_SOURCE_FILES_CHANGED_POST,
-                    new SourceFilesChangedEvent($this, $sourceFileSet)
-                );
-
-                foreach ($sourceFileSet->allFiles() as $sourceFile) {
-                    /* @var $sourceFile SourceFile */
-                    if ($sourceFile->hasChanged() and $sourceFile->canBeProcessed()) {
-                        $this->convertSourceFile($sourceFile);
+                foreach ($this->ignores as $pattern) {
+                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                        // Ignored files are completely ignored.
+                        continue 2;
                     }
                 }
 
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_CONVERTED,
-                    new SourceFilesChangedEvent($this, $sourceFileSet)
-                );
-
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_BEFORE_GENERATE,
-                    new SourceFilesChangedEvent($this, $sourceFileSet)
-                );
-
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_GENERATE,
-                    new SourceFilesChangedEvent($this, $sourceFileSet)
-                );
-
-                $this->eventDispatcher->dispatch(
-                    self::EVENT_AFTER_GENERATE,
-                    new SourceFilesChangedEvent($this, $sourceFileSet)
-                );
-
-                foreach ($sourceFileSet->allFiles() as $sourceFile) {
-                    /* @var $sourceFile SourceFile */
-                    if ($sourceFile->hasChanged() and $sourceFile->canBeProcessed()) {
-                        $sourceFile->setContent($this->formatPage($sourceFile->id(), $sourceFile->content(), $sourceFile->context()));
+                foreach ($this->exclusions as $pattern) {
+                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                        $excludedFilesHaveChanged = true;
+                        continue 2;
                     }
                 }
 
-                foreach ($sourceFileSet->allFiles() as $sourceFile) {
-                    /* @var $sourceFile SourceFile */
-                    if ($sourceFile->isNormal() and $sourceFile->hasChanged()) {
-                        $outputs[] = new SourceFileOutput($sourceFile);
-                    }
-                }
-                
-                if (count($outputs)) {
-                    print "Detected new or updated files\n";
-                    foreach ($outputs as $output) {
-                        print ' + '.$output->outputId();
-                        $this->writer->write($this, $output);
-                        print " [done]\n";
-                    }
-                    foreach ($this->formatters as $name => $formatter) {
-                        /* @var $formatter \sculpin\formatter\IFormatter */
-                        $formatter->resetFormatter();
+                $isRaw = false;
+                foreach ($this->raws as $pattern) {
+                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                        $isRaw = true;
+                        break;
                     }
                 }
 
+                $source = new FileSource($file, $isRaw, true);
+                $this->sourceSet->mergeSource($source);
             }
             
-            if ($watch) {
-                // Temporary.
-                sleep(2);
-                clearstatcache();
-            } else {
-                $this->running = false;
+            if ($this->sourceSet->hasUpdatedSources()) {
+                print "Detected new or updated files\n";
+
+                $this->eventDispatcher->dispatch(
+                    self::EVENT_SOURCE_SET_CHANGED,
+                    new SourceSetEvent($this, $this->sourceSet)
+                );
+
+                $this->eventDispatcher->dispatch(
+                        self::EVENT_SOURCE_SET_CHANGED_POST,
+                        new SourceSetEvent($this, $this->sourceSet)
+                );
+
+                foreach ($this->sourceSet->updatedSources() as $source) {
+                    /* @var $source \sculpin\source\ISource */
+                    $this->setSourcePermalink($source);
+                    $this->convertSource($source);
+                }
+
+                foreach ($this->sourceSet->updatedSources() as $source) {
+                    /* @var $source \sculpin\source\ISource */
+                    if ($source->canBeFormatted()) {
+                        $source->setContent($this->formatPage(
+                            $source->sourceId(),
+                            $source->content(),
+                            $source->data()->export()
+                        ));
+                    }
+                }
+
+                foreach ($this->sourceSet->updatedSources() as $source) {
+                    $this->writer->write($this, new SourceOutput($source));
+                    print " + {$source->sourceId()}\n";
+                }
             }
 
+            if ($watch) {
+                // Temporary.
+                sleep($pollWait);
+                clearstatcache();
+                $this->sourceSet->reset();
+            } else {
+                $running = false;
+            }
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN);
-        
     }
-    
+
     public function stop()
     {
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_STOP);
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_STOP);
+    }
+
+    public function setSourcePermalink(ISource $source)
+    {
+        $source->setPermalink(new SourcePermalink($this, $source));
+    }
+    
+    public function convertSource(ISource $source)
+    {
+        // TODO: Make 'converters' a const
+        $converters = $source->data()->get('converters');
+
+        if (!$converters || !is_array($converters)) {
+            return;
+        }
+
+        foreach ($converters as $converter) {
+            $this->eventDispatcher->dispatch(
+                self::EVENT_BEFORE_CONVERT,
+                new ConvertSourceEvent($this, $source, $converter)
+            );
+            $this->converter($converter)->convert($this, new SourceConverterContext($source));
+            $this->eventDispatcher->dispatch(
+                self::EVENT_AFTER_CONVERT,
+                new ConvertSourceEvent($this, $source, $converter)
+            );
+        }
+    }
+
+    /**
+     * Derive the formatter for a source
+     *
+     * Convenience method. Is not DRY. Similar functionality exists in
+     * buildDefaultFormatContext and buildFormatContext.
+     *
+     * @param Source $source
+     */
+    public function deriveSourceFormatter(ISource $source)
+    {
+        if ($formatter = $source->data()->get('formatter')) {
+            return $formatter;
+        }
+        return $this->defaultFormatter;
     }
     
     /**
@@ -627,23 +600,6 @@ class Sculpin {
         return isset($this->converters[$name]) ? $this->converters[$name] : null;
     }
     
-    public function convertSourceFile(SourceFile $sourceFile)
-    {
-        $converters = $sourceFile->data()->get('converters');
-        if (!$converters or !is_array($converters)) { return; }
-        foreach ($sourceFile->data()->get('converters') as $converter) {
-            $this->eventDispatcher->dispatch(
-                self::EVENT_BEFORE_CONVERT,
-                new ConvertSourceFileEvent($this, $sourceFile, $converter)
-            );
-            $this->converter($converter)->convert($this, new SourceFileConverterContext($sourceFile));
-            $this->eventDispatcher->dispatch(
-                self::EVENT_AFTER_CONVERT,
-                new ConvertSourceFileEvent($this, $sourceFile, $converter)
-            );
-        }
-    }
-    
     /**
      * Register a provider of data
      * @param string $name
@@ -669,22 +625,6 @@ class Sculpin {
      */
     public function dataProvider($name) {
         return call_user_func($this->dataProviders[$name], $this);
-    }
-
-    /**
-     * Derive the formatter for a source file
-     * 
-     * Convenience method. Is not DRY. Similar functionality exists in
-     * buildDefaultFormatContext and buildFormatContext.
-     * 
-     * @param SourceFile $sourceFile
-     */
-    public function deriveSourceFileFormatter(SourceFile $sourceFile)
-    {
-        if ($formatter = $sourceFile->data()->get('formatter')) {
-            return $formatter;
-        }
-        return $this->defaultFormatter;
     }
 
     /**

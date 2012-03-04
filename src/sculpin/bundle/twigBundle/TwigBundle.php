@@ -12,9 +12,6 @@
 namespace sculpin\bundle\twigBundle;
 
 use sculpin\Sculpin;
-
-use sculpin\event\SourceFilesChangedEvent;
-
 use sculpin\bundle\AbstractBundle;
 
 class TwigBundle extends AbstractBundle
