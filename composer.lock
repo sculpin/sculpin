@@ -11,7 +11,9 @@
         },
         {
             "package": "dflydev/markdown",
-            "version": "v1.0.2"
+            "version": "dev-master",
+            "source-reference": "91c6649f89472f6ab60a107a80acc72baacf585c",
+            "alias": "1.0.9999999.9999999-dev"
         },
         {
             "package": "symfony/console",

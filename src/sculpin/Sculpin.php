@@ -32,7 +32,8 @@ use sculpin\source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
 
-class Sculpin {
+class Sculpin
+{
     
     const VERSION = '@package_version@';
     const EVENT_BEFORE_START = 'sculpin.core.beforeStart';
@@ -277,6 +278,15 @@ class Sculpin {
 
                 $source = new FileSource($file, $isRaw, true);
                 $this->sourceSet->mergeSource($source);
+            }
+
+            if ($excludedFilesHaveChanged) {
+                // If any of the exluded files have changed we should
+                // mark all of the sources as having changed.
+                foreach ($this->sourceSet->allSources() as $source) {
+                    /* @var $source \sculpin\source\ISource */
+                    $source->setHasChanged();
+                }
             }
             
             if ($this->sourceSet->hasUpdatedSources()) {
