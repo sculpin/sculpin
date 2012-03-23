@@ -76,8 +76,10 @@ class Compiler {
             ->name('*.php')
             ->in(array(
                 $this->projectRoot . '/vendor/composer/composer/src',
+                $this->projectRoot . '/vendor/composer/composer/res',
                 $this->projectRoot . '/vendor/dflydev/ant-path-matcher/src',
                 $this->projectRoot . '/vendor/dflydev/markdown/src',
+                $this->projectRoot . '/vendor/seld/jsonlint/src',
                 $this->projectRoot . '/vendor/symfony',
                 $this->projectRoot . '/vendor/twig/twig/lib',
             ))
