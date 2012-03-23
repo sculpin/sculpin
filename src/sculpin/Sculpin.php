@@ -246,7 +246,7 @@ class Sculpin
             $files = $this->finder()
                 ->files()
                 ->ignoreVCS(true)
-                ->date('> '.$sinceTimeLast)
+                ->date('>= '.$sinceTimeLast)
                 ->in($this->configuration->getPath('source'));
             
             // We regenerate the whole site if an excluded file changes.
