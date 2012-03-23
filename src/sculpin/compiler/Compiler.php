@@ -76,7 +76,6 @@ class Compiler {
             ->name('*.php')
             ->in(array(
                 $this->projectRoot . '/vendor/composer/composer/src',
-                $this->projectRoot . '/vendor/composer/composer/res',
                 $this->projectRoot . '/vendor/dflydev/ant-path-matcher/src',
                 $this->projectRoot . '/vendor/dflydev/markdown/src',
                 $this->projectRoot . '/vendor/seld/jsonlint/src',
@@ -89,6 +88,7 @@ class Compiler {
             $this->addFile($phar, $file);
         }
         
+        $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/composer/composer/res/composer-schema.json'));
         $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/ClassLoader.php'));
         $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/autoload.php'));
         $this->addFile($phar, new \SplFileInfo($this->projectRoot . '/vendor/.composer/autoload_namespaces.php'));
