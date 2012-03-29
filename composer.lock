@@ -4,8 +4,7 @@
         {
             "package": "composer/composer",
             "version": "dev-master",
-            "source-reference": "202dc99b029904d1d58b9b38bf9d268f21b2eb18",
-            "alias": "1.0.9999999.9999999-dev"
+            "source-reference": "30cfb69739ad0d91476b985f536d7ed80843834f"
         },
         {
             "package": "dflydev/ant-path-matcher",
@@ -48,8 +47,7 @@
         {
             "package": "symfony/process",
             "version": "dev-master",
-            "source-reference": "d08c4ea1530453ce270fcba78f0bff57a0869a9b",
-            "alias": "2.1.9999999.9999999-dev"
+            "source-reference": "8cf4f692dacd94261548c12e90ef310a609a054c"
         },
         {
             "package": "symfony/yaml",
