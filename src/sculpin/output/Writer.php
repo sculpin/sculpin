@@ -11,30 +11,23 @@
 
 namespace sculpin\output;
 
-use sculpin\Util;
-
 use sculpin\Sculpin;
 
 class Writer {
-    
+    /**
+     * Write output file
+     * @param Sculpin $sculpin Sculpin
+     * @param IOutput $output Output
+     */
     public function write(Sculpin $sculpin, IOutput $output)
     {
         $destination = $sculpin->configuration()->getPath('destination');
         $outputPath = $destination.'/'.$output->permalink()->relativeFilePath();
-        $this->recursiveMkdir(dirname($outputPath));
         if ($output->hasFileReference()) {
-            copy($output->file(), $outputPath);
+            $sculpin->filesystem()->copy($output->file(), $outputPath, true);
         } else {
+            $sculpin->filesystem()->mkdir(dirname($outputPath));
             file_put_contents($outputPath, $output->content());
         }
-    }
-
-    /**
-     * Recursively make directories to to and including specified path
-     * @param string $path
-     */
-    private function recursiveMkdir($path)
-    {
-        return Util::RECURSIVE_MKDIR($path);
     }
 }

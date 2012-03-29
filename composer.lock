@@ -1,10 +1,11 @@
 {
-    "hash": "ef4ccaa5d5a0901cb601a8b6e5ca0503",
+    "hash": "7159d4606be4122494b9cd7864b37f8b",
     "packages": [
         {
             "package": "composer/composer",
             "version": "dev-master",
-            "source-reference": "30cfb69739ad0d91476b985f536d7ed80843834f"
+            "source-reference": "30cfb69739ad0d91476b985f536d7ed80843834f",
+            "alias": "1.0.9999999.9999999-dev"
         },
         {
             "package": "dflydev/ant-path-matcher",
@@ -39,6 +40,12 @@
             "alias": "2.1.9999999.9999999-dev"
         },
         {
+            "package": "symfony/filesystem",
+            "version": "dev-master",
+            "source-reference": "f475e8299ff7bffbbd858bef85d3c80036f13877",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
             "package": "symfony/finder",
             "version": "dev-master",
             "source-reference": "be30ecc95281d729ee51b9e89644d442bcf60451",
@@ -47,7 +54,8 @@
         {
             "package": "symfony/process",
             "version": "dev-master",
-            "source-reference": "8cf4f692dacd94261548c12e90ef310a609a054c"
+            "source-reference": "8cf4f692dacd94261548c12e90ef310a609a054c",
+            "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/yaml",

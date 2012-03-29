@@ -11,13 +11,11 @@
 
 namespace sculpin\console\command;
 
-use sculpin\Util;
-
-use Symfony\Component\Finder\Finder;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class InitCommand extends Command
 {
@@ -66,6 +64,7 @@ EOT
             $output->writeln('Specified skeleton <error>'.$skeleton.'</error> could not be found');
             return;
         }
+        $filesystem = new Filesystem;
         $finder = new Finder();
         $skeletonFiles = $finder
             ->files()
@@ -75,7 +74,7 @@ EOT
             /* @var $file \Symfony\Component\Finder\SplFileInfo */
             $parentDir = dirname($file->getRelativePathname());
             if ('.' != $parentDir) {
-                Util::RECURSIVE_MKDIR($projectRoot.'/'.$parentDir);
+                $filesystem->mkdir($projectRoot.'/'.$parentDir);
             }
             $output->write('+ '.$file->getRelativePathname());
             copy($file, $projectRoot.'/'.$file->getRelativePathname());

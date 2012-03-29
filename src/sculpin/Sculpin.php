@@ -31,6 +31,7 @@ use sculpin\source\ISource;
 use sculpin\source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Sculpin
 {
@@ -73,7 +74,7 @@ class Sculpin
      * Finder Generator
      * @var \Callable
      */
-    protected $finderGenerator;
+    protected $finderFactory;
     
     /**
      * Matcher
@@ -155,17 +156,18 @@ class Sculpin
      * Constructor
      * @param Configuration $configuration
      * @param EventDispatcher $eventDispatcher
-     * @param Callable $finderGenerator
+     * @param Callable $finderFactory
      * @param IAntPathMatcher $matcher
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderGenerator = null, IAntPathMatcher $matcher = null, Writer $writer = null, SourceSet $sourceSet = null)
+    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderFactory = null, IAntPathMatcher $matcher = null, Writer $writer = null, SourceSet $sourceSet = null, Filesystem $filesystem = null)
     {
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher !== null ? $eventDispatcher : new EventDispatcher();
-        $this->finderGenerator = $finderGenerator !== null ? $finderGenerator : function(Sculpin $sculpin) { return new Finder(); };
+        $this->finderFactory = $finderFactory !== null ? $finderFactory : function(Sculpin $sculpin) { return new Finder(); };
         $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher;
         $this->writer = $writer !== null ? $writer : new Writer;
         $this->sourceSet = $sourceSet !== null ? $sourceSet : new SourceSet;
+        $this->filesystem = $filesystem !== null ? $filesystem : new Filesystem;
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
             $this->addExclude($pattern);
         }
@@ -643,7 +645,17 @@ class Sculpin
      */
     public function finder()
     {
-        return call_user_func($this->finderGenerator, $this);
+        return call_user_func($this->finderFactory, $this);
+    }
+
+    /**
+     * Filesystem
+     * 
+     * @return \Symfony\Component\Filesystem\Filesystem
+     */
+    public function filesystem()
+    {
+        return $this->filesystem;
     }
 
     /**
@@ -674,7 +686,7 @@ class Sculpin
             throw new \InvalidArgumentException("No cache directory specified");
         }
         $cacheDirectory = $this->cachePathFor($directory);
-        Util::RECURSIVE_MKDIR($cacheDirectory);
+        $this->filesystem->mkdir($cacheDirectory);
         return $cacheDirectory;
     }
 
@@ -687,7 +699,7 @@ class Sculpin
             throw new \InvalidArgumentException("No cache directory specified");
         }
         $cacheDirectory = $this->cachePathFor($directory);
-        Util::RECURSIVE_UNLINK($cacheDirectory, true);
+        $this->filesystem->remove(new \FilesystemIterator($cacheDirectory));
     }
 
     /**
@@ -695,7 +707,7 @@ class Sculpin
      */
     public function clearCache()
     {
-        Util::RECURSIVE_UNLINK($this->cachePath(), true);
+        $this->filesystem->remove(new \FilesystemIterator($this->cachePath()));
     }
 
     /**

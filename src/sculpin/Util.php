@@ -12,7 +12,6 @@
 namespace sculpin;
 
 class Util {
-
     /**
      * Test if array is an associative array
      *
@@ -29,6 +28,7 @@ class Util {
     
     /**
      * Merge the contents of one thingy into another thingy
+     * 
      * @param mixed $to
      * @param mixed $from
      * @param bool $clobber
@@ -47,46 +47,5 @@ class Util {
             return $to;
         }
         return $clobber ? $from : $to;
-    }
-
-    /**
-     * Recursively make directories to to and including specified path
-     * @param string $path
-     */
-    static public function RECURSIVE_MKDIR($path)
-    {
-        $parent = dirname($path);
-        if (!file_exists($parent)) {
-            if (!self::RECURSIVE_MKDIR($parent)) {
-                return false;
-            }
-        }
-        if (!file_exists($path)) {
-            return mkdir($path);
-        }
-        return true;
-    }
-
-    /**
-     * Recursively remove files and directories from a path
-     * @param string $path
-     * @param boolean $onlyRemoveChildren
-     */
-    static public function RECURSIVE_UNLINK($path, $onlyRemoveChildren = false)
-    {
-        if (is_link($path) or is_file($path)) {
-            unlink($path);
-            return;
-        }
-        if (is_dir($path)) {
-            foreach (scandir($path) as $leaf) {
-                if ($leaf != "." && $leaf != "..") {
-                    self::RECURSIVE_UNLINK($path.'/'.$leaf);
-                }
-            }
-            if (!$onlyRemoveChildren) {
-                rmdir($path);
-            }
-        }
     }
 }
