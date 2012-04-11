@@ -21,14 +21,16 @@
         "php": ">=5.3.0",
         "composer/composer": "1.*",
         "dflydev/ant-path-matcher": "1.*",
+        "dflydev/dot-access-data": "1.*",
         "dflydev/markdown": "1.*",
+        "dflydev/placeholder-resolver": "1.*",
         "symfony/console": "2.1.*",
         "symfony/event-dispatcher": "2.1.*",
         "symfony/filesystem": "2.1.*",
         "symfony/finder": "2.1.*",
         "symfony/process": "2.1.*",
         "symfony/yaml": "2.1.*",
-        "twig/twig": "1.6.1"
+        "twig/twig": "1.6.*"
     },
     "autoload": {
         "psr-0": { "sculpin": "src" }

@@ -77,7 +77,9 @@ class Compiler {
             ->in(array(
                 $this->projectRoot . '/vendor/composer/composer/src',
                 $this->projectRoot . '/vendor/dflydev/ant-path-matcher/src',
+                $this->projectRoot . '/vendor/dflydev/dot-access-data/src',
                 $this->projectRoot . '/vendor/dflydev/markdown/src',
+                $this->projectRoot . '/vendor/dflydev/placeholder-resolver/src',
                 $this->projectRoot . '/vendor/justinrainbow/json-schema/src',
                 $this->projectRoot . '/vendor/seld/jsonlint/src',
                 $this->projectRoot . '/vendor/symfony',

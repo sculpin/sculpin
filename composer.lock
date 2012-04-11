@@ -1,15 +1,21 @@
 {
-    "hash": "7159d4606be4122494b9cd7864b37f8b",
+    "hash": "593259eb82b772560a0d42f2baf12827",
     "packages": [
         {
             "package": "composer/composer",
             "version": "dev-master",
-            "source-reference": "30cfb69739ad0d91476b985f536d7ed80843834f",
+            "source-reference": "2efe6d6d4c673689cda3710482d0aebe329562f5",
             "alias": "1.0.9999999.9999999-dev"
         },
         {
             "package": "dflydev/ant-path-matcher",
             "version": "v1.0.1"
+        },
+        {
+            "package": "dflydev/dot-access-data",
+            "version": "dev-master",
+            "source-reference": "e44e288762f3e5d8ac38627334e9d81c10b386e9",
+            "alias": "1.0.9999999.9999999-dev"
         },
         {
             "package": "dflydev/markdown",
@@ -18,25 +24,29 @@
             "alias": "1.0.9999999.9999999-dev"
         },
         {
-            "package": "justinrainbow/json-schema",
+            "package": "dflydev/placeholder-resolver",
             "version": "dev-master",
-            "source-reference": "bb6175a2790118241c8f6d014ddc04192267e5d1"
+            "source-reference": "96d3b4f015332dcb05ebe16e705576f36191768a",
+            "alias": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "justinrainbow/json-schema",
+            "version": "1.1.0"
         },
         {
             "package": "seld/jsonlint",
-            "version": "dev-master",
-            "source-reference": "869e5d011fe1c82501ae0a3b427a686c21fd5baf"
+            "version": "1.0.0"
         },
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "source-reference": "5fcd408b7b34f3e544f9743cf33e179767e9a000",
+            "source-reference": "8e3c42aa976f18a9bfcb0694553e5f99def3309c",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/event-dispatcher",
             "version": "dev-master",
-            "source-reference": "502614d7dcd2260d0adaef19a344cbd42aa29adf",
+            "source-reference": "07e1d0174f3a0ec36bbe04b3850270df7a86271d",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
@@ -48,24 +58,24 @@
         {
             "package": "symfony/finder",
             "version": "dev-master",
-            "source-reference": "be30ecc95281d729ee51b9e89644d442bcf60451",
+            "source-reference": "57ec7198a70e6c40e450ba66cc2f8ecab98746c8",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/process",
             "version": "dev-master",
-            "source-reference": "8cf4f692dacd94261548c12e90ef310a609a054c",
+            "source-reference": "2e4da8c8076744bafed97451bb1574c96cda0e68",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/yaml",
             "version": "dev-master",
-            "source-reference": "2552c643a158ee7fb6c52c0dd55806055c575841",
+            "source-reference": "0647ee4ca69b60f9043256e89f8dbaa0cedd854c",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "twig/twig",
-            "version": "1.6.1"
+            "version": "1.6.5"
         }
     ],
     "aliases": []
