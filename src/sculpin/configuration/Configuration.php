@@ -11,83 +11,66 @@
 
 namespace sculpin\configuration;
 
-class Configuration {
-    
-    public function __construct(array $config)
+use Dflydev\DotAccessData\Data;
+use Dflydev\PlaceholderResolver\PlaceholderResolverInterface;
+use Dflydev\PlaceholderResolver\RegexPlaceholderResolver;
+
+class Configuration
+{
+    protected $data;
+    protected $placeholderResolver;
+    protected $exportIsDirty = true;
+    protected $resolvedExport;
+
+    /**
+     * Constructor
+     * 
+     * @param array|null $config
+     */    
+    public function __construct(array $config = null, PlaceholderResolverInterface $placeholderResolver = null)
     {
-        $this->config = $config;
+        $this->data = new Data($config);
+        $this->placeholderResolver = $placeholderResolver ?: new RegexPlaceholderResolver(new ConfigurationDataSource($this));
     }
-    
+
+    public function getRaw($key)
+    {
+        return $this->data->get($key);
+    }
+
     public function get($key)
     {
-        $currentValue = $this->config;
-        $keyPath = explode('.', $key);
-        for ( $i = 0; $i < count($keyPath); $i++ ) {
-            $currentKey = $keyPath[$i];
-            if ( ! isset($currentValue[$currentKey]) ) { return null; }
-            $currentValue = $currentValue[$currentKey];
-        }
-        return $currentValue;
+        return $this->placeholderResolver->resolvePlaceholder($this->getRaw($key));
     }
 
-    public function set($key, $value)
+    public function set($key, $value = null)
     {
-        $currentValue =& $this->config;
-        $keyPath = explode('.', $key);
-        if (count($keyPath)==0) {
-            throw new \RuntimeException("key cannot be an empty string");
-        }
-        if (count($keyPath)==1) {
-            $currentValue[$key] = $value;
-            return;
-        }
-        $endKey = array_pop($keyPath);
-        for ( $i = 0; $i < count($keyPath); $i++ ) {
-            $currentKey =& $keyPath[$i];
-            if ( ! isset($currentValue[$currentKey]) ) {
-                $currentValue[$currentKey] = array();
-            }
-            $currentValue =& $currentValue[$currentKey];
-        }
-        $currentValue[$endKey] = $value;
+        return $this->data->set($key, $value);
     }
 
-    public function append($key, $value)
+    public function append($key, $value = null)
     {
-        $currentValue =& $this->config;
-        $keyPath = explode('.', $key);
-        if (count($keyPath)==0) {
-            throw new \RuntimeException("key cannot be an empty string");
-        }
-        if (count($keyPath)==1) {
-            if (!isset($currentValue[$key])) {
-                $currentValue[$key] = array();
-            }
-            if (!is_array($currentValue[$key])) {
-                $currentValue[$key] = array($currentValue[$key]);
-            }
-            $currentValue[$key][] = $value;
-            return;
-        }
-        $endKey = array_pop($keyPath);
-        for ( $i = 0; $i < count($keyPath); $i++ ) {
-            $currentKey =& $keyPath[$i];
-            if ( ! isset($currentValue[$currentKey]) ) {
-                $currentValue[$currentKey] = array();
-            }
-            $currentValue =& $currentValue[$currentKey];
-        }
-        if(!isset($currentValue[$endKey])) {
-            $currentValue[$endKey] = array();
-        }
-        if (!is_array($currentValue[$endKey])) {
-            $currentValue[$endKey] = array($currentValue[$endKey]);
-        }
-        $currentValue[$endKey][] = $value;
+        return $this->data->append($key, $value);
     }
     
     public function export() {
-        return $this->config;
+        if ($this->exportIsDirty) {
+            $this->resolvedExport = $this->data->export();
+            $this->resolveValues($this->resolvedExport);
+            $this->exportIsDirty = false;
+        }
+        return $this->resolvedExport;
+    }
+    protected function resolveValues(&$input = null)
+    {
+        if (is_array($input)) {
+            foreach ($input as $value) {
+                $this->resolveValues($value);
+            }
+        } else {
+            //
+        }
+        //
     }
     
     public function getPath($key)
@@ -105,16 +88,21 @@ class Configuration {
     public function getConfiguration($key)
     {
         $value = $this->get($key);
-        if (Util::IS_ASSOC($value)) {
-            return new Configuration($value);
+        if (is_array($value) && Util::IS_ASSOC($value)) {
+            return new Configuration($value, $this->placeholderResolver);
         }
         // TODO: This should probably throw an exception?
         return $value;
     }
-    
+
+    /**
+     * Import another Configuration
+     * 
+     * @param Configuration $imported
+     * @param bool $clobber
+     */    
     public function import(Configuration $imported, $clobber = true)
     {
-        $this->config = Util::MERGE_ASSOC_ARRAY($this->config, $imported->export(), $clobber);
+        $this->data->import($imported->export(), $clobber);
     }
-
 }
