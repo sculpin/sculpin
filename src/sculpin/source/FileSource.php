@@ -91,7 +91,7 @@ class FileSource implements ISource
         }
         if ($this->isRaw) {
             $this->useFileReference = true;
-            $this->data = new Configuration(array());
+            $this->data = new Configuration();
         } else {
             $finfo = finfo_open(FILEINFO_MIME);
             $mime = finfo_file($finfo, $this->file);

@@ -40,7 +40,12 @@ class Configuration
 
     public function get($key)
     {
-        return $this->placeholderResolver->resolvePlaceholder($this->getRaw($key));
+        $value = $this->getRaw($key);
+        if (is_object($value)) {
+            return $value;
+        }
+        $this->resolveValues($value);
+        return $value;
     }
 
     public function set($key, $value = null)
@@ -68,9 +73,10 @@ class Configuration
                 $this->resolveValues($value);
             }
         } else {
-            //
+            if (!is_object($input)) {
+                $input = $this->placeholderResolver->resolvePlaceholder($input);
+            }
         }
-        //
     }
     
     public function getPath($key)
@@ -91,8 +97,7 @@ class Configuration
         if (is_array($value) && Util::IS_ASSOC($value)) {
             return new Configuration($value, $this->placeholderResolver);
         }
-        // TODO: This should probably throw an exception?
-        return $value;
+        throw new \RuntimeException("Key $key is not suitable to be returned as a Configuration (is not an array)");
     }
 
     /**

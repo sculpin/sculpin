@@ -102,7 +102,7 @@ class SourcePermalink implements IPermalink
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
                 break;
             default:
-                list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', $date));
+                list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', (int) $date));
                 $permalink = preg_replace('/:year/', $year, $permalink);
                 $permalink = preg_replace('/:yr/', $yr, $permalink);
                 $permalink = preg_replace('/:year/', $year, $permalink);

@@ -27,6 +27,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'abcd' => '${a.b.c.d}',
         );
     }
+
     public function testGet()
     {
         $configuration = new Configuration($this->getTestData());
