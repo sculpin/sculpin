@@ -70,3 +70,17 @@ cache: cache
 
 # Fallack permalink strategy
 permalink: pretty
+
+#
+# Sculpin core configuration
+#
+sculpin:
+    env: prod
+    preview: false
+    debug: false
+    dir:
+        project: %project_root%
+        source: %source%
+        output: %destination%
+        cache: %cache%
+

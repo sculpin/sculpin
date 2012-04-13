@@ -60,6 +60,7 @@ class Sculpin
     
     /**
      * Configuration
+     * 
      * @var sculpin\configuration\Configuration
      */
     protected $configuration;
@@ -181,15 +182,10 @@ class Sculpin
             $this->addProjectIgnore($pattern);
         }
 
-        // These need to be added here until Configuration can be updated to be
-        // able to have references resolved.
-        //
-        // Think:
-        //
-        //     core_project_ignore: ["%destination%/**", "%cache%/**"]"
-        //
-        $this->addProjectIgnore($this->configuration->get('destination').'/**');
-        $this->addProjectIgnore($this->configuration->get('cache').'/**');
+        if ($this->sourceIsProjectRoot()) {
+            $this->addProjectIgnore($this->configuration->resolve('%sculpin.dir.output%/**'));
+            $this->addProjectIgnore($this->configuration->resolve('%sculpin.dir.cache%/**'));
+        }
     }
     
     /**

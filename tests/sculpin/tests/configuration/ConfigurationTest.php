@@ -23,8 +23,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'c' => 'ABC',
                 ),
             ),
-            'abc' => '${a.b.c}',
-            'abcd' => '${a.b.c.d}',
+            'abc' => '%a.b.c%',
+            'abcd' => '%a.b.c.d%',
             'some' => array(
                 'object' => new ConfigurationTestObject('some.object'),
                 'other' => array(
@@ -41,10 +41,30 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('ABC', $configuration->get('a.b.c'), 'Direct access by dot notation');
         $this->assertEquals('ABC', $configuration->get('abc'), 'Resolved access');
-        $this->assertEquals('${a.b.c.d}', $configuration->get('abcd'), 'Unresolved access');
+        $this->assertEquals('%a.b.c.d%', $configuration->get('abcd'), 'Unresolved access');
         $this->assertEquals('object', $configuration->get('object')->key);
         $this->assertEquals('some.object', $configuration->get('some.object')->key);
         $this->assertEquals('some.other.object', $configuration->get('some.other.object')->key);
+    }
+
+    public function testExportRaw()
+    {
+        $configuration = new Configuration($this->getTestData());
+
+        // Start with "known" expected value.
+        $expected = $this->getTestData();
+
+        $this->assertEquals($expected, $configuration->exportRaw());
+
+        // Simulate change on an object to ensure that objects
+        // are being handled correctly.
+        $expected['object']->key = 'object (modified)';
+
+        // Make the same change in the object that the
+        // configuration is managing.
+        $configuration->get('object')->key = 'object (modified)';
+
+        $this->assertEquals($expected, $configuration->exportRaw());
     }
 
     public function testExport()
@@ -59,9 +79,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         // resolved value!
         $expected['abc'] = 'ABC';
 
-        $export = $configuration->export();
-
-        $this->assertEquals($expected, $export);
+        $this->assertEquals($expected, $configuration->export());
 
         // Simulate change on an object to ensure that objects
         // are being handled correctly.
@@ -71,7 +89,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         // configuration is managing.
         $configuration->get('object')->key = 'object (modified)';
 
-        $this->assertEquals($expected, $export);
+        $this->assertEquals($expected, $configuration->export());
     }
 }
 
