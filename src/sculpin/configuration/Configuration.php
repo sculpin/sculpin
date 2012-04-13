@@ -22,6 +22,20 @@ class Configuration
     protected $exportIsDirty = true;
     protected $resolvedExport;
 
+    protected function resolveValues(&$input = null)
+    {
+        if (is_array($input)) {
+            foreach ($input as $idx => $value) {
+                $this->resolveValues($value);
+                $input[$idx] = $value;
+            }
+        } else {
+            if (!is_object($input)) {
+                $input = $this->placeholderResolver->resolvePlaceholder($input);
+            }
+        }
+    }
+
     /**
      * Constructor
      * 
@@ -65,18 +79,6 @@ class Configuration
             $this->exportIsDirty = false;
         }
         return $this->resolvedExport;
-    }
-    protected function resolveValues(&$input = null)
-    {
-        if (is_array($input)) {
-            foreach ($input as $value) {
-                $this->resolveValues($value);
-            }
-        } else {
-            if (!is_object($input)) {
-                $input = $this->placeholderResolver->resolvePlaceholder($input);
-            }
-        }
     }
     
     public function getPath($key)
