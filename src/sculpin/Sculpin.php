@@ -185,6 +185,9 @@ class Sculpin
         if ($this->sourceIsProjectRoot()) {
             $this->addProjectIgnore($this->configuration->resolve('%sculpin.dir.output%/**'));
             $this->addProjectIgnore($this->configuration->resolve('%sculpin.dir.cache%/**'));
+            foreach ((array) $this->configuration->get('imports') as $file) {
+                $this->addProjectIgnore($file);
+            }
         }
     }
     

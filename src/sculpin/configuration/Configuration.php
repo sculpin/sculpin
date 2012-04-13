@@ -169,11 +169,21 @@ class Configuration
      * @param Configuration $imported
      * @param bool $clobber
      */    
-    public function import(Configuration $imported, $clobber = true)
+    public function importRaw($imported, $clobber = true)
     {
         $this->exportIsDirty = true;
 
-        $this->data->import($imported->exportRaw(), $clobber);
+        $this->data->import($imported, $clobber);
+    }
+    /**
+     * Import another Configuration
+     * 
+     * @param Configuration $imported
+     * @param bool $clobber
+     */    
+    public function import(Configuration $imported, $clobber = true)
+    {
+        return $this->importRaw($imported->exportRaw(), $clobber);
     }
 
     /**
