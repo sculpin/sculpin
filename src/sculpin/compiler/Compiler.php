@@ -74,6 +74,7 @@ class Compiler {
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
+            ->exclude('Tests')
             ->in(array(
                 $this->projectRoot . '/vendor/composer/composer/src',
                 $this->projectRoot . '/vendor/dflydev/ant-path-matcher/src',
