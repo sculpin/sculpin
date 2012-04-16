@@ -152,7 +152,7 @@ Phar::mapPhar('$alias');
 
 define('SCULPIN_RUNNING_AS_PHAR', true);
 
-require 'phar://sculpin.phar/bin/sculpin';
+require 'phar://$alias/bin/sculpin';
 
 __HALT_COMPILER();
 EOF;
