@@ -11,6 +11,7 @@
 
 namespace sculpin\configuration;
 
+use Dflydev\DotAccessData\Util as DotAccessDataUtil;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlFileConfigurationBuilder implements IConfigurationBuilder {
@@ -41,7 +42,7 @@ class YamlFileConfigurationBuilder implements IConfigurationBuilder {
         $imports = array();
         foreach ($this->yamlConfigurationFilenames as $yamlConfigurationFilename) {
             if (file_exists($yamlConfigurationFilename)) {
-                $config = Util::MERGE_ASSOC_ARRAY($config, Yaml::parse($yamlConfigurationFilename));
+                $config = DotAccessDataUtil::mergeAssocArray($config, Yaml::parse($yamlConfigurationFilename));
                 if (isset($config['imports'])) {
                     foreach ((array) $config['imports'] as $file) {
                         if (0 === strpos($file, '/')) {

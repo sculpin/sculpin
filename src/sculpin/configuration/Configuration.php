@@ -12,6 +12,7 @@
 namespace sculpin\configuration;
 
 use Dflydev\DotAccessData\Data;
+use Dflydev\DotAccessData\Util as DotAccessDataUtil;
 use Dflydev\PlaceholderResolver\PlaceholderResolverInterface;
 use Dflydev\PlaceholderResolver\RegexPlaceholderResolver;
 
@@ -144,7 +145,7 @@ class Configuration
     public function getConfiguration($key)
     {
         $value = $this->get($key);
-        if (is_array($value) && Util::IS_ASSOC($value)) {
+        if (is_array($value) && DotAccessDataUtil::isAssoc($value)) {
             return new Configuration($value);
         }
 

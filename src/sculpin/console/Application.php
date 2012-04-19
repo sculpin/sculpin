@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\OutputInterface;
-use sculpin\configuration\Util;
 use sculpin\configuration\Configuration;
 use sculpin\configuration\YamlFileConfigurationBuilder;
 use sculpin\Sculpin;
