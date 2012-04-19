@@ -1,0 +1,6 @@
+imports:
+    - yamlFileConfigurationBuilderTest-testBuilder-import-level1.yml
+
+a0:
+    b0:
+        c0: C0
