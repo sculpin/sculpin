@@ -45,7 +45,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $configuration
                 ->expects($this->once())
                 ->method('getPath')
-                ->with('cache')
+                ->with('cache_dir')
                 ->will($this->returnValue(\vfsStream::url('cacheRoot')));
         }
         return new Sculpin($configuration);
