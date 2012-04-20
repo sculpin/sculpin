@@ -176,9 +176,9 @@ class Application extends BaseApplication
                 $projectRoot.'/sculpin.yml',
         ));
         $this->configuration = $configurationBuilder->build();
-        $this->configuration->set('project_root', $projectRoot);
-        $source = realpath($this->configuration->getPath('source'));
-        $this->configuration->set('source_is_project_root', $source == $projectRoot);
+        $this->configuration->set('project_dir', $projectRoot);
+        $source = realpath($this->configuration->getPath('source_dir'));
+        $this->configuration->set('source_dir_is_project_dir', $source == $projectRoot);
     }
     
 }

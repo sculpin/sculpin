@@ -182,9 +182,9 @@ class Sculpin
             $this->addProjectIgnore($pattern);
         }
 
-        if ($this->sourceIsProjectRoot()) {
-            $this->addProjectIgnore($this->configuration->resolve('%sculpin.dir.output%/**'));
-            $this->addProjectIgnore($this->configuration->resolve('%sculpin.dir.cache%/**'));
+        if ($this->sourceDirIsProjectDir()) {
+            $this->addProjectIgnore($this->configuration->resolve('%output_dir%/**'));
+            $this->addProjectIgnore($this->configuration->resolve('%cache_dir%/**'));
             foreach ((array) $this->configuration->get('imports') as $file) {
                 $this->addProjectIgnore($file);
             }
@@ -248,7 +248,7 @@ class Sculpin
                 ->files()
                 ->ignoreVCS(true)
                 ->date('>= '.$sinceTimeLast)
-                ->in($this->configuration->getPath('source'));
+                ->in($this->configuration->getPath('source_dir'));
             
             // We regenerate the whole site if an excluded file changes.
             $excludedFilesHaveChanged = false;
@@ -480,7 +480,7 @@ class Sculpin
      */
     public function addProjectIgnore($pattern)
     {
-        if ($this->sourceIsProjectRoot()) {
+        if ($this->sourceDirIsProjectDir()) {
             $this->addIgnore($pattern);
         }
     }
@@ -663,7 +663,7 @@ class Sculpin
      */
     protected function cachePath()
     {
-        return $this->configuration->getPath('cache');
+        return $this->configuration->getPath('cache_dir');
     }
 
     /**
@@ -710,16 +710,16 @@ class Sculpin
     }
 
     /**
-     * Is the source folder the project root?
+     * Is the source directory the project directory?
      * 
      * Useful for determining whether or not certain files should be
      * excluded from the file scanner. For example, if the source
      * is not the project root, likely nothing needs to be excluded. :)
      * @return boolean
      */
-    public function sourceIsProjectRoot()
+    public function sourceDirIsProjectDir()
     {
-        return $this->configuration->get('source_is_project_root');
+        return $this->configuration->get('source_dir_is_project_dir');
     }
     
 }

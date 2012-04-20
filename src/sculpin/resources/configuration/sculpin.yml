@@ -61,56 +61,24 @@ bundles: []
 disabled_core_bundles: []
 
 # Directory that contains the source files for the site.
-source: source
+source_dir: source
 
 # Directory that will contain the rendered site.
-destination: public
+output_dir: public
 
 # Directory that will contain any cache files created while
 # rendering the site.
-cache: cache
+cache_dir: cache
 
 # Fallack permalink strategy
 permalink: pretty
 
-#
-# Sculpin settings
-#
-# Many of these settings are either not commonly used or are
-# changed and set programatically. For the sake of simplicity,
-# many of these settings refer to top level configuration
-# keys (for example, sculpin.dir.source refers to source) but
-# internally (sculpin itself as well as any plugins) should
-# rely on the sculpin.* keys as they are considered authoritative.
-#
-sculpin:
+# Which environment? Should correspond to associated configuration
+# files.
+env: prod
 
-    # Which environment? Should correspond to associated configuration
-    # files.
-    env: prod
+# Special preview mode flag.
+preview: false
 
-    # Special preview mode flag.
-    preview: false
-
-    # Speciald ebug mode flag.
-    debug: false
-
-    # Fallback permalink strategy.
-    permalink: %permalink%
-
-    dir:
-
-        # The root directory for the project
-        project: %project_root%
-
-        # The directory containing the source for the project. Is relative
-        # to sculpin.dir.project unless specified as an absolute path.
-        source: %source%
-
-        # The directory to which the site should be output. Is relative
-        # to sculpin.dir.project unless specified as an absolute path.
-        output: %destination%
-
-        # The directory to which cache files should be written. Is relative
-        # to sculpin.dir.project unless specified as an absolute path.
-        cache: %cache%
+# Special debug mode flag.
+debug: false

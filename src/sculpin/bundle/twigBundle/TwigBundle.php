@@ -33,7 +33,7 @@ class TwigBundle extends AbstractBundle
 
         $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
             array_map(function($path) use($sculpin) {
-                return $sculpin->configuration()->getPath('source').'/'.$path;
+                return $sculpin->configuration()->getPath('source_dir').'/'.$path;
             }, $viewsPaths),
             $sculpin->configuration()->get(self::CONFIG_EXTENSIONS)
         ));

@@ -21,8 +21,8 @@ class Writer {
      */
     public function write(Sculpin $sculpin, IOutput $output)
     {
-        $destination = $sculpin->configuration()->getPath('destination');
-        $outputPath = $destination.'/'.$output->permalink()->relativeFilePath();
+        $outputDir = $sculpin->configuration()->getPath('output_dir');
+        $outputPath = $outputDir.'/'.$output->permalink()->relativeFilePath();
         if ($output->hasFileReference()) {
             $sculpin->filesystem()->copy($output->file(), $outputPath, true);
         } else {
