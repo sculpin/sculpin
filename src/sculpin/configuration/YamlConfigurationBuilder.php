@@ -11,35 +11,17 @@
 
 namespace sculpin\configuration;
 
-use Symfony\Component\Yaml\Yaml;
+use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as BaseYamlConfigurationBuilder;
 
-class YamlConfigurationBuilder implements IConfigurationBuilder {
-    
-    /**
-     * YAML input string
-     * @var string
-     */
-    private $input;
-
+class YamlConfigurationBuilder extends AbstractConfigurationBuilder
+{
     /**
      * Constructor
-     * @param string $input
+     * 
+     * @param array $yamlConfigurationFilenames
      */
     public function __construct($input = null)
     {
-        $this->input = $input;
+        $this->setConfigurationBuilder(new BaseYamlConfigurationBuilder($input));
     }
-    
-    /**
-     * (non-PHPdoc)
-     * @see sculpin\configuration.IConfigurationBuilder::build()
-     */
-    public function build()
-    {
-        if ($this->input) {
-            return new Configuration(Yaml::parse($this->input));
-        }
-        return new Configuration(array());
-    }
-
 }

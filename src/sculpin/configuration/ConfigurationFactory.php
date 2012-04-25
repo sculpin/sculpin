@@ -11,12 +11,15 @@
 
 namespace sculpin\configuration;
 
-interface IConfigurationBuilder {
+use Dflydev\DotAccessConfiguration\ConfigurationFactoryInterface;
 
+class ConfigurationFactory implements ConfigurationFactoryInterface
+{
     /**
-     * Build a configuration
-     * @return array
+     * {@inheritdocs}
      */
-    public function build();
-
+    public function create()
+    {
+        return new Configuration;
+    }
 }

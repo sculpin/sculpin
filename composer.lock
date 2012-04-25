@@ -1,10 +1,10 @@
 {
-    "hash": "593259eb82b772560a0d42f2baf12827",
+    "hash": "274baba1679d41b1c6b17ff621910717",
     "packages": [
         {
             "package": "composer/composer",
             "version": "dev-master",
-            "source-reference": "870d7454752098f57532a99627bf455548280414",
+            "source-reference": "903facd64fee3941c4abc3e945982395cfb166b4",
             "alias": "1.0.9999999.9999999-dev"
         },
         {
@@ -12,9 +12,15 @@
             "version": "v1.0.1"
         },
         {
+            "package": "dflydev/dot-access-configuration",
+            "version": "dev-master",
+            "source-reference": "5c357b5db69a467889bddf576823436a50dda7ea",
+            "alias": "1.0.9999999.9999999-dev"
+        },
+        {
             "package": "dflydev/dot-access-data",
             "version": "dev-master",
-            "source-reference": "ffabf1caa83e17fee6de9fa7d9c40f53671baa00",
+            "source-reference": "aaf313232203ddd3e55eab1cce00d5b6cd1ffd36",
             "alias": "1.0.9999999.9999999-dev"
         },
         {
@@ -40,7 +46,7 @@
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "source-reference": "f354e1e5d59261ae03c0fc768bfa4043c0e6ab9c",
+            "source-reference": "8c69d3a3e26885cad132a38ab0d7f287fb975296",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
@@ -58,13 +64,13 @@
         {
             "package": "symfony/finder",
             "version": "dev-master",
-            "source-reference": "6a0f850cac8cac7a0b33f48d3d3d1514d7ed56f8",
+            "source-reference": "5b8658e52eaf424fe943a5857e2404ce95c3b90e",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/process",
             "version": "dev-master",
-            "source-reference": "9f49693318e1f7824a276da6c6556ff06cd3f25a",
+            "source-reference": "3f95a0126588f00d70e745c1ef96631fb10c3a8e",
             "alias": "2.1.9999999.9999999-dev"
         },
         {

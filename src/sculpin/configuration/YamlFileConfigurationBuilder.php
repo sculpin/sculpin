@@ -11,18 +11,10 @@
 
 namespace sculpin\configuration;
 
-use Dflydev\DotAccessData\Util as DotAccessDataUtil;
-use Symfony\Component\Yaml\Yaml;
+use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder as BaseYamlFileConfigurationBuilder;
 
-class YamlFileConfigurationBuilder implements IConfigurationBuilder {
-    
-    /**
-     * YAML Configuration Filenames
-     * 
-     * @var array
-     */
-    private $yamlConfigurationFilenames;
-
+class YamlFileConfigurationBuilder extends AbstractConfigurationBuilder
+{
     /**
      * Constructor
      * 
@@ -30,54 +22,6 @@ class YamlFileConfigurationBuilder implements IConfigurationBuilder {
      */
     public function __construct(array $yamlConfigurationFilenames)
     {
-        $this->yamlConfigurationFilenames = $yamlConfigurationFilenames;
+        $this->setConfigurationBuilder(new BaseYamlFileConfigurationBuilder($yamlConfigurationFilenames));
     }
-    
-    /**
-     * {@inheritdocs}
-     */
-    public function build()
-    {
-        $config = array();
-        $imports = array();
-        foreach ($this->yamlConfigurationFilenames as $yamlConfigurationFilename) {
-            if (file_exists($yamlConfigurationFilename)) {
-                $config = DotAccessDataUtil::mergeAssocArray($config, Yaml::parse($yamlConfigurationFilename));
-                if (isset($config['imports'])) {
-                    foreach ((array) $config['imports'] as $file) {
-                        if (0 === strpos($file, '/')) {
-                            // Absolute path
-                            $imports[] = $file;
-                        } else {
-                            if ($realpath = realpath(dirname($yamlConfigurationFilename).'/'.$file)) {
-                                $imports[] = $realpath;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        $configuration = new Configuration;
-        if ($imports) {
-            $importsBuilder = new static($imports);
-
-            $configuration->import($importsBuilder->build());
-
-            $internalImports = $configuration->get('imports');
-        } else {
-            $internalImports = null;
-        }
-
-        $configuration->importRaw($config);
-
-        if ($internalImports) {
-           foreach ((array) $internalImports as $import) {
-                $configuration->append('imports', $import);
-            }
-        }
-
-        return $configuration;
-    }
-
 }
