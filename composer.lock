@@ -1,11 +1,9 @@
 {
-    "hash": "274baba1679d41b1c6b17ff621910717",
+    "hash": "412c5bccc67e4d0b0a2d083c5c6ea1c4",
     "packages": [
         {
             "package": "composer/composer",
-            "version": "dev-master",
-            "source-reference": "903facd64fee3941c4abc3e945982395cfb166b4",
-            "alias": "1.0.9999999.9999999-dev"
+            "version": "1.0.0-alpha4"
         },
         {
             "package": "dflydev/ant-path-matcher",
@@ -14,26 +12,42 @@
         {
             "package": "dflydev/dot-access-configuration",
             "version": "dev-master",
-            "source-reference": "5c357b5db69a467889bddf576823436a50dda7ea",
-            "alias": "1.0.9999999.9999999-dev"
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "dflydev/dot-access-configuration",
+            "version": "dev-master",
+            "source-reference": "bdab34d4ef2c553039ad242a190f602d87555cc4",
+            "commit-date": "1335305692"
+        },
+        {
+            "package": "dflydev/dot-access-data",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
         },
         {
             "package": "dflydev/dot-access-data",
             "version": "dev-master",
             "source-reference": "aaf313232203ddd3e55eab1cce00d5b6cd1ffd36",
-            "alias": "1.0.9999999.9999999-dev"
+            "commit-date": "1335047874"
         },
         {
             "package": "dflydev/markdown",
+            "version": "v1.0.2"
+        },
+        {
+            "package": "dflydev/placeholder-resolver",
             "version": "dev-master",
-            "source-reference": "91c6649f89472f6ab60a107a80acc72baacf585c",
-            "alias": "1.0.9999999.9999999-dev"
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
         },
         {
             "package": "dflydev/placeholder-resolver",
             "version": "dev-master",
             "source-reference": "90360a05c2fea542403ed39063a9655a620a998a",
-            "alias": "1.0.9999999.9999999-dev"
+            "commit-date": "1334206165"
         },
         {
             "package": "justinrainbow/json-schema",
@@ -45,46 +59,42 @@
         },
         {
             "package": "symfony/console",
-            "version": "dev-master",
-            "source-reference": "8c69d3a3e26885cad132a38ab0d7f287fb975296",
-            "alias": "2.1.9999999.9999999-dev"
+            "version": "v2.1.0-BETA1"
         },
         {
             "package": "symfony/event-dispatcher",
-            "version": "dev-master",
-            "source-reference": "b98d68d3b8513c62d35504570f09e9d3dc33d083",
-            "alias": "2.1.9999999.9999999-dev"
+            "version": "v2.1.0-BETA1"
         },
         {
             "package": "symfony/filesystem",
-            "version": "dev-master",
-            "source-reference": "f5a2dcc6621c9dba4390195697f941db294813fd",
-            "alias": "2.1.9999999.9999999-dev"
+            "version": "v2.1.0-BETA1"
         },
         {
             "package": "symfony/finder",
-            "version": "dev-master",
-            "source-reference": "5b8658e52eaf424fe943a5857e2404ce95c3b90e",
-            "alias": "2.1.9999999.9999999-dev"
+            "version": "v2.1.0-BETA1"
         },
         {
             "package": "symfony/process",
-            "version": "dev-master",
-            "source-reference": "3f95a0126588f00d70e745c1ef96631fb10c3a8e",
-            "alias": "2.1.9999999.9999999-dev"
+            "version": "v2.1.0-BETA1"
         },
         {
             "package": "symfony/yaml",
-            "version": "dev-master",
-            "source-reference": "52807f723e8a9743852c2105f11bd01c5af7f977",
-            "alias": "2.1.9999999.9999999-dev"
+            "version": "v2.1.0-BETA1"
         },
         {
             "package": "twig/twig",
-            "version": "1.6.x-dev",
-            "source-reference": "v1.6.5"
+            "version": "1.6.5"
         }
     ],
     "packages-dev": null,
-    "aliases": []
+    "aliases": [
+
+    ],
+    "minimum-stability": "beta",
+    "stability-flags": {
+        "composer/composer": 15,
+        "dflydev/dot-access-configuration": 20,
+        "dflydev/dot-access-data": 20,
+        "dflydev/placeholder-resolver": 20
+    }
 }

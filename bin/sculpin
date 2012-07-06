@@ -11,7 +11,7 @@
  */
 
 if (defined('SCULPIN_RUNNING_AS_PHAR')) {
-    if (!$classLoader = @include __DIR__.'/../vendor/.composer/autoload.php') {
+    if (!$classLoader = @include __DIR__.'/../vendor/autoload.php') {
         die ('There is something terribly wrong with your archive.
 Try downloading again?');
     }
@@ -20,10 +20,10 @@ Try downloading again?');
     if (
         // Check where autoload would be if this is Sculpin included
         // as a dependency.
-        (!$classLoader = @include __DIR__.'/../../../.composer/autoload.php') and
+        (!$classLoader = @include __DIR__.'/../../../autoload.php') and
         // Check where autoload would be if this is a development version
         // of Sculpin. (based on actual file)
-        (!$classLoader = @include __DIR__.'/../vendor/.composer/autoload.php')
+        (!$classLoader = @include __DIR__.'/../vendor/autoload.php')
     ) {
         die('You must set up the project dependencies, run the following commands:
 

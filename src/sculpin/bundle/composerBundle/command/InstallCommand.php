@@ -47,7 +47,7 @@ EOT
         $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
         $composer = Factory::create($io);
         if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
-            $internalRepositoryFile = $this->getApplication()->internalVendorRoot().'/.composer/installed.json';
+            $internalRepositoryFile = $this->getApplication()->internalVendorRoot().'/composer/installed.json';
             $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
         } else {
             $filesystemRepository = null;
@@ -59,8 +59,7 @@ EOT
             ->setDryRun($input->getOption('dry-run'))
             ->setVerbose($input->getOption('verbose'))
             ->setPreferSource($input->getOption('prefer-source'))
-            ->setInstallRecommends(!$input->getOption('no-install-recommends'))
-            ->setInstallSuggests($input->getOption('install-suggests'))
+            ->setDevMode($input->getOption('dev'))
             ->setAdditionalInstalledRepository($filesystemRepository)
         ;
 
