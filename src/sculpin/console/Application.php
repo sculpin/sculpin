@@ -29,13 +29,13 @@ class Application extends BaseApplication
      * @var \sculpin\configuration\Configuration
      */
     private $configuration;
-    
+
     /**
      * Class Loader
      * @var ClassLoader
      */
     private $classLoader;
-    
+
     /**
      * Path to internal vendor root if exists
      * @var string
@@ -53,7 +53,7 @@ class Application extends BaseApplication
      * @var unknown_type
      */
     const DEFAULT_PROJECT_ROOT = '.';
-    
+
     public function __construct(ClassLoader $classLoader)
     {
         parent::__construct('Sculpin', Sculpin::VERSION);
@@ -69,7 +69,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $projectRoot = realpath($input->getParameterOption('--project-root') ?: self::DEFAULT_PROJECT_ROOT);
-        if ($autoloadNamespacesFile = realpath($projectRoot.'/vendor/.composer/autoload_namespaces.php')) {
+        if ($autoloadNamespacesFile = realpath($projectRoot.'/vendor/composer/autoload_namespaces.php')) {
             if ($this->internalVendorRoot != dirname(dirname($autoloadNamespacesFile))) {
                 // We have an autoload file that is *not* the same as the
                 // autoload that bootstrapped this application.
@@ -102,7 +102,7 @@ class Application extends BaseApplication
         $this->add(new command\cache\ClearCommand());
         return parent::doRun($input, $output);
     }
-        
+
     /**
      * Get Sculpin configuration
      * @throws \RuntimeException
@@ -180,5 +180,5 @@ class Application extends BaseApplication
         $source = realpath($this->configuration->getPath('source_dir'));
         $this->configuration->set('source_dir_is_project_dir', $source == $projectRoot);
     }
-    
+
 }
