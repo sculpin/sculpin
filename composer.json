@@ -4,7 +4,7 @@
     "description": "Static Site Generator",
     "homepage": "http://getsculpin.com",
     "keywords": ["static", "site", "generator"],
-    "license": "New BSD License",
+    "license": "MIT",
     "authors": [
         {
             "name": "Dragonfly Development Inc.",
