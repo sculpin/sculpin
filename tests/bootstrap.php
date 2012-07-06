@@ -8,5 +8,5 @@
  * file that was distributed with this source code.
  */
 
-$loader = require dirname(__DIR__).'/vendor/.composer/autoload.php';
+$loader = require dirname(__DIR__).'/vendor/autoload.php';
 $loader->add('sculpin\\tests\\sculpin', 'tests');

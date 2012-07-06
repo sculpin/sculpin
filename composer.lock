@@ -1,5 +1,5 @@
 {
-    "hash": "412c5bccc67e4d0b0a2d083c5c6ea1c4",
+    "hash": "caec53cc19a354dd70fa38132dc57720",
     "packages": [
         {
             "package": "composer/composer",
@@ -86,7 +86,12 @@
             "version": "1.6.5"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "package": "mikey179/vfsStream",
+            "version": "v1.0.0"
+        }
+    ],
     "aliases": [
 
     ],

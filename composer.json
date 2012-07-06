@@ -33,6 +33,9 @@
         "symfony/yaml": "2.1.*",
         "twig/twig": "1.6.*"
     },
+    "require-dev": {
+        "mikey179/vfsStream": "1.*"
+    },
     "autoload": {
         "psr-0": { "sculpin": "src" }
     },

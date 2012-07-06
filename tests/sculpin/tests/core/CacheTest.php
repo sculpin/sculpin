@@ -11,19 +11,14 @@
 
 namespace sculpin\tests\core;
 
-/**
- * These tests require the vfsStream mock filesystem driver
- * from https://github.com/mikey179/vfsStream/
- */
-require_once 'vfsStream/vfsStream.php';
-
+use org\bovigo\vfs\vfsStream;
 use sculpin\Sculpin;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->root = \vfsStream::setup('cacheRoot', null, array('bar' => array('a' => 'A', 'b' => 'B', 'c' => 'C')));
+        $this->root = vfsStream::setup('cacheRoot', null, array('bar' => array('a' => 'A', 'b' => 'B', 'c' => 'C')));
     }
 
     protected function sculpin($expectEarlyFailure = false)
@@ -46,7 +41,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
                 ->expects($this->once())
                 ->method('getPath')
                 ->with('cache_dir')
-                ->will($this->returnValue(\vfsStream::url('cacheRoot')));
+                ->will($this->returnValue(vfsStream::url('cacheRoot')));
         }
         return new Sculpin($configuration);
     }
