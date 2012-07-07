@@ -33,7 +33,7 @@ class ComposerBundle extends AbstractBundle{
     {
         if ($sculpin->sourceDirIsProjectDir()) {
             foreach($sculpin->configuration()->get(self::CONFIG_EXCLUDE) as $exclude) {
-                $sculpin->exclude($exclude);
+                $sculpin->addExclude($exclude);
             }
         }
     }
