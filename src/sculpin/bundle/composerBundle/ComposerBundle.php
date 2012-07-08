@@ -26,12 +26,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class ComposerBundle extends Bundle {
     
     const CONFIG_EXCLUDE = 'composer.exclude';
-    protected $container;
-
-    public function build(ContainerBuilder $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * @{inheritdoc}

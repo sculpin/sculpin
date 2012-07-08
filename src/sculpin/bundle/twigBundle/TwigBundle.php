@@ -22,12 +22,7 @@ class TwigBundle extends Bundle
     const FORMATTER_NAME = 'twig';
     const CONFIG_VIEWS = 'twig.views';
     const CONFIG_EXTENSIONS = 'twig.extensions';
-    protected $container;
 
-    public function build(ContainerBuilder $container) {
-         $this->container = $container;
-    }
-    
     /**
      * {@inheritdocs}
      */

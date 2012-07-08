@@ -45,8 +45,6 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
      */
     const CONFIG_PERMALINK = 'posts.permalink';
 
-    protected $container;
-
     /**
      * Posts
      * @var Posts
@@ -73,11 +71,6 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
             Sculpin::EVENT_SOURCE_SET_CHANGED_POST => 'sourceSetChangedPost',
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
         );
-    }
-    
-    public function build(ContainerBuilder $container)
-    {
-        $this->container = $container;
     }
 
     /**
