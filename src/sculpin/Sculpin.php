@@ -500,8 +500,9 @@ class Sculpin extends ContainerBuilder
         if (!preg_match('/(\w+?)(|Bundle)$/', $bundleClassName, $matches)) {
             throw new \RuntimeException("Could not determine bundle name for class '$bundleClassName'");
         }
-        // Create the Bundle.
+        // Create the Bundle and let it know about Sculpin.
         $bundle = new $bundleClassName();
+        $bundle->setContainer($this);
 
         // Allow the Bundle to build itself.
         $bundle->build($this);

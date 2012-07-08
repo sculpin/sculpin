@@ -29,10 +29,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class TwigLiquidCompatibilityBundle extends Bundle
 {
-    protected $container;
-    public function build(ContainerBuilder $container) {
-        $this->container = $container;
-    }
 
     /**
      * (non-PHPdoc)

@@ -26,7 +26,6 @@ class MarkdownBundle extends Bundle implements EventSubscriberInterface {
     const CONFIG_PARSERS = 'markdown.parsers';
     const CONFIG_PARSER = 'markdown.parser';
     const CONFIG_EXTENSIONS = 'markdown.extensions';
-    protected $container;
 
     /**
      * @{inheritdoc}
@@ -36,11 +35,6 @@ class MarkdownBundle extends Bundle implements EventSubscriberInterface {
         return array(
             Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged'
         );
-    }
-
-    public function build(ContainerBuilder $container)
-    {
-        $this->container = $container;
     }
 
     /**
