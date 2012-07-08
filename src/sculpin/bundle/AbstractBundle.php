@@ -12,34 +12,30 @@
 namespace sculpin\bundle;
 
 use sculpin\Sculpin;
-use sculpin\bundle\IBundle;
 use sculpin\configuration\YamlFileConfigurationBuilder;
 use sculpin\console\Application;
 use sculpin\event\Event;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-abstract class AbstractBundle implements IBundle {
-    
-    private $bundleRoot;
+abstract class AbstractBundle extends Bundle {
 
     /**
      * (non-PHPdoc)
-     * @see sculpin\bundle.IBundle::initBundle()
      */
-    public function initBundle(Sculpin $sculpin)
+    public function build(ContainerBuilder $sculpin)
     {
-        $obj = new \ReflectionClass($this);
-        $this->bundleRoot = dirname($obj->getFileName());
-        $defaultBundleConfiguration = $this->getResourcePath('configuration/sculpin.yml');
+        $defaultBundleConfiguration = $this->getPath() . '/resources/configuration/sculpin.yml';
         if (file_exists($defaultBundleConfiguration)) {
             // If the bundle has a sculpin.yml configuration file it should be
             // read and imported into the Sculpin configuration. We do not want
             // our imported configuration to clobber the existing configuration
             // values, tho. (since user overrides will have already been read)
             $configurationBuilder = new YamlFileConfigurationBuilder(array($defaultBundleConfiguration));
-            $sculpin->configuration()->import($configurationBuilder->build(), false);
+            $sculpin->get('sculpin.configuration')->import($configurationBuilder->build(), false);
         }
     }
 
@@ -87,51 +83,6 @@ abstract class AbstractBundle implements IBundle {
     public function preConfigureBundle(Event $event)
     {
         $this->configureBundle($event->sculpin());
-    }
-    
-    /**
-     * Path to the bundle's root
-     * @return string
-     * @throws \RuntimeException
-     */
-    protected function bundleRoot()
-    {
-        if (!$this->bundleRoot) {
-            // TODO: Another type of exception?
-            throw new \RuntimeException("Bundle not yet configured");
-        }
-        return $this->bundleRoot;
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.IBundle::getResourcePath()
-     */
-    public function getResourcePath($partialPath)
-    {
-        return $this->bundleRoot().'/resources/'.$partialPath;
-    }
-
-    /**
-     * Is this bundle enabled?
-     * Convenience method.
-     * @param Event $event
-     * @param string $key
-     * @return boolean
-     */
-    public function isEnabled(Event $event, $key)
-    {
-        $configuration = $event->configuration();
-        return $configuration->get($key);
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.IBundle::CONFIGURE_CONSOLE_APPLICATION()
-     */
-    static public function CONFIGURE_CONSOLE_APPLICATION(Application $application, InputInterface $input, OutputInterface $output)
-    {
-        // noop
     }
     
 }

@@ -11,11 +11,13 @@
 
 namespace sculpin\bundle\markdownTwigBundle;
 
-use sculpin\bundle\AbstractBundle;
 use sculpin\bundle\markdownBundle\MarkdownBundle;
 use sculpin\bundle\twigBundle\TwigBundle;
 use sculpin\event\ConvertSourceEvent;
 use sculpin\Sculpin;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Support for combining Markdown converstion with Twig formatting
@@ -30,7 +32,7 @@ use sculpin\Sculpin;
  * 
  * @author Beau Simensen <beau@dflydev.com>
  */
-class MarkdownTwigBundle extends AbstractBundle {
+class MarkdownTwigBundle extends Bundle implements EventSubscriberInterface {
 
     /**
      * List of regular expresses needing placeholders
@@ -57,7 +59,7 @@ class MarkdownTwigBundle extends AbstractBundle {
      * (non-PHPdoc)
      * @see sculpin\bundle.AbstractBundle::getBundleEvents()
      */
-    static function getBundleEvents()
+    static function getSubscribedEvents()
     {
         return array(
             Sculpin::EVENT_BEFORE_CONVERT => 'beforeConvert',

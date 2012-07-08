@@ -21,7 +21,11 @@ use sculpin\Sculpin;
 
 use sculpin\bundle\AbstractBundle;
 
-class PostsBundle extends AbstractBundle {
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class PostsBundle extends Bundle implements EventSubscriberInterface {
 
     /**
      * Configuration key for determining if bundle is enabled
@@ -40,6 +44,8 @@ class PostsBundle extends AbstractBundle {
      * @var string
      */
     const CONFIG_PERMALINK = 'posts.permalink';
+
+    protected $container;
 
     /**
      * Posts
@@ -60,7 +66,7 @@ class PostsBundle extends AbstractBundle {
      * (non-PHPdoc)
      * @see sculpin\bundle.AbstractBundle::getBundleEvents()
      */
-    static function getBundleEvents()
+    static function getSubscribedEvents()
     {
         return array(
             Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged',
@@ -68,13 +74,19 @@ class PostsBundle extends AbstractBundle {
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
         );
     }
+    
+    public function build(ContainerBuilder $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * (non-PHPdoc)
      * @see sculpin\bundle.AbstractBundle::configureBundle()
      */
-    public function configureBundle(Sculpin $sculpin)
+    public function boot()
     {
+        $sculpin = $this->container->get('sculpin');
         $posts = $this->posts;
         $sculpin->registerDataProvider('posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
     }
@@ -86,11 +98,11 @@ class PostsBundle extends AbstractBundle {
      */
     public function sourceSetChanged(SourceSetEvent $sourceSetEvent)
     {
-        if (!$this->isEnabled($sourceSetEvent, self::CONFIG_ENABLED)) {
+        $configuration = $sourceSetEvent->configuration();
+        if (!$configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
 
-        $configuration = $sourceSetEvent->configuration();
         $pattern = $configuration->get(self::CONFIG_DIRECTORY).'/**';
 
         foreach ($sourceSetEvent->updatedSources() as $source) {
@@ -125,7 +137,8 @@ class PostsBundle extends AbstractBundle {
      * @param SourceSetEvent $sourceSetEvent
      */
     public function sourceSetChangedPost(SourceSetEvent $sourceSetEvent) {
-        if (!$this->isEnabled($sourceSetEvent, self::CONFIG_ENABLED)) {
+        $configuration = $sourceSetEvent->configuration();
+        if (!$configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
         $aPostHasChanged = false;
@@ -154,7 +167,8 @@ class PostsBundle extends AbstractBundle {
      */
     public function afterConvert(ConvertSourceEvent $convertSourceEvent)
     {
-        if (!$this->isEnabled($convertSourceEvent, self::CONFIG_ENABLED)) {
+        $configuration = $convertSourceEvent->configuration();
+        if (!$configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
         $sourceId = $convertSourceEvent->source()->sourceId();

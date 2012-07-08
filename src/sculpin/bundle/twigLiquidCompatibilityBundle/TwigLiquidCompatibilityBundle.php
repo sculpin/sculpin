@@ -24,16 +24,23 @@ use sculpin\bundle\twigBundle\TwigBundle;
 use sculpin\Sculpin;
 
 use sculpin\bundle\AbstractBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class TwigLiquidCompatibilityBundle extends AbstractBundle
+class TwigLiquidCompatibilityBundle extends Bundle
 {
+    protected $container;
+    public function build(ContainerBuilder $container) {
+        $this->container = $container;
+    }
 
     /**
      * (non-PHPdoc)
      * @see sculpin\bundle.AbstractBundle::configureBundle()
      */
-    public function configureBundle(Sculpin $sculpin)
+    public function boot()
     {
+        $sculpin = $this->container->get('sculpin');
         $sculpin->registerFormatterConfigurationCallback(
             TwigBundle::FORMATTER_NAME,
             array($this, 'configureFormatter')

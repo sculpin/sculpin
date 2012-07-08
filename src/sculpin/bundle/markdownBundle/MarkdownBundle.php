@@ -14,8 +14,11 @@ namespace sculpin\bundle\markdownBundle;
 use sculpin\bundle\AbstractBundle;
 use sculpin\event\SourceSetEvent;
 use sculpin\Sculpin;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MarkdownBundle extends AbstractBundle {
+class MarkdownBundle extends Bundle implements EventSubscriberInterface {
     
     const CONVERTER_NAME = 'markdown';
     
@@ -23,23 +26,30 @@ class MarkdownBundle extends AbstractBundle {
     const CONFIG_PARSERS = 'markdown.parsers';
     const CONFIG_PARSER = 'markdown.parser';
     const CONFIG_EXTENSIONS = 'markdown.extensions';
+    protected $container;
 
     /**
      * @{inheritdoc}
      */
-    static function getBundleEvents()
+    static function getSubscribedEvents()
     {
         return array(
             Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged'
         );
     }
 
+    public function build(ContainerBuilder $container)
+    {
+        $this->container = $container;
+    }
+
     /**
      * @{inheritdoc}
      */
-    public function configureBundle(Sculpin $sculpin)
+    public function boot()
     {
-        $configuration = $sculpin->configuration();
+        $configuration = $this->container->get('sculpin.configuration');
+        $sculpin = $this->container->get('sculpin');
         $parserClass = $configuration->getConfiguration(self::CONFIG_PARSERS)->get($configuration->get(self::CONFIG_PARSER));
         $sculpin->registerConverter('markdown', new MarkdownConverter(new $parserClass));
     }
@@ -51,11 +61,11 @@ class MarkdownBundle extends AbstractBundle {
      */
     public function sourceSetChanged(SourceSetEvent $sourceSetEvent)
     {
-        if (!$this->isEnabled($sourceSetEvent, self::CONFIG_ENABLED)) {
+        $configuration = $sourceSetEvent->configuration();
+        if (!$configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
 
-        $configuration = $sourceSetEvent->configuration();
         $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
 
         foreach ($sourceSetEvent->updatedSources() as $source) {

@@ -14,6 +14,7 @@ namespace sculpin;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use dflydev\util\antPathMatcher\IAntPathMatcher;
 use sculpin\configuration\Configuration;
+use sculpin\configuration\YamlFileConfigurationBuilder;
 use sculpin\converter\IConverter;
 use sculpin\converter\SourceConverterContext;
 use sculpin\event\ConvertSourceEvent;
@@ -31,18 +32,18 @@ use sculpin\source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Sculpin
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Sculpin
+class Sculpin extends ContainerBuilder
 {
 
     const VERSION = '@package_version@';
     const EVENT_BEFORE_START = 'sculpin.core.beforeStart';
-    const EVENT_CONFIGURE_BUNDLES = 'sculpin.core.configureBundles';
     const EVENT_AFTER_START = 'sculpin.core.afterStart';
     const EVENT_BEFORE_RUN = 'sculpin.core.beforeRun';
     const EVENT_AFTER_RUN = 'sculpin.core.afterRun';
@@ -183,6 +184,10 @@ class Sculpin
      */
     public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderFactory = null, IAntPathMatcher $matcher = null, Writer $writer = null, SourceSet $sourceSet = null, Filesystem $filesystem = null)
     {
+        // Make sure the Container is available.
+        parent::__construct();
+
+        // Initialize the remaining Sculpin variables.
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher !== null ? $eventDispatcher : new EventDispatcher();
         $this->finderFactory = $finderFactory !== null ? $finderFactory : function(Sculpin $sculpin) {
@@ -212,6 +217,16 @@ class Sculpin
                 $this->addProjectIgnore($file);
             }
         }
+
+        // Register the services to the Sculpin container.
+        $this->set('sculpin', $this);
+        $this->set('sculpin.configuration', $this->configuration);
+        $this->set('sculpin.eventdispatcher', $this->eventDispatcher);
+        $this->set('sculpin.finderfactory', $this->finderFactory);
+        $this->set('sculpin.matcher', $this->matcher);
+        $this->set('sculpin.writer', $this->writer);
+        $this->set('sculpin.sourceset', $this->sourceSet);
+        $this->set('sculpin.filesystem', $this->filesystem);
     }
 
     /**
@@ -246,10 +261,29 @@ class Sculpin
     public function start()
     {
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_START, new Event($this));
+
+        // Add all the Bundles.
         foreach (self::GET_CONFIGURED_BUNDLES($this->configuration) as $bundleClassName) {
             $this->addBundle($bundleClassName);
         }
-        $this->eventDispatcher->dispatch(self::EVENT_CONFIGURE_BUNDLES, new Event($this));
+
+        // Load the configuration for each Bundle.
+        foreach ($this->bundles as $bundle) {
+            $defaultBundleConfiguration = $bundle->getPath() . '/resources/configuration/sculpin.yml';
+            if (file_exists($defaultBundleConfiguration)) {
+                // If the bundle has a sculpin.yml configuration file it should be
+                // read and imported into the Sculpin configuration. We do not want
+                // our imported configuration to clobber the existing configuration
+                // values, tho. (since user overrides will have already been read)
+                $configurationBuilder = new YamlFileConfigurationBuilder(array($defaultBundleConfiguration));
+                $this->configuration->import($configurationBuilder->build(), false);
+            }
+        }
+
+        // Boot the bundles.
+        foreach ($this->bundles as $bundle) {
+            $bundle->boot();
+        }
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
     }
 
@@ -466,9 +500,19 @@ class Sculpin
         if (!preg_match('/(\w+?)(|Bundle)$/', $bundleClassName, $matches)) {
             throw new \RuntimeException("Could not determine bundle name for class '$bundleClassName'");
         }
+        // Create the Bundle.
         $bundle = new $bundleClassName();
-        $bundle->initBundle($this);
-        $this->eventDispatcher->addSubscriber($bundle);
+
+        // Allow the Bundle to build itself.
+        $bundle->build($this);
+
+        // Add the subscriber events if it allows such a thing.
+        $bundle_reflection = new \ReflectionClass($bundle);
+        if ($bundle_reflection->implementsinterface('Symfony\Component\EventDispatcher\EventSubscriberInterface')) {
+            $this->eventDispatcher->addSubscriber($bundle);
+        }
+
+        // Store the Bundle for later use.
         $this->bundles[$matches[1]] = $bundle;
     }
 
