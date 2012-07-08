@@ -86,16 +86,14 @@ class Application extends BaseApplication
             $this->internallyInstalledRepositoryEnabled = true;
         }
         $this->initializeConfiguration($projectRoot);
+
+        // Register all bundle commands.
         foreach (Sculpin::GET_CONFIGURED_BUNDLES($this->configuration()) as $bundleClassName) {
-            try {
-                $obj = new \ReflectionClass($bundleClassName);
-                if ($obj->hasMethod('CONFIGURE_CONSOLE_APPLICATION')) {
-                    call_user_func(array($bundleClassName, 'CONFIGURE_CONSOLE_APPLICATION'), $this, $input, $output);
-                }
-            } catch (\Exception $e) {
-                // probably nothing...
-            }
+            $bundle = new $bundleClassName();
+            $bundle->registerCommands($this);
         }
+
+        // Register Sculpin's internal commands.
         $this->add(new command\ConfigurationDumpCommand());
         $this->add(new command\GenerateCommand());
         $this->add(new command\InitCommand());

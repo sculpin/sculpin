@@ -16,34 +16,33 @@ use sculpin\Sculpin;
 use sculpin\bundle\composerBundle\command\InstallCommand;
 use sculpin\bundle\composerBundle\command\UpdateCommand;
 
-use sculpin\bundle\AbstractBundle;
 use sculpin\console\Application;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ComposerBundle extends AbstractBundle{
+class ComposerBundle extends Bundle {
     
     const CONFIG_EXCLUDE = 'composer.exclude';
+    protected $container;
 
-    /**
-     * @{inheritdoc}
-     */
-    public function configureBundle(Sculpin $sculpin)
+    public function build(ContainerBuilder $container)
     {
-        if ($sculpin->sourceDirIsProjectDir()) {
-            foreach($sculpin->configuration()->get(self::CONFIG_EXCLUDE) as $exclude) {
-                $sculpin->addExclude($exclude);
-            }
-        }
+        $this->container = $container;
     }
 
     /**
      * @{inheritdoc}
      */
-    static public function CONFIGURE_CONSOLE_APPLICATION(Application $application, InputInterface $input, OutputInterface $output)
+    public function boot()
     {
-        $application->add(new InstallCommand());
-        $application->add(new UpdateCommand());
+        $sculpin = $this->container->get('sculpin');
+        if ($sculpin->sourceDirIsProjectDir()) {
+            foreach($sculpin->get('sculpin.configuration')->get(self::CONFIG_EXCLUDE) as $exclude) {
+                $sculpin->addExclude($exclude);
+            }
+        }
     }
 }

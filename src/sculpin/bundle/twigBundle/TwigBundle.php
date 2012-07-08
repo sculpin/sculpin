@@ -13,29 +13,37 @@ namespace sculpin\bundle\twigBundle;
 
 use sculpin\Sculpin;
 use sculpin\bundle\AbstractBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class TwigBundle extends AbstractBundle
+class TwigBundle extends Bundle
 {
 
     const FORMATTER_NAME = 'twig';
     const CONFIG_VIEWS = 'twig.views';
     const CONFIG_EXTENSIONS = 'twig.extensions';
+    protected $container;
+
+    public function build(ContainerBuilder $container) {
+         $this->container = $container;
+    }
     
     /**
      * {@inheritdocs}
      */
-    public function configureBundle(Sculpin $sculpin)
+    public function boot()
     {
-        $viewsPaths = $sculpin->configuration()->get(self::CONFIG_VIEWS);
+        $sculpin = $this->container;
+        $viewsPaths = $sculpin->get('sculpin.configuration')->get(self::CONFIG_VIEWS);
         foreach ($viewsPaths as $viewsPath) {
             $sculpin->addExclude($viewsPath.'/**');
         }
 
         $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
             array_map(function($path) use($sculpin) {
-                return $sculpin->configuration()->getPath('source_dir').'/'.$path;
+                return $sculpin->get('sculpin.configuration')->getPath('source_dir').'/'.$path;
             }, $viewsPaths),
-            $sculpin->configuration()->get(self::CONFIG_EXTENSIONS)
+            $sculpin->get('sculpin.configuration')->get(self::CONFIG_EXTENSIONS)
         ));
     }
 
