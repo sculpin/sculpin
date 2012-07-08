@@ -11,8 +11,8 @@
 
 namespace sculpin\bundle\textileBundle;
 
-use sculpin\bundle\AbstractBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class TextileBundle extends AbstractBundle {
+class TextileBundle extends Bundle {
     
 }
