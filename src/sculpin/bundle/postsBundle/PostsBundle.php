@@ -19,8 +19,6 @@ use sculpin\configuration\Configuration;
 
 use sculpin\Sculpin;
 
-use sculpin\bundle\AbstractBundle;
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -61,8 +59,7 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
     }
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::getBundleEvents()
+     * {@inheritDoc}
      */
     static function getSubscribedEvents()
     {
@@ -74,8 +71,7 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
     }
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::configureBundle()
+     * {@inheritDoc}
      */
     public function boot()
     {
