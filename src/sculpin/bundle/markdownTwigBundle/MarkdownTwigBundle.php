@@ -56,8 +56,7 @@ class MarkdownTwigBundle extends Bundle implements EventSubscriberInterface {
     protected static $REMOVE_PLACEHOLDER_RE = '/(<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>)/m';
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::getBundleEvents()
+     * {@inheritDoc}
      */
     static function getSubscribedEvents()
     {

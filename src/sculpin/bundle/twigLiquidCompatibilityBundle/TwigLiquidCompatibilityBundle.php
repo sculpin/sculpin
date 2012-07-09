@@ -23,7 +23,6 @@ use sculpin\bundle\twigBundle\TwigBundle;
 
 use sculpin\Sculpin;
 
-use sculpin\bundle\AbstractBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -31,8 +30,7 @@ class TwigLiquidCompatibilityBundle extends Bundle
 {
 
     /**
-     * (non-PHPdoc)
-     * @see sculpin\bundle.AbstractBundle::configureBundle()
+     * {@inheritDoc}
      */
     public function boot()
     {

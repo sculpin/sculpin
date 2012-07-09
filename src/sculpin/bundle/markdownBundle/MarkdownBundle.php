@@ -11,7 +11,6 @@
 
 namespace sculpin\bundle\markdownBundle;
 
-use sculpin\bundle\AbstractBundle;
 use sculpin\event\SourceSetEvent;
 use sculpin\Sculpin;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

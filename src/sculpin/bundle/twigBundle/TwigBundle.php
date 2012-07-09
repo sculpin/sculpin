@@ -12,7 +12,6 @@
 namespace sculpin\bundle\twigBundle;
 
 use sculpin\Sculpin;
-use sculpin\bundle\AbstractBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
