@@ -11,9 +11,8 @@
 
 namespace sculpin;
 
-use dflydev\util\antPathMatcher\AntPathMatcher;
-use dflydev\util\antPathMatcher\IAntPathMatcher;
 use sculpin\configuration\Configuration;
+use sculpin\configuration\YamlFileConfigurationBuilder;
 use sculpin\converter\IConverter;
 use sculpin\converter\SourceConverterContext;
 use sculpin\event\ConvertSourceEvent;
@@ -23,26 +22,23 @@ use sculpin\event\SourceSetEvent;
 use sculpin\formatter\FormatContext;
 use sculpin\formatter\IFormatter;
 use sculpin\output\SourceOutput;
-use sculpin\output\Writer;
 use sculpin\permalink\SourcePermalink;
 use sculpin\source\FileSource;
 use sculpin\source\ISource;
-use sculpin\source\SourceSet;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Sculpin
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Sculpin
+class Sculpin extends ContainerAware
 {
 
     const VERSION = '@package_version@';
     const EVENT_BEFORE_START = 'sculpin.core.beforeStart';
-    const EVENT_CONFIGURE_BUNDLES = 'sculpin.core.configureBundles';
     const EVENT_AFTER_START = 'sculpin.core.afterStart';
     const EVENT_BEFORE_RUN = 'sculpin.core.beforeRun';
     const EVENT_AFTER_RUN = 'sculpin.core.afterRun';
@@ -68,41 +64,6 @@ class Sculpin
      * @var \sculpin\configuration\Configuration
      */
     protected $configuration;
-
-    /**
-     * Event Dispatcher
-     *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher
-     */
-    protected $eventDispatcher;
-
-    /**
-     * Finder Generator
-     *
-     * @var \Callable
-     */
-    protected $finderFactory;
-
-    /**
-     * Matcher
-     *
-     * @var \dflydev\util\antPathMatcher\IAntPathMatcher
-     */
-    protected $matcher;
-
-    /**
-     * Writer
-     *
-     * @var \sculpin\output\Writer
-     */
-    protected $writer;
-
-    /**
-     * Source Set
-     *
-     * @var \sculpin\source\SourceSet
-     */
-    protected $sourceSet;
 
     /**
      * Bundles (by name)
@@ -173,25 +134,32 @@ class Sculpin
     /**
      * Constructor
      *
-     * @param Configuration   $configuration   Configuration
-     * @param EventDispatcher $eventDispatcher Event Dispatcher
-     * @param callable        $finderFactory   Finder factory
-     * @param IAntPathMatcher $matcher         Matcher
-     * @param Writer          $writer          Writer
-     * @param SourceSet       $sourceSet       Source set
-     * @param Filesystem      $filesystem      Filesystem
+     * @param Configuration $configuration
+     * @param ContainerInterface $container
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher = null, $finderFactory = null, IAntPathMatcher $matcher = null, Writer $writer = null, SourceSet $sourceSet = null, Filesystem $filesystem = null)
+    public function __construct(Configuration $configuration, ContainerInterface $container = null)
     {
+        // Create the Container if it was not already provided.
+        if (!isset($container)) {
+            $container = new ContainerBuilder();
+
+            // Register the default services for the Container.
+            $container->register('sculpin.eventdispatcher', 'Symfony\Component\EventDispatcher\EventDispatcher');
+            $container->register('sculpin.writer', 'sculpin\output\Writer');
+            $container->register('sculpin.matcher', 'dflydev\util\antPathMatcher\AntPathMatcher');
+            $container->register('sculpin.sourceset', 'sculpin\source\SourceSet');
+            $container->register('sculpin.filesystem', 'Symfony\Component\Filesystem\Filesystem');
+            $container->setParameter('sculpin.finder.class', 'Symfony\Component\Finder\Finder');
+        }
+
+        // Register the configuration and Sculpin itself to the container.
+        $container->set('sculpin', $this);
+        $container->set('sculpin.configuration', $configuration);
+        $this->setContainer($container);
+
+        // Initialize the Configuration.
         $this->configuration = $configuration;
-        $this->eventDispatcher = $eventDispatcher !== null ? $eventDispatcher : new EventDispatcher();
-        $this->finderFactory = $finderFactory !== null ? $finderFactory : function(Sculpin $sculpin) {
-            return new Finder();
-        };
-        $this->matcher = $matcher !== null ? $matcher : new AntPathMatcher;
-        $this->writer = $writer !== null ? $writer : new Writer;
-        $this->sourceSet = $sourceSet !== null ? $sourceSet : new SourceSet;
-        $this->filesystem = $filesystem !== null ? $filesystem : new Filesystem;
+
         foreach (array_merge($this->configuration->get('core_exclude'), $this->configuration->get('exclude')) as $pattern) {
             $this->addExclude($pattern);
         }
@@ -245,12 +213,32 @@ class Sculpin
      */
     public function start()
     {
-        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_START, new Event($this));
+        $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
+        $eventdispatcher->dispatch(self::EVENT_BEFORE_START, new Event($this));
+
+        // Add all the Bundles.
         foreach (self::GET_CONFIGURED_BUNDLES($this->configuration) as $bundleClassName) {
             $this->addBundle($bundleClassName);
         }
-        $this->eventDispatcher->dispatch(self::EVENT_CONFIGURE_BUNDLES, new Event($this));
-        $this->eventDispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
+
+        // Load the configuration for each Bundle.
+        foreach ($this->bundles as $bundle) {
+            $defaultBundleConfiguration = $bundle->getPath() . '/resources/configuration/sculpin.yml';
+            if (file_exists($defaultBundleConfiguration)) {
+                // If the bundle has a sculpin.yml configuration file it should be
+                // read and imported into the Sculpin configuration. We do not want
+                // our imported configuration to clobber the existing configuration
+                // values, tho. (since user overrides will have already been read)
+                $configurationBuilder = new YamlFileConfigurationBuilder(array($defaultBundleConfiguration));
+                $this->configuration->import($configurationBuilder->build(), false);
+            }
+        }
+
+        // Boot the bundles.
+        foreach ($this->bundles as $bundle) {
+            $bundle->boot();
+        }
+        $eventdispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
     }
 
     /**
@@ -261,7 +249,8 @@ class Sculpin
      */
     public function run($watch = false, $pollWait = 2)
     {
-        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN);
+        $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
+        $eventdispatcher->dispatch(self::EVENT_BEFORE_RUN);
 
         // Assume we want files updated since UNIX time began.
         $sinceTime = '1970-01-01T00:00:00Z';
@@ -286,17 +275,19 @@ class Sculpin
 
             // We regenerate the whole site if an excluded file changes.
             $excludedFilesHaveChanged = false;
-
+            
+            $matcher = $this->container->get('sculpin.matcher');
+            $sourceset = $this->container->get('sculpin.sourceset');
             foreach ($files as $file) {
                 foreach ($this->ignores as $pattern) {
-                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                    if ($matcher->match($pattern, $file->getRelativePathname())) {
                         // Ignored files are completely ignored.
                         continue 2;
                     }
                 }
 
                 foreach ($this->exclusions as $pattern) {
-                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                    if ($matcher->match($pattern, $file->getRelativePathname())) {
                         $excludedFilesHaveChanged = true;
                         continue 2;
                     }
@@ -304,44 +295,44 @@ class Sculpin
 
                 $isRaw = false;
                 foreach ($this->raws as $pattern) {
-                    if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                    if ($matcher->match($pattern, $file->getRelativePathname())) {
                         $isRaw = true;
                         break;
                     }
                 }
 
                 $source = new FileSource($file, $isRaw, true);
-                $this->sourceSet->mergeSource($source);
+                $sourceset->mergeSource($source);
             }
 
             if ($excludedFilesHaveChanged) {
                 // If any of the exluded files have changed we should
                 // mark all of the sources as having changed.
-                foreach ($this->sourceSet->allSources() as $source) {
+                foreach ($sourceset->allSources() as $source) {
                     /* @var $source \sculpin\source\ISource */
                     $source->setHasChanged();
                 }
             }
 
-            if ($this->sourceSet->hasUpdatedSources()) {
+            if ($sourceset->hasUpdatedSources()) {
                 print "Detected new or updated files\n";
 
-                $this->eventDispatcher->dispatch(
+                $eventdispatcher->dispatch(
                     self::EVENT_SOURCE_SET_CHANGED,
-                    new SourceSetEvent($this, $this->sourceSet)
+                    new SourceSetEvent($this, $sourceset)
                 );
 
-                $this->eventDispatcher->dispatch(
+                $eventdispatcher->dispatch(
                     self::EVENT_SOURCE_SET_CHANGED_POST,
-                    new SourceSetEvent($this, $this->sourceSet)
+                    new SourceSetEvent($this, $sourceset)
                 );
 
-                foreach ($this->sourceSet->updatedSources() as $source) {
+                foreach ($sourceset->updatedSources() as $source) {
                     $this->setSourcePermalink($source);
                     $this->convertSource($source);
                 }
 
-                foreach ($this->sourceSet->updatedSources() as $source) {
+                foreach ($sourceset->updatedSources() as $source) {
                     if ($source->canBeFormatted()) {
                         $source->setContent($this->formatPage(
                             $source->sourceId(),
@@ -351,8 +342,9 @@ class Sculpin
                     }
                 }
 
-                foreach ($this->sourceSet->updatedSources() as $source) {
-                    $this->writer->write($this, new SourceOutput($source));
+                $writer = $this->container->get('sculpin.writer');
+                foreach ($sourceset->updatedSources() as $source) {
+                    $writer->write($this, new SourceOutput($source));
                     print " + {$source->sourceId()}\n";
                 }
             }
@@ -361,13 +353,13 @@ class Sculpin
                 // Temporary.
                 sleep($pollWait);
                 clearstatcache();
-                $this->sourceSet->reset();
+                $sourceset->reset();
             } else {
                 $running = false;
             }
         }
 
-        $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN);
+        $eventdispatcher->dispatch(self::EVENT_AFTER_RUN);
     }
 
     /**
@@ -375,8 +367,9 @@ class Sculpin
      */
     public function stop()
     {
-        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_STOP);
-        $this->eventDispatcher->dispatch(self::EVENT_AFTER_STOP);
+        $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
+        $eventdispatcher->dispatch(self::EVENT_BEFORE_STOP);
+        $eventdispatcher->dispatch(self::EVENT_AFTER_STOP);
     }
 
     /**
@@ -396,6 +389,7 @@ class Sculpin
      */
     protected function convertSource(ISource $source)
     {
+        $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
         // TODO: Make 'converters' a const
         $converters = $source->data()->get('converters');
 
@@ -404,17 +398,12 @@ class Sculpin
         }
 
         foreach ($converters as $converter) {
-            $this->eventDispatcher->dispatch(
+            $eventdispatcher->dispatch(
                 self::EVENT_BEFORE_CONVERT,
                 new ConvertSourceEvent($this, $source, $converter)
             );
 
             $this->converter($converter)->convert($this, new SourceConverterContext($source));
-
-            $this->eventDispatcher->dispatch(
-                self::EVENT_AFTER_CONVERT,
-                new ConvertSourceEvent($this, $source, $converter)
-            );
         }
     }
 
@@ -453,7 +442,7 @@ class Sculpin
      */
     public function matcher()
     {
-        return $this->matcher;
+        return $this->container->get('sculpin.matcher');
     }
 
     /**
@@ -466,9 +455,21 @@ class Sculpin
         if (!preg_match('/(\w+?)(|Bundle)$/', $bundleClassName, $matches)) {
             throw new \RuntimeException("Could not determine bundle name for class '$bundleClassName'");
         }
+        // Create the Bundle and set up the Container for it.
         $bundle = new $bundleClassName();
-        $bundle->initBundle($this);
-        $this->eventDispatcher->addSubscriber($bundle);
+        $bundle->setContainer($this->container);
+
+        // Allow the Bundle to build itself.
+        $bundle->build($this->container);
+
+        // Add the subscriber events if it allows such a thing.
+        $bundle_reflection = new \ReflectionClass($bundle);
+        if ($bundle_reflection->implementsinterface('Symfony\Component\EventDispatcher\EventSubscriberInterface')) {
+            $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
+            $eventdispatcher->addSubscriber($bundle);
+        }
+
+        // Store the Bundle for later use.
         $this->bundles[$matches[1]] = $bundle;
     }
 
@@ -542,16 +543,17 @@ class Sculpin
      */
     public function formatBlocks($templateId, $template, $context)
     {
+        $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
-        $this->eventDispatcher->dispatch(
+        $eventdispatcher->dispatch(
             self::EVENT_BEFORE_FORMAT,
             new FormatEvent($this, $formatContext)
         );
 
         $response = $this->formatter($formatContext->context()->get('formatter'))->formatBlocks($this, $formatContext);
 
-        $this->eventDispatcher->dispatch(
+        $eventdispatcher->dispatch(
             self::EVENT_AFTER_FORMAT,
             new FormatEvent($this, $formatContext)
         );
@@ -570,16 +572,17 @@ class Sculpin
      */
     public function formatPage($templateId, $template, $context)
     {
+        $eventdispatcher = $this->container->get('sculpin.eventdispatcher');
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
-        $this->eventDispatcher->dispatch(
+        $eventdispatcher->dispatch(
             self::EVENT_BEFORE_FORMAT,
             new FormatEvent($this, $formatContext)
         );
 
         $response = $this->formatter($formatContext->context()->get('formatter'))->formatPage($this, $formatContext);
 
-        $this->eventDispatcher->dispatch(
+        $eventdispatcher->dispatch(
             self::EVENT_AFTER_FORMAT,
             new FormatEvent($this, $formatContext)
         );
@@ -676,7 +679,7 @@ class Sculpin
             }
         }
 
-        return new FormatContext($templateId, $template, $context->export());
+        return new FormatContext($templateId, $template, $formatContext->export());
     }
 
     /**
@@ -768,7 +771,11 @@ class Sculpin
      */
     public function finder()
     {
-        return call_user_func($this->finderFactory, $this);
+        // Retrieve which Finder we should use with Sculpin.
+        $finder_class = $this->container->getParameter('sculpin.finder.class');
+
+        // Create the new Finder object.
+        return new $finder_class();
     }
 
     /**
@@ -778,7 +785,7 @@ class Sculpin
      */
     public function filesystem()
     {
-        return $this->filesystem;
+        return $this->container->get('sculpin.filesystem');
     }
 
     /**
@@ -817,7 +824,7 @@ class Sculpin
         }
 
         $cacheDirectory = $this->cachePathFor($directory);
-        $this->filesystem->mkdir($cacheDirectory);
+        $this->filesystem()->mkdir($cacheDirectory);
 
         return $cacheDirectory;
     }
@@ -834,7 +841,7 @@ class Sculpin
         }
 
         $cacheDirectory = $this->cachePathFor($directory);
-        $this->filesystem->remove(new \FilesystemIterator($cacheDirectory));
+        $this->filesystem()->remove(new \FilesystemIterator($cacheDirectory));
     }
 
     /**
@@ -842,7 +849,7 @@ class Sculpin
      */
     public function clearCache()
     {
-        $this->filesystem->remove(new \FilesystemIterator($this->cachePath()));
+        $this->filesystem()->remove(new \FilesystemIterator($this->cachePath()));
     }
 
     /**

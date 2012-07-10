@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of Sculpin.
- * 
+ *
  * (c) Dragonfly Development Inc.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,6 +13,11 @@ namespace sculpin\bundle\textileBundle;
 
 use sculpin\bundle\AbstractBundle;
 
-class TextileBundle extends AbstractBundle {
-    
+/**
+ * Textile Bundle
+ *
+ * @author Beau Simensen <beau@dflydev.com>
+ */
+class TextileBundle extends AbstractBundle
+{
 }

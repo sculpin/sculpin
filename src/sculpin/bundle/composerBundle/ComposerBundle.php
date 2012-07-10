@@ -11,39 +11,30 @@
 
 namespace sculpin\bundle\composerBundle;
 
-use sculpin\Sculpin;
-
+use sculpin\bundle\AbstractBundle;
 use sculpin\bundle\composerBundle\command\InstallCommand;
 use sculpin\bundle\composerBundle\command\UpdateCommand;
-
-use sculpin\bundle\AbstractBundle;
 use sculpin\console\Application;
+use sculpin\Sculpin;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
-
-class ComposerBundle extends AbstractBundle{
-    
+/**
+ * Composer Bundle
+ *
+ * @author Beau Simensen <beau@dflydev.com>
+ */
+class ComposerBundle extends AbstractBundle
+{
     const CONFIG_EXCLUDE = 'composer.exclude';
 
     /**
      * @{inheritdoc}
      */
-    public function configureBundle(Sculpin $sculpin)
+    public function boot()
     {
-        if ($sculpin->sourceDirIsProjectDir()) {
-            foreach($sculpin->configuration()->get(self::CONFIG_EXCLUDE) as $exclude) {
-                $sculpin->addExclude($exclude);
+        if ($this->sculpin->sourceDirIsProjectDir()) {
+            foreach ($this->configuration->get(self::CONFIG_EXCLUDE) as $exclude) {
+                $this->sculpin->addExclude($exclude);
             }
         }
-    }
-
-    /**
-     * @{inheritdoc}
-     */
-    static public function CONFIGURE_CONSOLE_APPLICATION(Application $application, InputInterface $input, OutputInterface $output)
-    {
-        $application->add(new InstallCommand());
-        $application->add(new UpdateCommand());
     }
 }
