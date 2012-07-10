@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of Sculpin.
- * 
+ *
  * (c) Dragonfly Development Inc.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -11,48 +11,32 @@
 
 namespace sculpin\bundle\markdownBundle;
 
+use sculpin\bundle\AbstractBundle;
 use sculpin\event\SourceSetEvent;
 use sculpin\Sculpin;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MarkdownBundle extends Bundle implements EventSubscriberInterface {
-    
+/**
+ * Markdown Bundle
+ *
+ * @author Beau Simensen <beau@dflydev.com>
+ */
+class MarkdownBundle extends AbstractBundle
+{
     const CONVERTER_NAME = 'markdown';
-    
+
     const CONFIG_ENABLED = 'markdown.enabled';
     const CONFIG_PARSERS = 'markdown.parsers';
     const CONFIG_PARSER = 'markdown.parser';
     const CONFIG_EXTENSIONS = 'markdown.extensions';
 
-    protected $configuration;
-
     /**
-     * The Sculpin object.
-     *
-     * @var Sculpin
+     * {@inheritdoc}
      */
-    protected $sculpin;
-
-    /**
-     * @{inheritdoc}
-     */
-    static function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return array(
             Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged'
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        // Extract objects that are required from the container.
-        $this->configuration = $container->get('sculpin.configuration');
-        $this->sculpin = $container->get('sculpin');
     }
 
     /**
@@ -72,15 +56,13 @@ class MarkdownBundle extends Bundle implements EventSubscriberInterface {
      */
     public function sourceSetChanged(SourceSetEvent $sourceSetEvent)
     {
-        $configuration = $sourceSetEvent->configuration();
-        if (!$configuration->get(self::CONFIG_ENABLED)) {
+        if (!$this->configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
 
-        $extensions = $configuration->get(self::CONFIG_EXTENSIONS);
+        $extensions = $this->configuration->get(self::CONFIG_EXTENSIONS);
 
         foreach ($sourceSetEvent->updatedSources() as $source) {
-            /* @var $source \sculpin\source\ISource */
             foreach ($extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {
                     // TODO: converters should be a const (where?)

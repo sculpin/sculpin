@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of Sculpin.
- * 
+ *
  * (c) Dragonfly Development Inc.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -11,39 +11,24 @@
 
 namespace sculpin\bundle\twigLiquidCompatibilityBundle;
 
-use sculpin\bundle\twigLiquidCompatibilityBundle\tokenParser\AssignTokenParser;
-
-use sculpin\bundle\twigLiquidCompatibilityBundle\tokenParser\CaptureTokenParser;
-
-use sculpin\bundle\twigBundle\TwigFormatter;
-
-use sculpin\formatter\IFormatter;
-
+use sculpin\bundle\AbstractBundle;
 use sculpin\bundle\twigBundle\TwigBundle;
-
+use sculpin\bundle\twigBundle\TwigFormatter;
+use sculpin\bundle\twigLiquidCompatibilityBundle\tokenParser\AssignTokenParser;
+use sculpin\bundle\twigLiquidCompatibilityBundle\tokenParser\CaptureTokenParser;
+use sculpin\formatter\IFormatter;
 use sculpin\Sculpin;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-class TwigLiquidCompatibilityBundle extends Bundle
+/**
+ * Twig Liquid Compatibility Bundle
+ *
+ * Provide some compatibility with with Liquid for Twig. Mainly useful
+ * for catching people moving from Jekyll to Sculpin.
+ *
+ * @author Beau Simensen <beau@dflydev.com>
+ */
+class TwigLiquidCompatibilityBundle extends AbstractBundle
 {
-    /**
-     * The Sculpin object.
-     *
-     * @var Sculpin
-     */
-    protected $sculpin;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        // Extract objects that are required from the container.
-        $this->sculpin = $container->get('sculpin');
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -55,6 +40,12 @@ class TwigLiquidCompatibilityBundle extends Bundle
         );
     }
 
+    /**
+     * Configuration formatter
+     *
+     * @param Sculpin    $sculpin   Sculpin
+     * @param IFormatter $formatter Formatter
+     */
     public function configureFormatter(Sculpin $sculpin, IFormatter $formatter)
     {
         if ($formatter instanceof TwigFormatter) {
@@ -62,5 +53,4 @@ class TwigLiquidCompatibilityBundle extends Bundle
             $formatter->twig()->addTokenParser(new CaptureTokenParser());
         }
     }
-
 }

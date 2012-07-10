@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of Sculpin.
- * 
+ *
  * (c) Dragonfly Development Inc.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -11,53 +11,37 @@
 
 namespace sculpin\bundle\twigBundle;
 
+use sculpin\bundle\AbstractBundle;
 use sculpin\Sculpin;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class TwigBundle extends Bundle
+/**
+ * Twig Bundle
+ *
+ * @author Beau Simensen <beau@dflydev.com>
+ */
+class TwigBundle extends AbstractBundle
 {
-
     const FORMATTER_NAME = 'twig';
     const CONFIG_VIEWS = 'twig.views';
     const CONFIG_EXTENSIONS = 'twig.extensions';
 
-    protected $configuration;
-
     /**
-     * The Sculpin object.
-     *
-     * @var Sculpin
-     */
-    protected $sculpin;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        // Extract objects that are required from the container.
-        $this->configuration = $container->get('sculpin.configuration');
-        $this->sculpin = $container->get('sculpin');
-    }
-
-    /**
-     * {@inheritdocs}
+     * {@inheritdoc}
      */
     public function boot()
     {
-        $config = $this->configuration;
-        $viewsPaths = $config->get(self::CONFIG_VIEWS);
+        $configuration = $this->configuration;
+
+        $viewsPaths = $configuration->get(self::CONFIG_VIEWS);
         foreach ($viewsPaths as $viewsPath) {
             $this->sculpin->addExclude($viewsPath.'/**');
         }
 
         $this->sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
-            array_map(function($path) use($config) {
-                return $config->getPath('source_dir').'/'.$path;
+            array_map(function($path) use($configuration) {
+                return $configuration->getPath('source_dir').'/'.$path;
             }, $viewsPaths),
-            $config->get(self::CONFIG_EXTENSIONS)
+            $configuration->get(self::CONFIG_EXTENSIONS)
         ));
     }
-
 }
