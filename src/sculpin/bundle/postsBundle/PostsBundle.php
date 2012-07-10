@@ -18,12 +18,12 @@ use sculpin\event\SourceSetEvent;
 use sculpin\configuration\Configuration;
 
 use sculpin\Sculpin;
+use sculpin\bundle\AbstractBundle;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class PostsBundle extends Bundle implements EventSubscriberInterface {
+class PostsBundle extends AbstractBundle implements EventSubscriberInterface {
 
     /**
      * Configuration key for determining if bundle is enabled
@@ -50,13 +50,6 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
     protected $posts;
 
     /**
-     * The Sculpin object.
-     *
-     * @var Sculpin
-     */
-    protected $sculpin;
-    
-    /**
      * Constructor
      * @param Posts $posts
      */
@@ -75,15 +68,6 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
             Sculpin::EVENT_SOURCE_SET_CHANGED_POST => 'sourceSetChangedPost',
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        // Extract objects that are required from the container.
-        $this->sculpin = $container->get('sculpin');
     }
 
     /**
