@@ -275,7 +275,7 @@ class Sculpin extends ContainerAware
 
             // We regenerate the whole site if an excluded file changes.
             $excludedFilesHaveChanged = false;
-            
+
             $matcher = $this->container->get('sculpin.matcher');
             $sourceset = $this->container->get('sculpin.sourceset');
             foreach ($files as $file) {
@@ -404,6 +404,11 @@ class Sculpin extends ContainerAware
             );
 
             $this->converter($converter)->convert($this, new SourceConverterContext($source));
+
+            $eventdispatcher->dispatch(
+                self::EVENT_AFTER_CONVERT,
+                new ConvertSourceEvent($this, $source, $converter)
+            );
         }
     }
 

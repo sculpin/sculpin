@@ -89,8 +89,10 @@ class Application extends BaseApplication
 
         // Register all bundle commands.
         foreach (Sculpin::GET_CONFIGURED_BUNDLES($this->configuration()) as $bundleClassName) {
-            $bundle = new $bundleClassName();
-            $bundle->registerCommands($this);
+            if (class_exists($bundleClassName)) {
+                $bundle = new $bundleClassName();
+                $bundle->registerCommands($this);
+            }
         }
 
         // Register Sculpin's internal commands.
