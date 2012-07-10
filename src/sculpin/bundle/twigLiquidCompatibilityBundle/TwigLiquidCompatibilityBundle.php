@@ -28,18 +28,33 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class TwigLiquidCompatibilityBundle extends Bundle
 {
+    /**
+     * The Sculpin object.
+     *
+     * @var Sculpin
+     */
+    protected $sculpin;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        // Extract objects that are required from the container.
+        $this->sculpin = $container->get('sculpin');
+    }
 
     /**
      * {@inheritDoc}
      */
     public function boot()
     {
-        $sculpin = $this->container->get('sculpin');
-        $sculpin->registerFormatterConfigurationCallback(
+        $this->sculpin->registerFormatterConfigurationCallback(
             TwigBundle::FORMATTER_NAME,
             array($this, 'configureFormatter')
         );
     }
+
     public function configureFormatter(Sculpin $sculpin, IFormatter $formatter)
     {
         if ($formatter instanceof TwigFormatter) {

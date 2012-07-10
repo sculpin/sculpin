@@ -48,6 +48,13 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
      * @var Posts
      */
     protected $posts;
+
+    /**
+     * The Sculpin object.
+     *
+     * @var Sculpin
+     */
+    protected $sculpin;
     
     /**
      * Constructor
@@ -73,11 +80,19 @@ class PostsBundle extends Bundle implements EventSubscriberInterface {
     /**
      * {@inheritDoc}
      */
+    public function build(ContainerBuilder $container)
+    {
+        // Extract objects that are required from the container.
+        $this->sculpin = $container->get('sculpin');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function boot()
     {
-        $sculpin = $this->container->get('sculpin');
         $posts = $this->posts;
-        $sculpin->registerDataProvider('posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
+        $this->sculpin->registerDataProvider('posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
     }
 
     /**
