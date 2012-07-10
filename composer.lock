@@ -1,5 +1,5 @@
 {
-    "hash": "caec53cc19a354dd70fa38132dc57720",
+    "hash": "69c39ed1f4bb0169c1fee90298a1b2af",
     "packages": [
         {
             "package": "composer/composer",
@@ -59,27 +59,39 @@
         },
         {
             "package": "symfony/console",
-            "version": "v2.1.0-BETA1"
+            "version": "v2.1.0-BETA2"
+        },
+        {
+            "package": "symfony/dependency-injection",
+            "version": "v2.1.0-BETA2"
         },
         {
             "package": "symfony/event-dispatcher",
-            "version": "v2.1.0-BETA1"
+            "version": "v2.1.0-BETA2"
         },
         {
             "package": "symfony/filesystem",
-            "version": "v2.1.0-BETA1"
+            "version": "v2.1.0-BETA2"
         },
         {
             "package": "symfony/finder",
-            "version": "v2.1.0-BETA1"
+            "version": "v2.1.0-BETA2"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "v2.1.0-BETA2"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "v2.1.0-BETA2"
         },
         {
             "package": "symfony/process",
-            "version": "v2.1.0-BETA1"
+            "version": "v2.1.0-BETA2"
         },
         {
             "package": "symfony/yaml",
-            "version": "v2.1.0-BETA1"
+            "version": "v2.1.0-BETA2"
         },
         {
             "package": "twig/twig",
