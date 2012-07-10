@@ -3,9 +3,14 @@
     <property file="build.properties" />
     <property file="build.properties.dist" />
 
-    <property name="repository.path" value="${project.basedir}/build/repo" />
+    <property name="build.path" value="${project.basedir}/build" />
+    <property name="repository.path" value="${build.path}/repo" />
 
-    <target name="clone">
+    <target name="prepare">
+        <mkdir dir="${build.path}" />
+    </target>
+
+    <target name="clone" depends="prepare">
         <if>
             <available file="${repository.path}" />
             <then>
@@ -37,7 +42,15 @@
         </if>
     </target>
 
-    <target name="compile">
+    <target name="compile" depends="prepare">
+        <if>
+            <available file="${repository.path}" />
+            <then>
+            </then>
+            <else>
+                <phingcall target="clone" />
+            </else>
+        </if>
         <httpget url="http://getcomposer.org/composer.phar" dir="${repository.path}" />
         <exec command="php composer.phar install" dir="${repository.path}" logoutput="true" checkreturn="true" />
         <exec command="php ${build.builder}" dir="${repository.path}" logoutput="true" checkreturn="true" />
