@@ -2,7 +2,7 @@
 
 /*
  * This file is a part of Sculpin.
- * 
+ *
  * (c) Dragonfly Development Inc.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -11,46 +11,50 @@
 
 namespace sculpin\bundle\postsBundle;
 
-use sculpin\event\ConvertSourceEvent;
-
-use sculpin\event\SourceSetEvent;
-
-use sculpin\configuration\Configuration;
-
-use sculpin\Sculpin;
 use sculpin\bundle\AbstractBundle;
+use sculpin\configuration\Configuration;
+use sculpin\event\ConvertSourceEvent;
+use sculpin\event\SourceSetEvent;
+use sculpin\Sculpin;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-class PostsBundle extends AbstractBundle implements EventSubscriberInterface {
-
+/**
+ * Post Bundle
+ *
+ * @author Beau Simensen <beau@dflydev.com>
+ */
+class PostsBundle extends AbstractBundle
+{
     /**
      * Configuration key for determining if bundle is enabled
+     *
      * @var string
      */
     const CONFIG_ENABLED = 'posts.enabled';
-    
+
     /**
      * Configuration key for directory in which posts are kept
+     *
      * @var string
      */
     const CONFIG_DIRECTORY = 'posts.directory';
-    
+
     /**
      * Configuration key for permalink style for posts
+     *
      * @var string
      */
     const CONFIG_PERMALINK = 'posts.permalink';
 
     /**
      * Posts
+     *
      * @var Posts
      */
     protected $posts;
 
     /**
      * Constructor
+     *
      * @param Posts $posts
      */
     public function __construct(Posts $posts = null)
@@ -61,7 +65,7 @@ class PostsBundle extends AbstractBundle implements EventSubscriberInterface {
     /**
      * {@inheritDoc}
      */
-    static function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return array(
             Sculpin::EVENT_SOURCE_SET_CHANGED => 'sourceSetChanged',
@@ -76,12 +80,14 @@ class PostsBundle extends AbstractBundle implements EventSubscriberInterface {
     public function boot()
     {
         $posts = $this->posts;
-        $this->sculpin->registerDataProvider('posts', function(Sculpin $sculpin) use ($posts) { return $posts; });
+        $this->sculpin->registerDataProvider('posts', function(Sculpin $sculpin) use ($posts) {
+            return $posts;
+        });
     }
 
     /**
      * Called when Sculpin detects source set has changed sources
-     * 
+     *
      * @param SourceSetEvent $sourceSetEvent
      */
     public function sourceSetChanged(SourceSetEvent $sourceSetEvent)
@@ -121,14 +127,15 @@ class PostsBundle extends AbstractBundle implements EventSubscriberInterface {
 
     /**
      * Called when Sculpin detects source set has changed sources (post)
-     * 
-     * @param SourceSetEvent $sourceSetEvent
+     *
+     * @param SourceSetEvent $sourceSetEvent Source set event
      */
-    public function sourceSetChangedPost(SourceSetEvent $sourceSetEvent) {
-        $configuration = $sourceSetEvent->configuration();
-        if (!$configuration->get(self::CONFIG_ENABLED)) {
+    public function sourceSetChangedPost(SourceSetEvent $sourceSetEvent)
+    {
+        if (!$this->configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
+
         $aPostHasChanged = false;
         foreach ($this->posts as $post) {
             /* @var $post \sculpin\bundle\postsBundle\Post */
@@ -150,20 +157,19 @@ class PostsBundle extends AbstractBundle implements EventSubscriberInterface {
 
     /**
      * Called when Sculpin detects that source files have been converted
-     * 
-     * @param ConvertSourceEvent $event
+     *
+     * @param ConvertSourceEvent $convertSourceEvent Convert source event
      */
     public function afterConvert(ConvertSourceEvent $convertSourceEvent)
     {
-        $configuration = $convertSourceEvent->configuration();
-        if (!$configuration->get(self::CONFIG_ENABLED)) {
+        if (!$this->configuration->get(self::CONFIG_ENABLED)) {
             return;
         }
+
         $sourceId = $convertSourceEvent->source()->sourceId();
         if (isset($this->posts[$sourceId])) {
             $post = $this->posts[$sourceId];
             $post->processBlocks($convertSourceEvent->sculpin());
         }
     }
-
 }
