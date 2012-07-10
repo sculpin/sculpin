@@ -22,22 +22,41 @@ class TwigBundle extends Bundle
     const CONFIG_VIEWS = 'twig.views';
     const CONFIG_EXTENSIONS = 'twig.extensions';
 
+    protected $configuration;
+
+    /**
+     * The Sculpin object.
+     *
+     * @var Sculpin
+     */
+    protected $sculpin;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        // Extract objects that are required from the container.
+        $this->configuration = $container->get('sculpin.configuration');
+        $this->sculpin = $container->get('sculpin');
+    }
+
     /**
      * {@inheritdocs}
      */
     public function boot()
     {
-        $sculpin = $this->container;
-        $viewsPaths = $sculpin->get('sculpin.configuration')->get(self::CONFIG_VIEWS);
+        $config = $this->configuration;
+        $viewsPaths = $config->get(self::CONFIG_VIEWS);
         foreach ($viewsPaths as $viewsPath) {
-            $sculpin->addExclude($viewsPath.'/**');
+            $this->sculpin->addExclude($viewsPath.'/**');
         }
 
-        $sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
-            array_map(function($path) use($sculpin) {
-                return $sculpin->get('sculpin.configuration')->getPath('source_dir').'/'.$path;
+        $this->sculpin->registerFormatter(self::FORMATTER_NAME, new TwigFormatter(
+            array_map(function($path) use($config) {
+                return $config->getPath('source_dir').'/'.$path;
             }, $viewsPaths),
-            $sculpin->get('sculpin.configuration')->get(self::CONFIG_EXTENSIONS)
+            $config->get(self::CONFIG_EXTENSIONS)
         ));
     }
 

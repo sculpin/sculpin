@@ -28,14 +28,30 @@ class ComposerBundle extends Bundle {
     const CONFIG_EXCLUDE = 'composer.exclude';
 
     /**
+     * The Sculpin object.
+     *
+     * @var Sculpin
+     */
+    protected $sculpin;
+    protected $configuration;
+
+    /**
+     * @{inheritDoc}
+     */
+    public function build(ContainerBuilder $container) {
+        // Extract objects that are required from the container.
+        $this->configuration = $container->get('sculpin.configuration');
+        $this->sculpin = $container->get('sculpin');
+    }
+
+    /**
      * @{inheritdoc}
      */
     public function boot()
     {
-        $sculpin = $this->container->get('sculpin');
-        if ($sculpin->sourceDirIsProjectDir()) {
-            foreach($sculpin->get('sculpin.configuration')->get(self::CONFIG_EXCLUDE) as $exclude) {
-                $sculpin->addExclude($exclude);
+        if ($this->sculpin->sourceDirIsProjectDir()) {
+            foreach($this->configuration->get(self::CONFIG_EXCLUDE) as $exclude) {
+                $this->sculpin->addExclude($exclude);
             }
         }
     }

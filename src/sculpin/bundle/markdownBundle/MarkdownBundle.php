@@ -26,6 +26,15 @@ class MarkdownBundle extends Bundle implements EventSubscriberInterface {
     const CONFIG_PARSER = 'markdown.parser';
     const CONFIG_EXTENSIONS = 'markdown.extensions';
 
+    protected $configuration;
+
+    /**
+     * The Sculpin object.
+     *
+     * @var Sculpin
+     */
+    protected $sculpin;
+
     /**
      * @{inheritdoc}
      */
@@ -37,14 +46,23 @@ class MarkdownBundle extends Bundle implements EventSubscriberInterface {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        // Extract objects that are required from the container.
+        $this->configuration = $container->get('sculpin.configuration');
+        $this->sculpin = $container->get('sculpin');
+    }
+
+    /**
      * @{inheritdoc}
      */
     public function boot()
     {
-        $configuration = $this->container->get('sculpin.configuration');
-        $sculpin = $this->container->get('sculpin');
-        $parserClass = $configuration->getConfiguration(self::CONFIG_PARSERS)->get($configuration->get(self::CONFIG_PARSER));
-        $sculpin->registerConverter('markdown', new MarkdownConverter(new $parserClass));
+        $parser = $this->configuration->get(self::CONFIG_PARSER);
+        $parserClass = $this->configuration->getConfiguration(self::CONFIG_PARSERS)->get($parser);
+        $this->sculpin->registerConverter('markdown', new MarkdownConverter(new $parserClass));
     }
 
     /**
