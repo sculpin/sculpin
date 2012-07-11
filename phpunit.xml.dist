@@ -10,7 +10,7 @@
         <whitelist>
             <directory>./src/sculpin/</directory>
             <exclude>
-                <directory>./src/sculpin/*/resources</directory>
+                <directory>./src/sculpin/*/Resources</directory>
             </exclude>
         </whitelist>
     </filter>
