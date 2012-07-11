@@ -36,7 +36,8 @@
         "twig/twig": "1.6.*"
     },
     "require-dev": {
-        "mikey179/vfsStream": "1.*"
+        "mikey179/vfsStream": "1.*",
+        "Eher/PHPUnit": "*"
     },
     "autoload": {
         "psr-0": { "sculpin": "src" }
