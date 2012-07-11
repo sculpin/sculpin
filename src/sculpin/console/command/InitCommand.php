@@ -21,7 +21,7 @@ class InitCommand extends Command
 {
     private function skeletonResourcesRoot()
     {
-        return dirname(dirname(__DIR__)).'/resources/skeleton';
+        return dirname(dirname(__DIR__)).'/Resources/skeleton';
     }
     protected function configure()
     {

@@ -169,7 +169,7 @@ class Application extends BaseApplication
             throw new \RuntimeException("Configuration requested before configuration has been initialized");
         }
         $configurationBuilder = new YamlFileConfigurationBuilder(array(
-                __DIR__.'/../resources/configuration/sculpin.yml',
+                __DIR__.'/../Resources/configuration/sculpin.yml',
                 $projectRoot.'/sculpin.yml.dist',
                 $projectRoot.'/sculpin.yml',
         ));
