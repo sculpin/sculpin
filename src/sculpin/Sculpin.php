@@ -223,7 +223,7 @@ class Sculpin extends ContainerAware
 
         // Load the configuration for each Bundle.
         foreach ($this->bundles as $bundle) {
-            $defaultBundleConfiguration = $bundle->getPath() . '/resources/configuration/sculpin.yml';
+            $defaultBundleConfiguration = $bundle->getPath() . '/Resources/config/sculpin.yml';
             if (file_exists($defaultBundleConfiguration)) {
                 // If the bundle has a sculpin.yml configuration file it should be
                 // read and imported into the Sculpin configuration. We do not want
