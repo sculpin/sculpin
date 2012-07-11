@@ -273,6 +273,14 @@ class Sculpin extends ContainerAware
                 ->date('>= '.$sinceTimeLast)
                 ->in($this->configuration->getPath('source_dir'));
 
+            // Add all public files from all Bundle public directories.
+            foreach ($this->bundles as $bundle) {
+                $dir = $bundle->getPath().'/Resources/public';
+                if (is_dir($dir)) {
+                    $files->in($dir);
+                }
+            }
+
             // We regenerate the whole site if an excluded file changes.
             $excludedFilesHaveChanged = false;
 
