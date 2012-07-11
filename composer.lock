@@ -1,5 +1,5 @@
 {
-    "hash": "69c39ed1f4bb0169c1fee90298a1b2af",
+    "hash": "eebe245ea68c736eece747cc86f385f5",
     "packages": [
         {
             "package": "composer/composer",
@@ -99,6 +99,10 @@
         }
     ],
     "packages-dev": [
+        {
+            "package": "EHER/PHPUnit",
+            "version": "1.6"
+        },
         {
             "package": "mikey179/vfsStream",
             "version": "v1.0.0"
