@@ -238,6 +238,24 @@ class Sculpin extends ContainerAware
         foreach ($this->bundles as $bundle) {
             $bundle->boot();
         }
+
+        // Process each Bundle's Resources/public directory.
+        $sourceset = $this->container->get('sculpin.sourceset');
+        foreach ($this->bundles as $bundle) {
+            if (is_dir($bundle->getPath().'/Resources/public')) {
+                // Copy all the files from Resources/public directory.
+                $files = $this
+                    ->finder()
+                    ->files()
+                    ->ignoreVCS(true)
+                    ->in($bundle->getPath().'/Resources/public');
+                foreach ($files as $file) {
+                    $source = new FileSource($file, true, true);
+                    $sourceset->mergeSource($source);
+                }
+            }
+        }
+
         $eventdispatcher->dispatch(self::EVENT_AFTER_START, new Event($this));
     }
 
