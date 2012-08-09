@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
+        <parameter key="sculpin.configuration.class">Sculpin\Core\Configuration\Configuration</parameter>
+        <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
+        <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
+        <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
+        <parameter key="sculpin.finder_factory.class">Sculpin\Core\Finder\FinderFactory</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="sculpin.configuration" class="%sculpin.configuration.class%">
+            <call method="setSourceDir"><argument>%sculpin.config.source_dir%</argument></call>
+            <call method="setOutputDir"><argument>%sculpin.config.output_dir%</argument></call>
+            <call method="setPermalink"><argument>%sculpin.config.permalink%</argument></call>
+            <call method="setExcludes">
+                <argument>%sculpin.config.exclude%</argument>
+            </call>
+            <call method="setIgnores">
+                <argument>%sculpin.config.ignore%</argument>
+            </call>
+            <call method="setRaws">
+                <argument>%sculpin.config.raw%</argument>
+            </call>
+        </service>
+
+        <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
+            <argument type="service" id="sculpin.configuration" />
+        </service>
+
+        <service id="sculpin" class="%sculpin.class%">
+            <argument type="service" id="sculpin.configuration" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="sculpin.source_permalink_factory" />
+        </service>
+
+        <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" />
+
+        <service id="sculpin.default_filesystem_data_source" class="%sculpin.default_filesystem_data_source.class%">
+            <argument type="service" id="sculpin.configuration" />
+            <argument>%sculpin.config.source_dir%</argument>
+            <argument type="service" id="sculpin.finder_factory" />
+        </service>
+
+        <service id="sculpin.data_source" class="%sculpin.data_source.class%">
+            <argument type="collection">
+                <argument type="service" id="sculpin.default_filesystem_data_source" />
+            </argument>
+        </service>
+
+    </services>
+</container>

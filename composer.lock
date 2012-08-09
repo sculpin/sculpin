@@ -1,0 +1,97 @@
+{
+    "hash": "46cfeb15abe8bdbe07a9ba2042893e72",
+    "packages": [
+        {
+            "package": "dflydev/dot-access-configuration",
+            "version": "v1.0.0-BETA1"
+        },
+        {
+            "package": "dflydev/dot-access-data",
+            "version": "v1.0.0"
+        },
+        {
+            "package": "dflydev/markdown",
+            "version": "v1.0.2"
+        },
+        {
+            "package": "dflydev/placeholder-resolver",
+            "version": "v1.0.0"
+        },
+        {
+            "package": "doctrine/common",
+            "version": "2.3.0-RC1"
+        },
+        {
+            "package": "symfony/class-loader",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/config",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/console",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/dependency-injection",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/filesystem",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/finder",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/framework-bundle",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/process",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/templating",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/translation",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "twig/twig",
+            "version": "1.6.5"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "beta",
+    "stability-flags": [
+
+    ]
+}
