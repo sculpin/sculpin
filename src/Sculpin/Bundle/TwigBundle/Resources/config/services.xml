@@ -13,6 +13,7 @@
             <argument type="service" id="sculpin.configuration" />
             <argument>%sculpin_twig.view_paths%</argument>
             <argument>%sculpin_twig.extensions%</argument>
+            <argument type="service" id="sculpin.matcher" />
         </service>
 
         <service id="sculpin_twig.formatter" class="%sculpin_twig.formatter.class%">

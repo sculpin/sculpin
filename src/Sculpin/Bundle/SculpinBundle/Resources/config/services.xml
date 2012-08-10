@@ -4,8 +4,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
+        <parameter key="sculpin.matcher.class">dflydev\util\antPathMatcher\AntPathMatcher</parameter>
         <parameter key="sculpin.configuration.class">Sculpin\Core\Configuration\Configuration</parameter>
+        <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
         <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
         <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
@@ -13,6 +14,8 @@
     </parameters>
 
     <services>
+
+        <service id="sculpin.matcher" class="%sculpin.matcher.class%" />
 
         <service id="sculpin.configuration" class="%sculpin.configuration.class%">
             <call method="setSourceDir"><argument>%sculpin.config.source_dir%</argument></call>
@@ -45,6 +48,7 @@
             <argument type="service" id="sculpin.configuration" />
             <argument>%sculpin.config.source_dir%</argument>
             <argument type="service" id="sculpin.finder_factory" />
+            <argument type="service" id="sculpin.matcher" />
         </service>
 
         <service id="sculpin.data_source" class="%sculpin.data_source.class%">

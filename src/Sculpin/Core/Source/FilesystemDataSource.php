@@ -43,7 +43,18 @@ class FilesystemDataSource implements DataSourceInterface
      */
     protected $sourceDir;
 
+    /**
+     * Finder Factory
+     *
+     * @var FinderFactory
+     */
     protected $finderFactory;
+
+    /**
+     * Path Matcher
+     *
+     * @var AntPathMatcher
+     */
     protected $matcher;
 
     /**

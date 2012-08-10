@@ -104,7 +104,6 @@ class Sculpin
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
             $this->convertSource($source);
-            $originalContent = $source->content();
             if ($source->canBeFormatted()) {
                 $source->setContent($this->formatSourcePage($source));
             }

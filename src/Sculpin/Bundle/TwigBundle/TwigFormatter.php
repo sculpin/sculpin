@@ -45,10 +45,9 @@ class TwigFormatter implements FormatterInterface
     /**
      * Constructor.
      *
-     * @param \Twig_LoaderInterface $loader  Loader
-     * @param AntPathMatcher        $matcher Matcher
+     * @param \Twig_LoaderInterface $loader Loader
      */
-    public function __construct(\Twig_LoaderInterface $loader, AntPathMatcher $matcher = null)
+    public function __construct(\Twig_LoaderInterface $loader)
     {
         $this->arrayLoader = new \Twig_Loader_Array(array());
         $this->loader = new \Twig_Loader_Chain(array($loader, $this->arrayLoader));
