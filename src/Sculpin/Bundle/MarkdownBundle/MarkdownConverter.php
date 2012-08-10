@@ -33,13 +33,22 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     protected $markdownParser;
 
     /**
+     * Extensions
+     *
+     * @var array
+     */
+    protected $extensions = array();
+
+    /**
      * Constructor.
      *
      * @param IMarkdownParser $markdownParser Markdown parser
+     * @param array           $extensions     Extensions
      */
-    public function __construct(IMarkdownParser $markdownParser)
+    public function __construct(IMarkdownParser $markdownParser, array $extensions = array())
     {
         $this->markdownParser = $markdownParser;
+        $this->extensions = $extensions;
     }
 
     /**
@@ -67,9 +76,8 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
-        $extensions = array('md', 'markdown');
         foreach ($sourceSetEvent->updatedSources() as $source) {
-            foreach ($extensions as $extension) {
+            foreach ($this->extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {
                     $source->data()->append('converters', SculpinMarkdownBundle::CONVERTER_NAME);
                     break;

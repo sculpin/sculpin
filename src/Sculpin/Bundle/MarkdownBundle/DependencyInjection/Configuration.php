@@ -33,6 +33,10 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('parser_class')->defaultValue('dflydev\markdown\MarkdownParser')->end()
+                ->arrayNode('extensions')
+                    ->defaultValue(array('md', 'markdown'))
+                    ->prototype('scalar')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

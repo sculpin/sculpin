@@ -37,17 +37,6 @@ class SculpinMarkdownExtension extends Extension
 
         $container->setParameter('sculpin_markdown.parser.class', $config['parser_class']);
 
-        //print_r($config);
-        /*
-        foreach (array('source_dir', 'output_dir', 'cache_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
-            $this->setSculpinParameter($container, $config, $key);
-        }
-
-        $sculpinConfiguration = $container->findDefinition('sculpin.configuration');
-
-        if (isset($config['meta'])) {
-            $sculpinConfiguration->addArgument($config['meta']);
-        }
-        */
+        $container->findDefinition('sculpin_markdown.converter')->addArgument($config['extensions']);
     }
 }

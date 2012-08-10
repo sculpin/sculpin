@@ -14,13 +14,14 @@ namespace Sculpin\Bundle\MarkdownBundle;
 use Sculpin\Core\Bundle\AbstractBundle;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Sculpin Markdown Bundle.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinMarkdownBundle extends AbstractBundle
+class SculpinMarkdownBundle extends Bundle
 {
     const CONVERTER_NAME = 'markdown';
 }
