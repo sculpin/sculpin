@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Configuration\Configuration;
 
 /**
@@ -30,19 +31,29 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
     /**
      * Constructor.
      *
-     * @param Configuration $configuration Configuration
-     * @param array         $paths         Paths
-     * @param array         $extensions    Extensions
+     * @param Configuration  $configuration Configuration
+     * @param array          $paths         Paths
+     * @param array          $extensions    Extensions
+     * @param AntPathMatcher $matcher       Matcher
      */
-    public function __construct(Configuration $configuration, array $paths, array $extensions)
+    public function __construct(Configuration $configuration, array $paths, array $extensions, AntPathMatcher $matcher = null)
     {
+        $matcher = $matcher ?: new AntPathMatcher;
         $this->filesystemLoader = new FilesystemLoader(array_map(function($path) use ($configuration) {
+            if (file_exists($path)) {
+                return $path;
+            }
+
             return $configuration->sourceDir().'/'.$path;
         }, $paths));
         $this->extensions = array_map(function($ext) {
             return $ext?'.'.$ext:$ext;
         }, $extensions);
-        $configuration->setExcludes(array_map(function($path) {
+        $configuration->setExcludes(array_map(function($path) use($matcher) {
+            if ($matcher->isPattern($path)) {
+                return $path;
+            }
+
             return $path.'/**';
         }, $paths));
     }

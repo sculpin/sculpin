@@ -73,6 +73,14 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
+    public function dataSourceId()
+    {
+        return 'FilesystemDataSource:'.$this->configuration->sourceDir();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function refresh(SourceSet $sourceSet)
     {
         $sinceTimeLast = $this->sinceTime;
@@ -88,7 +96,6 @@ class FilesystemDataSource implements DataSourceInterface
             ->in($this->sourceDir);
 
         foreach ($files as $file) {
-            print $file->getRelativePathname()."\n";
             foreach ($this->configuration->ignores() as $pattern) {
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
@@ -120,7 +127,7 @@ class FilesystemDataSource implements DataSourceInterface
                 }
             }
 
-            $source = new FileSource($file, $isRaw, true);
+            $source = new FileSource($this, $file, $isRaw, true);
             $sourceSet->mergeSource($source);
         }
 

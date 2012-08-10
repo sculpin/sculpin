@@ -19,6 +19,13 @@ namespace Sculpin\Core\Source;
 interface DataSourceInterface
 {
     /**
+     * Data Source ID
+     *
+     * @return string
+     */
+    public function dataSourceId();
+
+    /**
      * Refresh the Source Set with updated Sources.
      *
      * @param SourceSet $sourceSet Source set to be updated

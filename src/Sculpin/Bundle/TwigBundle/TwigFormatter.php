@@ -45,9 +45,10 @@ class TwigFormatter implements FormatterInterface
     /**
      * Constructor.
      *
-     * @param \Twig_LoaderInterface $loader Loader
+     * @param \Twig_LoaderInterface $loader  Loader
+     * @param AntPathMatcher        $matcher Matcher
      */
-    public function __construct(\Twig_LoaderInterface $loader)
+    public function __construct(\Twig_LoaderInterface $loader, AntPathMatcher $matcher = null)
     {
         $this->arrayLoader = new \Twig_Loader_Array(array());
         $this->loader = new \Twig_Loader_Chain(array($loader, $this->arrayLoader));
@@ -108,9 +109,6 @@ class TwigFormatter implements FormatterInterface
             }
             $template = '{% extends "' . $layout . '" %}' . $template;
         }
-        $template = preg_replace('/{% gist .+? %}/', '', $template);
-
-        print " [[ " . $template . " ]] \n";
 
         return $template;
     }

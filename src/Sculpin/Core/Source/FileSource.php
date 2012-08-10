@@ -24,6 +24,13 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder;
 class FileSource implements SourceInterface
 {
     /**
+     * Data Source
+     *
+     * @var DataSourceInterface
+     */
+    protected $dataSource;
+
+    /**
      * File
      *
      * @var SplFileInfo
@@ -74,12 +81,14 @@ class FileSource implements SourceInterface
     /**
      * Constructor
      *
-     * @param SplFileInfo $file       File
-     * @param boolean     $isRaw      Should be treated as raw
-     * @param boolean     $hasChanged Has the file changed?
+     * @param DataSourceInterface $dataSource Data Source
+     * @param SplFileInfo         $file       File
+     * @param bool                $isRaw      Should be treated as raw
+     * @param bool                $hasChanged Has the file changed?
      */
-    public function __construct(SplFileInfo $file, $isRaw, $hasChanged = false)
+    public function __construct(DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
     {
+        $this->dataSource = $dataSource;
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
@@ -151,7 +160,7 @@ class FileSource implements SourceInterface
      */
     public function sourceId()
     {
-        return 'FileSource:'.$this->file->getRelativePathname();
+        return 'FileSource:'.$this->dataSource->dataSourceId().':'.$this->file->getRelativePathname();
     }
 
     /**

@@ -108,12 +108,6 @@ class Sculpin
             if ($source->canBeFormatted()) {
                 $source->setContent($this->formatSourcePage($source));
             }
-
-            print " !!!!! " . $source->sourceId() . "\n";
-            print " {{{{{ " . $source->content() . " }}}}}\n\n";
-            if ($originalContent !== $source->content()) {
-                print " <<<<< " . $originalContent . " >>>>>\n\n";
-            }
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
