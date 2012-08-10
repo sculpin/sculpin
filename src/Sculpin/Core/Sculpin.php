@@ -11,11 +11,15 @@
 
 namespace Sculpin\Core;
 
+use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Converter\SourceConverterContext;
+use Sculpin\Core\Event\ConvertEvent;
+use Sculpin\Core\Event\FormatEvent;
 use Sculpin\Core\Event\SourceSetEvent;
-use Sculpin\Core\Event\ConvertSourceEvent;
+use Sculpin\Core\Formatter\FormatContext;
+use Sculpin\Core\Formatter\FormatterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceInterface;
@@ -35,6 +39,9 @@ class Sculpin
 
     const EVENT_BEFORE_CONVERT = 'sculpin.core.beforeConvert';
     const EVENT_AFTER_CONVERT = 'sculpin.core.afterConvert';
+
+    const EVENT_BEFORE_FORMAT = 'sculpin.core.beforeFormat';
+    const EVENT_AFTER_FORMAT = 'sculpin.core.afterFormat';
 
     /**
      * Configuration
@@ -56,6 +63,13 @@ class Sculpin
      * @var array
      */
     protected $converters = array();
+
+    /**
+     * Formatters
+     *
+     * @var array
+     */
+    protected $formatters = array();
 
     /**
      * Constructor.
@@ -89,7 +103,10 @@ class Sculpin
         foreach ($sourceSet->updatedSources() as $source) {
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
-            $this->convert($source);
+            $this->convertSource($source);
+            if ($source->canBeFormatted()) {
+                $source->setContent($this->formatSourcePage($source));
+            }
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
@@ -123,7 +140,7 @@ class Sculpin
      *
      * @param SourceInterface $source Source
      */
-    protected function convert(SourceInterface $source)
+    public function convertSource(SourceInterface $source)
     {
         $converters = $source->data()->get('converters');
         if (!$converters || !is_array($converters)) {
@@ -131,9 +148,145 @@ class Sculpin
         }
 
         foreach ($converters as $converter) {
-            $this->eventDispatcher->dispatch(self::EVENT_BEFORE_CONVERT, new ConvertSourceEvent($source, $converter, $this->configuration->defaultFormatter()));
+            $this->eventDispatcher->dispatch(self::EVENT_BEFORE_CONVERT, new ConvertEvent($source, $converter, $this->configuration->defaultFormatter()));
             $this->converter($converter)->convert(new SourceConverterContext($source));
-            $this->eventDispatcher->dispatch(self::EVENT_AFTER_CONVERT, new ConvertSourceEvent($source, $converter, $this->configuration->defaultFormatter()));
+            $this->eventDispatcher->dispatch(self::EVENT_AFTER_CONVERT, new ConvertEvent($source, $converter, $this->configuration->defaultFormatter()));
         }
+    }
+
+    protected function buildBaseFormatContext($context)
+    {
+        $baseContext = new Data(array(
+            'site' => $this->configuration->export(),
+            'page' => $context,
+            'formatter' => $this->configuration->defaultFormatter(),
+            'converters' => array(),
+        ));
+
+        return $baseContext;
+    }
+    /**
+     * Build a Format Context
+     *
+     * @param string $templateId Template ID
+     * @param string $template   Template
+     * @param array  $context    Context
+     *
+     * @return FormatContext
+     */
+    public function buildFormatContext($templateId, $template, $context)
+    {
+        $baseContext = $this->buildBaseFormatContext($context);
+
+        foreach (array('layout', 'formatter', 'converters') as $key) {
+            if (isset($context[$key])) {
+                $baseContext->set($key, $context[$key]);
+            }
+        }
+
+        return new FormatContext($templateId, $template, $baseContext->export());
+    }
+
+    /**
+     * Register formatter
+     *
+     * @param string             $name      Name
+     * @param FormatterInterface $formatter Formatter
+     */
+    public function registerFormatter($name, FormatterInterface $formatter)
+    {
+        $this->formatters[$name] = $formatter;
+    }
+
+    /**
+     * Formatter
+     *
+     * @param string $name Name
+     *
+     * @return FormatterInterface
+     */
+    public function formatter($name)
+    {
+        return $this->formatters[$name];
+    }
+
+    /**
+     * Format a page
+     *
+     * @param string $templateId Template ID
+     * @param string $template   Template
+     * @param array  $context    Context
+     *
+     * @return string
+     */
+    public function formatPage($templateId, $template, $context)
+    {
+        $formatContext = $this->buildFormatContext($templateId, $template, $context);
+
+        if (!$formatContext->formatter()) {
+            return $template;
+        }
+
+        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
+        $response = $this->formatter($formatContext->formatter())->formatPage($formatContext);
+        $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new FormatEvent($formatContext));
+
+        return $response;
+    }
+
+    /**
+     * Format a page for a Source
+     *
+     * @param SourceInterface $source Source
+     *
+     * @return string
+     */
+    public function formatSourcePage(SourceInterface $source)
+    {
+        return $this->formatPage(
+            $source->sourceId(),
+            $source->content(),
+            $source->data()->export()
+        );
+    }
+
+    /**
+     * Format blocks
+     *
+     * @param string $templateId Template ID
+     * @param string $template   Template
+     * @param array  $context    Context
+     *
+     * @return array
+     */
+    public function formatBlocks($templateId, $template, $context)
+    {
+        $formatContext = $this->buildFormatContext($templateId, $template, $context);
+
+        if (!$formatContext->formatter()) {
+            return array('content' => $template);
+        }
+
+        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
+        $response = $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
+        $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new FormatEvent($formatContext));
+
+        return $response;
+    }
+
+    /**
+     * Format blocks for a Source
+     *
+     * @param SourceInterface $source Source
+     *
+     * @return array
+     */
+    public function formatSourceBlocks(SourceInterface $source)
+    {
+        return $this->formatBlocks(
+            $source->sourceId(),
+            $source->content(),
+            $source->data()->export()
+        );
     }
 }

@@ -18,7 +18,7 @@ use Sculpin\Core\Source\SourceInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConvertSourceEvent extends Event
+class ConvertEvent extends Event
 {
     /**
      * Source
@@ -52,6 +52,7 @@ class ConvertSourceEvent extends Event
     {
         $this->source = $source;
         $this->converter = $converter;
+        $this->defaultFormatter = $defaultFormatter;
     }
 
     /**
