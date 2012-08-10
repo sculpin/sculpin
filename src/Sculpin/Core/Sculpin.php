@@ -20,6 +20,8 @@ use Sculpin\Core\Event\FormatEvent;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatContext;
 use Sculpin\Core\Formatter\FormatterInterface;
+use Sculpin\Core\Output\SourceOutput;
+use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceInterface;
@@ -58,6 +60,13 @@ class Sculpin
     protected $permalinkFactory;
 
     /**
+     * Writer
+     *
+     * @var WriterInterface
+     */
+    protected $writer;
+
+    /**
      * Converters
      *
      * @var array
@@ -77,12 +86,14 @@ class Sculpin
      * @param Configuration          $configuration    Configuration
      * @param EventDispatcher        $eventDispatcher  Event dispatcher
      * @param SourcePermalinkFactory $permalinkFactory Permalink factory
+     * @param WriterInterface        $writer           Writer
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory)
+    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory, WriterInterface $writer)
     {
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher;
         $this->permalinkFactory = $permalinkFactory;
+        $this->writer = $writer;
     }
 
     /**
@@ -103,10 +114,20 @@ class Sculpin
         foreach ($sourceSet->updatedSources() as $source) {
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
+        }
+
+        foreach ($sourceSet->updatedSources() as $source) {
             $this->convertSource($source);
+        }
+
+        foreach ($sourceSet->updatedSources() as $source) {
             if ($source->canBeFormatted()) {
                 $source->setContent($this->formatSourcePage($source));
             }
+        }
+
+        foreach ($sourceSet->updatedSources() as $source) {
+            $this->writer->write(new SourceOutput($source));
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));

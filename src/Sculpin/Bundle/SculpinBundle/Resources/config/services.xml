@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="sculpin.matcher.class">dflydev\util\antPathMatcher\AntPathMatcher</parameter>
         <parameter key="sculpin.configuration.class">Sculpin\Core\Configuration\Configuration</parameter>
+        <parameter key="sculpin.writer.class">Sculpin\Core\Output\FilesystemWriter</parameter>
         <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
         <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
         <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
@@ -32,6 +33,11 @@
             </call>
         </service>
 
+        <service id="sculpin.writer" class="%sculpin.writer.class%">
+            <argument type="service" id="filesystem" />
+            <argument>%sculpin.config.output_dir%</argument>
+        </service>
+
         <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
             <argument type="service" id="sculpin.configuration" />
         </service>
@@ -40,6 +46,7 @@
             <argument type="service" id="sculpin.configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
+            <argument type="service" id="sculpin.writer" />
         </service>
 
         <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" />
