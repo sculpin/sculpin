@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\StandaloneBundle;
 
 use Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler\RegisterKernelListenersPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Scope;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -33,6 +34,6 @@ class SculpinStandaloneBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new RegisterKernelListenersPass);
+        $container->addCompilerPass(new RegisterKernelListenersPass, PassConfig::TYPE_AFTER_REMOVING);
     }
 }

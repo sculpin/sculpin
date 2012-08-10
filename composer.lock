@@ -1,6 +1,10 @@
 {
-    "hash": "46cfeb15abe8bdbe07a9ba2042893e72",
+    "hash": "1fb787ce5679922535e41585aaf7cb61",
     "packages": [
+        {
+            "package": "dflydev/ant-path-matcher",
+            "version": "v1.0.2"
+        },
         {
             "package": "dflydev/dot-access-configuration",
             "version": "v1.0.0-BETA1"

@@ -11,6 +11,7 @@
 
 namespace Sculpin\Core\Source;
 
+use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Finder\FinderFactory;
 
@@ -42,6 +43,9 @@ class FilesystemDataSource implements DataSourceInterface
      */
     protected $sourceDir;
 
+    protected $finderFactory;
+    protected $matcher;
+
     /**
      * Since time
      *
@@ -52,15 +56,17 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * Constructor.
      *
-     * @param Configuration $configuration Configuration
-     * @param string        $sourceDir     Source directory
-     * @param FinderFactory $finderFactory Finder factory
+     * @param Configuration  $configuration Configuration
+     * @param string         $sourceDir     Source directory
+     * @param FinderFactory  $finderFactory Finder factory
+     * @param AntPathMatcher $matcher       Matcher
      */
-    public function __construct(Configuration $configuration, $sourceDir, FinderFactory $finderFactory = null)
+    public function __construct(Configuration $configuration, $sourceDir, FinderFactory $finderFactory = null, AntPathMatcher $matcher = null)
     {
         $this->configuration = $configuration;
         $this->sourceDir = $sourceDir;
         $this->finderFactory = $finderFactory ?: new FinderFactory;
+        $this->matcher = $matcher ?: new AntPathMatcher;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
@@ -71,6 +77,9 @@ class FilesystemDataSource implements DataSourceInterface
     {
         $sinceTimeLast = $this->sinceTime;
 
+        // We regenerate the whole site if an excluded file changes.
+        $excludedFilesHaveChanged = false;
+
         $files = $this
             ->finderFactory->create()
             ->files()
@@ -79,9 +88,48 @@ class FilesystemDataSource implements DataSourceInterface
             ->in($this->sourceDir);
 
         foreach ($files as $file) {
-            $isRaw = false; // UPDATE
+            print $file->getRelativePathname()."\n";
+            foreach ($this->configuration->ignores() as $pattern) {
+                if (!$this->matcher->isPattern($pattern)) {
+                    continue;
+                }
+                if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                    // Ignored files are completely ignored.
+                    continue 2;
+                }
+            }
+            foreach ($this->configuration->excludes() as $pattern) {
+                if (!$this->matcher->isPattern($pattern)) {
+                    continue;
+                }
+                if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                    $excludedFilesHaveChanged = true;
+                    continue 2;
+                }
+            }
+
+            $isRaw = false;
+
+            foreach ($this->configuration->raws() as $pattern) {
+                if (!$this->matcher->isPattern($pattern)) {
+                    continue;
+                }
+                if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                    $isRaw = true;
+                    break;
+                }
+            }
+
             $source = new FileSource($file, $isRaw, true);
             $sourceSet->mergeSource($source);
+        }
+
+        if ($excludedFilesHaveChanged) {
+            // If any of the exluded files have changed we should
+            // mark all of the sources as having changed.
+            foreach ($sourceSet->allSources() as $source) {
+                $source->setHasChanged();
+            }
         }
     }
 }

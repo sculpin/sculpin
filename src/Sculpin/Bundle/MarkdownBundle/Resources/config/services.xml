@@ -3,11 +3,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="sculpin_markdown.converter.class">Sculpin\Bundle\MarkdownBundle\MarkdownConverter</parameter>
+    </parameters>
+
     <services>
 
         <service id="sculpin_markdown.parser" class="%sculpin_markdown.parser.class%" />
 
-        <service id="sculpin_markdown.converter" class="Sculpin\Bundle\MarkdownBundle\MarkdownConverter">
+        <service id="sculpin_markdown.converter" class="%sculpin_markdown.converter.class%">
             <argument type="service" id="sculpin_markdown.parser" />
             <tag name="sculpin.converter" alias="markdown" />
             <tag name="kernel.event_subscriber" />

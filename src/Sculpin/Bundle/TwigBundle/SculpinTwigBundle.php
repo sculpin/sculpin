@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\MarkdownBundle;
+namespace Sculpin\Bundle\TwigBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Markdown Bundle.
+ * Sculpin Twig Bundle.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinMarkdownBundle extends Bundle
+class SculpinTwigBundle extends Bundle
 {
-    const CONVERTER_NAME = 'markdown';
+    const FORMATTER_NAME = 'twig';
 }

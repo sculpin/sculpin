@@ -53,7 +53,8 @@ abstract class AbstractKernel extends Kernel
     {
         $bundles = array(
             new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
-            new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle
+            new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
+            new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
         );
 
         if (!$this->isSymfonyStandard) {

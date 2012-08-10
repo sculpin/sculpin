@@ -33,15 +33,15 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class Sculpin
 {
-    const EVENT_BEFORE_RUN = 'sculpin.core.beforeRun';
-    const EVENT_BEFORE_RUN_AGAIN = 'sculpin.core.beforeRunAgain';
-    const EVENT_AFTER_RUN = 'sculpin.core.afterRun';
+    const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+    const EVENT_BEFORE_RUN_AGAIN = 'sculpin.core.before_run_again';
+    const EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
-    const EVENT_BEFORE_CONVERT = 'sculpin.core.beforeConvert';
-    const EVENT_AFTER_CONVERT = 'sculpin.core.afterConvert';
+    const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+    const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
-    const EVENT_BEFORE_FORMAT = 'sculpin.core.beforeFormat';
-    const EVENT_AFTER_FORMAT = 'sculpin.core.afterFormat';
+    const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+    const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     /**
      * Configuration
@@ -104,8 +104,15 @@ class Sculpin
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
             $this->convertSource($source);
+            $originalContent = $source->content();
             if ($source->canBeFormatted()) {
                 $source->setContent($this->formatSourcePage($source));
+            }
+
+            print " !!!!! " . $source->sourceId() . "\n";
+            print " {{{{{ " . $source->content() . " }}}}}\n\n";
+            if ($originalContent !== $source->content()) {
+                print " <<<<< " . $originalContent . " >>>>>\n\n";
             }
         }
 
@@ -196,6 +203,8 @@ class Sculpin
     public function registerFormatter($name, FormatterInterface $formatter)
     {
         $this->formatters[$name] = $formatter;
+
+        $this->configuration->setDefaultFormatter($name);
     }
 
     /**

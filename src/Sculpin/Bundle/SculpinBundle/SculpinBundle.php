@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle;
 
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\ConverterPass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Scope;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -33,5 +34,6 @@ class SculpinBundle extends Bundle
         $container->addScope(new Scope('sculpin'));
 
         $container->addCompilerPass(new ConverterPass);
+        $container->addCompilerPass(new FormatterPass);
     }
 }

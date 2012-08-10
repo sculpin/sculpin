@@ -25,7 +25,7 @@ class Configuration extends BaseConfiguration
      *
      * @var array
      */
-    private $exclusions = array();
+    private $excludes = array();
 
     /**
      * Ignore patterns
@@ -100,11 +100,21 @@ class Configuration extends BaseConfiguration
             $pattern = substr($pattern, 2);
         }
 
-        if (!in_array($pattern, $this->exclusions)) {
-            $this->exclusions[] = $pattern;
+        if (!in_array($pattern, $this->excludes)) {
+            $this->excludes[] = $pattern;
         }
 
         return $this;
+    }
+
+    /**
+     * Excludes
+     *
+     * @return array
+     */
+    public function excludes()
+    {
+        return $this->excludes;
     }
 
     /**
@@ -146,6 +156,16 @@ class Configuration extends BaseConfiguration
     }
 
     /**
+     * Ignores
+     *
+     * @return array
+     */
+    public function ignores()
+    {
+        return $this->ignores;
+    }
+
+    /**
      * Set raws
      *
      * NOTE: Does not clear existing values first.
@@ -180,6 +200,16 @@ class Configuration extends BaseConfiguration
         }
 
         return $this;
+    }
+
+    /**
+     * Raws
+     *
+     * @return array
+     */
+    public function raws()
+    {
+        return $this->raws;
     }
 
     /**
