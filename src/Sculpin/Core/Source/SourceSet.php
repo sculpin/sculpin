@@ -33,7 +33,7 @@ class SourceSet
     public function __construct(array $sources = array())
     {
         foreach ($sources as $source) {
-            $this->sources[$source->id()] = $source;
+            $this->sources[$source->sourceId()] = $source;
         }
     }
     /**

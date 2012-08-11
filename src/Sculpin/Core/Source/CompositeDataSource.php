@@ -23,7 +23,7 @@ class CompositeDataSource implements DataSourceInterface
      *
      * @var array
      */
-    private $dataSources;
+    private $dataSources = array();
 
     /**
      * Constructor.
@@ -32,7 +32,9 @@ class CompositeDataSource implements DataSourceInterface
      */
     public function __construct(array $dataSources = array())
     {
-        $this->dataSources = $dataSources;
+        foreach ($dataSources as $dataSource) {
+            $this->dataSources[$dataSource->dataSourceId()] = $dataSource;
+        }
     }
 
     /**
@@ -42,7 +44,17 @@ class CompositeDataSource implements DataSourceInterface
      */
     public function addDataSource(DataSourceInterface $dataSource)
     {
-        $this->dataSources[] = $dataSource;
+        $this->dataSources[$dataSource->dataSourceId()] = $dataSource;
+    }
+
+    /**
+     * Backing Data Sources
+     *
+     * @return array
+     */
+    public function dataSources()
+    {
+        return $this->dataSources;
     }
 
     /**
