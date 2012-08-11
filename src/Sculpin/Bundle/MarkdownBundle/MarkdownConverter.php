@@ -65,7 +65,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Sculpin::EVENT_BEFORE_RUN => 'beforeRun'
+            Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
         );
     }
 

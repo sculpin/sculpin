@@ -96,7 +96,7 @@ class ConvertEvent extends Event
      */
     public function isFormattedBy($requestedFormatter)
     {
-        return $requestedFormatter == $source->data()->get('formatter') ?: $this->defaultFormatter;
+        return $requestedFormatter == $this->source->data()->get('formatter') ?: $this->defaultFormatter;
     }
 
     /**
