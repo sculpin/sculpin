@@ -72,7 +72,7 @@ class SourcePermalinkFactory
         if (!$permalink = $source->data()->get('permalink')) {
             $permalink = $this->defaultPermalink;
         }
-        switch($permalink) {
+        switch ($permalink) {
             case 'none':
                 return $pathname;
                 break;

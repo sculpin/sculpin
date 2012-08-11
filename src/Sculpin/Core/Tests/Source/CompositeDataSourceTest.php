@@ -24,7 +24,7 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
     /**
      * Make a test Source
      *
-     * @param string $dataSourceId   Data Source ID
+     * @param string $dataSourceId Data Source ID
      *
      * @return \Sculpin\Core\Source\DataSourceInterface
      */

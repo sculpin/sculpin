@@ -27,7 +27,6 @@ class FormatEvent extends Event
      */
     protected $formatContext;
 
-
     /**
      * Constructor.
      *
