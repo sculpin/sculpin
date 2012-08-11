@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Sculpin Test Suite">
+            <directory>./src/Sculpin/Bundle/*/Tests</directory>
+            <directory>./src/Sculpin/Core/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/Sculpin/</directory>
+            <exclude>
+                <directory>./src/Sculpin/Bundle/*/Tests</directory>
+                <directory>./src/Sculpin/Bundle/*/Resources</directory>
+                <directory>./src/Sculpin/Bundle/*/vendor</directory>
+                <directory>./src/Sculpin/Core/Tests</directory>
+                <directory>./src/Sculpin/Core/vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
