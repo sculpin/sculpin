@@ -11,7 +11,7 @@
 
 namespace Sculpin\Core\Formatter;
 
-use Dflydev\DotAccessConfiguration\Configuration;
+use Dflydev\DotAccessConfiguration\Configuration as Data;
 
 /**
  * Formatter interface
@@ -35,24 +35,24 @@ class FormatContext
     protected $template;
 
     /**
-     * Context
+     * Data
      *
-     * @var Configuration
+     * @var Data
      */
-    protected $context;
+    protected $data;
 
     /**
      * Constructor.
      *
      * @param string $templateId Template ID
      * @param string $template   Template
-     * @param array  $context    Context
+     * @param array  $data       Data
      */
-    public function __construct($templateId, $template, $context)
+    public function __construct($templateId, $template, $data)
     {
         $this->templateId = $templateId;
         $this->template = $template;
-        $this->context = new Configuration($context);
+        $this->data = new Data($data);
     }
 
     /**
@@ -76,13 +76,13 @@ class FormatContext
     }
 
     /**
-     * Context
+     * Data
      *
-     * @return Configuration
+     * @return Data
      */
-    public function context()
+    public function data()
     {
-        return $this->context;
+        return $this->data;
     }
 
     /**
@@ -92,6 +92,6 @@ class FormatContext
      */
     public function formatter()
     {
-        return $this->context->get('formatter');
+        return $this->data->get('formatter');
     }
 }

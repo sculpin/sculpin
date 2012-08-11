@@ -38,15 +38,15 @@ class SculpinExtension extends Extension
             $this->setSculpinParameter($container, $config, $key);
         }
 
-        $sculpinConfiguration = $container->findDefinition('sculpin.configuration');
+        $siteConfiguration = $container->findDefinition('sculpin.site_configuration');
 
-        if (isset($config['meta'])) {
-            $sculpinConfiguration->addArgument($config['meta']);
+        if (isset($config['site'])) {
+            $siteConfiguration->addArgument($config['site']);
         }
     }
 
     protected function setSculpinParameter(ContainerBuilder $container, array $config, $key)
     {
-        $container->setParameter('sculpin.config.'.$key, $config[$key]);
+        $container->setParameter('sculpin.'.$key, $config[$key]);
     }
 }

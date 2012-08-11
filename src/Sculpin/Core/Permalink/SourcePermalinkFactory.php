@@ -11,7 +11,6 @@
 
 namespace Sculpin\Core\Permalink;
 
-use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
@@ -22,20 +21,20 @@ use Sculpin\Core\Source\SourceInterface;
 class SourcePermalinkFactory
 {
     /**
-     * Configuration
+     * Default permalink
      *
-     * @var Configuration
+     * @var string
      */
-    protected $configuration;
+    protected $defaultPermalink;
 
     /**
      * Constructor
      *
-     * @param Configuration $configuration Configuration
+     * @param string $defaultPermalink Default permalink
      */
-    public function __construct(Configuration $configuration)
+    public function __construct($defaultPermalink)
     {
-        $this->configuration = $configuration;
+        $this->defaultPermalink = $defaultPermalink;
     }
 
     /**
@@ -71,7 +70,7 @@ class SourcePermalinkFactory
         $date = $source->data()->get('calculatedDate');
         $title = $source->data()->get('title');
         if (!$permalink = $source->data()->get('permalink')) {
-            $permalink = $this->configuration->permalink();
+            $permalink = $this->defaultPermalink;
         }
         switch($permalink) {
             case 'none':

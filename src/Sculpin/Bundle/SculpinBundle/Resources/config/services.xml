@@ -5,45 +5,33 @@
 
     <parameters>
         <parameter key="sculpin.matcher.class">dflydev\util\antPathMatcher\AntPathMatcher</parameter>
-        <parameter key="sculpin.configuration.class">Sculpin\Core\Configuration\Configuration</parameter>
+        <parameter key="sculpin.site_configuration.class">Dflydev\DotAccessConfiguration\Configuration</parameter>
         <parameter key="sculpin.writer.class">Sculpin\Core\Output\FilesystemWriter</parameter>
         <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
         <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
         <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
         <parameter key="sculpin.finder_factory.class">Sculpin\Core\Finder\FinderFactory</parameter>
+        <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
     </parameters>
 
     <services>
 
         <service id="sculpin.matcher" class="%sculpin.matcher.class%" />
 
-        <service id="sculpin.configuration" class="%sculpin.configuration.class%">
-            <call method="setSourceDir"><argument>%sculpin.config.source_dir%</argument></call>
-            <call method="setOutputDir"><argument>%sculpin.config.output_dir%</argument></call>
-            <call method="setPermalink"><argument>%sculpin.config.permalink%</argument></call>
-            <call method="setExcludes">
-                <argument>%sculpin.config.exclude%</argument>
-            </call>
-            <call method="setIgnores">
-                <argument>%sculpin.config.ignore%</argument>
-            </call>
-            <call method="setRaws">
-                <argument>%sculpin.config.raw%</argument>
-            </call>
-        </service>
+        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" />
 
         <service id="sculpin.writer" class="%sculpin.writer.class%">
             <argument type="service" id="filesystem" />
-            <argument>%sculpin.config.output_dir%</argument>
+            <argument>%sculpin.output_dir%</argument>
         </service>
 
         <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
-            <argument type="service" id="sculpin.configuration" />
+            <argument>%sculpin.permalink%</argument>
         </service>
 
         <service id="sculpin" class="%sculpin.class%">
-            <argument type="service" id="sculpin.configuration" />
+            <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
             <argument type="service" id="sculpin.writer" />
@@ -52,8 +40,10 @@
         <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" />
 
         <service id="sculpin.default_filesystem_data_source" class="%sculpin.default_filesystem_data_source.class%">
-            <argument type="service" id="sculpin.configuration" />
-            <argument>%sculpin.config.source_dir%</argument>
+            <argument>%sculpin.source_dir%</argument>
+            <argument>%sculpin.exclude%</argument>
+            <argument>%sculpin.ignore%</argument>
+            <argument>%sculpin.raw%</argument>
             <argument type="service" id="sculpin.finder_factory" />
             <argument type="service" id="sculpin.matcher" />
         </service>

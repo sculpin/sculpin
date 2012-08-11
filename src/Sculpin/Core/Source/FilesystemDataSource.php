@@ -12,7 +12,6 @@
 namespace Sculpin\Core\Source;
 
 use dflydev\util\antPathMatcher\AntPathMatcher;
-use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Finder\FinderFactory;
 
 /**
@@ -23,25 +22,32 @@ use Sculpin\Core\Finder\FinderFactory;
 class FilesystemDataSource implements DataSourceInterface
 {
     /**
-     * Configuration
-     *
-     * @var Configuration
-     */
-    protected $configuration;
-
-    /**
-     * Permalink factory
-     *
-     * @var SourcePermalinkFactory
-     */
-    protected $permalinkFactory;
-
-    /**
      * Source directory
      *
      * @var string
      */
     protected $sourceDir;
+
+    /**
+     * Exclude paths
+     *
+     * @var array
+     */
+    protected $excludes;
+
+    /**
+     * Ignore paths
+     *
+     * @var array
+     */
+    protected $ignores;
+
+    /**
+     * Raw paths
+     *
+     * @var array
+     */
+    protected $raws;
 
     /**
      * Finder Factory
@@ -67,15 +73,19 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * Constructor.
      *
-     * @param Configuration  $configuration Configuration
      * @param string         $sourceDir     Source directory
+     * @param array          $excludes      Exclude paths
+     * @param array          $ignores       Ignore paths
+     * @param array          $raws          Raw paths
      * @param FinderFactory  $finderFactory Finder factory
      * @param AntPathMatcher $matcher       Matcher
      */
-    public function __construct(Configuration $configuration, $sourceDir, FinderFactory $finderFactory = null, AntPathMatcher $matcher = null)
+    public function __construct($sourceDir, $excludes, $ignores, $raws, FinderFactory $finderFactory = null, AntPathMatcher $matcher = null)
     {
-        $this->configuration = $configuration;
         $this->sourceDir = $sourceDir;
+        $this->excludes = $excludes;
+        $this->ignores = $ignores;
+        $this->raws = $raws;
         $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->sinceTime = '1970-01-01T00:00:00Z';
@@ -86,7 +96,7 @@ class FilesystemDataSource implements DataSourceInterface
      */
     public function dataSourceId()
     {
-        return 'FilesystemDataSource:'.$this->configuration->sourceDir();
+        return 'FilesystemDataSource:'.$this->sourceDir;
     }
 
     /**
@@ -107,7 +117,7 @@ class FilesystemDataSource implements DataSourceInterface
             ->in($this->sourceDir);
 
         foreach ($files as $file) {
-            foreach ($this->configuration->ignores() as $pattern) {
+            foreach ($this->ignores as $pattern) {
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
@@ -116,7 +126,7 @@ class FilesystemDataSource implements DataSourceInterface
                     continue 2;
                 }
             }
-            foreach ($this->configuration->excludes() as $pattern) {
+            foreach ($this->excludes as $pattern) {
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
@@ -128,7 +138,7 @@ class FilesystemDataSource implements DataSourceInterface
 
             $isRaw = false;
 
-            foreach ($this->configuration->raws() as $pattern) {
+            foreach ($this->raws as $pattern) {
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }

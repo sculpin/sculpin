@@ -11,8 +11,7 @@
 
 namespace Sculpin\Core;
 
-use Dflydev\DotAccessConfiguration\Configuration as Data;
-use Sculpin\Core\Configuration\Configuration;
+use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Converter\SourceConverterContext;
 use Sculpin\Core\Event\ConvertEvent;
@@ -46,11 +45,11 @@ class Sculpin
     const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     /**
-     * Configuration
+     * Site Configuration
      *
      * @var Configuration
      */
-    protected $configuration;
+    protected $siteConfiguration;
 
     /**
      * Permalink factory
@@ -81,16 +80,23 @@ class Sculpin
     protected $formatters = array();
 
     /**
+     * Default formatter
+     *
+     * @var string
+     */
+    protected $defaultFormatter;
+
+    /**
      * Constructor.
      *
-     * @param Configuration          $configuration    Configuration
-     * @param EventDispatcher        $eventDispatcher  Event dispatcher
-     * @param SourcePermalinkFactory $permalinkFactory Permalink factory
-     * @param WriterInterface        $writer           Writer
+     * @param Configuration          $siteConfiguration Site Configuration
+     * @param EventDispatcher        $eventDispatcher   Event dispatcher
+     * @param SourcePermalinkFactory $permalinkFactory  Permalink factory
+     * @param WriterInterface        $writer            Writer
      */
-    public function __construct(Configuration $configuration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory, WriterInterface $writer)
+    public function __construct(Configuration $siteConfiguration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory, WriterInterface $writer)
     {
-        $this->configuration = $configuration;
+        $this->siteConfiguration = $siteConfiguration;
         $this->eventDispatcher = $eventDispatcher;
         $this->permalinkFactory = $permalinkFactory;
         $this->writer = $writer;
@@ -169,18 +175,18 @@ class Sculpin
         }
 
         foreach ($converters as $converter) {
-            $this->eventDispatcher->dispatch(self::EVENT_BEFORE_CONVERT, new ConvertEvent($source, $converter, $this->configuration->defaultFormatter()));
+            $this->eventDispatcher->dispatch(self::EVENT_BEFORE_CONVERT, new ConvertEvent($source, $converter, $this->defaultFormatter));
             $this->converter($converter)->convert(new SourceConverterContext($source));
-            $this->eventDispatcher->dispatch(self::EVENT_AFTER_CONVERT, new ConvertEvent($source, $converter, $this->configuration->defaultFormatter()));
+            $this->eventDispatcher->dispatch(self::EVENT_AFTER_CONVERT, new ConvertEvent($source, $converter, $this->defaultFormatter));
         }
     }
 
     protected function buildBaseFormatContext($context)
     {
-        $baseContext = new Data(array(
-            'site' => $this->configuration->export(),
+        $baseContext = new Configuration(array(
+            'site' => $this->siteConfiguration->export(),
             'page' => $context,
-            'formatter' => $this->configuration->defaultFormatter(),
+            'formatter' => $this->defaultFormatter,
             'converters' => array(),
         ));
 
@@ -218,7 +224,9 @@ class Sculpin
     {
         $this->formatters[$name] = $formatter;
 
-        $this->configuration->setDefaultFormatter($name);
+        if (null === $this->defaultFormatter) {
+            $this->defaultFormatter = $name;
+        }
     }
 
     /**

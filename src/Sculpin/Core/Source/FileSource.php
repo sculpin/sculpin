@@ -13,8 +13,8 @@ namespace Sculpin\Core\Source;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
 use Symfony\Component\Finder\SplFileInfo;
-use Dflydev\DotAccessConfiguration\Configuration;
-use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder;
+use Dflydev\DotAccessConfiguration\Configuration as Data;
+use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
 
 /**
  * File Source.
@@ -53,7 +53,7 @@ class FileSource implements SourceInterface
     /**
      * Data
      *
-     * @var \sculpin\configuration\Configuration
+     * @var Data
      */
     protected $data;
 
@@ -107,7 +107,7 @@ class FileSource implements SourceInterface
         }
         if ($this->isRaw) {
             $this->useFileReference = true;
-            $this->data = new Configuration();
+            $this->data = new Data;
         } else {
             $finfo = finfo_open(FILEINFO_MIME);
             $mime = finfo_file($finfo, $this->file);
@@ -127,27 +127,27 @@ class FileSource implements SourceInterface
                     $this->content = $matches[2];
                     if (preg_match('/^(\s*[-]+\s*|\s*)$/', $matches[1])) {
                         // There is nothing useful in the YAML front matter.
-                        $this->data = new Configuration(array());
+                        $this->data = new Data;
                     } else {
                         // There may be YAML frontmatter
                         try {
-                            $builder = new YamlConfigurationBuilder($matches[1]);
+                            $builder = new YamlDataBuilder($matches[1]);
                             $this->data = $builder->build();
                         } catch (\Exception $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
                             $this->content = $content;
-                            $this->data = new Configuration(array());
+                            $this->data = new Data;
                         }
                     }
                 } else {
                     $this->content = $content;
-                    $this->data = new Configuration(array());
+                    $this->data = new Data;
                     $this->canBeFormatted = false;
                 }
             } else {
                 $this->useFileReference = true;
-                $this->data = new Configuration(array());
+                $this->data = new Data;
             }
         }
         if ($this->data->get('date')) {

@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')->end()
                 ->end()
                 ->scalarNode('permalink')->defaultValue('pretty')->end()
-                ->variableNode('meta')->end()
+                ->variableNode('site')->end()
             ->end();
 
         return $treeBuilder;

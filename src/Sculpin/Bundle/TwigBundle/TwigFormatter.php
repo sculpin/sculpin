@@ -63,11 +63,11 @@ class TwigFormatter implements FormatterInterface
             $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
             $template = $this->twig->loadTemplate($formatContext->templateId());
             if (!count($blockNames = $template->getBlockNames())) {
-                return array('content' => $template->render($formatContext->context()->export()));
+                return array('content' => $template->render($formatContext->data()->export()));
             }
             $blocks = array();
             foreach ($blockNames as $blockName) {
-                $blocks[$blockName] = $template->renderBlock($blockName, $formatContext->context()->export());
+                $blocks[$blockName] = $template->renderBlock($blockName, $formatContext->data()->export());
             }
 
             return $blocks;
@@ -84,7 +84,7 @@ class TwigFormatter implements FormatterInterface
         try {
             $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
 
-            return $this->twig->render($formatContext->templateId(), $formatContext->context()->export());
+            return $this->twig->render($formatContext->templateId(), $formatContext->data()->export());
         } catch (Exception $e) {
             print " [ exception ]\n";
         }
@@ -102,7 +102,7 @@ class TwigFormatter implements FormatterInterface
     protected function massageTemplate(FormatContext $formatContext)
     {
         $template = $formatContext->template();
-        if ($layout = $formatContext->context()->get('layout')) {
+        if ($layout = $formatContext->data()->get('layout')) {
             if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $template, $matches)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
