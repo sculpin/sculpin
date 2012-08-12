@@ -38,6 +38,7 @@
     "autoload": {
         "psr-0": { "Sculpin": "src" }
     },
+    "bin": ["bin/sculpin"],
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
