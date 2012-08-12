@@ -1,0 +1,39 @@
+{
+    "name": "sculpin/core",
+    "type": "application",
+    "description": "Static Site Generator",
+    "homepage": "http://getsculpin.com",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dragonfly Development Inc.",
+            "email": "info@dflydev.com",
+            "homepage": "http://dflydev.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com",
+            "homepage": "http://beausimensen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "dflydev/ant-path-matcher": "1.*",
+        "dflydev/dot-access-configuration": "1.*",
+        "symfony/console": "2.1.*",
+        "symfony/dependency-injection": "2.1.*",
+        "symfony/event-dispatcher": "2.1.*",
+        "symfony/finder": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": { "Sculpin\\Core": "" }
+    },
+    "target-dir": "Sculpin/Core",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    },
+    "minimum-stability": "alpha"
+}
