@@ -28,11 +28,11 @@ class TwigEnvironmentPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('twig')) {
+        if (false === $container->hasDefinition('sculpin_twig.twig')) {
             return;
         }
 
-        $definition = $container->getDefinition('twig');
+        $definition = $container->getDefinition('sculpin_twig.twig');
 
         // Extensions must always be registered before everything else.
         // For instance, global variable definitions must be registered

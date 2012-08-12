@@ -29,29 +29,22 @@ class TwigFormatter implements FormatterInterface
     protected $twig;
 
     /**
-     * Loader
-     *
-     * @var \Twig_LoaderInterface
-     */
-    protected $loader;
-
-    /**
      * Array loader
      *
      * @var \Twig_Loader_Array
      */
-    protected $arrayLoader;
+    protected $loader;
 
     /**
      * Constructor.
      *
-     * @param \Twig_LoaderInterface $loader Loader
+     * @param \Twig_Environment  $twig        Twig
+     * @param \Twig_Loader_Array $arrayLoader Array Loader
      */
-    public function __construct(\Twig_LoaderInterface $loader)
+    public function __construct(\Twig_Environment $twig, \Twig_Loader_Array $arrayLoader)
     {
-        $this->arrayLoader = new \Twig_Loader_Array(array());
-        $this->loader = new \Twig_Loader_Chain(array($loader, $this->arrayLoader));
-        $this->twig = new \Twig_Environment($this->loader);
+        $this->twig = $twig;
+        $this->arrayLoader = $arrayLoader;
     }
 
      /**

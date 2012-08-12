@@ -4,20 +4,40 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="sculpin_twig.flexible_extension_filesystem_loader.class">Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader</parameter>
+        <parameter key="sculpin_twig.array_loader.class">Twig_Loader_Array</parameter>
+        <parameter key="sculpin_twig.loader.class">Twig_Loader_Chain</parameter>
+        <parameter key="sculpin_twig.twig.class">Twig_Environment</parameter>
         <parameter key="sculpin_twig.formatter.class">Sculpin\Bundle\TwigBundle\TwigFormatter</parameter>
     </parameters>
 
     <services>
 
-        <service id="sculpin_twig.flexible_extension_filesystem_loader" class="Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader">
+        <service id="sculpin_twig.flexible_extension_filesystem_loader" class="%sculpin_twig.flexible_extension_filesystem_loader.class%">
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin_twig.view_paths%</argument>
             <argument>%sculpin_twig.extensions%</argument>
             <tag name="sculpin.path_configurator" type="exclude" parameter="sculpin_twig.view_paths" />
         </service>
 
+        <service id="sculpin_twig.array_loader" class="%sculpin_twig.array_loader.class%">
+            <argument type="collection" />
+        </service>
+
+        <service id="sculpin_twig.loader" class="%sculpin_twig.loader.class%">
+            <argument type="collection">
+                <argument type="service" id="sculpin_twig.flexible_extension_filesystem_loader" />
+                <argument type="service" id="sculpin_twig.array_loader" />
+            </argument>
+        </service>
+
+        <service id="sculpin_twig.twig" class="%sculpin_twig.twig.class%">
+            <argument type="service" id="sculpin_twig.loader" />
+        </service>
+
         <service id="sculpin_twig.formatter" class="%sculpin_twig.formatter.class%">
-            <argument type="service" id="sculpin_twig.flexible_extension_filesystem_loader" />
+            <argument type="service" id="sculpin_twig.twig" />
+            <argument type="service" id="sculpin_twig.array_loader" />
             <tag name="sculpin.formatter" alias="twig" />
         </service>
 
