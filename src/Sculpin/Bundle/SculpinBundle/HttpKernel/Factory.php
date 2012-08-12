@@ -47,7 +47,7 @@ class Factory
         if (file_exists($customKernel = $rootDir.'/config/SculpinKernel.php')) {
             require $customKernel;
 
-            return new \SculpinKernel($env, $debug);
+            return new \SculpinKernel($env, $debug, $rootDir);
         }
 
         // Fallback to using the default kernel in case

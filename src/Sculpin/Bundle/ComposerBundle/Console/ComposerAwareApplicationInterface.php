@@ -21,7 +21,7 @@ interface ComposerAwareApplicationInterface
     /**
      * Composer ClassLoader
      *
-     * @return ClassLoader
+     * @return \Composer\Autoload\ClassLoader
      */
     public function getComposerClassLoader();
 
@@ -38,4 +38,11 @@ interface ComposerAwareApplicationInterface
      * @return bool
      */
     public function internallyInstalledRepositoryEnabled();
+
+    /**
+     * The Application's package
+     *
+     * @return \Composer\Package\PackageInterface
+     */
+    public function getApplicationPackage();
 }

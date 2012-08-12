@@ -18,13 +18,4 @@ namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
  */
 class DefaultKernel extends AbstractKernel
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($environment, $debug, $rootDir = null)
-    {
-        $this->rootDir = $rootDir;
-
-        parent::__construct($environment, $debug);
-    }
 }

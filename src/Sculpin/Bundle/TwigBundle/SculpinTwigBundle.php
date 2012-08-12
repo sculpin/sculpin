@@ -11,6 +11,8 @@
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler\TwigEnvironmentPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -21,4 +23,14 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class SculpinTwigBundle extends Bundle
 {
     const FORMATTER_NAME = 'twig';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new TwigEnvironmentPass);
+    }
 }

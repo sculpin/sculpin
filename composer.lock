@@ -1,5 +1,5 @@
 {
-    "hash": "55c118ca9132d2b8df6fc87f61a8ae7f",
+    "hash": "a05f1a9aa64bd00265d234e52deed1ab",
     "packages": [
         {
             "package": "composer/composer",
@@ -74,12 +74,20 @@
             "version": "v2.1.0-RC1"
         },
         {
+            "package": "symfony/twig-bridge",
+            "version": "v2.1.0-RC1"
+        },
+        {
+            "package": "symfony/twig-bundle",
+            "version": "v2.1.0-RC1"
+        },
+        {
             "package": "symfony/yaml",
             "version": "v2.1.0-RC1"
         },
         {
             "package": "twig/twig",
-            "version": "1.6.5"
+            "version": "v1.9.1"
         }
     ],
     "packages-dev": null,

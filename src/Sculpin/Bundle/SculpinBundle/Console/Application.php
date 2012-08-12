@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Composer\Autoload\ClassLoader;
+use Composer\Package\MemoryPackage;
 use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
@@ -82,6 +83,15 @@ class Application extends BaseApplication implements ComposerAwareApplicationInt
     {
         return $this->internallyInstalledRepositoryEnabled;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getApplicationPackage()
+    {
+        return new MemoryPackage('sculpin/sculpin', '2.0.x-dev', '2.0.x-dev (local)');
+    }
+
 
     /**
      * {@inheritdoc}

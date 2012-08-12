@@ -15,6 +15,8 @@ use Composer\Factory;
 use Composer\Installer;
 use Composer\IO\ConsoleIO;
 use Composer\Json\JsonFile;
+use Composer\Repository\ArrayRepository;
+use Composer\Repository\CompositeRepository;
 use Composer\Repository\FilesystemRepository;
 use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
@@ -59,15 +61,9 @@ EOT
         if (!($this->getApplication() instanceof ComposerAwareApplicationInterface)) {
             throw new \RuntimeException('Application must be instance of ComposerAwareApplicationInterface');
         }
+
         $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
         $composer = Factory::create($io);
-        if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
-            $internalRepositoryFile = $this->getApplication()->getInternalVendorRoot().'/composer/installed.json';
-            $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
-        } else {
-            $filesystemRepository = null;
-        }
-
         $install = Installer::create($io, $composer);
 
         $install
@@ -75,8 +71,21 @@ EOT
             ->setVerbose($input->getOption('verbose'))
             ->setPreferSource($input->getOption('prefer-source'))
             ->setDevMode($input->getOption('dev'))
-            ->setRunScripts(!$input->getOption('no-scripts'))
-            ->setAdditionalInstalledRepository($filesystemRepository);
+            ->setRunScripts(!$input->getOption('no-scripts'));
+
+        if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
+            $internalRepositoryFile = $this->getApplication()->getInternalVendorRoot().'/composer/installed.json';
+            $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
+
+            $package = $this->getApplication()->getApplicationPackage();
+
+            $compositeRepository = new CompositeRepository(array(
+                new ArrayRepository(array($package)),
+                $filesystemRepository,
+            ));
+
+            $install->setAdditionalInstalledRepository($compositeRepository);
+        }
 
         return $install->run() ? 0 : 1;
     }

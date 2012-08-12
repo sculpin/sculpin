@@ -32,8 +32,9 @@
         "symfony/finder": "2.1.*",
         "symfony/http-kernel": "2.1.*",
         "symfony/process": "2.1.*",
+        "symfony/twig-bundle": "2.1.*",
         "symfony/yaml": "2.1.*",
-        "twig/twig": "1.6.*"
+        "twig/twig": ">=1.9.1,<2.0-dev"
     },
     "autoload": {
         "psr-0": { "Sculpin": "src" }

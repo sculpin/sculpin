@@ -5,6 +5,7 @@
     <parameters>
         <parameter key="event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
         <parameter key="filesystem.class">Symfony\Component\Filesystem\Filesystem</parameter>
+        <parameter key="templating.engines" type="collection" />
     </parameters>
     <services>
         <service id="event_dispatcher" class="%event_dispatcher.class%">

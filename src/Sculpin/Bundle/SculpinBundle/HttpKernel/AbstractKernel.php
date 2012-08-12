@@ -28,6 +28,16 @@ abstract class AbstractKernel extends Kernel implements ComposerAwareKernelInter
     /**
      * {@inheritdoc}
      */
+    public function __construct($environment, $debug, $rootDir = null)
+    {
+        $this->rootDir = $rootDir;
+
+        parent::__construct($environment, $debug);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setInternalVendorRoot($internalVendorRoot)
     {
         $this->internalVendorRoot = $internalVendorRoot;
