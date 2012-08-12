@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Composer\Autoload\ClassLoader;
+use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,28 +26,61 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements ComposerAwareApplicationInterface
 {
     const DEFAULT_ROOT_DIR = '.';
+
+    protected $internallyInstalledRepositoryEnabled = false;
 
     /**
      * Constructor.
      *
-     * @param KernelInterface $kernel      A KernelInterface instance
-     * @param ClassLoader     $classLoader Class Loader
+     * @param KernelInterface $kernel              A KernelInterface instance
+     * @param ClassLoader     $composerClassLoader Composer Class Loader
      */
-    public function __construct(KernelInterface $kernel, ClassLoader $classLoader)
+    public function __construct(KernelInterface $kernel, ClassLoader $composerClassLoader)
     {
-        $this->classLoader = $classLoader;
+        $this->composerClassLoader = $composerClassLoader;
         $this->kernel = $kernel;
-        $obj = new \ReflectionClass($this->classLoader);
+        $obj = new \ReflectionClass($this->composerClassLoader);
         $this->kernel->setInternalVendorRoot($this->internalVendorRoot = dirname(dirname($obj->getFileName())));
+
+        if (strpos($this->internalVendorRoot, 'phar://')==0 || false===strpos($this->internalVendorRoot, $rootDir)) {
+            // If our vendor root does not contain our project root then we
+            // can assume that we should enable the internally installed
+            // repository.
+            $this->internallyInstalledRepositoryEnabled = true;
+        }
 
         parent::__construct('Sculpin', Kernel::VERSION.' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
 
         $this->getDefinition()->addOption(new InputOption('--root-dir', null, InputOption::VALUE_REQUIRED, 'The root directory.', self::DEFAULT_ROOT_DIR));
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
         $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getComposerClassLoader()
+    {
+        return $this->composerClassLoader;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInternalVendorRoot()
+    {
+        return $this->internalVendorRoot;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function internallyInstalledRepositoryEnabled()
+    {
+        return $this->internallyInstalledRepositoryEnabled;
     }
 
     /**
@@ -68,18 +102,10 @@ class Application extends BaseApplication
                 // autoload that bootstrapped this application.
                 $map = require $autoloadNamespacesFile;
                 foreach ($map as $namespace => $path) {
-                    $this->classLoader->add($namespace, $path);
+                    $this->composerClassLoader->add($namespace, $path);
                 }
             }
         }
-
-        // TODO: Move this to SculpinComposerBundle
-        //if (strpos($this->internalVendorRoot, 'phar://')==0 || false===strpos($this->internalVendorRoot, $rootDir)) {
-            // If our vendor root does not contain our project root then we
-            // can assume that we should enable the internally installed
-            // repository.
-            //$this->internallyInstalledRepositoryEnabled = true;
-        //}
 
         $this->registerCommands();
 

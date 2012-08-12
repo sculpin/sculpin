@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
+        "composer/composer": "1.*@alpha",
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/dot-access-configuration": "1.*",
         "dflydev/markdown": "1.*",
@@ -42,5 +43,5 @@
             "dev-master": "2.0-dev"
         }
     },
-    "minimum-stability": "beta"
+    "minimum-stability": "alpha"
 }

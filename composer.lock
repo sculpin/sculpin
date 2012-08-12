@@ -1,6 +1,10 @@
 {
-    "hash": "1fb787ce5679922535e41585aaf7cb61",
+    "hash": "55c118ca9132d2b8df6fc87f61a8ae7f",
     "packages": [
+        {
+            "package": "composer/composer",
+            "version": "1.0.0-alpha4"
+        },
         {
             "package": "dflydev/ant-path-matcher",
             "version": "v1.0.2"
@@ -22,8 +26,12 @@
             "version": "v1.0.0"
         },
         {
-            "package": "doctrine/common",
-            "version": "2.3.0-RC1"
+            "package": "justinrainbow/json-schema",
+            "version": "1.1.0"
+        },
+        {
+            "package": "seld/jsonlint",
+            "version": "1.0.0"
         },
         {
             "package": "symfony/class-loader",
@@ -54,10 +62,6 @@
             "version": "v2.1.0-RC1"
         },
         {
-            "package": "symfony/framework-bundle",
-            "version": "v2.1.0-RC1"
-        },
-        {
             "package": "symfony/http-foundation",
             "version": "v2.1.0-RC1"
         },
@@ -67,18 +71,6 @@
         },
         {
             "package": "symfony/process",
-            "version": "v2.1.0-RC1"
-        },
-        {
-            "package": "symfony/routing",
-            "version": "v2.1.0-RC1"
-        },
-        {
-            "package": "symfony/templating",
-            "version": "v2.1.0-RC1"
-        },
-        {
-            "package": "symfony/translation",
             "version": "v2.1.0-RC1"
         },
         {
@@ -94,8 +86,8 @@
     "aliases": [
 
     ],
-    "minimum-stability": "beta",
-    "stability-flags": [
-
-    ]
+    "minimum-stability": "alpha",
+    "stability-flags": {
+        "composer/composer": 15
+    }
 }

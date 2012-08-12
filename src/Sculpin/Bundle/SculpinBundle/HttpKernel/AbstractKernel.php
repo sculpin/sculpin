@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
 
+use Sculpin\Bundle\ComposerBundle\HttpKernel\ComposerAwareKernelInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -19,19 +20,25 @@ use Symfony\Component\HttpKernel\Kernel;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-abstract class AbstractKernel extends Kernel
+abstract class AbstractKernel extends Kernel implements ComposerAwareKernelInterface
 {
     protected $internalVendorRoot;
     protected $isSymfonyStandard = false;
 
     /**
-     * Set internal vendor root
-     *
-     * @param string $internalVendorRoot Internal vendor root
+     * {@inheritdoc}
      */
     public function setInternalVendorRoot($internalVendorRoot)
     {
         $this->internalVendorRoot = $internalVendorRoot;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInternalVendorRoot()
+    {
+        return $this->internalVendorRoot;
     }
 
     /**
@@ -52,10 +59,11 @@ abstract class AbstractKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
-            new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
-            new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
+            new \Sculpin\Bundle\ComposerBundle\SculpinComposerBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
+            new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
+            new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
         );
 
         if (!$this->isSymfonyStandard) {
