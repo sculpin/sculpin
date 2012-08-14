@@ -13,6 +13,8 @@ namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Composer\Autoload\ClassLoader;
 use Composer\Package\MemoryPackage;
+use Sculpin\Bundle\ComposerBundle\Command\InstallCommand;
+use Sculpin\Bundle\ComposerBundle\Command\UpdateCommand;
 use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
@@ -58,6 +60,7 @@ class Application extends BaseApplication implements ComposerAwareApplicationInt
         $this->getDefinition()->addOption(new InputOption('--root-dir', null, InputOption::VALUE_REQUIRED, 'The root directory.', self::DEFAULT_ROOT_DIR));
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
         $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
+        $this->getDefinition()->addOption(new InputOption('--safe', null, InputOption::VALUE_NONE, 'Enable safe mode (no bundles loaded, no kernel booted)'));
     }
 
     /**
@@ -117,7 +120,15 @@ class Application extends BaseApplication implements ComposerAwareApplicationInt
             }
         }
 
-        $this->registerCommands();
+
+        if ($input->hasParameterOption('--safe')) {
+            // For safe mode we should enable the Composer
+            // commands manually.
+            $this->add(new InstallCommand);
+            $this->add(new UpdateCommand);
+        } else {
+            $this->registerCommands();
+        }
 
         parent::doRun($input, $output);
     }

@@ -22,7 +22,9 @@
         "dflydev/ant-path-matcher": "1.*",
         "symfony/console": "2.1.*",
         "symfony/dependency-injection": "2.1.*",
-        "symfony/http-kernel": "2.1.*"
+        "symfony/http-kernel": "2.1.*",
+        "sculpin/core": "self.version",
+        "sculpin/composer-bundle": "self.version"
     },
     "autoload": {
         "psr-0": { "Sculpin\\Bundle\\SculpinBundle": "" }
@@ -33,5 +35,5 @@
             "dev-master": "2.0-dev"
         }
     },
-    "minimum-stability": "alpha"
+    "minimum-stability": "beta"
 }
