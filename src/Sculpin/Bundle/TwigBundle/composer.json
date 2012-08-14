@@ -22,7 +22,7 @@
         "symfony/config": "2.1.*",
         "symfony/dependency-injection": "2.1.*",
         "symfony/http-kernel": "2.1.*",
-        "twig/twig": "1.6.*",
+        "twig/twig": ">=1.9.1,<2.0-dev",
         "sculpin/core": "self.version"
     },
     "autoload": {
@@ -34,5 +34,5 @@
             "dev-master": "2.0-dev"
         }
     },
-    "minimum-stability": "alpha"
+    "minimum-stability": "beta"
 }

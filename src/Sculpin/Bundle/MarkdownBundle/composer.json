@@ -31,5 +31,5 @@
             "dev-master": "2.0-dev"
         }
     },
-    "minimum-stability": "alpha"
+    "minimum-stability": "beta"
 }
