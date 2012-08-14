@@ -21,6 +21,7 @@ Try downloading again?');
         // Check where autoload would be if this is Sculpin included
         // as a dependency.
         (!$classLoader = @include __DIR__.'/../../../autoload.php') and
+
         // Check where autoload would be if this is a development version
         // of Sculpin. (based on actual file)
         (!$classLoader = @include __DIR__.'/../vendor/autoload.php')
