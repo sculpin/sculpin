@@ -19,7 +19,7 @@ use Composer\Repository\ArrayRepository;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\FilesystemRepository;
 use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  * @author Beau Simensen <beau@dflydev.com>
  */
-class InstallCommand extends ContainerAwareCommand
+class InstallCommand extends Command
 {
     protected function configure()
     {
