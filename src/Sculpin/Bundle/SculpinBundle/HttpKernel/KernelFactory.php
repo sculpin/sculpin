@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Factory
+class KernelFactory
 {
     /**
      * Default root dir

@@ -1,7 +1,7 @@
 {
-    "name": "sculpin/composer-bundle",
+    "name": "sculpin/embedded-composer-bundle",
     "type": "library",
-    "description": "Sculpin Composer Bundle",
+    "description": "Sculpin Embedded Composer Bundle",
     "homepage": "http://getsculpin.com",
     "keywords": [],
     "license": "MIT",
@@ -23,9 +23,9 @@
         "symfony/console": "2.1.*"
     },
     "autoload": {
-        "psr-0": { "Sculpin/Bundle/ComposerBundle": "" }
+        "psr-0": { "Sculpin/Bundle/EmbeddedComposerBundle": "" }
     },
-    "target-dir": "Sculpin/Bundle/ComposerBundle",
+    "target-dir": "Sculpin/Bundle/EmbeddedComposerBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"

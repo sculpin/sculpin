@@ -36,13 +36,16 @@ Try downloading again?');
 
 set_time_limit(0);
 
+use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposer;
+use Sculpin\Bundle\SculpinBundle\Composer\PackageFactory;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
-use Sculpin\Bundle\SculpinBundle\HttpKernel\Factory;
+use Sculpin\Bundle\SculpinBundle\HttpKernel\KernelFactory;
 use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput;
 
-$kernel = Factory::create($input);
-$application = new Application($kernel, $classLoader);
+$kernel = KernelFactory::create($input);
+$embeddedComposer = new EmbeddedComposer($classLoader, PackageFactory::create());
+$application = new Application($kernel, $embeddedComposer);
 $application->run($input);
 

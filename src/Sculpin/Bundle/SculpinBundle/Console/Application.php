@@ -11,11 +11,12 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Composer\Autoload\ClassLoader;
 use Composer\Package\MemoryPackage;
-use Sculpin\Bundle\ComposerBundle\Command\InstallCommand;
-use Sculpin\Bundle\ComposerBundle\Command\UpdateCommand;
-use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
+use Sculpin\Bundle\EmbeddedComposerBundle\Command\InstallCommand;
+use Sculpin\Bundle\EmbeddedComposerBundle\Command\UpdateCommand;
+use Sculpin\Bundle\EmbeddedComposerBundle\Console\ComposerAwareApplicationInterface;
+use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposer;
+use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposerAwareInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,33 +30,22 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Application extends BaseApplication implements ComposerAwareApplicationInterface
+class Application extends BaseApplication implements EmbeddedComposerAwareInterface
 {
     const DEFAULT_ROOT_DIR = '.';
-
-    protected $internallyInstalledRepositoryEnabled = false;
 
     /**
      * Constructor.
      *
-     * @param KernelInterface $kernel              A KernelInterface instance
-     * @param ClassLoader     $composerClassLoader Composer Class Loader
+     * @param KernelInterface  $kernel           A KernelInterface instance
+     * @param EmbeddedComposer $embeddedComposer Composer Class Loader
      */
-    public function __construct(KernelInterface $kernel, ClassLoader $composerClassLoader)
+    public function __construct(KernelInterface $kernel, EmbeddedComposer $embeddedComposer)
     {
-        $this->composerClassLoader = $composerClassLoader;
         $this->kernel = $kernel;
-        $obj = new \ReflectionClass($this->composerClassLoader);
-        $this->kernel->setInternalVendorRoot($this->internalVendorRoot = dirname(dirname($obj->getFileName())));
+        $this->embeddedComposer = $embeddedComposer;
 
-        if (strpos($this->internalVendorRoot, 'phar://')==0 || false===strpos($this->internalVendorRoot, $rootDir)) {
-            // If our vendor root does not contain our project root then we
-            // can assume that we should enable the internally installed
-            // repository.
-            $this->internallyInstalledRepositoryEnabled = true;
-        }
-
-        parent::__construct('Sculpin', Kernel::VERSION.' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
+        parent::__construct('Sculpin', $embeddedComposer->getPackage()->getPrettyVersion().' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
 
         $this->getDefinition()->addOption(new InputOption('--root-dir', null, InputOption::VALUE_REQUIRED, 'The root directory.', self::DEFAULT_ROOT_DIR));
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
@@ -66,70 +56,25 @@ class Application extends BaseApplication implements ComposerAwareApplicationInt
     /**
      * {@inheritdoc}
      */
-    public function getComposerClassLoader()
+    public function getEmbeddedComposer()
     {
-        return $this->composerClassLoader;
+        return $this->embeddedComposer;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getInternalVendorRoot()
-    {
-        return $this->internalVendorRoot;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function internallyInstalledRepositoryEnabled()
-    {
-        return $this->internallyInstalledRepositoryEnabled;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getApplicationPackage()
-    {
-        return new MemoryPackage('sculpin/sculpin', '2.0.x-dev', '2.0.x-dev (local)');
-    }
-
 
     /**
      * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $rawRootDir = $input->getParameterOption('--root-dir') ?: self::DEFAULT_ROOT_DIR;
+        $rootDir = $input->getParameterOption('--root-dir') ?: self::DEFAULT_ROOT_DIR;
 
-        if (!file_exists($rawRootDir)) {
-            throw new \RuntimeException(sprintf('Specified root dir "%s" does not exist', $rawRootDir));
+        if (!file_exists($rootDir)) {
+            throw new \RuntimeException(sprintf('Root dir "%s" does not exist', $rootDir));
         }
 
-        $rootDir = realpath($rawRootDir);
+        $rootDir = realpath($rootDir);
 
-        if ($autoloadNamespacesFile = realpath($rootDir.'/vendor/composer/autoload_namespaces.php')) {
-            if ($this->internalVendorRoot != dirname(dirname($autoloadNamespacesFile))) {
-                // We have an autoload file that is *not* the same as the
-                // autoload that bootstrapped this application.
-                $map = require $autoloadNamespacesFile;
-                foreach ($map as $namespace => $path) {
-                    $this->composerClassLoader->add($namespace, $path);
-                }
-            }
-        }
-
-        if ($autoloadClassmapFile = realpath($rootDir.'/vendor/composer/autoload_classmap.php')) {
-            if ($this->internalVendorRoot != dirname(dirname($autoloadClassmapFile))) {
-                // We have an autoload file that is *not* the same as the
-                // autoload that bootstrapped this application.
-                $classMap = require $autoloadClassmapFile;
-                if ($classMap) {
-                    $this->composerClassLoader->addClassMap($classMap);
-                }
-            }
-        }
+        $this->embeddedComposer->processExternalAutoloads($rootDir);
 
         if ($input->hasParameterOption('--safe')) {
             // For safe mode we should enable the Composer

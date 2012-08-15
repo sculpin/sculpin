@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\ComposerBundle;
+namespace Sculpin\Bundle\EmbeddedComposerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Composer Bundle.
+ * Sculpin Embedded Composer Bundle.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinComposerBundle extends Bundle
+class SculpinEmbeddedComposerBundle extends Bundle
 {
 }

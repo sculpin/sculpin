@@ -9,16 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\ComposerBundle\Command;
+namespace Sculpin\Bundle\EmbeddedComposerBundle\Command;
 
 use Composer\Factory;
 use Composer\Installer;
 use Composer\IO\ConsoleIO;
-use Composer\Json\JsonFile;
-use Composer\Repository\ArrayRepository;
-use Composer\Repository\CompositeRepository;
-use Composer\Repository\FilesystemRepository;
-use Sculpin\Bundle\ComposerBundle\Console\ComposerAwareApplicationInterface;
+use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposerAwareInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,8 +60,8 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!($this->getApplication() instanceof ComposerAwareApplicationInterface)) {
-            throw new \RuntimeException('Application must be instance of ComposerAwareApplicationInterface');
+        if (!($this->getApplication() instanceof EmbeddedComposerAwareInterface)) {
+            throw new \RuntimeException('Application must be instance of EmbeddedComposerAwareInterface');
         }
 
         $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
@@ -81,18 +77,10 @@ EOT
             ->setUpdate(true)
             ->setUpdateWhitelist($input->getArgument('packages'));
 
-        if ($this->getApplication()->internallyInstalledRepositoryEnabled()) {
-            $internalRepositoryFile = $this->getApplication()->getInternalVendorRoot().'/composer/installed.json';
-            $filesystemRepository = new FilesystemRepository(new JsonFile($internalRepositoryFile));
+        $embeddedComposer = $this->getApplication()->getEmbeddedComposer();
 
-            $package = $this->getApplication()->getApplicationPackage();
-
-            $compositeRepository = new CompositeRepository(array(
-                new ArrayRepository(array($package)),
-                $filesystemRepository,
-            ));
-
-            $install->setAdditionalInstalledRepository($compositeRepository);
+        if ($embeddedComposer->hasInternalRepository()) {
+            $install->setAdditionalInstalledRepository($embeddedComposer->getInternalRepository());
         }
 
         return $install->run() ? 0 : 1;

@@ -34,6 +34,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class Sculpin
 {
+    const VERSION = '@package_version@';
+
     const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
     const EVENT_BEFORE_RUN_AGAIN = 'sculpin.core.before_run_again';
     const EVENT_AFTER_RUN = 'sculpin.core.after_run';

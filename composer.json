@@ -38,7 +38,7 @@
     },
     "replace": {
         "sculpin/core": "self.version",
-        "sculpin/composer-bundle": "self.version",
+        "sculpin/embedded-composer-bundle": "self.version",
         "sculpin/markdown-bundle": "self.version",
         "sculpin/markdown-twig-compat-bundle": "self.version",
         "sculpin/sculpin-bundle": "self.version",
