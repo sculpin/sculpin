@@ -134,8 +134,15 @@ class Sculpin
             }
         }
 
+        $found = false;
+
         foreach ($sourceSet->updatedSources() as $source) {
+            if (!$found) {
+                print "Detected new or updated files\n";
+                $found = true;
+            }
             $this->writer->write(new SourceOutput($source));
+            print " + {$source->sourceId()}\n";
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));

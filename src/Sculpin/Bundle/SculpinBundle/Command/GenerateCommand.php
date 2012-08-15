@@ -57,6 +57,8 @@ EOT
 
             if ($watch) {
                 sleep(2);
+                clearstatcache();
+                $sourceSet->reset();
             }
         } while ($watch);
     }

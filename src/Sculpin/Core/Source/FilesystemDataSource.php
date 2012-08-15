@@ -106,6 +106,8 @@ class FilesystemDataSource implements DataSourceInterface
     {
         $sinceTimeLast = $this->sinceTime;
 
+        $this->sinceTime = date('c');
+
         // We regenerate the whole site if an excluded file changes.
         $excludedFilesHaveChanged = false;
 
