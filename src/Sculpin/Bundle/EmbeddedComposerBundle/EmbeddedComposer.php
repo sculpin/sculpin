@@ -18,7 +18,6 @@ use Composer\Repository\ArrayRepository;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\FilesystemRepository;
 
-
 /**
  * Embedded Composer.
  *

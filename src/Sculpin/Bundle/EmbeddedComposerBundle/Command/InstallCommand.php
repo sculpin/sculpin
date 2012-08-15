@@ -14,7 +14,6 @@ namespace Sculpin\Bundle\EmbeddedComposerBundle\Command;
 use Composer\Factory;
 use Composer\Installer;
 use Composer\IO\ConsoleIO;
-use Composer\Json\JsonFile;
 use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposerAwareInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

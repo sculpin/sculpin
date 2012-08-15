@@ -11,10 +11,8 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Composer\Package\MemoryPackage;
 use Sculpin\Bundle\EmbeddedComposerBundle\Command\InstallCommand;
 use Sculpin\Bundle\EmbeddedComposerBundle\Command\UpdateCommand;
-use Sculpin\Bundle\EmbeddedComposerBundle\Console\ComposerAwareApplicationInterface;
 use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposer;
 use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposerAwareInterface;
 use Symfony\Component\Console\Application as BaseApplication;
