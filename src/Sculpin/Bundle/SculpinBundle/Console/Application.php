@@ -120,6 +120,16 @@ class Application extends BaseApplication implements ComposerAwareApplicationInt
             }
         }
 
+        if ($autoloadClassmapFile = realpath($rootDir.'/vendor/composer/autoload_classmap.php')) {
+            if ($this->internalVendorRoot != dirname(dirname($autoloadClassmapFile))) {
+                // We have an autoload file that is *not* the same as the
+                // autoload that bootstrapped this application.
+                $classMap = require $autoloadClassmapFile;
+                if ($classMap) {
+                    $this->composerClassLoader->addClassMap($classMap);
+                }
+            }
+        }
 
         if ($input->hasParameterOption('--safe')) {
             // For safe mode we should enable the Composer
