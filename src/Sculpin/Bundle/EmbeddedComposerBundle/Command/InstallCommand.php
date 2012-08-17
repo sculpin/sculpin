@@ -55,7 +55,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!($this->getApplication() instanceof EmbeddedComposerAwareInterface)) {
-            throw new \RuntimeException('Application must be instance of ComposerAwareApplicationInterface');
+            throw new \RuntimeException('Application must be instance of EmbeddedComposerAwareInterface');
         }
 
         $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
