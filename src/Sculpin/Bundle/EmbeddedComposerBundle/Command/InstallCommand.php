@@ -54,12 +54,14 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!($this->getApplication() instanceof EmbeddedComposerAwareInterface)) {
+        if (!$this->getApplication() instanceof EmbeddedComposerAwareInterface) {
             throw new \RuntimeException('Application must be instance of EmbeddedComposerAwareInterface');
         }
 
+        $embeddedComposer = $this->getApplication()->getEmbeddedComposer();
+
         $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
-        $composer = Factory::create($io);
+        $composer = Factory::create($io, $embeddedComposer->getComposerFile());
         $install = Installer::create($io, $composer);
 
         $install
@@ -68,8 +70,6 @@ EOT
             ->setPreferSource($input->getOption('prefer-source'))
             ->setDevMode($input->getOption('dev'))
             ->setRunScripts(!$input->getOption('no-scripts'));
-
-        $embeddedComposer = $this->getApplication()->getEmbeddedComposer();
 
         if ($embeddedComposer->hasInternalRepository()) {
             $install->setAdditionalInstalledRepository($embeddedComposer->getInternalRepository());

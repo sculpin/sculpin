@@ -21,13 +21,6 @@ use Symfony\Component\Console\Input\InputInterface;
 class KernelFactory
 {
     /**
-     * Default root dir
-     *
-     * @var string
-     */
-    const DEFAULT_ROOT_DIR = '.';
-
-    /**
      * Create a kernel.
      *
      * @param InputInterface $input Input
@@ -42,7 +35,7 @@ class KernelFactory
         // do something here to locate and try to create
         // a custom kernel.
 
-        $rootDir = realpath($input->getParameterOption('--root-dir') ?: self::DEFAULT_ROOT_DIR);
+        $rootDir = realpath($input->getParameterOption('--root-dir') ?: '.');
 
         if (file_exists($customKernel = $rootDir.'/config/SculpinKernel.php')) {
             require $customKernel;

@@ -44,8 +44,12 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput;
 
+$rootDir = $input->getParameterOption('--root-dir') ?: '.';
+
+$embeddedComposer = new EmbeddedComposer($classLoader, $rootDir, PackageFactory::create());
+$embeddedComposer->processExternalAutoloads();
+
 $kernel = KernelFactory::create($input);
-$embeddedComposer = new EmbeddedComposer($classLoader, PackageFactory::create());
 $application = new Application($kernel, $embeddedComposer);
 $application->run($input);
 

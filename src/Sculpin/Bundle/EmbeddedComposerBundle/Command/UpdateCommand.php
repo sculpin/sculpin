@@ -64,8 +64,10 @@ EOT
             throw new \RuntimeException('Application must be instance of EmbeddedComposerAwareInterface');
         }
 
+        $embeddedComposer = $this->getApplication()->getEmbeddedComposer();
+
         $io = new ConsoleIO($input, $output, $this->getApplication()->getHelperSet());
-        $composer = Factory::create($io);
+        $composer = Factory::create($io, $embeddedComposer->getComposerFile());
         $install = Installer::create($io, $composer);
 
         $install
@@ -76,8 +78,6 @@ EOT
             ->setRunScripts(!$input->getOption('no-scripts'))
             ->setUpdate(true)
             ->setUpdateWhitelist($input->getArgument('packages'));
-
-        $embeddedComposer = $this->getApplication()->getEmbeddedComposer();
 
         if ($embeddedComposer->hasInternalRepository()) {
             $install->setAdditionalInstalledRepository($embeddedComposer->getInternalRepository());

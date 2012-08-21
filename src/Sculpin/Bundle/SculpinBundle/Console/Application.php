@@ -30,8 +30,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class Application extends BaseApplication implements EmbeddedComposerAwareInterface
 {
-    const DEFAULT_ROOT_DIR = '.';
-
     /**
      * Constructor.
      *
@@ -45,7 +43,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
         parent::__construct('Sculpin', $embeddedComposer->getPackage()->getPrettyVersion().' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
 
-        $this->getDefinition()->addOption(new InputOption('--root-dir', null, InputOption::VALUE_REQUIRED, 'The root directory.', self::DEFAULT_ROOT_DIR));
+        $this->getDefinition()->addOption(new InputOption('--root-dir', null, InputOption::VALUE_REQUIRED, 'The root directory.', '.'));
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
         $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
         $this->getDefinition()->addOption(new InputOption('--safe', null, InputOption::VALUE_NONE, 'Enable safe mode (no bundles loaded, no kernel booted)'));
@@ -64,16 +62,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $rootDir = $input->getParameterOption('--root-dir') ?: self::DEFAULT_ROOT_DIR;
-
-        if (!file_exists($rootDir)) {
-            throw new \RuntimeException(sprintf('Root dir "%s" does not exist', $rootDir));
-        }
-
-        $rootDir = realpath($rootDir);
-
-        $this->embeddedComposer->processExternalAutoloads($rootDir);
-
         if ($input->hasParameterOption('--safe')) {
             // For safe mode we should enable the Composer
             // commands manually.
