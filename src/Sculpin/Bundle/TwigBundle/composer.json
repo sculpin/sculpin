@@ -1,9 +1,7 @@
 {
-    "name": "sculpin/standalone-bundle",
-    "type": "library",
-    "description": "Sculpin Bundle",
+    "name": "sculpin/twig-bundle",
+    "description": "Sculpin Twig Bundle",
     "homepage": "http://getsculpin.com",
-    "keywords": [],
     "license": "MIT",
     "authors": [
         {

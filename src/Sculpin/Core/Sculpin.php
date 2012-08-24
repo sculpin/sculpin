@@ -14,6 +14,7 @@ namespace Sculpin\Core;
 use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Converter\SourceConverterContext;
+use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\FormatEvent;
 use Sculpin\Core\Event\SourceSetEvent;
@@ -66,6 +67,13 @@ class Sculpin
      * @var WriterInterface
      */
     protected $writer;
+
+    /**
+     * Data providers
+     *
+     * @var array
+     */
+    protected $dataProviders = array();
 
     /**
      * Converters
@@ -122,6 +130,7 @@ class Sculpin
         foreach ($sourceSet->updatedSources() as $source) {
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
+            $source->data()->set('url', $permalink->relativeUrlPath());
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
@@ -146,6 +155,29 @@ class Sculpin
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
+    }
+
+    /**
+     * Register data provider
+     *
+     * @param string                $name         Name
+     * @param DataProviderInterface $dataProvider Data provider
+     */
+    public function registerDataProvider($name, DataProviderInterface $dataProvider)
+    {
+        $this->dataProviders[$name] = $dataProvider;
+    }
+
+    /**
+     * Data provider
+     *
+     * @param string $name Name
+     *
+     * @return DataProviderInterface
+     */
+    public function dataProvider($name)
+    {
+        return $this->dataProviders[$name];
     }
 
     /**
@@ -198,6 +230,12 @@ class Sculpin
             'formatter' => $this->defaultFormatter,
             'converters' => array(),
         ));
+
+        foreach ($this->dataProviders as $name => $dataProvider) {
+            if (isset($context['use']) and in_array($name, $context['use'])) {
+                $baseContext->set('data.'.$name, $dataProvider->provideData());
+            }
+        }
 
         return $baseContext;
     }

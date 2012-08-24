@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle;
 
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\ConverterPass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataProviderPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\PathConfiguratorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -32,6 +33,7 @@ class SculpinBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ConverterPass);
+        $container->addCompilerPass(new DataProviderPass);
         $container->addCompilerPass(new FormatterPass);
         $container->addCompilerPass(new PathConfiguratorPass);
     }

@@ -41,6 +41,7 @@
         "sculpin/embedded-composer-bundle": "self.version",
         "sculpin/markdown-bundle": "self.version",
         "sculpin/markdown-twig-compat-bundle": "self.version",
+        "sculpin/posts-bundle": "self.version",
         "sculpin/sculpin-bundle": "self.version",
         "sculpin/standalone-bundle": "self.version",
         "sculpin/twig-bundle": "self.version"
