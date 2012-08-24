@@ -1,0 +1,35 @@
+{
+    "name": "sculpin/posts-bundle",
+    "description": "Sculpin Bundle",
+    "homepage": "http://getsculpin.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dragonfly Development Inc.",
+            "email": "info@dflydev.com",
+            "homepage": "http://dflydev.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com",
+            "homepage": "http://beausimensen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/config": "2.1.*",
+        "symfony/dependency-injection": "2.1.*",
+        "symfony/http-kernel": "2.1.*",
+        "sculpin/core": "self.version"
+    },
+    "autoload": {
+        "psr-0": { "Sculpin\\Bundle\\PostsBundle": "" }
+    },
+    "target-dir": "Sculpin/Bundle/PostsBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    },
+    "minimum-stability": "beta"
+}
