@@ -146,10 +146,23 @@ class Post
      *
      * @param Post $post
      */
-    public function setPreviousPost(Post $post)
+    public function setPreviousPost(Post $post = null)
     {
+        $lastPreviousPost = $this->previousPost;
         $this->previousPost = $post;
         $this->source->data()->set('previousPost', $post);
+        if ($lastPreviousPost) {
+            // We did have a post before...
+            if (!$post || $post->id() !== $lastPreviousPost->id()) {
+                // But we no longer have a post or the post we
+                // were given does not have the same ID as the
+                // last one we had...
+                $this->reprocess();
+            }
+        } elseif ($post) {
+            // We didn't have a post before but we do now...
+            $this->reprocess();
+        }
     }
 
     /**
@@ -167,10 +180,23 @@ class Post
      *
      * @param Post $post
      */
-    public function setNextPost(Post $post)
+    public function setNextPost(Post $post = null)
     {
+        $lastNextPost = $this->nextPost;
         $this->nextPost = $post;
         $this->source->data()->set('nextPost', $post);
+        if ($lastNextPost) {
+            // We did have a post before...
+            if (!$post || $post->id() !== $lastNextPost->id()) {
+                // But we no longer have a post or the post we
+                // were given does not have the same ID as the
+                // last one we had...
+                $this->reprocess();
+            }
+        } elseif ($post) {
+            // We didn't have a post before but we do now...
+            $this->reprocess();
+        }
     }
 
     /**

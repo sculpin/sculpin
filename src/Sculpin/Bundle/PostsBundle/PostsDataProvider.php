@@ -143,6 +143,7 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
         foreach ($this->posts as $post) {
             if ($post->hasChanged()) {
                 $aPostHasChanged = true;
+                $this->posts->init();
                 break;
             }
         }

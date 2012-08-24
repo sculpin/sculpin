@@ -124,17 +124,22 @@ class Posts implements \ArrayAccess, \Iterator, \Countable
     public function init()
     {
         uasort($this->posts, function($a, $b) {
-            return $a->date() < $b->date();
+            return strnatcmp($b->date().$b->title(), $a->date().$a->title());
         });
 
         $previousPost = null;
+        $post = null;
 
         foreach (array_reverse($this->posts) as $post) {
-            if ($previousPost !== null) {
+            if ($previousPost) {
                 $previousPost->setNextPost($post);
-                $post->setPreviousPost($previousPost);
             }
+            $post->setPreviousPost($previousPost);
             $previousPost = $post;
+        }
+
+        if ($post) {
+            $post->setNextPost(null);
         }
     }
 
