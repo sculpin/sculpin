@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is a part of Sculpin.
+ *
+ * (c) Dragonfly Development Inc.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+if (
+    // Check where autoload would be if this is Sculpin included
+    // as a dependency.
+    (!$classLoader = @include __DIR__.'/../../../autoload.php') and
+    // Check where autoload would be if this is a development version
+    // of Sculpin. (based on actual file)
+    (!$classLoader = @include __DIR__.'/../vendor/autoload.php')
+) {
+    die('You must set up the project dependencies, run the following commands:
+
+bin/composer install
+
+');
+}
+
+set_time_limit(0);
+
+use Sculpin\Core\Compiler;
+
+$compiler = new Compiler();
+$compiler->compile();
