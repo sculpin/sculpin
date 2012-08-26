@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="sculpin.matcher.class">dflydev\util\antPathMatcher\AntPathMatcher</parameter>
         <parameter key="sculpin.site_configuration.class">Dflydev\DotAccessConfiguration\Configuration</parameter>
+        <parameter key="sculpin.site_configuration_factory.class">Sculpin\Core\SiteConfiguration\SiteConfigurationFactory</parameter>
         <parameter key="sculpin.writer.class">Sculpin\Core\Output\FilesystemWriter</parameter>
         <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
         <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
@@ -19,7 +20,12 @@
 
         <service id="sculpin.matcher" class="%sculpin.matcher.class%" />
 
-        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" />
+        <service id="sculpin.site_configuration_factory" class="%sculpin.site_configuration_factory.class%">
+            <argument>%kernel.root_dir%</argument>
+            <argument>%kernel.environment%</argument>
+        </service>
+
+        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" factory-service="sculpin.site_configuration_factory" factory-method="create" />
 
         <service id="sculpin.writer" class="%sculpin.writer.class%">
             <argument type="service" id="filesystem" />

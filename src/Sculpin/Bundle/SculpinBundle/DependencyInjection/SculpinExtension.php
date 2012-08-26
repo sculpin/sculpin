@@ -37,12 +37,6 @@ class SculpinExtension extends Extension
         foreach (array('source_dir', 'output_dir', 'cache_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
             $this->setSculpinParameter($container, $config, $key);
         }
-
-        $siteConfiguration = $container->findDefinition('sculpin.site_configuration');
-
-        if (isset($config['site'])) {
-            $siteConfiguration->addArgument($config['site']);
-        }
     }
 
     protected function setSculpinParameter(ContainerBuilder $container, array $config, $key)
