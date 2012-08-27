@@ -32,9 +32,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('source_dir')->defaultValue('%kernel.root_dir%/source')->end()
-                ->scalarNode('output_dir')->defaultValue('%kernel.root_dir%/output_%kernel.environment%')->end()
-                ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/sculpin')->end()
+                ->scalarNode('source_dir')->defaultValue('%sculpin.project_dir%/source')->end()
+                ->scalarNode('output_dir')->defaultValue('%sculpin.project_dir%/output_%kernel.environment%')->end()
                 ->arrayNode('exclude')
                     ->prototype('scalar')->end()
                 ->end()

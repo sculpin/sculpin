@@ -21,17 +21,28 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class AbstractKernel extends Kernel
 {
-    protected $internalVendorRoot;
     protected $isSymfonyStandard = false;
+    protected $projectDir;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct($environment, $debug, $rootDir = null)
+    public function __construct($environment, $debug, $projectDir = null)
     {
-        $this->rootDir = $rootDir;
+        $this->projectDir = $projectDir;
+        $this->rootDir = $projectDir.'/app';
 
         parent::__construct($environment, $debug);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getKernelParameters()
+    {
+        return array_merge(parent::getKernelParameters(), array(
+            'sculpin.project_dir' => $this->projectDir,
+        ));
     }
 
     /**
@@ -60,9 +71,9 @@ abstract class AbstractKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        if (file_exists($file = $this->rootDir.'/config/sculpin_'.$this->getEnvironment().'.yml')) {
+        if (file_exists($file = $this->rootDir.'/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
             $loader->load($file);
-        } elseif(file_exists($file = $this->rootDir.'/config/sculpin.yml')) {
+        } elseif(file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {
             $loader->load($file);
         }
     }

@@ -43,7 +43,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
         parent::__construct('Sculpin', $embeddedComposer->getPackage()->getPrettyVersion().' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
 
-        $this->getDefinition()->addOption(new InputOption('--root-dir', null, InputOption::VALUE_REQUIRED, 'The root directory.', '.'));
+        $this->getDefinition()->addOption(new InputOption('--project-dir', null, InputOption::VALUE_REQUIRED, 'The project directory.', '.'));
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
         $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
         $this->getDefinition()->addOption(new InputOption('--safe', null, InputOption::VALUE_NONE, 'Enable safe mode (no bundles loaded, no kernel booted)'));

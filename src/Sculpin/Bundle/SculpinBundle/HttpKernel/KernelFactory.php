@@ -35,16 +35,16 @@ class KernelFactory
         // do something here to locate and try to create
         // a custom kernel.
 
-        $rootDir = realpath($input->getParameterOption('--root-dir') ?: '.');
+        $projectDir = realpath($input->getParameterOption('--project-dir') ?: '.');
 
-        if (file_exists($customKernel = $rootDir.'/config/SculpinKernel.php')) {
+        if (file_exists($customKernel = $projectDir.'/app/SculpinKernel.php')) {
             require $customKernel;
 
-            return new \SculpinKernel($env, $debug, $rootDir);
+            return new \SculpinKernel($env, $debug, $projectDir);
         }
 
         // Fallback to using the default kernel in case
         // user does not define their own kernel somehow.
-        return new DefaultKernel($env, $debug, $rootDir);
+        return new DefaultKernel($env, $debug, $projectDir);
     }
 }

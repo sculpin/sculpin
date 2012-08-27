@@ -40,11 +40,11 @@ class SiteConfigurationFactory
      */
     public function create()
     {
-        if (file_exists($file = $this->rootDir.'/config/site_'.$this->environment.'.yml')) {
+        if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
             $builder = new YamlFileConfigurationBuilder(array($file));
 
             return $builder->build();
-        } elseif(file_exists($file = $this->rootDir.'/config/site.yml')) {
+        } elseif(file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
             $builder = new YamlFileConfigurationBuilder(array($file));
 
             return $builder->build();

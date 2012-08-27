@@ -34,7 +34,7 @@ class SculpinExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        foreach (array('source_dir', 'output_dir', 'cache_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
+        foreach (array('source_dir', 'output_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
             $this->setSculpinParameter($container, $config, $key);
         }
     }
