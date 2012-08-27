@@ -11,31 +11,31 @@
 
 namespace Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Converter pass
+ * Data Provider pass
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConverterPass implements CompilerPassInterface
+class DataProviderManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('sculpin')) {
+        if (false === $container->hasDefinition('sculpin.data_provider_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition('sculpin');
+        $definition = $container->getDefinition('sculpin.data_provider_manager');
 
-        foreach ($container->findTaggedServiceIds('sculpin.converter') as $id => $tagAttributes) {
+        foreach ($container->findTaggedServiceIds('sculpin.data_provider') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerConverter', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerDataProvider', array($attributes['alias'], new Reference($id)));
             }
         }
     }

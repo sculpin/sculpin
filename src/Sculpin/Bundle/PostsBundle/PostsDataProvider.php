@@ -15,6 +15,7 @@ use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\SourceSetEvent;
+use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -26,11 +27,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class PostsDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
     /**
-     * Sculpin
+     * Formatter Manager
      *
-     * @var Sculpin
+     * @var FormatterManager
      */
-    protected $sculpin;
+    protected $formatterManager;
 
     /**
      * Paths
@@ -63,15 +64,15 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
     /**
      * Constructor
      *
-     * @param Sculpin        $sculpin          Sculpin
-     * @param array          $paths            Paths
-     * @param string         $defaultPermalink Default permalink
-     * @param AntPathMatcher $matcher          Matcher
-     * @param Posts          $posts            Posts
+     * @param FormatterManager $formatterManager Formatter Manager
+     * @param array            $paths            Paths
+     * @param string           $defaultPermalink Default permalink
+     * @param AntPathMatcher   $matcher          Matcher
+     * @param Posts            $posts            Posts
      */
-    public function __construct(Sculpin $sculpin, array $paths, $defaultPermalink = null, AntPathMatcher $matcher = null, Posts $posts = null)
+    public function __construct(FormatterManager $formatterManager, array $paths, $defaultPermalink = null, AntPathMatcher $matcher = null, Posts $posts = null)
     {
-        $this->sculpin = $sculpin;
+        $this->formatterManager = $formatterManager;
         $this->paths = $paths;
         $this->defaultPermalink = $defaultPermalink;
         $this->matcher = $matcher ?: new AntPathMatcher;
@@ -166,7 +167,7 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
         $sourceId = $convertEvent->source()->sourceId();
         if (isset($this->posts[$sourceId])) {
             $post = $this->posts[$sourceId];
-            $post->setBlocks($this->sculpin->formatSourceBlocks($convertEvent->source()));
+            $post->setBlocks($this->formatterManager->formatSourceBlocks($convertEvent->source()));
         }
     }
 }

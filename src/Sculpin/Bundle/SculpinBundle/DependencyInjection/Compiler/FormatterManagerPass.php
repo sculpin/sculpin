@@ -20,18 +20,18 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FormatterPass implements CompilerPassInterface
+class FormatterManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('sculpin')) {
+        if (false === $container->hasDefinition('sculpin.formatter_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition('sculpin');
+        $definition = $container->getDefinition('sculpin.formatter_manager');
 
         foreach ($container->findTaggedServiceIds('sculpin.formatter') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {

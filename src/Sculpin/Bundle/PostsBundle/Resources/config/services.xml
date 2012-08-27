@@ -10,7 +10,7 @@
     <services>
 
         <service id="sculpin_posts.data_provider" class="%sculpin_posts.data_provider.class%">
-            <argument type="service" id="sculpin" />
+            <argument type="service" id="sculpin.formatter_manager" />
             <argument>%sculpin_posts.paths%</argument>
             <argument>%sculpin_posts.permalink%</argument>
             <argument type="service" id="sculpin.matcher" />

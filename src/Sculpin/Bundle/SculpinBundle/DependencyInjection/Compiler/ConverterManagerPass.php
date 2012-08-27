@@ -16,26 +16,26 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Data Provider pass
+ * Converter Manager pass
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class DataProviderPass implements CompilerPassInterface
+class ConverterManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('sculpin')) {
+        if (false === $container->hasDefinition('sculpin.converter_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition('sculpin');
+        $definition = $container->getDefinition('sculpin.converter_manager');
 
-        foreach ($container->findTaggedServiceIds('sculpin.data_provider') as $id => $tagAttributes) {
+        foreach ($container->findTaggedServiceIds('sculpin.converter') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerDataProvider', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerConverter', array($attributes['alias'], new Reference($id)));
             }
         }
     }
