@@ -15,7 +15,6 @@ use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\ConverterManagerPa
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataProviderManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\PathConfiguratorPass;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

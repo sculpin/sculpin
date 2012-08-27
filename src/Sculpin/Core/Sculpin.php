@@ -13,15 +13,12 @@ namespace Sculpin\Core;
 
 use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterManager;
-use Sculpin\Core\Event\ConvertEvent;
-use Sculpin\Core\Event\FormatEvent;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\DataSourceInterface;
-use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

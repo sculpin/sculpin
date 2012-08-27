@@ -73,7 +73,7 @@ abstract class AbstractKernel extends Kernel
     {
         if (file_exists($file = $this->rootDir.'/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
             $loader->load($file);
-        } elseif(file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {
+        } elseif (file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {
             $loader->load($file);
         }
     }

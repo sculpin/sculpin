@@ -44,7 +44,7 @@ class SiteConfigurationFactory
             $builder = new YamlFileConfigurationBuilder(array($file));
 
             return $builder->build();
-        } elseif(file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
+        } elseif (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
             $builder = new YamlFileConfigurationBuilder(array($file));
 
             return $builder->build();
