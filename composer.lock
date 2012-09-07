@@ -1,9 +1,17 @@
 {
-    "hash": "a05f1a9aa64bd00265d234e52deed1ab",
+    "hash": "eae833cd961c4171b1afded830b4d276",
     "packages": [
         {
             "package": "composer/composer",
-            "version": "1.0.0-alpha4"
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "composer/composer",
+            "version": "dev-master",
+            "source-reference": "3f4b6bf83bb93de8c6498a2a1943fc5a40ea7b4d",
+            "commit-date": "1347050165"
         },
         {
             "package": "dflydev/ant-path-matcher",
@@ -35,59 +43,59 @@
         },
         {
             "package": "symfony/class-loader",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/config",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/console",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/dependency-injection",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/event-dispatcher",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/filesystem",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/finder",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/http-foundation",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/http-kernel",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/process",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/twig-bridge",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/twig-bundle",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/yaml",
-            "version": "v2.1.0-RC1"
+            "version": "v2.1.0"
         },
         {
             "package": "twig/twig",
-            "version": "v1.9.1"
+            "version": "v1.9.2"
         }
     ],
     "packages-dev": null,
@@ -96,6 +104,6 @@
     ],
     "minimum-stability": "alpha",
     "stability-flags": {
-        "composer/composer": 15
+        "composer/composer": 20
     }
 }
