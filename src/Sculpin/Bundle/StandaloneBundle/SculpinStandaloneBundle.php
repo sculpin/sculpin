@@ -11,28 +11,13 @@
 
 namespace Sculpin\Bundle\StandaloneBundle;
 
-use Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler\RegisterKernelListenersPass;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Standalone Bundle.
  *
- * Used to prep the Kernel in the case that Sculpin is used outside
- * of a Symfony2 Standard application.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinStandaloneBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-
-        $container->addCompilerPass(new RegisterKernelListenersPass, PassConfig::TYPE_AFTER_REMOVING);
-    }
 }
