@@ -11,7 +11,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Composer;
 
-use Composer\Package\Package;
+use Composer\Package\MemoryPackage;
 use Sculpin\Core\Sculpin;
 
 /**
@@ -32,6 +32,6 @@ class PackageFactory
         // otherwise we should use a sensible default value.
         $version = ('@'.'package_version'.'@' !== Sculpin::VERSION) ? Sculpin::VERSION : '2.0.x-dev';
 
-        return new Package('sculpin/sculpin', $version, $version);
+        return new MemoryPackage('sculpin/sculpin', $version, $version);
     }
 }
