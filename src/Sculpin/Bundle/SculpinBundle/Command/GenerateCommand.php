@@ -34,7 +34,8 @@ class GenerateCommand extends AbstractCommand
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
-                new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
+                //new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
+                new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
@@ -47,10 +48,15 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $watch = (Boolean) $input->getOption('watch');
+        $watch = false;
         $sculpin = $this->getContainer()->get('sculpin');
         $dataSource = $this->getContainer()->get('sculpin.data_source');
         $sourceSet = new SourceSet;
+
+        $config = $this->getContainer()->get('sculpin.site_configuration');
+        if ($url = $input->getOption('url')) {
+            $config->set('url', $url);
+        }
 
         do {
             $sculpin->run($dataSource, $sourceSet);
