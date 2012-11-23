@@ -160,4 +160,22 @@ interface SourceInterface
      * Force Source to be reprocessed
      */
     public function forceReprocess();
+
+    /**
+     * URL
+     *
+     * Convenience method.
+     *
+     * @return string
+     */
+    public function url();
+
+    /**
+     * Duplicate the source
+     *
+     * @param string $newSourceId
+     *
+     * @return SourceInterface
+     */
+    public function duplicate($newSourceId);
 }

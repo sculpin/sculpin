@@ -24,20 +24,6 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
 class FileSource extends AbstractSource
 {
     /**
-     * Data Source
-     *
-     * @var DataSourceInterface
-     */
-    protected $dataSource;
-
-    /**
-     * File
-     *
-     * @var SplFileInfo
-     */
-    protected $file;
-
-    /**
      * Constructor
      *
      * @param DataSourceInterface $dataSource Data Source
@@ -47,7 +33,9 @@ class FileSource extends AbstractSource
      */
     public function __construct(DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
     {
-        $this->dataSource = $dataSource;
+        $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
+        $this->relativePathname = $file->getRelativePathname();
+        $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
@@ -111,37 +99,5 @@ class FileSource extends AbstractSource
         if ($this->data->get('date')) {
             $this->data->set('calculatedDate', strtotime($this->data->get('date')));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function sourceId()
-    {
-        return 'FileSource:'.$this->dataSource->dataSourceId().':'.$this->file->getRelativePathname();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function relativePathname()
-    {
-        return $this->file->getRelativePathname();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filename()
-    {
-        return $this->file->getFilename();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function file()
-    {
-        return $this->file;
     }
 }

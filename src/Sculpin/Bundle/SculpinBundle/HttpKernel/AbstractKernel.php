@@ -61,9 +61,10 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
+            new \Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle,
+            new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
             new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
-            new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle,
         );
 

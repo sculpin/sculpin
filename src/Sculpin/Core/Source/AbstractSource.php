@@ -22,7 +22,15 @@ use Dflydev\DotAccessConfiguration\Configuration as Data;
 abstract class AbstractSource implements SourceInterface
 {
     /**
+     * Source ID
+     *
+     * @var string
+     */
+    protected $sourceId;
+
+    /**
      * Is raw?
+     *
      * @var boolean
      */
     protected $isRaw;
@@ -47,6 +55,27 @@ abstract class AbstractSource implements SourceInterface
      * @var PermalinkInterface
      */
     protected $permalink;
+
+    /**
+     * File
+     *
+     * @var SplFileInfo
+     */
+    protected $file;
+
+    /**
+     * Relative pathname
+     *
+     * @var string
+     */
+    protected $relativePathname;
+
+    /**
+     * Filename
+     *
+     * @var string
+     */
+    protected $filename;
 
     /**
      * Use file reference?
@@ -86,6 +115,14 @@ abstract class AbstractSource implements SourceInterface
         if (null !== $hasChanged) {
             $this->hasChanged = $hasChanged;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sourceId()
+    {
+        return $this->sourceId;
     }
 
     /**
@@ -234,5 +271,56 @@ abstract class AbstractSource implements SourceInterface
     public function forceReprocess()
     {
         $this->init(true);
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function relativePathname()
+    {
+        return $this->relativePathname;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function file()
+    {
+        return $this->file;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function url()
+    {
+        return $this->permalink()->relativeUrlPath();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function duplicate($newSourceId, array $options = array())
+    {
+        return new MemorySource(
+            $newSourceId,
+            new Data($this->data->exportRaw()),
+            isset($options['content']) ? $options['content'] : $this->content,
+            isset($options['relativePathname']) ? $options['relativePathname'] : $this->relativePathname,
+            isset($options['filename']) ? $options['filename'] : $this->filename,
+            isset($options['file']) ? $options['file'] : $this->file,
+            isset($options['isRaw']) ? $options['isRaw'] : $this->isRaw,
+            isset($options['canBeFormatted']) ? $options['canBeFormatted'] : $this->canBeFormatted,
+            isset($options['hasChanged']) ? $options['hasChanged'] : $this->hasChanged
+        );
     }
 }

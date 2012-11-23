@@ -9,6 +9,7 @@
         <parameter key="sculpin.site_configuration_factory.class">Sculpin\Core\SiteConfiguration\SiteConfigurationFactory</parameter>
         <parameter key="sculpin.writer.class">Sculpin\Core\Output\FilesystemWriter</parameter>
         <parameter key="sculpin.data_provider_manager.class">Sculpin\Core\DataProvider\DataProviderManager</parameter>
+        <parameter key="sculpin.generator_manager.class">Sculpin\Core\Generator\GeneratorManager</parameter>
         <parameter key="sculpin.formatter_manager.class">Sculpin\Core\Formatter\FormatterManager</parameter>
         <parameter key="sculpin.converter_manager.class">Sculpin\Core\Converter\ConverterManager</parameter>
         <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
@@ -41,6 +42,14 @@
 
         <service id="sculpin.data_provider_manager" class="%sculpin.data_provider_manager.class%" />
 
+        <service id="sculpin.generator_manager" class="%sculpin.generator_manager.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="sculpin.site_configuration" />
+            <call method="setDataProviderManager">
+                <argument type="service" id="sculpin.data_provider_manager" />
+            </call>
+        </service>
+
         <service id="sculpin.formatter_manager" class="%sculpin.formatter_manager.class%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.site_configuration" />
@@ -59,6 +68,7 @@
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
             <argument type="service" id="sculpin.writer" />
+            <argument type="service" id="sculpin.generator_manager" />
             <argument type="service" id="sculpin.formatter_manager" />
             <argument type="service" id="sculpin.converter_manager" />
         </service>
