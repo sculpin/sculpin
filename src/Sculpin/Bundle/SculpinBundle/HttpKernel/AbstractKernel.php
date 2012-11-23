@@ -29,8 +29,10 @@ abstract class AbstractKernel extends Kernel
      */
     public function __construct($environment, $debug, $projectDir = null)
     {
-        $this->projectDir = $projectDir;
-        $this->rootDir = $projectDir.'/app';
+        if (null !== $projectDir) {
+            $this->projectDir = $projectDir;
+            $this->rootDir = $projectDir.'/app';
+        }
 
         parent::__construct($environment, $debug);
     }
@@ -40,6 +42,10 @@ abstract class AbstractKernel extends Kernel
      */
     protected function getKernelParameters()
     {
+        if (null === $this->projectDir) {
+            $this->projectDir = dirname($this->rootDir);
+        }
+
         return array_merge(parent::getKernelParameters(), array(
             'sculpin.project_dir' => $this->projectDir,
         ));
