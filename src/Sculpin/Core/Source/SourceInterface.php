@@ -123,6 +123,40 @@ interface SourceInterface
     public function data();
 
     /**
+     * Source is a generator
+     *
+     * @return bool
+     */
+    public function isGenerator();
+
+    /**
+     * Mark Source as being a generator
+     */
+    public function setIsGenerator();
+
+    /**
+     * Mark Source as not being a generator
+     */
+    public function setisNotGenerator();
+
+    /**
+     * Source is generated (from a generator)
+     *
+     * @return bool
+     */
+    public function isGenerated();
+
+    /**
+     * Mark Source as being generated (by a generator)
+     */
+    public function setIsGenerated();
+
+    /**
+     * Mark Source as not being generated (by a generator)
+     */
+    public function setIsNotGenerated();
+
+    /**
      * Force Source to be reprocessed
      */
     public function forceReprocess();
