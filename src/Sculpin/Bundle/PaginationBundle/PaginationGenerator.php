@@ -53,16 +53,32 @@ class PaginationGenerator implements GeneratorInterface
      */
     public function generate(SourceInterface $source)
     {
+        $data = null;
         $config = $source->data()->get('pagination') ?: array();
-        $dataProviderName = isset($config['data_provider']) ? $config['data_provider'] : 'posts';
-        $maxPerPage = isset($config['max_per_page']) ? $config['max_per_page'] : $this->maxPerPage;
+        if (!isset($config['provider'])) {
+            $config['provider'] = 'data.posts';
+        }
+        if (preg_match('/^(data|page)\.(.+)$/', $config['provider'], $matches)) {
+            switch($matches[1]) {
+                case 'data':
+                    $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
+                    break;
+                case 'page':
+                    $data = $source->data()->get($matches[2]);
+                    break;
+            }
+        }
 
-        $dataProvider = $this->dataProviderManager->dataProvider($dataProviderName);
+        if (null === $data) {
+            return;
+        }
+
+        $maxPerPage = isset($config['max_per_page']) ? $config['max_per_page'] : $this->maxPerPage;
 
         $slices = array();
         $slice = array();
         $totalItems = 0;
-        foreach ($dataProvider->provideData() as $k => $v) {
+        foreach ($data as $k => $v) {
             if (count($slice) == $maxPerPage) {
                 $slices[] = $slice;
                 $slice = array();
@@ -108,7 +124,9 @@ class PaginationGenerator implements GeneratorInterface
                 $options
             );
 
-            $generatedSource->data()->set('permalink', $permalink);
+            if (null !== $permalink) {
+                $generatedSource->data()->set('permalink', $permalink);
+            }
 
             $generatedSource->data()->set('pagination.items', $slice);
             $generatedSource->data()->set('pagination.page', $pageNumber);

@@ -90,17 +90,22 @@ class GeneratorManager
     {
         $data = $source->data();
 
+        $generators = array();
         $isGenerator = $source->isGenerator();
-        if ($generatorName = $data->get('generator')) {
+        if ($generatorNames = $data->get('generator')) {
             if (!$isGenerator) {
                 $source->setIsGenerator();
             }
 
-            if (!isset($this->generators[$generatorName])) {
-                throw new \InvalidArgumentException("Requested generator '$generatorName' could not be found; was it registered?");
-            }
+            $generatorNames = (array) $generatorNames;
 
-            $generator = $this->generators[$generatorName];
+            foreach ($generatorNames as $generatorName) {
+                if (!isset($this->generators[$generatorName])) {
+                    throw new \InvalidArgumentException("Requested generator '$generatorName' could not be found; was it registered?");
+                }
+
+                $generators[] = $this->generators[$generatorName];
+            }
         } else {
             if ($isGenerator) {
                 $source->setIsNotGenerator();
@@ -109,8 +114,20 @@ class GeneratorManager
             return;
         }
 
-        foreach ((array) $generator->generate($source) as $generatedSource) {
-            $generatedSource->setIsGenerated();
+        $targetSources = array($source);
+
+        foreach ($generators as $generator) {
+            $newTargetSources = array();
+            foreach ($targetSources as $targetSource) {
+                foreach ((array) $generator->generate($targetSource) as $generatedSource) {
+                    $generatedSource->setIsGenerated();
+                    $newTargetSources[] = $generatedSource;
+                }
+            }
+            $targetSources = $newTargetSources;
+        }
+
+        foreach ($targetSources as $generatedSource) {
             $sourceSet->mergeSource($generatedSource);
         }
     }

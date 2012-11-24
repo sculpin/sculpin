@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Sculpin Posts Extension.
+ * Sculpin Pagination Extension.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
