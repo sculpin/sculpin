@@ -1,5 +1,5 @@
 {
-    "hash": "9383353e5e6c25500ba7b826f6997a7d",
+    "hash": "304918996ffbdc564f82bc23671456e7",
     "packages": [
         {
             "name": "composer/composer",
@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer",
-                "reference": "49238388e49d607096f92d0b9c89138c3e592482"
+                "reference": "cd4d5695401de3398b7fc6b59f8437736427c8f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/composer/composer/archive/49238388e49d607096f92d0b9c89138c3e592482.zip",
-                "reference": "49238388e49d607096f92d0b9c89138c3e592482",
+                "url": "https://github.com/composer/composer/archive/cd4d5695401de3398b7fc6b59f8437736427c8f3.zip",
+                "reference": "cd4d5695401de3398b7fc6b59f8437736427c8f3",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic",
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages"
             },
-            "time": "1353626934",
+            "time": "1353932463",
             "bin": [
                 "bin/composer"
             ],
@@ -464,6 +464,38 @@
                 "json",
                 "schema"
             ]
+        },
+        {
+            "name": "netcarver/textile",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/netcarver/textile",
+                "reference": "275f979b2ca66ee93166472efdceb1b3b5da06db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/netcarver/textile/archive/275f979b2ca66ee93166472efdceb1b3b5da06db.zip",
+                "reference": "275f979b2ca66ee93166472efdceb1b3b5da06db",
+                "shasum": ""
+            },
+            "time": "1353870699",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-dev": "2.5-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "classmap": [
+                    "classTextile.php"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A lightweight markup language that takes (almost) plaintext and converts it into well formed HTML."
         },
         {
             "name": "seld/jsonlint",
@@ -982,12 +1014,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel",
-                "reference": "ab02fd3aed9b7c476819bc43d255f7cb0d471dbb"
+                "reference": "b8d175c14bdf4eb9771690eae9718673dcca8408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpKernel/archive/ab02fd3aed9b7c476819bc43d255f7cb0d471dbb.zip",
-                "reference": "ab02fd3aed9b7c476819bc43d255f7cb0d471dbb",
+                "url": "https://github.com/symfony/HttpKernel/archive/b8d175c14bdf4eb9771690eae9718673dcca8408.zip",
+                "reference": "b8d175c14bdf4eb9771690eae9718673dcca8408",
                 "shasum": ""
             },
             "require": {
@@ -1014,7 +1046,7 @@
                 "symfony/dependency-injection": "2.2.*",
                 "symfony/finder": "2.2.*"
             },
-            "time": "1353487419",
+            "time": "1353759223",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1097,12 +1129,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing",
-                "reference": "52e7becbf50c3ab1bdc4516b530bcd5c1275ca49"
+                "reference": "1410f46bfb9702b1040c4894b167635bc61552d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Routing/archive/52e7becbf50c3ab1bdc4516b530bcd5c1275ca49.zip",
-                "reference": "52e7becbf50c3ab1bdc4516b530bcd5c1275ca49",
+                "url": "https://github.com/symfony/Routing/archive/1410f46bfb9702b1040c4894b167635bc61552d7.zip",
+                "reference": "1410f46bfb9702b1040c4894b167635bc61552d7",
                 "shasum": ""
             },
             "require": {
@@ -1119,7 +1151,7 @@
                 "symfony/config": "2.2.*",
                 "symfony/yaml": "2.2.*"
             },
-            "time": "1353334742",
+            "time": "1353667195",
             "type": "library",
             "extra": {
                 "branch-alias": {

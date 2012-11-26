@@ -23,6 +23,7 @@
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/dot-access-configuration": "1.*",
         "dflydev/markdown": "1.*",
+        "netcarver/textile": "2.5.*",
         "symfony/class-loader": "~2.1",
         "symfony/config": "~2.1",
         "symfony/console": "~2.1",
@@ -45,6 +46,7 @@
         "sculpin/posts-bundle": "self.version",
         "sculpin/sculpin-bundle": "self.version",
         "sculpin/standalone-bundle": "self.version",
+        "sculpin/textile-bundle": "self.version",
         "sculpin/twig-bundle": "self.version"
     },
     "autoload": {
