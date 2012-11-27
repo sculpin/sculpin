@@ -25,6 +25,7 @@
         "dflydev/symfony-finder-factory": "1.*",
         "dflydev/markdown": "1.*",
         "netcarver/textile": "2.5.*",
+        "react/http": "0.2.*",
         "symfony/class-loader": "~2.1",
         "symfony/config": "~2.1",
         "symfony/console": "~2.1",

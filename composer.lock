@@ -1,5 +1,5 @@
 {
-    "hash": "3675d04b4dd8f11fd13210ca0ebdee98",
+    "hash": "31eeb266cf8a83b71c34f0eaebcbd59e",
     "packages": [
         {
             "name": "composer/composer",
@@ -464,6 +464,223 @@
             ]
         },
         {
+            "name": "evenement/evenement",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement",
+                "reference": "406a0bd40c4d934e020469b923fad6330512ed4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/igorw/evenement/archive/406a0bd40c4d934e020469b923fad6330512ed4c.zip",
+                "reference": "406a0bd40c4d934e020469b923fad6330512ed4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "1351909043",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Evenement": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP 5.3",
+            "keywords": [
+                "event-dispatcher"
+            ]
+        },
+        {
+            "name": "guzzle/common",
+            "version": "v3.0.5",
+            "target-dir": "Guzzle/Common",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/guzzle/common.git",
+                "reference": "v3.0.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/guzzle/common/archive/v3.0.5.zip",
+                "reference": "v3.0.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/event-dispatcher": "2.1.*"
+            },
+            "time": "2012-11-19 00:15:33",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Common": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Common libraries used by Guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "event",
+                "exception",
+                "common",
+                "collection"
+            ]
+        },
+        {
+            "name": "guzzle/http",
+            "version": "v3.0.5",
+            "target-dir": "Guzzle/Http",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/guzzle/http.git",
+                "reference": "v3.0.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/guzzle/http/archive/v3.0.5.zip",
+                "reference": "v3.0.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "guzzle/common": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "time": "2012-11-18 05:28:55",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Http": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "HTTP libraries used by Guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "curl",
+                "http",
+                "http client",
+                "client",
+                "Guzzle"
+            ]
+        },
+        {
+            "name": "guzzle/parser",
+            "version": "v3.0.5",
+            "target-dir": "Guzzle/Parser",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/guzzle/parser.git",
+                "reference": "v3.0.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/guzzle/parser/archive/v3.0.5.zip",
+                "reference": "v3.0.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "time": "2012-11-19 00:07:13",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Parser": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Interchangeable parsers used by Guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "http",
+                "url",
+                "message",
+                "cookie",
+                "URI Template"
+            ]
+        },
+        {
+            "name": "guzzle/stream",
+            "version": "v3.0.5",
+            "target-dir": "Guzzle/Stream",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/stream",
+                "reference": "v3.0.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/guzzle/stream/archive/v3.0.5.zip",
+                "reference": "v3.0.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "guzzle/common": "self.version"
+            },
+            "time": "2012-11-11 23:54:57",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Stream": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle stream wrapper component",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "stream",
+                "Guzzle",
+                "component"
+            ]
+        },
+        {
             "name": "justinrainbow/json-schema",
             "version": "1.1.0",
             "source": {
@@ -549,6 +766,178 @@
                 "BSD-3-Clause"
             ],
             "description": "A lightweight markup language that takes (almost) plaintext and converts it into well formed HTML."
+        },
+        {
+            "name": "react/event-loop",
+            "version": "dev-master",
+            "target-dir": "React/EventLoop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/event-loop",
+                "reference": "v0.2.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/reactphp/event-loop/archive/v0.2.5.zip",
+                "reference": "v0.2.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-libevent": ">=0.0.5",
+                "ext-libev": "*"
+            },
+            "time": "1352761205",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "React\\EventLoop": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Event loop abstraction layer that libraries can use for evented I/O.",
+            "keywords": [
+                "event-loop"
+            ]
+        },
+        {
+            "name": "react/http",
+            "version": "dev-master",
+            "target-dir": "React/Http",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/http",
+                "reference": "v0.2.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/reactphp/http/archive/v0.2.5.zip",
+                "reference": "v0.2.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "react/socket": "0.2.*",
+                "guzzle/http": "3.0.*",
+                "guzzle/parser": "3.0.*"
+            },
+            "time": "1352578647",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "React\\Http": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for building an evented http server.",
+            "keywords": [
+                "http"
+            ]
+        },
+        {
+            "name": "react/socket",
+            "version": "dev-master",
+            "target-dir": "React/Socket",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/socket",
+                "reference": "v0.2.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/reactphp/socket/archive/v0.2.5.zip",
+                "reference": "v0.2.5",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "1.0.*",
+                "php": ">=5.3.3",
+                "react/event-loop": "0.2.*",
+                "react/stream": "0.2.*"
+            },
+            "time": "1352121935",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "React\\Socket": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for building an evented socket server.",
+            "keywords": [
+                "Socket"
+            ]
+        },
+        {
+            "name": "react/stream",
+            "version": "dev-master",
+            "target-dir": "React/Stream",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/stream",
+                "reference": "v0.2.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/reactphp/stream/archive/v0.2.5.zip",
+                "reference": "v0.2.5",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "1.0.*",
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "react/event-loop": "0.2.*",
+                "react/promise": "1.0.*"
+            },
+            "time": "1353313450",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "React\\Stream": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Basic readable and writable stream interfaces that support piping.",
+            "keywords": [
+                "stream",
+                "pipe"
+            ]
         },
         {
             "name": "seld/jsonlint",
@@ -649,33 +1038,33 @@
         },
         {
             "name": "symfony/config",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config",
-                "reference": "ba925e84b22d8853e903ac00554fc994902280ba"
+                "reference": "f12982ffa9843be853c9b61fd5a7896f00aa5fd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Config/archive/ba925e84b22d8853e903ac00554fc994902280ba.zip",
-                "reference": "ba925e84b22d8853e903ac00554fc994902280ba",
+                "url": "https://github.com/symfony/Config/archive/f12982ffa9843be853c9b61fd5a7896f00aa5fd7.zip",
+                "reference": "f12982ffa9843be853c9b61fd5a7896f00aa5fd7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1353329932",
+            "time": "1352368308",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Config\\": ""
+                    "Symfony\\Component\\Config": ""
                 }
             },
             "license": [
@@ -743,41 +1132,41 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection",
-                "reference": "e2713da6f3713eba1bc26dfeeaa7aefde8914676"
+                "reference": "eca7e5dfc35b2d2d67366d4b8fad66bdec819ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/DependencyInjection/archive/e2713da6f3713eba1bc26dfeeaa7aefde8914676.zip",
-                "reference": "e2713da6f3713eba1bc26dfeeaa7aefde8914676",
+                "url": "https://github.com/symfony/DependencyInjection/archive/eca7e5dfc35b2d2d67366d4b8fad66bdec819ab5.zip",
+                "reference": "eca7e5dfc35b2d2d67366d4b8fad66bdec819ab5",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/yaml": "2.2.*",
-                "symfony/config": "2.2.*"
+                "symfony/yaml": "2.1.*",
+                "symfony/config": "2.1.*"
             },
             "suggest": {
-                "symfony/yaml": "2.2.*",
-                "symfony/config": "2.2.*"
+                "symfony/yaml": "2.1.*",
+                "symfony/config": "2.1.*"
             },
-            "time": "1353329932",
+            "time": "1352635176",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\DependencyInjection\\": ""
+                    "Symfony\\Component\\DependencyInjection": ""
                 }
             },
             "license": [
@@ -798,40 +1187,40 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher",
-                "reference": "eb290a447c0af5bea0d3de5d95d498afd8c82f89"
+                "reference": "b5b6807bcc192f3a1c4fba7ef48466ebbd3c4485"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/EventDispatcher/archive/eb290a447c0af5bea0d3de5d95d498afd8c82f89.zip",
-                "reference": "eb290a447c0af5bea0d3de5d95d498afd8c82f89",
+                "url": "https://github.com/symfony/EventDispatcher/archive/b5b6807bcc192f3a1c4fba7ef48466ebbd3c4485.zip",
+                "reference": "b5b6807bcc192f3a1c4fba7ef48466ebbd3c4485",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/dependency-injection": "2.2.*"
+                "symfony/dependency-injection": "2.1.*"
             },
             "suggest": {
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/http-kernel": "2.2.*"
+                "symfony/dependency-injection": "2.1.*",
+                "symfony/http-kernel": "2.1.*"
             },
-            "time": "1352815684",
+            "time": "1352368308",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
+                    "Symfony\\Component\\EventDispatcher": ""
                 }
             },
             "license": [
@@ -852,33 +1241,33 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Filesystem",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem",
-                "reference": "62dca321dfd5490cfa10d0086cf464c69eb53f82"
+                "reference": "aa34ce62326260b1a911deafaa5bb2bf898e7d65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Filesystem/archive/62dca321dfd5490cfa10d0086cf464c69eb53f82.zip",
-                "reference": "62dca321dfd5490cfa10d0086cf464c69eb53f82",
+                "url": "https://github.com/symfony/Filesystem/archive/aa34ce62326260b1a911deafaa5bb2bf898e7d65.zip",
+                "reference": "aa34ce62326260b1a911deafaa5bb2bf898e7d65",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1352815684",
+            "time": "1353417692",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Filesystem\\": ""
+                    "Symfony\\Component\\Filesystem": ""
                 }
             },
             "license": [
@@ -946,52 +1335,51 @@
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Bundle/FrameworkBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/FrameworkBundle",
-                "reference": "4a2f68361c319f7c7d3a7e38fe1ddd8435428b19"
+                "reference": "19bedb254f61156c825144e389a335a55eb83311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/FrameworkBundle/archive/4a2f68361c319f7c7d3a7e38fe1ddd8435428b19.zip",
-                "reference": "4a2f68361c319f7c7d3a7e38fe1ddd8435428b19",
+                "url": "https://github.com/symfony/FrameworkBundle/archive/19bedb254f61156c825144e389a335a55eb83311.zip",
+                "reference": "19bedb254f61156c825144e389a335a55eb83311",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": ">=2.2,<2.4-dev",
                 "php": ">=5.3.3",
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/config": "2.2.*",
-                "symfony/event-dispatcher": "2.2.*",
-                "symfony/http-kernel": "2.2.*",
-                "symfony/filesystem": "2.2.*",
-                "symfony/routing": "2.2.*",
-                "symfony/templating": "2.2.*",
-                "symfony/translation": "2.2.*",
-                "symfony/stopwatch": "2.2.*"
+                "doctrine/common": ">=2.2,<2.4-dev",
+                "symfony/dependency-injection": "2.1.*",
+                "symfony/config": "2.1.*",
+                "symfony/event-dispatcher": "2.1.*",
+                "symfony/http-kernel": "2.1.*",
+                "symfony/filesystem": "2.1.*",
+                "symfony/routing": "2.1.*",
+                "symfony/templating": "2.1.*",
+                "symfony/translation": "2.1.*"
             },
             "require-dev": {
-                "symfony/finder": "2.2.*"
+                "symfony/finder": "2.1.*"
             },
             "suggest": {
-                "symfony/console": "2.2.*",
-                "symfony/finder": "2.2.*",
-                "symfony/form": "2.2.*",
-                "symfony/validator": "2.2.*"
+                "symfony/console": "2.1.*",
+                "symfony/finder": "2.1.*",
+                "symfony/form": "2.1.*",
+                "symfony/validator": "2.1.*"
             },
-            "time": "1352897291",
+            "time": "1352368308",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Bundle\\FrameworkBundle\\": ""
+                    "Symfony\\Bundle\\FrameworkBundle": ""
                 }
             },
             "license": [
@@ -1012,37 +1400,35 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/HttpFoundation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation",
-                "reference": "56335c0d6de1cd7d465fe6c1323b1e8754780bdd"
+                "reference": "1019af12f75155fdf9b90240d22f7fa5a0e16ceb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpFoundation/archive/56335c0d6de1cd7d465fe6c1323b1e8754780bdd.zip",
-                "reference": "56335c0d6de1cd7d465fe6c1323b1e8754780bdd",
+                "url": "https://github.com/symfony/HttpFoundation/archive/1019af12f75155fdf9b90240d22f7fa5a0e16ceb.zip",
+                "reference": "1019af12f75155fdf9b90240d22f7fa5a0e16ceb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1353329932",
+            "time": "1353084667",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\HttpFoundation\\": ""
-                },
-                "classmap": [
-                    "Symfony/Component/HttpFoundation/Resources/stubs"
-                ]
+                    "Symfony\\Component\\HttpFoundation": "",
+                    "SessionHandlerInterface": "Symfony/Component/HttpFoundation/Resources/stubs"
+                }
             },
             "license": [
                 "MIT"
@@ -1062,54 +1448,53 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/HttpKernel",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel",
-                "reference": "b8d175c14bdf4eb9771690eae9718673dcca8408"
+                "reference": "5b46b62217dab8296098607100500bb7bb3087bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpKernel/archive/b8d175c14bdf4eb9771690eae9718673dcca8408.zip",
-                "reference": "b8d175c14bdf4eb9771690eae9718673dcca8408",
+                "url": "https://github.com/symfony/HttpKernel/archive/5b46b62217dab8296098607100500bb7bb3087bd.zip",
+                "reference": "5b46b62217dab8296098607100500bb7bb3087bd",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "symfony/event-dispatcher": "2.2.*",
-                "symfony/http-foundation": "2.2.*"
+                "symfony/event-dispatcher": "2.1.*",
+                "symfony/http-foundation": "2.1.*"
             },
             "require-dev": {
-                "symfony/browser-kit": "2.2.*",
-                "symfony/class-loader": "2.2.*",
-                "symfony/config": "2.2.*",
-                "symfony/console": "2.2.*",
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/finder": "2.2.*",
-                "symfony/process": "2.2.*",
-                "symfony/routing": "2.2.*",
-                "symfony/stopwatch": "2.2.*"
+                "symfony/browser-kit": "2.1.*",
+                "symfony/class-loader": "2.1.*",
+                "symfony/config": "2.1.*",
+                "symfony/console": "2.1.*",
+                "symfony/dependency-injection": "2.1.*",
+                "symfony/finder": "2.1.*",
+                "symfony/process": "2.1.*",
+                "symfony/routing": "2.1.*"
             },
             "suggest": {
-                "symfony/browser-kit": "2.2.*",
-                "symfony/class-loader": "2.2.*",
-                "symfony/config": "2.2.*",
-                "symfony/console": "2.2.*",
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/finder": "2.2.*"
+                "symfony/browser-kit": "2.1.*",
+                "symfony/class-loader": "2.1.*",
+                "symfony/config": "2.1.*",
+                "symfony/console": "2.1.*",
+                "symfony/dependency-injection": "2.1.*",
+                "symfony/finder": "2.1.*"
             },
-            "time": "1353759223",
+            "time": "1352985780",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\HttpKernel\\": ""
+                    "Symfony\\Component\\HttpKernel": ""
                 }
             },
             "license": [
@@ -1177,44 +1562,44 @@
         },
         {
             "name": "symfony/routing",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Routing",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing",
-                "reference": "1410f46bfb9702b1040c4894b167635bc61552d7"
+                "reference": "3fbbb421ba70623da9be8f42f12458c03a162480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Routing/archive/1410f46bfb9702b1040c4894b167635bc61552d7.zip",
-                "reference": "1410f46bfb9702b1040c4894b167635bc61552d7",
+                "url": "https://github.com/symfony/Routing/archive/3fbbb421ba70623da9be8f42f12458c03a162480.zip",
+                "reference": "3fbbb421ba70623da9be8f42f12458c03a162480",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "doctrine/common": ">=2.2,<2.4-dev",
-                "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*",
-                "symfony/http-kernel": "2.2.*"
+                "symfony/config": "2.1.*",
+                "symfony/yaml": "2.1.*",
+                "symfony/http-kernel": "2.1.*",
+                "doctrine/common": ">=2.2,<2.4-dev"
             },
             "suggest": {
                 "doctrine/common": ">=2.2,<2.4-dev",
-                "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*"
+                "symfony/config": "2.1.*",
+                "symfony/yaml": "2.1.*"
             },
-            "time": "1353667195",
+            "time": "1353321329",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Routing\\": ""
+                    "Symfony\\Component\\Routing": ""
                 }
             },
             "license": [
@@ -1234,81 +1619,34 @@
             "homepage": "http://symfony.com"
         },
         {
-            "name": "symfony/stopwatch",
-            "version": "dev-master",
-            "target-dir": "Symfony/Component/Stopwatch",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Stopwatch",
-                "reference": "bde69ee4a6e051257edfb938bedf64eee6f9a94a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/symfony/Stopwatch/archive/bde69ee4a6e051257edfb938bedf64eee6f9a94a.zip",
-                "reference": "bde69ee4a6e051257edfb938bedf64eee6f9a94a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "time": "1352713424",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\Stopwatch\\": ""
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Stopwatch Component",
-            "homepage": "http://symfony.com"
-        },
-        {
             "name": "symfony/templating",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Templating",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Templating",
-                "reference": "4b517121145a4710ff53c697f28931d5abc6db07"
+                "reference": "61c1c111df8c32dcdfcf29d81b27fa4e5386f7dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Templating/archive/4b517121145a4710ff53c697f28931d5abc6db07.zip",
-                "reference": "4b517121145a4710ff53c697f28931d5abc6db07",
+                "url": "https://github.com/symfony/Templating/archive/61c1c111df8c32dcdfcf29d81b27fa4e5386f7dc.zip",
+                "reference": "61c1c111df8c32dcdfcf29d81b27fa4e5386f7dc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1353329932",
+            "time": "1352368308",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Templating\\": ""
+                    "Symfony\\Component\\Templating": ""
                 }
             },
             "license": [
@@ -1329,41 +1667,41 @@
         },
         {
             "name": "symfony/translation",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Translation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation",
-                "reference": "7d96c4490708b2a006e996c1db3c171bbcb5f8c2"
+                "reference": "806431a802d237e15fe38dca0b0460d512854652"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Translation/archive/7d96c4490708b2a006e996c1db3c171bbcb5f8c2.zip",
-                "reference": "7d96c4490708b2a006e996c1db3c171bbcb5f8c2",
+                "url": "https://github.com/symfony/Translation/archive/806431a802d237e15fe38dca0b0460d512854652.zip",
+                "reference": "806431a802d237e15fe38dca0b0460d512854652",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*"
+                "symfony/config": "2.1.*",
+                "symfony/yaml": "2.1.*"
             },
             "suggest": {
-                "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*"
+                "symfony/config": "2.1.*",
+                "symfony/yaml": "2.1.*"
             },
-            "time": "1353329932",
+            "time": "1353512262",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Translation\\": ""
+                    "Symfony\\Component\\Translation": ""
                 }
             },
             "license": [
@@ -1594,9 +1932,7 @@
             ]
         }
     ],
-    "packages-dev": [
-
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],
