@@ -14,20 +14,8 @@ namespace Sculpin\Core\Tests\Formatter;
 use Sculpin\Core\Source\CompositeDataSource;
 use Sculpin\Core\Source\SourceSet;
 
-/**
- * SourceSet Test.
- *
- * @author Beau Simensen <beau@dflydev.com>
- */
 class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Make a test Source
-     *
-     * @param string $dataSourceId Data Source ID
-     *
-     * @return \Sculpin\Core\Source\DataSourceInterface
-     */
     public function makeDataSource($dataSourceId)
     {
         $dataSource = $this->getMock('Sculpin\Core\Source\DataSourceInterface');
@@ -40,9 +28,6 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
         return $dataSource;
     }
 
-    /**
-     * Test addDataSource() method.
-     */
     public function testAddDataSource()
     {
         $ds000 = $this->makeDataSource('TestDataSource:000');
@@ -65,9 +50,6 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
         ), $dataSource->dataSources());
     }
 
-    /**
-     * Test dataSourceId() method.
-     */
     public function testDataSourceId()
     {
         $ds000 = $this->makeDataSource('TestDataSource:000');
@@ -81,9 +63,6 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('TestDataSource:002', $dataSource->dataSourceId());
     }
 
-    /**
-     * Test refresh() method.
-     */
     public function testRefresh()
     {
         $sourceSet = new SourceSet;

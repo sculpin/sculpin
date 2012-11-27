@@ -13,16 +13,8 @@ namespace Sculpin\Core\Tests\Formatter;
 
 use Sculpin\Core\Formatter\FormatContext;
 
-/**
- * FormatContext Test.
- *
- * @author Beau Simensen <beau@dflydev.com>
- */
 class FormatContextTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Test.
-     */
     public function test()
     {
         $formatContext = new FormatContext('someTemplateId', 'template text', array(

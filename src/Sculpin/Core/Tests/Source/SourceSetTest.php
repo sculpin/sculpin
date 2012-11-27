@@ -13,21 +13,8 @@ namespace Sculpin\Core\Tests\Formatter;
 
 use Sculpin\Core\Source\SourceSet;
 
-/**
- * SourceSet Test.
- *
- * @author Beau Simensen <beau@dflydev.com>
- */
 class SourceSetTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Make a test Source
-     *
-     * @param string $sourceId   Source ID
-     * @param bool   $hasChanged Has changed
-     *
-     * @return \Sculpin\Core\Source\SourceInterface
-     */
     public function makeTestSource($sourceId, $hasChanged = true)
     {
         $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
@@ -45,9 +32,6 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         return $source;
     }
 
-    /**
-     * Test containsSource() method.
-     */
     public function testContainsSource()
     {
         $source000 = $this->makeTestSource('TestSource:000');
@@ -67,9 +51,6 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($sourceSet->containsSource($source002));
     }
 
-    /**
-     * Test mergeSource() method.
-     */
     public function testMergeSource()
     {
         $source000a = $this->makeTestSource('TestSource:000');
@@ -101,9 +82,6 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('b', $internalSources['TestSource:000']->content());
     }
 
-    /**
-     * Test allSources() method.
-     */
     public function testAllSources()
     {
         $source000 = $this->makeTestSource('TestSource:000');
@@ -119,9 +97,6 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         ), $sourceSet->allSources());
     }
 
-    /**
-     * Test updatedSources() method.
-     */
     public function testUpdatedSources()
     {
         $source000 = $this->makeTestSource('TestSource:000');
@@ -136,9 +111,6 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         ), $sourceSet->updatedSources());
     }
 
-    /**
-     * Test reset() method.
-     */
     public function testReset()
     {
         $source000 = $this->makeTestSource('TestSource:000');
