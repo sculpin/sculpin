@@ -1,5 +1,5 @@
 {
-    "hash": "304918996ffbdc564f82bc23671456e7",
+    "hash": "3675d04b4dd8f11fd13210ca0ebdee98",
     "packages": [
         {
             "name": "composer/composer",
@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer",
-                "reference": "cd4d5695401de3398b7fc6b59f8437736427c8f3"
+                "reference": "c5f3a6febde6f9e6fdcaf62e64ebee3768d0cbe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/composer/composer/archive/cd4d5695401de3398b7fc6b59f8437736427c8f3.zip",
-                "reference": "cd4d5695401de3398b7fc6b59f8437736427c8f3",
+                "url": "https://github.com/composer/composer/archive/c5f3a6febde6f9e6fdcaf62e64ebee3768d0cbe9.zip",
+                "reference": "c5f3a6febde6f9e6fdcaf62e64ebee3768d0cbe9",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic",
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages"
             },
-            "time": "1353932463",
+            "time": "1354022590",
             "bin": [
                 "bin/composer"
             ],
@@ -339,6 +339,59 @@
             "keywords": [
                 "placeholder",
                 "resolver"
+            ]
+        },
+        {
+            "name": "dflydev/symfony-finder-factory",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-symfony-finder-factory",
+                "reference": "101b2decf308bfac9c9bbc52be1738e1fa863a8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/dflydev/dflydev-symfony-finder-factory/archive/101b2decf308bfac9c9bbc52be1738e1fa863a8a.zip",
+                "reference": "101b2decf308bfac9c9bbc52be1738e1fa863a8a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/finder": ">=2.0,<3.0"
+            },
+            "time": "1352479528",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Dflydev\\Symfony\\FinderFactory": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                }
+            ],
+            "description": "Symfony Finder Factory",
+            "keywords": [
+                "factory",
+                "finder",
+                "syfony"
             ]
         },
         {
@@ -695,12 +748,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection",
-                "reference": "c39ee4ea93a14fafd27ba30ab74720aa5653f430"
+                "reference": "e2713da6f3713eba1bc26dfeeaa7aefde8914676"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/DependencyInjection/archive/c39ee4ea93a14fafd27ba30ab74720aa5653f430.zip",
-                "reference": "c39ee4ea93a14fafd27ba30ab74720aa5653f430",
+                "url": "https://github.com/symfony/DependencyInjection/archive/e2713da6f3713eba1bc26dfeeaa7aefde8914676.zip",
+                "reference": "e2713da6f3713eba1bc26dfeeaa7aefde8914676",
                 "shasum": ""
             },
             "require": {
@@ -714,7 +767,7 @@
                 "symfony/yaml": "2.2.*",
                 "symfony/config": "2.2.*"
             },
-            "time": "1351093287",
+            "time": "1353329932",
             "type": "library",
             "extra": {
                 "branch-alias": {
