@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sculpin_pagination.generator.class">Sculpin\Bundle\PaginationBundle\PaginationGenerator</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="sculpin_pagination.generator" class="%sculpin_pagination.generator.class%">
+            <argument type="service" id="sculpin.data_provider_manager" />
+            <argument>%sculpin_pagination.max_per_page%</argument>
+            <tag name="sculpin.generator" alias="pagination" />
+        </service>
+
+    </services>
+
+</container>

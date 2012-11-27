@@ -15,6 +15,7 @@ use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
+use Sculpin\Core\Generator\GeneratorManager;
 use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
@@ -70,6 +71,13 @@ class Sculpin
     protected $writer;
 
     /**
+     * Generator Manager
+     *
+     * @var GeneratorManager
+     */
+    protected $generatorManager;
+
+    /**
      * Formatter Manager
      *
      * @var FormatterManager
@@ -90,15 +98,17 @@ class Sculpin
      * @param EventDispatcher        $eventDispatcher   Event dispatcher
      * @param SourcePermalinkFactory $permalinkFactory  Permalink factory
      * @param WriterInterface        $writer            Writer
+     * @param GeneratorManager       $generatorManager  Generator Manager
      * @param FormatterManager       $formatterManager  Formatter Manager
      * @param ConverterManager       $converterManager  Converter Manager
      */
-    public function __construct(Configuration $siteConfiguration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory, WriterInterface $writer, FormatterManager $formatterManager, ConverterManager $converterManager)
+    public function __construct(Configuration $siteConfiguration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory, WriterInterface $writer, GeneratorManager $generatorManager, FormatterManager $formatterManager, ConverterManager $converterManager)
     {
         $this->siteConfiguration = $siteConfiguration;
         $this->eventDispatcher = $eventDispatcher;
         $this->permalinkFactory = $permalinkFactory;
         $this->writer = $writer;
+        $this->generatorManager = $generatorManager;
         $this->formatterManager = $formatterManager;
         $this->converterManager = $converterManager;
     }
@@ -119,6 +129,10 @@ class Sculpin
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN_AGAIN, new SourceSetEvent($sourceSet));
 
         foreach ($sourceSet->updatedSources() as $source) {
+            $this->generatorManager->generate($source, $sourceSet);
+        }
+
+        foreach ($sourceSet->updatedSources() as $source) {
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
             $source->data()->set('url', $permalink->relativeUrlPath());
@@ -137,11 +151,17 @@ class Sculpin
         $found = false;
 
         foreach ($sourceSet->updatedSources() as $source) {
+            if ($source->isGenerator()) {
+                continue;
+            }
+
             if (!$found) {
                 print "Detected new or updated files\n";
                 $found = true;
             }
+
             $this->writer->write(new SourceOutput($source));
+
             print " + {$source->sourceId()}\n";
         }
 

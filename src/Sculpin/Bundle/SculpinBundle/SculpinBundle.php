@@ -14,6 +14,7 @@ namespace Sculpin\Bundle\SculpinBundle;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\ConverterManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataProviderManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterManagerPass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\GeneratorManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\PathConfiguratorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -35,6 +36,7 @@ class SculpinBundle extends Bundle
         $container->addCompilerPass(new ConverterManagerPass);
         $container->addCompilerPass(new DataProviderManagerPass);
         $container->addCompilerPass(new FormatterManagerPass);
+        $container->addCompilerPass(new GeneratorManagerPass);
         $container->addCompilerPass(new PathConfiguratorPass);
     }
 }

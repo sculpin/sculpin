@@ -21,63 +21,8 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FileSource implements SourceInterface
+class FileSource extends AbstractSource
 {
-    /**
-     * Data Source
-     *
-     * @var DataSourceInterface
-     */
-    protected $dataSource;
-
-    /**
-     * File
-     *
-     * @var SplFileInfo
-     */
-    protected $file;
-
-    /**
-     * Is raw?
-     * @var boolean
-     */
-    protected $isRaw;
-
-    /**
-     * Content
-     *
-     * @var string
-     */
-    protected $content;
-
-    /**
-     * Data
-     *
-     * @var Data
-     */
-    protected $data;
-
-    /**
-     * Permalink
-     *
-     * @var PermalinkInterface
-     */
-    protected $permalink;
-
-    /**
-     * Use file reference?
-     *
-     * @var boolean
-     */
-    protected $useFileReference = false;
-
-    /**
-     * Can be formatted?
-     *
-     * @var boolean
-     */
-    protected $canBeFormatted = false;
-
     /**
      * Constructor
      *
@@ -88,7 +33,9 @@ class FileSource implements SourceInterface
      */
     public function __construct(DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
     {
-        $this->dataSource = $dataSource;
+        $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
+        $this->relativePathname = $file->getRelativePathname();
+        $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
@@ -102,9 +49,8 @@ class FileSource implements SourceInterface
      */
     protected function init($hasChanged = null)
     {
-        if (null !== $hasChanged) {
-            $this->hasChanged = $hasChanged;
-        }
+        parent::init($hasChanged);
+
         if ($this->isRaw) {
             $this->useFileReference = true;
             $this->data = new Data;
@@ -153,137 +99,5 @@ class FileSource implements SourceInterface
         if ($this->data->get('date')) {
             $this->data->set('calculatedDate', strtotime($this->data->get('date')));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function sourceId()
-    {
-        return 'FileSource:'.$this->dataSource->dataSourceId().':'.$this->file->getRelativePathname();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isRaw()
-    {
-        return $this->isRaw;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function content()
-    {
-        return $this->content;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContent($content = null)
-    {
-        $this->content = $content;
-
-        // If we are setting content, we are going to assume that we should
-        // not be using file references on output.
-        $this->useFileReference = false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function relativePathname()
-    {
-        return $this->file->getRelativePathname();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filename()
-    {
-        return $this->file->getFilename();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function data()
-    {
-        return $this->data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function file()
-    {
-        return $this->file;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasChanged()
-    {
-        return $this->hasChanged;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setHasChanged()
-    {
-        $this->hasChanged = true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setHasNotChanged()
-    {
-        $this->hasChanged = false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function permalink()
-    {
-        return $this->permalink;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setPermalink(PermalinkInterface $permalink)
-    {
-        $this->permalink = $permalink;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function useFileReference()
-    {
-        return $this->useFileReference;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function canBeFormatted()
-    {
-        return $this->canBeFormatted;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function forceReprocess()
-    {
-        $this->init(true);
     }
 }

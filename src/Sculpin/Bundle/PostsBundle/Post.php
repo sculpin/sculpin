@@ -12,21 +12,15 @@
 namespace Sculpin\Bundle\PostsBundle;
 
 use Sculpin\Core\Source\SourceInterface;
+use Sculpin\Core\Source\ProxySource;
 
 /**
  * Post.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Post
+class Post extends ProxySource
 {
-    /**
-     * Source
-     *
-     * @var SourceInterface
-     */
-    protected $source;
-
     /**
      * Previous post
      *
@@ -42,33 +36,13 @@ class Post
     protected $nextPost;
 
     /**
-     * Constructor
-     *
-     * @param SourceInterface $source
-     */
-    public function __construct(SourceInterface $source)
-    {
-        $this->source = $source;
-    }
-
-    /**
-     * Source
-     *
-     * @return SourceInterface
-     */
-    public function source()
-    {
-        return $this->source;
-    }
-
-    /**
      * ID
      *
      * @return string
      */
     public function id()
     {
-        return $this->source->sourceId();
+        return $this->sourceId();
     }
 
     /**
@@ -78,7 +52,7 @@ class Post
      */
     public function date()
     {
-        return $this->source->data()->get('calculatedDate');
+        return $this->data()->get('calculatedDate');
     }
 
     /**
@@ -88,7 +62,7 @@ class Post
      */
     public function meta()
     {
-        return $this->source->data()->export();
+        return $this->data()->export();
     }
 
     /**
@@ -98,7 +72,7 @@ class Post
      */
     public function title()
     {
-        return $this->source->data()->get('title');
+        return $this->data()->get('title');
     }
 
     /**
@@ -108,7 +82,7 @@ class Post
      */
     public function url()
     {
-        return $this->source->permalink()->relativeUrlPath();
+        return $this->permalink()->relativeUrlPath();
     }
 
     /**
@@ -118,7 +92,7 @@ class Post
      */
     public function blocks()
     {
-        return $this->source->data()->get('blocks');
+        return $this->data()->get('blocks');
     }
 
     /**
@@ -128,7 +102,7 @@ class Post
      */
     public function setBlocks(array $blocks = null)
     {
-        $this->source->data()->set('blocks', $blocks ?: array());
+        $this->data()->set('blocks', $blocks ?: array());
     }
 
     /**
@@ -150,7 +124,7 @@ class Post
     {
         $lastPreviousPost = $this->previousPost;
         $this->previousPost = $post;
-        $this->source->data()->set('previousPost', $post);
+        $this->data()->set('previousPost', $post);
         if ($lastPreviousPost) {
             // We did have a post before...
             if (!$post || $post->id() !== $lastPreviousPost->id()) {
@@ -184,7 +158,7 @@ class Post
     {
         $lastNextPost = $this->nextPost;
         $this->nextPost = $post;
-        $this->source->data()->set('nextPost', $post);
+        $this->data()->set('nextPost', $post);
         if ($lastNextPost) {
             // We did have a post before...
             if (!$post || $post->id() !== $lastNextPost->id()) {
@@ -204,16 +178,6 @@ class Post
      */
     public function reprocess()
     {
-        $this->source->setHasChanged();
-    }
-
-    /**
-     * Has the post changed?
-     *
-     * @return boolean
-     */
-    public function hasChanged()
-    {
-        return $this->source->hasChanged();
+        $this->setHasChanged();
     }
 }
