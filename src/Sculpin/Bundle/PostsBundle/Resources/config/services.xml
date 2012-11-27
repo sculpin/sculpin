@@ -4,12 +4,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sculpin_posts.data_provider.class">Sculpin\Bundle\PostsBundle\PostsDataProvider</parameter>
+        <parameter key="sculpin_posts.posts_data_provider.class">Sculpin\Bundle\PostsBundle\PostsDataProvider</parameter>
+        <parameter key="sculpin_posts.posts_tags_data_provider.class">Sculpin\Bundle\PostsBundle\PostsTagsDataProvider</parameter>
+        <parameter key="sculpin_posts.posts_tag_index_generator.class">Sculpin\Bundle\PostsBundle\PostsTagIndexGenerator</parameter>
     </parameters>
 
     <services>
-
-        <service id="sculpin_posts.data_provider" class="%sculpin_posts.data_provider.class%">
+        <service id="sculpin_posts.posts_data_provider" class="%sculpin_posts.posts_data_provider.class%">
             <argument type="service" id="sculpin.formatter_manager" />
             <argument>%sculpin_posts.paths%</argument>
             <argument>%sculpin_posts.permalink%</argument>
@@ -18,6 +19,16 @@
             <tag name="kernel.event_subscriber" />
         </service>
 
+        <service id="sculpin_posts.posts_tags_data_provider" class="%sculpin_posts.posts_tags_data_provider.class%">
+            <argument type="service" id="sculpin.data_provider_manager" />
+            <tag name="kernel.event_subscriber" />
+            <tag name="sculpin.data_provider" alias="posts_tags" />
+        </service>
+
+        <service id="sculpin_posts.posts_tag_index_generator" class="%sculpin_posts.posts_tag_index_generator.class%">
+            <argument type="service" id="sculpin.data_provider_manager" />
+            <tag name="sculpin.generator" alias="posts_tag_index" />
+        </service>
     </services>
 
 </container>

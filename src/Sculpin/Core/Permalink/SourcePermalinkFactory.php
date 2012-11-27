@@ -61,6 +61,10 @@ class SourcePermalinkFactory
             $relativeFilePath = $relativeUrlPath = $source->relativePathname();
         }
 
+        if (0 !== strpos($relativeUrlPath, '/')) {
+            $relativeUrlPath = '/'.$relativeUrlPath;
+        }
+
         return new Permalink($relativeFilePath, $relativeUrlPath);
     }
 
@@ -80,7 +84,7 @@ class SourcePermalinkFactory
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', array_merge($response, array('index.html')));
                 } else {
-                    $pretty = preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname);
+                    $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', $pathname);
                     if (basename($pretty) == 'index') {
                         return $pretty . '.html';
                     } else {
