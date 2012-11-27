@@ -11,8 +11,9 @@
 
 namespace Sculpin\Core\Source;
 
+use Dflydev\Symfony\FinderFactory\FinderFactory;
+use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
 use dflydev\util\antPathMatcher\AntPathMatcher;
-use Sculpin\Core\Finder\FinderFactory;
 
 /**
  * Filesystem Data Source.
@@ -52,7 +53,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * Finder Factory
      *
-     * @var FinderFactory
+     * @var FinderFactoryInterface
      */
     protected $finderFactory;
 
@@ -73,14 +74,14 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * Constructor.
      *
-     * @param string         $sourceDir     Source directory
-     * @param array          $excludes      Exclude paths
-     * @param array          $ignores       Ignore paths
-     * @param array          $raws          Raw paths
-     * @param FinderFactory  $finderFactory Finder factory
-     * @param AntPathMatcher $matcher       Matcher
+     * @param string                 $sourceDir     Source directory
+     * @param array                  $excludes      Exclude paths
+     * @param array                  $ignores       Ignore paths
+     * @param array                  $raws          Raw paths
+     * @param FinderFactoryInterface $finderFactory Finder Factory
+     * @param AntPathMatcher         $matcher       Matcher
      */
-    public function __construct($sourceDir, $excludes, $ignores, $raws, FinderFactory $finderFactory = null, AntPathMatcher $matcher = null)
+    public function __construct($sourceDir, $excludes, $ignores, $raws, FinderFactoryInterface $finderFactory = null, AntPathMatcher $matcher = null)
     {
         $this->sourceDir = $sourceDir;
         $this->excludes = $excludes;
@@ -112,7 +113,7 @@ class FilesystemDataSource implements DataSourceInterface
         $excludedFilesHaveChanged = false;
 
         $files = $this
-            ->finderFactory->create()
+            ->finderFactory->createFinder()
             ->files()
             ->ignoreVCS(true)
             ->date('>= '.$sinceTimeLast)

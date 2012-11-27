@@ -16,7 +16,7 @@
         <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
         <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
-        <parameter key="sculpin.finder_factory.class">Sculpin\Core\Finder\FinderFactory</parameter>
+        <parameter key="sculpin.finder_factory.class">Dflydev\Symfony\FinderFactory\FinderFactory</parameter>
         <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
     </parameters>
 
