@@ -97,7 +97,7 @@ EOT
         });
 
         $port = $input->getOption('port') ?: '8000';
-        $host = $input->getOption('host') ?: 'localhost';
+        $host = $input->getOption('host') ?: '0.0.0.0';
 
         $socketServer->listen($port, $host);
 
