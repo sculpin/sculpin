@@ -116,10 +116,21 @@ class FilesystemDataSource implements DataSourceInterface
             ->finderFactory->createFinder()
             ->files()
             ->ignoreVCS(true)
-            ->date('>= '.$sinceTimeLast)
+            ->date('>='.$sinceTimeLast)
             ->in($this->sourceDir);
 
+        $sinceTimeLastSeconds = strtotime($sinceTimeLast);
+
         foreach ($files as $file) {
+            if ($sinceTimeLastSeconds > $file->getMTime()) {
+                // This is a hack because Finder is actually incapable
+                // of resolution down to seconds.
+                //
+                // Sometimes this may result in the file looking like it
+                // has been modified twice in a row when it has not.
+                continue;
+            }
+
             foreach ($this->ignores as $pattern) {
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;

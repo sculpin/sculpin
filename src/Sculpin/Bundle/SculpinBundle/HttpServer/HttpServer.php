@@ -9,61 +9,50 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\SculpinBundle\Command;
+namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use React\EventLoop\StreamSelectLoop;
-use React\Http\Server as HttpServer;
-use React\Socket\Server as SocketServer;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use React\Http\Server as ReactHttpServer;
+use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Serve Command.
+ * HTTP Server
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ServeCommand extends AbstractCommand
+class HttpServer
 {
     /**
-     * {@inheritdoc}
+     * Constructor
+     *
+     * @param OutputInterface $output  Output
+     * @param string          $docroot Docroot
+     * @param string          $env     Environment
+     * @param bool            $debug   Debug
+     * @param int             $port    Port
      */
-    protected function configure()
+    public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
     {
-        $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
+        if (!$port) {
+            $port = 8000;
+        }
 
-        $this
-            ->setName($prefix.'serve')
-            ->setDescription('Serve a site.')
-            ->setDefinition(array(
-                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Host'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
-            ))
-            ->setHelp(<<<EOT
-The <info>serve</info> command serves a site.
-EOT
-            );
-    }
+        $this->output = $output;
+        $this->env = $env;
+        $this->debug = $debug;
+        $this->port = $port;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
-        $loop = new StreamSelectLoop;
-        $socketServer = new SocketServer($loop);
-        $httpServer = new HttpServer($socketServer);
-
-        $self = $this;
-
+        $this->loop = new StreamSelectLoop;
+        $socketServer = new ReactSocketServer($this->loop);
+        $httpServer = new ReactHttpServer($socketServer);
         $httpServer->on("request", function($request, $response) use ($docroot, $output) {
             $path = $docroot.'/'.ltrim($request->getPath(), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
             if (!file_exists($path)) {
-                ServeCommand::logRequest($output, 404, $request);
+                HttpServer::logRequest($output, 404, $request);
                 $response->writeHead(404);
 
                 return $response->end();
@@ -88,7 +77,7 @@ EOT
                 $type = 'text/css';
             }
 
-            ServeCommand::logRequest($output, 200, $request);
+            HttpServer::logRequest($output, 200, $request);
 
             $response->writeHead(200, array(
                 "Content-Type" => $type,
@@ -96,18 +85,21 @@ EOT
             $response->end(file_get_contents($path));
         });
 
-        $port = $input->getOption('port') ?: '8000';
-        $host = $input->getOption('host') ?: '0.0.0.0';
+        $socketServer->listen($port, '0.0.0.0');
+    }
 
-        $socketServer->listen($port, $host);
+    public function addPeriodicTimer($interval, $callback)
+    {
+        $this->loop->addPeriodicTimer($interval, $callback);
+    }
 
-        $kernel = $this->getContainer()->get('kernel');
+    public function run()
+    {
+        $this->output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
+        $this->output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
+        $this->output->writeln('Quit the server with CONTROL-C.');
 
-        $output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $kernel->getEnvironment(), var_export($kernel->isDebug(), true)));
-        $output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', $host, $port));
-        $output->writeln('Quit the server with CONTROL-C.');
-
-        $loop->run();
+        $this->loop->run();
     }
 
     static public function logRequest(OutputInterface $output, $responseCode, $request)

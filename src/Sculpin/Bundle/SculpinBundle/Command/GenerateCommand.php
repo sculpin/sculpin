@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,8 +35,10 @@ class GenerateCommand extends AbstractCommand
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
-                //new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
+                new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
+                new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
@@ -48,7 +51,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $watch = false;
+        $watch = $input->getOption('watch') ?: false;
         $sculpin = $this->getContainer()->get('sculpin');
         $dataSource = $this->getContainer()->get('sculpin.data_source');
         $sourceSet = new SourceSet;
@@ -58,14 +61,40 @@ EOT
             $config->set('url', $url);
         }
 
-        do {
+        if ($input->getOption('server')) {
             $sculpin->run($dataSource, $sourceSet);
 
+            $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+            $kernel = $this->getContainer()->get('kernel');
+
+            $httpServer = new HttpServer(
+                $output,
+                $docroot,
+                $kernel->getEnvironment(),
+                $kernel->isDebug(),
+                $input->getOption('port')
+            );
+
             if ($watch) {
-                sleep(2);
-                clearstatcache();
-                $sourceSet->reset();
+                $httpServer->addPeriodicTimer(1, function() use ($sculpin, $dataSource, $sourceSet) {
+                    clearstatcache();
+                    $sourceSet->reset();
+
+                    $sculpin->run($dataSource, $sourceSet);
+                });
             }
-        } while ($watch);
+
+            $httpServer->run();
+        } else {
+            do {
+                $sculpin->run($dataSource, $sourceSet);
+
+                if ($watch) {
+                    sleep(2);
+                    clearstatcache();
+                    $sourceSet->reset();
+                }
+            } while ($watch);
+        }
     }
 }
