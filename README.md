@@ -1,14 +1,13 @@
 Sculpin - Static Site Generator
 ===============================
 
-Sculpin is a static site generator written in PHP.
-Visit [getsculpin.com](http://getsculpin.com) for more information.
+Sculpin is a PHP static site generator.
 
+Sculpin takes plain old text files (Markdown, Textile, etc.) and combines
+them with Twig templates to produce a set of static HTML files that can
+be easily deployed to almost any hosting platform.
 
-Requirements
-------------
-
- * PHP: >=5.3.2
+Visit [sculpin.io](http://sculpin.io) for more information.
 
 
 License
@@ -22,8 +21,7 @@ Community
 
 Want to get involved? Here are a few ways:
 
-* Find us in the [#sculpin](irc://irc.freenode.org/sculpin) IRC
-  channel on irc.freenode.org.
+* Find us in the **#sculpin** IRC channel on **irc.freenode.org**.
 * Join the [Sculpin Users](http://groups.google.com/group/sculpin-users)
   mailing list.
 * Mention [@getsculpin](http://twitter.com/getsculpin) on Twitter.
@@ -37,6 +35,7 @@ If you are looking for a stable project with an established community,
 try something on the following admittedly incomplete list:
 
  * [Jekyll](http://github.com/mojombo/jekyll) &mdash; Ruby
+ * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
  * [Hyde](http://ringce.com/hyde) &mdash; Python
  * [Phrozn](http://phrozn.info) &mdash; PHP
- * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
+ * [Pie Crust](http://bolt80.com/piecrust) &mdash; PHP
