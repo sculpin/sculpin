@@ -55,12 +55,15 @@ EOT
         $socketServer = new SocketServer($loop);
         $httpServer = new HttpServer($socketServer);
 
-        $httpServer->on("request", function($request, $response) use ($docroot) {
+        $self = $this;
+
+        $httpServer->on("request", function($request, $response) use ($docroot, $output) {
             $path = $docroot.'/'.ltrim($request->getPath(), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
             if (!file_exists($path)) {
+                ServeCommand::logRequest($output, 404, $request);
                 $response->writeHead(404);
 
                 return $response->end();
@@ -85,14 +88,37 @@ EOT
                 $type = 'text/css';
             }
 
+            ServeCommand::logRequest($output, 200, $request);
+
             $response->writeHead(200, array(
                 "Content-Type" => $type,
             ));
             $response->end(file_get_contents($path));
         });
 
-        $socketServer->listen($input->getOption('port') ?: '8000', $input->getOption('host') ?: 'localhost');
+        $port = $input->getOption('port') ?: '8000';
+        $host = $input->getOption('host') ?: 'localhost';
+
+        $socketServer->listen($port, $host);
+
+        $kernel = $this->getContainer()->get('kernel');
+
+        $output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $kernel->getEnvironment(), var_export($kernel->isDebug(), true)));
+        $output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', $host, $port));
+        $output->writeln('Quit the server with CONTROL-C.');
 
         $loop->run();
+    }
+
+    static public function logRequest(OutputInterface $output, $responseCode, $request)
+    {
+        if ($responseCode < 400) {
+            $wrapOpen = '';
+            $wrapClose = '';
+        } elseif ($responseCode >= 400) {
+            $wrapOpen = '<comment>';
+            $wrapClose = '</comment>';
+        }
+        $output->writeln($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date("d/M/Y H:i:s"), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
     }
 }
