@@ -14,6 +14,7 @@ namespace Sculpin\Core\Source;
 use Dflydev\Symfony\FinderFactory\FinderFactory;
 use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
 use dflydev\util\antPathMatcher\AntPathMatcher;
+use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 
 /**
  * Filesystem Data Source.
@@ -74,14 +75,15 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * Constructor.
      *
-     * @param string                 $sourceDir     Source directory
-     * @param array                  $excludes      Exclude paths
-     * @param array                  $ignores       Ignore paths
-     * @param array                  $raws          Raw paths
-     * @param FinderFactoryInterface $finderFactory Finder Factory
-     * @param AntPathMatcher         $matcher       Matcher
+     * @param string                       $sourceDir                    Source directory
+     * @param array                        $excludes                     Exclude paths
+     * @param array                        $ignores                      Ignore paths
+     * @param array                        $raws                         Raw paths
+     * @param FinderFactoryInterface       $finderFactory                Finder Factory
+     * @param AntPathMatcher               $matcher                      Matcher
+     * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
-    public function __construct($sourceDir, $excludes, $ignores, $raws, FinderFactoryInterface $finderFactory = null, AntPathMatcher $matcher = null)
+    public function __construct($sourceDir, $excludes, $ignores, $raws, FinderFactoryInterface $finderFactory = null, AntPathMatcher $matcher = null, DirectorySeparatorNormalizer $directorySeparatorNormalizer = null)
     {
         $this->sourceDir = $sourceDir;
         $this->excludes = $excludes;
@@ -89,6 +91,7 @@ class FilesystemDataSource implements DataSourceInterface
         $this->raws = $raws;
         $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
+        $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
@@ -135,7 +138,7 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($file->getRelativePathname()))) {
                     // Ignored files are completely ignored.
                     continue 2;
                 }
@@ -144,7 +147,7 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($file->getRelativePathname()))) {
                     $excludedFilesHaveChanged = true;
                     continue 2;
                 }
@@ -156,7 +159,7 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match($pattern, $file->getRelativePathname())) {
+                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($file->getRelativePathname()))) {
                     $isRaw = true;
                     break;
                 }

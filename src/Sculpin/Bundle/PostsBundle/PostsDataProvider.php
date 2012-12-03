@@ -16,6 +16,7 @@ use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
+use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -64,19 +65,21 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
     /**
      * Constructor
      *
-     * @param FormatterManager $formatterManager Formatter Manager
-     * @param array            $paths            Paths
-     * @param string           $defaultPermalink Default permalink
-     * @param AntPathMatcher   $matcher          Matcher
-     * @param Posts            $posts            Posts
+     * @param FormatterManager             $formatterManager             Formatter Manager
+     * @param array                        $paths                        Paths
+     * @param string                       $defaultPermalink             Default permalink
+     * @param AntPathMatcher               $matcher                      Matcher
+     * @param Posts                        $posts                        Posts
+     * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
-    public function __construct(FormatterManager $formatterManager, array $paths, $defaultPermalink = null, AntPathMatcher $matcher = null, Posts $posts = null)
+    public function __construct(FormatterManager $formatterManager, array $paths, $defaultPermalink = null, AntPathMatcher $matcher = null, Posts $posts = null, DirectorySeparatorNormalizer $directorySeparatorNormalizer = null)
     {
         $this->formatterManager = $formatterManager;
         $this->paths = $paths;
         $this->defaultPermalink = $defaultPermalink;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->posts = $posts ?: new Posts;
+        $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
     }
 
     /**
@@ -109,7 +112,7 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
         foreach ($this->paths as $path) {
             $pattern = $this->matcher->isPattern($path) ? $path : $path.'/**';
             foreach ($sourceSetEvent->updatedSources() as $source) {
-                if ($this->matcher->match($pattern, $source->relativePathname())) {
+                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($source->relativePathname()))) {
                     if (!$source->data()->get('permalink') and $this->defaultPermalink) {
                         $source->data()->set('permalink', $this->defaultPermalink);
                     }
