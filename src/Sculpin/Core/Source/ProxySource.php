@@ -130,7 +130,7 @@ class ProxySource implements SourceInterface
      */
     public function setContent($content = null)
     {
-        return $this->source->setContent();
+        return $this->source->setContent($content);
     }
 
     /**
