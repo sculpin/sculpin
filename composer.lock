@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer",
-                "reference": "c5f3a6febde6f9e6fdcaf62e64ebee3768d0cbe9"
+                "reference": "224934831dbe1a8985556c3b161823d6afbffd95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/composer/composer/archive/c5f3a6febde6f9e6fdcaf62e64ebee3768d0cbe9.zip",
-                "reference": "c5f3a6febde6f9e6fdcaf62e64ebee3768d0cbe9",
+                "url": "https://github.com/composer/composer/archive/224934831dbe1a8985556c3b161823d6afbffd95.zip",
+                "reference": "224934831dbe1a8985556c3b161823d6afbffd95",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic",
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages"
             },
-            "time": "2012-11-27 13:23:10",
+            "time": "2012-12-05 18:20:52",
             "bin": [
                 "bin/composer"
             ],
@@ -43,6 +43,7 @@
                     "Composer": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -69,22 +70,22 @@
         },
         {
             "name": "dflydev/ant-path-matcher",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-util-antPathMatcher.git",
-                "reference": "v1.0.2"
+                "reference": "v1.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-util-antPathMatcher/zipball/v1.0.2",
-                "reference": "v1.0.2",
+                "url": "https://github.com/dflydev/dflydev-util-antPathMatcher/archive/v1.0.3.zip",
+                "reference": "v1.0.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
-            "time": "2012-07-15 06:15:25",
+            "time": "2012-12-03 05:03:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -92,6 +93,7 @@
                     "dflydev\\util\\antPathMatcher": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -122,12 +124,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-dot-access-configuration",
-                "reference": "349740decabd83e8b19507e0a5e75719906158ea"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-dot-access-configuration/archive/349740decabd83e8b19507e0a5e75719906158ea.zip",
-                "reference": "349740decabd83e8b19507e0a5e75719906158ea",
+                "url": "https://github.com/dflydev/dflydev-dot-access-configuration/archive/v1.0.0.zip",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
@@ -154,6 +156,7 @@
                     "Dflydev\\DotAccessConfiguration": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -347,12 +350,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-symfony-finder-factory",
-                "reference": "101b2decf308bfac9c9bbc52be1738e1fa863a8a"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-symfony-finder-factory/archive/101b2decf308bfac9c9bbc52be1738e1fa863a8a.zip",
-                "reference": "101b2decf308bfac9c9bbc52be1738e1fa863a8a",
+                "url": "https://github.com/dflydev/dflydev-symfony-finder-factory/archive/v1.0.0.zip",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
@@ -372,6 +375,7 @@
                     "Dflydev\\Symfony\\FinderFactory": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -741,15 +745,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/netcarver/textile",
-                "reference": "275f979b2ca66ee93166472efdceb1b3b5da06db"
+                "reference": "7fbca8952859290415d99fd37f76f011f65cfe3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/netcarver/textile/archive/275f979b2ca66ee93166472efdceb1b3b5da06db.zip",
-                "reference": "275f979b2ca66ee93166472efdceb1b3b5da06db",
+                "url": "https://github.com/netcarver/textile/archive/7fbca8952859290415d99fd37f76f011f65cfe3f.zip",
+                "reference": "7fbca8952859290415d99fd37f76f011f65cfe3f",
                 "shasum": ""
             },
-            "time": "2012-11-25 19:11:39",
+            "time": "2012-12-04 22:28:14",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -762,6 +766,7 @@
                     "classTextile.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1043,12 +1048,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config",
-                "reference": "f12982ffa9843be853c9b61fd5a7896f00aa5fd7"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Config/archive/f12982ffa9843be853c9b61fd5a7896f00aa5fd7.zip",
-                "reference": "f12982ffa9843be853c9b61fd5a7896f00aa5fd7",
+                "url": "https://github.com/symfony/Config/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
@@ -1067,6 +1072,7 @@
                     "Symfony\\Component\\Config": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1090,18 +1096,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "003a487a674175a1d2e62f205ecd91ffe85554b1"
+                "reference": "236c4d50d364c21bafa46e35aaf4fd38eec63e66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/archive/003a487a674175a1d2e62f205ecd91ffe85554b1.zip",
-                "reference": "003a487a674175a1d2e62f205ecd91ffe85554b1",
+                "url": "https://github.com/symfony/Console/archive/236c4d50d364c21bafa46e35aaf4fd38eec63e66.zip",
+                "reference": "236c4d50d364c21bafa46e35aaf4fd38eec63e66",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-11-19 12:58:52",
+            "time": "2012-12-03 22:00:56",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1114,6 +1120,7 @@
                     "Symfony\\Component\\Console\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1137,12 +1144,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection",
-                "reference": "eca7e5dfc35b2d2d67366d4b8fad66bdec819ab5"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/DependencyInjection/archive/eca7e5dfc35b2d2d67366d4b8fad66bdec819ab5.zip",
-                "reference": "eca7e5dfc35b2d2d67366d4b8fad66bdec819ab5",
+                "url": "https://github.com/symfony/DependencyInjection/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
@@ -1169,6 +1176,7 @@
                     "Symfony\\Component\\DependencyInjection": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1192,12 +1200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher",
-                "reference": "b5b6807bcc192f3a1c4fba7ef48466ebbd3c4485"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/EventDispatcher/archive/b5b6807bcc192f3a1c4fba7ef48466ebbd3c4485.zip",
-                "reference": "b5b6807bcc192f3a1c4fba7ef48466ebbd3c4485",
+                "url": "https://github.com/symfony/EventDispatcher/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
@@ -1223,6 +1231,7 @@
                     "Symfony\\Component\\EventDispatcher": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1246,12 +1255,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem",
-                "reference": "aa34ce62326260b1a911deafaa5bb2bf898e7d65"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Filesystem/archive/aa34ce62326260b1a911deafaa5bb2bf898e7d65.zip",
-                "reference": "aa34ce62326260b1a911deafaa5bb2bf898e7d65",
+                "url": "https://github.com/symfony/Filesystem/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
@@ -1270,6 +1279,7 @@
                     "Symfony\\Component\\Filesystem": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1340,12 +1350,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/FrameworkBundle",
-                "reference": "19bedb254f61156c825144e389a335a55eb83311"
+                "reference": "fa156a611327b84a1619e880deddd56524c86411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/FrameworkBundle/archive/19bedb254f61156c825144e389a335a55eb83311.zip",
-                "reference": "19bedb254f61156c825144e389a335a55eb83311",
+                "url": "https://github.com/symfony/FrameworkBundle/archive/fa156a611327b84a1619e880deddd56524c86411.zip",
+                "reference": "fa156a611327b84a1619e880deddd56524c86411",
                 "shasum": ""
             },
             "require": {
@@ -1369,7 +1379,7 @@
                 "symfony/form": "2.1.*",
                 "symfony/validator": "2.1.*"
             },
-            "time": "2012-11-08 09:51:48",
+            "time": "2012-12-03 22:02:45",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1382,6 +1392,7 @@
                     "Symfony\\Bundle\\FrameworkBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1405,18 +1416,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation",
-                "reference": "1019af12f75155fdf9b90240d22f7fa5a0e16ceb"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpFoundation/archive/1019af12f75155fdf9b90240d22f7fa5a0e16ceb.zip",
-                "reference": "1019af12f75155fdf9b90240d22f7fa5a0e16ceb",
+                "url": "https://github.com/symfony/HttpFoundation/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-11-16 16:51:07",
+            "time": "2012-11-30 12:53:14",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1430,6 +1441,7 @@
                     "SessionHandlerInterface": "Symfony/Component/HttpFoundation/Resources/stubs"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1453,12 +1465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel",
-                "reference": "5b46b62217dab8296098607100500bb7bb3087bd"
+                "reference": "56164fbab3f6567116ad4f04b7ff31a72b824113"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpKernel/archive/5b46b62217dab8296098607100500bb7bb3087bd.zip",
-                "reference": "5b46b62217dab8296098607100500bb7bb3087bd",
+                "url": "https://github.com/symfony/HttpKernel/archive/56164fbab3f6567116ad4f04b7ff31a72b824113.zip",
+                "reference": "56164fbab3f6567116ad4f04b7ff31a72b824113",
                 "shasum": ""
             },
             "require": {
@@ -1484,7 +1496,7 @@
                 "symfony/dependency-injection": "2.1.*",
                 "symfony/finder": "2.1.*"
             },
-            "time": "2012-11-15 13:23:00",
+            "time": "2012-12-02 18:01:07",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1497,6 +1509,7 @@
                     "Symfony\\Component\\HttpKernel": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1520,18 +1533,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process",
-                "reference": "a11b312f99a5a8bf88c0ea5e7660c13af79f964f"
+                "reference": "6ec0a1493b6bc36c196a86382839df470a703bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/archive/a11b312f99a5a8bf88c0ea5e7660c13af79f964f.zip",
-                "reference": "a11b312f99a5a8bf88c0ea5e7660c13af79f964f",
+                "url": "https://github.com/symfony/Process/archive/6ec0a1493b6bc36c196a86382839df470a703bf6.zip",
+                "reference": "6ec0a1493b6bc36c196a86382839df470a703bf6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-11-13 14:08:04",
+            "time": "2012-11-29 10:32:45",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1544,6 +1557,7 @@
                     "Symfony\\Component\\Process\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1567,12 +1581,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing",
-                "reference": "3fbbb421ba70623da9be8f42f12458c03a162480"
+                "reference": "27150dfb7eaee02d88510d842114859d46667350"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Routing/archive/3fbbb421ba70623da9be8f42f12458c03a162480.zip",
-                "reference": "3fbbb421ba70623da9be8f42f12458c03a162480",
+                "url": "https://github.com/symfony/Routing/archive/27150dfb7eaee02d88510d842114859d46667350.zip",
+                "reference": "27150dfb7eaee02d88510d842114859d46667350",
                 "shasum": ""
             },
             "require": {
@@ -1589,7 +1603,7 @@
                 "symfony/config": "2.1.*",
                 "symfony/yaml": "2.1.*"
             },
-            "time": "2012-11-19 10:35:29",
+            "time": "2012-12-03 13:28:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1602,6 +1616,7 @@
                     "Symfony\\Component\\Routing": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1625,12 +1640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Templating",
-                "reference": "61c1c111df8c32dcdfcf29d81b27fa4e5386f7dc"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Templating/archive/61c1c111df8c32dcdfcf29d81b27fa4e5386f7dc.zip",
-                "reference": "61c1c111df8c32dcdfcf29d81b27fa4e5386f7dc",
+                "url": "https://github.com/symfony/Templating/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
@@ -1649,6 +1664,7 @@
                     "Symfony\\Component\\Templating": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1672,12 +1688,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation",
-                "reference": "806431a802d237e15fe38dca0b0460d512854652"
+                "reference": "v2.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Translation/archive/806431a802d237e15fe38dca0b0460d512854652.zip",
-                "reference": "806431a802d237e15fe38dca0b0460d512854652",
+                "url": "https://github.com/symfony/Translation/archive/v2.1.4.zip",
+                "reference": "v2.1.4",
                 "shasum": ""
             },
             "require": {
@@ -1704,6 +1720,7 @@
                     "Symfony\\Component\\Translation": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1791,12 +1808,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/TwigBundle",
-                "reference": "7ce3a4a379a104523ddf4644ddc2b95fc8016328"
+                "reference": "e539acabf9cda629e0348fcb85e30b41b498bc5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/TwigBundle/archive/7ce3a4a379a104523ddf4644ddc2b95fc8016328.zip",
-                "reference": "7ce3a4a379a104523ddf4644ddc2b95fc8016328",
+                "url": "https://github.com/symfony/TwigBundle/archive/e539acabf9cda629e0348fcb85e30b41b498bc5b.zip",
+                "reference": "e539acabf9cda629e0348fcb85e30b41b498bc5b",
                 "shasum": ""
             },
             "require": {
@@ -1806,7 +1823,7 @@
             "require-dev": {
                 "symfony/stopwatch": "2.2.*"
             },
-            "time": "2012-11-14 12:48:11",
+            "time": "2012-11-27 19:37:15",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1819,6 +1836,7 @@
                     "Symfony\\Bundle\\TwigBundle\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1932,9 +1950,7 @@
             ]
         }
     ],
-    "packages-dev": [
-
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],
