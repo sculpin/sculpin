@@ -136,6 +136,22 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
+    public function formattedContent()
+    {
+        return $this->source->formattedContent();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFormattedContent($formattedContent = null)
+    {
+        return $this->source->formattedContent($formattedContent);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function relativePathname()
     {
         return $this->source->relativePathname();

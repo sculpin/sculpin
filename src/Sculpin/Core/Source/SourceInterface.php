@@ -102,6 +102,20 @@ interface SourceInterface
     public function setContent($content = null);
 
     /**
+     * Formatted content (if not use file reference)
+     *
+     * @return string
+     */
+    public function formattedContent();
+
+    /**
+     * Set formatted content
+     *
+     * @param string|null $formattedContent
+     */
+    public function setFormattedContent($formattedContent = null);
+
+    /**
      * Relative pathname
      *
      * @return string

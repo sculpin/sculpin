@@ -39,7 +39,7 @@ class FilesystemWriter implements WriterInterface
             $this->filesystem->copy($output->file(), $outputPath, true);
         } else {
             $this->filesystem->mkdir(dirname($outputPath));
-            file_put_contents($outputPath, $output->content());
+            file_put_contents($outputPath, $output->formattedContent());
         }
     }
 }

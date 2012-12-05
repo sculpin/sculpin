@@ -56,9 +56,9 @@ interface OutputInterface
     public function file();
 
     /**
-     * Content (if not hasFileReference)
+     * Formatted content (if not hasFileReference)
      *
      * @return string
      */
-    public function content();
+    public function formattedContent();
 }

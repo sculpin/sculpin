@@ -81,8 +81,8 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function content()
+    public function formattedContent()
     {
-        return $this->source->useFileReference()?null:$this->source->content();
+        return $this->source->useFileReference()?null:$this->source->formattedContent();
     }
 }

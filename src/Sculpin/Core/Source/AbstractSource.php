@@ -43,6 +43,13 @@ abstract class AbstractSource implements SourceInterface
     protected $content;
 
     /**
+     * Formatted content
+     *
+     * @var string
+     */
+    protected $formattedContent;
+
+    /**
      * Data
      *
      * @var Data
@@ -150,6 +157,26 @@ abstract class AbstractSource implements SourceInterface
 
         // If we are setting content, we are going to assume that we should
         // not be using file references on output.
+        $this->useFileReference = false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function formattedContent()
+    {
+        return $this->formattedContent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFormattedContent($formattedContent = null)
+    {
+        $this->formattedContent = $formattedContent;
+
+        // If we are setting formatted content, we are going to assume that we
+        // should not be using file references on output.
         $this->useFileReference = false;
     }
 
@@ -315,6 +342,7 @@ abstract class AbstractSource implements SourceInterface
             $newSourceId,
             new Data($this->data->exportRaw()),
             isset($options['content']) ? $options['content'] : $this->content,
+            isset($options['formattedContent']) ? $options['formattedContent'] : $this->formattedContent,
             isset($options['relativePathname']) ? $options['relativePathname'] : $this->relativePathname,
             isset($options['filename']) ? $options['filename'] : $this->filename,
             isset($options['file']) ? $options['file'] : $this->file,

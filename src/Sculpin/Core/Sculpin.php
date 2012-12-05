@@ -146,7 +146,9 @@ class Sculpin
 
         foreach ($sourceSet->updatedSources() as $source) {
             if ($source->canBeFormatted()) {
-                $source->setContent($this->formatterManager->formatSourcePage($source));
+                $source->setFormattedContent($this->formatterManager->formatSourcePage($source));
+            } else {
+                $source->setFormattedContent($source->content());
             }
         }
 
