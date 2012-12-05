@@ -1,5 +1,5 @@
 {
-    "hash": "31eeb266cf8a83b71c34f0eaebcbd59e",
+    "hash": "e7f28d5d0d070502365fc6871f295c02",
     "packages": [
         {
             "name": "composer/composer",
@@ -116,6 +116,59 @@
                 "ant",
                 "pattern",
                 "matcher"
+            ]
+        },
+        {
+            "name": "dflydev/apache-mime-types",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-apache-mime-types",
+                "reference": "6257af26b3b7249b2238e0832dc105306421c21a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/dflydev/dflydev-apache-mime-types/archive/6257af26b3b7249b2238e0832dc105306421c21a.zip",
+                "reference": "6257af26b3b7249b2238e0832dc105306421c21a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "time": "2012-12-05 16:52:01",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Dflydev\\ApacheMimeTypes": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                }
+            ],
+            "description": "Apache MIME Types",
+            "keywords": [
+                "mime",
+                "apache",
+                "mimetypes"
             ]
         },
         {
@@ -1957,6 +2010,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "composer/composer": 20
+        "composer/composer": 20,
+        "dflydev/apache-mime-types": 20
     }
 }

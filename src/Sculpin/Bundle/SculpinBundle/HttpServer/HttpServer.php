@@ -11,7 +11,9 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
+use Dflydev\ApacheMimeTypes\JsonRepository;
 use React\EventLoop\StreamSelectLoop;
+use React\Http\Request;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,6 +36,8 @@ class HttpServer
      */
     public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
     {
+        $repository = new JsonRepository;
+
         if (!$port) {
             $port = 8000;
         }
@@ -46,7 +50,7 @@ class HttpServer
         $this->loop = new StreamSelectLoop;
         $socketServer = new ReactSocketServer($this->loop);
         $httpServer = new ReactHttpServer($socketServer);
-        $httpServer->on("request", function($request, $response) use ($docroot, $output) {
+        $httpServer->on("request", function($request, $response) use ($repository, $docroot, $output) {
             $path = $docroot.'/'.ltrim($request->getPath(), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
@@ -58,23 +62,12 @@ class HttpServer
                 return $response->end();
             }
 
-            if (function_exists('finfo_file')) {
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $type = finfo_file($finfo, $path);
-                finfo_close($finfo);
-            } else {
-                $type = 'text/plain';
-            }
+            $type = 'application/octet-stream';
 
-            if (!$type || in_array($type, array('application/octet-stream', 'text/plain'))) {
-                $secondOpinion = exec('file -b --mime-type ' . escapeshellarg($path), $foo, $returnCode);
-                if ($returnCode === 0 && $secondOpinion) {
-                    $type = $secondOpinion;
+            if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
+                if ($guessedType = $repository->findType($extension)) {
+                    $type = $guessedType;
                 }
-            }
-
-            if (in_array($type, array('text/plain', 'text/x-c')) && preg_match('/\.css$/', $path)) {
-                $type = 'text/css';
             }
 
             HttpServer::logRequest($output, 200, $request);
@@ -88,11 +81,20 @@ class HttpServer
         $socketServer->listen($port, '0.0.0.0');
     }
 
+    /**
+     * Add a periodic timer
+     *
+     * @param int      $interval Interval
+     * @param callable $callback Callback
+     */
     public function addPeriodicTimer($interval, $callback)
     {
         $this->loop->addPeriodicTimer($interval, $callback);
     }
 
+    /**
+     * Run server
+     */
     public function run()
     {
         $this->output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
@@ -102,7 +104,14 @@ class HttpServer
         $this->loop->run();
     }
 
-    static public function logRequest(OutputInterface $output, $responseCode, $request)
+    /**
+     * Log a request
+     *
+     * @param OutputInterface $output       Output
+     * @param string          $responseCode Response code
+     * @param Request         $request      Request
+     */
+    static public function logRequest(OutputInterface $output, $responseCode, Request $request)
     {
         if ($responseCode < 400) {
             $wrapOpen = '';
