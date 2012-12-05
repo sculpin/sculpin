@@ -1,5 +1,5 @@
-Sculpin - Static Site Generator
-===============================
+Sculpin - PHP Static Site Generator
+===================================
 
 Sculpin is a PHP static site generator.
 
