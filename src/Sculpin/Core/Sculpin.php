@@ -129,7 +129,9 @@ class Sculpin
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN_AGAIN, new SourceSetEvent($sourceSet));
 
         foreach ($sourceSet->updatedSources() as $source) {
-            $this->generatorManager->generate($source, $sourceSet);
+            if (!$source->isGenerated()) {
+                $this->generatorManager->generate($source, $sourceSet);
+            }
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
