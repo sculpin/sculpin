@@ -11,7 +11,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
-use Dflydev\ApacheMimeTypes\JsonRepository;
+use Dflydev\ApacheMimeTypes\PhpRepository;
 use React\EventLoop\StreamSelectLoop;
 use React\Http\Request;
 use React\Http\Server as ReactHttpServer;
@@ -36,7 +36,7 @@ class HttpServer
      */
     public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
     {
-        $repository = new JsonRepository;
+        $repository = new PhpRepository;
 
         if (!$port) {
             $port = 8000;

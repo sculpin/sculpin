@@ -1,5 +1,5 @@
 {
-    "hash": "e7f28d5d0d070502365fc6871f295c02",
+    "hash": "f459aea62f71fa6e095e64958013000a",
     "packages": [
         {
             "name": "composer/composer",
@@ -124,18 +124,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-apache-mime-types",
-                "reference": "6257af26b3b7249b2238e0832dc105306421c21a"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-apache-mime-types/archive/6257af26b3b7249b2238e0832dc105306421c21a.zip",
-                "reference": "6257af26b3b7249b2238e0832dc105306421c21a",
+                "url": "https://github.com/dflydev/dflydev-apache-mime-types/archive/v1.0.0.zip",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
-            "time": "2012-12-05 16:52:01",
+            "require-dev": {
+                "twig/twig": "1.*"
+            },
+            "time": "2012-12-06 21:22:16",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2010,7 +2013,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "composer/composer": 20,
-        "dflydev/apache-mime-types": 20
+        "composer/composer": 20
     }
 }

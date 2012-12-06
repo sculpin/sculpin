@@ -21,7 +21,7 @@
         "php": ">=5.3.2",
         "composer/composer": "1.*@dev",
         "dflydev/ant-path-matcher": "1.*",
-        "dflydev/apache-mime-types": "1.0.*@dev",
+        "dflydev/apache-mime-types": "1.*",
         "dflydev/dot-access-configuration": "1.*",
         "dflydev/symfony-finder-factory": "1.*",
         "dflydev/markdown": "1.*",
