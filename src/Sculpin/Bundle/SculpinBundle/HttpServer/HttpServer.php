@@ -51,7 +51,7 @@ class HttpServer
         $socketServer = new ReactSocketServer($this->loop);
         $httpServer = new ReactHttpServer($socketServer);
         $httpServer->on("request", function($request, $response) use ($repository, $docroot, $output) {
-            $path = $docroot.'/'.ltrim($request->getPath(), '/');
+            $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
