@@ -174,10 +174,6 @@ abstract class AbstractSource implements SourceInterface
     public function setFormattedContent($formattedContent = null)
     {
         $this->formattedContent = $formattedContent;
-
-        // If we are setting formatted content, we are going to assume that we
-        // should not be using file references on output.
-        $this->useFileReference = false;
     }
 
     /**
