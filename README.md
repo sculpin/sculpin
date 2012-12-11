@@ -1,13 +1,35 @@
 Sculpin - PHP Static Site Generator
 ===================================
 
-Sculpin is a PHP static site generator.
-
 Sculpin takes plain old text files (Markdown, Textile, etc.) and combines
 them with Twig templates to produce a set of static HTML files that can
 be easily deployed to almost any hosting platform.
 
 Visit [sculpin.io](http://sculpin.io) for more information.
+
+
+
+Documentation
+-------------
+
+Sculpin currently lacks any in-depth or formal documentation. It is currently
+"learn by example". If you are interested in trying out Sculpin you should fire
+up a Sculpin skeleton site to see Sculpin in action.
+
+
+Sculpin Skeletons
+-----------------
+
+Skeletons are starting points for a new Sculpin based site. While not strictly
+required (you can always start a site from scratch) using a skeleton is a good
+way to get a bunch of structure in place with little or no effort.
+
+Unless otherwise noted, the following skeletons are **barebones**. They will have
+minimal styles (if any at all) and are not intended to be pretty. You are
+expected to add all of the style magic yourself.
+
+ * [Blog Skeleton](https://github.com/sculpin/sculpin-blog-skeleton)
+   A very basic Sculpin based blog.
 
 
 License
@@ -30,9 +52,10 @@ Want to get involved? Here are a few ways:
 Not Invented Here
 -----------------
 
-There are other fine projects that are more mature than this one.
-If you are looking for a stable project with an established community,
-try something on the following admittedly incomplete list:
+There are other fine projects from which Sculpin has been inspired. Many are
+more mature than this one. If you are looking for a stable project with an
+established community, try something on the following admittedly incomplete
+list:
 
  * [Jekyll](http://github.com/mojombo/jekyll) &mdash; Ruby
  * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
