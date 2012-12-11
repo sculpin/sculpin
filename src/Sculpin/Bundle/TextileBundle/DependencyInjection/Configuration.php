@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('Textile')->end()
+                ->scalarNode('parser_class')->defaultValue('Netcarver\Textile\Parser')->end()
                 ->arrayNode('extensions')
                     ->defaultValue(array('textile'))
                     ->prototype('scalar')->end()

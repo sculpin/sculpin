@@ -11,12 +11,12 @@
 
 namespace Sculpin\Bundle\TextileBundle;
 
+use Netcarver\Textile\Parser;
 use Sculpin\Core\Converter\ConverterContextInterface;
 use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Textile;
 
 /**
  * Textile Converter.
@@ -30,7 +30,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @var Textile
      */
-    protected $textile;
+    protected $parser;
 
     /**
      * Extensions
@@ -42,12 +42,12 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param Textile $textile    Textile
-     * @param array   $extensions Extensions
+     * @param Parser $parser     Parser
+     * @param array  $extensions Extensions
      */
-    public function __construct(Textile $textile, array $extensions = array())
+    public function __construct(Parser $parser, array $extensions = array())
     {
-        $this->textile = $textile;
+        $this->parser = $parser;
         $this->extensions = $extensions;
     }
 
@@ -56,7 +56,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function convert(ConverterContextInterface $converterContext)
     {
-        $converterContext->setContent($this->textile->TextileThis($converterContext->content()));
+        $converterContext->setContent($this->parser->textileThis($converterContext->content()));
     }
 
     /**
