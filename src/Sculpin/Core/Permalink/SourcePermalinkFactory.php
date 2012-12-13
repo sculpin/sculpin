@@ -71,7 +71,7 @@ class SourcePermalinkFactory
     protected function generatePermalinkPathname(SourceInterface $source)
     {
         $pathname = $source->relativePathname();
-        $date = $source->data()->get('calculatedDate');
+        $date = $source->data()->get('calculated_date');
         $title = $source->data()->get('title');
         if (!$permalink = $source->data()->get('permalink')) {
             $permalink = $this->defaultPermalink;

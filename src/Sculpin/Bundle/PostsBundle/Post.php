@@ -52,7 +52,7 @@ class Post extends ProxySource
      */
     public function date()
     {
-        return $this->data()->get('calculatedDate');
+        return $this->data()->get('calculated_date');
     }
 
     /**
@@ -124,7 +124,8 @@ class Post extends ProxySource
     {
         $lastPreviousPost = $this->previousPost;
         $this->previousPost = $post;
-        $this->data()->set('previousPost', $post);
+        $this->data()->set('previous_post', $post);
+        $this->data()->set('previousPost', $post); // @deprecated
         if ($lastPreviousPost) {
             // We did have a post before...
             if (!$post || $post->id() !== $lastPreviousPost->id()) {
@@ -158,7 +159,8 @@ class Post extends ProxySource
     {
         $lastNextPost = $this->nextPost;
         $this->nextPost = $post;
-        $this->data()->set('nextPost', $post);
+        $this->data()->set('next_post', $post);
+        $this->data()->set('nextPost', $post); // @deprecated
         if ($lastNextPost) {
             // We did have a post before...
             if (!$post || $post->id() !== $lastNextPost->id()) {

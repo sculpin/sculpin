@@ -97,7 +97,7 @@ class FileSource extends AbstractSource
             }
         }
         if ($this->data->get('date')) {
-            $this->data->set('calculatedDate', strtotime($this->data->get('date')));
+            $this->data->set('calculated_date', strtotime($this->data->get('date')));
         }
     }
 }
