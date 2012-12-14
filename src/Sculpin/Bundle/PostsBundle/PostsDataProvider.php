@@ -49,6 +49,13 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
     protected $defaultPermalink;
 
     /**
+     * Publish drafts
+     *
+     * @var boolean
+     */
+    protected $publishDrafts;
+
+    /**
      * Matcher
      *
      * @var AntPathMatcher
@@ -68,15 +75,17 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
      * @param FormatterManager             $formatterManager             Formatter Manager
      * @param array                        $paths                        Paths
      * @param string                       $defaultPermalink             Default permalink
+     * @param boolean                      $publishDrafts                Publish drafts
      * @param AntPathMatcher               $matcher                      Matcher
      * @param Posts                        $posts                        Posts
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
-    public function __construct(FormatterManager $formatterManager, array $paths, $defaultPermalink = null, AntPathMatcher $matcher = null, Posts $posts = null, DirectorySeparatorNormalizer $directorySeparatorNormalizer = null)
+    public function __construct(FormatterManager $formatterManager, array $paths, $defaultPermalink = null, $publishDrafts = null, AntPathMatcher $matcher = null, Posts $posts = null, DirectorySeparatorNormalizer $directorySeparatorNormalizer = null)
     {
         $this->formatterManager = $formatterManager;
         $this->paths = $paths;
         $this->defaultPermalink = $defaultPermalink;
+        $this->publishDrafts = null !== $publishDrafts ? $publishDrafts : false;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->posts = $posts ?: new Posts;
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
@@ -112,6 +121,29 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
         foreach ($this->paths as $path) {
             $pattern = $this->matcher->isPattern($path) ? $path : $path.'/**';
             foreach ($sourceSetEvent->updatedSources() as $source) {
+                if ($source->data()->get('draft')) {
+                    if (!$this->publishDrafts) {
+                        $source->setShouldBeSkipped();
+                        continue;
+                    }
+
+                    $tags = $source->data()->get('tags');
+                    if (null === $tags) {
+                        $tags = array('drafts');
+                    } else {
+                        if (!is_array($tags)) {
+                            if ($tags) {
+                                $tags = array($tags);
+                            } else {
+                                $tags = array();
+                            }
+                        }
+
+                        $tags[] = 'drafts';
+                    }
+                    $source->data()->set('tags', $tags);
+                }
+
                 if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($source->relativePathname()))) {
                     if (!$source->data()->get('permalink') and $this->defaultPermalink) {
                         $source->data()->set('permalink', $this->defaultPermalink);

@@ -113,6 +113,13 @@ abstract class AbstractSource implements SourceInterface
     protected $isGenerated = false;
 
     /**
+     * Should be skipped?
+     *
+     * @var boolean
+     */
+    protected $shouldBeSkipped = false;
+
+    /**
      * Initialize source
      *
      * @param bool $hasChanged Has the Source changed?
@@ -122,6 +129,7 @@ abstract class AbstractSource implements SourceInterface
         if (null !== $hasChanged) {
             $this->hasChanged = $hasChanged;
         }
+        $this->shouldBeSkipped = false;
     }
 
     /**
@@ -286,6 +294,30 @@ abstract class AbstractSource implements SourceInterface
     public function setIsNotGenerated()
     {
         $this->isGenerated = false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function shouldBeSkipped()
+    {
+        return $this->shouldBeSkipped;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setShouldBeSkipped()
+    {
+        $this->shouldBeSkipped = true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setShouldNotBeSkipped()
+    {
+        $this->shouldBeSkipped = false;
     }
 
     /**

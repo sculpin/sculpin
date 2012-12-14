@@ -14,6 +14,7 @@
             <argument type="service" id="sculpin.formatter_manager" />
             <argument>%sculpin_posts.paths%</argument>
             <argument>%sculpin_posts.permalink%</argument>
+            <argument>%sculpin_posts.publish_drafts%</argument>
             <argument type="service" id="sculpin.matcher" />
             <tag name="sculpin.data_provider" alias="posts" />
             <tag name="kernel.event_subscriber" />

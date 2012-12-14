@@ -171,6 +171,23 @@ interface SourceInterface
     public function setIsNotGenerated();
 
     /**
+     * Source should be skipped
+     *
+     * @return bool
+     */
+    public function shouldBeSkipped();
+
+    /**
+     * Mark Source as being skipped
+     */
+    public function setShouldBeSkipped();
+
+    /**
+     * Mark Source as not being skipped
+     */
+    public function setShouldNotBeSkipped();
+
+    /**
      * Force Source to be reprocessed
      */
     public function forceReprocess();

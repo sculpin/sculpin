@@ -155,7 +155,7 @@ class Sculpin
         $found = false;
 
         foreach ($sourceSet->updatedSources() as $source) {
-            if ($source->isGenerator()) {
+            if ($source->isGenerator() || $source->shouldBeSkipped()) {
                 continue;
             }
 

@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue(array('_posts'))
                     ->prototype('scalar')->end()
                 ->end()
+                ->booleanNode('publish_drafts')->defaultNull()->end()
                 ->scalarNode('permalink')->defaultValue('pretty')->end()
             ->end();
 

@@ -224,6 +224,30 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
+    public function shouldBeSkipped()
+    {
+        $this->source->shouldBeSkipped();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setShouldBeSkipped()
+    {
+        $this->source->setShouldBeSkipped();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setShouldNotBeSkipped()
+    {
+        $this->source->setShouldNotBeSkipped();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function forceReprocess()
     {
         return $this->source->forceReprocess();
