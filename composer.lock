@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer",
-                "reference": "3a0270147ad21fbb0c008ac8cc412f3fbb4e92bc"
+                "reference": "51eca2cdfccec6e7f194316e78493f22c27e0a92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/composer/composer/archive/3a0270147ad21fbb0c008ac8cc412f3fbb4e92bc.zip",
-                "reference": "3a0270147ad21fbb0c008ac8cc412f3fbb4e92bc",
+                "url": "https://github.com/composer/composer/archive/51eca2cdfccec6e7f194316e78493f22c27e0a92.zip",
+                "reference": "51eca2cdfccec6e7f194316e78493f22c27e0a92",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic",
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages"
             },
-            "time": "2012-12-10 15:28:59",
+            "time": "2012-12-13 16:39:17",
             "bin": [
                 "bin/composer"
             ],
@@ -1040,22 +1040,22 @@
         },
         {
             "name": "seld/jsonlint",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "http://github.com/Seldaek/jsonlint",
-                "reference": "1.0.1"
+                "reference": "1.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/Seldaek/jsonlint/zipball/1.0.1",
-                "reference": "1.0.1",
+                "url": "https://github.com/Seldaek/jsonlint/archive/1.1.0.zip",
+                "reference": "1.1.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-08-13 07:00:11",
+            "time": "2012-12-13 18:26:19",
             "bin": [
                 "bin/jsonlint"
             ],
@@ -1192,18 +1192,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "73a1613c94eba600b42938360232b8ecf7e76078"
+                "reference": "4dc07777f5d1247d805a42efbdb4f664c965df26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/archive/73a1613c94eba600b42938360232b8ecf7e76078.zip",
-                "reference": "73a1613c94eba600b42938360232b8ecf7e76078",
+                "url": "https://github.com/symfony/Console/archive/4dc07777f5d1247d805a42efbdb4f664c965df26.zip",
+                "reference": "4dc07777f5d1247d805a42efbdb4f664c965df26",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-12-11 14:06:57",
+            "time": "2012-12-13 18:25:06",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1447,12 +1447,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/FrameworkBundle",
-                "reference": "bd38abab75d587c244fd6911accc1ed61da0023a"
+                "reference": "ec59eee4d10838b8c849a6a7a93aac7d4826e69e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/FrameworkBundle/archive/bd38abab75d587c244fd6911accc1ed61da0023a.zip",
-                "reference": "bd38abab75d587c244fd6911accc1ed61da0023a",
+                "url": "https://github.com/symfony/FrameworkBundle/archive/ec59eee4d10838b8c849a6a7a93aac7d4826e69e.zip",
+                "reference": "ec59eee4d10838b8c849a6a7a93aac7d4826e69e",
                 "shasum": ""
             },
             "require": {
@@ -1477,7 +1477,7 @@
                 "symfony/form": "2.2.*",
                 "symfony/validator": "2.2.*"
             },
-            "time": "2012-12-11 16:55:20",
+            "time": "2012-12-13 18:25:06",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1565,12 +1565,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel",
-                "reference": "6439178750854c47e5b3bb220c912bad7ef5b29a"
+                "reference": "830b4db41b91617774561a82fff5aec87b5568c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpKernel/archive/6439178750854c47e5b3bb220c912bad7ef5b29a.zip",
-                "reference": "6439178750854c47e5b3bb220c912bad7ef5b29a",
+                "url": "https://github.com/symfony/HttpKernel/archive/830b4db41b91617774561a82fff5aec87b5568c4.zip",
+                "reference": "830b4db41b91617774561a82fff5aec87b5568c4",
                 "shasum": ""
             },
             "require": {
@@ -1597,7 +1597,7 @@
                 "symfony/dependency-injection": "2.2.*",
                 "symfony/finder": "2.2.*"
             },
-            "time": "2012-12-11 23:08:01",
+            "time": "2012-12-13 17:31:33",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1837,12 +1837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation",
-                "reference": "92a6f434228739ed0ca00057b49b87633db2b10d"
+                "reference": "d7fe0ffc25fe8123f49fce95e50d8c1c969bfbb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Translation/archive/92a6f434228739ed0ca00057b49b87633db2b10d.zip",
-                "reference": "92a6f434228739ed0ca00057b49b87633db2b10d",
+                "url": "https://github.com/symfony/Translation/archive/d7fe0ffc25fe8123f49fce95e50d8c1c969bfbb0.zip",
+                "reference": "d7fe0ffc25fe8123f49fce95e50d8c1c969bfbb0",
                 "shasum": ""
             },
             "require": {
@@ -1856,7 +1856,7 @@
                 "symfony/config": "2.2.*",
                 "symfony/yaml": "2.2.*"
             },
-            "time": "2012-12-12 16:37:31",
+            "time": "2012-12-13 20:23:16",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1958,12 +1958,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/TwigBundle",
-                "reference": "088a2a7c5053e8a67baa86ad335a5bcf7ed85481"
+                "reference": "5511e78813d730604807e1e7e72182fa4d388017"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/TwigBundle/archive/088a2a7c5053e8a67baa86ad335a5bcf7ed85481.zip",
-                "reference": "088a2a7c5053e8a67baa86ad335a5bcf7ed85481",
+                "url": "https://github.com/symfony/TwigBundle/archive/5511e78813d730604807e1e7e72182fa4d388017.zip",
+                "reference": "5511e78813d730604807e1e7e72182fa4d388017",
                 "shasum": ""
             },
             "require": {
@@ -1973,7 +1973,7 @@
             "require-dev": {
                 "symfony/stopwatch": "2.2.*"
             },
-            "time": "2012-12-11 08:58:49",
+            "time": "2012-12-13 16:59:38",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
