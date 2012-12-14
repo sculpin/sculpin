@@ -57,6 +57,13 @@ abstract class AbstractSource implements SourceInterface
     protected $data;
 
     /**
+     * Has changed?
+     *
+     * @var boolean
+     */
+    protected $hasChanged;
+
+    /**
      * Permalink
      *
      * @var PermalinkInterface
