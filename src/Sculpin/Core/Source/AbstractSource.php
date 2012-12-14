@@ -259,7 +259,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setisNotGenerator()
+    public function setIsNotGenerator()
     {
         $this->isGenerator = false;
     }

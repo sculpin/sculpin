@@ -151,7 +151,7 @@ interface SourceInterface
     /**
      * Mark Source as not being a generator
      */
-    public function setisNotGenerator();
+    public function setIsNotGenerator();
 
     /**
      * Source is generated (from a generator)
