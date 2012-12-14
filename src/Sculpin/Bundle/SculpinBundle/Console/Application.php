@@ -11,10 +11,10 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Sculpin\Bundle\EmbeddedComposerBundle\Command\InstallCommand;
-use Sculpin\Bundle\EmbeddedComposerBundle\Command\UpdateCommand;
-use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposer;
-use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposerAwareInterface;
+use Dflydev\EmbeddedComposer\Console\Command\InstallCommand;
+use Dflydev\EmbeddedComposer\Console\Command\UpdateCommand;
+use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
+use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

@@ -28,7 +28,7 @@ Try downloading again?');
     ) {
         die('You must set up the project dependencies, run the following commands:
 
-    bin/composer install
+    composer install
 
 ');
     }
@@ -36,7 +36,7 @@ Try downloading again?');
 
 set_time_limit(0);
 
-use Sculpin\Bundle\EmbeddedComposerBundle\EmbeddedComposer;
+use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
 use Sculpin\Bundle\SculpinBundle\Composer\PackageFactory;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Sculpin\Bundle\SculpinBundle\HttpKernel\KernelFactory;

@@ -23,8 +23,9 @@
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/apache-mime-types": "1.*",
         "dflydev/dot-access-configuration": "1.*",
-        "dflydev/symfony-finder-factory": "1.*",
+        "dflydev/embedded-composer": "1.*",
         "dflydev/markdown": "1.*",
+        "dflydev/symfony-finder-factory": "1.*",
         "netcarver/textile": "3.5.*",
         "react/http": "0.2.*",
         "symfony/class-loader": "~2.1",
@@ -43,7 +44,6 @@
     },
     "replace": {
         "sculpin/core": "self.version",
-        "sculpin/embedded-composer-bundle": "self.version",
         "sculpin/markdown-bundle": "self.version",
         "sculpin/markdown-twig-compat-bundle": "self.version",
         "sculpin/posts-bundle": "self.version",

@@ -57,7 +57,7 @@ abstract class AbstractKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
-            new \Sculpin\Bundle\EmbeddedComposerBundle\SculpinEmbeddedComposerBundle,
+            new \Dflydev\EmbeddedComposer\Bundle\DflydevEmbeddedComposerBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
