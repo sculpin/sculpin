@@ -30,8 +30,9 @@ class ConvertListener implements EventSubscriberInterface
      * @var array
      */
     protected static $addPlaceholderRe = array(
-        '/^({%\s+(\w+).+?%})$/m',  // {% %} style code
-        '/^({{.+?}})$/m',          // {{ }} style code
+        '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
+        '/^({%\s+endblock\s+%})$/m',       // {% %} style code
+        '/^({{.+?}})$/m',                  // {{ }} style code
     );
 
     /**
@@ -71,6 +72,7 @@ class ConvertListener implements EventSubscriberInterface
             foreach (self::$addPlaceholderRe as $re) {
                 $content = preg_replace($re, self::$placeholder, $content);
             }
+            $content = preg_replace('/{%\s+(\w+)\s+(\w+\++\w+)\s+%}(.*){%\s+end\1\s+%}/Us', '<div data-$1="$2">$3</div>', $content);
             $convertEvent->source()->setContent($content);
         }
     }
@@ -85,6 +87,7 @@ class ConvertListener implements EventSubscriberInterface
         if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
             $content = $convertEvent->source()->content();
             $content = preg_replace(self::$removePlaceholderRe, '', $content);
+            $content = preg_replace('/<div data-(\w+)="(\w+\++\w+)">(.*?)<\/div>/Us', '{% $1 \'$2\' %}$3{% end$1 %}', $content);
             $convertEvent->source()->setContent($content);
         }
     }
