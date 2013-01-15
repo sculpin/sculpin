@@ -1,4 +1,4 @@
-Sculpin - PHP Static Site Generator
+Sculpin - PHP Static Site Generator [![Build Status](https://travis-ci.org/sculpin/sculpin.png?branch=master)](https://travis-ci.org/sculpin/sculpin)
 ===================================
 
 Sculpin takes plain old text files (Markdown, Textile, etc.) and combines
