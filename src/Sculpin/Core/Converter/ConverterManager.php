@@ -93,9 +93,15 @@ class ConverterManager
         }
 
         foreach ($converters as $converter) {
-            $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_CONVERT, new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter()));
+            $this->eventDispatcher->dispatch(
+                Sculpin::EVENT_BEFORE_CONVERT,
+                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter())
+            );
             $this->converter($converter)->convert(new SourceConverterContext($source));
-            $this->eventDispatcher->dispatch(Sculpin::EVENT_AFTER_CONVERT, new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter()));
+            $this->eventDispatcher->dispatch(
+                Sculpin::EVENT_AFTER_CONVERT,
+                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter())
+            );
         }
     }
 }

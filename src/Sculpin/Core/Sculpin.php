@@ -102,8 +102,15 @@ class Sculpin
      * @param FormatterManager       $formatterManager  Formatter Manager
      * @param ConverterManager       $converterManager  Converter Manager
      */
-    public function __construct(Configuration $siteConfiguration, EventDispatcher $eventDispatcher, SourcePermalinkFactory $permalinkFactory, WriterInterface $writer, GeneratorManager $generatorManager, FormatterManager $formatterManager, ConverterManager $converterManager)
-    {
+    public function __construct(
+        Configuration $siteConfiguration,
+        EventDispatcher $eventDispatcher,
+        SourcePermalinkFactory $permalinkFactory,
+        WriterInterface $writer,
+        GeneratorManager $generatorManager,
+        FormatterManager $formatterManager,
+        ConverterManager $converterManager
+    ) {
         $this->siteConfiguration = $siteConfiguration;
         $this->eventDispatcher = $eventDispatcher;
         $this->permalinkFactory = $permalinkFactory;
