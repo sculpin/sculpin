@@ -66,6 +66,13 @@ class FilesystemDataSource implements DataSourceInterface
     protected $matcher;
 
     /**
+     * DirectorySeparatorNormalizer
+     *
+     * @var DirectorySeparatorNormalizer
+     */
+    protected $directorySeparatorNormalizer;
+
+    /**
      * Since time
      *
      * @var string
