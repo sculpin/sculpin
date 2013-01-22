@@ -42,6 +42,9 @@
         "symfony/yaml": "~2.1",
         "twig/twig": "~1.9"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
     "replace": {
         "sculpin/core": "self.version",
         "sculpin/markdown-bundle": "self.version",
