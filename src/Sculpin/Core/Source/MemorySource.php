@@ -35,8 +35,18 @@ class MemorySource extends AbstractSource
      * @param bool        $canBeFormatted   Can be formatted?
      * @param bool        $hasChanged       Has changed?
      */
-    public function __construct($sourceId, Data $data, $content, $formattedContent, $relativePathname, $filename, $file, $isRaw, $canBeFormatted, $hasChanged)
-    {
+    public function __construct(
+        $sourceId,
+        Data $data,
+        $content,
+        $formattedContent,
+        $relativePathname,
+        $filename,
+        $file,
+        $isRaw,
+        $canBeFormatted,
+        $hasChanged
+    ) {
         $this->sourceId = $sourceId;
         $this->data = $data;
         $this->content = $content;
