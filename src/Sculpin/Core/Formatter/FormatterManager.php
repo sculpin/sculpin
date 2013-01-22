@@ -67,8 +67,11 @@ class FormatterManager
      * @param Configuration       $siteConfiguration   Site Configuration
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function __construct(EventDispatcher $eventDispatcher, Configuration $siteConfiguration, DataProviderManager $dataProviderManager = null)
-    {
+    public function __construct(
+        EventDispatcher $eventDispatcher,
+        Configuration $siteConfiguration,
+        DataProviderManager $dataProviderManager = null
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->siteConfiguration = $siteConfiguration;
         $this->dataProviderManager = $dataProviderManager;

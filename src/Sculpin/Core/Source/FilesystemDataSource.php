@@ -83,8 +83,15 @@ class FilesystemDataSource implements DataSourceInterface
      * @param AntPathMatcher               $matcher                      Matcher
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
-    public function __construct($sourceDir, $excludes, $ignores, $raws, FinderFactoryInterface $finderFactory = null, AntPathMatcher $matcher = null, DirectorySeparatorNormalizer $directorySeparatorNormalizer = null)
-    {
+    public function __construct(
+        $sourceDir,
+        $excludes,
+        $ignores,
+        $raws,
+        FinderFactoryInterface $finderFactory = null,
+        AntPathMatcher $matcher = null,
+        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+    ) {
         $this->sourceDir = $sourceDir;
         $this->excludes = $excludes;
         $this->ignores = $ignores;
@@ -138,7 +145,12 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($file->getRelativePathname()))) {
+                if (
+                    $this->matcher->match(
+                        $pattern,
+                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                    )
+                ) {
                     // Ignored files are completely ignored.
                     continue 2;
                 }
@@ -147,7 +159,11 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($file->getRelativePathname()))) {
+                if ($this->matcher->match(
+                        $pattern,
+                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                    )
+                ) {
                     $excludedFilesHaveChanged = true;
                     continue 2;
                 }
@@ -159,7 +175,11 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match($pattern, $this->directorySeparatorNormalizer->normalize($file->getRelativePathname()))) {
+                if ($this->matcher->match(
+                        $pattern,
+                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                    )
+                ) {
                     $isRaw = true;
                     break;
                 }

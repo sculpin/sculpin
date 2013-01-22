@@ -60,8 +60,11 @@ class GeneratorManager
      * @param Configuration       $siteConfiguration   Site Configuration
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function __construct(EventDispatcher $eventDispatcher, Configuration $siteConfiguration, DataProviderManager $dataProviderManager = null)
-    {
+    public function __construct(
+        EventDispatcher $eventDispatcher,
+        Configuration $siteConfiguration,
+        DataProviderManager $dataProviderManager = null
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->siteConfiguration = $siteConfiguration;
         $this->dataProviderManager = $dataProviderManager;
@@ -101,7 +104,9 @@ class GeneratorManager
 
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
-                    throw new \InvalidArgumentException("Requested generator '$generatorName' could not be found; was it registered?");
+                    throw new \InvalidArgumentException(
+                        "Requested generator '$generatorName' could not be found; was it registered?"
+                    );
                 }
 
                 $generators[] = $this->generators[$generatorName];
