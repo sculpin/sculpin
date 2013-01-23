@@ -73,7 +73,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * File
      *
-     * @var SplFileInfo
+     * @var \SplFileInfo
      */
     protected $file;
 

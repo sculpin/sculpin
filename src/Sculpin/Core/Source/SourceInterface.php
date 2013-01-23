@@ -11,6 +11,7 @@
 
 namespace Sculpin\Core\Source;
 
+use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Permalink\PermalinkInterface;
 
 /**
@@ -62,7 +63,7 @@ interface SourceInterface
     /**
      * Permalink
      *
-     * @return \sculpin\permalink\PermalinkInterface
+     * @return PermalinkInterface
      */
     public function permalink();
 
