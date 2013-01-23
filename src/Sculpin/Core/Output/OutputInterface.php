@@ -11,6 +11,7 @@
 
 namespace Sculpin\Core\Output;
 
+use Sculpin\Core\Permalink\PermalinkInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -37,7 +38,7 @@ interface OutputInterface
     /**
      * Suggested permalink
      *
-     * @return \sculpin\permalink\IPermalink
+     * @return PermalinkInterface
      */
     public function permalink();
 
