@@ -11,6 +11,8 @@
 
 namespace Sculpin\Core\Output;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Writer.
  *
