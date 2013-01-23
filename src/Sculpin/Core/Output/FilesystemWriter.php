@@ -26,7 +26,7 @@ class FilesystemWriter implements WriterInterface
      * @param Filesystem $filesystem Filesystem
      * @param string     $outputDir  Output directory
      */
-    public function __construct($filesystem, $outputDir)
+    public function __construct(Filesystem $filesystem, $outputDir)
     {
         $this->filesystem = $filesystem;
         $this->outputDir = $outputDir;
