@@ -21,6 +21,20 @@ use Symfony\Component\Filesystem\Filesystem;
 class FilesystemWriter implements WriterInterface
 {
     /**
+     * Filesystem
+     *
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Output directory
+     *
+     * @var string
+     */
+    protected $outputDir;
+
+    /**
      * Constructor.
      *
      * @param Filesystem $filesystem Filesystem

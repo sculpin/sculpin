@@ -11,7 +11,6 @@
 
 namespace Sculpin\Core\Generator;
 
-use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
