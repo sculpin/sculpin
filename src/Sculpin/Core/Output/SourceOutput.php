@@ -24,7 +24,7 @@ class SourceOutput implements OutputInterface
     /**
      * Source
      *
-     * @var ISource
+     * @var SourceInterface
      */
     protected $source;
 
