@@ -34,4 +34,16 @@ class SourceConverterContextTest extends Base
 
         $this->assertEquals('hello world', $sourceConverterContext->content());
     }
+
+    public function testSetContent()
+    {
+        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source
+            ->expects($this->once())
+            ->method('setContent')
+            ->with($this->equalTo('hello world'));
+
+        $sourceConverterContext = new SourceConverterContext($source);
+        $response = $sourceConverterContext->setContent('hello world');
+    }
 }
