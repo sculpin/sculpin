@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('dflydev\markdown\MarkdownParser')->end()
+                ->scalarNode('parser_class')->defaultValue('Michelf\MarkdownExtra')->end()
                 ->arrayNode('extensions')
                     ->defaultValue(array('md', 'markdown'))
                     ->prototype('scalar')->end()

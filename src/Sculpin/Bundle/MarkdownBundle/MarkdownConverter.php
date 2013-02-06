@@ -11,7 +11,7 @@
 
 namespace Sculpin\Bundle\MarkdownBundle;
 
-use dflydev\markdown\IMarkdownParser;
+use Michelf\Markdown;
 use Sculpin\Core\Converter\ConverterContextInterface;
 use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Event\SourceSetEvent;
@@ -26,11 +26,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 {
     /**
-     * Markdown parser
+     * Markdown
      *
-     * @var IMarkdownParser
+     * @var Markdown
      */
-    protected $markdownParser;
+    protected $markdown;
 
     /**
      * Extensions
@@ -42,12 +42,12 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param IMarkdownParser $markdownParser Markdown parser
-     * @param array           $extensions     Extensions
+     * @param Markdown $markdown   Markdown
+     * @param array    $extensions Extensions
      */
-    public function __construct(IMarkdownParser $markdownParser, array $extensions = array())
+    public function __construct(Markdown $markdown, array $extensions = array())
     {
-        $this->markdownParser = $markdownParser;
+        $this->markdown = $markdown;
         $this->extensions = $extensions;
     }
 
@@ -56,7 +56,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function convert(ConverterContextInterface $converterContext)
     {
-        $converterContext->setContent($this->markdownParser->transformMarkdown($converterContext->content()));
+        $converterContext->setContent($this->markdown->transform($converterContext->content()));
     }
 
     /**
