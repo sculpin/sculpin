@@ -1,5 +1,9 @@
 {
-    "hash": "c15e2422de138f58e948aaa12e8170b2",
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "0950785835a9dc86fa53f287f8f142b8",
     "packages": [
         {
             "name": "composer/composer",
@@ -7,19 +11,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "357f0572d12ed3aeed458805ca2b3424a5cd9ff0"
+                "reference": "343d4effaac3274ce1b8e7c64624f85c977ccb26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/357f0572d12ed3aeed458805ca2b3424a5cd9ff0",
-                "reference": "357f0572d12ed3aeed458805ca2b3424a5cd9ff0",
+                "url": "https://api.github.com/repos/composer/composer/zipball/343d4effaac3274ce1b8e7c64624f85c977ccb26",
+                "reference": "343d4effaac3274ce1b8e7c64624f85c977ccb26",
                 "shasum": ""
             },
             "require": {
                 "justinrainbow/json-schema": "1.1.*",
-                "seld/jsonlint": "1.*",
                 "php": ">=5.3.2",
-                "symfony/console": ">=2.1,<3.0",
+                "seld/jsonlint": "1.*",
+                "symfony/console": ">=2.3,<3.0",
                 "symfony/finder": ">=2.1,<3.0",
                 "symfony/process": ">=2.1,<3.0"
             },
@@ -27,10 +31,9 @@
                 "phpunit/phpunit": ">=3.7.10.0,<3.8"
             },
             "suggest": {
-                "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic",
-                "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages"
+                "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
+                "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic"
             },
-            "time": "2013-03-02 19:18:38",
             "bin": [
                 "bin/composer"
             ],
@@ -40,7 +43,6 @@
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Composer": "src/"
@@ -66,10 +68,11 @@
             "description": "Dependency Manager",
             "homepage": "http://getcomposer.org/",
             "keywords": [
-                "package",
+                "autoload",
                 "dependency",
-                "autoload"
-            ]
+                "package"
+            ],
+            "time": "2013-04-29 15:27:02"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -88,9 +91,7 @@
             "require": {
                 "php": ">=5.3"
             },
-            "time": "2012-12-03 05:03:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "dflydev\\util\\antPathMatcher": "src"
@@ -115,11 +116,12 @@
             "description": "Ant Path Matcher Utility",
             "homepage": "http://github.com/dflydev/dflydev-util-antPathMatcher",
             "keywords": [
-                "path",
                 "ant",
-                "pattern",
-                "matcher"
-            ]
+                "matcher",
+                "path",
+                "pattern"
+            ],
+            "time": "2012-12-03 05:03:00"
         },
         {
             "name": "dflydev/apache-mime-types",
@@ -141,14 +143,12 @@
             "require-dev": {
                 "twig/twig": "1.*"
             },
-            "time": "2012-12-06 21:22:16",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Dflydev\\ApacheMimeTypes": "src"
@@ -172,10 +172,11 @@
             ],
             "description": "Apache MIME Types",
             "keywords": [
-                "mime",
                 "apache",
+                "mime",
                 "mimetypes"
-            ]
+            ],
+            "time": "2012-12-06 21:22:16"
         },
         {
             "name": "dflydev/dot-access-configuration",
@@ -192,9 +193,9 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
                 "dflydev/dot-access-data": "1.*",
-                "dflydev/placeholder-resolver": "1.*"
+                "dflydev/placeholder-resolver": "1.*",
+                "php": ">=5.3.2"
             },
             "require-dev": {
                 "symfony/yaml": ">=2.1,<3.0"
@@ -202,14 +203,12 @@
             "suggest": {
                 "symfony/yaml": "Required for using the YAML Configuration Builders"
             },
-            "time": "2012-10-21 18:33:18",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Dflydev\\DotAccessConfiguration": "src"
@@ -234,9 +233,10 @@
             "description": "Given a deep data structure representing a configuration, access configuration by dot notation.",
             "homepage": "https://github.com/dflydev/dflydev-dot-access-configuration",
             "keywords": [
-                "configuration",
-                "config"
-            ]
+                "config",
+                "configuration"
+            ],
+            "time": "2012-10-21 18:33:18"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -255,14 +255,12 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-07-17 13:32:32",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Dflydev\\DotAccessData": "src"
@@ -287,11 +285,12 @@
             "description": "Given a deep data structure, access data by dot notation.",
             "homepage": "https://github.com/dflydev/dflydev-dot-access-data",
             "keywords": [
-                "data",
                 "access",
+                "data",
                 "dot",
                 "notation"
-            ]
+            ],
+            "time": "2012-07-17 13:32:32"
         },
         {
             "name": "dflydev/embedded-composer",
@@ -308,8 +307,8 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
                 "composer/composer": "1.*@dev",
+                "php": ">=5.3.2",
                 "seld/jsonlint": "1.*"
             },
             "replace": {
@@ -325,14 +324,12 @@
                 "symfony/console": "~2.1",
                 "symfony/http-kernel": "~2.1"
             },
-            "time": "2012-12-14 05:31:26",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Dflydev\\EmbeddedComposer": "src"
@@ -359,7 +356,8 @@
                 "composer",
                 "embedded",
                 "extensibility"
-            ]
+            ],
+            "time": "2012-12-14 05:31:26"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -378,14 +376,12 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-10-28 14:08:28",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Dflydev\\PlaceholderResolver": "src"
@@ -412,7 +408,8 @@
             "keywords": [
                 "placeholder",
                 "resolver"
-            ]
+            ],
+            "time": "2012-10-28 14:08:28"
         },
         {
             "name": "dflydev/symfony-finder-factory",
@@ -432,14 +429,12 @@
                 "php": ">=5.3.2",
                 "symfony/finder": ">=2.0,<3.0"
             },
-            "time": "2012-11-09 16:45:28",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Dflydev\\Symfony\\FinderFactory": "src"
@@ -466,7 +461,8 @@
                 "factory",
                 "finder",
                 "syfony"
-            ]
+            ],
+            "time": "2012-11-09 16:45:28"
         },
         {
             "name": "doctrine/common",
@@ -485,14 +481,12 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-09-19 22:55:18",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.3.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Doctrine\\Common": "lib/"
@@ -531,12 +525,13 @@
             "description": "Common Library for Doctrine projects",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
-                "collections",
-                "spl",
-                "eventmanager",
                 "annotations",
-                "persistence"
-            ]
+                "collections",
+                "eventmanager",
+                "persistence",
+                "spl"
+            ],
+            "time": "2012-09-19 22:55:18"
         },
         {
             "name": "evenement/evenement",
@@ -555,9 +550,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-05-30 08:01:08",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Evenement": "src"
@@ -577,7 +570,8 @@
             "description": "Événement is a very simple event dispatching library for PHP 5.3",
             "keywords": [
                 "event-dispatcher"
-            ]
+            ],
+            "time": "2012-05-30 08:01:08"
         },
         {
             "name": "guzzle/common",
@@ -598,14 +592,12 @@
                 "php": ">=5.3.2",
                 "symfony/event-dispatcher": ">=2.1"
             },
-            "time": "2012-12-19 23:06:35",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Guzzle\\Common": ""
@@ -618,11 +610,12 @@
             "description": "Common libraries used by Guzzle",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-                "event",
-                "exception",
+                "collection",
                 "common",
-                "collection"
-            ]
+                "event",
+                "exception"
+            ],
+            "time": "2012-12-19 23:06:35"
         },
         {
             "name": "guzzle/http",
@@ -640,20 +633,18 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
                 "ext-curl": "*",
                 "guzzle/common": "self.version",
                 "guzzle/parser": "self.version",
-                "guzzle/stream": "self.version"
+                "guzzle/stream": "self.version",
+                "php": ">=5.3.2"
             },
-            "time": "2012-12-14 00:49:17",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Guzzle\\Http": ""
@@ -673,12 +664,13 @@
             "description": "HTTP libraries used by Guzzle",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
+                "Guzzle",
+                "client",
                 "curl",
                 "http",
-                "http client",
-                "client",
-                "Guzzle"
-            ]
+                "http client"
+            ],
+            "time": "2012-12-14 00:49:17"
         },
         {
             "name": "guzzle/parser",
@@ -698,14 +690,12 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-12-07 16:45:11",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Guzzle\\Parser": ""
@@ -718,12 +708,13 @@
             "description": "Interchangeable parsers used by Guzzle",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-                "http",
-                "url",
-                "message",
+                "URI Template",
                 "cookie",
-                "URI Template"
-            ]
+                "http",
+                "message",
+                "url"
+            ],
+            "time": "2012-12-07 16:45:11"
         },
         {
             "name": "guzzle/stream",
@@ -741,17 +732,15 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
-                "guzzle/common": "self.version"
+                "guzzle/common": "self.version",
+                "php": ">=5.3.2"
             },
-            "time": "2012-12-07 16:45:11",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Guzzle\\Stream": ""
@@ -771,10 +760,11 @@
             "description": "Guzzle stream wrapper component",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-                "stream",
                 "Guzzle",
-                "component"
-            ]
+                "component",
+                "stream"
+            ],
+            "time": "2012-12-07 16:45:11"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -793,9 +783,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-03 00:33:17",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "JsonSchema": "src/"
@@ -830,33 +818,32 @@
             "keywords": [
                 "json",
                 "schema"
-            ]
+            ],
+            "time": "2012-01-03 00:33:17"
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.3-beta5",
+            "version": "1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "1.3-beta5"
+                "reference": "1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/1.3-beta5",
-                "reference": "1.3-beta5",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/1.3",
+                "reference": "1.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2013-02-03 21:14:12",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-lib": "1.3.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Michelf": ""
@@ -882,7 +869,8 @@
             "homepage": "http://michelf.ca/projects/php-markdown/",
             "keywords": [
                 "markdown"
-            ]
+            ],
+            "time": "2013-04-11 18:53:11"
         },
         {
             "name": "netcarver/textile",
@@ -901,14 +889,12 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2013-01-01 17:29:35",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.5-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Netcarver\\Textile": "src/"
@@ -919,7 +905,8 @@
                 "BSD-3-Clause"
             ],
             "description": "A lightweight markup language that takes (almost) plaintext and converts it into well formed HTML.",
-            "homepage": "https://github.com/netcarver/textile"
+            "homepage": "https://github.com/netcarver/textile",
+            "time": "2013-01-01 17:29:35"
         },
         {
             "name": "psr/log",
@@ -935,9 +922,7 @@
                 "reference": "1.0.0",
                 "shasum": ""
             },
-            "time": "2012-12-21 11:40:51",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Psr\\Log\\": ""
@@ -958,7 +943,8 @@
                 "log",
                 "psr",
                 "psr-3"
-            ]
+            ],
+            "time": "2012-12-21 11:40:51"
         },
         {
             "name": "react/event-loop",
@@ -979,17 +965,15 @@
                 "php": ">=5.3.3"
             },
             "suggest": {
-                "ext-libevent": ">=0.0.5",
-                "ext-libev": "*"
+                "ext-libev": "*",
+                "ext-libevent": ">=0.0.5"
             },
-            "time": "2013-01-05 11:41:26",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "0.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "React\\EventLoop": ""
@@ -1002,7 +986,8 @@
             "description": "Event loop abstraction layer that libraries can use for evented I/O.",
             "keywords": [
                 "event-loop"
-            ]
+            ],
+            "time": "2013-01-05 11:41:26"
         },
         {
             "name": "react/http",
@@ -1020,19 +1005,17 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
                 "guzzle/http": "3.0.*",
                 "guzzle/parser": "3.0.*",
+                "php": ">=5.3.3",
                 "react/socket": "0.2.*"
             },
-            "time": "2012-12-26 16:33:04",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "0.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "React\\Http": ""
@@ -1045,7 +1028,8 @@
             "description": "Library for building an evented http server.",
             "keywords": [
                 "http"
-            ]
+            ],
+            "time": "2012-12-26 16:33:04"
         },
         {
             "name": "react/socket",
@@ -1063,19 +1047,17 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
                 "evenement/evenement": "1.0.*",
+                "php": ">=5.3.3",
                 "react/event-loop": "0.2.*",
                 "react/stream": "0.2.*"
             },
-            "time": "2012-12-14 00:58:14",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "0.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "React\\Socket": ""
@@ -1088,7 +1070,8 @@
             "description": "Library for building an evented socket server.",
             "keywords": [
                 "Socket"
-            ]
+            ],
+            "time": "2012-12-14 00:58:14"
         },
         {
             "name": "react/stream",
@@ -1106,21 +1089,19 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "evenement/evenement": "1.0.*"
+                "evenement/evenement": "1.0.*",
+                "php": ">=5.3.3"
             },
             "suggest": {
                 "react/event-loop": "0.2.*",
                 "react/promise": "1.0.*"
             },
-            "time": "2012-12-14 00:58:14",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "0.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "React\\Stream": ""
@@ -1132,9 +1113,10 @@
             ],
             "description": "Basic readable and writable stream interfaces that support piping.",
             "keywords": [
-                "stream",
-                "pipe"
-            ]
+                "pipe",
+                "stream"
+            ],
+            "time": "2012-12-14 00:58:14"
         },
         {
             "name": "seld/jsonlint",
@@ -1153,12 +1135,10 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2013-02-11 23:03:12",
             "bin": [
                 "bin/jsonlint"
             ],
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Seld\\JsonLint": "src/"
@@ -1179,24 +1159,25 @@
             "description": "JSON Linter",
             "keywords": [
                 "json",
-                "parser",
                 "linter",
+                "parser",
                 "validator"
-            ]
+            ],
+            "time": "2013-02-11 23:03:12"
         },
         {
             "name": "symfony/class-loader",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/ClassLoader",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "v2.2.0"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/v2.2.0",
-                "reference": "v2.2.0",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -1205,14 +1186,12 @@
             "require-dev": {
                 "symfony/finder": ">=2.0,<3.0"
             },
-            "time": "2013-03-01 06:43:14",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\ClassLoader\\": ""
@@ -1233,34 +1212,33 @@
                 }
             ],
             "description": "Symfony ClassLoader Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-19 08:32:26"
         },
         {
             "name": "symfony/config",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-02-17 12:27:42",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Config\\": ""
@@ -1281,34 +1259,36 @@
                 }
             ],
             "description": "Symfony Config Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-01 10:42:10"
         },
         {
             "name": "symfony/console",
-            "version": "v2.2.0",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.2.0"
+                "reference": "3b1de5a3e9157fcf506a709b48deedfea7092613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.2.0",
-                "reference": "v2.2.0",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/3b1de5a3e9157fcf506a709b48deedfea7092613",
+                "reference": "3b1de5a3e9157fcf506a709b48deedfea7092613",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-03-01 06:43:14",
+            "require-dev": {
+                "symfony/event-dispatcher": ">=2.1,<3.0"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Console\\": ""
@@ -1329,42 +1309,41 @@
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-27 02:13:33"
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/yaml": ">=2.0,<3.0",
-                "symfony/config": ">=2.2,<2.3-dev"
+                "symfony/config": ">=2.2,<2.3-dev",
+                "symfony/yaml": ">=2.0,<3.0"
             },
             "suggest": {
-                "symfony/yaml": "2.2.*",
-                "symfony/config": "2.2.*"
+                "symfony/config": "2.2.*",
+                "symfony/yaml": "2.2.*"
             },
-            "time": "2013-02-11 11:43:49",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\DependencyInjection\\": ""
@@ -1385,21 +1364,22 @@
                 }
             ],
             "description": "Symfony DependencyInjection Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 07:49:54"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -1412,14 +1392,12 @@
                 "symfony/dependency-injection": "2.2.*",
                 "symfony/http-kernel": "2.2.*"
             },
-            "time": "2013-02-11 11:26:43",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\EventDispatcher\\": ""
@@ -1440,34 +1418,33 @@
                 }
             ],
             "description": "Symfony EventDispatcher Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-02-11 11:26:43"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Filesystem",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-17 15:25:59",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Filesystem\\": ""
@@ -1488,34 +1465,33 @@
                 }
             ],
             "description": "Symfony Filesystem Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-01-17 15:25:59"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "v2.2.0"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.2.0",
-                "reference": "v2.2.0",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-02-28 14:06:36",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Finder\\": ""
@@ -1536,35 +1512,36 @@
                 }
             ],
             "description": "Symfony Finder Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-01 07:51:50"
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Bundle/FrameworkBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/FrameworkBundle.git",
-                "reference": "v2.2.0"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/FrameworkBundle/zipball/v2.2.0",
-                "reference": "v2.2.0",
+                "url": "https://api.github.com/repos/symfony/FrameworkBundle/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
+                "doctrine/common": ">=2.2,<3.0",
                 "php": ">=5.3.3",
-                "symfony/dependency-injection": ">=2.0,<3.0",
                 "symfony/config": ">=2.2,<2.3-dev",
+                "symfony/dependency-injection": ">=2.0,<3.0",
                 "symfony/event-dispatcher": ">=2.1,<3.0",
-                "symfony/http-kernel": ">=2.2,<2.3-dev",
                 "symfony/filesystem": ">=2.1,<2.3-dev",
+                "symfony/http-kernel": ">=2.2,<2.3-dev",
                 "symfony/routing": ">=2.2,<2.3-dev",
                 "symfony/stopwatch": ">=2.2,<2.3-dev",
                 "symfony/templating": ">=2.1,<3.0",
-                "symfony/translation": ">=2.2,<2.3-dev",
-                "doctrine/common": ">=2.2,<3.0"
+                "symfony/translation": ">=2.2,<2.3-dev"
             },
             "require-dev": {
                 "symfony/finder": ">=2.0,<3.0",
@@ -1576,14 +1553,12 @@
                 "symfony/form": "2.2.*",
                 "symfony/validator": "2.2.*"
             },
-            "time": "2013-03-01 06:43:14",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Bundle\\FrameworkBundle\\": ""
@@ -1604,34 +1579,33 @@
                 }
             ],
             "description": "Symfony FrameworkBundle",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-06 10:15:43"
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/HttpFoundation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "v2.2.0"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/v2.2.0",
-                "reference": "v2.2.0",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-02-26 09:42:13",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\HttpFoundation\\": ""
@@ -1655,28 +1629,29 @@
                 }
             ],
             "description": "Symfony HttpFoundation Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-06 10:15:43"
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/HttpKernel",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "v2.2.0"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/v2.2.0",
-                "reference": "v2.2.0",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
+                "psr/log": ">=1.0,<2.0",
                 "symfony/event-dispatcher": ">=2.1,<3.0",
-                "symfony/http-foundation": ">=2.2,<2.3-dev",
-                "psr/log": ">=1.0,<2.0"
+                "symfony/http-foundation": ">=2.2,<2.3-dev"
             },
             "require-dev": {
                 "symfony/browser-kit": "2.2.*",
@@ -1697,14 +1672,12 @@
                 "symfony/dependency-injection": "2.2.*",
                 "symfony/finder": "2.2.*"
             },
-            "time": "2013-03-01 06:52:29",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\HttpKernel\\": ""
@@ -1725,34 +1698,33 @@
                 }
             ],
             "description": "Symfony HttpKernel Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-06 10:16:33"
         },
         {
             "name": "symfony/process",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-02-18 21:28:10",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Process\\": ""
@@ -1773,45 +1745,44 @@
                 }
             ],
             "description": "Symfony Process Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 07:49:54"
         },
         {
             "name": "symfony/routing",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Routing",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/config": ">=2.2,<2.3-dev",
-                "symfony/yaml": ">=2.0,<3.0",
                 "doctrine/common": ">=2.2,<3.0",
-                "psr/log": ">=1.0,<2.0"
+                "psr/log": ">=1.0,<2.0",
+                "symfony/config": ">=2.2,<2.3-dev",
+                "symfony/yaml": ">=2.0,<3.0"
             },
             "suggest": {
+                "doctrine/common": "~2.2",
                 "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*",
-                "doctrine/common": "~2.2"
+                "symfony/yaml": "2.2.*"
             },
-            "time": "2013-02-11 11:24:47",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Routing\\": ""
@@ -1832,34 +1803,33 @@
                 }
             ],
             "description": "Symfony Routing Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 12:03:22"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Stopwatch",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Stopwatch.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Stopwatch/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Stopwatch/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-04 16:58:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Stopwatch\\": ""
@@ -1880,34 +1850,33 @@
                 }
             ],
             "description": "Symfony Stopwatch Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-01-04 16:58:00"
         },
         {
             "name": "symfony/templating",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Templating",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Templating.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Templating/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Templating/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-17 15:25:59",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Templating\\": ""
@@ -1928,21 +1897,22 @@
                 }
             ],
             "description": "Symfony Templating Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-01-17 15:25:59"
         },
         {
             "name": "symfony/translation",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Translation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -1956,14 +1926,12 @@
                 "symfony/config": "2.2.*",
                 "symfony/yaml": "2.2.*"
             },
-            "time": "2013-02-08 16:10:57",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Translation\\": ""
@@ -1984,153 +1952,33 @@
                 }
             ],
             "description": "Symfony Translation Component",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "symfony/twig-bridge",
-            "version": "v2.2.0",
-            "target-dir": "Symfony/Bridge/Twig",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/TwigBridge.git",
-                "reference": "v2.2.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/TwigBridge/zipball/v2.2.0",
-                "reference": "v2.2.0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "twig/twig": ">=1.11.0,<2.0"
-            },
-            "require-dev": {
-                "symfony/form": "2.2.*",
-                "symfony/http-kernel": ">=2.2,<2.3-dev",
-                "symfony/routing": ">=2.2,<2.3-dev",
-                "symfony/templating": ">=2.1,<3.0",
-                "symfony/translation": ">=2.0,<2.3-dev",
-                "symfony/yaml": ">=2.0,<3.0",
-                "symfony/security": ">=2.0,<2.3-dev"
-            },
-            "suggest": {
-                "symfony/form": "2.2.*",
-                "symfony/http-kernel": "2.2.*",
-                "symfony/routing": "2.2.*",
-                "symfony/templating": "2.2.*",
-                "symfony/translation": "2.2.*",
-                "symfony/yaml": "2.2.*",
-                "symfony/security": "2.2.*"
-            },
-            "time": "2013-03-01 06:43:14",
-            "type": "symfony-bridge",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Bridge\\Twig\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Twig Bridge",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "symfony/twig-bundle",
-            "version": "v2.2.0",
-            "target-dir": "Symfony/Bundle/TwigBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/TwigBundle.git",
-                "reference": "v2.2.0-RC3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/TwigBundle/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/twig-bridge": "2.2.*"
-            },
-            "require-dev": {
-                "symfony/stopwatch": ">=2.2,<2.3-dev"
-            },
-            "time": "2013-02-08 16:10:54",
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Bundle\\TwigBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony TwigBundle",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-04-01 08:06:05"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-27 16:49:19",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Component\\Yaml\\": ""
@@ -2151,33 +1999,32 @@
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 07:49:54"
         },
         {
             "name": "twig/twig",
-            "version": "v1.12.2",
+            "version": "v1.12.3",
             "source": {
                 "type": "git",
-                "url": "git://github.com/fabpot/Twig.git",
-                "reference": "v1.12.2"
+                "url": "https://github.com/fabpot/Twig.git",
+                "reference": "v1.12.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.12.2",
-                "reference": "v1.12.2",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.12.3",
+                "reference": "v1.12.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2013-02-09 18:21:53",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.12-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
@@ -2201,7 +2048,8 @@
             "homepage": "http://twig.sensiolabs.org",
             "keywords": [
                 "templating"
-            ]
+            ],
+            "time": "2013-04-08 12:40:11"
         }
     ],
     "packages-dev": [
@@ -2222,16 +2070,14 @@
             "require": {
                 "php": ">=5.3.3",
                 "phpunit/php-file-iterator": ">=1.3.0@stable",
-                "phpunit/php-token-stream": ">=1.1.3@stable",
-                "phpunit/php-text-template": ">=1.1.1@stable"
+                "phpunit/php-text-template": ">=1.1.1@stable",
+                "phpunit/php-token-stream": ">=1.1.3@stable"
             },
             "suggest": {
                 "ext-dom": "*",
                 "ext-xdebug": ">=2.0.5"
             },
-            "time": "2013-02-26 18:55:56",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "PHP/"
@@ -2254,10 +2100,11 @@
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
             "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
             "keywords": [
-                "testing",
                 "coverage",
+                "testing",
                 "xunit"
-            ]
+            ],
+            "time": "2013-02-26 18:55:56"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2276,9 +2123,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-10-11 04:44:38",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "File/"
@@ -2303,7 +2148,8 @@
             "keywords": [
                 "filesystem",
                 "iterator"
-            ]
+            ],
+            "time": "2012-10-11 04:44:38"
         },
         {
             "name": "phpunit/php-text-template",
@@ -2322,9 +2168,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-10-31 11:15:28",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "Text/"
@@ -2348,7 +2192,8 @@
             "homepage": "https://github.com/sebastianbergmann/php-text-template/",
             "keywords": [
                 "template"
-            ]
+            ],
+            "time": "2012-10-31 11:15:28"
         },
         {
             "name": "phpunit/php-timer",
@@ -2367,9 +2212,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-10-11 04:45:58",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "PHP/"
@@ -2393,7 +2236,8 @@
             "homepage": "http://www.phpunit.de/",
             "keywords": [
                 "timer"
-            ]
+            ],
+            "time": "2012-10-11 04:45:58"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -2413,9 +2257,7 @@
                 "ext-tokenizer": "*",
                 "php": ">=5.3.3"
             },
-            "time": "2012-10-11 04:47:14",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "PHP/"
@@ -2439,45 +2281,45 @@
             "homepage": "http://www.phpunit.de/",
             "keywords": [
                 "tokenizer"
-            ]
+            ],
+            "time": "2012-10-11 04:47:14"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.15",
+            "version": "3.7.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3.7.15"
+                "reference": "3.7.19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3.7.15",
-                "reference": "3.7.15",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3.7.19",
+                "reference": "3.7.19",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "phpunit/php-file-iterator": ">=1.3.1",
-                "phpunit/php-text-template": ">=1.1.1",
-                "phpunit/php-code-coverage": ">=1.2.1,<1.3.0",
-                "phpunit/php-timer": ">=1.0.2,<1.1.0",
-                "phpunit/phpunit-mock-objects": ">=1.2.0,<1.3.0",
-                "symfony/yaml": ">=2.2.0",
                 "ext-dom": "*",
                 "ext-pcre": "*",
                 "ext-reflection": "*",
-                "ext-spl": "*"
+                "ext-spl": "*",
+                "php": ">=5.3.3",
+                "phpunit/php-code-coverage": ">=1.2.1,<1.3.0",
+                "phpunit/php-file-iterator": ">=1.3.1",
+                "phpunit/php-text-template": ">=1.1.1",
+                "phpunit/php-timer": ">=1.0.2,<1.1.0",
+                "phpunit/phpunit-mock-objects": ">=1.2.0,<1.3.0",
+                "symfony/yaml": ">=2.0.0,<2.3.0"
             },
             "require-dev": {
                 "pear-pear/pear": "1.9.4"
             },
             "suggest": {
-                "phpunit/php-invoker": ">=1.1.0,<1.2.0",
                 "ext-json": "*",
                 "ext-simplexml": "*",
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "phpunit/php-invoker": ">=1.1.0,<1.2.0"
             },
-            "time": "2013-03-01 11:55:06",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -2487,7 +2329,6 @@
                     "dev-master": "3.7.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "PHPUnit/"
@@ -2511,10 +2352,11 @@
             "description": "The PHP Unit Testing framework.",
             "homepage": "http://www.phpunit.de/",
             "keywords": [
-                "testing",
                 "phpunit",
+                "testing",
                 "xunit"
-            ]
+            ],
+            "time": "2013-03-25 11:45:06"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2537,9 +2379,7 @@
             "suggest": {
                 "ext-soap": "*"
             },
-            "time": "2013-01-13 10:24:48",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "PHPUnit/"
@@ -2564,7 +2404,8 @@
             "keywords": [
                 "mock",
                 "xunit"
-            ]
+            ],
+            "time": "2013-01-13 10:24:48"
         }
     ],
     "aliases": [
@@ -2574,6 +2415,13 @@
     "stability-flags": {
         "composer/composer": 20,
         "dflydev/embedded-composer": 20,
-        "michelf/php-markdown": 10
-    }
+        "michelf/php-markdown": 10,
+        "symfony/console": 20
+    },
+    "platform": {
+        "php": ">=5.3.2"
+    },
+    "platform-dev": [
+
+    ]
 }

@@ -30,7 +30,7 @@
         "react/http": "0.2.*",
         "symfony/class-loader": "~2.1",
         "symfony/config": "~2.1",
-        "symfony/console": "~2.1",
+        "symfony/console": "~2.3@dev",
         "symfony/dependency-injection": "~2.1",
         "symfony/event-dispatcher": "~2.1",
         "symfony/filesystem": "~2.1",
@@ -38,7 +38,6 @@
         "symfony/framework-bundle": "~2.1",
         "symfony/http-kernel": "~2.1",
         "symfony/process": "~2.1",
-        "symfony/twig-bundle": "~2.1",
         "symfony/yaml": "~2.1",
         "twig/twig": "~1.9"
     },
