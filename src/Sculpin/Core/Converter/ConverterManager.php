@@ -55,6 +55,7 @@ class ConverterManager
     {
         $this->formatterManager = $formatterManager;
         $this->eventDispatcher = $eventDispatcher;
+        $this->registerConverter('null', new NullConverter);
     }
 
     /**
@@ -89,7 +90,7 @@ class ConverterManager
     {
         $converters = $source->data()->get('converters');
         if (!$converters || !is_array($converters)) {
-            return;
+            $converters = array('null');
         }
 
         foreach ($converters as $converter) {
