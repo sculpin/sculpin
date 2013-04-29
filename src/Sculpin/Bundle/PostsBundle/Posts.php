@@ -123,8 +123,8 @@ class Posts implements \ArrayAccess, \Iterator, \Countable
      */
     public function init()
     {
-        uasort($this->posts, function($a, $b) {
-            return strnatcmp($b->date().$b->title(), $a->date().$a->title());
+        uasort($this->posts, function ($a, $b) {
+            return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());
         });
 
         $previousPost = null;
