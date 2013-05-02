@@ -25,7 +25,7 @@
         "dflydev/dot-access-configuration": "1.*",
         "dflydev/embedded-composer": "1.0.*@dev",
         "dflydev/symfony-finder-factory": "1.*",
-        "michelf/php-markdown": "1.3.*@beta",
+        "michelf/php-markdown": "1.3.*",
         "netcarver/textile": "3.5.*",
         "react/http": "0.2.*",
         "symfony/class-loader": "~2.1",
