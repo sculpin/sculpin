@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "343d4effaac3274ce1b8e7c64624f85c977ccb26"
+                "reference": "a7e88f7a80970c7b867bf5f5769a13446c75322a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/343d4effaac3274ce1b8e7c64624f85c977ccb26",
-                "reference": "343d4effaac3274ce1b8e7c64624f85c977ccb26",
+                "url": "https://api.github.com/repos/composer/composer/zipball/a7e88f7a80970c7b867bf5f5769a13446c75322a",
+                "reference": "a7e88f7a80970c7b867bf5f5769a13446c75322a",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-04-29 15:27:02"
+            "time": "2013-05-02 15:43:45"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -1269,12 +1269,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "3b1de5a3e9157fcf506a709b48deedfea7092613"
+                "reference": "v2.3.0-BETA1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/3b1de5a3e9157fcf506a709b48deedfea7092613",
-                "reference": "3b1de5a3e9157fcf506a709b48deedfea7092613",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.0-BETA1",
+                "reference": "v2.3.0-BETA1",
                 "shasum": ""
             },
             "require": {
@@ -1310,7 +1310,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-04-27 02:13:33"
+            "time": "2013-04-30 07:16:44"
         },
         {
             "name": "symfony/dependency-injection",
