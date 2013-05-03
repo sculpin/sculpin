@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "a7e88f7a80970c7b867bf5f5769a13446c75322a"
+                "reference": "4b26c627ff087380975881a18787e6a760b60e09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/a7e88f7a80970c7b867bf5f5769a13446c75322a",
-                "reference": "a7e88f7a80970c7b867bf5f5769a13446c75322a",
+                "url": "https://api.github.com/repos/composer/composer/zipball/4b26c627ff087380975881a18787e6a760b60e09",
+                "reference": "4b26c627ff087380975881a18787e6a760b60e09",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-05-02 15:43:45"
+            "time": "2013-05-03 10:29:54"
         },
         {
             "name": "dflydev/ant-path-matcher",
