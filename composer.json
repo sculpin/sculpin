@@ -35,7 +35,6 @@
         "symfony/event-dispatcher": "~2.1",
         "symfony/filesystem": "~2.1",
         "symfony/finder": "~2.1",
-        "symfony/framework-bundle": "~2.1",
         "symfony/http-kernel": "~2.1",
         "symfony/process": "~2.1",
         "symfony/yaml": "~2.1",
