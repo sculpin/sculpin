@@ -3,32 +3,32 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "94e7e65641efcf82fe121cdd8ebaa43e",
+    "hash": "3e4222d2767c676bc9c82d94eccb4520",
     "packages": [
         {
             "name": "composer/composer",
-            "version": "dev-master",
+            "version": "dev-root-installed",
             "source": {
                 "type": "git",
-                "url": "https://github.com/composer/composer.git",
-                "reference": "4b26c627ff087380975881a18787e6a760b60e09"
+                "url": "https://github.com/simensen/composer.git",
+                "reference": "c8f9096a0cb13a95e291110fdcfb7b7f8558ad1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/4b26c627ff087380975881a18787e6a760b60e09",
-                "reference": "4b26c627ff087380975881a18787e6a760b60e09",
+                "url": "https://api.github.com/repos/simensen/composer/zipball/c8f9096a0cb13a95e291110fdcfb7b7f8558ad1f",
+                "reference": "c8f9096a0cb13a95e291110fdcfb7b7f8558ad1f",
                 "shasum": ""
             },
             "require": {
                 "justinrainbow/json-schema": "1.1.*",
                 "php": ">=5.3.2",
                 "seld/jsonlint": "1.*",
-                "symfony/console": ">=2.3,<3.0",
-                "symfony/finder": ">=2.1,<3.0",
-                "symfony/process": ">=2.1,<3.0"
+                "symfony/console": "~2.3@dev",
+                "symfony/finder": "~2.1",
+                "symfony/process": "~2.1@dev"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7.10.0,<3.8"
+                "phpunit/phpunit": "~3.7.10"
             },
             "suggest": {
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
@@ -48,21 +48,19 @@
                     "Composer": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be",
-                    "role": "Developer"
-                },
-                {
                     "name": "Nils Adermann",
                     "email": "naderman@naderman.de",
                     "homepage": "http://www.naderman.de"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
                 }
             ],
             "description": "Dependency Manager",
@@ -72,7 +70,12 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-05-03 10:29:54"
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/composer/issues",
+                "source": "https://github.com/simensen/composer/tree/root-installed"
+            },
+            "time": "2013-05-04 20:45:28"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -294,20 +297,20 @@
         },
         {
             "name": "dflydev/embedded-composer",
-            "version": "dev-master",
+            "version": "dev-root-installed",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dflydev/dflydev-embedded-composer.git",
-                "reference": "1d8634f7825c03b298a78fc263be673a9fad5ec9"
+                "url": "https://github.com/simensen/dflydev-embedded-composer.git",
+                "reference": "996245d9912d6363dc81f152fd2a09cc2b7ff339"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer/zipball/1d8634f7825c03b298a78fc263be673a9fad5ec9",
-                "reference": "1d8634f7825c03b298a78fc263be673a9fad5ec9",
+                "url": "https://api.github.com/repos/simensen/dflydev-embedded-composer/zipball/996245d9912d6363dc81f152fd2a09cc2b7ff339",
+                "reference": "996245d9912d6363dc81f152fd2a09cc2b7ff339",
                 "shasum": ""
             },
             "require": {
-                "composer/composer": "1.0.*@dev",
+                "composer/composer": "dev-root-installed as 1.0.*@dev",
                 "php": ">=5.3.2",
                 "seld/jsonlint": "1.*"
             },
@@ -317,9 +320,9 @@
                 "dflydev/embedded-composer-core": "self.version"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7.10.0,<3.8",
-                "symfony/console": ">=2.3,<3.0",
-                "symfony/http-kernel": ">=2.1,<3.0"
+                "phpunit/phpunit": "~3.7.10",
+                "symfony/console": "~2.3@dev",
+                "symfony/http-kernel": "~2.1"
             },
             "suggest": {
                 "symfony/console": "~2.3",
@@ -336,7 +339,6 @@
                     "Dflydev\\EmbeddedComposer": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -358,7 +360,10 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-05-02 22:17:45"
+            "support": {
+                "source": "https://github.com/simensen/dflydev-embedded-composer/tree/root-installed"
+            },
+            "time": "2013-05-05 02:25:07"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1201,12 +1206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.0-BETA1"
+                "reference": "2c29086a53686d9dcb11353b9c15f946808ebe04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.0-BETA1",
-                "reference": "v2.3.0-BETA1",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/2c29086a53686d9dcb11353b9c15f946808ebe04",
+                "reference": "2c29086a53686d9dcb11353b9c15f946808ebe04",
                 "shasum": ""
             },
             "require": {
@@ -1242,7 +1247,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-04-30 07:16:44"
+            "time": "2013-05-06 08:44:35"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2067,7 +2072,18 @@
         }
     ],
     "aliases": [
-
+        {
+            "alias": "1.*@dev",
+            "alias_normalized": "dev-1.*@",
+            "version": "dev-root-installed",
+            "package": "composer/composer"
+        },
+        {
+            "alias": "1.0.*@dev",
+            "alias_normalized": "dev-1.0.*@",
+            "version": "dev-root-installed",
+            "package": "dflydev/embedded-composer"
+        }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
