@@ -301,12 +301,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simensen/dflydev-embedded-composer.git",
-                "reference": "9f74aa638f7ce509e875f4032464e87b7ac284bc"
+                "reference": "c778127111f5713ecf0c3e830d3baa0d96f923bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simensen/dflydev-embedded-composer/zipball/9f74aa638f7ce509e875f4032464e87b7ac284bc",
-                "reference": "9f74aa638f7ce509e875f4032464e87b7ac284bc",
+                "url": "https://api.github.com/repos/simensen/dflydev-embedded-composer/zipball/c778127111f5713ecf0c3e830d3baa0d96f923bf",
+                "reference": "c778127111f5713ecf0c3e830d3baa0d96f923bf",
                 "shasum": ""
             },
             "require": {
@@ -363,7 +363,7 @@
             "support": {
                 "source": "https://github.com/simensen/dflydev-embedded-composer/tree/root-installed"
             },
-            "time": "2013-05-09 05:21:25"
+            "time": "2013-05-09 05:48:19"
         },
         {
             "name": "dflydev/placeholder-resolver",
