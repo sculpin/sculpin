@@ -42,11 +42,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
         $this->kernel = $kernel;
         $this->embeddedComposer = $embeddedComposer;
 
-        $version = $embeddedComposer->getPackage()->getPrettyVersion();
-        $version = $embeddedComposer->getPackage()->getPrettyVersion();
-        $version = $embeddedComposer->getPackage()->getPrettyVersion();
-
-        $version = $embeddedComposer->getPackage()->getPrettyVersion();
+        $version = $embeddedComposer->findPackage('sculpin/sculpin')->getPrettyVersion();
         if ($version !== Sculpin::GIT_VERSION && Sculpin::GIT_VERSION !== '@'.'git_version'.'@') {
             $version .= ' ('.Sculpin::GIT_VERSION.')';
         }

@@ -18,10 +18,10 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput;
 
-$projectDir = $input->getParameterOption('--project-dir') ?: '.';
+$projectDir = $input->getParameterOption('--project-dir') ?: null;
 
-$embeddedComposer = new EmbeddedComposer($classLoader, $projectDir, "sculpin/sculpin");
-$embeddedComposer->processExternalAutoloads();
+$embeddedComposer = new EmbeddedComposer($classLoader, $projectDir);
+$embeddedComposer->processAdditionalAutoloads();
 
 $kernel = KernelFactory::create($input);
 $application = new Application($kernel, $embeddedComposer);
