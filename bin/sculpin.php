@@ -21,6 +21,11 @@ $input = new ArgvInput;
 $projectDir = $input->getParameterOption('--project-dir') ?: null;
 
 $embeddedComposer = new EmbeddedComposer($classLoader, $projectDir);
+
+$embeddedComposer
+    ->setComposerFilename('sculpin.json')
+    ->setVendorDirectory('.sculpin');
+
 $embeddedComposer->processAdditionalAutoloads();
 
 $kernel = KernelFactory::create($input);

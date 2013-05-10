@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "composer/composer": "dev-root-installed as 1.*@dev",
+        "composer/composer": "dev-embedded-composer as 1.*@dev",
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/apache-mime-types": "1.*",
         "dflydev/dot-access-configuration": "1.*",

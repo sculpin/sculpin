@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3e4222d2767c676bc9c82d94eccb4520",
+    "hash": "09aad4035bd72c299e72f9213348dae7",
     "packages": [
         {
             "name": "composer/composer",
-            "version": "dev-root-installed",
+            "version": "dev-embedded-composer",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simensen/composer.git",
-                "reference": "c8f9096a0cb13a95e291110fdcfb7b7f8558ad1f"
+                "reference": "edb8d4999e79b8c4240b0ba1f805913d18f9c43b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simensen/composer/zipball/c8f9096a0cb13a95e291110fdcfb7b7f8558ad1f",
-                "reference": "c8f9096a0cb13a95e291110fdcfb7b7f8558ad1f",
+                "url": "https://api.github.com/repos/simensen/composer/zipball/edb8d4999e79b8c4240b0ba1f805913d18f9c43b",
+                "reference": "edb8d4999e79b8c4240b0ba1f805913d18f9c43b",
                 "shasum": ""
             },
             "require": {
@@ -73,9 +73,9 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/simensen/composer/tree/root-installed"
+                "source": "https://github.com/simensen/composer/tree/embedded-composer"
             },
-            "time": "2013-05-04 20:45:28"
+            "time": "2013-05-10 20:17:33"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -301,16 +301,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simensen/dflydev-embedded-composer.git",
-                "reference": "c778127111f5713ecf0c3e830d3baa0d96f923bf"
+                "reference": "52dcd3703cd4826cc8324f4da4842c528149c936"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simensen/dflydev-embedded-composer/zipball/c778127111f5713ecf0c3e830d3baa0d96f923bf",
-                "reference": "c778127111f5713ecf0c3e830d3baa0d96f923bf",
+                "url": "https://api.github.com/repos/simensen/dflydev-embedded-composer/zipball/52dcd3703cd4826cc8324f4da4842c528149c936",
+                "reference": "52dcd3703cd4826cc8324f4da4842c528149c936",
                 "shasum": ""
             },
             "require": {
-                "composer/composer": "dev-root-installed as 1.0.*@dev",
+                "composer/composer": "dev-embedded-composer as 1.0.*@dev",
                 "php": ">=5.3.2",
                 "seld/jsonlint": "1.*"
             },
@@ -363,7 +363,7 @@
             "support": {
                 "source": "https://github.com/simensen/dflydev-embedded-composer/tree/root-installed"
             },
-            "time": "2013-05-09 05:48:19"
+            "time": "2013-05-10 21:18:56"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1206,12 +1206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "2c29086a53686d9dcb11353b9c15f946808ebe04"
+                "reference": "v2.3.0-BETA2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/2c29086a53686d9dcb11353b9c15f946808ebe04",
-                "reference": "2c29086a53686d9dcb11353b9c15f946808ebe04",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.0-BETA2",
+                "reference": "v2.3.0-BETA2",
                 "shasum": ""
             },
             "require": {
@@ -1247,7 +1247,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-06 08:44:35"
+            "time": "2013-05-10 18:12:13"
         },
         {
             "name": "symfony/dependency-injection",
@@ -1667,16 +1667,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.12.3",
+            "version": "v1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.12.3"
+                "reference": "v1.13.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.12.3",
-                "reference": "v1.12.3",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.0",
+                "reference": "v1.13.0",
                 "shasum": ""
             },
             "require": {
@@ -1685,7 +1685,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -1712,7 +1712,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-04-08 12:40:11"
+            "time": "2013-05-10 15:12:43"
         }
     ],
     "packages-dev": [
@@ -2075,7 +2075,7 @@
         {
             "alias": "1.*@dev",
             "alias_normalized": "dev-1.*@",
-            "version": "dev-root-installed",
+            "version": "dev-embedded-composer",
             "package": "composer/composer"
         },
         {
