@@ -85,4 +85,44 @@ abstract class AbstractKernel extends Kernel
             $loader->load($file);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot()
+    {
+        if (true === $this->booted) {
+            return;
+        }
+
+        parent::boot();
+
+        $this->container->compile();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function buildContainer()
+    {
+        $container = $this->getContainerBuilder();
+        $container->addObjectResource($this);
+        $this->prepareContainer($container);
+
+        if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
+            $container->merge($cont);
+        }
+
+        return $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initializeContainer()
+    {
+        $container = $this->buildContainer();
+        $container->set('kernel', $this);
+        $this->container = $container;
+    }
 }
