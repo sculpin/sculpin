@@ -11,7 +11,7 @@
 
 set_time_limit(0);
 
-use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
+use Dflydev\EmbeddedComposer\Core\EmbeddedComposerBuilder;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Sculpin\Bundle\SculpinBundle\HttpKernel\KernelFactory;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -20,11 +20,15 @@ $input = new ArgvInput;
 
 $projectDir = $input->getParameterOption('--project-dir') ?: null;
 
-$embeddedComposer = new EmbeddedComposer($classLoader, $projectDir);
+$embeddedComposerBuilder = new EmbeddedComposerBuilder(
+    $classLoader,
+    $projectDir
+);
 
-$embeddedComposer
+$embeddedComposer = $embeddedComposerBuilder
     ->setComposerFilename('sculpin.json')
-    ->setVendorDirectory('.sculpin');
+    ->setVendorDirectory('.sculpin')
+    ->build();
 
 $embeddedComposer->processAdditionalAutoloads();
 

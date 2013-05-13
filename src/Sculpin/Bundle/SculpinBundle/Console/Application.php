@@ -99,5 +99,10 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
                 $bundle->registerCommands($this);
             }
         }
+
+        if ($this->embeddedComposer->hasInternalRepository()) {
+            $this->add(new InstallCommand(''));
+            $this->add(new UpdateCommand(''));
+        }
     }
 }
