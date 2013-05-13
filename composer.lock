@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c5a48e7b68df1f2ea48cf2c8b9dc6fb1",
+    "hash": "26fdc7deea433e68aa0c1201d3a24250",
     "packages": [
         {
             "name": "composer/composer",
@@ -298,12 +298,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer.git",
-                "reference": "991759644109c25bad20713d4ad7aa26d440a507"
+                "reference": "b52ab96aa4bc7d258aac2b6278f7e71bc3c70c26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer/zipball/991759644109c25bad20713d4ad7aa26d440a507",
-                "reference": "991759644109c25bad20713d4ad7aa26d440a507",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer/zipball/b52ab96aa4bc7d258aac2b6278f7e71bc3c70c26",
+                "reference": "b52ab96aa4bc7d258aac2b6278f7e71bc3c70c26",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-05-13 20:34:04"
+            "time": "2013-05-13 21:45:25"
         },
         {
             "name": "dflydev/placeholder-resolver",
