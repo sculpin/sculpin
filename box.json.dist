@@ -1,0 +1,40 @@
+{
+    "alias": "sculpin.phar",
+    "chmod": "0755",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Json",
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "files": [
+        "LICENSE",
+        "vendor/composer/installed.json",
+        "vendor/dflydev/embedded-composer/.root_package.json"
+    ],
+    "finder": [
+        {
+            "name": [
+                "LICENSE*",
+                "License*",
+                "*.php",
+                "*.xml",
+                "*.xsd",
+                "*.yaml",
+                "*.json"
+            ],
+            "notName": [
+                "composer.json"
+            ],
+            "exclude": [
+                "phpunit",
+                "Test",
+                "Tests",
+                "tests"
+            ],
+            "in": ["bin", "src", "vendor"]
+        }
+    ],
+    "git-version": "git_version",
+    "main": "bin/sculpin-phar-stub",
+    "output": "sculpin.phar",
+    "stub": true
+}

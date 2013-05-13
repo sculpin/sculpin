@@ -1,55 +1,20 @@
 #!/usr/bin/env php
 <?php
 
-/*
- * This file is a part of Sculpin.
- *
- * (c) Dragonfly Development Inc.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+if (
+    // Check where autoload would be if this is Sculpin included
+    // as a dependency.
+    (!$classLoader = @include __DIR__.'/../../../autoload.php') and
 
-if (defined('SCULPIN_RUNNING_AS_PHAR')) {
-    if (!$classLoader = @include __DIR__.'/../vendor/autoload.php') {
-        die ('There is something terribly wrong with your archive.
-Try downloading again?');
-    }
-} else {
-
-    if (
-        // Check where autoload would be if this is Sculpin included
-        // as a dependency.
-        (!$classLoader = @include __DIR__.'/../../../autoload.php') and
-
-        // Check where autoload would be if this is a development version
-        // of Sculpin. (based on actual file)
-        (!$classLoader = @include __DIR__.'/../vendor/autoload.php')
-    ) {
-        die('You must set up the project dependencies, run the following commands:
+    // Check where autoload would be if this is a development version
+    // of Sculpin. (based on actual file)
+    (!$classLoader = @include __DIR__.'/../vendor/autoload.php')
+) {
+    die('You must set up the project dependencies, run the following commands:
 
     composer install
 
 ');
-    }
 }
 
-set_time_limit(0);
-
-use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
-use Sculpin\Bundle\SculpinBundle\Composer\PackageFactory;
-use Sculpin\Bundle\SculpinBundle\Console\Application;
-use Sculpin\Bundle\SculpinBundle\HttpKernel\KernelFactory;
-use Symfony\Component\Console\Input\ArgvInput;
-
-$input = new ArgvInput;
-
-$projectDir = $input->getParameterOption('--project-dir') ?: '.';
-
-$embeddedComposer = new EmbeddedComposer($classLoader, $projectDir, PackageFactory::create());
-$embeddedComposer->processExternalAutoloads();
-
-$kernel = KernelFactory::create($input);
-$application = new Application($kernel, $embeddedComposer);
-$application->run($input);
-
+include('sculpin.php');

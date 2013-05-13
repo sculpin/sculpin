@@ -57,7 +57,6 @@ abstract class AbstractKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
-            new \Dflydev\EmbeddedComposer\Bundle\DflydevEmbeddedComposerBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
@@ -84,5 +83,45 @@ abstract class AbstractKernel extends Kernel
         } elseif (file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {
             $loader->load($file);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot()
+    {
+        if (true === $this->booted) {
+            return;
+        }
+
+        parent::boot();
+
+        $this->container->compile();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function buildContainer()
+    {
+        $container = $this->getContainerBuilder();
+        $container->addObjectResource($this);
+        $this->prepareContainer($container);
+
+        if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
+            $container->merge($cont);
+        }
+
+        return $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initializeContainer()
+    {
+        $container = $this->buildContainer();
+        $container->set('kernel', $this);
+        $this->container = $container;
     }
 }
