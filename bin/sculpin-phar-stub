@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+if (!$classLoader = @include __DIR__.'/../vendor/autoload.php') {
+    die ('There is something terribly wrong with your archive.
+Try downloading again?');
+}
+
+include('sculpin.php');

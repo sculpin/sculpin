@@ -15,6 +15,7 @@ use Dflydev\EmbeddedComposer\Console\Command\InstallCommand;
 use Dflydev\EmbeddedComposer\Console\Command\UpdateCommand;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
+use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,7 +42,12 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
         $this->kernel = $kernel;
         $this->embeddedComposer = $embeddedComposer;
 
-        parent::__construct('Sculpin', $embeddedComposer->getPackage()->getPrettyVersion().' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
+        $version = $embeddedComposer->findPackage('sculpin/sculpin')->getPrettyVersion();
+        if ($version !== Sculpin::GIT_VERSION && Sculpin::GIT_VERSION !== '@'.'git_version'.'@') {
+            $version .= ' ('.Sculpin::GIT_VERSION.')';
+        }
+
+        parent::__construct('Sculpin', $version.' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
 
         $this->getDefinition()->addOption(new InputOption('--project-dir', null, InputOption::VALUE_REQUIRED, 'The project directory.', '.'));
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
@@ -92,6 +98,11 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             if ($bundle instanceof BundleInterface) {
                 $bundle->registerCommands($this);
             }
+        }
+
+        if ($this->embeddedComposer->hasInternalRepository()) {
+            $this->add(new InstallCommand(''));
+            $this->add(new UpdateCommand(''));
         }
     }
 }
