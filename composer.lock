@@ -184,12 +184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-canal.git",
-                "reference": "668af213d86f0f378f5dcce6799b974044fa6a51"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-canal/zipball/668af213d86f0f378f5dcce6799b974044fa6a51",
-                "reference": "668af213d86f0f378f5dcce6799b974044fa6a51",
+                "url": "https://api.github.com/repos/dflydev/dflydev-canal/zipball/v1.0.0",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
