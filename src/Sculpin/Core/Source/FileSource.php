@@ -65,7 +65,6 @@ class FileSource extends AbstractSource
             $this->useFileReference = true;
             $this->data = new Data;
         } else {
-            $internetMediaTypeFactory = $this->analyzer->getInternetMediaTypeFactory();
             $internetMediaType = $this->analyzer->detectFromFilename($this->file);
 
             if ($internetMediaType &&
