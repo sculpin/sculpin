@@ -11,6 +11,7 @@
 
 namespace Sculpin\Core\Source;
 
+use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\Symfony\FinderFactory\FinderFactory;
 use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
 use dflydev\util\antPathMatcher\AntPathMatcher;
@@ -66,6 +67,13 @@ class FilesystemDataSource implements DataSourceInterface
     protected $matcher;
 
     /**
+     * Analyzer
+     *
+     * @var Analyzer
+     */
+    protected $analyzer;
+
+    /**
      * DirectorySeparatorNormalizer
      *
      * @var DirectorySeparatorNormalizer
@@ -88,6 +96,7 @@ class FilesystemDataSource implements DataSourceInterface
      * @param array                        $raws                         Raw paths
      * @param FinderFactoryInterface       $finderFactory                Finder Factory
      * @param AntPathMatcher               $matcher                      Matcher
+     * @param Analyzer                     $analyzer                     Analyzer
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
     public function __construct(
@@ -97,6 +106,7 @@ class FilesystemDataSource implements DataSourceInterface
         $raws,
         FinderFactoryInterface $finderFactory = null,
         AntPathMatcher $matcher = null,
+        Analyzer $analyzer = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->sourceDir = $sourceDir;
@@ -105,6 +115,7 @@ class FilesystemDataSource implements DataSourceInterface
         $this->raws = $raws;
         $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
+        $this->analyzer = $analyzer;
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
@@ -192,7 +203,7 @@ class FilesystemDataSource implements DataSourceInterface
                 }
             }
 
-            $source = new FileSource($this, $file, $isRaw, true);
+            $source = new FileSource($this->analyzer, $this, $file, $isRaw, true);
             $sourceSet->mergeSource($source);
         }
 

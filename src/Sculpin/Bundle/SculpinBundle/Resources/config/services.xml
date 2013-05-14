@@ -75,6 +75,23 @@
 
         <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" />
 
+        <service id="sculpin.canal.custom_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector">
+            <argument type="service" id="sculpin.custom_mime_types_repository" />
+        </service>
+
+        <service id="sculpin.canal.default_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector" />
+
+        <service id="sculpin.canal.detector" class="Dflydev\Canal\Detector\CompositeDetector">
+            <argument type="collection">
+                <argument type="service" id="sculpin.canal.custom_detector" />
+                <argument type="service" id="sculpin.canal.default_detector" />
+            </argument>
+        </service>
+
+        <service id="sculpin.canal.analyzer" class="Dflydev\Canal\Analyzer\Analyzer">
+            <argument type="service" id="sculpin.canal.detector" />
+        </service>
+
         <service id="sculpin.default_filesystem_data_source" class="%sculpin.default_filesystem_data_source.class%">
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin.exclude%</argument>
@@ -82,6 +99,7 @@
             <argument>%sculpin.raw%</argument>
             <argument type="service" id="sculpin.finder_factory" />
             <argument type="service" id="sculpin.matcher" />
+            <argument type="service" id="sculpin.canal.analyzer" />
         </service>
 
         <service id="sculpin.data_source" class="%sculpin.data_source.class%">
@@ -89,6 +107,8 @@
                 <argument type="service" id="sculpin.default_filesystem_data_source" />
             </argument>
         </service>
+
+        <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
     </services>
 </container>

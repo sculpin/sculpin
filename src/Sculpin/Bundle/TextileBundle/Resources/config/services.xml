@@ -13,6 +13,7 @@
         <service id="sculpin_textile.converter" class="%sculpin_textile.converter.class%">
             <argument type="service" id="sculpin_textile.parser" />
             <tag name="sculpin.converter" alias="textile" />
+            <tag name="sculpin.custom_mime_extensions" type="text/textile" parameter="sculpin_textile.extensions" />
             <tag name="kernel.event_subscriber" />
         </service>
     </services>

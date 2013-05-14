@@ -35,6 +35,7 @@ class SculpinMarkdownExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('sculpin_markdown.parser.class', $config['parser_class']);
+        $container->setParameter('sculpin_markdown.extensions', $config['extensions']);
 
         $container->findDefinition('sculpin_markdown.converter')->addArgument($config['extensions']);
     }

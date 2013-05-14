@@ -35,6 +35,7 @@ class SculpinTextileExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('sculpin_textile.parser.class', $config['parser_class']);
+        $container->setParameter('sculpin_textile.extensions', $config['extensions']);
 
         $container->findDefinition('sculpin_textile.converter')->addArgument($config['extensions']);
     }

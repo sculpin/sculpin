@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('parser_class')->defaultValue('Michelf\MarkdownExtra')->end()
                 ->arrayNode('extensions')
-                    ->defaultValue(array('md', 'markdown'))
+                    ->defaultValue(array('md', 'mdown', 'markdown'))
                     ->prototype('scalar')->end()
                 ->end()
             ->end();

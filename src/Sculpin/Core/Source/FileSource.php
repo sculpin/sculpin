@@ -13,8 +13,12 @@ namespace Sculpin\Core\Source;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
 use Symfony\Component\Finder\SplFileInfo;
+use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
+
+use Dflydev\ApacheMimeTypes\PhpRepository;
+use Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector;
 
 /**
  * File Source.
@@ -26,19 +30,25 @@ class FileSource extends AbstractSource
     /**
      * Constructor
      *
+     * @param Analyzer            $analyzer   Analyzer
      * @param DataSourceInterface $dataSource Data Source
      * @param SplFileInfo         $file       File
      * @param bool                $isRaw      Should be treated as raw
      * @param bool                $hasChanged Has the file changed?
      */
-    public function __construct(DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
+    public function __construct(Analyzer $analyzer, DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
     {
+        $this->analyzer = $analyzer;
         $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
         $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
+
+        $internetMediaTypeFactory = $this->analyzer->getInternetMediaTypeFactory();
+        $this->applicationXmlType = $internetMediaTypeFactory->createApplicationXml();
+
         $this->init();
     }
 
@@ -55,9 +65,12 @@ class FileSource extends AbstractSource
             $this->useFileReference = true;
             $this->data = new Data;
         } else {
-            $finfo = finfo_open(FILEINFO_MIME);
-            $mime = finfo_file($finfo, $this->file);
-            if (substr($mime, 0, 4) == 'text') {
+            $internetMediaTypeFactory = $this->analyzer->getInternetMediaTypeFactory();
+            $internetMediaType = $this->analyzer->detectFromFilename($this->file);
+
+            if ($internetMediaType &&
+                ('text' === $internetMediaType->getType() ||
+                $this->applicationXmlType->equals($internetMediaType))) {
                 // Only text files can be processed by Sculpin and since we
                 // have to read them here we are going to ensure that we use
                 // the content we read here instead of having someone else
@@ -96,6 +109,7 @@ class FileSource extends AbstractSource
                 $this->data = new Data;
             }
         }
+
         if ($this->data->get('date')) {
             $this->data->set('calculated_date', strtotime($this->data->get('date')));
         }
