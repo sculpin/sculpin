@@ -11,8 +11,6 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Dflydev\EmbeddedComposer\Console\Command\InstallCommand;
-use Dflydev\EmbeddedComposer\Console\Command\UpdateCommand;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Sculpin\Core\Sculpin;
@@ -98,11 +96,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             if ($bundle instanceof BundleInterface) {
                 $bundle->registerCommands($this);
             }
-        }
-
-        if ($this->embeddedComposer->hasInternalRepository()) {
-            $this->add(new InstallCommand(''));
-            $this->add(new UpdateCommand(''));
         }
     }
 }
