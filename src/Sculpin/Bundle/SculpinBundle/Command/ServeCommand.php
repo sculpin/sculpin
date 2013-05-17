@@ -17,11 +17,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Server Command.
+ * Serve Command.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ServerCommand extends AbstractCommand
+class ServeCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -31,7 +31,7 @@ class ServerCommand extends AbstractCommand
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
         $this
-            ->setName($prefix.'server')
+            ->setName($prefix.'serve')
             ->setDescription('Serve a site.')
             ->setDefinition(array(
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
@@ -39,7 +39,7 @@ class ServerCommand extends AbstractCommand
             ->setHelp(<<<EOT
 The <info>serve</info> command serves a site.
 EOT
-            );
+            )->setAliases(array('server'));
     }
 
     /**
