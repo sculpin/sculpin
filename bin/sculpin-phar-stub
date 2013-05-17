@@ -1,9 +1,17 @@
 #!/usr/bin/env php
 <?php
 
-if (!$classLoader = @include __DIR__.'/../vendor/autoload.php') {
-    die ('There is something terribly wrong with your archive.
-Try downloading again?');
+function includeIfExists($file)
+{
+    if (file_exists($file)) {
+        return include $file;
+    }
+}
+
+if (!$classLoader = includeIfExists(__DIR__.'/../vendor/autoload.php')) {
+    echo 'There is something terribly wrong with your archive'.PHP_EOL.
+        'Try downloading again?'.PHP_EOL;
+    exit(1);
 }
 
 include('sculpin.php');

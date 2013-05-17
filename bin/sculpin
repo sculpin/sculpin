@@ -1,20 +1,21 @@
 #!/usr/bin/env php
 <?php
 
+function includeIfExists($file)
+{
+    if (file_exists($file)) {
+        return include $file;
+    }
+}
+
 if (
-    // Check where autoload would be if this is Sculpin included
-    // as a dependency.
-    (!$classLoader = @include __DIR__.'/../../../autoload.php') and
-
-    // Check where autoload would be if this is a development version
-    // of Sculpin. (based on actual file)
-    (!$classLoader = @include __DIR__.'/../vendor/autoload.php')
+    (!$classLoader = includeIfExists(__DIR__.'/../vendor/autoload.php')) &&
+    (!$classLoader = includeIfExists(__DIR__.'/../../../autoload.php'))
 ) {
-    die('You must set up the project dependencies, run the following commands:
-
-    composer install
-
-');
+    echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.
+        'php composer.phar install'.PHP_EOL;
+    exit(1);
 }
 
 include('sculpin.php');
