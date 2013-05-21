@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "48f59a87e0d0917325281220bba039fa",
+    "hash": "e6f3fd2bcc34284bb40a8dee22d12fe4",
     "packages": [
         {
             "name": "composer/composer",
@@ -348,37 +348,25 @@
             "time": "2012-07-17 13:32:32"
         },
         {
-            "name": "dflydev/embedded-composer",
+            "name": "dflydev/embedded-composer-console",
             "version": "dev-master",
+            "target-dir": "Dflydev/EmbeddedComposer/Console",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dflydev/dflydev-embedded-composer.git",
-                "reference": "40b21723d2de96f39d03b6452795fa8a423e6329"
+                "url": "https://github.com/dflydev/dflydev-embedded-composer-console.git",
+                "reference": "893c36967d8f6376dfd0fcdc02aac298f2263e57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer/zipball/40b21723d2de96f39d03b6452795fa8a423e6329",
-                "reference": "40b21723d2de96f39d03b6452795fa8a423e6329",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-console/zipball/893c36967d8f6376dfd0fcdc02aac298f2263e57",
+                "reference": "893c36967d8f6376dfd0fcdc02aac298f2263e57",
                 "shasum": ""
             },
             "require": {
-                "composer/composer": "1.0.*@dev",
+                "composer/composer": "@dev",
+                "dflydev/embedded-composer-core": "1.*@dev",
                 "php": ">=5.3.2",
-                "seld/jsonlint": "1.*"
-            },
-            "replace": {
-                "dflydev/embedded-composer-bundle": "self.version",
-                "dflydev/embedded-composer-console": "self.version",
-                "dflydev/embedded-composer-core": "self.version"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=3.7.10.0,<3.8",
-                "symfony/console": ">=2.3,<3.0",
-                "symfony/http-kernel": ">=2.1,<3.0"
-            },
-            "suggest": {
-                "symfony/console": "~2.3",
-                "symfony/http-kernel": "~2.1"
+                "symfony/console": ">=2.3,<3.0"
             },
             "type": "library",
             "extra": {
@@ -388,7 +376,7 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Dflydev\\EmbeddedComposer": "src"
+                    "Dflydev\\EmbeddedComposer\\Console": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -407,13 +395,70 @@
                     "homepage": "http://beausimensen.com"
                 }
             ],
-            "description": "Embed Composer into another application",
+            "description": "Embed Composer into a Symfony Console application",
+            "keywords": [
+                "composer",
+                "console",
+                "embedded",
+                "extensibility"
+            ],
+            "time": "2013-05-21 17:09:09"
+        },
+        {
+            "name": "dflydev/embedded-composer-core",
+            "version": "dev-master",
+            "target-dir": "Dflydev/EmbeddedComposer/Core",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-embedded-composer-core.git",
+                "reference": "4c6605ded659312fcec8048493ee58e1953543d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/4c6605ded659312fcec8048493ee58e1953543d3",
+                "reference": "4c6605ded659312fcec8048493ee58e1953543d3",
+                "shasum": ""
+            },
+            "require": {
+                "composer/composer": "1.0.*@dev",
+                "php": ">=5.3.2",
+                "seld/jsonlint": "1.*",
+                "symfony/console": ">=2.3,<3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Dflydev\\EmbeddedComposer\\Core": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                }
+            ],
+            "description": "Embed Composer core",
             "keywords": [
                 "composer",
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-05-21 03:27:25"
+            "time": "2013-05-21 17:09:09"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -2316,7 +2361,8 @@
     "stability-flags": {
         "composer/composer": 20,
         "dflydev/canal": 20,
-        "dflydev/embedded-composer": 20,
+        "dflydev/embedded-composer-console": 20,
+        "dflydev/embedded-composer-core": 20,
         "symfony/console": 20,
         "symfony/http-kernel": 20,
         "symfony/debug": 20
