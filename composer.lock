@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "7073d3876e194a2edb4f959e8cd7ee7e2b8c31e5"
+                "reference": "165190bb38ea60744cb258ebda74e9a407ede1cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/7073d3876e194a2edb4f959e8cd7ee7e2b8c31e5",
-                "reference": "7073d3876e194a2edb4f959e8cd7ee7e2b8c31e5",
+                "url": "https://api.github.com/repos/composer/composer/zipball/165190bb38ea60744cb258ebda74e9a407ede1cd",
+                "reference": "165190bb38ea60744cb258ebda74e9a407ede1cd",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-05-13 13:09:26"
+            "time": "2013-05-16 00:50:59"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer.git",
-                "reference": "b52ab96aa4bc7d258aac2b6278f7e71bc3c70c26"
+                "reference": "40b21723d2de96f39d03b6452795fa8a423e6329"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer/zipball/b52ab96aa4bc7d258aac2b6278f7e71bc3c70c26",
-                "reference": "b52ab96aa4bc7d258aac2b6278f7e71bc3c70c26",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer/zipball/40b21723d2de96f39d03b6452795fa8a423e6329",
+                "reference": "40b21723d2de96f39d03b6452795fa8a423e6329",
                 "shasum": ""
             },
             "require": {
@@ -413,7 +413,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-05-13 21:45:25"
+            "time": "2013-05-21 03:27:25"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1256,12 +1256,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.0-BETA2"
+                "reference": "45c1953fee4034f8fc92bc2029b124ed9ffb34db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.0-BETA2",
-                "reference": "v2.3.0-BETA2",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/45c1953fee4034f8fc92bc2029b124ed9ffb34db",
+                "reference": "45c1953fee4034f8fc92bc2029b124ed9ffb34db",
                 "shasum": ""
             },
             "require": {
@@ -1270,10 +1270,13 @@
             "require-dev": {
                 "symfony/event-dispatcher": ">=2.1,<3.0"
             },
+            "suggest": {
+                "symfony/event-dispatcher": ""
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -1297,7 +1300,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-10 18:12:13"
+            "time": "2013-05-19 19:03:23"
         },
         {
             "name": "symfony/debug",
@@ -1306,12 +1309,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Debug.git",
-                "reference": "6360ed4ed54eb4c80e6640c23140507dea6e98f3"
+                "reference": "60d593cc32c291392339b0955a4e8cd4b0c44551"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Debug/zipball/6360ed4ed54eb4c80e6640c23140507dea6e98f3",
-                "reference": "6360ed4ed54eb4c80e6640c23140507dea6e98f3",
+                "url": "https://api.github.com/repos/symfony/Debug/zipball/60d593cc32c291392339b0955a4e8cd4b0c44551",
+                "reference": "60d593cc32c291392339b0955a4e8cd4b0c44551",
                 "shasum": ""
             },
             "require": {
@@ -1329,7 +1332,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -1353,7 +1356,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-13 14:36:40"
+            "time": "2013-05-16 07:54:39"
         },
         {
             "name": "symfony/dependency-injection",
@@ -1615,12 +1618,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "6c5490b05ca47ebe7c43af369b679eb1ce0a9639"
+                "reference": "8f81e20ffb238fc395c06ab6279caf60ee806dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/6c5490b05ca47ebe7c43af369b679eb1ce0a9639",
-                "reference": "6c5490b05ca47ebe7c43af369b679eb1ce0a9639",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/8f81e20ffb238fc395c06ab6279caf60ee806dd9",
+                "reference": "8f81e20ffb238fc395c06ab6279caf60ee806dd9",
                 "shasum": ""
             },
             "require": {
@@ -1652,7 +1655,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -1676,7 +1679,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-13 14:36:40"
+            "time": "2013-05-16 07:54:39"
         },
         {
             "name": "symfony/process",
@@ -1953,16 +1956,16 @@
     "packages-dev": [
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.2.9",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "1.2.9"
+                "reference": "1.2.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1.2.9",
-                "reference": "1.2.9",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1.2.10",
+                "reference": "1.2.10",
                 "shasum": ""
             },
             "require": {
@@ -2002,7 +2005,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-02-26 18:55:56"
+            "time": "2013-05-13 05:49:10"
         },
         {
             "name": "phpunit/php-file-iterator",
