@@ -51,6 +51,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
         $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
         $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
         $this->getDefinition()->addOption(new InputOption('--safe', null, InputOption::VALUE_NONE, 'Enable safe mode (no bundles loaded, no kernel booted)'));
+        $this->getDefinition()->addOption(new InputOption('--git-version', null, InputOption::VALUE_NONE, 'See Git version'));
     }
 
     /**
@@ -66,6 +67,12 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        if ($input->hasParameterOption('--git-version')) {
+            $output->writeln(Sculpin::GIT_VERSION);
+
+            return;
+        }
+
         if ($input->hasParameterOption('--safe')) {
             // For safe mode we should enable the Composer
             // commands manually.
