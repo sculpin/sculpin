@@ -26,7 +26,6 @@
             ],
             "exclude": [
                 "phpunit",
-                "Test",
                 "Tests",
                 "tests"
             ],
