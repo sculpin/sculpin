@@ -4,9 +4,9 @@ php:
   - 5.3.3
   - 5.3
   - 5.4
+  - 5.5
 
 before_script:
-  - wget -nc http://getcomposer.org/composer.phar
-  - php composer.phar install --dev
+  - composer --prefer-source install
 
 script: phpunit --coverage-text --verbose
