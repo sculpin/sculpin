@@ -50,7 +50,7 @@ class PostsTagsDataProvider implements DataProviderInterface, EventSubscriberInt
     public static function getSubscribedEvents()
     {
         return array(
-            Sculpin::EVENT_BEFORE_RUN_AGAIN => 'beforeRun',
+            Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
         );
     }
 

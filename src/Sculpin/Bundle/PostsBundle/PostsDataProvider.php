@@ -105,8 +105,10 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
     public static function getSubscribedEvents()
     {
         return array(
-            Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-            Sculpin::EVENT_BEFORE_RUN_AGAIN => 'beforeRunAgain',
+            Sculpin::EVENT_BEFORE_RUN => array(
+                array('beforeRun', 0),
+                array('beforeRunPost', -100),
+            ),
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
         );
     }
@@ -169,11 +171,15 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
     }
 
     /**
-     * Before run (again)
+     * Before run (post)
+     *
+     * We make another pass at the EVENT_BEFORE_RUN after everyone else is done
+     * playing with the posts. We do this so that we can force sources that
+     * use posts to be updated if any of the posts show up as updated.
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRunAgain(SourceSetEvent $sourceSetEvent)
+    public function beforeRunPost(SourceSetEvent $sourceSetEvent)
     {
         $aPostHasChanged = false;
         foreach ($this->posts as $post) {

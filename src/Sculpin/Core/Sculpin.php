@@ -33,7 +33,6 @@ class Sculpin
     const GIT_VERSION = '@git_version@';
 
     const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
-    const EVENT_BEFORE_RUN_AGAIN = 'sculpin.core.before_run_again';
     const EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
     const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
@@ -131,9 +130,6 @@ class Sculpin
         $dataSource->refresh($sourceSet);
 
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet));
-
-        // TODO: Find a better name for this event.
-        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN_AGAIN, new SourceSetEvent($sourceSet));
 
         foreach ($sourceSet->updatedSources() as $source) {
             if (!$source->isGenerated()) {
