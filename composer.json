@@ -2,7 +2,7 @@
     "name": "sculpin/sculpin",
     "type": "application",
     "description": "Static Site Generator",
-    "homepage": "http://getsculpin.com",
+    "homepage": "https://sculpin.io",
     "keywords": ["static", "site", "generator"],
     "license": "MIT",
     "authors": [
