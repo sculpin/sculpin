@@ -15,7 +15,6 @@
     <services>
 
         <service id="sculpin_twig.flexible_extension_filesystem_loader" class="%sculpin_twig.flexible_extension_filesystem_loader.class%">
-            <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin_twig.view_paths%</argument>
             <argument>%sculpin_twig.extensions%</argument>
             <tag name="sculpin.path_configurator" type="exclude" parameter="sculpin_twig.view_paths" />
