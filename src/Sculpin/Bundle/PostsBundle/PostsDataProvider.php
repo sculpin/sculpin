@@ -141,7 +141,10 @@ class PostsDataProvider implements DataProviderInterface, EventSubscriberInterfa
                             }
                         }
 
-                        $tags[] = 'drafts';
+                        if (! in_array('drafts', $tags)) {
+                            // only add drafts if it isn't already in tags.
+                            $tags[] = 'drafts';
+                        }
                     }
                     $source->data()->set('tags', $tags);
                 }
