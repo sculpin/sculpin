@@ -1,56 +1,41 @@
 <?php
 
-/*
- * This file is a part of Sculpin.
- *
- * (c) Dragonfly Development Inc.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace Sculpin\Bundle\PostsBundle;
+namespace Sculpin\Contrib\Taxonomy;
 
 use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Generator\GeneratorInterface;
 use Sculpin\Core\Source\SourceInterface;
 
-/**
- * Posts Tag Index Generator.
- *
- * @author Beau Simensen <beau@dflydev.com>
- */
-class PostsTagIndexGenerator implements GeneratorInterface
+class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 {
-    /**
-     * Data Provider Manager
-     *
-     * @var DataProviderManager
-     */
-    protected $dataProviderManager;
+    private $dataProviderManager;
+    private $dataProviderName;
+    private $injectedTaxonKey;
+    private $injectedTaxonItemsKey;
 
-    /**
-     * Constructor
-     *
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
-     */
-    public function __construct(DataProviderManager $dataProviderManager)
-    {
+    public function __construct(
+        DataProviderManager $dataProviderManager,
+        $dataProviderName,
+        $injectedTaxonKey,
+        $injectedTaxonItemsKey
+    ) {
         $this->dataProviderManager = $dataProviderManager;
+        $this->dataProviderName = $dataProviderName; // post_tags
+        $this->injectedTaxonKey = $injectedTaxonKey; // tag
+        $this->injectedTaxonItemsKey = $injectedTaxonItemsKey; // tagged_posts
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generate(SourceInterface $source)
     {
         $generatedSources = array();
-        $tags = $this->dataProviderManager->dataProvider('posts_tags')->provideData();
+
+        $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
+        $taxons = $dataProvider->provideData();
 
         $generatedSources = array();
-        foreach ($tags as $tag => $posts) {
+        foreach ($taxons as $taxon => $items) {
             $generatedSource = $source->duplicate(
-                $source->sourceId().':tag='.$tag
+                $source->sourceId().':'.$this->injectedTaxonKey.'='.$taxon
             );
 
             $permalink = $source->data()->get('permalink') ?: $source->relativePathname();
@@ -59,7 +44,7 @@ class PostsTagIndexGenerator implements GeneratorInterface
             $permalink = dirname($permalink);
 
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
-                $permalink = $permalink.'/'.$tag.'/index.html';
+                $permalink = $permalink.'/'.$taxon.'/index.html';
             } else {
                 // not sure what case this is?
             }
@@ -73,8 +58,8 @@ class PostsTagIndexGenerator implements GeneratorInterface
                 $generatedSource->data()->set('permalink', $permalink);
             }
 
-            $generatedSource->data()->set('tagged_posts', $posts);
-            $generatedSource->data()->set('tag', $tag);
+            $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
+            $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);
 
             $generatedSources[] = $generatedSource;
         }

@@ -5,10 +5,10 @@
 
     <parameters>
         <parameter key="sculpin_posts.posts_data_provider.class">Sculpin\Bundle\PostsBundle\PostsDataProvider</parameter>
-        <parameter key="sculpin_posts.posts_tags_data_provider.class">Sculpin\Bundle\PostsBundle\PostsTagsDataProvider</parameter>
-        <parameter key="sculpin_posts.posts_tag_index_generator.class">Sculpin\Bundle\PostsBundle\PostsTagIndexGenerator</parameter>
-        <parameter key="sculpin_posts.posts_categories_data_provider.class">Sculpin\Bundle\PostsBundle\PostsCategoriesDataProvider</parameter>
-        <parameter key="sculpin_posts.posts_category_index_generator.class">Sculpin\Bundle\PostsBundle\PostsCategoryIndexGenerator</parameter>
+        <parameter key="sculpin_posts.posts_tags_data_provider.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider</parameter>
+        <parameter key="sculpin_posts.posts_tag_index_generator.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator</parameter>
+        <parameter key="sculpin_posts.posts_categories_data_provider.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider</parameter>
+        <parameter key="sculpin_posts.posts_category_index_generator.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator</parameter>
     </parameters>
 
     <services>
@@ -24,23 +24,33 @@
 
         <service id="sculpin_posts.posts_tags_data_provider" class="%sculpin_posts.posts_tags_data_provider.class%">
             <argument type="service" id="sculpin.data_provider_manager" />
+            <argument>posts</argument>
+            <argument>tags</argument>
             <tag name="kernel.event_subscriber" />
             <tag name="sculpin.data_provider" alias="posts_tags" />
         </service>
 
         <service id="sculpin_posts.posts_tag_index_generator" class="%sculpin_posts.posts_tag_index_generator.class%">
             <argument type="service" id="sculpin.data_provider_manager" />
+            <argument>posts_tags</argument>
+            <argument>tag</argument>
+            <argument>tagged_posts</argument>
             <tag name="sculpin.generator" alias="posts_tag_index" />
         </service>
 
         <service id="sculpin_posts.posts_categories_data_provider" class="%sculpin_posts.posts_categories_data_provider.class%">
             <argument type="service" id="sculpin.data_provider_manager" />
+            <argument>posts</argument>
+            <argument>categories</argument>
             <tag name="kernel.event_subscriber" />
             <tag name="sculpin.data_provider" alias="posts_categories" />
         </service>
 
         <service id="sculpin_posts.posts_category_index_generator" class="%sculpin_posts.posts_category_index_generator.class%">
             <argument type="service" id="sculpin.data_provider_manager" />
+            <argument>posts_categories</argument>
+            <argument>category</argument>
+            <argument>categoried_posts</argument>
             <tag name="sculpin.generator" alias="posts_category_index" />
         </service>
     </services>

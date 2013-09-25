@@ -1,7 +1,7 @@
 {
-    "name": "sculpin/posts-bundle",
-    "description": "Sculpin Bundle",
-    "homepage": "http://getsculpin.com",
+    "name": "sculpin/taxonomy-contrib",
+    "description": "Sculpin Taxonomy Contrib",
+    "homepage": "https://sculpin.io",
     "license": "MIT",
     "authors": [
         {
@@ -17,20 +17,16 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/config": "~2.1",
-        "symfony/dependency-injection": "~2.1",
-        "symfony/http-kernel": "~2.1",
-        "sculpin/taxonomy-contrib": "self.version",
+        "symfony/event-dispatcher": "~2.1",
         "sculpin/core": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Bundle\\PostsBundle": "" }
+        "psr-0": { "Sculpin\\Contrib\\Taxonomy": "" }
     },
-    "target-dir": "Sculpin/Bundle/PostsBundle",
+    "target-dir": "Sculpin/Contrib/Taxonomy",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
         }
-    },
-    "minimum-stability": "beta"
+    }
 }

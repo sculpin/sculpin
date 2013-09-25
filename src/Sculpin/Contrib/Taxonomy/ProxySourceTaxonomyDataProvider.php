@@ -1,0 +1,59 @@
+<?php
+
+namespace Sculpin\Contrib\Taxonomy;
+
+use Sculpin\Core\DataProvider\DataProviderInterface;
+use Sculpin\Core\DataProvider\DataProviderManager;
+use Sculpin\Core\Event\SourceSetEvent;
+use Sculpin\Core\Sculpin;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSubscriberInterface
+{
+    private $taxons = array();
+    private $dataProviderManager;
+    private $dataProviderName;
+    private $taxonomyKey;
+
+    public function __construct(
+        DataProviderManager $dataProviderManager,
+        $dataProviderName,
+        $taxonomyKey
+    ) {
+        $this->dataProviderManager = $dataProviderManager;
+        $this->dataProviderName = $dataProviderName;
+        $this->taxonomyKey = $taxonomyKey;
+    }
+
+    public function provideData()
+    {
+        return $this->taxons;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return array(
+            Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
+        );
+    }
+
+    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    {
+        $taxons = array();
+        $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
+
+        foreach ($dataProvider->provideData() as $item) {
+            if ($itemTaxons = $item->data()->get($this->taxonomyKey)) {
+                $normalizedItemTaxons = array();
+                foreach ((array) $itemTaxons as $itemTaxon) {
+                    $normalizedItemTaxon = trim($itemTaxon);
+                    $taxons[$normalizedItemTaxon][] = $item;
+                    $normalizedItemTaxons[] = $normalizedItemTaxon;
+                }
+                $item->data()->set($this->taxonomyKey, $normalizedItemTaxons);
+            }
+        }
+
+        $this->taxons = $taxons;
+    }
+}

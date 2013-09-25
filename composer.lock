@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "05e974f10ac7d36645c19067ed469f89",
+    "hash": "bc659d0ef8f9c6ba6042c832edd36791",
     "packages": [
         {
             "name": "composer/composer",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "da7ace02ebd07d24d9a114a40bdd25bb3f8e0422"
+                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/da7ace02ebd07d24d9a114a40bdd25bb3f8e0422",
-                "reference": "da7ace02ebd07d24d9a114a40bdd25bb3f8e0422",
+                "url": "https://api.github.com/repos/composer/composer/zipball/b482ebe0ca18321d9322bd913af73c1c55adebf1",
+                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-09-19 09:23:19"
+            "time": "2013-09-23 09:55:49"
         },
         {
             "name": "dflydev/ant-path-matcher",
