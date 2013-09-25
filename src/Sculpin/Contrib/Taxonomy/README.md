@@ -14,6 +14,11 @@ ProxySource Taxonomy
 provided to enable simple creationg oftaxons using `ProxySource` based objects.
 
 
+### ProxySourceTaxonomyDataProvider
+
+A  data provider that scans a source's data for a key that can contain a string
+or array of strings representing the taxons associated with the source.
+
 
 License
 -------
