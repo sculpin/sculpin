@@ -7,6 +7,14 @@ Sculpin sources.
 Visit [sculpin.io](http://sculpin.io) for more information.
 
 
+ProxySource Taxonomy
+--------------------
+
+`ProxySourceTaxonomyDataProvider` and `ProxySourceTaxonomyIndexGenerator` are
+provided to enable simple creationg oftaxons using `ProxySource` based objects.
+
+
+
 License
 -------
 
