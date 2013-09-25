@@ -19,6 +19,15 @@ provided to enable simple creationg oftaxons using `ProxySource` based objects.
 A  data provider that scans a source's data for a key that can contain a string
 or array of strings representing the taxons associated with the source.
 
+ * **DataProviderManager $dataProviderManager**:
+   A `DataProviderManager` instance.
+ * **(string) $dataProviderName**:
+   The name of the data provider.
+ * **(string) $taxonomyKey**:
+   The key in a source's data that contains the list of taxons. For example, if
+   the taxonomy is "Tags," and it is desired for the metadata to have the key
+   `tags`, the `$taxonomyKey` would be "tags".
+
 
 License
 -------
