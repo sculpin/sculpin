@@ -7,6 +7,8 @@ use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Sculpin;
+use Sculpin\Core\Source\Filter\FilterInterface;
+use Sculpin\Core\Source\Map\MapInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
@@ -14,23 +16,23 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     private $formatterManager;
     private $dataProviderName;
     private $collection;
-    private $matcher;
-    private $massager;
+    private $filter;
+    private $map;
     private $factory;
 
     public function __construct(
         FormatterManager $formatterManager,
         $dataProviderName,
         ProxySourceCollection $collection = null,
-        SourceMatcherInterface $matcher,
-        SourceMassagerInterface $massager,
+        FilterInterface $filter,
+        MapInterface $map,
         ProxySourceItemFactoryInterface $factory = null
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
         $this->collection = $collection ?: new ProxySourceCollection;
-        $this->matcher = $matcher ?: new NullSourceMatcher;
-        $this->massager = $massager ?: new NullSourceMassager;
+        $this->filter = $filter ?: new NullFilter;
+        $this->map = $map ?: new NullMap;
         $this->factory = $factory ?: new SimpleProxySourceItemFactory;
     }
 
@@ -53,8 +55,8 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
-            if ($this->matcher->matchSource($source)) {
-                $this->massager->massageSource($source);
+            if ($this->filter->match($source)) {
+                $this->map->process($source);
                 $this->collection[$source->sourceId()] = $this->factory->createProxysourceItem($source);
             }
         }

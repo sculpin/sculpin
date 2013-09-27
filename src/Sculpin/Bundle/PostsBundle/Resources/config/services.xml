@@ -7,8 +7,13 @@
         <parameter key="sculpin_posts.post.class">Sculpin\Bundle\PostsBundle\Post</parameter>
         <parameter key="sculpin_posts.post_factory.class">Sculpin\Contrib\ProxySourceCollection\SimpleProxySourceItemFactory</parameter>
         <parameter key="sculpin_posts.posts.class">Sculpin\Bundle\PostsBundle\Posts</parameter>
-        <parameter key="sculpin_posts.posts_source_massager.class">Sculpin\Bundle\PostsBundle\PostsSourceMassager</parameter>
-        <parameter key="sculpin_posts.posts_source_matcher.class">Sculpin\Bundle\PostsBundle\PostsSourceMatcher</parameter>
+        <parameter key="sculpin_posts.posts_path_filter.class">Sculpin\Core\Source\Filter\AntPathFilter</parameter>
+        <parameter key="sculpin_posts.posts_drafts_filter.class">Sculpin\Bundle\PostsBundle\PostsDraftsFilter</parameter>
+        <parameter key="sculpin_posts.posts_filter.class">Sculpin\Core\Source\Filter\ChainFilter</parameter>
+        <parameter key="sculpin_posts.posts_default_permalink_map.class">Sculpin\Core\Source\Map\DefaultPermalinkMap</parameter>
+        <parameter key="sculpin_posts.posts_calculated_date_from_filename_map.class">Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap</parameter>
+        <parameter key="sculpin_posts.posts_drafts_map.class">Sculpin\Bundle\PostsBundle\PostsDraftsMap</parameter>
+        <parameter key="sculpin_posts.posts_map.class">Sculpin\Core\Source\Map\ChainMap</parameter>
         <parameter key="sculpin_posts.posts_data_provider.class">Sculpin\Contrib\ProxySourceCollection\ProxySourceCollectionDataProvider</parameter>
         <parameter key="sculpin_posts.posts_tags_data_provider.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider</parameter>
         <parameter key="sculpin_posts.posts_tag_index_generator.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator</parameter>
@@ -19,15 +24,41 @@
     <services>
         <service id="sculpin_posts.posts" class="%sculpin_posts.posts.class%" />
 
-        <service id="sculpin_posts.posts_source_matcher" class="%sculpin_posts.posts_source_matcher.class%">
+        <!-- match sources based on configured paths -->
+        <service id="sculpin_posts.posts_path_filter" class="%sculpin_posts.posts_path_filter.class%">
             <argument>%sculpin_posts.paths%</argument>
-            <argument>%sculpin_posts.publish_drafts%</argument>
             <argument type="service" id="sculpin.matcher" />
         </service>
 
-        <service id="sculpin_posts.posts_source_massager" class="%sculpin_posts.posts_source_massager.class%">
-            <argument>%sculpin_posts.permalink%</argument>
+        <!-- match sources based on drafts flag -->
+        <service id="sculpin_posts.posts_drafts_filter" class="%sculpin_posts.posts_drafts_filter.class%">
+            <argument>%sculpin_posts.publish_drafts%</argument>
         </service>
+
+        <service id="sculpin_posts.posts_filter" class="%sculpin_posts.posts_filter.class%">
+            <argument type="collection">
+                <argument type="service" id="sculpin_posts.posts_path_filter" />
+                <argument type="service" id="sculpin_posts.posts_drafts_filter" />
+            </argument>
+        </service>
+
+        <!-- map default permalink -->
+        <service id="sculpin_posts.posts_default_permalink_map" class="%sculpin_posts.posts_default_permalink_map.class%">
+            <argument>%sculpin_posts.permalink%</argument>
+            <tag name="sculpin_posts.posts_map" />
+        </service>
+
+        <!-- map caluclated date from filename -->
+        <service id="sculpin_posts.posts_calculated_date_from_filename_map" class="%sculpin_posts.posts_calculated_date_from_filename_map.class%">
+            <tag name="sculpin_posts.posts_map" />
+        </service>
+
+        <!-- map drafts -->
+        <service id="sculpin_posts.posts_drafts_map" class="%sculpin_posts.posts_drafts_map.class%">
+            <tag name="sculpin_posts.posts_map" />
+        </service>
+
+        <service id="sculpin_posts.posts_map" class="%sculpin_posts.posts_map.class%" />
 
         <service id="sculpin_posts.post_factory" class="%sculpin_posts.post_factory.class%">
             <argument>%sculpin_posts.post.class%</argument>
@@ -37,8 +68,8 @@
             <argument type="service" id="sculpin.formatter_manager" />
             <argument>posts</argument>
             <argument type="service" id="sculpin_posts.posts" />
-            <argument type="service" id="sculpin_posts.posts_source_matcher" />
-            <argument type="service" id="sculpin_posts.posts_source_massager" />
+            <argument type="service" id="sculpin_posts.posts_filter" />
+            <argument type="service" id="sculpin_posts.posts_map" />
             <argument type="service" id="sculpin_posts.post_factory" />
             <tag name="sculpin.data_provider" alias="posts" />
             <tag name="kernel.event_subscriber" />
