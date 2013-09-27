@@ -37,6 +37,7 @@
 
         <service id="sculpin_posts.posts_filter" class="%sculpin_posts.posts_filter.class%">
             <argument type="collection">
+                <!-- Order is important here! Filter path before drafts! -->
                 <argument type="service" id="sculpin_posts.posts_path_filter" />
                 <argument type="service" id="sculpin_posts.posts_drafts_filter" />
             </argument>
