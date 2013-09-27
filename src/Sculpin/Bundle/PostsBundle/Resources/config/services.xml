@@ -49,7 +49,7 @@
             <tag name="sculpin_posts.posts_map" />
         </service>
 
-        <!-- map caluclated date from filename -->
+        <!-- map calculated date from filename -->
         <service id="sculpin_posts.posts_calculated_date_from_filename_map" class="%sculpin_posts.posts_calculated_date_from_filename_map.class%">
             <tag name="sculpin_posts.posts_map" />
         </service>
