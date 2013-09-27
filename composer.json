@@ -50,6 +50,7 @@
         "sculpin/markdown-bundle": "self.version",
         "sculpin/markdown-twig-compat-bundle": "self.version",
         "sculpin/posts-bundle": "self.version",
+        "sculpin/proxy-source-collection-contrib": "self.version",
         "sculpin/sculpin-bundle": "self.version",
         "sculpin/standalone-bundle": "self.version",
         "sculpin/taxonomy-contrib": "self.version",
