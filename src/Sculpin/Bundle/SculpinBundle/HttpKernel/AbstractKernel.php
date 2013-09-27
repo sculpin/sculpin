@@ -11,7 +11,9 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
@@ -107,6 +109,11 @@ abstract class AbstractKernel extends Kernel
         $container = $this->getContainerBuilder();
         $container->addObjectResource($this);
         $this->prepareContainer($container);
+
+        if (file_exists($this->rootDir.'/config/sculpin_services.yml')) {
+            $loader = new YamlFileLoader($container, new FileLocator($this->rootDir.'/config'));
+            $loader->load('sculpin_services.yml');
+        }
 
         if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
             $container->merge($cont);
