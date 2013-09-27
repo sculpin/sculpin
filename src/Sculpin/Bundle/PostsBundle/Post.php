@@ -11,175 +11,50 @@
 
 namespace Sculpin\Bundle\PostsBundle;
 
-use Sculpin\Core\Source\SourceInterface;
-use Sculpin\Core\Source\ProxySource;
+use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 
 /**
  * Post.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Post extends ProxySource
+class Post extends ProxySourceItem
 {
-    /**
-     * Previous post
-     *
-     * @var Post
-     */
-    protected $previousPost;
-
-    /**
-     * Next post
-     *
-     * @var Post
-     */
-    protected $nextPost;
-
-    /**
-     * ID
-     *
-     * @return string
-     */
-    public function id()
-    {
-        return $this->sourceId();
-    }
-
-    /**
-     * Date
-     *
-     * @return string
-     */
     public function date()
     {
         return $this->data()->get('calculated_date');
     }
 
-    /**
-     * Meta
-     *
-     * @return array
-     */
-    public function meta()
-    {
-        return $this->data()->export();
-    }
-
-    /**
-     * Title
-     *
-     * @return string
-     */
     public function title()
     {
         return $this->data()->get('title');
     }
 
-    /**
-     * URL
-     *
-     * @return string
-     */
-    public function url()
-    {
-        return $this->permalink()->relativeUrlPath();
-    }
-
-    /**
-     * Blocks
-     *
-     * @return array
-     */
-    public function blocks()
-    {
-        return $this->data()->get('blocks');
-    }
-
-    /**
-     * Set Blocks
-     *
-     * @param array $blocks
-     */
-    public function setBlocks(array $blocks = null)
-    {
-        $this->data()->set('blocks', $blocks ?: array());
-    }
-
-    /**
-     * Previous Post
-     *
-     * @return Post
-     */
     public function previousPost()
     {
-        return $this->previousPost;
+        return $this->previousItem();
     }
 
-    /**
-     * Set previous Post
-     *
-     * @param Post $post
-     */
-    public function setPreviousPost(Post $post = null)
+    public function setPreviousItem(ProxySourceItem $item = null)
     {
-        $lastPreviousPost = $this->previousPost;
-        $this->previousPost = $post;
-        $this->data()->set('previous_post', $post);
-        $this->data()->set('previousPost', $post); // @deprecated
-        if ($lastPreviousPost) {
-            // We did have a post before...
-            if (!$post || $post->id() !== $lastPreviousPost->id()) {
-                // But we no longer have a post or the post we
-                // were given does not have the same ID as the
-                // last one we had...
-                $this->reprocess();
-            }
-        } elseif ($post) {
-            // We didn't have a post before but we do now...
-            $this->reprocess();
-        }
+        parent::setPreviousItem($item);
+
+        // expose additional metadata
+        $this->data()->set('previous_post', $item);
+        $this->data()->set('previousPost', $item); // @deprecated
     }
 
-    /**
-     * Next Post
-     *
-     * @return Post
-     */
     public function nextPost()
     {
-        return $this->nextPost;
+        return $this->nextItem();
     }
 
-    /**
-     * Set next Post
-     *
-     * @param Post $post
-     */
-    public function setNextPost(Post $post = null)
+    public function setNextItem(ProxySourceItem $item = null)
     {
-        $lastNextPost = $this->nextPost;
-        $this->nextPost = $post;
-        $this->data()->set('next_post', $post);
-        $this->data()->set('nextPost', $post); // @deprecated
-        if ($lastNextPost) {
-            // We did have a post before...
-            if (!$post || $post->id() !== $lastNextPost->id()) {
-                // But we no longer have a post or the post we
-                // were given does not have the same ID as the
-                // last one we had...
-                $this->reprocess();
-            }
-        } elseif ($post) {
-            // We didn't have a post before but we do now...
-            $this->reprocess();
-        }
-    }
+        parent::setNextItem($item);
 
-    /**
-     * Post needs to be reprocessed
-     */
-    public function reprocess()
-    {
-        $this->setHasChanged();
+        // expose additional metadata
+        $this->data()->set('next_post', $item);
+        $this->data()->set('nextPost', $item); // @deprecated
     }
 }
