@@ -10,7 +10,7 @@
         <parameter key="sculpin_posts.posts_path_filter.class">Sculpin\Core\Source\Filter\AntPathFilter</parameter>
         <parameter key="sculpin_posts.posts_drafts_filter.class">Sculpin\Bundle\PostsBundle\PostsDraftsFilter</parameter>
         <parameter key="sculpin_posts.posts_filter.class">Sculpin\Core\Source\Filter\ChainFilter</parameter>
-        <parameter key="sculpin_posts.posts_default_permalink_map.class">Sculpin\Core\Source\Map\DefaultPermalinkMap</parameter>
+        <parameter key="sculpin_posts.posts_defaults_map.class">Sculpin\Core\Source\Map\DefaultDataMap</parameter>
         <parameter key="sculpin_posts.posts_calculated_date_from_filename_map.class">Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap</parameter>
         <parameter key="sculpin_posts.posts_drafts_map.class">Sculpin\Bundle\PostsBundle\PostsDraftsMap</parameter>
         <parameter key="sculpin_posts.posts_map.class">Sculpin\Core\Source\Map\ChainMap</parameter>
@@ -44,8 +44,11 @@
         </service>
 
         <!-- map default permalink -->
-        <service id="sculpin_posts.posts_default_permalink_map" class="%sculpin_posts.posts_default_permalink_map.class%">
-            <argument>%sculpin_posts.permalink%</argument>
+        <service id="sculpin_posts.posts_defaults_map" class="%sculpin_posts.posts_defaults_map.class%">
+            <argument type="collection">
+                <argument key="permalink">%sculpin_posts.permalink%</argument>
+                <argument key="layout">%sculpin_posts.layout%</argument>
+            </argument>
             <tag name="sculpin_posts.posts_map" />
         </service>
 

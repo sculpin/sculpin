@@ -38,6 +38,11 @@ class SculpinPostsExtension extends Extension
         if (isset($config['permalink'])) {
             $container->setParameter('sculpin_posts.permalink', $config['permalink']);
         }
+        if (isset($config['layout'])) {
+            $container->setParameter('sculpin_posts.layout', $config['layout']);
+        } else {
+            $container->setParameter('sculpin_posts.layout', null);
+        }
 
         if (null !== $config['publish_drafts']) {
             $container->setParameter('sculpin_posts.publish_drafts', $config['publish_drafts']);
