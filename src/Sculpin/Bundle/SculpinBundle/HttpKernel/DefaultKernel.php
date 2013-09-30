@@ -18,4 +18,11 @@ namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
  */
 class DefaultKernel extends AbstractKernel
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAdditionalSculpinBundles()
+    {
+        return array();
+    }
 }

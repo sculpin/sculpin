@@ -23,8 +23,8 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class AbstractKernel extends Kernel
 {
-    protected $isSymfonyStandard = false;
     protected $projectDir;
+    protected $missingSculpinBundles = array();
 
     /**
      * {@inheritdoc}
@@ -59,6 +59,7 @@ abstract class AbstractKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
+            new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
@@ -68,8 +69,12 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
         );
 
-        if (!$this->isSymfonyStandard) {
-            array_unshift($bundles, new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle);
+        foreach ($this->getAdditionalSculpinBundles() as $class) {
+            if (class_exists($class)) {
+                $bundles[] = new $class();
+            } else {
+                $this->missingSculpinBundles[] = $class;
+            }
         }
 
         return $bundles;
@@ -131,4 +136,27 @@ abstract class AbstractKernel extends Kernel
         $container->set('kernel', $this);
         $this->container = $container;
     }
+
+    /**
+     * Get Sculpin bundles that were requested but were not found
+     *
+     * This can happen if a bundle is requested but has not been required and
+     * installed by Composer. Chances are this will lead to a lot of really bad
+     * things. This should be checked early by any Console applications to
+     * ensure that proper warnings are issued if there are any missing bundles
+     * detected.
+     *
+     * @return array
+     */
+    public function getMissingSculpinBundles()
+    {
+        return $this->missingSculpinBundles;
+    }
+
+    /**
+     * Get additional Sculpin bundles to register
+     *
+     * @return array
+     */
+    abstract protected function getAdditionalSculpinBundles();
 }
