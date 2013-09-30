@@ -73,6 +73,7 @@ class SourcePermalinkFactory
         $pathname = $source->relativePathname();
         $date = $source->data()->get('calculated_date');
         $title = $source->data()->get('title');
+        $slug = $source->data()->get('slug');
         if (!$permalink = $source->data()->get('permalink')) {
             $permalink = $this->defaultPermalink;
         }
@@ -109,11 +110,13 @@ class SourcePermalinkFactory
                 $permalink = preg_replace('/:day/', $day, $permalink);
                 $permalink = preg_replace('/:dy/', $dy, $permalink);
                 $permalink = preg_replace('/:title/', $this->normalize($title), $permalink);
+                $permalink = preg_replace('/:slug_title/', $this->normalize($slug ?: $title), $permalink);
                 $filename = $pathname;
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];
                 }
                 $permalink = preg_replace('/:filename/', $filename, $permalink);
+                $permalink = preg_replace('/:slug_filename/', $this->normalize($slug ?: $filename), $permalink);
                 if (substr($permalink, -1, 1) == '/') {
                     $permalink .= 'index.html';
                 }
