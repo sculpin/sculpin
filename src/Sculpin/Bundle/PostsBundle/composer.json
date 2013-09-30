@@ -1,7 +1,8 @@
 {
     "name": "sculpin/posts-bundle",
     "description": "Sculpin Bundle",
-    "homepage": "http://getsculpin.com",
+    "homepage": "https://sculpin.io",
+    "keywords": ["posts", "blogging", "blog", "static", "site"],
     "license": "MIT",
     "authors": [
         {
@@ -30,7 +31,7 @@
     "target-dir": "Sculpin/Bundle/PostsBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.0.x-dev"
         }
     },
     "minimum-stability": "beta"
