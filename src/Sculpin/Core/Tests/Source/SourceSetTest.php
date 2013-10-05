@@ -12,12 +12,21 @@
 namespace Sculpin\Core\Tests\Formatter;
 
 use Sculpin\Core\Source\SourceSet;
+use Sculpin\Core\Tests\Base;
+use Sculpin\Core\Source\SourceInterface;
 
-class SourceSetTest extends \PHPUnit_Framework_TestCase
+class SourceSetTest extends Base
 {
+    /**
+     * @param string $sourceId
+     * @param bool   $hasChanged
+     * @return \PHPUnit_Framework_MockObject_MockObject|SourceInterface
+     */
     public function makeTestSource($sourceId, $hasChanged = true)
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this
+            ->getMockBuilder('Sculpin\Core\Source\SourceInterface')
+            ->getMock();
 
         $source
             ->expects($this->any())
