@@ -179,7 +179,7 @@ class FilesystemDataSource implements DataSourceInterface
                 }
                 if ($this->matcher->match(
                         $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                        $this->directorySeparatorNormalizer->normalize($file->getPathname())
                     )
                 ) {
                     $excludedFilesHaveChanged = true;
