@@ -52,9 +52,9 @@ class SourcePermalinkFactory
             if (strpos(basename($relativeFilePath), 'index.') === false) {
                 $relativeUrlPath = $relativeFilePath;
             } else {
-                $relativeUrlPath = '/'.dirname($relativeFilePath);
+                $relativeUrlPath = '/'.dirname($relativeFilePath).'/';
             }
-            if ($relativeUrlPath == '/.') {
+            if ($relativeUrlPath == '/./') {
                 $relativeUrlPath = '/';
             }
         } else {
