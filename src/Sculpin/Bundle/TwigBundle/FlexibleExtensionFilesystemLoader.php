@@ -31,11 +31,22 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
      * @param array  $paths      Paths
      * @param array  $extensions Extensions
      */
-    public function __construct(array $paths, array $extensions)
+    public function __construct($sourceDir, array $sourcePaths, array $paths, array $extensions)
     {
-        $this->filesystemLoader = new FilesystemLoader(array_filter($paths, function($path) {
-            return file_exists($path);
-        }));
+        $mappedSourcePaths = array_map(function ($path) use ($sourceDir) {
+            return $sourceDir.'/'.$path;
+        }, $sourcePaths);
+
+        $allPaths = array_merge(
+            array_filter($mappedSourcePaths, function($path) {
+                return file_exists($path);
+            }),
+            array_filter($paths, function($path) {
+                return file_exists($path);
+            })
+        );
+
+        $this->filesystemLoader = new FilesystemLoader($allPaths);
         $this->extensions = array_map(function($ext) {
             return $ext?'.'.$ext:$ext;
         }, $extensions);

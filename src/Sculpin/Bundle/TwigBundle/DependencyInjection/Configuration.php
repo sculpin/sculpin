@@ -33,7 +33,10 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('view_paths')
-                    ->defaultValue(array('%sculpin.source_dir%/_views'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('source_view_paths')
+                    ->defaultValue(array('_views'))
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('extensions')

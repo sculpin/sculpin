@@ -34,6 +34,7 @@ class SculpinTwigExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        $container->setParameter('sculpin_twig.source_view_paths', $config['source_view_paths']);
         $container->setParameter('sculpin_twig.view_paths', $config['view_paths']);
         $container->setParameter('sculpin_twig.extensions', $config['extensions']);
     }
