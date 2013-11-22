@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-console.git",
-                "reference": "893c36967d8f6376dfd0fcdc02aac298f2263e57"
+                "reference": "7dab34a7afc9542ab1f41a98409cbfdfd6c59f33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-console/zipball/893c36967d8f6376dfd0fcdc02aac298f2263e57",
-                "reference": "893c36967d8f6376dfd0fcdc02aac298f2263e57",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-console/zipball/7dab34a7afc9542ab1f41a98409cbfdfd6c59f33",
+                "reference": "7dab34a7afc9542ab1f41a98409cbfdfd6c59f33",
                 "shasum": ""
             },
             "require": {
@@ -402,7 +402,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-05-21 17:09:09"
+            "time": "2013-11-22 19:40:29"
         },
         {
             "name": "dflydev/embedded-composer-core",
