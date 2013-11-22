@@ -14,6 +14,10 @@ namespace Sculpin\Bundle\SculpinBundle\Console;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Sculpin\Core\Sculpin;
+use Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand;
+use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
+use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
+use Sculpin\Bundle\SculpinBundle\Command\UpdateCommand;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -74,10 +78,12 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
         }
 
         if ($input->hasParameterOption('--safe')) {
-            // For safe mode we should enable the Composer
-            // commands manually.
-            $this->add(new InstallCommand);
-            $this->add(new UpdateCommand);
+            // For safe mode we should enable some commands
+            // manually because we won't enable any others.
+            $this->add(new DumpAutoloadCommand(''));
+            $this->add(new InstallCommand(''));
+            $this->add(new SelfUpdateCommand(''));
+            $this->add(new UpdateCommand(''));
         } else {
             $this->registerCommands();
         }

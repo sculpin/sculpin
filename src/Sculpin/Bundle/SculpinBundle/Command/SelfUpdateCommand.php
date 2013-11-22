@@ -19,21 +19,35 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Igor Wiedler <igor@wiedler.ch>
  */
-class SelfUpdateCommand extends Command
+class SelfUpdateCommand extends AbstractCommand
 {
     protected $message = '';
+    private $commandPrefix;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($commandPrefix = 'sculpin:')
+    {
+        $this->commandPrefix = $this->isStandaloneSculpin()
+            ? ''
+            : $commandPrefix;
+
+        parent::__construct();
+    }
 
     protected function configure()
     {
+        $fullCommand = $this->commandPrefix.'dump-autoload';
         $this
-            ->setName('self-update')
-            ->setAliases(array('selfupdate'))
+            ->setName($fullCommand)
+            ->setAliases(array($this->commandPrefix.'selfupdate'))
             ->setDescription('Updates sculpin to the latest version.')
             ->setHelp(<<<EOT
 The <info>self-update</info> command checks for newer versions of sculpin and if found,
 installs the latest.
 
-<info>sculpin self-update</info>
+<info>sculpin ${fullCommand}</info>
 
 EOT
             )
