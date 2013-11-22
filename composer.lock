@@ -411,12 +411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-core.git",
-                "reference": "4c6605ded659312fcec8048493ee58e1953543d3"
+                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/4c6605ded659312fcec8048493ee58e1953543d3",
-                "reference": "4c6605ded659312fcec8048493ee58e1953543d3",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/8e8e0f81c1d40a179ba003e62a423f8067840843",
+                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +458,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-05-21 17:09:09"
+            "time": "2013-11-22 16:20:32"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1152,16 +1152,16 @@
         },
         {
             "name": "seld/jsonlint",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/jsonlint.git",
-                "reference": "2b5b57008ec93148fa46110d42c7a201a6677fe0"
+                "reference": "7cd4c4965e17e6e4c07f26d566619a4c76f8c672"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/2b5b57008ec93148fa46110d42c7a201a6677fe0",
-                "reference": "2b5b57008ec93148fa46110d42c7a201a6677fe0",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/7cd4c4965e17e6e4c07f26d566619a4c76f8c672",
+                "reference": "7cd4c4965e17e6e4c07f26d566619a4c76f8c672",
                 "shasum": ""
             },
             "require": {
@@ -1195,7 +1195,7 @@
                 "parser",
                 "validator"
             ],
-            "time": "2013-02-11 23:03:12"
+            "time": "2013-11-04 15:41:11"
         },
         {
             "name": "symfony/class-loader",
