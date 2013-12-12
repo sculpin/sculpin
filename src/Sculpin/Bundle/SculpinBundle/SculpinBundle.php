@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle;
 
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\ConverterManagerPass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataSourcePass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataProviderManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\GeneratorManagerPass;
@@ -40,5 +41,6 @@ class SculpinBundle extends Bundle
         $container->addCompilerPass(new GeneratorManagerPass);
         $container->addCompilerPass(new PathConfiguratorPass);
         $container->addCompilerPass(new CustomMimeTypesRepositoryPass);
+        $container->addCompilerPass(new DataSourcePass);
     }
 }

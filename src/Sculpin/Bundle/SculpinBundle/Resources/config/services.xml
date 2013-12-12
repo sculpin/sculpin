@@ -15,6 +15,7 @@
         <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
         <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
         <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
+        <parameter key="sculpin.default_config_filesystem_data_source.class">Sculpin\Core\Source\ConfigFilesystemDataSource</parameter>
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
         <parameter key="sculpin.finder_factory.class">Dflydev\Symfony\FinderFactory\FinderFactory</parameter>
         <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
@@ -100,13 +101,19 @@
             <argument type="service" id="sculpin.finder_factory" />
             <argument type="service" id="sculpin.matcher" />
             <argument type="service" id="sculpin.canal.analyzer" />
+            <tag name="sculpin.data_source" />
         </service>
 
-        <service id="sculpin.data_source" class="%sculpin.data_source.class%">
-            <argument type="collection">
-                <argument type="service" id="sculpin.default_filesystem_data_source" />
-            </argument>
+        <service id="sculpin.default_config_filesystem_data_source" class="%sculpin.default_config_filesystem_data_source.class%">
+            <argument>%kernel.root_dir%/config</argument>
+            <argument type="service" id="sculpin.site_configuration" />
+            <argument type="service" id="sculpin.site_configuration_factory" />
+            <argument type="service" id="sculpin.finder_factory" />
+            <argument type="service" id="sculpin.matcher" />
+            <tag name="sculpin.data_source" />
         </service>
+
+        <service id="sculpin.data_source" class="%sculpin.data_source.class%" />
 
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
