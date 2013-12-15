@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\TwigBundle;
 
 use Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler\TwigEnvironmentPass;
+use Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler\TwigLoaderPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -32,5 +33,6 @@ class SculpinTwigBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new TwigEnvironmentPass);
+        $container->addCompilerPass(new TwigLoaderPass);
     }
 }
