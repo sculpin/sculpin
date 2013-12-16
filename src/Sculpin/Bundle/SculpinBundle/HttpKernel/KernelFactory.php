@@ -35,7 +35,9 @@ class KernelFactory
         // do something here to locate and try to create
         // a custom kernel.
 
-        $projectDir = realpath($input->getParameterOption('--project-dir') ?: '.');
+        // We are relying on our calling script to chdir as appropriate with any
+        // --project-directory that was specified.
+        $projectDir = getcwd();
 
         if (file_exists($customKernel = $projectDir.'/app/SculpinKernel.php')) {
             require $customKernel;

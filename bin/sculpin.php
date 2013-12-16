@@ -46,12 +46,22 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput;
 
-$projectDir = $input->getParameterOption('--project-dir') ?: null;
+if ($projectDir = $input->getParameterOption('--project-dir')) {
+    if (false !== strpos($projectDir, '~') && function_exists('posix_getuid')) {
+        $info = posix_getpwuid(posix_getuid());
+        $projectDir = str_replace('~', $info['dir'], $projectDir);
+    }
 
-$embeddedComposerBuilder = new EmbeddedComposerBuilder(
-    $classLoader,
-    $projectDir
-);
+    if (! is_dir($projectDir)) {
+        throw new \InvalidArgumentException(
+            sprintf("Specified project directory %s does not exist", $projectDir)
+        );
+    }
+
+    chdir($projectDir);
+}
+
+$embeddedComposerBuilder = new EmbeddedComposerBuilder($classLoader);
 
 $embeddedComposer = $embeddedComposerBuilder
     ->setComposerFilename('sculpin.json')
