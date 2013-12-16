@@ -43,7 +43,6 @@ EOT
     {
         $themeRegistry = $this->getContainer()->get('sculpin_theme.theme_registry');
         $activeTheme = $this->getContainer()->getParameter('sculpin_theme.theme');
-        print $this->getContainer()->getParameter('sculpin_theme.exclude_pattern');
         $themes = $themeRegistry->listThemes();
 
         foreach ($themes as $theme) {
