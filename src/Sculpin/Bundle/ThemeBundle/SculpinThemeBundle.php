@@ -9,30 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\TwigBundle;
+namespace Sculpin\Bundle\ThemeBundle;
 
-use Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler\TwigEnvironmentPass;
-use Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler\TwigLoaderPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Twig Bundle.
+ * Sculpin Theme Bundle.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinTwigBundle extends Bundle
+class SculpinThemeBundle extends Bundle
 {
-    const FORMATTER_NAME = 'twig';
-
     /**
      * {@inheritdoc}
      */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-
-        $container->addCompilerPass(new TwigEnvironmentPass);
-        $container->addCompilerPass(new TwigLoaderPass);
     }
 }

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6a0cd72c3c8b24055aaf9f39ebbeb375",
+    "hash": "98bc08cb02cab96fb430bda86605ed6e",
     "packages": [
         {
             "name": "composer/composer",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1"
+                "reference": "95bafebc75d93e8cdcd492d826bd946c206e906a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/b482ebe0ca18321d9322bd913af73c1c55adebf1",
-                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1",
+                "url": "https://api.github.com/repos/composer/composer/zipball/95bafebc75d93e8cdcd492d826bd946c206e906a",
+                "reference": "95bafebc75d93e8cdcd492d826bd946c206e906a",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-09-23 09:55:49"
+            "time": "2013-12-16 15:22:45"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -411,12 +411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-core.git",
-                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843"
+                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/8e8e0f81c1d40a179ba003e62a423f8067840843",
-                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
+                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +458,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-11-22 16:20:32"
+            "time": "2013-12-16 15:24:21"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1149,6 +1149,38 @@
                 "stream"
             ],
             "time": "2012-12-14 00:58:14"
+        },
+        {
+            "name": "sculpin/sculpin-theme-composer-plugin",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sculpin/sculpin-theme-composer-plugin.git",
+                "reference": "22553329741ca6666b10e5073b76e0dd23806aee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sculpin/sculpin-theme-composer-plugin/zipball/22553329741ca6666b10e5073b76e0dd23806aee",
+                "reference": "22553329741ca6666b10e5073b76e0dd23806aee",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "1.0.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Sculpin\\Composer\\SculpinThemePlugin\\SculpinThemePlugin",
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Sculpin\\Composer\\SculpinThemePlugin\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2013-12-16 05:47:32"
         },
         {
             "name": "seld/jsonlint",

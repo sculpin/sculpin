@@ -66,6 +66,7 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle,
             new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
             new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
+            new \Sculpin\Bundle\ThemeBundle\SculpinThemeBundle,
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
         );
 

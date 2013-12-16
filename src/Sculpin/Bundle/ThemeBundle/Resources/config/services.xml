@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sculpin_theme.root_dir">themes</parameter>
+        <parameter key="sculpin_theme.exclude_patterns" type="collection">
+            <parameter>%sculpin_theme.root_dir%/*/_views/**</parameter>
+            <parameter>%sculpin_theme.root_dir%/*/theme.yml</parameter>
+        </parameter>
+        <parameter key="sculpin_theme.theme_registry.class">Sculpin\Bundle\ThemeBundle\ThemeRegistry</parameter>
+        <parameter key="sculpin_theme.theme_twig_loader.class">Sculpin\Bundle\ThemeBundle\ThemeTwigLoader</parameter>
+        <parameter key="sculpin_theme.theme_twig_extension.class">Sculpin\Bundle\ThemeBundle\ThemeTwigExtension</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="sculpin_theme.theme_registry" class="%sculpin_theme.theme_registry.class%">
+            <argument type="service" id="sculpin.finder_factory" />
+            <argument>%sculpin_theme.directory%</argument>
+            <argument>%sculpin_theme.theme%</argument>
+            <tag name="sculpin.path_configurator" type="exclude" parameter="sculpin_theme.exclude_patterns" />
+        </service>
+
+        <service id="sculpin_theme.theme_twig_loader" class="%sculpin_theme.theme_twig_loader.class%">
+            <argument type="service" id="sculpin_theme.theme_registry" />
+            <argument>%sculpin_twig.extensions%</argument>
+            <tag name="twig.loaders.append" />
+        </service>
+
+        <service id="sculpin_theme.theme_twig_extension" class="%sculpin_theme.theme_twig_extension.class%">
+            <argument type="service" id="sculpin_theme.theme_registry" />
+            <argument>%sculpin.source_dir%</argument>
+            <argument>%sculpin_theme.root_dir%</argument>
+            <tag name="twig.extension" />
+        </service>
+
+    </services>
+
+</container>
