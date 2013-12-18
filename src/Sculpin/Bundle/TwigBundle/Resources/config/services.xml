@@ -10,6 +10,7 @@
         <parameter key="sculpin_twig.template_resetter.class">Sculpin\Bundle\TwigBundle\TemplateResetter</parameter>
         <parameter key="sculpin_twig.twig.class">Twig_Environment</parameter>
         <parameter key="sculpin_twig.formatter.class">Sculpin\Bundle\TwigBundle\TwigFormatter</parameter>
+        <parameter key="sculpin_twig.extensions.debug.class">Twig_Extension_Debug</parameter>
     </parameters>
 
     <services>
@@ -36,6 +37,9 @@
 
         <service id="sculpin_twig.twig" class="%sculpin_twig.twig.class%">
             <argument type="service" id="sculpin_twig.loader" />
+            <argument type="collection">
+                <argument key="debug">%kernel.debug%</argument>
+            </argument>
         </service>
 
         <service id="sculpin_twig.formatter" class="%sculpin_twig.formatter.class%">
@@ -47,6 +51,10 @@
         <service id="sculpin_twig.template_resetter" class="%sculpin_twig.template_resetter.class%">
             <argument type="service" id="sculpin_twig.twig" />
             <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="sculpin_twig.extensions.debug" class="%sculpin_twig.extensions.debug.class%">
+            <tag name="twig.extension" />
         </service>
 
     </services>
