@@ -14,16 +14,28 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
 
         $theme = $themeRegistry->findActiveTheme();
         if (null !== $theme) {
-            if (isset($theme['_views'])) {
-                $loaders[] = new FlexibleExtensionFilesystemLoader('', array(), array($theme['_views']), $extensions);
+            $paths = $this->findPaths($theme);
+            if (isset($theme['parent'])) {
+                $paths = $this->findPaths($theme['parent'], $paths);
             }
 
-            if (isset($theme['parent']) && isset($theme['parent']['_views'])) {
-                $loaders[] = new FlexibleExtensionFilesystemLoader('', array(), array($theme['parent']['_views']), $extensions);
+            if ($paths) {
+                $loaders[] = new FlexibleExtensionFilesystemLoader('', array(), $paths, $extensions);
             }
         }
 
         $this->chainLoader = new \Twig_Loader_Chain($loaders);
+    }
+
+    private function findPaths($theme, array $paths = array())
+    {
+        foreach (array('_views', '_layouts', '_includes', '_partials') as $type) {
+            if (is_dir($viewPath = $theme['path'].'/'.$type)) {
+                $paths[] = $viewPath;
+            }
+        }
+
+        return $paths;
     }
 
     /**

@@ -38,11 +38,6 @@ class ThemeRegistry
             if (file_exists($directory.'/theme.yml')) {
                 $theme = array_merge(Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
             }
-
-            if (file_exists($directory.'/_views') and is_dir($directory.'/_views')) {
-                $theme['_views'] = $directory.'/_views';
-            }
-
             $themes[$theme['name']] = $theme;
         }
 

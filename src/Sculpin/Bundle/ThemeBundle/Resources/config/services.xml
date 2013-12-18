@@ -7,6 +7,9 @@
         <parameter key="sculpin_theme.root_dir">themes</parameter>
         <parameter key="sculpin_theme.exclude_patterns" type="collection">
             <parameter>%sculpin_theme.root_dir%/*/_views/**</parameter>
+            <parameter>%sculpin_theme.root_dir%/*/_layouts/**</parameter>
+            <parameter>%sculpin_theme.root_dir%/*/_includes/**</parameter>
+            <parameter>%sculpin_theme.root_dir%/*/_partials/**</parameter>
             <parameter>%sculpin_theme.root_dir%/*/theme.yml</parameter>
         </parameter>
         <parameter key="sculpin_theme.theme_registry.class">Sculpin\Bundle\ThemeBundle\ThemeRegistry</parameter>
