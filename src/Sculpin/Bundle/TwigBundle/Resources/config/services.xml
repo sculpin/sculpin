@@ -11,6 +11,7 @@
         <parameter key="sculpin_twig.twig.class">Twig_Environment</parameter>
         <parameter key="sculpin_twig.formatter.class">Sculpin\Bundle\TwigBundle\TwigFormatter</parameter>
         <parameter key="sculpin_twig.extensions.debug.class">Twig_Extension_Debug</parameter>
+        <parameter key="sculpin_twig.extensions.intl.class">Twig_Extensions_Extension_Intl</parameter>
     </parameters>
 
     <services>
@@ -54,6 +55,10 @@
         </service>
 
         <service id="sculpin_twig.extensions.debug" class="%sculpin_twig.extensions.debug.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="sculpin_twig.extensions.intl" class="%sculpin_twig.extensions.intl.class%">
             <tag name="twig.extension" />
         </service>
 
