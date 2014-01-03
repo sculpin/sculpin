@@ -88,6 +88,14 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             $this->registerCommands();
         }
 
+        // Display missing bundle to user.
+        if ($missing_bundle = $this->kernel->getMissingSculpinBundles()) {
+            $output->writeln('<error>There are some missing bundle:</error>');
+            foreach ($missing_bundle as $bundle) {
+                $output->writeln(" + $bundle");
+            }
+        }
+
         parent::doRun($input, $output);
     }
 
