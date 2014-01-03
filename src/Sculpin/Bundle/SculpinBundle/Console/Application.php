@@ -19,8 +19,11 @@ use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
 use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
 use Sculpin\Bundle\SculpinBundle\Command\UpdateCommand;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
@@ -67,6 +70,24 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function run(InputInterface $input = null, OutputInterface $output = null)
+    {
+        if (null === $output) {
+            $styles = array(
+                'highlight' => new OutputFormatterStyle('red'),
+                'warning' => new OutputFormatterStyle('black', 'yellow'),
+            );
+            $formatter = new OutputFormatter(null, $styles);
+            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+        }
+
+        return parent::run($input, $output);
+    }
+
+
+    /**
      * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -88,15 +109,28 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             $this->registerCommands();
         }
 
+        parent::doRun($input, $output);
+
+        foreach ($this->getMissingSculpinBundlesMessages() as $message) {
+            $output->writeln($message);
+        }
+    }
+
+    public function getMissingSculpinBundlesMessages()
+    {
+        $messages = array();
+
         // Display missing bundle to user.
-        if ($missing_bundle = $this->kernel->getMissingSculpinBundles()) {
-            $output->writeln('<error>There are some missing bundle:</error>');
-            foreach ($missing_bundle as $bundle) {
-                $output->writeln(" + $bundle");
+        if ($missingBundles = $this->kernel->getMissingSculpinBundles()) {
+            $messages[] = '';
+            $messages[] = '<comment>Missing Sculpin Bundles:</comment>';
+            foreach ($missingBundles as $bundle) {
+                $messages[] = "  * <highlight>$bundle</highlight>";
             }
+            $messages[] = '';
         }
 
-        parent::doRun($input, $output);
+        return $messages;
     }
 
     /**

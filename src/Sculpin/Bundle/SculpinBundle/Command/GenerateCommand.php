@@ -51,6 +51,10 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        foreach ($this->getApplication()->getMissingSculpinBundlesMessages() as $message) {
+            $output->writeln($message);
+        }
+
         $watch = $input->getOption('watch') ?: false;
         $sculpin = $this->getContainer()->get('sculpin');
         $dataSource = $this->getContainer()->get('sculpin.data_source');
