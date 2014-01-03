@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "98bc08cb02cab96fb430bda86605ed6e",
+    "hash": "3322dbd937b46f79be434325575f2d2e",
     "packages": [
         {
             "name": "composer/composer",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "95bafebc75d93e8cdcd492d826bd946c206e906a"
+                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/95bafebc75d93e8cdcd492d826bd946c206e906a",
-                "reference": "95bafebc75d93e8cdcd492d826bd946c206e906a",
+                "url": "https://api.github.com/repos/composer/composer/zipball/b482ebe0ca18321d9322bd913af73c1c55adebf1",
+                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-12-16 15:22:45"
+            "time": "2013-09-23 09:55:49"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -411,12 +411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-core.git",
-                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8"
+                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
-                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/8e8e0f81c1d40a179ba003e62a423f8067840843",
+                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +458,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-12-16 15:24:21"
+            "time": "2013-11-22 16:20:32"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1854,6 +1854,53 @@
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
             "time": "2013-08-24 15:26:22"
+        },
+        {
+            "name": "twig/extensions",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabpot/Twig-extensions.git",
+                "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
+                "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_Extensions_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Common additional features for Twig that do not directly belong in core",
+            "homepage": "https://github.com/fabpot/Twig-extensions",
+            "keywords": [
+                "debug",
+                "i18n",
+                "text"
+            ],
+            "time": "2013-10-18 19:37:15"
         },
         {
             "name": "twig/twig",
