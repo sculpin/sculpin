@@ -72,8 +72,8 @@ class SculpinContentTypesExtension extends Extension
             $orFilters = array();
 
             if (in_array('path', $detectionTypes)) {
-                if (! isset($setup['path'])) {
-                    throw new InvalidArgumentException("Configuration for content type '$type' invalid; expected path key to be configured.");
+                if (0 == count($setup['path'])) {
+                    $setup['path'] = array('_'.$type);
                 }
 
                 //
