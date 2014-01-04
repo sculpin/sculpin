@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
         $contentTypeNode
             ->children()
                 ->scalarNode('type')->defaultValue('path')->end()
+                ->scalarNode('singular_name')->end()
                 ->booleanNode('enabled')->defaultTrue()->end()
                 ->arrayNode('path')
                     ->beforeNormalization()
