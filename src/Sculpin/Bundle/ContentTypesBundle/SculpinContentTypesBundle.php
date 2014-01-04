@@ -9,20 +9,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\PostsBundle;
+namespace Sculpin\Bundle\ContentTypesBundle;
 
+use Sculpin\Bundle\ContentTypesBundle\DependencyInjection\Compiler\MapPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Posts Bundle.
+ * Sculpin Content Types Bundle.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinPostsBundle extends Bundle
+class SculpinContentTypesBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new MapPass);
     }
 }

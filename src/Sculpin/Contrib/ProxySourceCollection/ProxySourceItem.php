@@ -24,6 +24,18 @@ class ProxySourceItem extends ProxySource
         return $this->permalink()->relativeUrlPath();
     }
 
+    public function date()
+    {
+        $calculatedDate = $this->data()->get('calculated_date');
+
+        return $calculatedDate ?: $this->data()->get('date');
+    }
+
+    public function title()
+    {
+        return $this->data()->get('title');
+    }
+
     public function blocks()
     {
         return $this->data()->get('blocks');

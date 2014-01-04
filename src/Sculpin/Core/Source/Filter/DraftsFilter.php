@@ -1,12 +1,12 @@
 <?php
 
-namespace Sculpin\Bundle\PostsBundle;
+namespace Sculpin\Core\Source\Filter;
 
 use Sculpin\Core\Source\Filter\FilterInterface;
 use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 
-class PostsDraftsFilter implements FilterInterface
+class DraftsFilter implements FilterInterface
 {
     private $publishDrafts;
 

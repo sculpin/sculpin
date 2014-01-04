@@ -64,10 +64,11 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
             new \Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle,
-            new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
             new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
             new \Sculpin\Bundle\ThemeBundle\SculpinThemeBundle,
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
+            new \Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle,
+            new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
         );
 
         foreach ($this->getAdditionalSculpinBundles() as $class) {
@@ -86,6 +87,9 @@ abstract class AbstractKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
+        // Load defaults.
+        $loader->load(__DIR__.'/../Resources/config/kernel.yml');
+
         if (file_exists($file = $this->rootDir.'/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
             $loader->load($file);
         } elseif (file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {

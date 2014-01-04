@@ -61,6 +61,23 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
             $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);
 
+
+            //
+            // TODO: REMOVE THIS
+            //
+            // This is needed for BC purposes. This should be removed
+            // eventually and existing markup should be updated.
+            //
+
+            switch ($this->injectedTaxonItemsKey) {
+                case 'tag_posts':
+                    $generatedSource->data()->set('tagged_posts', $items);
+                    break;
+                case 'category_posts':
+                    $generatedSource->data()->set('categoried_posts', $items);
+                    break;
+            }
+
             $generatedSources[] = $generatedSource;
         }
 

@@ -67,6 +67,8 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 
     public function init()
     {
+        $this->sort();
+
         $previousItem = null;
         $item = null;
 
@@ -88,5 +90,18 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         $keys = array_keys($this->items);
 
         return $this->items[$keys[0]];
+    }
+
+    public function sort()
+    {
+        // We have special sorting rules for our items based on the date
+        // and title. We assume calculated date is used otherwise this might
+        // not work right.
+        //
+        // TODO: Maybe handle this differently... we should be able to extend
+        // this in a nicer way...
+        uasort($this->items, function ($a, $b) {
+            return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());
+        });
     }
 }

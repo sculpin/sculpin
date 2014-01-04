@@ -33,12 +33,11 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('paths')
-                    ->defaultValue(array('_posts'))
                     ->prototype('scalar')->end()
                 ->end()
-                ->booleanNode('publish_drafts')->defaultNull()->end()
-                ->scalarNode('permalink')->defaultValue('pretty')->end()
-                ->scalarNode('layout')->defaultValue('post')->end()
+                ->booleanNode('publish_drafts')->end()
+                ->scalarNode('permalink')->end()
+                ->scalarNode('layout')->end()
             ->end();
 
         return $treeBuilder;
