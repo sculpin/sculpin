@@ -47,6 +47,16 @@ class TwigLoaderPass implements CompilerPassInterface
             $appendedLoaders[] = new Reference($id);
         }
 
+        $sourceViewPaths = $container->getParameter('sculpin_twig.source_view_paths');
+        foreach ($container->getParameter('kernel.bundles') as $bundle => $class) {
+            $reflection = new \ReflectionClass($class);
+            foreach ($sourceViewPaths as $sourceViewPath) {
+                if (is_dir($dir = dirname($reflection->getFilename()).'/Resources/'.$sourceViewPath)) {
+                    $appendedLoaders[] = $dir;
+                }
+            }
+        }
+
         $arguments[0] = array_merge($prependedLoaders, $loaders, $appendedLoaders);
         $definition->setArguments($arguments);
     }
