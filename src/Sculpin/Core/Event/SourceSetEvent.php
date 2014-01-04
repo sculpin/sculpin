@@ -56,4 +56,14 @@ class SourceSetEvent extends Event
     {
         return $this->sourceSet->updatedSources();
     }
+
+    /**
+     * Current source set
+     *
+     * @return SourceSet
+     */
+    public function sourceSet()
+    {
+        return $this->sourceSet;
+    }
 }
