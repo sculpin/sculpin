@@ -14,11 +14,6 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->sourceId();
     }
 
-    public function __get($name)
-    {
-        return $this->data()->get($name);
-    }
-
     public function meta()
     {
         return $this->data()->export();
