@@ -57,7 +57,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         foreach ($sourceSetEvent->updatedSources() as $source) {
             if ($this->filter->match($source)) {
                 $this->map->process($source);
-                $this->collection[$source->sourceId()] = $this->factory->createProxysourceItem($source);
+                $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
             }
         }
 
