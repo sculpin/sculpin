@@ -4,7 +4,7 @@ namespace Sculpin\Contrib\ProxySourceCollection;
 
 use Sculpin\Core\Source\ProxySource;
 
-class ProxySourceItem extends ProxySource
+class ProxySourceItem extends ProxySource implements \ArrayAccess
 {
     private $previousItem;
     private $nextItem;
@@ -12,6 +12,11 @@ class ProxySourceItem extends ProxySource
     public function id()
     {
         return $this->sourceId();
+    }
+
+    public function __get($name)
+    {
+        return $this->data()->get($name);
     }
 
     public function meta()
@@ -95,5 +100,40 @@ class ProxySourceItem extends ProxySource
     public function reprocess()
     {
         $this->setHasChanged();
+    }
+
+    public function offsetSet($offset, $value) {
+        if (is_null($offset)) {
+            throw new \InvalidArgumentException("Proxy source items cannot have values pushed onto them");
+        } else {
+            if (method_exists($this, $offset)) {
+                return call_user_func(array($this, $offset, $value));
+            }
+
+            $setMethod = 'set'.ucfirst($offset);
+            if (method_exists($setMethod)) {
+                return call_user_func(array($this, $setMethod, $value));
+            }
+
+            $this->data()->set($offset, $value);
+        }
+    }
+
+    public function offsetExists($offset) {
+        return ! method_exists($this, $offset) && null !== $this->data()->get($offset);
+    }
+
+    public function offsetUnset($offset) {
+        if (! method_exists($this, $offset)) {
+            $this->data()->remove($offset);
+        }
+    }
+
+    public function offsetGet($offset) {
+        if (method_exists($this, $offset)) {
+            return call_user_func(array($this, $offset));
+        }
+
+        return $this->data()->get($offset);
     }
 }
