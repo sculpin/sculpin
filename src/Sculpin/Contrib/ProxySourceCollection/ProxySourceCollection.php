@@ -101,7 +101,11 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         // TODO: Maybe handle this differently... we should be able to extend
         // this in a nicer way...
         uasort($this->items, function ($a, $b) {
-            return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());
+            if ($a->date() && $a->title() && $b->date() && $b->title()) {
+                return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());
+            }
+
+            return strnatcmp($a->relativePathname(), $b->relativePathname());
         });
     }
 }
