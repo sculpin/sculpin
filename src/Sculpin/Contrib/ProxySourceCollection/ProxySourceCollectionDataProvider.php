@@ -2,6 +2,7 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\SourceSetEvent;
@@ -15,6 +16,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
 {
     private $formatterManager;
     private $dataProviderName;
+    private $dataSingularName;
     private $collection;
     private $filter;
     private $map;
@@ -23,6 +25,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     public function __construct(
         FormatterManager $formatterManager,
         $dataProviderName,
+        $dataSingularName = null,
         ProxySourceCollection $collection = null,
         FilterInterface $filter,
         MapInterface $map,
@@ -30,6 +33,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
+        $this->dataSingularName = $dataSingularName ?: Inflector::singularize($dataProviderName);
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
         $this->map = $map ?: new NullMap;
@@ -80,6 +84,10 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                     $source->forceReprocess();
                 }
             }
+        }
+        foreach ($this->collection as $item) {
+            $item->data()->set('next_'.$this->dataSingularName, $item->nextItem());
+            $item->data()->set('previous_'.$this->dataSingularName, $item->previousItem());
         }
     }
 

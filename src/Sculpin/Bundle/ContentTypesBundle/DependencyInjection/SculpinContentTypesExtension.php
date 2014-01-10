@@ -217,6 +217,7 @@ class SculpinContentTypesExtension extends Extension
             $dataProvider = new Definition('Sculpin\Contrib\ProxySourceCollection\ProxySourceCollectionDataProvider');
             $dataProvider->addArgument(new Reference('sculpin.formatter_manager'));
             $dataProvider->addArgument($type);
+            $dataProvider->addArgument($singularName);
             $dataProvider->addArgument(new Reference($collectionId));
             $dataProvider->addArgument(new Reference($filterId));
             $dataProvider->addArgument(new Reference($mapId));
