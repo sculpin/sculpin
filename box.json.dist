@@ -19,6 +19,7 @@
                 "*.xml",
                 "*.xsd",
                 "*.yaml",
+                "*.yml",
                 "*.json"
             ],
             "notName": [
