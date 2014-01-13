@@ -1,11 +1,11 @@
 <?php
 
-namespace Sculpin\Bundle\PostsBundle;
+namespace Sculpin\Core\Source\Map;
 
 use Sculpin\Core\Source\Map\MapInterface;
 use Sculpin\Core\Source\SourceInterface;
 
-class PostsDraftsMap implements MapInterface
+class DraftsMap implements MapInterface
 {
     public function process(SourceInterface $source)
     {

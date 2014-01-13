@@ -105,6 +105,10 @@ class ConfigFilesystemDataSource implements DataSourceInterface
      */
     public function refresh(SourceSet $sourceSet)
     {
+        if (! is_dir($this->sourceDir)) {
+            return;
+        }
+
         $sinceTimeLast = $this->sinceTime;
 
         $this->sinceTime = date('c');
