@@ -57,12 +57,26 @@ class SculpinContentTypesExtension extends Extension
 
 
             //
+            // Collection sorter
+            //
+
+            $collectionSorterId = self::generateTypesId($type, 'collection.sorter');
+
+            if (! $container->hasDefinition($collectionSorterId)) {
+                $collectionSorter = new Definition('Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter');
+                $container->setDefinition($collectionSorterId, $collectionSorter);
+            }
+
+
+            //
             // Collection service
             //
 
             $collectionId = self::generateTypesId($type, 'collection');
 
             $collection = new Definition('Sculpin\Contrib\ProxySourceCollection\ProxySourceCollection');
+            $collection->addArgument(array());
+            $collection->addArgument(new Reference($collectionSorterId));
             $container->setDefinition($collectionId, $collection);
 
             // Contains all of our filters.

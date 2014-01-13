@@ -2,13 +2,18 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
+use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
+
 class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
     protected $items;
+    protected $sorter;
 
-    public function __construct(array $items = array())
+    public function __construct(array $items = array(), SorterInterface $sorter = null)
     {
         $this->items = $items;
+        $this->sorter = $sorter ?: new DefaultSorter;
     }
 
     public function offsetSet($offset, $value)
@@ -94,18 +99,6 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 
     public function sort()
     {
-        // We have special sorting rules for our items based on the date
-        // and title. We assume calculated date is used otherwise this might
-        // not work right.
-        //
-        // TODO: Maybe handle this differently... we should be able to extend
-        // this in a nicer way...
-        uasort($this->items, function ($a, $b) {
-            if ($a->date() && $a->title() && $b->date() && $b->title()) {
-                return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());
-            }
-
-            return strnatcmp($a->relativePathname(), $b->relativePathname());
-        });
+        uasort($this->items, array($this->sorter, 'sort'));
     }
 }
