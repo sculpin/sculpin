@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8f3946f7fae82d7f50f93ff162a9260a",
+    "hash": "61243e6bfe255c0a48a76ee913b19bd0",
     "packages": [
         {
             "name": "composer/composer",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1"
+                "reference": "99f5b5a2383604d73c23aac19cea91a6b047171f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/b482ebe0ca18321d9322bd913af73c1c55adebf1",
-                "reference": "b482ebe0ca18321d9322bd913af73c1c55adebf1",
+                "url": "https://api.github.com/repos/composer/composer/zipball/99f5b5a2383604d73c23aac19cea91a6b047171f",
+                "reference": "99f5b5a2383604d73c23aac19cea91a6b047171f",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
                 "seld/jsonlint": "1.*",
                 "symfony/console": "~2.3",
                 "symfony/finder": "~2.2",
-                "symfony/process": "~2.1@dev"
+                "symfony/process": "~2.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "~3.7.10"
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2013-09-23 09:55:49"
+            "time": "2014-01-12 20:13:00"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -411,12 +411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-core.git",
-                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843"
+                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/8e8e0f81c1d40a179ba003e62a423f8067840843",
-                "reference": "8e8e0f81c1d40a179ba003e62a423f8067840843",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
+                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +458,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-11-22 16:20:32"
+            "time": "2013-12-16 15:24:21"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -1216,16 +1216,16 @@
         },
         {
             "name": "sculpin/sculpin-theme-composer-plugin",
-            "version": "v1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sculpin/sculpin-theme-composer-plugin.git",
-                "reference": "22553329741ca6666b10e5073b76e0dd23806aee"
+                "reference": "57011226ad5deb5e923b3bd5808a6b952d5a39cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sculpin/sculpin-theme-composer-plugin/zipball/22553329741ca6666b10e5073b76e0dd23806aee",
-                "reference": "22553329741ca6666b10e5073b76e0dd23806aee",
+                "url": "https://api.github.com/repos/sculpin/sculpin-theme-composer-plugin/zipball/57011226ad5deb5e923b3bd5808a6b952d5a39cb",
+                "reference": "57011226ad5deb5e923b3bd5808a6b952d5a39cb",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1244,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2013-12-16 05:47:32"
+            "time": "2014-01-13 16:02:42"
         },
         {
             "name": "seld/jsonlint",
@@ -2520,7 +2520,8 @@
     "stability-flags": {
         "composer/composer": 20,
         "dflydev/embedded-composer-console": 20,
-        "dflydev/embedded-composer-core": 20
+        "dflydev/embedded-composer-core": 20,
+        "sculpin/sculpin-theme-composer-plugin": 20
     },
     "platform": {
         "php": ">=5.3.2"

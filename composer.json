@@ -30,7 +30,7 @@
         "michelf/php-markdown": "1.3.*",
         "netcarver/textile": "3.5.*",
         "react/http": "0.2.*",
-        "sculpin/sculpin-theme-composer-plugin": "1.0.*",
+        "sculpin/sculpin-theme-composer-plugin": "1.0.*@dev",
         "symfony/class-loader": "~2.1",
         "symfony/config": "~2.1",
         "symfony/console": "~2.3",

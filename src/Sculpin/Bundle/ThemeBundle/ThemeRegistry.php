@@ -28,13 +28,14 @@ class ThemeRegistry
             ->finderFactory->createFinder()
             ->directories()
             ->ignoreVCS(true)
-            ->depth('== 0')
+            ->depth('== 1')
             ->in($this->directory);
 
         $themes = array();
 
         foreach ($directories as $directory) {
-            $theme = array('name' => basename($directory), 'path' => $directory);
+            $name = basename(dirname($directory)).'/'.basename($directory);
+            $theme = array('name' => $name, 'path' => $directory);
             if (file_exists($directory.'/theme.yml')) {
                 $theme = array_merge(Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
             }
