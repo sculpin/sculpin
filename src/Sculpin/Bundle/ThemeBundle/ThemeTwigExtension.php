@@ -37,17 +37,20 @@ class ThemeTwigExtension extends \Twig_Extension
      * Generate a URL for a Theme's resource
      *
      * @param string $resource
+     * @param boolean $skipLocalFiles
      *
      * @return string
      */
-    public function generateThemePath($resource)
+    public function generateThemePath($resource, $skipLocalFiles = false)
     {
         if (null === $this->theme) {
             return $resource;
         }
 
-        if (file_exists($this->sourceDir.'/'.$resource)) {
-            return $resource;
+        if (! $skipLocalFiles) {
+            if (file_exists($this->sourceDir.'/'.$resource)) {
+                return $resource;
+            }
         }
 
         $themeResource = $this->findThemeResource($this->theme, $resource);
