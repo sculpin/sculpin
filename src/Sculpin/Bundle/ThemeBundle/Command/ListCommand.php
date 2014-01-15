@@ -42,11 +42,11 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $themeRegistry = $this->getContainer()->get('sculpin_theme.theme_registry');
-        $activeTheme = $this->getContainer()->getParameter('sculpin_theme.theme');
+        $activeTheme = $themeRegistry->findActiveTheme();
         $themes = $themeRegistry->listThemes();
 
         foreach ($themes as $theme) {
-            if ($theme['name'] === $activeTheme) {
+            if ($theme['name'] === $activeTheme['name']) {
                 $themeOutput = '<info>'.$theme['name'].'</info> *';
             } else {
                 $themeOutput = $theme['name'];
@@ -54,6 +54,10 @@ EOT
 
             if (isset($theme['parent'])) {
                 $themeOutput .= ' (child of '.$theme['parent'].')';
+            }
+
+            if (preg_match('/^(.+?)-dev$/', $theme['name'], $matches)) {
+                $themeOutput .= ' :: '.$matches[1].'';
             }
             $output->writeln($themeOutput);
         }

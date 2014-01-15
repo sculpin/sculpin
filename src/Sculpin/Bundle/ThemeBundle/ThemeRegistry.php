@@ -49,19 +49,21 @@ class ThemeRegistry
     {
         $themes = $this->listThemes();
 
-        if (! isset($themes[$this->activeTheme])) {
-            return null;
-        }
-
-        $theme = $themes[$this->activeTheme];
-        if (isset($theme['parent'])) {
-            if (! isset($themes[$theme['parent']])) {
-                throw new \RuntimeException(sprintf("Theme %s is a child of nonexistent parent theme %s", $this->activeTheme, $theme['parent']));
+        foreach (array($this->activeTheme.'-dev', $this->activeTheme) as $activeTheme) {
+            if (! isset($themes[$activeTheme])) {
+                continue;
             }
 
-            $theme['parent'] = $themes[$theme['parent']];
-        }
+            $theme = $themes[$activeTheme];
+            if (isset($theme['parent'])) {
+                if (! isset($themes[$theme['parent']])) {
+                    throw new \RuntimeException(sprintf("Theme %s is a child of nonexistent parent theme %s", $this->activeTheme, $theme['parent']));
+                }
 
-        return $theme;
+                $theme['parent'] = $themes[$theme['parent']];
+            }
+
+            return $theme;
+        }
     }
 }
