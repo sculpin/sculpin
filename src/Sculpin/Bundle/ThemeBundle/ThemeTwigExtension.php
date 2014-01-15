@@ -22,6 +22,7 @@ class ThemeTwigExtension extends \Twig_Extension
     {
         return array(
             'theme_path' => new \Twig_Function_Method($this, 'generateThemePath'),
+            'theme_paths' => new \Twig_Function_Method($this, 'generateThemePaths'),
         );
     }
 
@@ -36,21 +37,21 @@ class ThemeTwigExtension extends \Twig_Extension
     /**
      * Generate a URL for a Theme's resource
      *
+     * Will always return a value. Default return value is the input unless the
+     * file actually exists at a theme location.
+     *
      * @param string $resource
-     * @param boolean $skipLocalFiles
      *
      * @return string
      */
-    public function generateThemePath($resource, $skipLocalFiles = false)
+    public function generateThemePath($resource)
     {
         if (null === $this->theme) {
             return $resource;
         }
 
-        if (! $skipLocalFiles) {
-            if (file_exists($this->sourceDir.'/'.$resource)) {
-                return $resource;
-            }
+        if (file_exists($this->sourceDir.'/'.$resource)) {
+            return $resource;
         }
 
         $themeResource = $this->findThemeResource($this->theme, $resource);
@@ -66,6 +67,43 @@ class ThemeTwigExtension extends \Twig_Extension
         }
 
         return $resource;
+    }
+
+    /**
+     * Generate a collection of URLs for a Theme's resource
+     *
+     * May end up returning an empty array.
+     *
+     * @param string $resource
+     *
+     * @return array
+     */
+    public function generateThemePaths($resource)
+    {
+        $paths = array();
+
+        if (file_exists($this->sourceDir.'/'.$resource)) {
+            $paths[] = $resource;
+        }
+
+        if (null === $this->theme) {
+            return $paths;
+        }
+
+
+        $themeResource = $this->findThemeResource($this->theme, $resource);
+        if (null !== $themeResource) {
+            $paths[] = $themeResource;
+        }
+
+        if (isset($this->theme['parent'])) {
+            $themeResource = $this->findThemeResource($this->theme['parent'], $resource);
+            if (null !== $themeResource) {
+                $paths[] = $themeResource;
+            }
+        }
+
+        return array_reverse($paths);
     }
 
     private function findThemeResource($theme, $resource)
