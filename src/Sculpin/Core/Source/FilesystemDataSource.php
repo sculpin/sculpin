@@ -145,6 +145,7 @@ class FilesystemDataSource implements DataSourceInterface
             ->files()
             ->ignoreVCS(true)
             ->date('>='.$sinceTimeLast)
+            ->followLinks()
             ->in($this->sourceDir);
 
         $sinceTimeLastSeconds = strtotime($sinceTimeLast);
