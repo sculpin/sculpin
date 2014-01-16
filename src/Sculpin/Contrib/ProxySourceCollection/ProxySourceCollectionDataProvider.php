@@ -59,6 +59,16 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
+            if ($source->isGenerated()) {
+                // We want to skip generated sources in case someone is
+                // doing something like a redirect where virtual sources are
+                // created like a redirect plugin.
+                //
+                // NOTE: This means that a generator cannot create proxy
+                // source collection items. This could be limiting in the
+                // future...
+                continue;
+            }
             if ($this->filter->match($source)) {
                 $this->map->process($source);
                 $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
