@@ -86,7 +86,9 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     public function getCacheKey($name)
     {
         if (isset($this->cachedCacheKey[$name])) {
-            return $this->cachedCacheKey[$name];
+            $extension = $this->cachedCacheKeyExtension[$name];
+
+            return $this->cachedCacheKey[$name] = $this->filesystemLoader->getCacheKey($name.$extension);
         }
 
         if (isset($this->cachedCacheKeyException[$name])) {
