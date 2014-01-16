@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,8 +66,10 @@ EOT
             $config->set('url', $url);
         }
 
+        $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
+
         if ($input->getOption('server')) {
-            $sculpin->run($dataSource, $sourceSet);
+            $sculpin->run($dataSource, $sourceSet, $consoleIo);
 
             $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
             $kernel = $this->getContainer()->get('kernel');
@@ -80,18 +83,18 @@ EOT
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function() use ($sculpin, $dataSource, $sourceSet) {
+                $httpServer->addPeriodicTimer(1, function() use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
                     clearstatcache();
                     $sourceSet->reset();
 
-                    $sculpin->run($dataSource, $sourceSet);
+                    $sculpin->run($dataSource, $sourceSet, $consoleIo);
                 });
             }
 
             $httpServer->run();
         } else {
             do {
-                $sculpin->run($dataSource, $sourceSet);
+                $sculpin->run($dataSource, $sourceSet, $consoleIo);
 
                 if ($watch) {
                     sleep(2);

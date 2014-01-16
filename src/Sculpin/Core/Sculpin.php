@@ -16,6 +16,9 @@ use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Generator\GeneratorManager;
+use Sculpin\Core\Io\ConsoleIo;
+use Sculpin\Core\Io\IoInterface;
+use Sculpin\Core\Io\NullIo;
 use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
@@ -91,6 +94,13 @@ class Sculpin
     protected $converterManager;
 
     /**
+     * IO
+     *
+     * @var IoInterface
+     */
+    protected $io;
+
+    /**
      * Constructor.
      *
      * @param Configuration          $siteConfiguration Site Configuration
@@ -124,17 +134,39 @@ class Sculpin
      *
      * @param DataSourceInterface $dataSource Data source
      * @param SourceSet           $sourceSet  Source set
+     * @param IoInterface         $io         IO Interface
      */
-    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet)
+    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, IoInterface $io = null)
     {
+        if (null === $io) {
+            $io = new NullIo();
+        }
+        $found = false;
+        $startTime = microtime(true);
+
         $dataSource->refresh($sourceSet);
 
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet));
 
-        foreach ($sourceSet->updatedSources() as $source) {
-            if (!$source->isGenerated()) {
-                $this->generatorManager->generate($source, $sourceSet);
+        if ($updatedSources = array_filter($sourceSet->updatedSources(), function ($source) {
+            return !$source->isGenerated();
+        })) {
+            if (!$found) {
+                $io->write('Detected new or updated files');
+                $found = true;
             }
+
+            $total = count($updatedSources);
+
+            $io->write('Generating: ', false);
+            $io->write('', false);
+            $counter = 0;
+            $timer = microtime(true);
+            foreach ($updatedSources as $source) {
+                $this->generatorManager->generate($source, $sourceSet);
+                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+            }
+            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
@@ -143,39 +175,68 @@ class Sculpin
             $source->data()->set('url', $permalink->relativeUrlPath());
         }
 
-        foreach ($sourceSet->updatedSources() as $source) {
-            $this->converterManager->convertSource($source);
-
-            if ($source->canBeFormatted()) {
-                $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
+        if ($updatedSources = array_filter($sourceSet->updatedSources(), function ($source) {
+            return !$source->isGenerated();
+        })) {
+            if (!$found) {
+                $io->write('Detected new or updated files');
+                $found = true;
             }
+
+            $total = count($updatedSources);
+
+            $io->write('Converting: ', false);
+            $io->write('', false);
+            $counter = 0;
+            $timer = microtime(true);
+            foreach ($updatedSources as $source) {
+                $this->converterManager->convertSource($source);
+
+                if ($source->canBeFormatted()) {
+                    $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
+                }
+                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+            }
+            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
         }
 
-        foreach ($sourceSet->updatedSources() as $source) {
-            if ($source->canBeFormatted()) {
-                $source->setFormattedContent($this->formatterManager->formatSourcePage($source));
-            } else {
-                $source->setFormattedContent($source->content());
+        if ($updatedSources = $sourceSet->updatedSources()) {
+            if (!$found) {
+                $io->write('Detected new or updated files');
+                $found = true;
             }
-        }
 
-        $found = false;
+            $total = count($updatedSources);
+
+            $io->write('Formatting: ', false);
+            $io->write('', false);
+            $counter = 0;
+            $timer = microtime(true);
+            foreach ($updatedSources as $source) {
+                if ($source->canBeFormatted()) {
+                    $source->setFormattedContent($this->formatterManager->formatSourcePage($source));
+                } else {
+                    $source->setFormattedContent($source->content());
+                }
+                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+            }
+            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+        }
 
         foreach ($sourceSet->updatedSources() as $source) {
             if ($source->isGenerator() || $source->shouldBeSkipped()) {
                 continue;
             }
 
-            if (!$found) {
-                print "Detected new or updated files\n";
-                $found = true;
-            }
-
             $this->writer->write(new SourceOutput($source));
 
-            print " + {$source->sourceId()}\n";
+            $io->write(' + ' . $source->sourceId());
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
+
+        if ($found) {
+            $io->write(sprintf("Processing completed in %4.2f seconds", microtime(true) - $startTime));
+        }
     }
 }
