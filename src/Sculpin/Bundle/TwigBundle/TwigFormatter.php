@@ -54,19 +54,30 @@ class TwigFormatter implements FormatterInterface
     {
         try {
             $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
+            $data = $formatContext->data()->export();
             $template = $this->twig->loadTemplate($formatContext->templateId());
-            if (!count($blockNames = $template->getBlockNames())) {
-                return array('content' => $template->render($formatContext->data()->export()));
+
+            if (!count($blockNames = $this->findAllBlocks($template, $data))) {
+                return array('content' => $template->render($data));
             }
             $blocks = array();
             foreach ($blockNames as $blockName) {
-                $blocks[$blockName] = $template->renderBlock($blockName, $formatContext->data()->export());
+                $blocks[$blockName] = $template->renderBlock($blockName, $data);
             }
 
             return $blocks;
         } catch (Exception $e) {
             print " [ exception ]\n";
         }
+    }
+
+    public function findAllBlocks(\Twig_Template $template, array $context)
+    {
+        if (false !== $parent = $template->getParent($context)) {
+            return array_unique(array_merge($this->findAllBlocks($parent, $context), $template->getBlockNames()));
+        }
+
+        return $template->getBlockNames();
     }
 
     /**
