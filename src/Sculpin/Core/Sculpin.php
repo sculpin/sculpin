@@ -175,9 +175,7 @@ class Sculpin
             $source->data()->set('url', $permalink->relativeUrlPath());
         }
 
-        if ($updatedSources = array_filter($sourceSet->updatedSources(), function ($source) {
-            return !$source->isGenerated();
-        })) {
+        if ($updatedSources = $sourceSet->updatedSources()) {
             if (!$found) {
                 $io->write('Detected new or updated files');
                 $found = true;
