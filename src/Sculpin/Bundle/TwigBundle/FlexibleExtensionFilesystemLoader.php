@@ -11,12 +11,16 @@
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Sculpin\Core\Event\SourceSetEvent;
+use Sculpin\Core\Sculpin;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 /**
  * Flexible Extension Filesystem Loader.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
+class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventSubscriberInterface
 {
     /**
      * Filesystem loader
@@ -24,6 +28,10 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
      * @var FilesystemLoader
      */
     protected $filesystemLoader;
+
+    protected $cachedCacheKey = array();
+    protected $cachedCacheKeyExtension = array();
+    protected $cachedCacheKeyException = array();
 
     /**
      * Constructor.
@@ -61,13 +69,11 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
      */
     public function getSource($name)
     {
-        foreach ($this->extensions as $extension) {
-            try {
-                return $this->filesystemLoader->getSource($name.$extension);
-            } catch (\Twig_Error_Loader $e) {
-            }
-        }
-        throw new \Twig_Error_Loader(sprintf('Template "%s" is not defined.', $name));
+        $this->getCacheKey($name);
+
+        $extension = $this->cachedCacheKeyExtension[$name];
+
+        return $this->filesystemLoader->getSource($name.$extension);
     }
 
     /**
@@ -79,13 +85,27 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
      */
     public function getCacheKey($name)
     {
+        if (isset($this->cachedCacheKey[$name])) {
+            return $this->cachedCacheKey[$name];
+        }
+
+        if (isset($this->cachedCacheKeyException[$name])) {
+            throw $this->cachedCacheKeyException[$name];
+        }
+
         foreach ($this->extensions as $extension) {
             try {
-                return $this->filesystemLoader->getCacheKey($name.$extension);
+                $this->cachedCacheKey[$name] = $this->filesystemLoader->getCacheKey($name.$extension);
+                $this->cachedCacheKeyExtension[$name] = $extension;
+
+                return $this->cachedCacheKey[$name];
             } catch (\Twig_Error_Loader $e) {
             }
         }
-        throw new \Twig_Error_Loader(sprintf('Template "%s" is not defined.', $name));
+
+        throw $this->cachedCacheKeyException[$name] = new \Twig_Error_Loader(
+            sprintf('Template "%s" is not defined.', $name)
+        );
     }
 
     /**
@@ -98,12 +118,29 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface
      */
     public function isFresh($name, $time)
     {
-        foreach ($this->extensions as $extension) {
-            try {
-                return $this->filesystemLoader->isFresh($name.$extension, $time);
-            } catch (\Twig_Error_Loader $e) {
-            }
+        $this->getCacheKey($name);
+
+        $extension = $this->cachedCacheKeyExtension[$name];
+
+        return $this->filesystemLoader->isFresh($name.$extension, $time);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return array(
+            Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
+        );
+    }
+
+    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    {
+        if ($sourceSetEvent->sourceSet()->newSources()) {
+            $this->cachedCacheKey = array();
+            $this->cachedCacheKeyExtension = array();
+            $this->cachedCacheKeyException = array();
         }
-        throw new \Twig_Error_Loader(sprintf('Template "%s" is not defined.', $name));
     }
 }

@@ -75,9 +75,14 @@ class TwigFormatter implements FormatterInterface
     public function formatPage(FormatContext $formatContext)
     {
         try {
-            $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
+            $this->arrayLoader->setTemplate(
+                $formatContext->templateId(),
+                $this->massageTemplate($formatContext)
+            );
 
-            return $this->twig->render($formatContext->templateId(), $formatContext->data()->export());
+            $data = $formatContext->data()->export();
+
+            return $this->twig->render($formatContext->templateId(), $data);
         } catch (Exception $e) {
             print " [ exception ]\n";
         }

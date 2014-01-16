@@ -26,6 +26,13 @@ class SourceSet
     protected $sources = array();
 
     /**
+     * New Sources
+     *
+     * @var Array
+     */
+    protected $newSources = array();
+
+    /**
      * Constructor.
      *
      * @param Array $sources
@@ -57,6 +64,8 @@ class SourceSet
     {
         if (array_key_exists($source->sourceId(), $this->sources)) {
             unset($this->sources[$source->sourceId()]);
+        } else {
+            $this->newSources[$source->sourceId()] = $source;
         }
         $this->sources[$source->sourceId()] = $source;
     }
@@ -83,6 +92,11 @@ class SourceSet
         });
     }
 
+    public function newSources()
+    {
+        return $this->newSources;
+    }
+
     /**
      * Reset all sources
      *
@@ -93,5 +107,7 @@ class SourceSet
         foreach ($this->sources as $source) {
             $source->setHasNotChanged();
         }
+
+        $this->newSources = array();
     }
 }
