@@ -145,6 +145,10 @@ class Sculpin
 
         foreach ($sourceSet->updatedSources() as $source) {
             $this->converterManager->convertSource($source);
+
+            if ($source->canBeFormatted()) {
+                $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
+            }
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
