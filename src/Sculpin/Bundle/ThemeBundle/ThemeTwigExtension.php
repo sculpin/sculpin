@@ -21,8 +21,9 @@ class ThemeTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'theme_path' => new \Twig_Function_Method($this, 'generateThemePath'),
-            'theme_paths' => new \Twig_Function_Method($this, 'generateThemePaths'),
+            'theme_path' => new \Twig_Function_Method($this, 'themePath'),
+            'theme_path_exists' => new \Twig_Function_Method($this, 'themePathExists'),
+            'theme_paths' => new \Twig_Function_Method($this, 'themePaths'),
         );
     }
 
@@ -44,7 +45,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function generateThemePath($resource)
+    public function themePath($resource)
     {
         if (null === $this->theme) {
             return $resource;
@@ -70,6 +71,38 @@ class ThemeTwigExtension extends \Twig_Extension
     }
 
     /**
+     * Check to see if a given Theme resource exists anywhere on disk
+     *
+     * @param string $resource
+     *
+     * @return bool
+     */
+    public function themePathExists($resource)
+    {
+        if (file_exists($this->sourceDir.'/'.$resource)) {
+            return true;
+        }
+
+        if (null === $this->theme) {
+            return false;
+        }
+
+        $themeResource = $this->findThemeResource($this->theme, $resource);
+        if (null !== $themeResource) {
+            return true;
+        }
+
+        if (isset($this->theme['parent'])) {
+            $themeResource = $this->findThemeResource($this->theme['parent'], $resource);
+            if (null !== $themeResource) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Generate a collection of URLs for a Theme's resource
      *
      * May end up returning an empty array.
@@ -78,7 +111,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function generateThemePaths($resource)
+    public function themePaths($resource)
     {
         $paths = array();
 
