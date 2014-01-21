@@ -81,7 +81,7 @@ class FileSource extends AbstractSource
 
                 $content = file_get_contents($this->file);
 
-                if (preg_match('/^\s*(?:---[\r\n]+)(.*?)(?:---[\r\n]+)(.*?)$/s', $content, $matches)) {
+                if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {
                     $this->content = $matches[2];
                     if (preg_match('/^(\s*[-]+\s*|\s*)$/', $matches[1])) {
                         // There is nothing useful in the YAML front matter.
