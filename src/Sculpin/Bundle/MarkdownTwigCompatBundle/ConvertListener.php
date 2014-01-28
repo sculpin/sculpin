@@ -30,9 +30,9 @@ class ConvertListener implements EventSubscriberInterface
      * @var array
      */
     protected static $addPlaceholderRe = array(
-        '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
-        '/^({%\s+endblock\s+%})$/m',       // {% %} style code
-        '/^({{.+?}})$/m',                  // {{ }} style code
+        '/^({%-?\s+block\s+(\w+).+?-?%})$/m',  // {% %} style code
+        '/^({%-?\s+endblock\s+%-?})$/m',       // {% %} style code
+        '/^({{-?.+?-?}})$/m',                  // {{ }} style code
     );
 
     /**
