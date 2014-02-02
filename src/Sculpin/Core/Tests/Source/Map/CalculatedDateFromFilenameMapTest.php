@@ -1,0 +1,67 @@
+<?php
+
+namespace Sculpin\Core\Tests\Source\Map;
+
+use Dflydev\DotAccessConfiguration\Configuration as Data;
+use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
+use Sculpin\Core\Source\MemorySource;
+
+class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
+{
+    public function setUp()
+    {
+        $this->map = new CalculatedDateFromFilenameMap();
+    }
+
+    /** @test */
+    public function itShouldNotModifyAnExistingCalculatedDate()
+    {
+        $source = $this->getSourceWithCalculatedDate($timestamp = 123456);
+
+        $this->map->process($source);
+
+        $this->assertEquals($timestamp, $source->data()->get('calculated_date'));
+    }
+
+    /** @test */
+    public function itShouldSetTheCalculatedDateIfFound()
+    {
+        $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-sculpin-is-great.markdown");
+
+        $this->map->process($source);
+
+        $this->assertEquals(strtotime("2013-12-12"), $source->data()->get('calculated_date'));
+    }
+
+    protected function getSourceWithCalculatedDate($timestamp)
+    {
+        return new MemorySource(
+            uniqid(),
+            new Data(array('calculated_date' => $timestamp)),
+            "contents",
+            "formatted contents",
+            __FILE__,
+            __FILE__,
+            new \SplFileInfo(__FILE__),
+            false,
+            false,
+            false
+        );
+    }
+
+    protected function getSourceWithoutCalculatedDateAndPathname($path)
+    {
+        return new MemorySource(
+            uniqid(),
+            new Data(),
+            "contents",
+            "formatted contents",
+            $path,
+            $path,
+            new \SplFileInfo(__FILE__),
+            false,
+            false,
+            false
+        );
+    }
+}
