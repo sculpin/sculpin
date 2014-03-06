@@ -68,6 +68,10 @@ class HttpServer
                 if ($guessedType = $repository->findType($extension)) {
                     $type = $guessedType;
                 }
+            } else {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $type  = finfo_file($finfo, $path);
+                finfo_close($finfo);
             }
 
             HttpServer::logRequest($output, 200, $request);
