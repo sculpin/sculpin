@@ -112,7 +112,10 @@ class TwigFormatter implements FormatterInterface
     {
         $template = $formatContext->template();
         if ($layout = $formatContext->data()->get('layout')) {
-            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $template, $matches)) {
+            // exclude verbatim blocks before block test
+            $templateWithoutVerbatimsBlocks = preg_replace('/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '', $template);
+
+            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $templateWithoutVerbatimsBlocks, $matches)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
             $template = '{% extends "' . $layout . '" %}' . $template;
