@@ -116,6 +116,10 @@ class SourcePermalinkFactory
                 }
                 $permalink = preg_replace('/:filename/', $filename, $permalink);
                 $permalink = preg_replace('/:slug_filename/', $this->normalize($slug ?: $filename), $permalink);
+                $basename = substr($filename, strrpos($filename, '/')+1);
+                $prettyBasename = substr($basename, 0, strrpos($basename, '.'));
+                $permalink = preg_replace('/:basename/', $basename, $permalink);
+                $permalink = preg_replace('/:pretty_basename/', $prettyBasename, $permalink);
                 if (substr($permalink, -1, 1) == '/') {
                     $permalink .= 'index.html';
                 }
