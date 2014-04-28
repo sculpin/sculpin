@@ -112,7 +112,12 @@ class TwigFormatter implements FormatterInterface
     {
         $template = $formatContext->template();
         if ($layout = $formatContext->data()->get('layout')) {
-            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $template, $matches)) {
+            // Completely remove anything in verbatim sections so that any blocks defined in there will
+            // not trigger the "you've already defined blocks!" check since this is almost certainly
+            // NOT the intention of the source's author.
+            $verbatim = preg_replace('/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '', $template);
+
+            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim, $matches)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
             $template = '{% extends "' . $layout . '" %}' . $template;

@@ -47,7 +47,7 @@ class ConvertListener implements EventSubscriberInterface
      *
      * @var unknown_type
      */
-    protected static $removePlaceholderRe = '/(<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>)/m';
+    protected static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m";
 
     /**
      * {@inheritdoc}
