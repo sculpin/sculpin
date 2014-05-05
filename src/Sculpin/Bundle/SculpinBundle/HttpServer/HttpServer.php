@@ -113,6 +113,8 @@ class HttpServer
      */
     static public function logRequest(OutputInterface $output, $responseCode, Request $request)
     {
+        $wrapOpen = '';
+        $wrapClose = '';
         if ($responseCode < 400) {
             $wrapOpen = '';
             $wrapClose = '';

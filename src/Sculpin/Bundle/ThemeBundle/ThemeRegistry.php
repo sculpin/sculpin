@@ -65,5 +65,7 @@ class ThemeRegistry
 
             return $theme;
         }
+
+        throw new \RuntimeException('No themes found');
     }
 }

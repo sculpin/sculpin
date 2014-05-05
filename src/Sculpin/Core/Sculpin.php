@@ -16,7 +16,6 @@ use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Generator\GeneratorManager;
-use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Io\NullIo;
 use Sculpin\Core\Output\SourceOutput;

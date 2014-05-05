@@ -75,7 +75,7 @@ class SourceOutput implements OutputInterface
      */
     public function file()
     {
-        return $this->source->useFileReference()?$this->source->file():null;
+        return $this->source->useFileReference() ? $this->source->file() : null;
     }
 
     /**
@@ -83,6 +83,6 @@ class SourceOutput implements OutputInterface
      */
     public function formattedContent()
     {
-        return $this->source->useFileReference()?null:$this->source->formattedContent();
+        return $this->source->useFileReference()? null : $this->source->formattedContent();
     }
 }

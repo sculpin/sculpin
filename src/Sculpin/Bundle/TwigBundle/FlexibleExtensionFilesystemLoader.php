@@ -81,6 +81,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      *
      * @param string $name The name of the template to load
      *
+     * @throws \Twig_Error_Loader
      * @return string The cache key
      */
     public function getCacheKey($name)

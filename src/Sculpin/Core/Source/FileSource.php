@@ -11,14 +11,10 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Permalink\PermalinkInterface;
 use Symfony\Component\Finder\SplFileInfo;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
-
-use Dflydev\ApacheMimeTypes\PhpRepository;
-use Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector;
 
 /**
  * File Source.

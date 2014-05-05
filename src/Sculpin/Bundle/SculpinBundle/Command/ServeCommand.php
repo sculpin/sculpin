@@ -47,12 +47,12 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+        $docRoot = $this->getContainer()->getParameter('sculpin.output_dir');
         $kernel = $this->getContainer()->get('kernel');
 
         $httpServer = new HttpServer(
             $output,
-            $docroot,
+            $docRoot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
             $input->getOption('port')

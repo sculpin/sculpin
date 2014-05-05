@@ -144,5 +144,7 @@ class ThemeTwigExtension extends \Twig_Extension
         if (file_exists($theme['path'].'/'.$resource)) {
             return $this->directory.'/'.$theme['name'].'/'.$resource;
         }
+
+        throw new \RuntimeException('No themes resource found');
     }
 }
