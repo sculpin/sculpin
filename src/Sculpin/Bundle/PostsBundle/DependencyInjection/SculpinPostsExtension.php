@@ -34,7 +34,7 @@ class SculpinPostsExtension extends Extension
 
         if (count($config['paths']) > 0 || count($config) > 1) {
             throw new InvalidConfigurationException(
-                "Posts are now configured in the 'sculpin_content_types' section of sculpin_kernel.yml, please see documentation on configurating content types"
+                "Posts are now configured in the 'sculpin_content_types' section of sculpin_kernel.yml, please see documentation on configuring content types"
             );
         }
     }
