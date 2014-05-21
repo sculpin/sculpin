@@ -116,12 +116,12 @@ class SourcePermalinkFactory
                 }
                 $permalink = preg_replace('/:filename/', $filename, $permalink);
                 $permalink = preg_replace('/:slug_filename/', $this->normalize($slug ?: $filename), $permalink);
-                if (strrpos($filename, '/') !== -1) {
+                if (strrpos($filename, '/') !== false) {
                     $basename = substr($filename, strrpos($filename, '/')+1);
                 } else {
                     $basename = $filename;
                 }
-                $prettyBasename = substr($basename, 0, strrpos($basename, '.'));
+                $prettyBasename = false !== strrpos($basename, '.') ? substr($basename, 0, strrpos($basename, '.')) : $basename;
                 $permalink = preg_replace('/:basename_real/', $basename, $permalink);
                 $permalink = preg_replace('/:basename/', $prettyBasename, $permalink);
                 if (substr($permalink, -1, 1) == '/') {
