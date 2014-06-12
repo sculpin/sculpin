@@ -94,6 +94,11 @@ class FormatterManager
         ));
 
         foreach ($this->dataProviderManager->dataProviders() as $name) {
+
+            if (!is_array($context['use'])) {
+                $context['use'] = array($context['use']);
+            }
+
             if (isset($context['use']) and in_array($name, $context['use'])) {
                 $baseContext->set('data.'.$name, $this->dataProviderManager->dataProvider($name)->provideData());
             }
