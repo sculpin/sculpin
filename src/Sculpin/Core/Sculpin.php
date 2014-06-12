@@ -218,6 +218,7 @@ class Sculpin
                 }
                 $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
             }
+            $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new SourceSetEvent($sourceSet));
             $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
         }
 
