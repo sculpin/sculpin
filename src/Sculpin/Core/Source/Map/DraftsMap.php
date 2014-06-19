@@ -2,7 +2,6 @@
 
 namespace Sculpin\Core\Source\Map;
 
-use Sculpin\Core\Source\Map\MapInterface;
 use Sculpin\Core\Source\SourceInterface;
 
 class DraftsMap implements MapInterface

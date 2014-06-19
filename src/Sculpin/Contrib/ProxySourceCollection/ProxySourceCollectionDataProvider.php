@@ -9,7 +9,9 @@ use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\Filter\FilterInterface;
+use Sculpin\Core\Source\Filter\NullFilter;
 use Sculpin\Core\Source\Map\MapInterface;
+use Sculpin\Core\Source\Map\NullMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface

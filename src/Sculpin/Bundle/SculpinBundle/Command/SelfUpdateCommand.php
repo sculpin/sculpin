@@ -11,8 +11,8 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Composer\Downloader\FilesystemException;
 use Sculpin\Core\Sculpin;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

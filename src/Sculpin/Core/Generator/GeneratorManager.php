@@ -13,7 +13,6 @@ namespace Sculpin\Core\Generator;
 
 use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\DataProvider\DataProviderManager;
-use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;

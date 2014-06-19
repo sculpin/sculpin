@@ -6,6 +6,7 @@ use Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader;
 
 class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 {
+    /** @var \Twig_Loader_Chain */
     private $chainLoader;
 
     public function __construct(ThemeRegistry $themeRegistry, array $extensions)
