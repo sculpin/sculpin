@@ -38,7 +38,7 @@ class SelfUpdateCommand extends AbstractCommand
 
     protected function configure()
     {
-        $fullCommand = $this->commandPrefix.'dump-autoload';
+        $fullCommand = $this->commandPrefix.'self-update';
         $this
             ->setName($fullCommand)
             ->setAliases(array($this->commandPrefix.'selfupdate'))
