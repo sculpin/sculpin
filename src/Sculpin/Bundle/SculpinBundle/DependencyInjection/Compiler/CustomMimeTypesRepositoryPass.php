@@ -33,7 +33,7 @@ class CustomMimeTypesRepositoryPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('sculpin.custom_mime_types_repository');
 
-        $data = [];
+        $data = array();
         foreach ($container->findTaggedServiceIds('sculpin.custom_mime_extensions') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $type = $attributes['type'];
