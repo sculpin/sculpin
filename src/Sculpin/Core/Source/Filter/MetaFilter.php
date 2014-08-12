@@ -2,7 +2,6 @@
 
 namespace Sculpin\Core\Source\Filter;
 
-use Sculpin\Core\Source\Filter\FilterInterface;
 use Sculpin\Core\Source\SourceInterface;
 
 class MetaFilter implements FilterInterface

@@ -2,9 +2,7 @@
 
 namespace Sculpin\Core\Source\Filter;
 
-use Sculpin\Core\Source\Filter\FilterInterface;
 use Sculpin\Core\Source\SourceInterface;
-use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 
 class DraftsFilter implements FilterInterface
 {
