@@ -45,7 +45,7 @@ class ConvertListener implements EventSubscriberInterface
     /**
      * Regex used to remove placeholder
      *
-     * @var unknown_type
+     * @var string
      */
     protected static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m";
 
