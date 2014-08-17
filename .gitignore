@@ -1,2 +1,4 @@
-vendor
-cache
+/vendor/
+/cache/
+composer.lock
+/.idea/
