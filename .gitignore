@@ -1,7 +1,2 @@
-/vendor/
-/cache/
-*.lock
-.*/
-/source/
-/output_*/
-/app/
+vendor
+cache
