@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7b13d653d9b4ca44117120fbf8e3d7c8",
+    "hash": "3e3a3e3e0e31492a51a2ac01b1b7406c",
     "packages": [
         {
             "name": "composer/composer",
@@ -631,45 +631,6 @@
             "time": "2013-01-10 21:49:15"
         },
         {
-            "name": "erusev/parsedown",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/erusev/parsedown.git",
-                "reference": "d24439ada0704948deef0d3eda2ea20fd8db1747"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/d24439ada0704948deef0d3eda2ea20fd8db1747",
-                "reference": "d24439ada0704948deef0d3eda2ea20fd8db1747",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Parsedown": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Emanuil Rusev",
-                    "email": "hello@erusev.com",
-                    "homepage": "http://erusev.com"
-                }
-            ],
-            "description": "Parser for Markdown.",
-            "homepage": "http://parsedown.org",
-            "keywords": [
-                "markdown",
-                "parser"
-            ],
-            "time": "2014-05-21 20:20:46"
-        },
-        {
             "name": "evenement/evenement",
             "version": "v1.0.0",
             "source": {
@@ -855,55 +816,6 @@
                 "schema"
             ],
             "time": "2012-01-03 00:33:17"
-        },
-        {
-            "name": "mavimo/sculpin-parsedown",
-            "version": "dev-master",
-            "target-dir": "Mavimo/Sculpin/Bundle/ParsedownBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mavimo/sculpin-parsedown.git",
-                "reference": "083400d3d50821020d52eb41ccd3c211bbe7ba0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mavimo/sculpin-parsedown/zipball/083400d3d50821020d52eb41ccd3c211bbe7ba0b",
-                "reference": "083400d3d50821020d52eb41ccd3c211bbe7ba0b",
-                "shasum": ""
-            },
-            "require": {
-                "erusev/parsedown": "*",
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mavimo\\Sculpin\\Bundle\\ParsedownBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Vito Moscaritolo",
-                    "email": "marco@mavimo.org",
-                    "homepage": "http://www.mavimo.org"
-                }
-            ],
-            "description": "Sculpin Parsedown",
-            "homepage": "https://sculpin.io",
-            "keywords": [
-                "blog",
-                "blogging",
-                "markdown",
-                "parsedown",
-                "parser",
-                "site",
-                "static"
-            ],
-            "time": "2014-01-11 22:34:32"
         },
         {
             "name": "michelf/php-markdown",
@@ -2504,18 +2416,20 @@
             "time": "2013-01-13 10:24:48"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "composer/composer": 20,
         "dflydev/embedded-composer-console": 20,
         "dflydev/embedded-composer-core": 20,
-        "sculpin/sculpin-theme-composer-plugin": 20,
-        "mavimo/sculpin-parsedown": 20
+        "sculpin/sculpin-theme-composer-plugin": 20
     },
-    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.2"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
