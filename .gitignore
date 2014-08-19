@@ -1,4 +1,7 @@
 /vendor/
 /cache/
-composer.lock
-/.idea/
+*.lock
+.*/
+/source/
+/output_*/
+/app/
