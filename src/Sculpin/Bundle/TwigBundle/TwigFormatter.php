@@ -67,7 +67,7 @@ class TwigFormatter implements FormatterInterface
 
             return $blocks;
         } catch (\Exception $e) {
-            print " [ exception ]\n";
+            print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }
 
@@ -95,7 +95,7 @@ class TwigFormatter implements FormatterInterface
 
             return $this->twig->render($formatContext->templateId(), $data);
         } catch (\Exception $e) {
-            print " [ exception ]\n";
+            print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }
 
