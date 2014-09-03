@@ -57,7 +57,7 @@ more mature than this one. If you are looking for a stable project with an
 established community, try something on the following admittedly incomplete
 list:
 
- * [Jekyll](http://github.com/mojombo/jekyll) &mdash; Ruby
+ * [Jekyll](http://jekyllrb.com/) &mdash; Ruby
  * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
  * [Hyde](http://ringce.com/hyde) &mdash; Python
  * [Phrozn](http://phrozn.info) &mdash; PHP
