@@ -11,7 +11,6 @@
 
 namespace Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler;
 
-use dflydev\util\antPathMatcher\AntPathMatcher;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

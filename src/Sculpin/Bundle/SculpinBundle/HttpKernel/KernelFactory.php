@@ -25,7 +25,7 @@ class KernelFactory
      *
      * @param InputInterface $input Input
      *
-     * @return Symfony\Component\HttpKernel\Kernel
+     * @return \Symfony\Component\HttpKernel\Kernel
      */
     public static function create(InputInterface $input)
     {
