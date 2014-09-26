@@ -6,7 +6,7 @@ php:
   - 5.4
   - 5.5
 
-before_script:
+install:
   - composer --prefer-source install
 
 script: phpunit --coverage-text --verbose
