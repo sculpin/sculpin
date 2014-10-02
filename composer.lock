@@ -12,16 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "5d4900e79d5ea08118782345fb97e23e6ab1e4f0"
+                "reference": "b33da336ecb7f1c9b15a57285e5a9f09cf5f3dd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/5d4900e79d5ea08118782345fb97e23e6ab1e4f0",
-                "reference": "5d4900e79d5ea08118782345fb97e23e6ab1e4f0",
+                "url": "https://api.github.com/repos/composer/composer/zipball/b33da336ecb7f1c9b15a57285e5a9f09cf5f3dd2",
+                "reference": "b33da336ecb7f1c9b15a57285e5a9f09cf5f3dd2",
                 "shasum": ""
             },
             "require": {
-                "justinrainbow/json-schema": "1.1.*",
+                "justinrainbow/json-schema": "~1.1",
                 "php": ">=5.3.2",
                 "seld/jsonlint": "1.*",
                 "symfony/console": "~2.3",
@@ -29,7 +29,7 @@
                 "symfony/process": "~2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7.10"
+                "phpunit/phpunit": "~3.7"
             },
             "suggest": {
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
@@ -55,15 +55,14 @@
             ],
             "authors": [
                 {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be",
-                    "role": "Developer"
-                },
-                {
                     "name": "Nils Adermann",
                     "email": "naderman@naderman.de",
                     "homepage": "http://www.naderman.de"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
                 }
             ],
             "description": "Composer helps you declare, manage and install dependencies of PHP projects, ensuring you have the right stack everywhere.",
@@ -73,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2014-02-18 12:28:46"
+            "time": "2014-09-30 15:28:01"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -2416,9 +2415,7 @@
             "time": "2013-01-13 10:24:48"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "composer/composer": 20,
@@ -2426,10 +2423,9 @@
         "dflydev/embedded-composer-core": 20,
         "sculpin/sculpin-theme-composer-plugin": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.2"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
