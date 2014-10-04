@@ -54,11 +54,11 @@ EOF
         $cacheDir = $this->getContainer()->getParameter('kernel.cache_dir');
         $filesystem   = $this->getContainer()->get('filesystem');
 
-        if (!is_writable($cacheDir)) {
-            throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
-        }
-
         if ($filesystem->exists($cacheDir)) {
+            if (!is_writable($cacheDir)) {
+                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
+            }
+
             $filesystem->remove($cacheDir);
         }
     }
