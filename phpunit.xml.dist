@@ -16,6 +16,7 @@
         <testsuite name="Sculpin Test Suite">
             <directory>./src/Sculpin/Bundle/*/Tests</directory>
             <directory>./src/Sculpin/Core/Tests</directory>
+            <directory>./src/Sculpin/Contrib/*/Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -28,6 +29,7 @@
                 <directory>./src/Sculpin/Bundle/*/vendor</directory>
                 <directory>./src/Sculpin/Core/Tests</directory>
                 <directory>./src/Sculpin/Core/vendor</directory>
+                <directory>./src/Sculpin/Contrib/*/Tests</directory>
             </exclude>
         </whitelist>
     </filter>
