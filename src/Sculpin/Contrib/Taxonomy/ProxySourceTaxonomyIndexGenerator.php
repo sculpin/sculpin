@@ -36,8 +36,6 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
     public function generate(SourceInterface $source)
     {
-        $generatedSources = array();
-
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
         $taxons = $dataProvider->provideData();
 

@@ -42,7 +42,7 @@ class PathConfiguratorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $id => $tagAttributes) {
+        foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $typeParameter = 'sculpin.'.$attributes['type'];
                 $parameter = $attributes['parameter'];
