@@ -1,7 +1,7 @@
 Sculpin Proxy Source Collection
 ===============================
 
-Provides building blocks for building and configurating data providers that are
+Provides building blocks for building and configuration data providers that are
 backed by a collection of `ProxySource` instances.
 
 Visit [sculpin.io](http://sculpin.io) for more information.

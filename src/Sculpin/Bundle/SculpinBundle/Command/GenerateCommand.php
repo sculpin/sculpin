@@ -43,6 +43,7 @@ class GenerateCommand extends AbstractCommand
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
+
 EOT
             );
     }

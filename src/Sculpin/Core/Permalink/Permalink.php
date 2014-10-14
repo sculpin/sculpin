@@ -26,7 +26,7 @@ class Permalink implements PermalinkInterface
     private $relativeFilePath;
 
     /**
-     * Realtive URL path
+     * Relative URL path
      *
      * @var string
      */

@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ConvertListener implements EventSubscriberInterface
 {
     /**
-     * List of regular expresses needing placeholders
+     * List of regular expressions needing placeholders
      *
      * @var array
      */

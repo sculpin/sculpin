@@ -31,7 +31,8 @@ class ListCommand extends ContainerAwareCommand
             ->setName('theme:list')
             ->setDescription('List currently installed themes.')
             ->setHelp(<<<EOT
-The <info>theme:list</info> command lists currently intalled themes.
+The <info>theme:list</info> command lists currently installed themes.
+
 EOT
             );
     }
