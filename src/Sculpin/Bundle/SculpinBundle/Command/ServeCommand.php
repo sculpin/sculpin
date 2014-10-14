@@ -38,6 +38,7 @@ class ServeCommand extends AbstractCommand
             ))
             ->setHelp(<<<EOT
 The <info>serve</info> command serves a site.
+
 EOT
             )->setAliases(array('server'));
     }

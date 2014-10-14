@@ -36,6 +36,9 @@ class SelfUpdateCommand extends AbstractCommand
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $fullCommand = $this->commandPrefix.'self-update';
@@ -59,6 +62,9 @@ EOT
         return false !== strpos(__DIR__, 'phar:');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
