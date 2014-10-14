@@ -12,8 +12,7 @@ Visit [sculpin.io](http://sculpin.io) for more information.
 Documentation
 -------------
 
-Sculpin currently lacks any in-depth or formal documentation. It is currently
-"learn by example". If you are interested in trying out Sculpin you should fire
+Sculpin has [documentation](https://sculpin.io/documentation/) but also is "learn by example". If you are interested in trying out Sculpin you should fire
 up a Sculpin skeleton site to see Sculpin in action.
 
 
