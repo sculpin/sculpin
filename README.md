@@ -1,10 +1,10 @@
 Sculpin - PHP Static Site Generator
 ===================================
 
-[![Gitter chat](https://badges.gitter.im/sculpin/sculpin.png)](https://gitter.im/sculpin/sculpin)
+[![Gitter chat](https://badges.gitter.im/sculpin/sculpin.svg)](https://gitter.im/sculpin/sculpin)
 [![License](https://poser.pugx.org/sculpin/sculpin/license.svg)](https://packagist.org/packages/sculpin/sculpin)
 [![Build Status](https://travis-ci.org/sculpin/sculpin.svg?branch=master)](https://travis-ci.org/sculpin/sculpin)
-[![HHVM Status](http://hhvm.h4cc.de/badge/sculpin/sculpin.png?branch=master)](http://hhvm.h4cc.de/package/sculpin/sculpin)
+[![HHVM Status](http://hhvm.h4cc.de/badge/sculpin/sculpin.svg?branch=master)](http://hhvm.h4cc.de/package/sculpin/sculpin)
 [![Total Downloads](https://poser.pugx.org/sculpin/sculpin/downloads.svg)](https://packagist.org/packages/sculpin/sculpin)
 
 
