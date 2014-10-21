@@ -12,8 +12,11 @@
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
+use Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -239,28 +242,40 @@ class SculpinContentTypesExtension extends Extension
             $container->setDefinition($dataProviderId, $dataProvider);
 
             foreach ($setup['taxonomies'] as $taxonomy) {
-                $taxon = Inflector::singularize($taxonomy);
+                $permalinkStrategies = new PermalinkStrategyCollection();
+                if (is_string($taxonomy)) {
+                    $taxonomyName = $taxonomy;
+                } else {
+                    $taxonomyName = $taxonomy['name'];
+                    if (isset($taxonomy['strategies'])) {
+                        foreach ($taxonomy['strategies'] as $strategy) {
+                            $permalinkStrategies->push(new $strategy());
+                        }
+                    }
+                }
+                $taxon = Inflector::singularize($taxonomyName);
 
-                $taxonomyDataProviderName = $type.'_'.$taxonomy;
+                $taxonomyDataProviderName = $type.'_'.$taxonomyName;
                 $taxonomyIndexGeneratorName = $type.'_'.$taxon.'_index';
 
                 $reversedName = $taxon.'_'.$type;
 
-                $taxonomyDataProviderId = self::generateTypesId($type, $taxonomy.'_data_provider');
+                $taxonomyDataProviderId = self::generateTypesId($type, $taxonomyName.'_data_provider');
                 $taxonomyDataProvider = new Definition('Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider');
                 $taxonomyDataProvider->addArgument(new Reference('sculpin.data_provider_manager'));
                 $taxonomyDataProvider->addArgument($type);
-                $taxonomyDataProvider->addArgument($taxonomy);
+                $taxonomyDataProvider->addArgument($taxonomyName);
                 $taxonomyDataProvider->addTag('kernel.event_subscriber');
                 $taxonomyDataProvider->addTag('sculpin.data_provider', array('alias' => $taxonomyDataProviderName));
                 $container->setDefinition($taxonomyDataProviderId, $taxonomyDataProvider);
 
-                $taxonomyIndexGeneratorId = self::generateTypesId($type, $taxonomy.'_index_generator');
+                $taxonomyIndexGeneratorId = self::generateTypesId($type, $taxonomyName.'_index_generator');
                 $taxonomyIndexGenerator = new Definition('Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator');
                 $taxonomyIndexGenerator->addArgument(new Reference('sculpin.data_provider_manager'));
                 $taxonomyIndexGenerator->addArgument($taxonomyDataProviderName);
                 $taxonomyIndexGenerator->addArgument($taxon);
                 $taxonomyIndexGenerator->addArgument($reversedName);
+                $taxonomyIndexGenerator->addArgument($permalinkStrategies);
                 $taxonomyIndexGenerator->addTag('sculpin.generator', array('alias' => $taxonomyIndexGeneratorName));
                 $container->setDefinition($taxonomyIndexGeneratorId, $taxonomyIndexGenerator);
             }
