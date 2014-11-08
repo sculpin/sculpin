@@ -1070,17 +1070,17 @@
         },
         {
             "name": "react/stream",
-            "version": "v0.2.7",
+            "version": "v0.2.6",
             "target-dir": "React/Stream",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/stream.git",
-                "reference": "98cb36bc8c4d6111c584d63f680e886b2167bee5"
+                "reference": "34c1059cffb44873440135e9a86fe9ae9caf5acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/stream/zipball/98cb36bc8c4d6111c584d63f680e886b2167bee5",
-                "reference": "98cb36bc8c4d6111c584d63f680e886b2167bee5",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/34c1059cffb44873440135e9a86fe9ae9caf5acd",
+                "reference": "34c1059cffb44873440135e9a86fe9ae9caf5acd",
                 "shasum": ""
             },
             "require": {
@@ -2415,7 +2415,9 @@
             "time": "2013-01-13 10:24:48"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "composer/composer": 20,
@@ -2423,9 +2425,10 @@
         "dflydev/embedded-composer-core": 20,
         "sculpin/sculpin-theme-composer-plugin": 20
     },
-    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.2"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
