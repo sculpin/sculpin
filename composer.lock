@@ -2415,9 +2415,7 @@
             "time": "2013-01-13 10:24:48"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "composer/composer": 20,
@@ -2425,10 +2423,9 @@
         "dflydev/embedded-composer-core": 20,
         "sculpin/sculpin-theme-composer-plugin": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.2"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
