@@ -33,6 +33,7 @@ class PermalinkStrategyCollection
         foreach ($this->strategies as $strategy) {
             $str = $strategy->process($str);
         }
+
         return $str;
     }
 
