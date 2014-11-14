@@ -335,7 +335,6 @@ abstract class AbstractSource implements SourceInterface
         $this->init(true);
     }
 
-
     /**
      * {@inheritdoc}
      */

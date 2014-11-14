@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Core\Tests\Formatter;
+namespace Sculpin\Core\Tests\Source;
 
 use Sculpin\Core\Source\SourceSet;
 

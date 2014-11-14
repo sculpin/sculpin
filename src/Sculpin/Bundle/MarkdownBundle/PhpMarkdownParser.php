@@ -2,7 +2,6 @@
 
 namespace Sculpin\Bundle\MarkdownBundle;
 
-
 use Michelf\Markdown;
 use Sculpin\Core\Converter\ParserInterface;
 

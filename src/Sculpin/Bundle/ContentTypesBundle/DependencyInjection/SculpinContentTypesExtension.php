@@ -13,11 +13,8 @@ namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -56,7 +53,6 @@ class SculpinContentTypesExtension extends Extension
                 $container->setParameter($itemClassId, 'Sculpin\Contrib\ProxySourceCollection\ProxySourceItem');
             }
 
-
             //
             // Collection sorter
             //
@@ -67,7 +63,6 @@ class SculpinContentTypesExtension extends Extension
                 $collectionSorter = new Definition('Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter');
                 $container->setDefinition($collectionSorterId, $collectionSorter);
             }
-
 
             //
             // Collection service
@@ -124,7 +119,6 @@ class SculpinContentTypesExtension extends Extension
                 $orFilters[] = new Reference($metaFilterId);
             }
 
-
             if (count($orFilters) > 0) {
 
                 //
@@ -139,7 +133,6 @@ class SculpinContentTypesExtension extends Extension
 
                 $filters[] = new Reference($orFilterId);
             }
-
 
             //
             // Drafts Filter
@@ -159,7 +152,6 @@ class SculpinContentTypesExtension extends Extension
 
             $filters[] = new Reference($draftsFilterId);
 
-
             //
             // Filter
             //
@@ -169,7 +161,6 @@ class SculpinContentTypesExtension extends Extension
             $filter = new Definition('Sculpin\Core\Source\Filter\ChainFilter');
             $filter->addArgument($filters);
             $container->setDefinition($filterId, $filter);
-
 
             //
             // Default Data Map
@@ -184,7 +175,6 @@ class SculpinContentTypesExtension extends Extension
             $defaultDataMap->addTag(self::generateTypesId($type, 'map'));
             $container->setDefinition($defaultDataMapId, $defaultDataMap);
 
-
             //
             // Calculated Date From Filename Map
             //
@@ -193,7 +183,6 @@ class SculpinContentTypesExtension extends Extension
             $calculatedDateFromFilenameMap = new Definition('Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap');
             $calculatedDateFromFilenameMap->addTag(self::generateTypesId($type, 'map'));
             $container->setDefinition($calculatedDateFromFilenameMapId, $calculatedDateFromFilenameMap);
-
 
             //
             // Drafts Map
@@ -204,7 +193,6 @@ class SculpinContentTypesExtension extends Extension
             $draftsMap->addTag(self::generateTypesId($type, 'map'));
             $container->setDefinition($draftsMapId, $draftsMap);
 
-
             //
             // Map
             //
@@ -212,7 +200,6 @@ class SculpinContentTypesExtension extends Extension
             $mapId = self::generateTypesId($type, 'map');
             $map = new Definition('Sculpin\Core\Source\Map\ChainMap');
             $container->setDefinition($mapId, $map);
-
 
             //
             // Item Factory
@@ -222,7 +209,6 @@ class SculpinContentTypesExtension extends Extension
             $factory = new Definition('Sculpin\Contrib\ProxySourceCollection\SimpleProxySourceItemFactory');
             $factory->addArgument(self::generatePlaceholder($itemClassId));
             $container->setDefinition($factoryId, $factory);
-
 
             //
             // Data Provider

@@ -43,7 +43,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * Constructor.
      *
      * @param ParserInterface $markdown
-     * @param array                                   $extensions Extensions
+     * @param array           $extensions Extensions
      */
     public function __construct(ParserInterface $markdown, array $extensions = [ ])
     {

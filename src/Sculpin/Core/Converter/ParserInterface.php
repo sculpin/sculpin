@@ -2,7 +2,6 @@
 
 namespace Sculpin\Core\Converter;
 
-
 /**
  * Interface ParserInterface
  */

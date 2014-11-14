@@ -106,7 +106,8 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         $this->setHasChanged();
     }
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             throw new \InvalidArgumentException("Proxy source items cannot have values pushed onto them");
         } else {
@@ -123,17 +124,20 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return ! method_exists($this, $offset) && null !== $this->data()->get($offset);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         if (! method_exists($this, $offset)) {
             $this->data()->remove($offset);
         }
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         if (method_exists($this, $offset)) {
             return call_user_func(array($this, $offset));
         }

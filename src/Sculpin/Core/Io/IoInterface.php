@@ -16,7 +16,7 @@ namespace Sculpin\Core\Io;
  *
  * @author François Pluchino <francois.pluchino@opendisplay.com>
  */
-interface IOInterface
+interface IoInterface
 {
     /**
      * Is this input means interactive?

@@ -83,8 +83,8 @@ class GeneratorManager
     /**
      * Generate
      *
-     * @param SourceInterface $source    Source
-     * @param SourceSet       $sourceSet Source set
+     * @param  SourceInterface           $source    Source
+     * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
      *
      * @return string

@@ -74,7 +74,6 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
             $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);
 
-
             //
             // TODO: REMOVE THIS
             //

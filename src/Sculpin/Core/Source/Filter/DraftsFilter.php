@@ -17,7 +17,8 @@ class DraftsFilter implements FilterInterface
 {
     private $publishDrafts;
 
-    public function __construct($publishDrafts = false) {
+    public function __construct($publishDrafts = false)
+    {
         $this->publishDrafts = $publishDrafts;
     }
 

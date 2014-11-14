@@ -48,16 +48,16 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
         }, $sourcePaths);
 
         $allPaths = array_merge(
-            array_filter($mappedSourcePaths, function($path) {
+            array_filter($mappedSourcePaths, function ($path) {
                 return file_exists($path);
             }),
-            array_filter($paths, function($path) {
+            array_filter($paths, function ($path) {
                 return file_exists($path);
             })
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);
-        $this->extensions = array_map(function($ext) {
+        $this->extensions = array_map(function ($ext) {
             return $ext?'.'.$ext:$ext;
         }, $extensions);
     }
