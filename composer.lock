@@ -235,16 +235,16 @@
         },
         {
             "name": "dflydev/dot-access-configuration",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-dot-access-configuration.git",
-                "reference": "349740decabd83e8b19507e0a5e75719906158ea"
+                "reference": "9b65c83159c9003e00284ea1144ad96b69d9c8b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-configuration/zipball/349740decabd83e8b19507e0a5e75719906158ea",
-                "reference": "349740decabd83e8b19507e0a5e75719906158ea",
+                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-configuration/zipball/9b65c83159c9003e00284ea1144ad96b69d9c8b9",
+                "reference": "9b65c83159c9003e00284ea1144ad96b69d9c8b9",
                 "shasum": ""
             },
             "require": {
@@ -291,7 +291,7 @@
                 "config",
                 "configuration"
             ],
-            "time": "2012-10-22 01:33:18"
+            "time": "2014-11-14 03:26:12"
         },
         {
             "name": "dflydev/dot-access-data",
