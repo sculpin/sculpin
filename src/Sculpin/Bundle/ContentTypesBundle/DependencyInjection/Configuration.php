@@ -59,9 +59,20 @@ class Configuration implements ConfigurationInterface
                         // Default case is we want the user to specify just one
                         // taxonomy but we can allow for multiple if they want to.
                         ->ifString()
-                        ->then(function ($v) { return array($v); })
+                        ->then(function ($v) { return array(array('name' => $v)); })
                     ->end()
-                    ->prototype('scalar')->end()
+                    ->prototype('array')
+                        ->beforeNormalization()
+                            ->ifString()
+                            ->then(function ($v) { return array('name' => $v); })
+                        ->end()
+                        ->children()
+                            ->scalarNode('name')->end()
+                            ->arrayNode('strategies')
+                                ->prototype('scalar')->end()
+                            ->end()
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;

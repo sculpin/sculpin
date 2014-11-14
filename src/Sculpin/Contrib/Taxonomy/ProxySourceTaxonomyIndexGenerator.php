@@ -21,21 +21,26 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
     private $dataProviderName;
     private $injectedTaxonKey;
     private $injectedTaxonItemsKey;
+    private $permalinkStrategyCollection;
 
     public function __construct(
         DataProviderManager $dataProviderManager,
         $dataProviderName,
         $injectedTaxonKey,
-        $injectedTaxonItemsKey
+        $injectedTaxonItemsKey,
+        PermalinkStrategyCollection $permalinkStrategyCollection
     ) {
         $this->dataProviderManager = $dataProviderManager;
         $this->dataProviderName = $dataProviderName; // post_tags
         $this->injectedTaxonKey = $injectedTaxonKey; // tag
         $this->injectedTaxonItemsKey = $injectedTaxonItemsKey; // tagged_posts
+        $this->permalinkStrategyCollection = $permalinkStrategyCollection;
     }
 
     public function generate(SourceInterface $source)
     {
+        $generatedSources = array();
+
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
         $taxons = $dataProvider->provideData();
 
@@ -51,7 +56,8 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             $permalink = dirname($permalink);
 
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
-                $permalink = $permalink.'/'.$taxon.'/index.html';
+                $urlTaxon = $this->permalinkStrategyCollection->process($taxon);
+                $permalink = $permalink.'/'.$urlTaxon.'/index.html';
             } else {
                 // not sure what case this is?
             }

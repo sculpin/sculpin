@@ -948,12 +948,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/event-loop.git",
-                "reference": "bf8f09df7d8abb4a481771e64716c94178b13904"
+                "reference": "134b94dc555d320bd31253a215c8a65ef151a79a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/bf8f09df7d8abb4a481771e64716c94178b13904",
-                "reference": "bf8f09df7d8abb4a481771e64716c94178b13904",
+                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/134b94dc555d320bd31253a215c8a65ef151a79a",
+                "reference": "134b94dc555d320bd31253a215c8a65ef151a79a",
                 "shasum": ""
             },
             "require": {
@@ -986,17 +986,17 @@
         },
         {
             "name": "react/http",
-            "version": "v0.2.7",
+            "version": "v0.2.6",
             "target-dir": "React/Http",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/http.git",
-                "reference": "006214abe6c89658c5b85eebe9e1547f66a066be"
+                "reference": "5e920f734f4065de1582c125b4bf35128279972f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/http/zipball/006214abe6c89658c5b85eebe9e1547f66a066be",
-                "reference": "006214abe6c89658c5b85eebe9e1547f66a066be",
+                "url": "https://api.github.com/repos/reactphp/http/zipball/5e920f734f4065de1582c125b4bf35128279972f",
+                "reference": "5e920f734f4065de1582c125b4bf35128279972f",
                 "shasum": ""
             },
             "require": {
@@ -1028,17 +1028,17 @@
         },
         {
             "name": "react/socket",
-            "version": "v0.2.7",
+            "version": "v0.2.6",
             "target-dir": "React/Socket",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/socket.git",
-                "reference": "1619a117df4ebb8aa97f804b5afd7abd4d32d8bf"
+                "reference": "21e3fe670b2f18e3c6b2cb73f14e1c58fe7bca84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/socket/zipball/1619a117df4ebb8aa97f804b5afd7abd4d32d8bf",
-                "reference": "1619a117df4ebb8aa97f804b5afd7abd4d32d8bf",
+                "url": "https://api.github.com/repos/reactphp/socket/zipball/21e3fe670b2f18e3c6b2cb73f14e1c58fe7bca84",
+                "reference": "21e3fe670b2f18e3c6b2cb73f14e1c58fe7bca84",
                 "shasum": ""
             },
             "require": {
@@ -1070,17 +1070,17 @@
         },
         {
             "name": "react/stream",
-            "version": "v0.2.7",
+            "version": "v0.2.6",
             "target-dir": "React/Stream",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/stream.git",
-                "reference": "98cb36bc8c4d6111c584d63f680e886b2167bee5"
+                "reference": "34c1059cffb44873440135e9a86fe9ae9caf5acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/stream/zipball/98cb36bc8c4d6111c584d63f680e886b2167bee5",
-                "reference": "98cb36bc8c4d6111c584d63f680e886b2167bee5",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/34c1059cffb44873440135e9a86fe9ae9caf5acd",
+                "reference": "34c1059cffb44873440135e9a86fe9ae9caf5acd",
                 "shasum": ""
             },
             "require": {
