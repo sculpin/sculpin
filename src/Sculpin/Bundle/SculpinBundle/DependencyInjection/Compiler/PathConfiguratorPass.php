@@ -68,7 +68,7 @@ class PathConfiguratorPass implements CompilerPassInterface
         $matcher = $this->matcher;
 
         return array_map(
-            function($path) use($matcher) {
+            function ($path) use ($matcher) {
                 if ($matcher->isPattern($path)) {
                     return $path;
                 }

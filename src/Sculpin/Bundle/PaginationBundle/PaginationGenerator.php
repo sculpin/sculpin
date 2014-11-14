@@ -59,7 +59,7 @@ class PaginationGenerator implements GeneratorInterface
             $config['provider'] = 'data.posts';
         }
         if (preg_match('/^(data|page)\.(.+)$/', $config['provider'], $matches)) {
-            switch($matches[1]) {
+            switch ($matches[1]) {
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
                     break;

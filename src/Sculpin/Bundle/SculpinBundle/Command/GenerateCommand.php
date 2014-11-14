@@ -84,7 +84,7 @@ EOT
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function() use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
                     clearstatcache();
                     $sourceSet->reset();
 

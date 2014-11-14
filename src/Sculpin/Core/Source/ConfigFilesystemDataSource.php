@@ -69,11 +69,11 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * Constructor.
      *
-     * @param string                       $sourceDir                    Source directory
-     * @param ConfigurationInterface       $siteConfiguration            Site Configuration
-     * @param SiteConfigurationFactory     $siteConfigurationFactory     Site Configuration Factory
-     * @param FinderFactoryInterface       $finderFactory                Finder Factory
-     * @param AntPathMatcher               $matcher                      Matcher
+     * @param string                   $sourceDir                Source directory
+     * @param ConfigurationInterface   $siteConfiguration        Site Configuration
+     * @param SiteConfigurationFactory $siteConfigurationFactory Site Configuration Factory
+     * @param FinderFactoryInterface   $finderFactory            Finder Factory
+     * @param AntPathMatcher           $matcher                  Matcher
      */
     public function __construct(
         $sourceDir,

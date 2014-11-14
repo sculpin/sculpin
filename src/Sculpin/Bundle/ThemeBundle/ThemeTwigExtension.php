@@ -123,7 +123,6 @@ class ThemeTwigExtension extends \Twig_Extension
             return $paths;
         }
 
-
         $themeResource = $this->findThemeResource($this->theme, $resource);
         if (null !== $themeResource) {
             $paths[] = $themeResource;

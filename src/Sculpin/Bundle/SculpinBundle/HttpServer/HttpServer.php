@@ -50,7 +50,7 @@ class HttpServer
         $this->loop = new StreamSelectLoop;
         $socketServer = new ReactSocketServer($this->loop);
         $httpServer = new ReactHttpServer($socketServer);
-        $httpServer->on("request", function($request, $response) use ($repository, $docroot, $output) {
+        $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
             $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
@@ -111,7 +111,7 @@ class HttpServer
      * @param string          $responseCode Response code
      * @param Request         $request      Request
      */
-    static public function logRequest(OutputInterface $output, $responseCode, Request $request)
+    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
     {
         $wrapOpen = '';
         $wrapClose = '';

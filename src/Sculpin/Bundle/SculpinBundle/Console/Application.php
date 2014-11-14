@@ -90,7 +90,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
         return parent::run($input, $output);
     }
 
-
     /**
      * {@inheritdoc}
      */
