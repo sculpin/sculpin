@@ -87,9 +87,10 @@ class FileSource extends AbstractSource
                         try {
                             $builder = new YamlDataBuilder($matches[1]);
                             $this->data = $builder->build();
-                        } catch (\Exception $e) {
+                        } catch (\InvalidArgumentException $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
+                            echo ' ! ' . $this->sourceId() . ' ' . $e->getMessage() . ' !' . PHP_EOL;
                             $this->content = $content;
                             $this->data = new Data;
                         }
