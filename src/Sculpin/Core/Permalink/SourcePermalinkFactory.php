@@ -116,8 +116,8 @@ class SourcePermalinkFactory
                 }
                 $permalink = preg_replace('/:filename/', $filename, $permalink);
                 $permalink = preg_replace('/:slug_filename/', $this->normalize($slug ?: $filename), $permalink);
-                if (strrpos($filename, '/') !== false) {
-                    $basename = substr($filename, strrpos($filename, '/')+1);
+                if (strrpos($filename, DIRECTORY_SEPARATOR) !== false) {
+                    $basename = substr($filename, strrpos($filename, DIRECTORY_SEPARATOR)+1);
                 } else {
                     $basename = $filename;
                 }
