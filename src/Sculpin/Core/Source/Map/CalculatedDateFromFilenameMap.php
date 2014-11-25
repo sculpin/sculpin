@@ -26,7 +26,7 @@ class CalculatedDateFromFilenameMap implements MapInterface
                 }
                 $source->data()->set('calculated_date', $calculatedDate = strtotime(implode(' ', $parts)));
                 if (!$source->data()->get('date')) {
-                    $source->data()->set('date', date('c', $calculatedDate));
+                    $source->data()->set('date', $calculatedDate);
                 }
             }
         }
