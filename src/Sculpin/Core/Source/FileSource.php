@@ -107,6 +107,10 @@ class FileSource extends AbstractSource
         }
 
         if ($this->data->get('date')) {
+            if (! is_numeric($this->data->get('date'))) {
+                $this->data->set('date', strtotime($this->data->get('date')));
+            }
+
             $this->data->set('calculated_date', $this->data->get('date'));
         }
     }
