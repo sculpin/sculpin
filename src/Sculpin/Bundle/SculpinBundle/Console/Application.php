@@ -36,6 +36,9 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class Application extends BaseApplication implements EmbeddedComposerAwareInterface
 {
+    protected $kernel;
+    protected $embeddedComposer;
+    
     /**
      * Constructor.
      *
