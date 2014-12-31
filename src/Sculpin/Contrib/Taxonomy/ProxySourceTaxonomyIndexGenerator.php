@@ -57,7 +57,8 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
                 $urlTaxon = $this->permalinkStrategyCollection->process($taxon);
-                $permalink = $permalink.'/'.$urlTaxon.'/index.html';
+                $suffix = in_array($matches[2], array('xml', 'rss', 'json')) ? '.'.$matches[2] : '/index.html';
+                $permalink = $permalink.'/'.$urlTaxon.$suffix;
             } else {
                 // not sure what case this is?
             }
