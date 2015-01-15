@@ -239,6 +239,10 @@ class SculpinContentTypesExtension extends Extension
                         }
                     }
                 }
+
+                // TODO: This should be configurable.
+                $taxonomyNormalizedName = $taxonomyName.'_normalized';
+
                 $taxon = Inflector::singularize($taxonomyName);
 
                 $taxonomyDataProviderName = $type.'_'.$taxonomyName;
@@ -251,6 +255,8 @@ class SculpinContentTypesExtension extends Extension
                 $taxonomyDataProvider->addArgument(new Reference('sculpin.data_provider_manager'));
                 $taxonomyDataProvider->addArgument($type);
                 $taxonomyDataProvider->addArgument($taxonomyName);
+                $taxonomyDataProvider->addArgument($taxonomyNormalizedName);
+                $taxonomyDataProvider->addArgument($permalinkStrategies);
                 $taxonomyDataProvider->addTag('kernel.event_subscriber');
                 $taxonomyDataProvider->addTag('sculpin.data_provider', array('alias' => $taxonomyDataProviderName));
                 $container->setDefinition($taxonomyDataProviderId, $taxonomyDataProvider);

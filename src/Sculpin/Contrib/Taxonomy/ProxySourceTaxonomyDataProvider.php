@@ -23,15 +23,21 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
     private $dataProviderManager;
     private $dataProviderName;
     private $taxonomyKey;
+    private $taxonomyNormalizedKey;
+    private $permalinkStrategyCollection;
 
     public function __construct(
         DataProviderManager $dataProviderManager,
         $dataProviderName,
-        $taxonomyKey
+        $taxonomyKey,
+        $taxonomyNormalizedKey,
+        $permalinkStrategyCollection
     ) {
         $this->dataProviderManager = $dataProviderManager;
         $this->dataProviderName = $dataProviderName;
         $this->taxonomyKey = $taxonomyKey;
+        $this->taxonomyNormalizedKey = $taxonomyNormalizedKey;
+        $this->permalinkStrategyCollection = $permalinkStrategyCollection;
     }
 
     public function provideData()
@@ -54,12 +60,15 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
         foreach ($dataProvider->provideData() as $item) {
             if ($itemTaxons = $item->data()->get($this->taxonomyKey)) {
                 $normalizedItemTaxons = array();
+                $normalizedItemTaxonNormalized[] = array();
                 foreach ((array) $itemTaxons as $itemTaxon) {
                     $normalizedItemTaxon = trim($itemTaxon);
                     $taxons[$normalizedItemTaxon][] = $item;
                     $normalizedItemTaxons[] = $normalizedItemTaxon;
+                    $normalizedItemTaxonNormalized[$normalizedItemTaxon] = $this->permalinkStrategyCollection->process($normalizedItemTaxon);;
                 }
                 $item->data()->set($this->taxonomyKey, $normalizedItemTaxons);
+                $item->data()->set($this->taxonomyNormalizedKey, $normalizedItemTaxonNormalized);
             }
         }
 
