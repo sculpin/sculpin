@@ -54,16 +54,26 @@ class SiteConfigurationFactory
      */
     public function create()
     {
-        if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
-            $config = $this->getConfigFile($file);
-        } elseif (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
-            $config =  $this->getConfigFile($file);
-        } else {
-            $config = new Configuration();
-        }
-
+        $config = $this->detectConfig();
         $config->set('env', $this->environment);
 
         return $config;
+    }
+    /**
+     * Detect configuration file and create Site Configuration from it
+     *
+     * @return Configuration
+     */
+    public function detectConfig()
+    {
+        if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
+            return $this->getConfigFile($file);
+        }
+        
+        if (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
+            return $this->getConfigFile($file);
+        }
+        
+        return  new Configuration();
     }
 }
