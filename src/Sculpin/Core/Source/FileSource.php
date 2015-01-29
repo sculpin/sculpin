@@ -57,6 +57,8 @@ class FileSource extends AbstractSource
     {
         parent::init($hasChanged);
 
+        $originalData = $this->data;
+
         if ($this->isRaw) {
             $this->useFileReference = true;
             $this->data = new Data;
@@ -112,6 +114,10 @@ class FileSource extends AbstractSource
             }
 
             $this->data->set('calculated_date', $this->data->get('date'));
+        }
+
+        if ($originalData) {
+            $this->data->import($originalData, false);
         }
     }
 }
