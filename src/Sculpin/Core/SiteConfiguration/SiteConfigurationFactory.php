@@ -34,22 +34,46 @@ class SiteConfigurationFactory
     }
 
     /**
+     * Get an instance of the Configuration() class from the given file.
+     *
+     * @param  string $configFile
+     * @return YamlFileConfigurationBuilder
+     */
+    private function getConfigFile($configFile)
+    {
+        $builder = new YamlFileConfigurationBuilder(array($configFile));
+        $config = $builder->build();
+
+        return $config;
+    }
+
+    /**
      * Create Site Configuration
      *
      * @return Configuration
      */
     public function create()
     {
+        $config = $this->detectConfig();
+        $config->set('env', $this->environment);
+
+        return $config;
+    }
+    /**
+     * Detect configuration file and create Site Configuration from it
+     *
+     * @return Configuration
+     */
+    public function detectConfig()
+    {
         if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
-            $builder = new YamlFileConfigurationBuilder(array($file));
-
-            return $builder->build();
-        } elseif (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
-            $builder = new YamlFileConfigurationBuilder(array($file));
-
-            return $builder->build();
+            return $this->getConfigFile($file);
         }
-
-        return new Configuration;
+        
+        if (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
+            return $this->getConfigFile($file);
+        }
+        
+        return  new Configuration();
     }
 }
