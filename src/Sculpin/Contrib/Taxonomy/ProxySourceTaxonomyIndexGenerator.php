@@ -39,8 +39,6 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
     public function generate(SourceInterface $source)
     {
-        $generatedSources = array();
-
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
         $taxons = $dataProvider->provideData();
 
@@ -55,9 +53,12 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
             $permalink = dirname($permalink);
 
+            $indexType = null;
+
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
                 $urlTaxon = $this->permalinkStrategyCollection->process($taxon);
-                $suffix = in_array($matches[2], array('xml', 'rss', 'json')) ? '.'.$matches[2] : '/index.html';
+                $indexType = $matches[2];
+                $suffix = in_array($indexType, array('xml', 'rss', 'json')) ? '.'.$indexType : '/';
                 $permalink = $permalink.'/'.$urlTaxon.$suffix;
             } else {
                 // not sure what case this is?
@@ -74,6 +75,17 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
             $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
             $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);
+
+            if ($indexType) {
+                foreach ($items as $item) {
+                    $key = $this->injectedTaxonKey.'_'.$indexType.'_index_permalinks';
+                    $taxonIndexPermalinks = $item->data()->get($key) ?: [];
+
+                    $taxonIndexPermalinks[$taxon] = $permalink;
+
+                    $item->data()->set($key, $taxonIndexPermalinks);
+                }
+            }
 
             //
             // TODO: REMOVE THIS
