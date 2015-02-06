@@ -68,6 +68,10 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
                 $permalink = substr($permalink, 2);
             }
 
+            if (0 !== strpos($permalink, '/')) {
+                $permalink = '/'.$permalink;
+            }
+
             if ($permalink) {
                 // not sure if this is ever going to happen?
                 $generatedSource->data()->set('permalink', $permalink);
