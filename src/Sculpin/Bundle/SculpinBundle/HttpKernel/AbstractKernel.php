@@ -69,6 +69,7 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
             new \Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle,
             new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
+            new \Sculpin\Bundle\ImageBundle\SculpinImageBundle,
         );
 
         foreach ($this->getAdditionalSculpinBundles() as $class) {
