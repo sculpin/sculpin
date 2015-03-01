@@ -18,9 +18,9 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/config": "~2.1",
-        "symfony/dependency-injection": "~2.1",
-        "symfony/http-kernel": "~2.1",
+        "symfony/config": "~2.3",
+        "symfony/dependency-injection": "~2.3",
+        "symfony/http-kernel": "~2.3",
         "sculpin/taxonomy-contrib": "self.version",
         "sculpin/proxy-source-collection-contrib": "self.version",
         "sculpin/core": "self.version"
