@@ -21,9 +21,8 @@
         "sculpin/core": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Contrib\\Taxonomy": "" }
+        "psr-4": { "Sculpin\\Contrib\\Taxonomy\\": "" }
     },
-    "target-dir": "Sculpin/Contrib/Taxonomy",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"

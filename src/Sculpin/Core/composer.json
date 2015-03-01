@@ -27,9 +27,8 @@
         "symfony/finder": "2.1.*"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Core": "" }
+        "psr-4": { "Sculpin\\Core\\": "" }
     },
-    "target-dir": "Sculpin/Core",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
