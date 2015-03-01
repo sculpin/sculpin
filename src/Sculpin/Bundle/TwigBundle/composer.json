@@ -24,9 +24,8 @@
         "sculpin/core": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Bundle\\TwigBundle": "" }
+        "psr-4": { "Sculpin\\Bundle\\TwigBundle\\": "" }
     },
-    "target-dir": "Sculpin/Bundle/TwigBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"

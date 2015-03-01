@@ -61,8 +61,8 @@
         "sculpin/twig-bundle": "self.version"
     },
     "autoload": {
-        "psr-0": {
-            "Sculpin": "src"
+        "psr-4": {
+            "Sculpin\\": "src/Sculpin/"
         }
     },
     "bin": ["bin/sculpin", "bin/sculpin.php"],

@@ -21,9 +21,8 @@
         "sculpin/core": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Contrib\\ProxySourceCollection": "" }
+        "psr-4": { "Sculpin\\Contrib\\ProxySourceCollection\\": "" }
     },
-    "target-dir": "Sculpin/Contrib/ProxySourceCollection",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
