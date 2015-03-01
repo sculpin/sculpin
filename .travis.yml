@@ -7,6 +7,10 @@ php:
   - 5.5
   - hhvm
 
+before_install:
+    - printf "\n" | pecl install imagick
+    - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
 install:
   - composer --prefer-source install
 
