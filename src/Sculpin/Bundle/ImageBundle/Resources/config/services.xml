@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sculpin_image.imanee.class">Imanee\Imanee</parameter>
+        <parameter key="sculpin_image.image_service.class">Sculpin\Bundle\ImageBundle\ImageService</parameter>
+        <parameter key="sculpin_image.twig_extension.class">Sculpin\Bundle\ImageBundle\TwigImageExtension</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="sculpin_image.imanee" class="%sculpin_image.imanee.class%" />
+
+        <service id="sculpin_image.service" class="%sculpin_image.image_service.class%">
+            <argument type="service" id="sculpin_image.imanee" />
+            <argument>%sculpin.source_dir%</argument>
+            <argument>%sculpin.output_dir%</argument>
+            <argument>%kernel.environment%</argument>
+        </service>
+
+        <service id="sculpin_image.extension.image" class="%sculpin_image.twig_extension.class%">
+            <argument type="service" id="sculpin_image.service" />
+            <tag name="twig.extension" />
+        </service>
+
+    </services>
+
+</container>

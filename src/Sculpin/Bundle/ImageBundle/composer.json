@@ -1,0 +1,39 @@
+{
+    "name": "sculpin/image-bundle",
+    "description": "Sculpin Bundle",
+    "homepage": "https://sculpin.io",
+    "keywords": ["images", "thumbnails"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dragonfly Development Inc.",
+            "email": "info@dflydev.com",
+            "homepage": "http://dflydev.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com",
+            "homepage": "http://beausimensen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/config": "~2.1",
+        "symfony/dependency-injection": "~2.1",
+        "symfony/http-kernel": "~2.1",
+        "sculpin/taxonomy-contrib": "self.version",
+        "sculpin/proxy-source-collection-contrib": "self.version",
+        "sculpin/core": "self.version",
+        "imanee/imanee": "*"
+    },
+    "autoload": {
+        "psr-0": { "Sculpin\\Bundle\\ImageBundle": "" }
+    },
+    "target-dir": "Sculpin/Bundle/ImageBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "beta"
+}
