@@ -23,6 +23,7 @@ class ImageService
     public $source_dir;
     public $output_dir;
     public $prefix = '/_thumbs';
+    public $completed = array();
 
     /**
      * Constructor
@@ -56,24 +57,38 @@ class ImageService
      * Generate a thumbnail
      *
      * @param string    $image      Path to image file (relative to source_dir)
-     * @param int       $height     Height, in pixels (default: 150)
      * @param int       $width      Width, in pixels (default: 150)
+     * @param int       $height     Height, in pixels (default: 150)
+     * @param bool      $crop       When set to true, the thumbnail will be cropped
+     *                              from the center to match the given size
      *
      * @return string               Location of the thumbnail, for use in <img> tags
      */
-    public function thumbnail($image, $height = 150, $width = 150)
+    public function thumbnail($image, $width = 150, $height = 150, $crop = false)
     {
-        $this->prepOutputDir();
-        $this->imanee->load($this->source_dir . '/' . $image)->thumbnail($width, $height);
+        // no sense duplicating work - only process image if thumbnail doesn't already exist
+        if (!isset($this->completed[$image][$width][$height][$crop]['filename'])) {
+            $this->prepOutputDir();
+            $this->imanee->load($this->source_dir . '/' . $image)->thumbnail($width, $height, $crop);
+            $thumb_name = vsprintf(
+                '%s-%sx%s%s.%s',
+                array(
+                    $image,
+                    $width,
+                    $height,
+                    ($crop ? '-cropped' : ''),
+                    strtolower($this->imanee->getFormat())
+                )
+            );
 
-        $thumb_name = md5($image) . '.' . strtolower($this->imanee->getFormat());
+            // write the thumbnail to disk
+            file_put_contents(
+                $this->output_dir . $this->prefix . '/' . $thumb_name,
+                $this->imanee->output()
+            );
+            $this->completed[$image][$width][$height][$crop]['filename'] = $thumb_name;
+        }
 
-        // write the thumbnail to disk
-        file_put_contents(
-            $this->output_dir . $this->prefix . '/' . $thumb_name,
-            $this->imanee->output()
-        );
-
-        return $this->prefix . '/' . $thumb_name;
+        return $this->prefix . '/' . $this->completed[$image][$width][$height][$crop]['filename'];
     }
 }
