@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3e3a3e3e0e31492a51a2ac01b1b7406c",
+    "hash": "ac37e1144bc3baaa60eb0b730603307f",
     "packages": [
         {
             "name": "composer/composer",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "e5985a9b559747a5f3868361ff26c31818d8c184"
+                "reference": "664202e767ae29b1afdb5d96baee880b8baed4c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/e5985a9b559747a5f3868361ff26c31818d8c184",
-                "reference": "e5985a9b559747a5f3868361ff26c31818d8c184",
+                "url": "https://api.github.com/repos/composer/composer/zipball/664202e767ae29b1afdb5d96baee880b8baed4c8",
+                "reference": "664202e767ae29b1afdb5d96baee880b8baed4c8",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2015-02-25 19:44:34"
+            "time": "2015-02-28 21:20:18"
         },
         {
             "name": "dflydev/ant-path-matcher",
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-console.git",
-                "reference": "7dab34a7afc9542ab1f41a98409cbfdfd6c59f33"
+                "reference": "0f279f17dfe6f350d32f15f5baab55503eebe2fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-console/zipball/7dab34a7afc9542ab1f41a98409cbfdfd6c59f33",
-                "reference": "7dab34a7afc9542ab1f41a98409cbfdfd6c59f33",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-console/zipball/0f279f17dfe6f350d32f15f5baab55503eebe2fa",
+                "reference": "0f279f17dfe6f350d32f15f5baab55503eebe2fa",
                 "shasum": ""
             },
             "require": {
@@ -402,7 +402,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-11-22 19:40:29"
+            "time": "2014-09-17 04:02:52"
         },
         {
             "name": "dflydev/embedded-composer-core",
@@ -411,12 +411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-embedded-composer-core.git",
-                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8"
+                "reference": "7b6b6c21972a562c53a29c892933971e8306ac2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
-                "reference": "c46b7cefbc7e66d9b3aefc0fb5212637472225c8",
+                "url": "https://api.github.com/repos/dflydev/dflydev-embedded-composer-core/zipball/7b6b6c21972a562c53a29c892933971e8306ac2c",
+                "reference": "7b6b6c21972a562c53a29c892933971e8306ac2c",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +458,7 @@
                 "embedded",
                 "extensibility"
             ],
-            "time": "2013-12-16 15:24:21"
+            "time": "2014-09-17 04:17:07"
         },
         {
             "name": "dflydev/placeholder-resolver",
@@ -615,7 +615,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -829,16 +829,16 @@
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6"
+                "reference": "e1aabe18173231ebcefc90e615565742fc1c7fd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
-                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/e1aabe18173231ebcefc90e615565742fc1c7fd9",
+                "reference": "e1aabe18173231ebcefc90e615565742fc1c7fd9",
                 "shasum": ""
             },
             "require": {
@@ -861,34 +861,34 @@
             ],
             "authors": [
                 {
-                    "name": "Michel Fortin",
-                    "email": "michel.fortin@michelf.ca",
-                    "homepage": "http://michelf.ca/",
-                    "role": "Developer"
-                },
-                {
                     "name": "John Gruber",
                     "homepage": "http://daringfireball.net/"
+                },
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "https://michelf.ca/",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP Markdown",
-            "homepage": "http://michelf.ca/projects/php-markdown/",
+            "homepage": "https://michelf.ca/projects/php-markdown/",
             "keywords": [
                 "markdown"
             ],
-            "time": "2014-05-05 02:43:50"
+            "time": "2015-03-01 12:03:08"
         },
         {
             "name": "netcarver/textile",
             "version": "v3.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/netcarver/textile.git",
+                "url": "https://github.com/textile/php-textile.git",
                 "reference": "a8280ff782e449ce32ea3f416a99148b61e3343e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netcarver/textile/zipball/a8280ff782e449ce32ea3f416a99148b61e3343e",
+                "url": "https://api.github.com/repos/textile/php-textile/zipball/a8280ff782e449ce32ea3f416a99148b61e3343e",
                 "reference": "a8280ff782e449ce32ea3f416a99148b61e3343e",
                 "shasum": ""
             },
@@ -1242,7 +1242,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1290,7 +1292,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1402,12 +1406,12 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Debug Component",
@@ -1459,7 +1463,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1513,7 +1519,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1559,12 +1567,12 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Filesystem Component",
@@ -1657,7 +1665,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1728,7 +1738,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1822,7 +1834,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -1838,12 +1852,12 @@
             "version": "v1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig-extensions.git",
+                "url": "https://github.com/twigphp/Twig-extensions.git",
                 "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
                 "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
                 "shasum": ""
             },
@@ -1885,12 +1899,12 @@
             "version": "v1.15.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig.git",
+                "url": "https://github.com/twigphp/Twig.git",
                 "reference": "85e4ff98000157ff753d934b9f13659a953f5666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/85e4ff98000157ff753d934b9f13659a953f5666",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/85e4ff98000157ff753d934b9f13659a953f5666",
                 "reference": "85e4ff98000157ff753d934b9f13659a953f5666",
                 "shasum": ""
             },
@@ -1915,14 +1929,11 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Armin Ronacher2",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
