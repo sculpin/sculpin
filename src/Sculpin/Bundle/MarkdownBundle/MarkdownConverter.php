@@ -48,6 +48,11 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     public function __construct(ParserInterface $markdown, array $extensions = array())
     {
         $this->markdown = $markdown;
+        $this->markdown->header_id_func = function($headerName) {
+            return rawurlencode(strtolower(
+                strtr($headerName, [' ' => '-'])
+            ));
+        };
         $this->extensions = $extensions;
     }
 
