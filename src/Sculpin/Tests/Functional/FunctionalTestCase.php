@@ -29,6 +29,8 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUpTestProject() {
+		$this->tearDownTestProject();
+
 		$projectFiles = [
 			'/config/sculpin_kernel.yml',
 			'/config/sculpin_site.yml',
@@ -40,11 +42,6 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase {
 		}
 
 		$this->writeToProjectFile('/source/_layouts/raw.html.twig', '{% block content %}{% endblock content %}');
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->tearDownTestProject();
 	}
 
 	protected function tearDownTestProject() {
