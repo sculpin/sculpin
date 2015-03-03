@@ -48,8 +48,10 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function tearDownTestProject() {
-		$fs = new Filesystem();
-		$fs->remove(self::ProjectDir());
+		$projectDir = self::ProjectDir();
+		if (self::$fs->exists($projectDir)) {
+			self::$fs->remove($projectDir);
+		}
 	}
 
 	/**
