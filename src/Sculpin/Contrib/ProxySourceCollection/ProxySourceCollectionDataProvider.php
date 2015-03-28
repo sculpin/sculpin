@@ -85,6 +85,18 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
             }
         }
+        $foudAtLeastOne = false;
+
+        foreach ($sourceSetEvent->allSources() as $source) {
+            if ($this->filter->match($source)) {
+                $foudAtLeastOne = true;
+                break;
+            }
+        }
+
+        if (!$foudAtLeastOne) {
+            echo 'Didnt find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
+        }
 
         $this->collection->init();
     }
