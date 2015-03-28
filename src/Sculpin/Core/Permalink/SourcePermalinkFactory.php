@@ -52,9 +52,9 @@ class SourcePermalinkFactory
             if (strpos(basename($relativeFilePath), 'index.') === false) {
                 $relativeUrlPath = $relativeFilePath;
             } else {
-                $relativeUrlPath = '/'.dirname($relativeFilePath);
+                $relativeUrlPath = '/'.dirname($relativeFilePath).'/';
             }
-            if ($relativeUrlPath == '/.') {
+            if ($relativeUrlPath == '/./') {
                 $relativeUrlPath = '/';
             }
         } else {
@@ -71,6 +71,8 @@ class SourcePermalinkFactory
     protected function generatePermalinkPathname(SourceInterface $source)
     {
         $pathname = $source->relativePathname();
+        // Make sure that twig files end up as .html files.
+        $pathname = preg_replace('/(html\.)?twig$|twig\.html$/', 'html', $pathname);
         $date = $source->data()->get('calculated_date');
         $title = $source->data()->get('title');
         $slug = $source->data()->get('slug');

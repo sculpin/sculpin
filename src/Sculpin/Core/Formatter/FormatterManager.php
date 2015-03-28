@@ -93,6 +93,16 @@ class FormatterManager
             'converters' => array(),
         ));
 
+        if (isset($context['url'])) {
+            if ('/' === $context['url']) {
+                $relativeUrl = '.';
+            } else {
+                $relativeUrl = rtrim(str_repeat('../', substr_count($context['url'], '/')), '/');
+            }
+
+            $baseContext->set('relative_root_url', $relativeUrl);
+        }
+
         foreach ($this->dataProviderManager->dataProviders() as $name) {
             if (isset($context['use']) and in_array($name, $context['use'])) {
                 $baseContext->set('data.'.$name, $this->dataProviderManager->dataProvider($name)->provideData());
