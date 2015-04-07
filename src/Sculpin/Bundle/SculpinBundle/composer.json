@@ -27,9 +27,8 @@
         "sculpin/composer-bundle": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Bundle\\SculpinBundle": "" }
+        "psr-4": { "Sculpin\\Bundle\\SculpinBundle\\": "" }
     },
-    "target-dir": "Sculpin/Bundle/SculpinBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"

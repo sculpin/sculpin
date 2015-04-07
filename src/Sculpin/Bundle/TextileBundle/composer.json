@@ -22,9 +22,8 @@
         "netcarver/textile": "2.5.*@dev"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Bundle\\TextileBundle": "" }
+        "psr-4": { "Sculpin\\Bundle\\TextileBundle\\": "" }
     },
-    "target-dir": "Sculpin/Bundle/TextileBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
