@@ -109,7 +109,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
             (?<= \\]) # Look behind to find ]
             (
                 \\(     # match (
-                [^\\)]*  # match everything except )
+                [^\\)]* # match everything except )
                 \\)     # match )
             )
 
