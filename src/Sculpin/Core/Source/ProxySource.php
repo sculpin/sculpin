@@ -146,7 +146,7 @@ class ProxySource implements SourceInterface
      */
     public function setFormattedContent($formattedContent = null)
     {
-        return $this->source->formattedContent($formattedContent);
+        return $this->source->setFormattedContent($formattedContent);
     }
 
     /**
