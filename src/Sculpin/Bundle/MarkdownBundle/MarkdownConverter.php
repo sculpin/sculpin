@@ -92,7 +92,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * This method is called to generate an id="" attribute for a header.
      *
      * @param string $headerText raw markdown input for the header name
-     * return string
+     * @return string
      */
     public function generateHeaderId($headerText) {
 
