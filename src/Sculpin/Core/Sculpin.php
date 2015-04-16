@@ -20,7 +20,7 @@ use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Io\NullIo;
 use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
-use Sculpin\Core\Permalink\SourcePermalinkFactory;
+use Sculpin\Core\Permalink\SourcePermalinkFactoryInterface;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -60,7 +60,7 @@ class Sculpin
     /**
      * Permalink factory
      *
-     * @var SourcePermalinkFactory
+     * @var SourcePermalinkFactoryInterface
      */
     protected $permalinkFactory;
 
@@ -102,18 +102,18 @@ class Sculpin
     /**
      * Constructor.
      *
-     * @param Configuration          $siteConfiguration Site Configuration
-     * @param EventDispatcher        $eventDispatcher   Event dispatcher
-     * @param SourcePermalinkFactory $permalinkFactory  Permalink factory
-     * @param WriterInterface        $writer            Writer
-     * @param GeneratorManager       $generatorManager  Generator Manager
-     * @param FormatterManager       $formatterManager  Formatter Manager
-     * @param ConverterManager       $converterManager  Converter Manager
+     * @param Configuration                    $siteConfiguration Site Configuration
+     * @param EventDispatcher                  $eventDispatcher   Event dispatcher
+     * @param SourcePermalinkFactoryInterface  $permalinkFactory  Permalink factory
+     * @param WriterInterface                  $writer            Writer
+     * @param GeneratorManager                 $generatorManager  Generator Manager
+     * @param FormatterManager                 $formatterManager  Formatter Manager
+     * @param ConverterManager                 $converterManager  Converter Manager
      */
     public function __construct(
         Configuration $siteConfiguration,
         EventDispatcher $eventDispatcher,
-        SourcePermalinkFactory $permalinkFactory,
+        SourcePermalinkFactoryInterface $permalinkFactory,
         WriterInterface $writer,
         GeneratorManager $generatorManager,
         FormatterManager $formatterManager,

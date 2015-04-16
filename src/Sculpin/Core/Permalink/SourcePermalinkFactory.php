@@ -18,7 +18,7 @@ use Sculpin\Core\Source\SourceInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SourcePermalinkFactory
+class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
 {
     /**
      * Default permalink
@@ -38,11 +38,7 @@ class SourcePermalinkFactory
     }
 
     /**
-     * Create a Permalink for a Source.
-     *
-     * @param SourceInterface $source Source
-     *
-     * @return PermalinkInterface
+     * {@inheritdoc}
      */
     public function create(SourceInterface $source)
     {
