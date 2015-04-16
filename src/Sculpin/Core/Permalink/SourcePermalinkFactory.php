@@ -122,6 +122,11 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $prettyBasename = false !== strrpos($basename, '.') ? substr($basename, 0, strrpos($basename, '.')) : $basename;
                 $permalink = preg_replace('/:basename_real/', $basename, $permalink);
                 $permalink = preg_replace('/:basename/', $prettyBasename, $permalink);
+
+                if (substr($permalink, -5, 5) != '.html') {
+                    $permalink = rtrim($permalink, '/').'/';
+                }
+
                 if (substr($permalink, -1, 1) == '/') {
                     $permalink .= 'index.html';
                 }
