@@ -73,5 +73,9 @@
     },
     "scripts": {
         "post-autoload-dump": "Dflydev\\EmbeddedComposer\\Core\\Script::postAutoloadDump"
+    },
+    "require-dev": {
+        "symfony/dom-crawler": "~2.6",
+        "symfony/css-selector": "~2.6"
     }
 }
