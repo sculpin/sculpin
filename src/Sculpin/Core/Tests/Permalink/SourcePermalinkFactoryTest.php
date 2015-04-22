@@ -43,7 +43,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 static::makeTestSource('about.md'),
                 new Permalink(
                     'about/index.html',
-                    '/about/'
+                    '/about'
                 ),
             ),
 
@@ -62,7 +62,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
                     '2015/01/12/from-buttercup-protects-to-broadway/index.html',
-                    '/2015/01/12/from-buttercup-protects-to-broadway/'
+                    '/2015/01/12/from-buttercup-protects-to-broadway'
                 ),
             ),
         );
