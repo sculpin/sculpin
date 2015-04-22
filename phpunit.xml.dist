@@ -17,6 +17,7 @@
             <directory>./src/Sculpin/Bundle/*/Tests</directory>
             <directory>./src/Sculpin/Core/Tests</directory>
             <directory>./src/Sculpin/Contrib/*/Tests</directory>
+            <directory>./src/Sculpin/Tests</directory>
         </testsuite>
     </testsuites>
 
