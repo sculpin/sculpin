@@ -48,7 +48,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     public function __construct(ParserInterface $markdown, array $extensions = array())
     {
         $this->markdown = $markdown;
-        $this->markdown->header_id_func = [$this, 'generateHeaderId'];
+        $this->markdown->header_id_func = array($this, 'generateHeaderId');
         $this->extensions = $extensions;
     }
 
@@ -117,13 +117,13 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 
         // Step 3: Convert spaces to dashes, and remove unwanted special
         // characters.
-        $map = [
+        $map = array(
             ' ' => '-',
             '(' => '',
             ')' => '',
             '[' => '',
             ']' => '',
-        ];
+        );
         return rawurlencode(strtolower(
             strtr($result, $map)
         ));

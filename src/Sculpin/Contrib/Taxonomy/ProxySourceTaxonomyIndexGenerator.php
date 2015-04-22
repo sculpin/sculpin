@@ -83,7 +83,7 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             if ($indexType) {
                 foreach ($items as $item) {
                     $key = $this->injectedTaxonKey.'_'.$indexType.'_index_permalinks';
-                    $taxonIndexPermalinks = $item->data()->get($key) ?: [];
+                    $taxonIndexPermalinks = $item->data()->get($key) ?: array();
 
                     $taxonIndexPermalinks[$taxon] = $permalink;
 
