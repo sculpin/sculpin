@@ -31,11 +31,11 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase {
 	protected function setUpTestProject() {
 		$this->tearDownTestProject();
 
-		$projectFiles = [
+		$projectFiles = array(
 			'/config/sculpin_kernel.yml',
 			'/config/sculpin_site.yml',
 			'/source/_layouts/raw.html.twig',
-		];
+        );
 
 		foreach ($projectFiles as $file) {
 			$this->addProjectFile($file);
