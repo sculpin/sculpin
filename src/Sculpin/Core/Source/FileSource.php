@@ -92,7 +92,7 @@ class FileSource extends AbstractSource
                         } catch (\InvalidArgumentException $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
-                            echo ' ! ' . $this->sourceId() . ' ' . $e->getMessage() . ' !' . PHP_EOL;
+                            echo ' ! ' , $this->sourceId() , ' ' , $e->getMessage() , ' !' , PHP_EOL;
                             $this->content = $content;
                             $this->data = new Data;
                         }
