@@ -144,6 +144,7 @@ class FilesystemDataSource implements DataSourceInterface
             ->finderFactory->createFinder()
             ->files()
             ->ignoreVCS(true)
+            ->ignoreDotFiles(false)
             ->date('>='.$sinceTimeLast)
             ->followLinks()
             ->in($this->sourceDir);
