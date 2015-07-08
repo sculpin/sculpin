@@ -17,7 +17,7 @@ if (function_exists('ini_set')) {
     $memoryInBytes = function ($value) {
         $unit = strtolower(substr($value, -1, 1));
         $value = (int) $value;
-        switch($unit) {
+        switch ($unit) {
             case 'g':
                 $value *= 1024;
                 // no break (cumulative multiplier)

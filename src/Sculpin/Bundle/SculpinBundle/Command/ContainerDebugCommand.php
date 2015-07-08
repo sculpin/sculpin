@@ -215,12 +215,18 @@ EOF
             }
         }
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(function ($length) { return "%-{$length}s "; }, $maxTags));
+        $format .= implode("", array_map(function ($length) {
+            return "%-{$length}s ";
+
+        }, $maxTags));
         $format .= '%-'.$maxScope.'s %s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
-        $format1 .= implode("", array_map(function ($length) { return '%-'.($length + 19).'s '; }, $maxTags));
+        $format1 .= implode("", array_map(function ($length) {
+            return '%-'.($length + 19).'s ';
+
+        }, $maxTags));
         $format1 .= '%-'.($maxScope + 19).'s %s';
 
         $tags = array();

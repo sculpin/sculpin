@@ -104,7 +104,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function getErrorMessage($filename, $msg)
     {
-        if ($msg == ''){
+        if ($msg == '') {
             return '';
         }
         return ' ! FileSource:FilesystemDataSource:test:' . $filename . ' ' . $msg . ' !' . PHP_EOL;
