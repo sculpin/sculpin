@@ -50,7 +50,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
 
     protected function tearDownTestProject()
     {
-        $projectDir = self::ProjectDir();
+        $projectDir = self::projectDir();
         if (self::$fs->exists($projectDir)) {
             self::$fs->remove($projectDir);
         }
@@ -63,7 +63,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
     protected function executeSculpin($command)
     {
         $binPath = __DIR__ . '/../../../../bin';
-        $projectDir = self::ProjectDir();
+        $projectDir = self::projectDir();
         exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
     }
 
@@ -77,7 +77,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
         // Remove leading slash
         array_shift($pathParts);
 
-        $projectDir = self::ProjectDir();
+        $projectDir = self::projectDir();
 
         if (!$recursive) {
             self::$fs->mkdir("$projectDir/$path");
@@ -114,7 +114,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
         }
 
         // Create the file
-        self::$fs->touch(self::ProjectDir() . $filePath);
+        self::$fs->touch(self::projectDir() . $filePath);
 
         // Add content to the file
         if (!is_null($content)) {
@@ -128,7 +128,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function copyFixtureToProject($fixturePath, $projectPath)
     {
-        self::$fs->copy($fixturePath, self::ProjectDir() . $projectPath);
+        self::$fs->copy($fixturePath, self::projectDir() . $projectPath);
     }
 
     /**
@@ -139,7 +139,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
     {
         $msg = $msg ?: "Expected project to contain file at path $filePath.";
 
-        $this->assertTrue(self::$fs->exists(self::ProjectDir() . $filePath), $msg);
+        $this->assertTrue(self::$fs->exists(self::projectDir() . $filePath), $msg);
     }
 
     /**
@@ -160,7 +160,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function writeToProjectFile($filePath, $content)
     {
-        self::$fs->dumpFile(self::ProjectDir() . $filePath, $content);
+        self::$fs->dumpFile(self::projectDir() . $filePath, $content);
     }
 
     /**
@@ -178,7 +178,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function crawlProjectFile($filePath)
     {
-        return $this->crawlFile(self::ProjectDir() . $filePath);
+        return $this->crawlFile(self::projectDir() . $filePath);
     }
 
     /**
@@ -213,7 +213,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return string
      */
-    protected static function ProjectDir()
+    protected static function projectDir()
     {
         return __DIR__ . self::PROJECT_DIR;
     }

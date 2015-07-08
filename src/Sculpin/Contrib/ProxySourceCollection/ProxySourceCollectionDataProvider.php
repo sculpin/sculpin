@@ -37,6 +37,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         FormatterManager $formatterManager,
         $dataProviderName,
         $dataSingularName = null,
+        // FIXME violates PSR2; defaults at end of method
         ProxySourceCollection $collection = null,
         FilterInterface $filter,
         MapInterface $map,

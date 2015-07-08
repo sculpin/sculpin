@@ -59,13 +59,59 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             $version .= ' ('.Sculpin::GIT_VERSION.')';
         }
 
-        parent::__construct('Sculpin', $version.' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
+        parent::__construct(
+            'Sculpin',
+            sprintf(
+                "%s-%s/%s%s",
+                $version,
+                $kernel->getName(),
+                $kernel->getEnvironment(),
+                ($kernel->isDebug() ? '/debug' : '')
+            )
+        );
 
-        $this->getDefinition()->addOption(new InputOption('--project-dir', null, InputOption::VALUE_REQUIRED, 'The project directory.', '.'));
-        $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
-        $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
-        $this->getDefinition()->addOption(new InputOption('--safe', null, InputOption::VALUE_NONE, 'Enable safe mode (no bundles loaded, no kernel booted)'));
-        $this->getDefinition()->addOption(new InputOption('--git-version', null, InputOption::VALUE_NONE, 'See Git version'));
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--project-dir',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The project directory.',
+                '.'
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--env',
+                '-e',
+                InputOption::VALUE_REQUIRED,
+                'The Environment name.',
+                $kernel->getEnvironment()
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--no-debug',
+                null,
+                InputOption::VALUE_NONE,
+                'Switches off debug mode.'
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--safe',
+                null,
+                InputOption::VALUE_NONE,
+                'Enable safe mode (no bundles loaded, no kernel booted)'
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--git-version',
+                null,
+                InputOption::VALUE_NONE,
+                'See Git version'
+            )
+        );
     }
 
     /**

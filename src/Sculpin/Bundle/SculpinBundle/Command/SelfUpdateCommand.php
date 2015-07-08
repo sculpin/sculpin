@@ -68,15 +68,26 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-        $tempFilename = dirname($localFilename) . '/' . basename($localFilename, '.phar').'-temp.phar';
+
+        $tempFilename = sprintf(
+            '%s/%s-temp.phar',
+            dirname($localFilename),
+            basename($localFilename, '.phar')
+        );
 
         // check for permissions in local filesystem before start connection process
         if (!is_writable($tempDirectory = dirname($tempFilename))) {
-            throw new FilesystemException('Sculpin update failed: the "'.$tempDirectory.'" directory used to download the temp file could not be written');
+            throw new FilesystemException(sprintf(
+                'Sculpin update failed: the "%s" directory used to download the temp file could not be written',
+                $tempDirectory
+            ));
         }
 
         if (!is_writable($localFilename)) {
-            throw new FilesystemException('Sculpin update failed: the "'.$localFilename. '" file could not be written');
+            throw new FilesystemException(sprintf(
+                'Sculpin update failed: the "%s" file could not be written',
+                $localFilename
+            ));
         }
 
         set_error_handler(array($this, 'handleError'));
@@ -88,7 +99,10 @@ EOT
         $latest = trim(file_get_contents($versionUrl, false, $this->getStreamContext()));
 
         if ($this->message) {
-            $output->writeln('<error>Could not determine most recent version:'."\n".$this->message.'</error>');
+            $output->writeln(sprintf(
+                "<error>Could not determine most recent version:\n%s</error>",
+                $this->message
+            ));
 
             return 1;
         }
@@ -98,10 +112,12 @@ EOT
 
             $remoteFilename = $protocol . '://download.sculpin.io/sculpin.phar';
 
-            if (!file_put_contents($tempFilename, file_get_contents($remoteFilename, false, $this->getStreamContext()))) {
+            $newFileContents = file_get_contents($remoteFilename, false, $this->getStreamContext());
+            if (!file_put_contents($tempFilename, $newFileContents)) {
                 $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
 
             }
+            unset($newFileContents);
 
             if (!file_exists($tempFilename)) {
                 $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
@@ -121,7 +137,12 @@ EOT
                 if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
                     throw $e;
                 }
-                $output->writeln('<error>The download is corrupted ('.$e->getMessage().').</error>');
+                $output->writeln(
+                    sprintf(
+                        '<error>The download is corrupted (%s).</error>'
+                    ),
+                    $e->getMessage()
+                );
                 $output->writeln('<error>Please re-run the self-update command to try again.</error>');
             }
         } else {
