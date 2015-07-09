@@ -95,28 +95,28 @@ class GeneratorManager
 
         $generators = array();
         $isGenerator = $source->isGenerator();
-        if ($generatorNames = $data->get('generator')) {
-            if (!$isGenerator) {
-                $source->setIsGenerator();
-            }
-
-            $generatorNames = (array) $generatorNames;
-
-            foreach ($generatorNames as $generatorName) {
-                if (!isset($this->generators[$generatorName])) {
-                    throw new \InvalidArgumentException(
-                        "Requested generator '$generatorName' could not be found; was it registered?"
-                    );
-                }
-
-                $generators[] = $this->generators[$generatorName];
-            }
-        } else {
+        if (!$generatorNames = $data->get('generator')) {
             if ($isGenerator) {
                 $source->setIsNotGenerator();
             }
 
             return;
+        }
+
+        if (!$isGenerator) {
+            $source->setIsGenerator();
+        }
+
+        $generatorNames = (array) $generatorNames;
+
+        foreach ($generatorNames as $generatorName) {
+            if (!isset($this->generators[$generatorName])) {
+                throw new \InvalidArgumentException(
+                    "Requested generator '$generatorName' could not be found; was it registered?"
+                );
+            }
+
+            $generators[] = $this->generators[$generatorName];
         }
 
         $targetSources = array($source);
