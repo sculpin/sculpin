@@ -23,7 +23,7 @@ class ProxySourceTest extends \PHPUnit_Framework_TestCase
             ->method('setFormattedContent')
             ->with($this->equalTo('hello world'));
 
-        $SUT = new ProxySource($source);
-        $SUT->setFormattedContent('hello world');
+        $proxySource = new ProxySource($source);
+        $proxySource->setFormattedContent('hello world');
     }
 }

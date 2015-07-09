@@ -99,15 +99,16 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
                 break;
             default:
-                list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', (int) $date));
-                $permalink = preg_replace('/:year/', $year, $permalink);
-                $permalink = preg_replace('/:yr/', $yr, $permalink);
-                $permalink = preg_replace('/:month/', $month, $permalink);
-                $permalink = preg_replace('/:mo/', $mo, $permalink);
-                $permalink = preg_replace('/:day/', $day, $permalink);
-                $permalink = preg_replace('/:dy/', $dy, $permalink);
+                $permalink = preg_replace('/:year/',  date('Y', (int) $date), $permalink);
+                $permalink = preg_replace('/:yr/',    date('y', (int) $date), $permalink);
+                $permalink = preg_replace('/:month/', date('m', (int) $date), $permalink);
+                $permalink = preg_replace('/:mo/',    date('n', (int) $date), $permalink);
+                $permalink = preg_replace('/:day/',   date('d', (int) $date), $permalink);
+                $permalink = preg_replace('/:dy/',    date('j', (int) $date), $permalink);
                 $permalink = preg_replace('/:title/', $this->normalize($title), $permalink);
                 $permalink = preg_replace('/:slug_title/', $this->normalize($slug ?: $title), $permalink);
+                unset($year, $yr, $month, $mo, $day, $dy);
+
                 $filename = $pathname;
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];

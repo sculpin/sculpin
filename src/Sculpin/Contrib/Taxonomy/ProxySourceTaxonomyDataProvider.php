@@ -46,7 +46,7 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
         );
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun()
     {
         $taxons = array();
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);

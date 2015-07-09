@@ -117,7 +117,7 @@ class TwigFormatter implements FormatterInterface
             // NOT the intention of the source's author.
             $verbatim = preg_replace('/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '', $template);
 
-            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim, $matches)) {
+            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
             $template = '{% extends "' . $layout . '" %}' . $template;
