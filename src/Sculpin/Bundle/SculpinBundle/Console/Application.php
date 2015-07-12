@@ -11,8 +11,8 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
+use Dflydev\EmbeddedComposer\Core\EmbeddedComposerInterface;
 use Sculpin\Core\Sculpin;
 use Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand;
 use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
@@ -26,7 +26,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -42,10 +41,10 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * Constructor.
      *
-     * @param KernelInterface  $kernel           A KernelInterface instance
-     * @param EmbeddedComposer $embeddedComposer Composer Class Loader
+     * @param KernelInterface           $kernel           A KernelInterface instance
+     * @param EmbeddedComposerInterface $embeddedComposer Composer Class Loader
      */
-    public function __construct(KernelInterface $kernel, EmbeddedComposer $embeddedComposer)
+    public function __construct(KernelInterface $kernel, EmbeddedComposerInterface $embeddedComposer)
     {
         $this->kernel = $kernel;
         $this->embeddedComposer = $embeddedComposer;
@@ -142,7 +141,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * Get Kernel
      *
-     * @return Kernel
+     * @return KernelInterface
      */
     public function getKernel()
     {
