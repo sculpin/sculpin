@@ -15,7 +15,7 @@ use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\SourceInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Converter Manager.
@@ -27,7 +27,7 @@ class ConverterManager
     /**
      * Event Dispatcher
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -48,10 +48,10 @@ class ConverterManager
     /**
      * Constructor.
      *
-     * @param EventDispatcher  $eventDispatcher  Event Dispatcher
-     * @param FormatterManager $formatterManager Formatter Manager
+     * @param EventDispatcherInterface $eventDispatcher  Event Dispatcher
+     * @param FormatterManager         $formatterManager Formatter Manager
      */
-    public function __construct(EventDispatcher $eventDispatcher, FormatterManager $formatterManager)
+    public function __construct(EventDispatcherInterface $eventDispatcher, FormatterManager $formatterManager)
     {
         $this->formatterManager = $formatterManager;
         $this->eventDispatcher = $eventDispatcher;
