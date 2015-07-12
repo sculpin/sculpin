@@ -114,11 +114,13 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             $this->registerCommands();
         }
 
-        parent::doRun($input, $output);
+        $exitCode = parent::doRun($input, $output);
 
         foreach ($this->getMissingSculpinBundlesMessages() as $message) {
             $output->writeln($message);
         }
+
+        return $exitCode;
     }
 
     public function getMissingSculpinBundlesMessages()
