@@ -264,7 +264,7 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
         $id = 'sculpin_content_types.permalink_strategy_collection.'.$type;
         $definition = new DefinitionDecorator('sculpin_content_types.permalink_strategy_collection');
         foreach ($taxonomy['strategies'] as $strategy) {
-            $definition->addMethodCall('push', [new Definition($strategy)]);
+            $definition->addMethodCall('push', array(new Definition($strategy)));
         }
         $container->setDefinition($id, $definition);
 
