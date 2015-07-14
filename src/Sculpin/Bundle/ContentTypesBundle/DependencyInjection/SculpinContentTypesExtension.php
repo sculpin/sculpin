@@ -232,7 +232,7 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
 
         $factoryId = 'sculpin_content_types.item_factory.'.$type;
         $factory = new DefinitionDecorator('sculpin_content_types.item_factory');
-        $factory->addArgument(new Parameter($itemClassId));
+        $factory->addArgument('%'.$itemClassId.'%');
         $container->setDefinition($factoryId, $factory);
 
         return $factoryId;
