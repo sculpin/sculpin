@@ -44,13 +44,10 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
         $container->setParameter('sculpin_content_types.types', array_keys($config));
 
         foreach ($config as $type => $setup) {
-            if (!$setup['enabled']) {
+            if (!$this->isConfigEnabled($container, $setup)) {
                 // We can skip any types that are not enabled.
                 continue;
             }
-
-            // What should use use for the singular name?
-            $singularName = isset($setup['singular_name']) ? $setup['singular_name'] : Inflector::singularize($type);
 
             // How is the type detected?
             $detectionTypes = is_array($setup['type']) ? $setup['type'] : array($setup['type']);
@@ -58,26 +55,19 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
             $collectionId = self::collectionFactory($container, $type);
 
             if (in_array('path', $detectionTypes)) {
-                if (0 == count($setup['path'])) {
-                    $setup['path'] = array('_'.$type);
-                }
-
                 $pathFilterFactoryId = self::pathFilterFactory($container, $type, $setup['path']);
             }
 
             if (in_array('meta', $detectionTypes)) {
-                $key = isset($setup['meta_key']) ? $setup['meta_key'] : 'type';
-                $value = isset($setup['meta']) ? $setup['meta'] : $singularName;
-
-                $metaFilterFactoryId = self::metaFilterFactory($container, $type, $key, $value);
+                $metaFilterFactoryId = self::metaFilterFactory($container, $type, $setup['meta_key'], $setup['meta']);
             }
 
             $draftFilterFactoryId = self::draftFilterFactory($container, $type, $setup['publish_drafts']);
             $filterId = self::filterFactory($container, $type);
-            $mapId = self::filterMapFactory($container, $type, $setup, $singularName);
+            $mapId = self::filterMapFactory($container, $type, $setup, $setup['singular_name']);
             $factoryId = self::itemFactory($container, $type);
 
-            $dataProviderId = self::dataProviderFactory($container, $type, $singularName, $collectionId, $filterId, $mapId, $factoryId);
+            $dataProviderId = self::dataProviderFactory($container, $type, $setup['singular_name'], $collectionId, $filterId, $mapId, $factoryId);
             foreach ($setup['taxonomies'] as $taxonomy) {
                 self::taxonomyFactory($container, $type, $taxonomy);
             }

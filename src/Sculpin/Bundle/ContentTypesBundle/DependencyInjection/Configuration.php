@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
+use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -32,6 +33,25 @@ class Configuration implements ConfigurationInterface
 
         $contentTypeNode = $rootNode
             ->useAttributeAsKey('name')
+            ->beforeNormalization()
+            ->always(function ($v) {
+                foreach ($v as $key => &$value) {
+                    if (!isset($value['path']) && ((isset($value['type']) && $value['type'] == 'path') || !isset($value['type']))) {
+                        $value['path'] = array('_'. $key);
+                    }
+
+                    // What should use use for the singular name?
+                    if (!isset($value['singular_name'])) {
+                        $value['singular_name'] = Inflector::singularize($key);
+                    }
+
+                    if (!isset($value['meta'])) {
+                        $value['meta'] = $value['singular_name'];
+                    }
+                }
+                return $v;
+            })
+            ->end()
             ->prototype('array')
         ;
 
@@ -48,8 +68,13 @@ class Configuration implements ConfigurationInterface
                         ->then(function ($v) { return array($v); })
                     ->end()
                     ->prototype('scalar')->end()
+                    ->validate()
+                    ->always(function ($v) {
+                        return array_unique($v);
+                    })
+                    ->end()
                 ->end()
-                ->scalarNode('meta_key')->end()
+                ->scalarNode('meta_key')->defaultValue('type')->end()
                 ->scalarNode('meta')->end()
                 ->booleanNode('publish_drafts')->defaultNull()->end()
                 ->scalarNode('permalink')->end()
