@@ -48,6 +48,10 @@ class Configuration implements ConfigurationInterface
                     if (!isset($value['meta'])) {
                         $value['meta'] = $value['singular_name'];
                     }
+
+                    if (!isset($value['layout'])) {
+                        $value['layout'] = $value['singular_name'];
+                    }
                 }
                 return $v;
             })
@@ -77,7 +81,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('meta_key')->defaultValue('type')->end()
                 ->scalarNode('meta')->end()
                 ->booleanNode('publish_drafts')->defaultNull()->end()
-                ->scalarNode('permalink')->end()
+                ->scalarNode('permalink')->defaultValue('none')->end()
                 ->scalarNode('layout')->end()
                 ->arrayNode('taxonomies')
                     ->beforeNormalization()

@@ -303,6 +303,7 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
     {
         $container->prependExtensionConfig($this->getAlias(), array(
           'posts' => array(
+            'permalink' => 'pretty',
             'taxonomies' => array(
               'tags',
               'categories',
