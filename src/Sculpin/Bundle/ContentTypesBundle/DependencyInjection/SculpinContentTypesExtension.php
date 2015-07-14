@@ -64,7 +64,8 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
 
             $draftFilterFactoryId = self::draftFilterFactory($container, $type, $setup['publish_drafts']);
             $filterId = self::filterFactory($container, $type);
-            $mapId = self::filterMapFactory($container, $type, $setup, $setup['singular_name']);
+            $dataMapId = self::defaultDataMapFactory($container, $type, $setup['layout'], $setup['permalink']);
+            $mapId = self::filterMapFactory($container, $type);
             $factoryId = self::itemFactory($container, $type);
 
             $dataProviderId = self::dataProviderFactory($container, $type, $setup['singular_name'], $collectionId, $filterId, $mapId, $factoryId);
@@ -169,7 +170,7 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
         return $filterId;
     }
 
-    private static function filterMapFactory(ContainerBuilder $container, $type, $setup, $singularName)
+    private static function defaultDataMapFactory(ContainerBuilder $container, $type, $layout, $permalink)
     {
         //
         // Default Data Map
@@ -178,12 +179,17 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
         $defaultDataMapId = 'sculpin_content_types.map.default_data.'.$type;
         $defaultDataMap = new DefinitionDecorator('sculpin_content_types.map.default_data');
         $defaultDataMap->addArgument(array(
-          'layout' => isset($setup['layout']) ? $setup['layout'] : $singularName,
-          'permalink' => isset($setup['permalink']) ? $setup['permalink'] : 'none',
+          'layout' => $layout,
+          'permalink' => $permalink,
         ));
         $defaultDataMap->addTag('sculpin.content_type.map', array('type' => $type));
         $container->setDefinition($defaultDataMapId, $defaultDataMap);
 
+        return $defaultDataMapId;
+    }
+
+    private static function filterMapFactory(ContainerBuilder $container, $type)
+    {
         //
         // Calculated Date From Filename Map
         //
