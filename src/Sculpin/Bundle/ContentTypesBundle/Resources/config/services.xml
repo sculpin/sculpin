@@ -12,6 +12,7 @@
         <parameter key="sculpin_content_types.collection.class">Sculpin\Contrib\ProxySourceCollection\ProxySourceCollection</parameter>
 
         <parameter key="sculpin_content_types.filter.path.class">Sculpin\Core\Source\Filter\AntPathFilter</parameter>
+        <parameter key="sculpin_content_types.filter.meta.class">Sculpin\Core\Source\Filter\MetaFilter</parameter>
         <parameter key="sculpin_content_types.filter.chain.class">Sculpin\Core\Source\Filter\ChainFilter</parameter>
         <parameter key="sculpin_content_types.filter.drafts.class">Sculpin\Core\Source\Filter\DraftsFilter</parameter>
 
@@ -32,6 +33,7 @@
         <service id="sculpin_content_types.collection" class="%sculpin_content_types.collection.class%" public="false" abstract="true" />
 
         <service id="sculpin_content_types.filter.path" class="%sculpin_content_types.filter.path.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.filter.meta" class="%sculpin_content_types.filter.meta.class%" public="false" abstract="true" />
         <service id="sculpin_content_types.filter.or" class="%sculpin_content_types.filter.chain.class%" public="false" abstract="true" />
         <service id="sculpin_content_types.filter.drafts" class="%sculpin_content_types.filter.drafts.class%" public="false" abstract="true" />
         <service id="sculpin_content_types.filter.chain" class="%sculpin_content_types.filter.chain.class%" public="false" abstract="true" />
