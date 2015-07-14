@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sculpin_content_types.types" type="collection" />
+
+        <parameter key="sculpin_content_types.item.class">Sculpin\Contrib\ProxySourceCollection\ProxySourceItem</parameter>
+
+        <parameter key="sculpin_content_types.collection.sorter.class">Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter</parameter>
+        <parameter key="sculpin_content_types.collection.class">Sculpin\Contrib\ProxySourceCollection\ProxySourceCollection</parameter>
+
+        <parameter key="sculpin_content_types.filter.path.class">Sculpin\Core\Source\Filter\AntPathFilter</parameter>
+        <parameter key="sculpin_content_types.filter.chain.class">Sculpin\Core\Source\Filter\ChainFilter</parameter>
+        <parameter key="sculpin_content_types.filter.drafts.class">Sculpin\Core\Source\Filter\DraftsFilter</parameter>
+
+        <parameter key="sculpin_content_types.map.default_data.class">Sculpin\Core\Source\Map\DefaultDataMap</parameter>
+        <parameter key="sculpin_content_types.map.calculated_date_from_filename.class">Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap</parameter>
+        <parameter key="sculpin_content_types.map.drafts.class">Sculpin\Core\Source\Map\DraftsMap</parameter>
+        <parameter key="sculpin_content_types.map.chain.class">Sculpin\Core\Source\Map\ChainMap</parameter>
+
+        <parameter key="sculpin_content_types.item_factory.class">Sculpin\Contrib\ProxySourceCollection\SimpleProxySourceItemFactory</parameter>
+        <parameter key="sculpin_content_types.data_provider.class">Sculpin\Contrib\ProxySourceCollection\ProxySourceCollectionDataProvider</parameter>
+        <parameter key="sculpin_content_types.permalink_strategy_collection.class">Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection</parameter>
+        <parameter key="sculpin_content_types.taxonomy_data_provider.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider</parameter>
+        <parameter key="sculpin_content_types.taxonomy_index_generator.class">Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator</parameter>
+    </parameters>
+
+    <services>
+        <service id="sculpin_content_types.collection.sorter" class="%sculpin_content_types.collection.sorter.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.collection" class="%sculpin_content_types.collection.class%" public="false" abstract="true" />
+
+        <service id="sculpin_content_types.filter.path" class="%sculpin_content_types.filter.path.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.filter.or" class="%sculpin_content_types.filter.chain.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.filter.drafts" class="%sculpin_content_types.filter.drafts.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.filter.chain" class="%sculpin_content_types.filter.chain.class%" public="false" abstract="true" />
+
+        <service id="sculpin_content_types.map.default_data" class="%sculpin_content_types.map.default_data.class%" public="false" abstract="true"/>
+        <service id="sculpin_content_types.map.calculated_date_from_filename" class="%sculpin_content_types.map.calculated_date_from_filename.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.map.drafts" class="%sculpin_content_types.map.drafts.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.map.chain" class="%sculpin_content_types.map.chain.class%" public="false" abstract="true" />
+
+        <service id="sculpin_content_types.item_factory" class="%sculpin_content_types.item_factory.class%" public="false" />
+        <service id="sculpin_content_types.data_provider" class="%sculpin_content_types.data_provider.class%" abstract="true">
+            <argument type="service" id="sculpin.formatter_manager"/>
+        </service>
+        <service id="sculpin_content_types.permalink_strategy_collection" class="%sculpin_content_types.permalink_strategy_collection.class%" public="false" abstract="true" />
+        <service id="sculpin_content_types.taxonomy_data_provider" class="%sculpin_content_types.taxonomy_data_provider.class%" abstract="true">
+            <argument type="service" id="sculpin.data_provider_manager"/>
+        </service>
+        <service id="sculpin_content_types.taxonomy_index_generator" class="%sculpin_content_types.taxonomy_index_generator.class%" abstract="true">
+            <argument type="service" id="sculpin.data_provider_manager"/>
+        </service>
+    </services>
+</container>

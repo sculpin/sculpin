@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\ContentTypesBundle;
 
+use Sculpin\Bundle\ContentTypesBundle\DependencyInjection\Compiler\FilterPass;
 use Sculpin\Bundle\ContentTypesBundle\DependencyInjection\Compiler\MapPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -28,5 +29,6 @@ class SculpinContentTypesBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new MapPass);
+        $container->addCompilerPass(new FilterPass());
     }
 }
