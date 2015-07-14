@@ -87,9 +87,6 @@ abstract class AbstractKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        // Load defaults.
-        $loader->load(__DIR__.'/../Resources/config/kernel.yml');
-
         if (file_exists($file = $this->rootDir.'/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
             $loader->load($file);
         } elseif (file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {

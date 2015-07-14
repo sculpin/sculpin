@@ -1,8 +1,0 @@
-sculpin_content_types:
-    posts:
-        type: path
-        path: _posts
-        permalink: pretty
-        taxonomies:
-            - tags
-            - categories
