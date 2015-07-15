@@ -16,7 +16,7 @@ use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Event\FormatEvent;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\SourceInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Formatter Manager.
@@ -28,7 +28,7 @@ class FormatterManager
     /**
      * Event Dispatcher
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -63,12 +63,12 @@ class FormatterManager
     /**
      * Constructor.
      *
-     * @param EventDispatcher     $eventDispatcher     Event Dispatcher
-     * @param Configuration       $siteConfiguration   Site Configuration
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
+     * @param EventDispatcherInterface $eventDispatcher     Event Dispatcher
+     * @param Configuration            $siteConfiguration   Site Configuration
+     * @param DataProviderManager      $dataProviderManager Data Provider Manager
      */
     public function __construct(
-        EventDispatcher $eventDispatcher,
+        EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
         DataProviderManager $dataProviderManager = null
     ) {

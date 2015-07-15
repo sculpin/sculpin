@@ -23,7 +23,7 @@ use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactoryInterface;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Sculpin.
@@ -53,7 +53,7 @@ class Sculpin
     /**
      * Event Dispatcher
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -103,7 +103,7 @@ class Sculpin
      * Constructor.
      *
      * @param Configuration                    $siteConfiguration Site Configuration
-     * @param EventDispatcher                  $eventDispatcher   Event dispatcher
+     * @param EventDispatcherInterface         $eventDispatcher   Event dispatcher
      * @param SourcePermalinkFactoryInterface  $permalinkFactory  Permalink factory
      * @param WriterInterface                  $writer            Writer
      * @param GeneratorManager                 $generatorManager  Generator Manager
@@ -112,7 +112,7 @@ class Sculpin
      */
     public function __construct(
         Configuration $siteConfiguration,
-        EventDispatcher $eventDispatcher,
+        EventDispatcherInterface $eventDispatcher,
         SourcePermalinkFactoryInterface $permalinkFactory,
         WriterInterface $writer,
         GeneratorManager $generatorManager,
