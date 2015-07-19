@@ -35,6 +35,21 @@ class Configuration implements ConfigurationInterface
             ->useAttributeAsKey('name')
             ->beforeNormalization()
             ->always(function ($v) {
+                $default = array(
+                  'permalink' => 'pretty',
+                  'taxonomies' => array(
+                    'tags',
+                    'categories',
+                  ),
+                );
+
+                if (!isset($v['posts'])) {
+                    $v['posts'] = $default;
+                }
+                else {
+                    $v['posts'] = array_replace($default, $v['posts']);
+                }
+
                 foreach ($v as $key => &$value) {
                     if (!isset($value['path']) && ((isset($value['type']) && $value['type'] == 'path') || !isset($value['type']))) {
                         $value['path'] = array('_'. $key);

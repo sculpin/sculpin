@@ -15,7 +15,6 @@ use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\FileLocator;
@@ -26,7 +25,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinContentTypesExtension extends Extension implements PrependExtensionInterface
+class SculpinContentTypesExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -297,23 +296,5 @@ class SculpinContentTypesExtension extends Extension implements PrependExtension
         $container->setDefinition($taxonomyIndexGeneratorId, $taxonomyIndexGenerator);
 
         return array($taxonomyDataProviderId, $taxonomyIndexGeneratorId);
-    }
-
-    /**
-     * Allow an extension to prepend the extension configurations.
-     *
-     * @param ContainerBuilder $container
-     */
-    public function prepend(ContainerBuilder $container)
-    {
-        $container->prependExtensionConfig($this->getAlias(), array(
-          'posts' => array(
-            'permalink' => 'pretty',
-            'taxonomies' => array(
-              'tags',
-              'categories',
-            ),
-          ),
-        ));
     }
 }
