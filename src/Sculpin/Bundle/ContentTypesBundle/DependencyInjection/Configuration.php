@@ -12,6 +12,8 @@
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -31,6 +33,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->root('sculpin_content_types');
 
+        /** @var NodeDefinition $contentTypeNode */
         $contentTypeNode = $rootNode
             ->useAttributeAsKey('name')
             ->beforeNormalization()
@@ -74,6 +77,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
         ;
 
+        /** @var ArrayNodeDefinition $contentTypeNode */
         $contentTypeNode
             ->children()
                 ->scalarNode('type')->defaultValue('path')->end()
