@@ -47,10 +47,10 @@ class SculpinContentTypesExtension extends Extension
                 continue;
             }
 
+            $collectionId = self::collectionFactory($container, $type);
+
             // How is the type detected?
             $detectionTypes = is_array($setup['type']) ? $setup['type'] : array($setup['type']);
-
-            $collectionId = self::collectionFactory($container, $type);
 
             if (in_array('path', $detectionTypes)) {
                 $pathFilterFactoryId = self::pathFilterFactory($container, $type, $setup['path']);
@@ -73,22 +73,21 @@ class SculpinContentTypesExtension extends Extension
         }
     }
 
+    /**
+     * Create collection sorter and collection service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @return string
+     */
     private static function collectionFactory(ContainerBuilder $container, $type)
     {
-        //
-        // Collection sorter
-        //
-
         $collectionSorterId = 'sculpin_content_types.collection.sorter.'.$type;
 
         if (!$container->hasDefinition($collectionSorterId)) {
             $collectionSorter = new DefinitionDecorator('sculpin_content_types.collection.sorter');
             $container->setDefinition($collectionSorterId, $collectionSorter);
         }
-
-        //
-        // Collection service
-        //
 
         $collectionId = 'sculpin_content_types.collection.'.$type;
 
@@ -100,92 +99,120 @@ class SculpinContentTypesExtension extends Extension
         return $collectionId;
     }
 
+    /**
+     * Create Path Filter service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $path
+     * @return string
+     */
     private static function pathFilterFactory(ContainerBuilder $container, $type, $path)
     {
-        //
-        // Path Filter
-        //
+        $id = 'sculpin_content_types.filter.path.'.$type;
 
-        $pathFilterId = 'sculpin_content_types.filter.path.'.$type;
+        $definition = new DefinitionDecorator('sculpin_content_types.filter.path');
+        $definition->addArgument($path);
+        $definition->addArgument(new Reference('sculpin.matcher'));
+        $definition->addTag('sculpin.content_type.filter', array('type' => $type, 'or' => true));
+        $container->setDefinition($id, $definition);
 
-        $pathFilter = new DefinitionDecorator('sculpin_content_types.filter.path');
-        $pathFilter->addArgument($path);
-        $pathFilter->addArgument(new Reference('sculpin.matcher'));
-        $pathFilter->addTag('sculpin.content_type.filter', array('type' => $type, 'or' => true));
-        $container->setDefinition($pathFilterId, $pathFilter);
-
-        return $pathFilterId;
+        return $id;
     }
 
+    /**
+     * Create Meta Filter service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $key
+     * @param $value
+     * @return string
+     */
     private static function metaFilterFactory(ContainerBuilder $container, $type, $key, $value)
     {
-        //
-        // Meta Filter
-        //
+        $id = 'sculpin_content_types.filter.meta.'.$type;
 
-        $metaFilterId = 'sculpin_content_types.filter.meta.'.$type;
+        $definition = new DefinitionDecorator('sculpin_content_types.filter.meta');
+        $definition->addArgument($key);
+        $definition->addArgument($value);
+        $definition->addTag('sculpin.content_type.filter', array('type' => $type, 'or' => true));
+        $container->setDefinition($id, $definition);
 
-        $metaFilter = new DefinitionDecorator('sculpin_content_types.filter.meta');
-        $metaFilter->addArgument($key);
-        $metaFilter->addArgument($value);
-        $metaFilter->addTag('sculpin.content_type.filter', array('type' => $type, 'or' => true));
-        $container->setDefinition($metaFilterId, $metaFilter);
-
-        return $metaFilterId;
+        return $id;
     }
 
+    /**
+     * Create drafts filter.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $publishDrafts
+     * @return string
+     */
     private static function draftFilterFactory(ContainerBuilder $container, $type, $publishDrafts)
     {
-        //
-        // Drafts Filter
-        //
-
-        $draftsFilterId = 'sculpin_content_types.filter.drafts.'.$type;
+        $id = 'sculpin_content_types.filter.drafts.'.$type;
 
         if (null === $publishDrafts) {
             $publishDrafts = 'prod' !== $container->getParameter('kernel.environment');
         }
 
-        $draftsFilter = new DefinitionDecorator('sculpin_content_types.filter.drafts');
-        $draftsFilter->addArgument($publishDrafts);
-        $draftsFilter->addTag('sculpin.content_type.filter', array('type' => $type));
-        $container->setDefinition($draftsFilterId, $draftsFilter);
+        $definition = new DefinitionDecorator('sculpin_content_types.filter.drafts');
+        $definition->addArgument($publishDrafts);
+        $definition->addTag('sculpin.content_type.filter', array('type' => $type));
+        $container->setDefinition($id, $definition);
 
-        return $draftsFilterId;
+        return $id;
     }
 
+    /**
+     * Create filter service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @return string
+     */
     private static function filterFactory(ContainerBuilder $container, $type)
     {
-        //
-        // Filter
-        //
+        $id = 'sculpin_content_types.filter.chain.'.$type;
 
-        $filterId = 'sculpin_content_types.filter.chain.'.$type;
+        $definition = new DefinitionDecorator('sculpin_content_types.filter.chain');
+        $container->setDefinition($id, $definition);
 
-        $filter = new DefinitionDecorator('sculpin_content_types.filter.chain');
-        $container->setDefinition($filterId, $filter);
-
-        return $filterId;
+        return $id;
     }
 
+    /**
+     * Create Default Data Map service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $layout
+     * @param $permalink
+     * @return string
+     */
     private static function defaultDataMapFactory(ContainerBuilder $container, $type, $layout, $permalink)
     {
-        //
-        // Default Data Map
-        //
-
-        $defaultDataMapId = 'sculpin_content_types.map.default_data.'.$type;
-        $defaultDataMap = new DefinitionDecorator('sculpin_content_types.map.default_data');
-        $defaultDataMap->addArgument(array(
+        $id = 'sculpin_content_types.map.default_data.'.$type;
+        $definition = new DefinitionDecorator('sculpin_content_types.map.default_data');
+        $definition->addArgument(array(
           'layout' => $layout,
           'permalink' => $permalink,
         ));
-        $defaultDataMap->addTag('sculpin.content_type.map', array('type' => $type));
-        $container->setDefinition($defaultDataMapId, $defaultDataMap);
+        $definition->addTag('sculpin.content_type.map', array('type' => $type));
+        $container->setDefinition($id, $definition);
 
-        return $defaultDataMapId;
+        return $id;
     }
 
+    /**
+     * Create map services for file names and drafts.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @return string
+     */
     private static function filterMapFactory(ContainerBuilder $container, $type)
     {
         //
@@ -217,6 +244,13 @@ class SculpinContentTypesExtension extends Extension
         return $mapId;
     }
 
+    /**
+     * Create item factory service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @return string
+     */
     private static function itemFactory(ContainerBuilder $container, $type)
     {
         $itemClassId = 'sculpin_content_types.item.'.$type.'.class';
@@ -224,39 +258,51 @@ class SculpinContentTypesExtension extends Extension
             $container->setParameter($itemClassId, $container->getParameter('sculpin_content_types.item.class'));
         }
 
-        //
-        // Item Factory
-        //
+        $id = 'sculpin_content_types.item_factory.'.$type;
+        $definition = new DefinitionDecorator('sculpin_content_types.item_factory');
+        $definition->addArgument('%'.$itemClassId.'%');
+        $container->setDefinition($id, $definition);
 
-        $factoryId = 'sculpin_content_types.item_factory.'.$type;
-        $factory = new DefinitionDecorator('sculpin_content_types.item_factory');
-        $factory->addArgument('%'.$itemClassId.'%');
-        $container->setDefinition($factoryId, $factory);
-
-        return $factoryId;
+        return $id;
     }
 
+    /**
+     * Create data provider service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $singularName
+     * @param $collectionId
+     * @param $filterId
+     * @param $mapId
+     * @param $factoryId
+     * @return string
+     */
     private static function dataProviderFactory(ContainerBuilder $container, $type, $singularName, $collectionId, $filterId, $mapId, $factoryId)
     {
-        //
-        // Data Provider
-        //
+        $id = 'sculpin_content_types.data_provider.'.$type;
+        $definition = new DefinitionDecorator('sculpin_content_types.data_provider');
+        $definition->addArgument($type);
+        $definition->addArgument($singularName);
+        $definition->addArgument(new Reference($collectionId));
+        $definition->addArgument(new Reference($filterId));
+        $definition->addArgument(new Reference($mapId));
+        $definition->addArgument(new Reference($factoryId));
+        $definition->addTag('sculpin.data_provider', array('alias' => $type));
+        $definition->addTag('kernel.event_subscriber');
+        $container->setDefinition($id, $definition);
 
-        $dataProviderId = 'sculpin_content_types.data_provider.'.$type;
-        $dataProvider = new DefinitionDecorator('sculpin_content_types.data_provider');
-        $dataProvider->addArgument($type);
-        $dataProvider->addArgument($singularName);
-        $dataProvider->addArgument(new Reference($collectionId));
-        $dataProvider->addArgument(new Reference($filterId));
-        $dataProvider->addArgument(new Reference($mapId));
-        $dataProvider->addArgument(new Reference($factoryId));
-        $dataProvider->addTag('sculpin.data_provider', array('alias' => $type));
-        $dataProvider->addTag('kernel.event_subscriber');
-        $container->setDefinition($dataProviderId, $dataProvider);
-
-        return $dataProviderId;
+        return $id;
     }
 
+    /**
+     * Creates permalink strategy collection service.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $taxonomy
+     * @return string
+     */
     private static function permalinkStrategyCollectionFactory(ContainerBuilder $container, $type, $taxonomy)
     {
         $id = 'sculpin_content_types.permalink_strategy_collection.'.$type;
@@ -269,6 +315,14 @@ class SculpinContentTypesExtension extends Extension
         return $id;
     }
 
+    /**
+     * Creates taxonomy data provider and index generator services.
+     *
+     * @param ContainerBuilder $container
+     * @param $type
+     * @param $taxonomy
+     * @return array
+     */
     private static function taxonomyFactory(ContainerBuilder $container, $type, $taxonomy)
     {
         $permalinkStrategiesId = self::permalinkStrategyCollectionFactory($container, $type, $taxonomy);
