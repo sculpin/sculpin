@@ -36,6 +36,7 @@ class GenerateCommand extends AbstractCommand
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
+                new InputOption('clean', null, InputOption::VALUE_NONE, 'Cleans the output directory prior to generation.'),
                 new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
                 new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
@@ -69,10 +70,17 @@ EOT
 
         $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
 
+        $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+        if ($input->getOption('clean')) {
+            $fileSystem = $this->getContainer()->get('filesystem');
+            if ($fileSystem->exists($docroot)) {
+                $fileSystem->remove($docroot);
+            }
+        }
+
         if ($input->getOption('server')) {
             $sculpin->run($dataSource, $sourceSet, $consoleIo);
 
-            $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
