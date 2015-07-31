@@ -10,7 +10,6 @@ use Sculpin\Core\Converter\ParserInterface;
  */
 class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
 {
-
     /**
      * {@inheritdoc}
      */
