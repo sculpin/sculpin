@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.4",
         "composer/composer": "1.*@dev",
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/apache-mime-types": "~1.0,>=1.0.1",
@@ -68,7 +68,7 @@
     "bin": ["bin/sculpin", "bin/sculpin.php"],
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "2.1.x-dev"
         }
     },
     "scripts": {
