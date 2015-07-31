@@ -15,9 +15,15 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
      *
      */
 
-    public function makeTestSource($filename, $hasChanged = true)
+    public function makeTestSource($filename)
     {
-        $source = new FileSource($this->makeTestAnalyzer(), $this->makeTestDatasource(), new SplFileInfo($filename, '../Fixtures', $filename), false, true);
+        $source = new FileSource(
+            $this->makeTestAnalyzer(),
+            $this->makeTestDatasource(),
+            new SplFileInfo($filename, '../Fixtures', $filename),
+            false,
+            true
+        );
 
         return $source;
     }
@@ -96,17 +102,30 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
             array(__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''),
             array(__DIR__ . '/../Fixtures/valid/frontmatter-nocontent.yml', ''),
             array(__DIR__ . '/../Fixtures/valid/frontmatter-content.yml', ''),
-            array(__DIR__ . '/../Fixtures/invalid/one-line-edge-case.yml', 'Yaml could not be parsed, parser detected a string.'),
-            array(__DIR__ . '/../Fixtures/invalid/malformed-yaml.yml', 'Yaml could not be parsed, parser detected a string.'),
-            array(__DIR__ . '/../Fixtures/invalid/malformed-yaml2.yml', 'Unable to parse at line 2 (near "first:fsdqf").'),
+            array(
+                __DIR__ . '/../Fixtures/invalid/one-line-edge-case.yml',
+                'Yaml could not be parsed, parser detected a string.'
+            ),
+            array(
+                __DIR__ . '/../Fixtures/invalid/malformed-yaml.yml',
+                'Yaml could not be parsed, parser detected a string.'
+            ),
+            array(
+                __DIR__ . '/../Fixtures/invalid/malformed-yaml2.yml',
+                'Unable to parse at line 2 (near "first:fsdqf").'
+            ),
         );
     }
 
     public function getErrorMessage($filename, $msg)
     {
-        if ($msg == ''){
+        if ($msg == '') {
             return '';
         }
-        return ' ! FileSource:FilesystemDataSource:test:' . $filename . ' ' . $msg . ' !' . PHP_EOL;
+        return sprintf(
+            ' ! FileSource:FilesystemDataSource:test:%s %s !' . PHP_EOL,
+            $filename,
+            $msg
+        );
     }
 }

@@ -99,27 +99,33 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
                 break;
             default:
-                list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', (int) $date));
-                $permalink = preg_replace('/:year/', $year, $permalink);
-                $permalink = preg_replace('/:yr/', $yr, $permalink);
-                $permalink = preg_replace('/:month/', $month, $permalink);
-                $permalink = preg_replace('/:mo/', $mo, $permalink);
-                $permalink = preg_replace('/:day/', $day, $permalink);
-                $permalink = preg_replace('/:dy/', $dy, $permalink);
+                $permalink = preg_replace('/:year/',  date('Y', (int) $date), $permalink);
+                $permalink = preg_replace('/:yr/',    date('y', (int) $date), $permalink);
+                $permalink = preg_replace('/:month/', date('m', (int) $date), $permalink);
+                $permalink = preg_replace('/:mo/',    date('n', (int) $date), $permalink);
+                $permalink = preg_replace('/:day/',   date('d', (int) $date), $permalink);
+                $permalink = preg_replace('/:dy/',    date('j', (int) $date), $permalink);
                 $permalink = preg_replace('/:title/', $this->normalize($title), $permalink);
                 $permalink = preg_replace('/:slug_title/', $this->normalize($slug ?: $title), $permalink);
+                unset($year, $yr, $month, $mo, $day, $dy);
+
                 $filename = $pathname;
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];
                 }
                 $permalink = preg_replace('/:filename/', $filename, $permalink);
                 $permalink = preg_replace('/:slug_filename/', $this->normalize($slug ?: $filename), $permalink);
-                if (strrpos($filename, DIRECTORY_SEPARATOR) !== false) {
+
+                $basename = $filename;
+                if (strrpos($filename, DIRECTORY_SEPARATOR)) {
                     $basename = substr($filename, strrpos($filename, DIRECTORY_SEPARATOR)+1);
-                } else {
-                    $basename = $filename;
                 }
-                $prettyBasename = false !== strrpos($basename, '.') ? substr($basename, 0, strrpos($basename, '.')) : $basename;
+
+                $prettyBasename = $basename;
+                if (false !== strrpos($basename, '.')) {
+                    $prettyBasename =  substr($basename, 0, strrpos($basename, '.'));
+                }
+
                 $permalink = preg_replace('/:basename_real/', $basename, $permalink);
                 $permalink = preg_replace('/:basename/', $prettyBasename, $permalink);
                 if (substr($permalink, -1, 1) == '/') {
@@ -140,7 +146,12 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      */
     private function isDatePath($path)
     {
-        if (preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', $path, $matches)) {
+        if (preg_match(
+            '/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/',
+            $path,
+            $matches
+        )
+        ) {
             return array($matches[1], $matches[2], $matches[3], $matches[4]);
         }
 

@@ -32,9 +32,7 @@ class MapPass implements CompilerPassInterface
             $definition = $container->getDefinition($mapId);
 
             foreach ($container->findTaggedServiceIds($mapId) as $id => $tagAttributes) {
-                foreach ($tagAttributes as $attributes) {
-                    $definition->addMethodCall('addMap', array(new Reference($id)));
-                }
+                $definition->addMethodCall('addMap', array(new Reference($id)));
             }
         }
     }

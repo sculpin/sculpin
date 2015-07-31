@@ -32,7 +32,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')->end()
+                ->scalarNode('parser_class')
+                    ->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')
+                ->end()
                 ->arrayNode('extensions')
                     ->defaultValue(array('md', 'mdown', 'mkdn', 'markdown'))
                     ->prototype('scalar')->end()

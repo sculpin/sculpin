@@ -29,8 +29,15 @@ class KernelFactory
      */
     public static function create(InputInterface $input)
     {
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('SCULPIN_DEBUG') ?: 'dev');
-        $debug = $env !== 'prod' && getenv('SCULPIN_DEBUG') !== '0' && !$input->hasParameterOption(array('--no-debug', ''));
+        $env = $input->getParameterOption(
+            array('--env', '-e'),
+            getenv('SCULPIN_DEBUG') ?: 'dev'
+        );
+
+        $isProd = $env == 'prod';
+        $isEnvSculpinDebug = getenv('SCULPIN_DEBUG') !== '0';
+        $isParameterNoDebug = $input->hasParameterOption(array('--no-debug', ''));
+        $debug = !$isProd && !$isEnvSculpinDebug && !$isParameterNoDebug;
 
         // do something here to locate and try to create
         // a custom kernel.

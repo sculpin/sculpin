@@ -47,10 +47,9 @@ EOT
         $themes = $themeRegistry->listThemes();
 
         foreach ($themes as $theme) {
+            $themeOutput = $theme['name'];
             if ($theme['name'] === $activeTheme['name']) {
                 $themeOutput = '<info>'.$theme['name'].'</info> *';
-            } else {
-                $themeOutput = $theme['name'];
             }
 
             if (isset($theme['parent'])) {

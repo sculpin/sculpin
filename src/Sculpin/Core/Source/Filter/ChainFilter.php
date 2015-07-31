@@ -18,10 +18,10 @@ class ChainFilter implements FilterInterface
     private $filters = array();
     private $or;
 
-    public function __construct(array $filters = array(), $or = false)
+    public function __construct(array $filters = array(), $useOrMatching = false)
     {
         $this->filters = $filters;
-        $this->or = $or;
+        $this->useOrMatching = $useOrMatching;
     }
 
     public function match(SourceInterface $source)
@@ -32,7 +32,7 @@ class ChainFilter implements FilterInterface
             $matched = $filter->match($source);
 
             if ($matched) {
-                if ($this->or) {
+                if ($this->useOrMatching) {
                     // If we would have accepted any filter ("or") we can
                     // return true at this point since at least one matched!
                     return true;
@@ -40,7 +40,7 @@ class ChainFilter implements FilterInterface
 
                 $matched = true;
             } else {
-                if (! $this->or) {
+                if (! $this->useOrMatching) {
                     // If we would not have accepted any filter ("and") we can
                     // return false at this point since at least one failed.
                     return false;

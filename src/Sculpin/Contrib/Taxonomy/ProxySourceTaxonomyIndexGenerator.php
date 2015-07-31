@@ -55,13 +55,12 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
             $indexType = null;
 
+            // FIXME is this ever not the case?
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
                 $urlTaxon = $this->permalinkStrategyCollection->process($taxon);
                 $indexType = $matches[2];
                 $suffix = in_array($indexType, array('xml', 'rss', 'json')) ? '.'.$indexType : '/';
                 $permalink = $permalink.'/'.$urlTaxon.$suffix;
-            } else {
-                // not sure what case this is?
             }
 
             if (0 === strpos($permalink, './')) {

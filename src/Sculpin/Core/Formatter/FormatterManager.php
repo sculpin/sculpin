@@ -94,9 +94,8 @@ class FormatterManager
         ));
 
         if (isset($context['url'])) {
-            if ('/' === $context['url']) {
-                $relativeUrl = '.';
-            } else {
+            $relativeUrl = '.';
+            if ('/' !== $context['url']) {
                 $relativeUrl = rtrim(str_repeat('../', substr_count($context['url'], '/')), '/');
             }
 

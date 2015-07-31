@@ -37,6 +37,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         FormatterManager $formatterManager,
         $dataProviderName,
         $dataSingularName = null,
+        // FIXME violates PSR2; defaults at end of method
         ProxySourceCollection $collection = null,
         FilterInterface $filter,
         MapInterface $map,
@@ -44,7 +45,10 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
-        $this->dataSingularName = $dataSingularName ?: Inflector::singularize($dataProviderName);
+        if (!$dataSingularName) {
+            $this->dataSingularName = Inflector::singularize($dataProviderName);
+        }
+
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
         $this->map = $map ?: new NullMap;

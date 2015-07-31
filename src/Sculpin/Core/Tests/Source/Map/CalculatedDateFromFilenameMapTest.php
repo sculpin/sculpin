@@ -35,31 +35,46 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function itShouldSetTheCalculatedDateIfFound()
     {
-        $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-sculpin-is-great.markdown");
+        $source = $this->getSourceWithoutCalculatedDateAndPathname(
+            "2013-12-12-sculpin-is-great.markdown"
+        );
 
         $this->map->process($source);
 
-        $this->assertEquals(strtotime("2013-12-12"), $source->data()->get('calculated_date'));
+        $this->assertEquals(
+            strtotime("2013-12-12"),
+            $source->data()->get('calculated_date')
+        );
     }
 
     /** @test */
     public function itShouldIncludeTheTimeIfFound()
     {
-        $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-220212-sculpin-is-great.markdown");
+        $source = $this->getSourceWithoutCalculatedDateAndPathname(
+            "2013-12-12-220212-sculpin-is-great.markdown"
+        );
 
         $this->map->process($source);
 
-        $this->assertEquals(strtotime("2013-12-12 22:02:12"), $source->data()->get('calculated_date'));
+        $this->assertEquals(
+            strtotime("2013-12-12 22:02:12"),
+            $source->data()->get('calculated_date')
+        );
     }
 
     /** @test */
     public function itShouldIgnoreTheTimeIfItsProbablyNotATime()
     {
-        $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-10-reasons-why-sculpin-is-great.markdown");
+        $source = $this->getSourceWithoutCalculatedDateAndPathname(
+            "2013-12-12-10-reasons-why-sculpin-is-great.markdown"
+        );
 
         $this->map->process($source);
 
-        $this->assertEquals(strtotime("2013-12-12"), $source->data()->get('calculated_date'));
+        $this->assertEquals(
+            strtotime("2013-12-12"),
+            $source->data()->get('calculated_date')
+        );
     }
 
     protected function getSourceWithCalculatedDate($timestamp)

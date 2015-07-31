@@ -94,7 +94,8 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * @param string $headerText raw markdown input for the header name
      * @return string
      */
-    public function generateHeaderId($headerText) {
+    public function generateHeaderId($headerText)
+    {
 
         // $headerText is completely raw markdown input. We need to strip it
         // from all markup, because we are only interested in the actual 'text'
@@ -129,5 +130,4 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
         ));
 
     }
-
 }

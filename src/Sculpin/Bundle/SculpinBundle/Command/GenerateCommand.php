@@ -36,16 +36,33 @@ class GenerateCommand extends AbstractCommand
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
-                new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
-                new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
-                new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                new InputOption(
+                    'watch',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Watch source and regenerate site as changes are made.'
+                ),
+                new InputOption(
+                    'server',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Start an HTTP server to host your generated site'
+                ),
+                new InputOption(
+                    'url',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'Override URL.'
+                ),
+                new InputOption(
+                    'port',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'Port'
+                ),
             ))
-            ->setHelp(<<<EOT
-The <info>generate</info> command generates a site.
-
-EOT
-            );
+            ->setHelp("\nThe <info>generate</info> command generates a site\n")
+        ;
     }
 
     /**
@@ -53,7 +70,9 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getApplication()->getMissingSculpinBundlesMessages() as $message) {
+        $application = $this->getApplication();
+
+        foreach ($application->getMissingSculpinBundlesMessages() as $message) {
             $output->writeln($message);
         }
 
@@ -67,7 +86,7 @@ EOT
             $config->set('url', $url);
         }
 
-        $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
+        $consoleIo = new ConsoleIo($input, $output, $application->getHelperSet());
 
         if ($input->getOption('server')) {
             $sculpin->run($dataSource, $sourceSet, $consoleIo);
@@ -84,12 +103,14 @@ EOT
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
-                    clearstatcache();
-                    $sourceSet->reset();
-
-                    $sculpin->run($dataSource, $sourceSet, $consoleIo);
-                });
+                $httpServer->addPeriodicTimer(
+                    1,
+                    function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                        clearstatcache();
+                        $sourceSet->reset();
+                        $sculpin->run($dataSource, $sourceSet, $consoleIo);
+                    }
+                );
             }
 
             $httpServer->run();
