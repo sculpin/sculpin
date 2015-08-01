@@ -100,7 +100,6 @@ EOT
 
             if (!file_put_contents($tempFilename, file_get_contents($remoteFilename, false, $this->getStreamContext()))) {
                 $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
-
             }
 
             if (!file_exists($tempFilename)) {
