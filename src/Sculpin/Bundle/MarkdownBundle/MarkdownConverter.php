@@ -48,11 +48,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     public function __construct(ParserInterface $markdown, array $extensions = array())
     {
         $this->markdown = $markdown;
-        $this->markdown->header_id_func = function($headerName) {
-            return rawurlencode(strtolower(
-                strtr($headerName, [' ' => '-'])
-            ));
-        };
+        $this->markdown->header_id_func = array($this, 'generateHeaderId');
         $this->extensions = $extensions;
     }
 
@@ -89,5 +85,48 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
                 }
             }
         }
+    }
+
+
+    /**
+     * This method is called to generate an id="" attribute for a header.
+     *
+     * @param string $headerText raw markdown input for the header name
+     * @return string
+     */
+    public function generateHeaderId($headerText)
+    {
+
+        // $headerText is completely raw markdown input. We need to strip it
+        // from all markup, because we are only interested in the actual 'text'
+        // part of it.
+
+        // Step 1: Remove html tags.
+        $result = strip_tags($headerText);
+
+        // Step 2: Remove all markdown links. To do this, we simply remove
+        // everything between ( and ) if the ( occurs right after a ].
+        $result = preg_replace('%
+            (?<= \\]) # Look behind to find ]
+            (
+                \\(     # match (
+                [^\\)]* # match everything except )
+                \\)     # match )
+            )
+
+            %x', '', $result);
+
+        // Step 3: Convert spaces to dashes, and remove unwanted special
+        // characters.
+        $map = array(
+            ' ' => '-',
+            '(' => '',
+            ')' => '',
+            '[' => '',
+            ']' => '',
+        );
+        return rawurlencode(strtolower(
+            strtr($result, $map)
+        ));
     }
 }

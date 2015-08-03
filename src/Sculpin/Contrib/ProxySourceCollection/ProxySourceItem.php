@@ -116,7 +116,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
             }
 
             $setMethod = 'set'.ucfirst($offset);
-            if (method_exists($setMethod)) {
+            if (method_exists($this, $setMethod)) {
                 return call_user_func(array($this, $setMethod, $value));
             }
 

@@ -47,7 +47,6 @@ class MetaSorter implements SorterInterface
                 throw new \InvalidArgumentException('Invalid value passed for direction, must be one of: asc, ascending, desc, descending');
 
         }
-
     }
 
     public function sort(ProxySourceItem $a, ProxySourceItem $b)

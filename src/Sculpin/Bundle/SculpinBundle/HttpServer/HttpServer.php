@@ -57,9 +57,17 @@ class HttpServer
             }
             if (!file_exists($path)) {
                 HttpServer::logRequest($output, 404, $request);
-                $response->writeHead(404);
+                $response->writeHead(404, [
+                    'Content-Type' => 'text/html',
+                ]);
 
-                return $response->end();
+                return $response->end(implode('', [
+                    '<h1>404</h1>',
+                    '<h2>Not Found</h2>',
+                    '<p>',
+                    'The embedded <a href="https://sculpin.io">Sculpin</a> web server could not find the requested resource.',
+                    '</p>'
+                ]));
             }
 
             $type = 'application/octet-stream';

@@ -15,7 +15,6 @@ use Sculpin\Contrib\Taxonomy\PermalinkStrategy\PermalinkStrategyInterface;
 
 class PermalinkStrategyCollection
 {
-
     protected $strategies;
 
     public function __construct()
@@ -36,5 +35,4 @@ class PermalinkStrategyCollection
 
         return $str;
     }
-
 }

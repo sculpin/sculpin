@@ -17,13 +17,12 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/event-dispatcher": "~2.1",
+        "symfony/event-dispatcher": "~2.3",
         "sculpin/core": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Contrib\\Taxonomy": "" }
+        "psr-4": { "Sculpin\\Contrib\\Taxonomy\\": "" }
     },
-    "target-dir": "Sculpin/Contrib/Taxonomy",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"

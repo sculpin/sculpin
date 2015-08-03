@@ -96,7 +96,6 @@ class PaginationGenerator implements GeneratorInterface
         $pageNumber = 0;
         foreach ($slices as $slice) {
             $pageNumber++;
-            $options = array();
             $permalink = null;
             if ($pageNumber > 1) {
                 $permalink = $source->data()->get('permalink') ?: $source->relativePathname();
@@ -120,8 +119,7 @@ class PaginationGenerator implements GeneratorInterface
             }
 
             $generatedSource = $source->duplicate(
-                $source->sourceId().':page='.$pageNumber,
-                $options
+                $source->sourceId().':page='.$pageNumber
             );
 
             if (null !== $permalink) {

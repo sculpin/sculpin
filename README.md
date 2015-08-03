@@ -65,6 +65,7 @@ list:
 
  * [Jekyll](http://jekyllrb.com/) &mdash; Ruby
  * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
- * [Hyde](http://ringce.com/hyde) &mdash; Python
+ * [Hyde](http://hyde.github.io/) &mdash; Python
  * [Phrozn](http://phrozn.info) &mdash; PHP
- * [Pie Crust](http://bolt80.com/piecrust) &mdash; PHP
+ * [Pie Crust](https://github.com/ludovicchabant/PieCrust) &mdash; PHP
+ * [Pie Crust 2](http://bolt80.com/piecrust) &mdash; Python
