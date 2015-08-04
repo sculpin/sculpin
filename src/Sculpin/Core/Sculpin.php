@@ -228,7 +228,9 @@ class Sculpin
 
             $this->writer->write(new SourceOutput($source));
 
-            $io->write(' + ' . $source->sourceId());
+            if ($io->isVerbose()) {
+                $io->write(' + ' . $source->sourceId());
+            }
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
