@@ -14,6 +14,7 @@ namespace Sculpin\Bundle\PaginationBundle;
 use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Generator\GeneratorInterface;
 use Sculpin\Core\Source\SourceInterface;
+use Sculpin\Core\Permalink\SourcePermalinkFactory;
 
 /**
  * Pagination Generator.
@@ -30,6 +31,13 @@ class PaginationGenerator implements GeneratorInterface
     protected $dataProviderManager;
 
     /**
+     * Source permalink factory
+     *
+     * @var SourcePermalinkFactory
+     */
+    protected $permalinkFactory;
+
+    /**
      * Max per page (default)
      *
      * @var int
@@ -39,12 +47,14 @@ class PaginationGenerator implements GeneratorInterface
     /**
      * Constructor
      *
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
-     * @param int                 $maxPerPage          Max items per page
+     * @param DataProviderManager    $dataProviderManager Data Provider Manager
+     * @param SourcePermalinkFactory $permalinkFactory    Factory for generating permalinks
+     * @param int                    $maxPerPage          Max items per page
      */
-    public function __construct(DataProviderManager $dataProviderManager, $maxPerPage)
+    public function __construct(DataProviderManager $dataProviderManager, SourcePermalinkFactory $permalinkFactory, $maxPerPage)
     {
         $this->dataProviderManager = $dataProviderManager;
+        $this->permalinkFactory = $permalinkFactory;
         $this->maxPerPage = $maxPerPage;
     }
 
@@ -98,7 +108,7 @@ class PaginationGenerator implements GeneratorInterface
             $pageNumber++;
             $permalink = null;
             if ($pageNumber > 1) {
-                $permalink = $source->data()->get('permalink') ?: $source->relativePathname();
+                $permalink = $this->permalinkFactory->create($source)->relativeFilePath();
                 $basename = basename($permalink);
                 if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
                     if ('index' === $matches[1]) {
