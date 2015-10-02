@@ -9,7 +9,6 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FileSourceTest extends \PHPUnit_Framework_TestCase
 {
-
     /*
      * mock analyzer for detectFromFilename, should return text/html
      *
@@ -104,7 +103,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function getErrorMessage($filename, $msg)
     {
-        if ($msg == ''){
+        if ($msg == '') {
             return '';
         }
         return ' ! FileSource:FilesystemDataSource:test:' . $filename . ' ' . $msg . ' !' . PHP_EOL;
