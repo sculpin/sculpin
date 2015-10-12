@@ -33,9 +33,15 @@ class GeneratorManagerPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('sculpin.generator_manager');
 
-        foreach ($container->findTaggedServiceIds('sculpin.generator') as $id => $tagAttributes) {
+        foreach (
+            $container->findTaggedServiceIds('sculpin.generator') as $id =>
+            $tagAttributes
+        ) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerGenerator', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall(
+                    'registerGenerator',
+                    array($attributes['alias'], new Reference($id))
+                );
             }
         }
     }

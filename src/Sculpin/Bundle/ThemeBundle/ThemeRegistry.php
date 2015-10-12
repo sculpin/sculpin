@@ -20,8 +20,9 @@ class ThemeRegistry
     private $directory;
     private $activeTheme;
 
-    public function __construct(FinderFactoryInterface $finderFactory, $directory, $activeTheme = null)
-    {
+    public function __construct(FinderFactoryInterface $finderFactory,
+        $directory, $activeTheme = null
+    ) {
         $this->finderFactory = $finderFactory;
         $this->directory = $directory;
         $this->activeTheme = $activeTheme;
@@ -29,7 +30,7 @@ class ThemeRegistry
 
     public function listThemes()
     {
-        if (! file_exists($this->directory)) {
+        if (!file_exists($this->directory)) {
             return array();
         }
 
@@ -43,10 +44,13 @@ class ThemeRegistry
         $themes = array();
 
         foreach ($directories as $directory) {
-            $name = basename(dirname($directory)).'/'.basename($directory);
+            $name = basename(dirname($directory)) . '/' . basename($directory);
             $theme = array('name' => $name, 'path' => $directory);
-            if (file_exists($directory.'/theme.yml')) {
-                $theme = array_merge(Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
+            if (file_exists($directory . '/theme.yml')) {
+                $theme = array_merge(
+                    Yaml::parse(file_get_contents($directory . '/theme.yml')),
+                    $theme
+                );
             }
             $themes[$theme['name']] = $theme;
         }
@@ -58,15 +62,23 @@ class ThemeRegistry
     {
         $themes = $this->listThemes();
 
-        foreach (array($this->activeTheme.'-dev', $this->activeTheme) as $activeTheme) {
-            if (! isset($themes[$activeTheme])) {
+        foreach (
+            array($this->activeTheme . '-dev', $this->activeTheme) as
+            $activeTheme
+        ) {
+            if (!isset($themes[$activeTheme])) {
                 continue;
             }
 
             $theme = $themes[$activeTheme];
             if (isset($theme['parent'])) {
-                if (! isset($themes[$theme['parent']])) {
-                    throw new \RuntimeException(sprintf("Theme %s is a child of nonexistent parent theme %s", $this->activeTheme, $theme['parent']));
+                if (!isset($themes[$theme['parent']])) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            "Theme %s is a child of nonexistent parent theme %s",
+                            $this->activeTheme, $theme['parent']
+                        )
+                    );
                 }
 
                 $theme['parent'] = $themes[$theme['parent']];

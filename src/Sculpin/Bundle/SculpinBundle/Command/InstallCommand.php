@@ -25,7 +25,9 @@ class InstallCommand extends BaseInstallCommand
      */
     public function __construct($commandPrefix = 'sculpin:')
     {
-        $prefix = class_exists('Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false)
+        $prefix = class_exists(
+            'Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false
+        )
             ? ''
             : $commandPrefix;
 

@@ -33,9 +33,15 @@ class FormatterManagerPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('sculpin.formatter_manager');
 
-        foreach ($container->findTaggedServiceIds('sculpin.formatter') as $id => $tagAttributes) {
+        foreach (
+            $container->findTaggedServiceIds('sculpin.formatter') as $id =>
+            $tagAttributes
+        ) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerFormatter', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall(
+                    'registerFormatter',
+                    array($attributes['alias'], new Reference($id))
+                );
             }
         }
     }

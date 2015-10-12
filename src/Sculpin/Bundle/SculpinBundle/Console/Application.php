@@ -34,38 +34,75 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Application extends BaseApplication implements EmbeddedComposerAwareInterface
+class Application extends BaseApplication
+    implements EmbeddedComposerAwareInterface
 {
     protected $kernel;
     protected $embeddedComposer;
-    
+
     /**
      * Constructor.
      *
      * @param KernelInterface  $kernel           A KernelInterface instance
      * @param EmbeddedComposer $embeddedComposer Composer Class Loader
      */
-    public function __construct(KernelInterface $kernel, EmbeddedComposer $embeddedComposer)
-    {
+    public function __construct(KernelInterface $kernel,
+        EmbeddedComposer $embeddedComposer
+    ) {
         $this->kernel = $kernel;
         $this->embeddedComposer = $embeddedComposer;
 
-        if (function_exists('date_default_timezone_set') && function_exists('date_default_timezone_get')) {
+        if (function_exists('date_default_timezone_set')
+            && function_exists(
+                'date_default_timezone_get'
+            )
+        ) {
             date_default_timezone_set(@date_default_timezone_get());
         }
 
-        $version = $embeddedComposer->findPackage('sculpin/sculpin')->getPrettyVersion();
-        if ($version !== Sculpin::GIT_VERSION && Sculpin::GIT_VERSION !== '@'.'git_version'.'@') {
-            $version .= ' ('.Sculpin::GIT_VERSION.')';
+        $version = $embeddedComposer->findPackage('sculpin/sculpin')
+            ->getPrettyVersion();
+        if ($version !== Sculpin::GIT_VERSION
+            && Sculpin::GIT_VERSION !== '@' . 'git_version' . '@'
+        ) {
+            $version .= ' (' . Sculpin::GIT_VERSION . ')';
         }
 
-        parent::__construct('Sculpin', $version.' - '.$kernel->getName().'/'.$kernel->getEnvironment().($kernel->isDebug() ? '/debug' : ''));
+        parent::__construct(
+            'Sculpin', $version . ' - ' . $kernel->getName() . '/'
+            . $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
+        );
 
-        $this->getDefinition()->addOption(new InputOption('--project-dir', null, InputOption::VALUE_REQUIRED, 'The project directory.', '.'));
-        $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $kernel->getEnvironment()));
-        $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
-        $this->getDefinition()->addOption(new InputOption('--safe', null, InputOption::VALUE_NONE, 'Enable safe mode (no bundles loaded, no kernel booted)'));
-        $this->getDefinition()->addOption(new InputOption('--git-version', null, InputOption::VALUE_NONE, 'See Git version'));
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--project-dir', null, InputOption::VALUE_REQUIRED,
+                'The project directory.', '.'
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--env', '-e', InputOption::VALUE_REQUIRED,
+                'The Environment name.', $kernel->getEnvironment()
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--no-debug', null, InputOption::VALUE_NONE,
+                'Switches off debug mode.'
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--safe', null, InputOption::VALUE_NONE,
+                'Enable safe mode (no bundles loaded, no kernel booted)'
+            )
+        );
+        $this->getDefinition()->addOption(
+            new InputOption(
+                '--git-version', null, InputOption::VALUE_NONE,
+                'See Git version'
+            )
+        );
     }
 
     /**
@@ -79,15 +116,18 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * {@inheritDoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null)
-    {
+    public function run(InputInterface $input = null,
+        OutputInterface $output = null
+    ) {
         if (null === $output) {
             $styles = array(
                 'highlight' => new OutputFormatterStyle('red'),
-                'warning' => new OutputFormatterStyle('black', 'yellow'),
+                'warning'   => new OutputFormatterStyle('black', 'yellow'),
             );
             $formatter = new OutputFormatter(null, $styles);
-            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+            $output = new ConsoleOutput(
+                ConsoleOutput::VERBOSITY_NORMAL, null, $formatter
+            );
         }
 
         return parent::run($input, $output);

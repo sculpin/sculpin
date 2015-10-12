@@ -42,21 +42,33 @@ class PathConfiguratorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $tagAttributes) {
+        foreach (
+            $container->findTaggedServiceIds('sculpin.path_configurator') as
+            $tagAttributes
+        ) {
             foreach ($tagAttributes as $attributes) {
-                $typeParameter = 'sculpin.'.$attributes['type'];
+                $typeParameter = 'sculpin.' . $attributes['type'];
                 $parameter = $attributes['parameter'];
 
                 if ($container->hasParameter($parameter)) {
                     $value = $container->getParameter($parameter);
-                    if (! is_array($value)) {
+                    if (!is_array($value)) {
                         $value = array($value);
                     }
 
                     if ($container->hasParameter($typeParameter)) {
-                        $container->setParameter($typeParameter, array_unique(array_merge($container->getParameter($typeParameter), $this->antify($value))));
+                        $container->setParameter(
+                            $typeParameter, array_unique(
+                            array_merge(
+                                $container->getParameter($typeParameter),
+                                $this->antify($value)
+                            )
+                        )
+                        );
                     } else {
-                        $container->setParameter($typeParameter, array_unique($this->antify($value)));
+                        $container->setParameter(
+                            $typeParameter, array_unique($this->antify($value))
+                        );
                     }
                 }
             }
@@ -73,7 +85,7 @@ class PathConfiguratorPass implements CompilerPassInterface
                     return $path;
                 }
 
-                return $path.'/**';
+                return $path . '/**';
             },
             $paths
         );

@@ -97,7 +97,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     {
         // This is not really needed since we are not going to
         // ever create actual sources.
-        return 'ConfigFilesystemDataSource:'.$this->sourceDir;
+        return 'ConfigFilesystemDataSource:' . $this->sourceDir;
     }
 
     /**
@@ -105,7 +105,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
      */
     public function refresh(SourceSet $sourceSet)
     {
-        if (! is_dir($this->sourceDir)) {
+        if (!is_dir($this->sourceDir)) {
             return;
         }
 
@@ -120,7 +120,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
             ->finderFactory->createFinder()
             ->files()
             ->name('sculpin_site*.yml')
-            ->date('>='.$sinceTimeLast)
+            ->date('>=' . $sinceTimeLast)
             ->in($this->sourceDir);
 
         $sinceTimeLastSeconds = strtotime($sinceTimeLast);

@@ -32,18 +32,23 @@ class FileSource extends AbstractSource
      * @param bool                $isRaw      Should be treated as raw
      * @param bool                $hasChanged Has the file changed?
      */
-    public function __construct(Analyzer $analyzer, DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
-    {
+    public function __construct(Analyzer $analyzer,
+        DataSourceInterface $dataSource, SplFileInfo $file, $isRaw,
+        $hasChanged = false
+    ) {
         $this->analyzer = $analyzer;
-        $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
+        $this->sourceId = 'FileSource:' . $dataSource->dataSourceId() . ':'
+            . $file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
         $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
 
-        $internetMediaTypeFactory = $this->analyzer->getInternetMediaTypeFactory();
-        $this->applicationXmlType = $internetMediaTypeFactory->createApplicationXml();
+        $internetMediaTypeFactory
+            = $this->analyzer->getInternetMediaTypeFactory();
+        $this->applicationXmlType
+            = $internetMediaTypeFactory->createApplicationXml();
 
         $this->init();
     }
@@ -63,11 +68,14 @@ class FileSource extends AbstractSource
             $this->useFileReference = true;
             $this->data = new Data;
         } else {
-            $internetMediaType = $this->analyzer->detectFromFilename($this->file);
+            $internetMediaType = $this->analyzer->detectFromFilename(
+                $this->file
+            );
 
-            if ($internetMediaType &&
-                ('text' === $internetMediaType->getType() ||
-                $this->applicationXmlType->equals($internetMediaType))) {
+            if ($internetMediaType
+                && ('text' === $internetMediaType->getType()
+                    || $this->applicationXmlType->equals($internetMediaType))
+            ) {
                 // Only text files can be processed by Sculpin and since we
                 // have to read them here we are going to ensure that we use
                 // the content we read here instead of having someone else
@@ -79,7 +87,10 @@ class FileSource extends AbstractSource
 
                 $content = file_get_contents($this->file);
 
-                if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {
+                if (preg_match(
+                    '/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s',
+                    $content, $matches
+                )) {
                     $this->content = $matches[2];
                     if (preg_match('/^(\s*[-]+\s*|\s*)$/', $matches[1])) {
                         // There is nothing useful in the YAML front matter.
@@ -92,7 +103,8 @@ class FileSource extends AbstractSource
                         } catch (\InvalidArgumentException $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
-                            echo ' ! ' . $this->sourceId() . ' ' . $e->getMessage() . ' !' . PHP_EOL;
+                            echo ' ! ' . $this->sourceId() . ' '
+                                . $e->getMessage() . ' !' . PHP_EOL;
                             $this->content = $content;
                             $this->data = new Data;
                         }
@@ -109,7 +121,7 @@ class FileSource extends AbstractSource
         }
 
         if ($this->data->get('date')) {
-            if (! is_numeric($this->data->get('date'))) {
+            if (!is_numeric($this->data->get('date'))) {
                 $this->data->set('date', strtotime($this->data->get('date')));
             }
 

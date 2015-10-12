@@ -29,8 +29,11 @@ class KernelFactory
      */
     public static function create(InputInterface $input)
     {
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('SCULPIN_DEBUG') ?: 'dev');
-        $debug = $env !== 'prod' && getenv('SCULPIN_DEBUG') !== '0' && !$input->hasParameterOption(array('--no-debug', ''));
+        $env = $input->getParameterOption(
+            array('--env', '-e'), getenv('SCULPIN_DEBUG') ?: 'dev'
+        );
+        $debug = $env !== 'prod' && getenv('SCULPIN_DEBUG') !== '0'
+            && !$input->hasParameterOption(array('--no-debug', ''));
 
         // do something here to locate and try to create
         // a custom kernel.
@@ -39,7 +42,9 @@ class KernelFactory
         // --project-directory that was specified.
         $projectDir = getcwd();
 
-        if (file_exists($customKernel = $projectDir.'/app/SculpinKernel.php')) {
+        if (file_exists(
+            $customKernel = $projectDir . '/app/SculpinKernel.php'
+        )) {
             require $customKernel;
 
             return new \SculpinKernel($env, $debug, $projectDir);

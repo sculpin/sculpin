@@ -96,7 +96,7 @@ class Configuration extends BaseConfiguration
      */
     public function addExclude($pattern)
     {
-        if (substr($pattern, 0, 2)=='./') {
+        if (substr($pattern, 0, 2) == './') {
             $pattern = substr($pattern, 2);
         }
 
@@ -144,7 +144,7 @@ class Configuration extends BaseConfiguration
      */
     public function addIgnore($pattern)
     {
-        if (substr($pattern, 0, 2)=='./') {
+        if (substr($pattern, 0, 2) == './') {
             $pattern = substr($pattern, 2);
         }
 
@@ -192,7 +192,7 @@ class Configuration extends BaseConfiguration
      */
     public function addRaw($pattern)
     {
-        if (substr($pattern, 0, 2)=='./') {
+        if (substr($pattern, 0, 2) == './') {
             $pattern = substr($pattern, 2);
         }
         if (!in_array($pattern, $this->raws)) {

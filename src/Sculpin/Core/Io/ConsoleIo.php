@@ -36,8 +36,9 @@ class ConsoleIo implements IoInterface
      * @param OutputInterface $output    The output instance
      * @param HelperSet       $helperSet The helperSet instance
      */
-    public function __construct(InputInterface $input, OutputInterface $output, HelperSet $helperSet)
-    {
+    public function __construct(InputInterface $input, OutputInterface $output,
+        HelperSet $helperSet
+    ) {
         $this->input = $input;
         $this->output = $output;
         $this->helperSet = $helperSet;
@@ -69,7 +70,8 @@ class ConsoleIo implements IoInterface
      */
     public function isVerbose()
     {
-        return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+        return $this->output->getVerbosity()
+        >= OutputInterface::VERBOSITY_VERBOSE;
     }
 
     /**
@@ -77,7 +79,8 @@ class ConsoleIo implements IoInterface
      */
     public function isVeryVerbose()
     {
-        return $this->output->getVerbosity() >= 3; // OutputInterface::VERSOBITY_VERY_VERBOSE
+        return $this->output->getVerbosity()
+        >= 3; // OutputInterface::VERSOBITY_VERY_VERBOSE
     }
 
     /**
@@ -85,7 +88,8 @@ class ConsoleIo implements IoInterface
      */
     public function isDebug()
     {
-        return $this->output->getVerbosity() >= 4; // OutputInterface::VERBOSITY_DEBUG
+        return $this->output->getVerbosity()
+        >= 4; // OutputInterface::VERBOSITY_DEBUG
     }
 
     /**
@@ -94,7 +98,7 @@ class ConsoleIo implements IoInterface
     public function write($messages, $newline = true)
     {
         if (null !== $this->startTime) {
-            $messages = (array) $messages;
+            $messages = (array)$messages;
             $messages[0] = sprintf(
                 '[%.1fMB/%.2fs] %s',
                 memory_get_usage() / 1024 / 1024,
@@ -103,7 +107,7 @@ class ConsoleIo implements IoInterface
             );
         }
         $this->output->write($messages, $newline);
-        $this->lastMessage = join($newline ? "\n" : '', (array) $messages);
+        $this->lastMessage = join($newline ? "\n" : '', (array)$messages);
     }
 
     /**
@@ -112,7 +116,7 @@ class ConsoleIo implements IoInterface
     public function overwrite($messages, $newline = true, $size = null)
     {
         // messages can be an array, let's convert it to string anyway
-        $messages = join($newline ? "\n" : '', (array) $messages);
+        $messages = join($newline ? "\n" : '', (array)$messages);
 
         // since overwrite is supposed to overwrite last message...
         if (!isset($size)) {

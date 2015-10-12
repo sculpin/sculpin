@@ -31,12 +31,20 @@ class SculpinTextileExtension extends Extension
         $configuration = new Configuration;
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\XmlFileLoader(
+            $container, new FileLocator(__DIR__ . '/../Resources/config')
+        );
         $loader->load('services.xml');
 
-        $container->setParameter('sculpin_textile.parser.class', $config['parser_class']);
-        $container->setParameter('sculpin_textile.extensions', $config['extensions']);
+        $container->setParameter(
+            'sculpin_textile.parser.class', $config['parser_class']
+        );
+        $container->setParameter(
+            'sculpin_textile.extensions', $config['extensions']
+        );
 
-        $container->findDefinition('sculpin_textile.converter')->addArgument($config['extensions']);
+        $container->findDefinition('sculpin_textile.converter')->addArgument(
+            $config['extensions']
+        );
     }
 }

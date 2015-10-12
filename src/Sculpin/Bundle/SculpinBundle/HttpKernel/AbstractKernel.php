@@ -33,7 +33,7 @@ abstract class AbstractKernel extends Kernel
     {
         if (null !== $projectDir) {
             $this->projectDir = $projectDir;
-            $this->rootDir = $projectDir.'/app';
+            $this->rootDir = $projectDir . '/app';
         }
 
         parent::__construct($environment, $debug);
@@ -48,9 +48,11 @@ abstract class AbstractKernel extends Kernel
             $this->projectDir = dirname($this->rootDir);
         }
 
-        return array_merge(parent::getKernelParameters(), array(
+        return array_merge(
+            parent::getKernelParameters(), array(
             'sculpin.project_dir' => $this->projectDir,
-        ));
+        )
+        );
     }
 
     /**
@@ -88,11 +90,16 @@ abstract class AbstractKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         // Load defaults.
-        $loader->load(__DIR__.'/../Resources/config/kernel.yml');
+        $loader->load(__DIR__ . '/../Resources/config/kernel.yml');
 
-        if (file_exists($file = $this->rootDir.'/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
+        if (file_exists(
+            $file = $this->rootDir . '/config/sculpin_kernel_'
+                . $this->getEnvironment() . '.yml'
+        )) {
             $loader->load($file);
-        } elseif (file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {
+        } elseif (file_exists(
+            $file = $this->rootDir . '/config/sculpin_kernel.yml'
+        )) {
             $loader->load($file);
         }
     }
@@ -120,12 +127,17 @@ abstract class AbstractKernel extends Kernel
         $container->addObjectResource($this);
         $this->prepareContainer($container);
 
-        if (file_exists($this->rootDir.'/config/sculpin_services.yml')) {
-            $loader = new YamlFileLoader($container, new FileLocator($this->rootDir.'/config'));
+        if (file_exists($this->rootDir . '/config/sculpin_services.yml')) {
+            $loader = new YamlFileLoader(
+                $container, new FileLocator($this->rootDir . '/config')
+            );
             $loader->load('sculpin_services.yml');
         }
 
-        if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
+        if (null !== $cont = $this->registerContainerConfiguration(
+                $this->getContainerLoader($container)
+            )
+        ) {
             $container->merge($cont);
         }
 

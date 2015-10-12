@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -32,8 +32,10 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('theme')->defaultNull()->end()
-                ->scalarNode('directory')->defaultValue('%sculpin.source_dir%/%sculpin_theme.root_dir%')->end()
+            ->scalarNode('theme')->defaultNull()->end()
+            ->scalarNode('directory')->defaultValue(
+                '%sculpin.source_dir%/%sculpin_theme.root_dir%'
+            )->end()
             ->end();
 
         return $treeBuilder;

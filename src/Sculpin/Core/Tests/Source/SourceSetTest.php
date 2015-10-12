@@ -90,11 +90,13 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
 
         $sourceSet = new SourceSet(array($source000, $source001, $source002));
 
-        $this->assertEquals(array(
-            'TestSource:000' => $source000,
-            'TestSource:001' => $source001,
-            'TestSource:002' => $source002,
-        ), $sourceSet->allSources());
+        $this->assertEquals(
+            array(
+                'TestSource:000' => $source000,
+                'TestSource:001' => $source001,
+                'TestSource:002' => $source002,
+            ), $sourceSet->allSources()
+        );
     }
 
     public function testUpdatedSources()
@@ -105,10 +107,12 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
 
         $sourceSet = new SourceSet(array($source000, $source001, $source002));
 
-        $this->assertEquals(array(
-            'TestSource:000' => $source000,
-            'TestSource:002' => $source002,
-        ), $sourceSet->updatedSources());
+        $this->assertEquals(
+            array(
+                'TestSource:000' => $source000,
+                'TestSource:002' => $source002,
+            ), $sourceSet->updatedSources()
+        );
     }
 
     public function testReset()

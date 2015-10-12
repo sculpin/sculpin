@@ -42,7 +42,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param Parser $parser     Parser
+     * @param Parser $parser Parser
      * @param array  $extensions Extensions
      */
     public function __construct(Parser $parser, array $extensions = array())
@@ -56,7 +56,9 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function convert(ConverterContextInterface $converterContext)
     {
-        $converterContext->setContent($this->parser->textileThis($converterContext->content()));
+        $converterContext->setContent(
+            $this->parser->textileThis($converterContext->content())
+        );
     }
 
     /**
@@ -79,7 +81,9 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {
-                    $source->data()->append('converters', SculpinTextileBundle::CONVERTER_NAME);
+                    $source->data()->append(
+                        'converters', SculpinTextileBundle::CONVERTER_NAME
+                    );
                     break;
                 }
             }

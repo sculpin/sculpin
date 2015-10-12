@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -32,18 +32,22 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('source_dir')->defaultValue('%sculpin.project_dir%/source')->end()
-                ->scalarNode('output_dir')->defaultValue('%sculpin.project_dir%/output_%kernel.environment%')->end()
-                ->arrayNode('exclude')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('ignore')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('raw')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->scalarNode('permalink')->defaultValue('pretty')->end()
+            ->scalarNode('source_dir')->defaultValue(
+                '%sculpin.project_dir%/source'
+            )->end()
+            ->scalarNode('output_dir')->defaultValue(
+                '%sculpin.project_dir%/output_%kernel.environment%'
+            )->end()
+            ->arrayNode('exclude')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('ignore')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('raw')
+            ->prototype('scalar')->end()
+            ->end()
+            ->scalarNode('permalink')->defaultValue('pretty')->end()
             ->end();
 
         return $treeBuilder;

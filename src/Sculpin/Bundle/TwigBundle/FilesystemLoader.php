@@ -25,6 +25,6 @@ class FilesystemLoader extends \Twig_Loader_Filesystem
     {
         $filename = $this->findTemplate($name);
 
-        return filemtime($filename).':'.$filename;
+        return filemtime($filename) . ':' . $filename;
     }
 }

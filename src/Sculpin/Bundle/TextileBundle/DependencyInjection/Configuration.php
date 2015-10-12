@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -32,11 +32,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('Netcarver\Textile\Parser')->end()
-                ->arrayNode('extensions')
-                    ->defaultValue(array('textile'))
-                    ->prototype('scalar')->end()
-                ->end()
+            ->scalarNode('parser_class')->defaultValue(
+                'Netcarver\Textile\Parser'
+            )->end()
+            ->arrayNode('extensions')
+            ->defaultValue(array('textile'))
+            ->prototype('scalar')->end()
+            ->end()
             ->end();
 
         return $treeBuilder;

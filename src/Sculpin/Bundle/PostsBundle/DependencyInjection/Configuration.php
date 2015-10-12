@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -32,12 +32,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('paths')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->booleanNode('publish_drafts')->end()
-                ->scalarNode('permalink')->end()
-                ->scalarNode('layout')->end()
+            ->arrayNode('paths')
+            ->prototype('scalar')->end()
+            ->end()
+            ->booleanNode('publish_drafts')->end()
+            ->scalarNode('permalink')->end()
+            ->scalarNode('layout')->end()
             ->end();
 
         return $treeBuilder;

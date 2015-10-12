@@ -39,25 +39,38 @@ class TwigLoaderPass implements CompilerPassInterface
         $prependedLoaders = array();
         $appendedLoaders = array();
 
-        foreach ($container->findTaggedServiceIds('twig.loaders.prepend') as $id => $attributes) {
+        foreach (
+            $container->findTaggedServiceIds('twig.loaders.prepend') as $id =>
+            $attributes
+        ) {
             $prependedLoaders[] = new Reference($id);
         }
 
-        foreach ($container->findTaggedServiceIds('twig.loaders.append') as $id => $attributes) {
+        foreach (
+            $container->findTaggedServiceIds('twig.loaders.append') as $id =>
+            $attributes
+        ) {
             $appendedLoaders[] = new Reference($id);
         }
 
-        $sourceViewPaths = $container->getParameter('sculpin_twig.source_view_paths');
+        $sourceViewPaths = $container->getParameter(
+            'sculpin_twig.source_view_paths'
+        );
         foreach ($container->getParameter('kernel.bundles') as $class) {
             $reflection = new \ReflectionClass($class);
             foreach ($sourceViewPaths as $sourceViewPath) {
-                if (is_dir($dir = dirname($reflection->getFilename()).'/Resources/'.$sourceViewPath)) {
+                if (is_dir(
+                    $dir = dirname($reflection->getFilename()) . '/Resources/'
+                        . $sourceViewPath
+                )) {
                     $appendedLoaders[] = $dir;
                 }
             }
         }
 
-        $arguments[0] = array_merge($prependedLoaders, $loaders, $appendedLoaders);
+        $arguments[0] = array_merge(
+            $prependedLoaders, $loaders, $appendedLoaders
+        );
         $definition->setArguments($arguments);
     }
 }

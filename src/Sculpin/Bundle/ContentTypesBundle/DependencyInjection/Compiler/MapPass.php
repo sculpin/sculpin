@@ -31,9 +31,14 @@ class MapPass implements CompilerPassInterface
 
             $definition = $container->getDefinition($mapId);
 
-            foreach ($container->findTaggedServiceIds($mapId) as $id => $tagAttributes) {
+            foreach (
+                $container->findTaggedServiceIds($mapId) as $id =>
+                $tagAttributes
+            ) {
                 foreach ($tagAttributes as $attributes) {
-                    $definition->addMethodCall('addMap', array(new Reference($id)));
+                    $definition->addMethodCall(
+                        'addMap', array(new Reference($id))
+                    );
                 }
             }
         }
@@ -46,6 +51,8 @@ class MapPass implements CompilerPassInterface
 
     private static function generateTypesId($type, $value)
     {
-        return implode('.', array('sculpin_content_types.types', $type, $value));
+        return implode(
+            '.', array('sculpin_content_types.types', $type, $value)
+        );
     }
 }

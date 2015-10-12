@@ -31,8 +31,9 @@ class DataProviderManager
      * @param string                $name         Name
      * @param DataProviderInterface $dataProvider Data provider
      */
-    public function registerDataProvider($name, DataProviderInterface $dataProvider)
-    {
+    public function registerDataProvider($name,
+        DataProviderInterface $dataProvider
+    ) {
         $this->dataProviders[$name] = $dataProvider;
     }
 

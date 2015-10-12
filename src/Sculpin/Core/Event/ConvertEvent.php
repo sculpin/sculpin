@@ -48,8 +48,9 @@ class ConvertEvent extends Event
      * @param string          $converter        Converter
      * @param string          $defaultFormatter Default formatter
      */
-    public function __construct(SourceInterface $source, $converter, $defaultFormatter)
-    {
+    public function __construct(SourceInterface $source, $converter,
+        $defaultFormatter
+    ) {
         $this->source = $source;
         $this->converter = $converter;
         $this->defaultFormatter = $defaultFormatter;
@@ -96,7 +97,8 @@ class ConvertEvent extends Event
      */
     public function isFormattedBy($requestedFormatter)
     {
-        return $requestedFormatter == $this->source->data()->get('formatter') ?: $this->defaultFormatter;
+        return $requestedFormatter == $this->source->data()->get('formatter')
+            ?: $this->defaultFormatter;
     }
 
     /**
@@ -109,6 +111,7 @@ class ConvertEvent extends Event
      */
     public function isHandledBy($requestedConverter, $requestedFormatter)
     {
-        return $this->isConvertedBy($requestedConverter) and $this->isFormattedBy($requestedFormatter);
+        return $this->isConvertedBy($requestedConverter)
+        and $this->isFormattedBy($requestedFormatter);
     }
 }

@@ -116,7 +116,8 @@ class FilesystemDataSource implements DataSourceInterface
         $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->analyzer = $analyzer;
-        $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
+        $this->directorySeparatorNormalizer = $directorySeparatorNormalizer
+            ?: new DirectorySeparatorNormalizer;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
@@ -125,7 +126,7 @@ class FilesystemDataSource implements DataSourceInterface
      */
     public function dataSourceId()
     {
-        return 'FilesystemDataSource:'.$this->sourceDir;
+        return 'FilesystemDataSource:' . $this->sourceDir;
     }
 
     /**
@@ -145,7 +146,7 @@ class FilesystemDataSource implements DataSourceInterface
             ->files()
             ->ignoreVCS(true)
             ->ignoreDotFiles(false)
-            ->date('>='.$sinceTimeLast)
+            ->date('>=' . $sinceTimeLast)
             ->followLinks()
             ->in($this->sourceDir);
 
@@ -166,10 +167,12 @@ class FilesystemDataSource implements DataSourceInterface
                     continue;
                 }
                 if (
-                    $this->matcher->match(
-                        $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                $this->matcher->match(
+                    $pattern,
+                    $this->directorySeparatorNormalizer->normalize(
+                        $file->getRelativePathname()
                     )
+                )
                 ) {
                     // Ignored files are completely ignored.
                     continue 2;
@@ -180,9 +183,11 @@ class FilesystemDataSource implements DataSourceInterface
                     continue;
                 }
                 if ($this->matcher->match(
-                        $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                    $pattern,
+                    $this->directorySeparatorNormalizer->normalize(
+                        $file->getRelativePathname()
                     )
+                )
                 ) {
                     $excludedFilesHaveChanged = true;
                     continue 2;
@@ -196,16 +201,20 @@ class FilesystemDataSource implements DataSourceInterface
                     continue;
                 }
                 if ($this->matcher->match(
-                        $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                    $pattern,
+                    $this->directorySeparatorNormalizer->normalize(
+                        $file->getRelativePathname()
                     )
+                )
                 ) {
                     $isRaw = true;
                     break;
                 }
             }
 
-            $source = new FileSource($this->analyzer, $this, $file, $isRaw, true);
+            $source = new FileSource(
+                $this->analyzer, $this, $file, $isRaw, true
+            );
             $sourceSet->mergeSource($source);
         }
 

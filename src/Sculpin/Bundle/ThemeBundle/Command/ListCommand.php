@@ -30,8 +30,9 @@ class ListCommand extends ContainerAwareCommand
         $this
             ->setName('theme:list')
             ->setDescription('List currently installed themes.')
-            ->setHelp(<<<EOT
-The <info>theme:list</info> command lists currently installed themes.
+            ->setHelp(
+                <<<EOT
+                The <info>theme:list</info> command lists currently installed themes.
 
 EOT
             );
@@ -42,23 +43,25 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $themeRegistry = $this->getContainer()->get('sculpin_theme.theme_registry');
+        $themeRegistry = $this->getContainer()->get(
+            'sculpin_theme.theme_registry'
+        );
         $activeTheme = $themeRegistry->findActiveTheme();
         $themes = $themeRegistry->listThemes();
 
         foreach ($themes as $theme) {
             if ($theme['name'] === $activeTheme['name']) {
-                $themeOutput = '<info>'.$theme['name'].'</info> *';
+                $themeOutput = '<info>' . $theme['name'] . '</info> *';
             } else {
                 $themeOutput = $theme['name'];
             }
 
             if (isset($theme['parent'])) {
-                $themeOutput .= ' (child of '.$theme['parent'].')';
+                $themeOutput .= ' (child of ' . $theme['parent'] . ')';
             }
 
             if (preg_match('/^(.+?)-dev$/', $theme['name'], $matches)) {
-                $themeOutput .= ' :: '.$matches[1].'';
+                $themeOutput .= ' :: ' . $matches[1] . '';
             }
             $output->writeln($themeOutput);
         }

@@ -20,7 +20,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class ContainerAwareCommand extends Command
+    implements ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -33,7 +34,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     protected function getContainer()
     {
         if (null === $this->container) {
-            $this->container = $this->getApplication()->getKernel()->getContainer();
+            $this->container = $this->getApplication()->getKernel()
+                ->getContainer();
         }
 
         return $this->container;

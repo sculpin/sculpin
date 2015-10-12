@@ -41,19 +41,23 @@ class TwigFormatter implements FormatterInterface
      * @param \Twig_Environment  $twig        Twig
      * @param \Twig_Loader_Array $arrayLoader Array Loader
      */
-    public function __construct(\Twig_Environment $twig, \Twig_Loader_Array $arrayLoader)
-    {
+    public function __construct(\Twig_Environment $twig,
+        \Twig_Loader_Array $arrayLoader
+    ) {
         $this->twig = $twig;
         $this->arrayLoader = $arrayLoader;
     }
 
-     /**
+    /**
      * {@inheritdoc}
      */
     public function formatBlocks(FormatContext $formatContext)
     {
         try {
-            $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
+            $this->arrayLoader->setTemplate(
+                $formatContext->templateId(),
+                $this->massageTemplate($formatContext)
+            );
             $data = $formatContext->data()->export();
             $template = $this->twig->loadTemplate($formatContext->templateId());
 
@@ -74,7 +78,12 @@ class TwigFormatter implements FormatterInterface
     public function findAllBlocks(\Twig_Template $template, array $context)
     {
         if (false !== $parent = $template->getParent($context)) {
-            return array_unique(array_merge($this->findAllBlocks($parent, $context), $template->getBlockNames()));
+            return array_unique(
+                array_merge(
+                    $this->findAllBlocks($parent, $context),
+                    $template->getBlockNames()
+                )
+            );
         }
 
         return $template->getBlockNames();
@@ -115,10 +124,18 @@ class TwigFormatter implements FormatterInterface
             // Completely remove anything in verbatim sections so that any blocks defined in there will
             // not trigger the "you've already defined blocks!" check since this is almost certainly
             // NOT the intention of the source's author.
-            $verbatim = preg_replace('/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '', $template);
+            $verbatim = preg_replace(
+                '/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '',
+                $template
+            );
 
-            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim, $matches)) {
-                $template = '{% block content %}'.$template.'{% endblock %}';
+            if (!preg_match_all(
+                '/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim,
+                $matches
+            )
+            ) {
+                $template = '{% block content %}' . $template
+                    . '{% endblock %}';
             }
             $template = '{% extends "' . $layout . '" %}' . $template;
         }

@@ -19,8 +19,9 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     protected $items;
     protected $sorter;
 
-    public function __construct(array $items = array(), SorterInterface $sorter = null)
-    {
+    public function __construct(array $items = array(),
+        SorterInterface $sorter = null
+    ) {
         $this->items = $items;
         $this->sorter = $sorter ?: new DefaultSorter;
     }

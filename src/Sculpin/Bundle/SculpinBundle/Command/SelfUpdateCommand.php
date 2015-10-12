@@ -41,20 +41,20 @@ class SelfUpdateCommand extends AbstractCommand
      */
     protected function configure()
     {
-        $fullCommand = $this->commandPrefix.'self-update';
+        $fullCommand = $this->commandPrefix . 'self-update';
         $this
             ->setName($fullCommand)
-            ->setAliases(array($this->commandPrefix.'selfupdate'))
+            ->setAliases(array($this->commandPrefix . 'selfupdate'))
             ->setDescription('Updates sculpin to the latest version.')
-            ->setHelp(<<<EOT
-The <info>self-update</info> command checks for newer versions of sculpin and if found,
+            ->setHelp(
+                <<<EOT
+                The <info>self-update</info> command checks for newer versions of sculpin and if found,
 installs the latest.
 
 <info>sculpin ${fullCommand}</info>
 
 EOT
-            )
-        ;
+            );
     }
 
     public function isEnabled()
@@ -68,15 +68,23 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-        $tempFilename = dirname($localFilename) . '/' . basename($localFilename, '.phar').'-temp.phar';
+        $tempFilename = dirname($localFilename) . '/' . basename(
+                $localFilename, '.phar'
+            ) . '-temp.phar';
 
         // check for permissions in local filesystem before start connection process
         if (!is_writable($tempDirectory = dirname($tempFilename))) {
-            throw new FilesystemException('Sculpin update failed: the "'.$tempDirectory.'" directory used to download the temp file could not be written');
+            throw new FilesystemException(
+                'Sculpin update failed: the "' . $tempDirectory
+                . '" directory used to download the temp file could not be written'
+            );
         }
 
         if (!is_writable($localFilename)) {
-            throw new FilesystemException('Sculpin update failed: the "'.$localFilename. '" file could not be written');
+            throw new FilesystemException(
+                'Sculpin update failed: the "' . $localFilename
+                . '" file could not be written'
+            );
         }
 
         set_error_handler(array($this, 'handleError'));
@@ -85,26 +93,42 @@ EOT
 
         $versionUrl = $protocol . '://download.sculpin.io/version';
 
-        $latest = trim(file_get_contents($versionUrl, false, $this->getStreamContext()));
+        $latest = trim(
+            file_get_contents($versionUrl, false, $this->getStreamContext())
+        );
 
         if ($this->message) {
-            $output->writeln('<error>Could not determine most recent version:'."\n".$this->message.'</error>');
+            $output->writeln(
+                '<error>Could not determine most recent version:' . "\n"
+                . $this->message . '</error>'
+            );
 
             return 1;
         }
 
         if (Sculpin::GIT_VERSION !== $latest) {
-            $output->writeln(sprintf("Updating to version <info>%s</info>.", $latest));
+            $output->writeln(
+                sprintf("Updating to version <info>%s</info>.", $latest)
+            );
 
             $remoteFilename = $protocol . '://download.sculpin.io/sculpin.phar';
 
-            if (!file_put_contents($tempFilename, file_get_contents($remoteFilename, false, $this->getStreamContext()))) {
-                $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
+            if (!file_put_contents(
+                $tempFilename, file_get_contents(
+                $remoteFilename, false, $this->getStreamContext()
+            )
+            )
+            ) {
+                $output->writeln(
+                    '<error>The download of the new Sculpin version failed for an unexpected reason'
+                );
 
             }
 
             if (!file_exists($tempFilename)) {
-                $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
+                $output->writeln(
+                    '<error>The download of the new Sculpin version failed for an unexpected reason'
+                );
 
                 return 1;
             }
@@ -118,14 +142,23 @@ EOT
                 rename($tempFilename, $localFilename);
             } catch (\Exception $e) {
                 @unlink($tempFilename);
-                if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
+                if (!$e instanceof \UnexpectedValueException
+                    && !$e instanceof \PharException
+                ) {
                     throw $e;
                 }
-                $output->writeln('<error>The download is corrupted ('.$e->getMessage().').</error>');
-                $output->writeln('<error>Please re-run the self-update command to try again.</error>');
+                $output->writeln(
+                    '<error>The download is corrupted (' . $e->getMessage()
+                    . ').</error>'
+                );
+                $output->writeln(
+                    '<error>Please re-run the self-update command to try again.</error>'
+                );
             }
         } else {
-            $output->writeln("<info>You are using the latest Sculpin version.</info>");
+            $output->writeln(
+                "<info>You are using the latest Sculpin version.</info>"
+            );
         }
 
         restore_error_handler();
@@ -143,7 +176,10 @@ EOT
         // Handle system proxy
         if (!empty($_SERVER['HTTP_PROXY']) || !empty($_SERVER['http_proxy'])) {
             // Some systems seem to rely on a lowercased version instead...
-            $proxy = parse_url(!empty($_SERVER['http_proxy']) ? $_SERVER['http_proxy'] : $_SERVER['HTTP_PROXY']);
+            $proxy = parse_url(
+                !empty($_SERVER['http_proxy']) ? $_SERVER['http_proxy']
+                    : $_SERVER['HTTP_PROXY']
+            );
         }
 
         if (!empty($proxy)) {
@@ -159,14 +195,23 @@ EOT
             }
 
             // http(s):// is not supported in proxy
-            $proxyURL = str_replace(array('http://', 'https://'), array('tcp://', 'ssl://'), $proxyURL);
+            $proxyURL = str_replace(
+                array('http://', 'https://'), array('tcp://', 'ssl://'),
+                $proxyURL
+            );
 
-            if (0 === strpos($proxyURL, 'ssl:') && !extension_loaded('openssl')) {
-                throw new \RuntimeException('You must enable the openssl extension to use a proxy over https');
+            if (0 === strpos($proxyURL, 'ssl:')
+                && !extension_loaded(
+                    'openssl'
+                )
+            ) {
+                throw new \RuntimeException(
+                    'You must enable the openssl extension to use a proxy over https'
+                );
             }
 
             $options['http'] = array(
-                'proxy'           => $proxyURL,
+                'proxy' => $proxyURL,
                 'request_fulluri' => true,
             );
 
@@ -177,7 +222,8 @@ EOT
                 }
                 $auth = base64_encode($auth);
 
-                $options['http']['header'] = "Proxy-Authorization: Basic {$auth}\r\n";
+                $options['http']['header']
+                    = "Proxy-Authorization: Basic {$auth}\r\n";
             }
         }
 
@@ -189,6 +235,8 @@ EOT
         if ($this->message) {
             $this->message .= "\n";
         }
-        $this->message .= preg_replace('{^file_get_contents\(.*?\): }', '', $msg);
+        $this->message .= preg_replace(
+            '{^file_get_contents\(.*?\): }', '', $msg
+        );
     }
 }

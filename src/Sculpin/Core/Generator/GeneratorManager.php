@@ -83,8 +83,9 @@ class GeneratorManager
     /**
      * Generate
      *
-     * @param  SourceInterface           $source    Source
-     * @param  SourceSet                 $sourceSet Source set
+     * @param  SourceInterface $source    Source
+     * @param  SourceSet       $sourceSet Source set
+     *
      * @throws \InvalidArgumentException
      *
      * @return string
@@ -100,7 +101,7 @@ class GeneratorManager
                 $source->setIsGenerator();
             }
 
-            $generatorNames = (array) $generatorNames;
+            $generatorNames = (array)$generatorNames;
 
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
@@ -124,7 +125,10 @@ class GeneratorManager
         foreach ($generators as $generator) {
             $newTargetSources = array();
             foreach ($targetSources as $targetSource) {
-                foreach ((array) $generator->generate($targetSource) as $generatedSource) {
+                foreach (
+                    (array)$generator->generate($targetSource) as
+                    $generatedSource
+                ) {
                     $generatedSource->setIsGenerated();
                     $newTargetSources[] = $generatedSource;
                 }
@@ -146,8 +150,8 @@ class GeneratorManager
      *
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null)
-    {
+    public function setDataProviderManager(DataProviderManager $dataProviderManager = null
+    ) {
         $this->dataProviderManager = $dataProviderManager;
     }
 }
