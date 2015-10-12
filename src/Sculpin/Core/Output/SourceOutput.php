@@ -20,7 +20,6 @@ use Sculpin\Core\Source\SourceInterface;
  */
 class SourceOutput implements OutputInterface
 {
-
     /**
      * Source
      *

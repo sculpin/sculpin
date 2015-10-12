@@ -21,7 +21,6 @@ use Sculpin\Core\Permalink\PermalinkInterface;
  */
 interface SourceInterface
 {
-
     /**
      * Source ID
      *
