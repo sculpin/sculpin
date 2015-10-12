@@ -30,7 +30,7 @@ class DraftsMap implements MapInterface
                     }
                 }
 
-                if (! in_array('drafts', $tags)) {
+                if (!in_array('drafts', $tags)) {
                     // only add drafts if it isn't already in tags.
                     $tags[] = 'drafts';
                 }

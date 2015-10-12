@@ -17,7 +17,8 @@ use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSubscriberInterface
+class ProxySourceTaxonomyDataProvider
+    implements DataProviderInterface, EventSubscriberInterface
 {
     private $taxons = array();
     private $dataProviderManager;
@@ -49,12 +50,14 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
         $taxons = array();
-        $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
+        $dataProvider = $this->dataProviderManager->dataProvider(
+            $this->dataProviderName
+        );
 
         foreach ($dataProvider->provideData() as $item) {
             if ($itemTaxons = $item->data()->get($this->taxonomyKey)) {
                 $normalizedItemTaxons = array();
-                foreach ((array) $itemTaxons as $itemTaxon) {
+                foreach ((array)$itemTaxons as $itemTaxon) {
                     $normalizedItemTaxon = trim($itemTaxon);
                     $taxons[$normalizedItemTaxon][] = $item;
                     $normalizedItemTaxons[] = $normalizedItemTaxon;

@@ -376,13 +376,18 @@ abstract class AbstractSource implements SourceInterface
             $newSourceId,
             new Data($this->data->exportRaw()),
             isset($options['content']) ? $options['content'] : $this->content,
-            isset($options['formattedContent']) ? $options['formattedContent'] : $this->formattedContent,
-            isset($options['relativePathname']) ? $options['relativePathname'] : $this->relativePathname,
-            isset($options['filename']) ? $options['filename'] : $this->filename,
+            isset($options['formattedContent']) ? $options['formattedContent']
+                : $this->formattedContent,
+            isset($options['relativePathname']) ? $options['relativePathname']
+                : $this->relativePathname,
+            isset($options['filename']) ? $options['filename']
+                : $this->filename,
             isset($options['file']) ? $options['file'] : $this->file,
             isset($options['isRaw']) ? $options['isRaw'] : $this->isRaw,
-            isset($options['canBeFormatted']) ? $options['canBeFormatted'] : $this->canBeFormatted,
-            isset($options['hasChanged']) ? $options['hasChanged'] : $this->hasChanged
+            isset($options['canBeFormatted']) ? $options['canBeFormatted']
+                : $this->canBeFormatted,
+            isset($options['hasChanged']) ? $options['hasChanged']
+                : $this->hasChanged
         );
     }
 }

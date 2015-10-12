@@ -29,11 +29,12 @@ class ConvertListener implements EventSubscriberInterface
      *
      * @var array
      */
-    protected static $addPlaceholderRe = array(
-        '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
-        '/^({%\s+endblock\s+%})$/m',       // {% %} style code
-        '/^({{.+?}})$/m',                  // {{ }} style code
-    );
+    protected static $addPlaceholderRe
+        = array(
+            '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
+            '/^({%\s+endblock\s+%})$/m',       // {% %} style code
+            '/^({{.+?}})$/m',                  // {{ }} style code
+        );
 
     /**
      * Placeholder text
@@ -56,7 +57,7 @@ class ConvertListener implements EventSubscriberInterface
     {
         return array(
             Sculpin::EVENT_BEFORE_CONVERT => 'beforeConvert',
-            Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
+            Sculpin::EVENT_AFTER_CONVERT  => 'afterConvert',
         );
     }
 
@@ -67,12 +68,19 @@ class ConvertListener implements EventSubscriberInterface
      */
     public function beforeConvert(ConvertEvent $convertEvent)
     {
-        if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
+        if ($convertEvent->isHandledBy(
+            SculpinMarkdownBundle::CONVERTER_NAME,
+            SculpinTwigBundle::FORMATTER_NAME
+        )
+        ) {
             $content = $convertEvent->source()->content();
             foreach (self::$addPlaceholderRe as $re) {
                 $content = preg_replace($re, self::$placeholder, $content);
             }
-            $content = preg_replace('/{%\s+(\w+)\s+(\w+\++\w+)\s+%}(.*){%\s+end\1\s+%}/Us', '<div data-$1="$2">$3</div>', $content);
+            $content = preg_replace(
+                '/{%\s+(\w+)\s+(\w+\++\w+)\s+%}(.*){%\s+end\1\s+%}/Us',
+                '<div data-$1="$2">$3</div>', $content
+            );
             $convertEvent->source()->setContent($content);
         }
     }
@@ -84,10 +92,17 @@ class ConvertListener implements EventSubscriberInterface
      */
     public function afterConvert(ConvertEvent $convertEvent)
     {
-        if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
+        if ($convertEvent->isHandledBy(
+            SculpinMarkdownBundle::CONVERTER_NAME,
+            SculpinTwigBundle::FORMATTER_NAME
+        )
+        ) {
             $content = $convertEvent->source()->content();
             $content = preg_replace(self::$removePlaceholderRe, '', $content);
-            $content = preg_replace('/<div data-(\w+)="(\w+\++\w+)">(.*?)<\/div>/Us', '{% $1 \'$2\' %}$3{% end$1 %}', $content);
+            $content = preg_replace(
+                '/<div data-(\w+)="(\w+\++\w+)">(.*?)<\/div>/Us',
+                '{% $1 \'$2\' %}$3{% end$1 %}', $content
+            );
             $convertEvent->source()->setContent($content);
         }
     }

@@ -27,15 +27,26 @@ class DataProviderManagerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('sculpin.data_provider_manager')) {
+        if (false === $container->hasDefinition(
+                'sculpin.data_provider_manager'
+            )
+        ) {
             return;
         }
 
-        $definition = $container->getDefinition('sculpin.data_provider_manager');
+        $definition = $container->getDefinition(
+            'sculpin.data_provider_manager'
+        );
 
-        foreach ($container->findTaggedServiceIds('sculpin.data_provider') as $id => $tagAttributes) {
+        foreach (
+            $container->findTaggedServiceIds('sculpin.data_provider') as $id =>
+            $tagAttributes
+        ) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerDataProvider', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall(
+                    'registerDataProvider',
+                    array($attributes['alias'], new Reference($id))
+                );
             }
         }
     }

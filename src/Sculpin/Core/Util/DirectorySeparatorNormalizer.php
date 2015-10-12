@@ -62,6 +62,9 @@ class DirectorySeparatorNormalizer
             return $path;
         }
 
-        return implode($this->preferredDirectorySeparator, explode($this->directorySeparator, $path));
+        return implode(
+            $this->preferredDirectorySeparator,
+            explode($this->directorySeparator, $path)
+        );
     }
 }

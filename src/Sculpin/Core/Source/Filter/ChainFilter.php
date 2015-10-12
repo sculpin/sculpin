@@ -40,7 +40,7 @@ class ChainFilter implements FilterInterface
 
                 $matched = true;
             } else {
-                if (! $this->or) {
+                if (!$this->or) {
                     // If we would not have accepted any filter ("and") we can
                     // return false at this point since at least one failed.
                     return false;

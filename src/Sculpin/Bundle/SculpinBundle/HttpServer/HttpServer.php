@@ -34,8 +34,9 @@ class HttpServer
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
-    {
+    public function __construct(OutputInterface $output, $docroot, $env, $debug,
+        $port = null
+    ) {
         $repository = new PhpRepository;
 
         if (!$port) {
@@ -50,41 +51,55 @@ class HttpServer
         $this->loop = new StreamSelectLoop;
         $socketServer = new ReactSocketServer($this->loop);
         $httpServer = new ReactHttpServer($socketServer);
-        $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
-            $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
-            if (is_dir($path)) {
-                $path .= '/index.html';
-            }
-            if (!file_exists($path)) {
-                HttpServer::logRequest($output, 404, $request);
-                $response->writeHead(404, [
-                    'Content-Type' => 'text/html',
-                ]);
-
-                return $response->end(implode('', [
-                    '<h1>404</h1>',
-                    '<h2>Not Found</h2>',
-                    '<p>',
-                    'The embedded <a href="https://sculpin.io">Sculpin</a> web server could not find the requested resource.',
-                    '</p>'
-                ]));
-            }
-
-            $type = 'application/octet-stream';
-
-            if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
-                if ($guessedType = $repository->findType($extension)) {
-                    $type = $guessedType;
+        $httpServer->on(
+            "request",
+            function ($request, $response) use ($repository, $docroot, $output
+            ) {
+                $path = $docroot . '/' . ltrim(
+                        rawurldecode($request->getPath()), '/'
+                    );
+                if (is_dir($path)) {
+                    $path .= '/index.html';
                 }
+                if (!file_exists($path)) {
+                    HttpServer::logRequest($output, 404, $request);
+                    $response->writeHead(
+                        404, [
+                        'Content-Type' => 'text/html',
+                    ]
+                    );
+
+                    return $response->end(
+                        implode(
+                            '', [
+                            '<h1>404</h1>',
+                            '<h2>Not Found</h2>',
+                            '<p>',
+                            'The embedded <a href="https://sculpin.io">Sculpin</a> web server could not find the requested resource.',
+                            '</p>'
+                        ]
+                        )
+                    );
+                }
+
+                $type = 'application/octet-stream';
+
+                if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
+                    if ($guessedType = $repository->findType($extension)) {
+                        $type = $guessedType;
+                    }
+                }
+
+                HttpServer::logRequest($output, 200, $request);
+
+                $response->writeHead(
+                    200, array(
+                    "Content-Type" => $type,
+                )
+                );
+                $response->end(file_get_contents($path));
             }
-
-            HttpServer::logRequest($output, 200, $request);
-
-            $response->writeHead(200, array(
-                "Content-Type" => $type,
-            ));
-            $response->end(file_get_contents($path));
-        });
+        );
 
         $socketServer->listen($port, '0.0.0.0');
     }
@@ -105,8 +120,18 @@ class HttpServer
      */
     public function run()
     {
-        $this->output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
-        $this->output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
+        $this->output->writeln(
+            sprintf(
+                'Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>',
+                $this->env, var_export($this->debug, true)
+            )
+        );
+        $this->output->writeln(
+            sprintf(
+                'Development server is running at <info>http://%s:%s</info>',
+                'localhost', $this->port
+            )
+        );
         $this->output->writeln('Quit the server with CONTROL-C.');
 
         $this->loop->run();
@@ -119,8 +144,9 @@ class HttpServer
      * @param string          $responseCode Response code
      * @param Request         $request      Request
      */
-    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
-    {
+    public static function logRequest(OutputInterface $output, $responseCode,
+        Request $request
+    ) {
         $wrapOpen = '';
         $wrapClose = '';
         if ($responseCode < 400) {
@@ -130,6 +156,12 @@ class HttpServer
             $wrapOpen = '<comment>';
             $wrapClose = '</comment>';
         }
-        $output->writeln($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date("d/M/Y H:i:s"), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
+        $output->writeln(
+            $wrapOpen . sprintf(
+                '[%s] "%s %s HTTP/%s" %s', date("d/M/Y H:i:s"),
+                $request->getMethod(), $request->getPath(),
+                $request->getHttpVersion(), $responseCode
+            ) . $wrapClose
+        );
     }
 }

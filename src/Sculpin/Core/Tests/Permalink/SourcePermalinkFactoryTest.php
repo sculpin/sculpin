@@ -13,12 +13,14 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider provideCreateData
+     *
      * @param string $defaultPermalink
      * @param SourceInterface $source
      * @param Permalink $expectedPermalink
      */
-    public function testCreate($defaultPermalink, SourceInterface $source, Permalink $expectedPermalink)
-    {
+    public function testCreate($defaultPermalink, SourceInterface $source,
+        Permalink $expectedPermalink
+    ) {
         $sourcePermalinkFactory = new SourcePermalinkFactory($defaultPermalink);
 
         $permalink = $sourcePermalinkFactory->create($source);
@@ -31,7 +33,9 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 'none',
-                static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
+                static::makeTestSource(
+                    '_posts/2015-01-12-from-buttercup-protects-to-broadway.md'
+                ),
                 new Permalink(
                     '_posts/2015-01-12-from-buttercup-protects-to-broadway.md',
                     '/_posts/2015-01-12-from-buttercup-protects-to-broadway.md'
@@ -59,7 +63,9 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
 
             array(
                 'pretty',
-                static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
+                static::makeTestSource(
+                    '_posts/2015-01-12-from-buttercup-protects-to-broadway.md'
+                ),
                 new Permalink(
                     '2015/01/12/from-buttercup-protects-to-broadway/index.html',
                     '/2015/01/12/from-buttercup-protects-to-broadway'
@@ -68,8 +74,9 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    private static function makeTestSource($relativePathname, array $configuration = array())
-    {
+    private static function makeTestSource($relativePathname,
+        array $configuration = array()
+    ) {
         $configuration = new Configuration($configuration);
 
         return new MemorySource(

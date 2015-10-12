@@ -31,16 +31,22 @@ class SculpinExtension extends Extension
         $configuration = new Configuration;
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\XmlFileLoader(
+            $container, new FileLocator(__DIR__ . '/../Resources/config')
+        );
         $loader->load('services.xml');
 
-        foreach (array('source_dir', 'output_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
+        foreach (
+            array('source_dir', 'output_dir', 'exclude', 'ignore', 'raw',
+                  'permalink') as $key
+        ) {
             $this->setSculpinParameter($container, $config, $key);
         }
     }
 
-    protected function setSculpinParameter(ContainerBuilder $container, array $config, $key)
-    {
-        $container->setParameter('sculpin.'.$key, $config[$key]);
+    protected function setSculpinParameter(ContainerBuilder $container,
+        array $config, $key
+    ) {
+        $container->setParameter('sculpin.' . $key, $config[$key]);
     }
 }

@@ -8,8 +8,9 @@ class ThemeTwigExtension extends \Twig_Extension
     private $sourceDir;
     private $directory;
 
-    public function __construct(ThemeRegistry $themeRegistry, $sourceDir, $directory)
-    {
+    public function __construct(ThemeRegistry $themeRegistry, $sourceDir,
+        $directory
+    ) {
         $this->theme = $themeRegistry->findActiveTheme();
         $this->sourceDir = $sourceDir;
         $this->directory = $directory;
@@ -21,9 +22,15 @@ class ThemeTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'theme_path' => new \Twig_Function_Method($this, 'themePath'),
-            'theme_path_exists' => new \Twig_Function_Method($this, 'themePathExists'),
-            'theme_paths' => new \Twig_Function_Method($this, 'themePaths'),
+            'theme_path' => new \Twig_Function_Method(
+                $this, 'themePath'
+            ),
+            'theme_path_exists' => new \Twig_Function_Method(
+                $this, 'themePathExists'
+            ),
+            'theme_paths' => new \Twig_Function_Method(
+                $this, 'themePaths'
+            ),
         );
     }
 
@@ -51,7 +58,7 @@ class ThemeTwigExtension extends \Twig_Extension
             return $resource;
         }
 
-        if (file_exists($this->sourceDir.'/'.$resource)) {
+        if (file_exists($this->sourceDir . '/' . $resource)) {
             return $resource;
         }
 
@@ -61,7 +68,9 @@ class ThemeTwigExtension extends \Twig_Extension
         }
 
         if (isset($this->theme['parent'])) {
-            $themeResource = $this->findThemeResource($this->theme['parent'], $resource);
+            $themeResource = $this->findThemeResource(
+                $this->theme['parent'], $resource
+            );
             if (null !== $themeResource) {
                 return $themeResource;
             }
@@ -79,7 +88,7 @@ class ThemeTwigExtension extends \Twig_Extension
      */
     public function themePathExists($resource)
     {
-        if (file_exists($this->sourceDir.'/'.$resource)) {
+        if (file_exists($this->sourceDir . '/' . $resource)) {
             return true;
         }
 
@@ -93,7 +102,9 @@ class ThemeTwigExtension extends \Twig_Extension
         }
 
         if (isset($this->theme['parent'])) {
-            $themeResource = $this->findThemeResource($this->theme['parent'], $resource);
+            $themeResource = $this->findThemeResource(
+                $this->theme['parent'], $resource
+            );
             if (null !== $themeResource) {
                 return true;
             }
@@ -115,7 +126,7 @@ class ThemeTwigExtension extends \Twig_Extension
     {
         $paths = array();
 
-        if (file_exists($this->sourceDir.'/'.$resource)) {
+        if (file_exists($this->sourceDir . '/' . $resource)) {
             $paths[] = $resource;
         }
 
@@ -129,7 +140,9 @@ class ThemeTwigExtension extends \Twig_Extension
         }
 
         if (isset($this->theme['parent'])) {
-            $themeResource = $this->findThemeResource($this->theme['parent'], $resource);
+            $themeResource = $this->findThemeResource(
+                $this->theme['parent'], $resource
+            );
             if (null !== $themeResource) {
                 $paths[] = $themeResource;
             }
@@ -140,8 +153,8 @@ class ThemeTwigExtension extends \Twig_Extension
 
     private function findThemeResource($theme, $resource)
     {
-        if (file_exists($theme['path'].'/'.$resource)) {
-            return $this->directory.'/'.$theme['name'].'/'.$resource;
+        if (file_exists($theme['path'] . '/' . $resource)) {
+            return $this->directory . '/' . $theme['name'] . '/' . $resource;
         }
     }
 }

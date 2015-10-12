@@ -26,35 +26,50 @@ class CustomMimeTypesRepositoryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('sculpin.custom_mime_types_repository')) {
+        if (false === $container->hasDefinition(
+                'sculpin.custom_mime_types_repository'
+            )
+        ) {
             return;
         }
 
-        $definition = $container->getDefinition('sculpin.custom_mime_types_repository');
+        $definition = $container->getDefinition(
+            'sculpin.custom_mime_types_repository'
+        );
 
         $data = array();
-        foreach ($container->findTaggedServiceIds('sculpin.custom_mime_extensions') as $tagAttributes) {
+        foreach (
+            $container->findTaggedServiceIds(
+                'sculpin.custom_mime_extensions'
+            ) as $tagAttributes
+        ) {
             foreach ($tagAttributes as $attributes) {
                 $type = $attributes['type'];
                 $parameter = $attributes['parameter'];
 
                 if ($container->hasParameter($parameter)) {
                     if (isset($data[$type])) {
-                        $data[$type] = array_unique(array_merge(
-                            $container->getParameter($type),
-                            $container->getParameter($parameter)
-                        ));
+                        $data[$type] = array_unique(
+                            array_merge(
+                                $container->getParameter($type),
+                                $container->getParameter($parameter)
+                            )
+                        );
                     } else {
-                        $data[$type] = array_unique($container->getParameter($parameter));
+                        $data[$type] = array_unique(
+                            $container->getParameter($parameter)
+                        );
                     }
                 }
             }
         }
 
         foreach ($data as $type => $extensions) {
-            $data[$type] = array_filter($extensions, function ($var) {
+            $data[$type] = array_filter(
+                $extensions, function ($var) {
                 return strlen($var) > 0;
-            });
+            }
+            );
         }
 
         $definition->addArgument($data);

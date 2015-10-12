@@ -27,6 +27,8 @@ abstract class AbstractCommand extends ContainerAwareCommand
      */
     protected function isStandaloneSculpin()
     {
-        return class_exists('Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false);
+        return class_exists(
+            'Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false
+        );
     }
 }

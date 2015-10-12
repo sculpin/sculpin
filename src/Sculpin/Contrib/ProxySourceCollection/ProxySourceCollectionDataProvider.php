@@ -23,7 +23,8 @@ use Sculpin\Core\Source\Map\MapInterface;
 use Sculpin\Core\Source\Map\NullMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
+class ProxySourceCollectionDataProvider
+    implements DataProviderInterface, EventSubscriberInterface
 {
     private $formatterManager;
     private $dataProviderName;
@@ -44,7 +45,10 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
-        $this->dataSingularName = $dataSingularName ?: Inflector::singularize($dataProviderName);
+        $this->dataSingularName = $dataSingularName
+            ?: Inflector::singularize(
+                $dataProviderName
+            );
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
         $this->map = $map ?: new NullMap;
@@ -82,7 +86,8 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
             }
             if ($this->filter->match($source)) {
                 $this->map->process($source);
-                $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
+                $this->collection[$source->sourceId()]
+                    = $this->factory->createProxySourceItem($source);
             }
         }
         $foudAtLeastOne = false;
@@ -95,7 +100,8 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
 
         if (!$foudAtLeastOne) {
-            echo 'Didnt find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
+            echo 'Didnt find at least one of this type : '
+                . $this->dataProviderName . PHP_EOL;
         }
 
         $this->collection->init();
@@ -113,14 +119,21 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
         if ($anItemHasChanged) {
             foreach ($sourceSetEvent->allSources() as $source) {
-                if ($source->data()->get('use') and in_array($this->dataProviderName, $source->data()->get('use'))) {
+                if ($source->data()->get('use') and in_array(
+                        $this->dataProviderName, $source->data()->get('use')
+                    )
+                ) {
                     $source->forceReprocess();
                 }
             }
         }
         foreach ($this->collection as $item) {
-            $item->data()->set('next_'.$this->dataSingularName, $item->nextItem());
-            $item->data()->set('previous_'.$this->dataSingularName, $item->previousItem());
+            $item->data()->set(
+                'next_' . $this->dataSingularName, $item->nextItem()
+            );
+            $item->data()->set(
+                'previous_' . $this->dataSingularName, $item->previousItem()
+            );
         }
     }
 
@@ -129,7 +142,11 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $sourceId = $convertEvent->source()->sourceId();
         if (isset($this->collection[$sourceId])) {
             $item = $this->collection[$sourceId];
-            $item->setBlocks($this->formatterManager->formatSourceBlocks($convertEvent->source()));
+            $item->setBlocks(
+                $this->formatterManager->formatSourceBlocks(
+                    $convertEvent->source()
+                )
+            );
         }
     }
 }

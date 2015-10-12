@@ -102,13 +102,13 @@ class Sculpin
     /**
      * Constructor.
      *
-     * @param Configuration                    $siteConfiguration Site Configuration
-     * @param EventDispatcherInterface         $eventDispatcher   Event dispatcher
-     * @param SourcePermalinkFactoryInterface  $permalinkFactory  Permalink factory
-     * @param WriterInterface                  $writer            Writer
-     * @param GeneratorManager                 $generatorManager  Generator Manager
-     * @param FormatterManager                 $formatterManager  Formatter Manager
-     * @param ConverterManager                 $converterManager  Converter Manager
+     * @param Configuration                   $siteConfiguration Site Configuration
+     * @param EventDispatcherInterface        $eventDispatcher   Event dispatcher
+     * @param SourcePermalinkFactoryInterface $permalinkFactory  Permalink factory
+     * @param WriterInterface                 $writer            Writer
+     * @param GeneratorManager                $generatorManager  Generator Manager
+     * @param FormatterManager                $formatterManager  Formatter Manager
+     * @param ConverterManager                $converterManager  Converter Manager
      */
     public function __construct(
         Configuration $siteConfiguration,
@@ -135,8 +135,9 @@ class Sculpin
      * @param SourceSet           $sourceSet  Source set
      * @param IoInterface         $io         IO Interface
      */
-    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, IoInterface $io = null)
-    {
+    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet,
+        IoInterface $io = null
+    ) {
         if (null === $io) {
             $io = new NullIo();
         }
@@ -145,11 +146,16 @@ class Sculpin
 
         $dataSource->refresh($sourceSet);
 
-        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet));
+        $this->eventDispatcher->dispatch(
+            self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet)
+        );
 
-        if ($updatedSources = array_filter($sourceSet->updatedSources(), function ($source) {
+        if ($updatedSources = array_filter(
+            $sourceSet->updatedSources(), function ($source) {
             return !$source->isGenerated();
-        })) {
+        }
+        )
+        ) {
             if (!$found) {
                 $io->write('Detected new or updated files');
                 $found = true;
@@ -163,9 +169,16 @@ class Sculpin
             $timer = microtime(true);
             foreach ($updatedSources as $source) {
                 $this->generatorManager->generate($source, $sourceSet);
-                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+                $io->overwrite(
+                    sprintf("%3d%%", 100 * ((++$counter) / $total)), false
+                );
             }
-            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+            $io->write(
+                sprintf(
+                    " (%d sources / %4.2f seconds)", $total,
+                    microtime(true) - $timer
+                )
+            );
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
@@ -190,11 +203,21 @@ class Sculpin
                 $this->converterManager->convertSource($source);
 
                 if ($source->canBeFormatted()) {
-                    $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
+                    $source->data()->set(
+                        'blocks',
+                        $this->formatterManager->formatSourceBlocks($source)
+                    );
                 }
-                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+                $io->overwrite(
+                    sprintf("%3d%%", 100 * ((++$counter) / $total)), false
+                );
             }
-            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+            $io->write(
+                sprintf(
+                    " (%d sources / %4.2f seconds)", $total,
+                    microtime(true) - $timer
+                )
+            );
         }
 
         if ($updatedSources = $sourceSet->updatedSources()) {
@@ -211,14 +234,25 @@ class Sculpin
             $timer = microtime(true);
             foreach ($updatedSources as $source) {
                 if ($source->canBeFormatted()) {
-                    $source->setFormattedContent($this->formatterManager->formatSourcePage($source));
+                    $source->setFormattedContent(
+                        $this->formatterManager->formatSourcePage($source)
+                    );
                 } else {
                     $source->setFormattedContent($source->content());
                 }
-                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+                $io->overwrite(
+                    sprintf("%3d%%", 100 * ((++$counter) / $total)), false
+                );
             }
-            $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new SourceSetEvent($sourceSet));
-            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+            $this->eventDispatcher->dispatch(
+                self::EVENT_AFTER_FORMAT, new SourceSetEvent($sourceSet)
+            );
+            $io->write(
+                sprintf(
+                    " (%d sources / %4.2f seconds)", $total,
+                    microtime(true) - $timer
+                )
+            );
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
@@ -231,10 +265,17 @@ class Sculpin
             $io->write(' + ' . $source->sourceId());
         }
 
-        $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
+        $this->eventDispatcher->dispatch(
+            self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet)
+        );
 
         if ($found) {
-            $io->write(sprintf("Processing completed in %4.2f seconds", microtime(true) - $startTime));
+            $io->write(
+                sprintf(
+                    "Processing completed in %4.2f seconds",
+                    microtime(true) - $startTime
+                )
+            );
         }
     }
 }

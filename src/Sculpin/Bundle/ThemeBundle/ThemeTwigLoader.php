@@ -13,7 +13,8 @@ namespace Sculpin\Bundle\ThemeBundle;
 
 use Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader;
 
-class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
+class ThemeTwigLoader
+    implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 {
     /** @var \Twig_Loader_Chain */
     private $chainLoader;
@@ -30,7 +31,9 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
             }
 
             if ($paths) {
-                $loaders[] = new FlexibleExtensionFilesystemLoader('', array(), $paths, $extensions);
+                $loaders[] = new FlexibleExtensionFilesystemLoader(
+                    '', array(), $paths, $extensions
+                );
             }
         }
 
@@ -39,8 +42,9 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
 
     private function findPaths($theme, array $paths = array())
     {
-        foreach (array('_views', '_layouts', '_includes', '_partials') as $type) {
-            if (is_dir($viewPath = $theme['path'].'/'.$type)) {
+        foreach (array('_views', '_layouts', '_includes', '_partials') as $type)
+        {
+            if (is_dir($viewPath = $theme['path'] . '/' . $type)) {
                 $paths[] = $viewPath;
             }
         }

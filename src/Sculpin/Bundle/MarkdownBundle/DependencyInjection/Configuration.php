@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -32,11 +32,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')->end()
-                ->arrayNode('extensions')
-                    ->defaultValue(array('md', 'mdown', 'mkdn', 'markdown'))
-                    ->prototype('scalar')->end()
-                ->end()
+            ->scalarNode('parser_class')->defaultValue(
+                'Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser'
+            )->end()
+            ->arrayNode('extensions')
+            ->defaultValue(array('md', 'mdown', 'mkdn', 'markdown'))
+            ->prototype('scalar')->end()
+            ->end()
             ->end();
 
         return $treeBuilder;

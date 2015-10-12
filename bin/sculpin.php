@@ -16,14 +16,14 @@ if (function_exists('ini_set')) {
 
     $memoryInBytes = function ($value) {
         $unit = strtolower(substr($value, -1, 1));
-        $value = (int) $value;
-        switch($unit) {
+        $value = (int)$value;
+        switch ($unit) {
             case 'g':
                 $value *= 1024;
-                // no break (cumulative multiplier)
+            // no break (cumulative multiplier)
             case 'm':
                 $value *= 1024;
-                // no break (cumulative multiplier)
+            // no break (cumulative multiplier)
             case 'k':
                 $value *= 1024;
         }
@@ -33,7 +33,9 @@ if (function_exists('ini_set')) {
 
     $memoryLimit = trim(ini_get('memory_limit'));
     // Increase memory_limit if it is lower than 512M
-    if ($memoryLimit != -1 && $memoryInBytes($memoryLimit) < 512 * 1024 * 1024) {
+    if ($memoryLimit != -1
+        && $memoryInBytes($memoryLimit) < 512 * 1024 * 1024
+    ) {
         @ini_set('memory_limit', '512M');
     }
     unset($memoryInBytes, $memoryLimit);
@@ -52,9 +54,11 @@ if ($projectDir = $input->getParameterOption('--project-dir')) {
         $projectDir = str_replace('~', $info['dir'], $projectDir);
     }
 
-    if (! is_dir($projectDir)) {
+    if (!is_dir($projectDir)) {
         throw new \InvalidArgumentException(
-            sprintf("Specified project directory %s does not exist", $projectDir)
+            sprintf(
+                "Specified project directory %s does not exist", $projectDir
+            )
         );
     }
 

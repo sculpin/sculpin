@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
@@ -32,50 +32,60 @@ class Configuration implements ConfigurationInterface
 
         $contentTypeNode = $rootNode
             ->useAttributeAsKey('name')
-            ->prototype('array')
-        ;
+            ->prototype('array');
 
         $contentTypeNode
             ->children()
-                ->scalarNode('type')->defaultValue('path')->end()
-                ->scalarNode('singular_name')->end()
-                ->booleanNode('enabled')->defaultTrue()->end()
-                ->arrayNode('path')
-                    ->beforeNormalization()
-                        // Default case is we want the user to specify just one
-                        // path but we can allow for multiple if they want to.
-                        ->ifString()
-                        ->then(function ($v) { return array($v); })
-                    ->end()
-                    ->prototype('scalar')->end()
-                ->end()
-                ->scalarNode('meta_key')->end()
-                ->scalarNode('meta')->end()
-                ->booleanNode('publish_drafts')->defaultNull()->end()
-                ->scalarNode('permalink')->end()
-                ->scalarNode('layout')->end()
-                ->arrayNode('taxonomies')
-                    ->beforeNormalization()
-                        // Default case is we want the user to specify just one
-                        // taxonomy but we can allow for multiple if they want to.
-                        ->ifString()
-                        ->then(function ($v) { return array(array('name' => $v)); })
-                    ->end()
-                    ->prototype('array')
-                        ->beforeNormalization()
-                            ->ifString()
-                            ->then(function ($v) { return array('name' => $v); })
-                        ->end()
-                        ->children()
-                            ->scalarNode('name')->end()
-                            ->arrayNode('strategies')
-                                ->prototype('scalar')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
+            ->scalarNode('type')->defaultValue('path')->end()
+            ->scalarNode('singular_name')->end()
+            ->booleanNode('enabled')->defaultTrue()->end()
+            ->arrayNode('path')
+            ->beforeNormalization()
+            // Default case is we want the user to specify just one
+            // path but we can allow for multiple if they want to.
+            ->ifString()
+            ->then(
+                function ($v) {
+                    return array($v);
+                }
+            )
             ->end()
-        ;
+            ->prototype('scalar')->end()
+            ->end()
+            ->scalarNode('meta_key')->end()
+            ->scalarNode('meta')->end()
+            ->booleanNode('publish_drafts')->defaultNull()->end()
+            ->scalarNode('permalink')->end()
+            ->scalarNode('layout')->end()
+            ->arrayNode('taxonomies')
+            ->beforeNormalization()
+            // Default case is we want the user to specify just one
+            // taxonomy but we can allow for multiple if they want to.
+            ->ifString()
+            ->then(
+                function ($v) {
+                    return array(array('name' => $v));
+                }
+            )
+            ->end()
+            ->prototype('array')
+            ->beforeNormalization()
+            ->ifString()
+            ->then(
+                function ($v) {
+                    return array('name' => $v);
+                }
+            )
+            ->end()
+            ->children()
+            ->scalarNode('name')->end()
+            ->arrayNode('strategies')
+            ->prototype('scalar')->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end();
 
         return $treeBuilder;
     }

@@ -31,13 +31,18 @@ class ServeCommand extends AbstractCommand
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
         $this
-            ->setName($prefix.'serve')
+            ->setName($prefix . 'serve')
             ->setDescription('Serve a site.')
-            ->setDefinition(array(
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
-            ))
-            ->setHelp(<<<EOT
-The <info>serve</info> command serves a site.
+            ->setDefinition(
+                array(
+                    new InputOption(
+                        'port', null, InputOption::VALUE_REQUIRED, 'Port'
+                    ),
+                )
+            )
+            ->setHelp(
+                <<<EOT
+                The <info>serve</info> command serves a site.
 
 EOT
             )->setAliases(array('server'));

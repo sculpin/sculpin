@@ -36,18 +36,22 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
 
         $dataSource = new CompositeDataSource(array($ds000, $ds002));
 
-        $this->assertEquals(array(
-            'TestDataSource:000' => $ds000,
-            'TestDataSource:002' => $ds002,
-        ), $dataSource->dataSources());
+        $this->assertEquals(
+            array(
+                'TestDataSource:000' => $ds000,
+                'TestDataSource:002' => $ds002,
+            ), $dataSource->dataSources()
+        );
 
         $dataSource->addDataSource($ds001);
 
-        $this->assertEquals(array(
-            'TestDataSource:000' => $ds000,
-            'TestDataSource:002' => $ds002,
-            'TestDataSource:001' => $ds001,
-        ), $dataSource->dataSources());
+        $this->assertEquals(
+            array(
+                'TestDataSource:000' => $ds000,
+                'TestDataSource:002' => $ds002,
+                'TestDataSource:001' => $ds001,
+            ), $dataSource->dataSources()
+        );
     }
 
     public function testDataSourceId()
@@ -58,9 +62,15 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
 
         $dataSource = new CompositeDataSource(array($ds000, $ds001, $ds002));
 
-        $this->assertContains('TestDataSource:000', $dataSource->dataSourceId());
-        $this->assertContains('TestDataSource:001', $dataSource->dataSourceId());
-        $this->assertContains('TestDataSource:002', $dataSource->dataSourceId());
+        $this->assertContains(
+            'TestDataSource:000', $dataSource->dataSourceId()
+        );
+        $this->assertContains(
+            'TestDataSource:001', $dataSource->dataSourceId()
+        );
+        $this->assertContains(
+            'TestDataSource:002', $dataSource->dataSourceId()
+        );
     }
 
     public function testRefresh()

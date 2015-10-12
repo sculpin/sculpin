@@ -45,8 +45,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * @param ParserInterface $markdown
      * @param array           $extensions Extensions
      */
-    public function __construct(ParserInterface $markdown, array $extensions = array())
-    {
+    public function __construct(ParserInterface $markdown,
+        array $extensions = array()
+    ) {
         $this->markdown = $markdown;
         $this->markdown->header_id_func = array($this, 'generateHeaderId');
         $this->extensions = $extensions;
@@ -57,7 +58,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function convert(ConverterContextInterface $converterContext)
     {
-        $converterContext->setContent($this->markdown->transform($converterContext->content()));
+        $converterContext->setContent(
+            $this->markdown->transform($converterContext->content())
+        );
     }
 
     /**
@@ -80,7 +83,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {
-                    $source->data()->append('converters', SculpinMarkdownBundle::CONVERTER_NAME);
+                    $source->data()->append(
+                        'converters', SculpinMarkdownBundle::CONVERTER_NAME
+                    );
                     break;
                 }
             }
@@ -92,9 +97,11 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * This method is called to generate an id="" attribute for a header.
      *
      * @param string $headerText raw markdown input for the header name
+     *
      * @return string
      */
-    public function generateHeaderId($headerText) {
+    public function generateHeaderId($headerText)
+    {
 
         // $headerText is completely raw markdown input. We need to strip it
         // from all markup, because we are only interested in the actual 'text'
@@ -105,7 +112,8 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 
         // Step 2: Remove all markdown links. To do this, we simply remove
         // everything between ( and ) if the ( occurs right after a ].
-        $result = preg_replace('%
+        $result = preg_replace(
+            '%
             (?<= \\]) # Look behind to find ]
             (
                 \\(     # match (
@@ -113,7 +121,8 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
                 \\)     # match )
             )
 
-            %x', '', $result);
+            %x', '', $result
+        );
 
         // Step 3: Convert spaces to dashes, and remove unwanted special
         // characters.
@@ -124,9 +133,11 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
             '[' => '',
             ']' => '',
         );
-        return rawurlencode(strtolower(
-            strtr($result, $map)
-        ));
+        return rawurlencode(
+            strtolower(
+                strtr($result, $map)
+            )
+        );
 
     }
 

@@ -86,18 +86,22 @@ class FormatterManager
      */
     protected function buildBaseFormatContext($context)
     {
-        $baseContext = new Configuration(array(
-            'site' => $this->siteConfiguration->export(),
-            'page' => $context,
-            'formatter' => $this->defaultFormatter,
-            'converters' => array(),
-        ));
+        $baseContext = new Configuration(
+            array(
+                'site'       => $this->siteConfiguration->export(),
+                'page'       => $context,
+                'formatter'  => $this->defaultFormatter,
+                'converters' => array(),
+            )
+        );
 
         if (isset($context['url'])) {
             if ('/' === $context['url']) {
                 $relativeUrl = '.';
             } else {
-                $relativeUrl = rtrim(str_repeat('../', substr_count($context['url'], '/')), '/');
+                $relativeUrl = rtrim(
+                    str_repeat('../', substr_count($context['url'], '/')), '/'
+                );
             }
 
             $baseContext->set('relative_root_url', $relativeUrl);
@@ -105,7 +109,11 @@ class FormatterManager
 
         foreach ($this->dataProviderManager->dataProviders() as $name) {
             if (isset($context['use']) and in_array($name, $context['use'])) {
-                $baseContext->set('data.'.$name, $this->dataProviderManager->dataProvider($name)->provideData());
+                $baseContext->set(
+                    'data.' . $name,
+                    $this->dataProviderManager->dataProvider($name)
+                        ->provideData()
+                );
             }
         }
 
@@ -131,7 +139,9 @@ class FormatterManager
             }
         }
 
-        return new FormatContext($templateId, $template, $baseContext->export());
+        return new FormatContext(
+            $templateId, $template, $baseContext->export()
+        );
     }
 
     /**
@@ -172,14 +182,20 @@ class FormatterManager
      */
     public function formatPage($templateId, $template, $context)
     {
-        $formatContext = $this->buildFormatContext($templateId, $template, $context);
+        $formatContext = $this->buildFormatContext(
+            $templateId, $template, $context
+        );
 
         if (!$formatContext->formatter()) {
             return $template;
         }
 
-        $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
-        $response = $this->formatter($formatContext->formatter())->formatPage($formatContext);
+        $this->eventDispatcher->dispatch(
+            Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext)
+        );
+        $response = $this->formatter($formatContext->formatter())->formatPage(
+            $formatContext
+        );
 
         return $response;
     }
@@ -211,14 +227,20 @@ class FormatterManager
      */
     public function formatBlocks($templateId, $template, $context)
     {
-        $formatContext = $this->buildFormatContext($templateId, $template, $context);
+        $formatContext = $this->buildFormatContext(
+            $templateId, $template, $context
+        );
 
         if (!$formatContext->formatter()) {
             return array('content' => $template);
         }
 
-        $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
-        $response = $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
+        $this->eventDispatcher->dispatch(
+            Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext)
+        );
+        $response = $this->formatter($formatContext->formatter())->formatBlocks(
+            $formatContext
+        );
 
         return $response;
     }
@@ -258,8 +280,8 @@ class FormatterManager
      *
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null)
-    {
+    public function setDataProviderManager(DataProviderManager $dataProviderManager = null
+    ) {
         $this->dataProviderManager = $dataProviderManager;
     }
 }

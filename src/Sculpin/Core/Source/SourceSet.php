@@ -43,6 +43,7 @@ class SourceSet
             $this->sources[$source->sourceId()] = $source;
         }
     }
+
     /**
      * Set contains the source?
      *
@@ -87,9 +88,11 @@ class SourceSet
      */
     public function updatedSources()
     {
-        return array_filter($this->sources, function (SourceInterface $source) {
+        return array_filter(
+            $this->sources, function (SourceInterface $source) {
             return $source->hasChanged();
-        });
+        }
+        );
     }
 
     public function newSources()

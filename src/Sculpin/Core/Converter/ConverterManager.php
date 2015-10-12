@@ -51,8 +51,9 @@ class ConverterManager
      * @param EventDispatcherInterface $eventDispatcher  Event Dispatcher
      * @param FormatterManager         $formatterManager Formatter Manager
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, FormatterManager $formatterManager)
-    {
+    public function __construct(EventDispatcherInterface $eventDispatcher,
+        FormatterManager $formatterManager
+    ) {
         $this->formatterManager = $formatterManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->registerConverter('null', new NullConverter);
@@ -96,12 +97,20 @@ class ConverterManager
         foreach ($converters as $converter) {
             $this->eventDispatcher->dispatch(
                 Sculpin::EVENT_BEFORE_CONVERT,
-                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter())
+                new ConvertEvent(
+                    $source, $converter,
+                    $this->formatterManager->defaultFormatter()
+                )
             );
-            $this->converter($converter)->convert(new SourceConverterContext($source));
+            $this->converter($converter)->convert(
+                new SourceConverterContext($source)
+            );
             $this->eventDispatcher->dispatch(
                 Sculpin::EVENT_AFTER_CONVERT,
-                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter())
+                new ConvertEvent(
+                    $source, $converter,
+                    $this->formatterManager->defaultFormatter()
+                )
             );
         }
     }
