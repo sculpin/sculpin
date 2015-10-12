@@ -129,7 +129,7 @@ class HttpServer
         $this->output->writeln(
             sprintf(
                 'Development server is running at <info>http://%s:%s</info>',
-                'localhost', $this->port
+                '127.0.0.1', $this->port
             )
         );
         $this->output->writeln('Quit the server with CONTROL-C.');
