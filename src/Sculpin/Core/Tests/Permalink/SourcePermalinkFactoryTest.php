@@ -65,6 +65,15 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                     '/2015/01/12/from-buttercup-protects-to-broadway'
                 ),
             ),
+
+            array(
+                ':basename.html',
+                static::makeTestSource('some\windows\path.md'),
+                new Permalink(
+                    'some\windows\path.html',
+                    '/some/windows/path.html'
+                ),
+            ),
         );
     }
 

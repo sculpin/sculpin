@@ -61,6 +61,9 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
             $relativeUrlPath = '/'.$relativeUrlPath;
         }
 
+        // Sanitizing url from windows file path
+        $relativeUrlPath = str_replace('\\', '/', $relativeUrlPath);
+
         return new Permalink($relativeFilePath, $relativeUrlPath);
     }
 
