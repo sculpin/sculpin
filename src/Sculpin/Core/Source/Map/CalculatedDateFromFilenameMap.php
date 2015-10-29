@@ -19,7 +19,7 @@ class CalculatedDateFromFilenameMap implements MapInterface
     {
         if (!$source->data()->get('calculated_date')) {
             if (preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+|)/', $source->relativePathname(), $matches)) {
-                list ($dummy, $year, $month, $day, $time) = $matches;
+                list($dummy, $year, $month, $day, $time) = $matches;
                 $parts = array(implode('-', array($year, $month, $day)));
                 if ($time && false !== strtotime($time)) {
                     $parts[] = $time;
