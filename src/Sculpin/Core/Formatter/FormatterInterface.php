@@ -18,7 +18,7 @@ namespace Sculpin\Core\Formatter;
  */
 interface FormatterInterface
 {
-     /**
+    /**
      * Format the input blocks
      *
      * @param FormatContext $formatContext Format context
