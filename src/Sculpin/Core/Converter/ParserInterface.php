@@ -7,7 +7,6 @@ namespace Sculpin\Core\Converter;
  */
 interface ParserInterface
 {
-
     /**
      * @param string $content
      *
