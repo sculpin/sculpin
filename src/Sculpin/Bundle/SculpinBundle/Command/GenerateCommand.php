@@ -17,6 +17,7 @@ use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Generate Command.
@@ -36,6 +37,7 @@ class GenerateCommand extends AbstractCommand
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
+                new InputOption('clean', null, InputOption::VALUE_NONE, 'Cleans the output directory prior to generation.'),
                 new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
                 new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
@@ -57,6 +59,11 @@ EOT
             $output->writeln($message);
         }
 
+        $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+        if ($input->getOption('clean')) {
+            $this->clean($input, $output, $docroot);
+        }
+
         $watch = $input->getOption('watch') ?: false;
         $sculpin = $this->getContainer()->get('sculpin');
         $dataSource = $this->getContainer()->get('sculpin.data_source');
@@ -72,7 +79,6 @@ EOT
         if ($input->getOption('server')) {
             $sculpin->run($dataSource, $sourceSet, $consoleIo);
 
-            $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
@@ -103,6 +109,31 @@ EOT
                     $sourceSet->reset();
                 }
             } while ($watch);
+        }
+    }
+
+    /**
+     * Cleanup an output directory by deleting it.
+     *
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     * @param string          $dir    The directory to remove
+     */
+    protected function clean(InputInterface $input, OutputInterface $output, $dir)
+    {
+        $fileSystem = $this->getContainer()->get('filesystem');
+        if ($fileSystem->exists($dir)) {
+            if ($input->isInteractive()) {
+                // Prompt the user for confirmation.
+                /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
+                $helper = $this->getHelper('question');
+                $question = new ConfirmationQuestion(sprintf('Are you sure you want to delete all the contents of the %s directory?', $dir), false);
+                if (!$helper->ask($input, $output, $question)) {
+                    return;
+                }
+            }
+            $output->writeln(sprintf('Deleting %s', $dir));
+            $fileSystem->remove($dir);
         }
     }
 }
