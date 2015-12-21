@@ -36,7 +36,8 @@ expected to add all of the style magic yourself.
 
  * [Blog Skeleton](https://github.com/sculpin/sculpin-blog-skeleton)
    A very basic Sculpin based blog.
-
+ * [Sculpin Minimal](https://github.com/opdavies/sculpin-minimal)
+   A minimal Sculpin installation.
 
 License
 -------
