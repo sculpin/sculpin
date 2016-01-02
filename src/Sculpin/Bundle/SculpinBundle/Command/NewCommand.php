@@ -57,7 +57,6 @@ class NewCommand extends AbstractCommand
         $this->sourceDir = $this->projectName . DIRECTORY_SEPARATOR . 'source';
 
         $this->filesystem->mkdir([
-            $this->projectName,
             $this->configDir,
             $this->sourceDir,
         ]);
