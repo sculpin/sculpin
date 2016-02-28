@@ -48,8 +48,7 @@ class Configuration implements ConfigurationInterface
 
                 if (!isset($v['posts'])) {
                     $v['posts'] = $default;
-                }
-                else {
+                } else {
                     $v['posts'] = array_replace($default, $v['posts']);
                 }
 

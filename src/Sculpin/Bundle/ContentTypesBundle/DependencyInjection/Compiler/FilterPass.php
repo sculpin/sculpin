@@ -17,7 +17,6 @@ class FilterPass implements CompilerPassInterface
 
         // Validate tags and group by `detection` attribute.
         foreach ($container->findTaggedServiceIds('sculpin.content_type.filter') as $id => $tagAttributes) {
-
             if (!isset($tagAttributes[0]['type'])) {
                 throw new \InvalidArgumentException(sprintf('Service "%s" must define the "type" attribute on "%s" tags.',
                   $id, 'sculpin.content_type.filter'));
@@ -45,21 +44,21 @@ class FilterPass implements CompilerPassInterface
             $definition = $container->getDefinition('sculpin_content_types.filter.chain.'. $type);
 
             // Multiple detectors.
-            if (isset($filters[$type][TRUE]) && count($filters[$type][TRUE]) > 1) {
-                $id = self::createOrChainFilter($container, $type, $filters[$type][TRUE]);
+            if (isset($filters[$type][true]) && count($filters[$type][true]) > 1) {
+                $id = self::createOrChainFilter($container, $type, $filters[$type][true]);
                 $definition->addMethodCall('addFilter', array(new Reference($id)));
             }
 
             // One detector.
-            if (isset($filters[$type][TRUE]) && count($filters[$type][TRUE]) === 1) {
-                foreach ($filters[$type][TRUE] as $id) {
+            if (isset($filters[$type][true]) && count($filters[$type][true]) === 1) {
+                foreach ($filters[$type][true] as $id) {
                     $definition->addMethodCall('addFilter', array(new Reference($id)));
                 }
             }
 
             // All the other detectors.
-            if (isset($filters[$type][FALSE])) {
-                foreach ($filters[$type][FALSE] as $id) {
+            if (isset($filters[$type][false])) {
+                foreach ($filters[$type][false] as $id) {
                     $definition->addMethodCall('addFilter', array(new Reference($id)));
                 }
             }
