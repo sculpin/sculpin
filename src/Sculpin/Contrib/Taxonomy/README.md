@@ -11,7 +11,7 @@ ProxySource Taxonomy
 --------------------
 
 `ProxySourceTaxonomyDataProvider` and `ProxySourceTaxonomyIndexGenerator` are
-provided to enable simple creationg of taxons using `ProxySource` based objects.
+provided to enable simple creation of taxons using `ProxySource` based objects.
 
 
 ### ProxySourceTaxonomyDataProvider

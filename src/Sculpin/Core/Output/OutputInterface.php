@@ -12,7 +12,6 @@
 namespace Sculpin\Core\Output;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
-use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Output Interface

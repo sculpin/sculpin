@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is a part of Sculpin.
+ *
+ * (c) Dragonfly Development Inc.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sculpin\Core\Source\Map;
 
 use Sculpin\Core\Source\SourceInterface;
@@ -17,7 +26,7 @@ class CalculatedDateFromFilenameMap implements MapInterface
                 }
                 $source->data()->set('calculated_date', $calculatedDate = strtotime(implode(' ', $parts)));
                 if (!$source->data()->get('date')) {
-                    $source->data()->set('date', date('c', $calculatedDate));
+                    $source->data()->set('date', $calculatedDate);
                 }
             }
         }

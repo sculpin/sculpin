@@ -14,10 +14,7 @@ namespace Sculpin\Bundle\StandaloneBundle\Command;
 
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Clear and Warmup the cache.
@@ -43,6 +40,7 @@ and debug mode:
 
 <info>php %command.full_name% --env=dev</info>
 <info>php %command.full_name% --env=prod --no-debug</info>
+
 EOF
             )
         ;
@@ -56,11 +54,11 @@ EOF
         $cacheDir = $this->getContainer()->getParameter('kernel.cache_dir');
         $filesystem   = $this->getContainer()->get('filesystem');
 
-        if (!is_writable($cacheDir)) {
-            throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
-        }
-
         if ($filesystem->exists($cacheDir)) {
+            if (!is_writable($cacheDir)) {
+                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
+            }
+
             $filesystem->remove($cacheDir);
         }
     }

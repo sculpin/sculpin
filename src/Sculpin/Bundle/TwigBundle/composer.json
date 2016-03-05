@@ -17,16 +17,15 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/config": "2.1.*",
-        "symfony/dependency-injection": "2.1.*",
-        "symfony/http-kernel": "2.1.*",
+        "symfony/config": "~2.3",
+        "symfony/dependency-injection": "~2.3",
+        "symfony/http-kernel": "~2.3",
         "twig/twig": ">=1.9.1,<2.0-dev",
         "sculpin/core": "self.version"
     },
     "autoload": {
-        "psr-0": { "Sculpin\\Bundle\\TwigBundle": "" }
+        "psr-4": { "Sculpin\\Bundle\\TwigBundle\\": "" }
     },
-    "target-dir": "Sculpin/Bundle/TwigBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"

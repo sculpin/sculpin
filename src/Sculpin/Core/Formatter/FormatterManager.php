@@ -16,7 +16,7 @@ use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Event\FormatEvent;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\SourceInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Formatter Manager.
@@ -28,7 +28,7 @@ class FormatterManager
     /**
      * Event Dispatcher
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -63,12 +63,12 @@ class FormatterManager
     /**
      * Constructor.
      *
-     * @param EventDispatcher     $eventDispatcher     Event Dispatcher
-     * @param Configuration       $siteConfiguration   Site Configuration
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
+     * @param EventDispatcherInterface $eventDispatcher     Event Dispatcher
+     * @param Configuration            $siteConfiguration   Site Configuration
+     * @param DataProviderManager      $dataProviderManager Data Provider Manager
      */
     public function __construct(
-        EventDispatcher $eventDispatcher,
+        EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
         DataProviderManager $dataProviderManager = null
     ) {
@@ -92,6 +92,16 @@ class FormatterManager
             'formatter' => $this->defaultFormatter,
             'converters' => array(),
         ));
+
+        if (isset($context['url'])) {
+            if ('/' === $context['url']) {
+                $relativeUrl = '.';
+            } else {
+                $relativeUrl = rtrim(str_repeat('../', substr_count($context['url'], '/')), '/');
+            }
+
+            $baseContext->set('relative_root_url', $relativeUrl);
+        }
 
         foreach ($this->dataProviderManager->dataProviders() as $name) {
             if (isset($context['use']) and in_array($name, $context['use'])) {
@@ -170,7 +180,6 @@ class FormatterManager
 
         $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
         $response = $this->formatter($formatContext->formatter())->formatPage($formatContext);
-        $this->eventDispatcher->dispatch(Sculpin::EVENT_AFTER_FORMAT, new FormatEvent($formatContext));
 
         return $response;
     }
@@ -210,7 +219,6 @@ class FormatterManager
 
         $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
         $response = $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
-        $this->eventDispatcher->dispatch(Sculpin::EVENT_AFTER_FORMAT, new FormatEvent($formatContext));
 
         return $response;
     }

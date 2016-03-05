@@ -11,14 +11,10 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Permalink\PermalinkInterface;
 use Symfony\Component\Finder\SplFileInfo;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
-
-use Dflydev\ApacheMimeTypes\PhpRepository;
-use Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector;
 
 /**
  * File Source.
@@ -61,6 +57,8 @@ class FileSource extends AbstractSource
     {
         parent::init($hasChanged);
 
+        $originalData = $this->data;
+
         if ($this->isRaw) {
             $this->useFileReference = true;
             $this->data = new Data;
@@ -91,9 +89,10 @@ class FileSource extends AbstractSource
                         try {
                             $builder = new YamlDataBuilder($matches[1]);
                             $this->data = $builder->build();
-                        } catch (\Exception $e) {
+                        } catch (\InvalidArgumentException $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
+                            echo ' ! ' . $this->sourceId() . ' ' . $e->getMessage() . ' !' . PHP_EOL;
                             $this->content = $content;
                             $this->data = new Data;
                         }
@@ -110,7 +109,15 @@ class FileSource extends AbstractSource
         }
 
         if ($this->data->get('date')) {
-            $this->data->set('calculated_date', strtotime($this->data->get('date')));
+            if (! is_numeric($this->data->get('date'))) {
+                $this->data->set('date', strtotime($this->data->get('date')));
+            }
+
+            $this->data->set('calculated_date', $this->data->get('date'));
+        }
+
+        if ($originalData) {
+            $this->data->import($originalData, false);
         }
     }
 }

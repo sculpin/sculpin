@@ -11,8 +11,8 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Composer\Downloader\FilesystemException;
 use Sculpin\Core\Sculpin;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -36,9 +36,12 @@ class SelfUpdateCommand extends AbstractCommand
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
-        $fullCommand = $this->commandPrefix.'dump-autoload';
+        $fullCommand = $this->commandPrefix.'self-update';
         $this
             ->setName($fullCommand)
             ->setAliases(array($this->commandPrefix.'selfupdate'))
@@ -59,6 +62,9 @@ EOT
         return false !== strpos(__DIR__, 'phar:');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
@@ -94,7 +100,6 @@ EOT
 
             if (!file_put_contents($tempFilename, file_get_contents($remoteFilename, false, $this->getStreamContext()))) {
                 $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
-
             }
 
             if (!file_exists($tempFilename)) {

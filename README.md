@@ -1,6 +1,13 @@
 Sculpin - PHP Static Site Generator
 ===================================
 
+[![Gitter chat](https://badges.gitter.im/sculpin/sculpin.svg)](https://gitter.im/sculpin/sculpin)
+[![License](https://poser.pugx.org/sculpin/sculpin/license.svg)](https://packagist.org/packages/sculpin/sculpin)
+[![Build Status](https://travis-ci.org/sculpin/sculpin.svg?branch=master)](https://travis-ci.org/sculpin/sculpin)
+[![HHVM Status](http://hhvm.h4cc.de/badge/sculpin/sculpin.svg?branch=master)](http://hhvm.h4cc.de/package/sculpin/sculpin)
+[![Total Downloads](https://poser.pugx.org/sculpin/sculpin/downloads.svg)](https://packagist.org/packages/sculpin/sculpin)
+
+
 Sculpin takes plain old text files (Markdown, Textile, etc.) and combines
 them with Twig templates to produce a set of static HTML files that can
 be easily deployed to almost any hosting platform.
@@ -12,8 +19,7 @@ Visit [sculpin.io](http://sculpin.io) for more information.
 Documentation
 -------------
 
-Sculpin currently lacks any in-depth or formal documentation. It is currently
-"learn by example". If you are interested in trying out Sculpin you should fire
+Sculpin has [documentation](https://sculpin.io/documentation/) but also is "learn by example". If you are interested in trying out Sculpin you should fire
 up a Sculpin skeleton site to see Sculpin in action.
 
 
@@ -57,8 +63,9 @@ more mature than this one. If you are looking for a stable project with an
 established community, try something on the following admittedly incomplete
 list:
 
- * [Jekyll](http://github.com/mojombo/jekyll) &mdash; Ruby
+ * [Jekyll](http://jekyllrb.com/) &mdash; Ruby
  * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
- * [Hyde](http://ringce.com/hyde) &mdash; Python
+ * [Hyde](http://hyde.github.io/) &mdash; Python
  * [Phrozn](http://phrozn.info) &mdash; PHP
- * [Pie Crust](http://bolt80.com/piecrust) &mdash; PHP
+ * [Pie Crust](https://github.com/ludovicchabant/PieCrust) &mdash; PHP
+ * [Pie Crust 2](http://bolt80.com/piecrust) &mdash; Python

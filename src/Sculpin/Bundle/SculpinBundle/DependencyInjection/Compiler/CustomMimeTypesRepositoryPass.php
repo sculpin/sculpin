@@ -11,7 +11,6 @@
 
 namespace Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler;
 
-use dflydev\util\antPathMatcher\AntPathMatcher;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -32,9 +31,9 @@ class CustomMimeTypesRepositoryPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition('sculpin.custom_mime_types_repository');
-        $textExtensions = array();
 
-        foreach ($container->findTaggedServiceIds('sculpin.custom_mime_extensions') as $id => $tagAttributes) {
+        $data = array();
+        foreach ($container->findTaggedServiceIds('sculpin.custom_mime_extensions') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $type = $attributes['type'];
                 $parameter = $attributes['parameter'];
@@ -42,7 +41,7 @@ class CustomMimeTypesRepositoryPass implements CompilerPassInterface
                 if ($container->hasParameter($parameter)) {
                     if (isset($data[$type])) {
                         $data[$type] = array_unique(array_merge(
-                            $container->getParameter($typeParameter),
+                            $container->getParameter($type),
                             $container->getParameter($parameter)
                         ));
                     } else {

@@ -1,0 +1,17 @@
+# This file is used by editors and IDEs to unify coding standards
+# @see http://EditorConfig.org
+# @standards  PHP: http://www.php-fig.org/psr/psr-2/
+root = true
+
+# Default configuration (applies to all file types)
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_size = 4
+indent_style = space
+
+# Markdown customizations
+[*.md]
+trim_trailing_whitespace = false

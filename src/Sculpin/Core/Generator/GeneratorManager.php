@@ -13,10 +13,9 @@ namespace Sculpin\Core\Generator;
 
 use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\DataProvider\DataProviderManager;
-use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Generator Manager.
@@ -28,7 +27,7 @@ class GeneratorManager
     /**
      * Event Dispatcher
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -56,12 +55,12 @@ class GeneratorManager
     /**
      * Constructor.
      *
-     * @param EventDispatcher     $eventDispatcher     Event Dispatcher
-     * @param Configuration       $siteConfiguration   Site Configuration
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
+     * @param EventDispatcherInterface $eventDispatcher     Event Dispatcher
+     * @param Configuration            $siteConfiguration   Site Configuration
+     * @param DataProviderManager      $dataProviderManager Data Provider Manager
      */
     public function __construct(
-        EventDispatcher $eventDispatcher,
+        EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
         DataProviderManager $dataProviderManager = null
     ) {
@@ -84,8 +83,8 @@ class GeneratorManager
     /**
      * Generate
      *
-     * @param SourceInterface $source    Source
-     * @param SourceSet       $sourceSet Source set
+     * @param  SourceInterface           $source    Source
+     * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
      *
      * @return string

@@ -12,7 +12,6 @@
 namespace Sculpin\Core\Tests\Converter;
 
 use Sculpin\Core\Converter\SourceConverterContext;
-use Sculpin\Core\Source\SourceInterface;
 
 class SourceConverterContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,6 +37,6 @@ class SourceConverterContextTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('hello world'));
 
         $sourceConverterContext = new SourceConverterContext($source);
-        $response = $sourceConverterContext->setContent('hello world');
+        $sourceConverterContext->setContent('hello world');
     }
 }

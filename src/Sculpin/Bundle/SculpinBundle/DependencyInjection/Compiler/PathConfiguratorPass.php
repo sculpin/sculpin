@@ -42,7 +42,7 @@ class PathConfiguratorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $id => $tagAttributes) {
+        foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $typeParameter = 'sculpin.'.$attributes['type'];
                 $parameter = $attributes['parameter'];
@@ -67,12 +67,15 @@ class PathConfiguratorPass implements CompilerPassInterface
     {
         $matcher = $this->matcher;
 
-        return array_map(function($path) use($matcher) {
-            if ($matcher->isPattern($path)) {
-                return $path;
-            }
+        return array_map(
+            function ($path) use ($matcher) {
+                if ($matcher->isPattern($path)) {
+                    return $path;
+                }
 
-            return $path.'/**';
-        }, $paths);
+                return $path.'/**';
+            },
+            $paths
+        );
     }
 }

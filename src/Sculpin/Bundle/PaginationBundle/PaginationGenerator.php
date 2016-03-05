@@ -59,7 +59,7 @@ class PaginationGenerator implements GeneratorInterface
             $config['provider'] = 'data.posts';
         }
         if (preg_match('/^(data|page)\.(.+)$/', $config['provider'], $matches)) {
-            switch($matches[1]) {
+            switch ($matches[1]) {
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
                     break;
@@ -96,7 +96,6 @@ class PaginationGenerator implements GeneratorInterface
         $pageNumber = 0;
         foreach ($slices as $slice) {
             $pageNumber++;
-            $options = array();
             $permalink = null;
             if ($pageNumber > 1) {
                 $permalink = $source->data()->get('permalink') ?: $source->relativePathname();
@@ -120,8 +119,7 @@ class PaginationGenerator implements GeneratorInterface
             }
 
             $generatedSource = $source->duplicate(
-                $source->sourceId().':page='.$pageNumber,
-                $options
+                $source->sourceId().':page='.$pageNumber
             );
 
             if (null !== $permalink) {

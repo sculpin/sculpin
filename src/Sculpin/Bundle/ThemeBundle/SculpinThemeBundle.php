@@ -11,7 +11,6 @@
 
 namespace Sculpin\Bundle\ThemeBundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -21,11 +20,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SculpinThemeBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-    }
 }

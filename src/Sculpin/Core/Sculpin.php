@@ -16,15 +16,14 @@ use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Generator\GeneratorManager;
-use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Io\NullIo;
 use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
-use Sculpin\Core\Permalink\SourcePermalinkFactory;
+use Sculpin\Core\Permalink\SourcePermalinkFactoryInterface;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Sculpin.
@@ -54,14 +53,14 @@ class Sculpin
     /**
      * Event Dispatcher
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
     /**
      * Permalink factory
      *
-     * @var SourcePermalinkFactory
+     * @var SourcePermalinkFactoryInterface
      */
     protected $permalinkFactory;
 
@@ -103,18 +102,18 @@ class Sculpin
     /**
      * Constructor.
      *
-     * @param Configuration          $siteConfiguration Site Configuration
-     * @param EventDispatcher        $eventDispatcher   Event dispatcher
-     * @param SourcePermalinkFactory $permalinkFactory  Permalink factory
-     * @param WriterInterface        $writer            Writer
-     * @param GeneratorManager       $generatorManager  Generator Manager
-     * @param FormatterManager       $formatterManager  Formatter Manager
-     * @param ConverterManager       $converterManager  Converter Manager
+     * @param Configuration                    $siteConfiguration Site Configuration
+     * @param EventDispatcherInterface         $eventDispatcher   Event dispatcher
+     * @param SourcePermalinkFactoryInterface  $permalinkFactory  Permalink factory
+     * @param WriterInterface                  $writer            Writer
+     * @param GeneratorManager                 $generatorManager  Generator Manager
+     * @param FormatterManager                 $formatterManager  Formatter Manager
+     * @param ConverterManager                 $converterManager  Converter Manager
      */
     public function __construct(
         Configuration $siteConfiguration,
-        EventDispatcher $eventDispatcher,
-        SourcePermalinkFactory $permalinkFactory,
+        EventDispatcherInterface $eventDispatcher,
+        SourcePermalinkFactoryInterface $permalinkFactory,
         WriterInterface $writer,
         GeneratorManager $generatorManager,
         FormatterManager $formatterManager,
@@ -218,6 +217,7 @@ class Sculpin
                 }
                 $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
             }
+            $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new SourceSetEvent($sourceSet));
             $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
         }
 
@@ -228,7 +228,9 @@ class Sculpin
 
             $this->writer->write(new SourceOutput($source));
 
-            $io->write(' + ' . $source->sourceId());
+            if ($io->isVerbose()) {
+                $io->write(' + ' . $source->sourceId());
+            }
         }
 
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));

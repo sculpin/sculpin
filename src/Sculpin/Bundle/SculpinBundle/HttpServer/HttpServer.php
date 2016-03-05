@@ -50,16 +50,24 @@ class HttpServer
         $this->loop = new StreamSelectLoop;
         $socketServer = new ReactSocketServer($this->loop);
         $httpServer = new ReactHttpServer($socketServer);
-        $httpServer->on("request", function($request, $response) use ($repository, $docroot, $output) {
+        $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
             $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
             if (!file_exists($path)) {
                 HttpServer::logRequest($output, 404, $request);
-                $response->writeHead(404);
+                $response->writeHead(404, [
+                    'Content-Type' => 'text/html',
+                ]);
 
-                return $response->end();
+                return $response->end(implode('', [
+                    '<h1>404</h1>',
+                    '<h2>Not Found</h2>',
+                    '<p>',
+                    'The embedded <a href="https://sculpin.io">Sculpin</a> web server could not find the requested resource.',
+                    '</p>'
+                ]));
             }
 
             $type = 'application/octet-stream';
@@ -111,8 +119,10 @@ class HttpServer
      * @param string          $responseCode Response code
      * @param Request         $request      Request
      */
-    static public function logRequest(OutputInterface $output, $responseCode, Request $request)
+    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
     {
+        $wrapOpen = '';
+        $wrapClose = '';
         if ($responseCode < 400) {
             $wrapOpen = '';
             $wrapClose = '';

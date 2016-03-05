@@ -66,8 +66,8 @@ class TwigFormatter implements FormatterInterface
             }
 
             return $blocks;
-        } catch (Exception $e) {
-            print " [ exception ]\n";
+        } catch (\Exception $e) {
+            print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }
 
@@ -94,8 +94,8 @@ class TwigFormatter implements FormatterInterface
             $data = $formatContext->data()->export();
 
             return $this->twig->render($formatContext->templateId(), $data);
-        } catch (Exception $e) {
-            print " [ exception ]\n";
+        } catch (\Exception $e) {
+            print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }
 

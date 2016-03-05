@@ -36,6 +36,9 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class Application extends BaseApplication implements EmbeddedComposerAwareInterface
 {
+    protected $kernel;
+    protected $embeddedComposer;
+    
     /**
      * Constructor.
      *
@@ -46,6 +49,10 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     {
         $this->kernel = $kernel;
         $this->embeddedComposer = $embeddedComposer;
+
+        if (function_exists('date_default_timezone_set') && function_exists('date_default_timezone_get')) {
+            date_default_timezone_set(@date_default_timezone_get());
+        }
 
         $version = $embeddedComposer->findPackage('sculpin/sculpin')->getPrettyVersion();
         if ($version !== Sculpin::GIT_VERSION && Sculpin::GIT_VERSION !== '@'.'git_version'.'@') {
@@ -85,7 +92,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
         return parent::run($input, $output);
     }
-
 
     /**
      * {@inheritdoc}

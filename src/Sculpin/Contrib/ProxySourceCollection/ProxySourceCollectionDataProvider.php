@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is a part of Sculpin.
+ *
+ * (c) Dragonfly Development Inc.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sculpin\Contrib\ProxySourceCollection;
 
 use Doctrine\Common\Inflector\Inflector;
@@ -9,7 +18,9 @@ use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\Filter\FilterInterface;
+use Sculpin\Core\Source\Filter\NullFilter;
 use Sculpin\Core\Source\Map\MapInterface;
+use Sculpin\Core\Source\Map\NullMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
@@ -73,6 +84,18 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 $this->map->process($source);
                 $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
             }
+        }
+        $foudAtLeastOne = false;
+
+        foreach ($sourceSetEvent->allSources() as $source) {
+            if ($this->filter->match($source)) {
+                $foudAtLeastOne = true;
+                break;
+            }
+        }
+
+        if (!$foudAtLeastOne) {
+            echo 'Didnt find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
         }
 
         $this->collection->init();

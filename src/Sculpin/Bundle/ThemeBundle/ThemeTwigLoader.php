@@ -1,11 +1,21 @@
 <?php
 
+/*
+ * This file is a part of Sculpin.
+ *
+ * (c) Dragonfly Development Inc.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sculpin\Bundle\ThemeBundle;
 
 use Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader;
 
 class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 {
+    /** @var \Twig_Loader_Chain */
     private $chainLoader;
 
     public function __construct(ThemeRegistry $themeRegistry, array $extensions)

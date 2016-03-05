@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is a part of Sculpin.
+ *
+ * (c) Dragonfly Development Inc.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sculpin\Contrib\Taxonomy;
 
 use Sculpin\Core\DataProvider\DataProviderManager;
@@ -12,23 +21,24 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
     private $dataProviderName;
     private $injectedTaxonKey;
     private $injectedTaxonItemsKey;
+    private $permalinkStrategyCollection;
 
     public function __construct(
         DataProviderManager $dataProviderManager,
         $dataProviderName,
         $injectedTaxonKey,
-        $injectedTaxonItemsKey
+        $injectedTaxonItemsKey,
+        PermalinkStrategyCollection $permalinkStrategyCollection
     ) {
         $this->dataProviderManager = $dataProviderManager;
         $this->dataProviderName = $dataProviderName; // post_tags
         $this->injectedTaxonKey = $injectedTaxonKey; // tag
         $this->injectedTaxonItemsKey = $injectedTaxonItemsKey; // tagged_posts
+        $this->permalinkStrategyCollection = $permalinkStrategyCollection;
     }
 
     public function generate(SourceInterface $source)
     {
-        $generatedSources = array();
-
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
         $taxons = $dataProvider->provideData();
 
@@ -43,14 +53,23 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 
             $permalink = dirname($permalink);
 
+            $indexType = null;
+
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
-                $permalink = $permalink.'/'.$taxon.'/index.html';
+                $urlTaxon = $this->permalinkStrategyCollection->process($taxon);
+                $indexType = $matches[2];
+                $suffix = in_array($indexType, array('xml', 'rss', 'json')) ? '.'.$indexType : '/';
+                $permalink = $permalink.'/'.$urlTaxon.$suffix;
             } else {
                 // not sure what case this is?
             }
 
             if (0 === strpos($permalink, './')) {
                 $permalink = substr($permalink, 2);
+            }
+
+            if (0 !== strpos($permalink, '/')) {
+                $permalink = '/'.$permalink;
             }
 
             if ($permalink) {
@@ -61,6 +80,16 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
             $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);
 
+            if ($indexType) {
+                foreach ($items as $item) {
+                    $key = $this->injectedTaxonKey.'_'.$indexType.'_index_permalinks';
+                    $taxonIndexPermalinks = $item->data()->get($key) ?: array();
+
+                    $taxonIndexPermalinks[$taxon] = $permalink;
+
+                    $item->data()->set($key, $taxonIndexPermalinks);
+                }
+            }
 
             //
             // TODO: REMOVE THIS

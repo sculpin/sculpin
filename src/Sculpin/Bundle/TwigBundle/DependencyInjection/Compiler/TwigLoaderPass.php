@@ -48,7 +48,7 @@ class TwigLoaderPass implements CompilerPassInterface
         }
 
         $sourceViewPaths = $container->getParameter('sculpin_twig.source_view_paths');
-        foreach ($container->getParameter('kernel.bundles') as $bundle => $class) {
+        foreach ($container->getParameter('kernel.bundles') as $class) {
             $reflection = new \ReflectionClass($class);
             foreach ($sourceViewPaths as $sourceViewPath) {
                 if (is_dir($dir = dirname($reflection->getFilename()).'/Resources/'.$sourceViewPath)) {

@@ -28,7 +28,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * Textile parser
      *
-     * @var Textile
+     * @var Parser
      */
     protected $parser;
 
