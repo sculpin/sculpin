@@ -10,13 +10,24 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class NewCommand extends AbstractCommand
 {
+    /**
+     * @var string
+     */
     private $projectName;
 
-    /** @var Filesystem */
+    /**
+     * @var Filesystem
+     */
     private $filesystem;
 
+    /**
+     * @var string
+     */
     private $configDir;
 
+    /**
+     * @var string
+     */
     private $sourceDir;
 
     /**
