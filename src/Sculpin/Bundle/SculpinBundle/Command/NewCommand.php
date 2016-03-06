@@ -2,7 +2,6 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
-use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
