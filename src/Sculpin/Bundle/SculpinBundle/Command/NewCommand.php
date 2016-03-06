@@ -78,12 +78,15 @@ class NewCommand extends AbstractCommand
      */
     private function createSculpinSiteFile()
     {
-        $content = [];
-        $content[] = '---';
-        $content[] = 'title: My New Sculpin Site';
+        $content = <<< CONTENT
+---
+title: My New Sculpin Site
+---
+CONTENT;
+
         $this->filesystem->dumpFile(
             $this->configDir . DIRECTORY_SEPARATOR . 'sculpin_site.yml',
-            implode(PHP_EOL, $content)
+            $content
         );
     }
 
@@ -92,15 +95,15 @@ class NewCommand extends AbstractCommand
      */
     private function createIndexFile()
     {
-        $content = [];
-        $content[] = '---';
-        $content[] = '---';
-        $content[] = '# {{ site.title }}';
-        $content[] = PHP_EOL;
-        $content[] = 'Hello, world!';
+        $content = <<< CONTENT
+---
+---
+Hello, world!
+CONTENT;
+
         $this->filesystem->dumpFile(
             $this->sourceDir . DIRECTORY_SEPARATOR . 'index.md',
-            implode(PHP_EOL, $content)
+            $content
         );
     }
 }
