@@ -38,9 +38,9 @@ class NewCommand extends AbstractCommand
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
         $this
-          ->setName($prefix.'new')
-          ->setDescription('Create a new site.')
-          ->addArgument('name', InputArgument::REQUIRED);
+            ->setName($prefix.'new')
+            ->setDescription('Create a new site.')
+            ->addArgument('name', InputArgument::REQUIRED);
     }
 
     /**
