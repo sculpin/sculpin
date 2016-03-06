@@ -52,13 +52,15 @@ class NewCommand extends AbstractCommand
 
         $this->filesystem = $this->getContainer()->get('filesystem');
 
-        if (!$this->filesystem->exists($this->projectName)) {
+        if ($this->filesystem->exists($this->projectName)) {
+            $output->writeln(sprintf("<error>Project %s already exists.</error>", $this->projectName));
+        } else {
             $this->createDirectories();
             $this->createSculpinSiteFile();
             $this->createIndexFile();
-        }
 
-        $output->writeln(sprintf("Project %s created.", $this->projectName));
+            $output->writeln(sprintf("<info>Project %s created.</info>", $this->projectName));
+        }
     }
 
     /**
