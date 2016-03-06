@@ -49,7 +49,9 @@ class NewCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->projectName = $input->getArgument('name');
-        $this->filesystem = new Filesystem();
+
+        $this->filesystem = $this->getContainer()->get('filesystem');
+
         if (!$this->filesystem->exists($this->projectName)) {
             $this->createDirectories();
             $this->createSculpinSiteFile();
