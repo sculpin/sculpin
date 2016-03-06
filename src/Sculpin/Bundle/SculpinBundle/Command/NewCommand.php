@@ -56,7 +56,7 @@ class NewCommand extends AbstractCommand
             $this->createIndexFile();
         }
 
-        $output->writeln("Project $this->projectName created.");
+        $output->writeln(sprintf("Project %s created.", $this->projectName));
     }
 
     /**
