@@ -83,9 +83,7 @@ class NewCommand extends AbstractCommand
     private function createSculpinSiteFile()
     {
         $content = <<< CONTENT
----
 title: My New Sculpin Site
----
 CONTENT;
 
         $this->filesystem->dumpFile(
