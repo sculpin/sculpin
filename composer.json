@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
+        "php": "^5.4|^7.0",
         "composer/composer": "1.*@dev",
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/apache-mime-types": "~1.0,>=1.0.1",
