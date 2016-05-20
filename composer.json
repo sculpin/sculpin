@@ -29,7 +29,7 @@
         "doctrine/inflector": "1.0.*",
         "michelf/php-markdown": "~1.5.0",
         "netcarver/textile": "3.5.*",
-        "react/http": "0.2.*",
+        "react/http": "^0.4",
         "guzzle/guzzle": "~3.0",
         "sculpin/sculpin-theme-composer-plugin": "1.0.*@dev",
         "symfony/class-loader": "~2.3",
