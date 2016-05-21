@@ -18,13 +18,10 @@
     ],
     "require": {
         "php": "^5.4|^7.0",
-        "composer/composer": "1.*@dev",
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/apache-mime-types": "~1.0,>=1.0.1",
         "dflydev/canal": "1.*",
         "dflydev/dot-access-configuration": "1.*",
-        "dflydev/embedded-composer-console": "1.0.*@dev",
-        "dflydev/embedded-composer-core": "1.0.*@dev",
         "dflydev/symfony-finder-factory": "1.*",
         "doctrine/inflector": "1.0.*",
         "michelf/php-markdown": "~1.5.0",
@@ -43,7 +40,9 @@
         "symfony/process": "~2.3",
         "symfony/yaml": "~2.3",
         "twig/twig": "~1.9",
-        "twig/extensions": "~1.0"
+        "twig/extensions": "~1.0",
+        "dflydev/embedded-composer": "^1.0@dev",
+        "seld/jsonlint": "^1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
