@@ -110,7 +110,7 @@ class PaginationGenerator implements GeneratorInterface
                     }
                     $permalink = dirname($permalink).'/'.$paginatedPage.'page/'.$pageNumber.$index.'.'.$matches[2];
                 } else {
-                    $permalink = dirname($permalink).'/'.$pageNumber;
+                    $permalink = dirname($permalink).'/'.$basename.'/page/'.$pageNumber.'.html';
                 }
 
                 if (0 === strpos($permalink, './')) {
