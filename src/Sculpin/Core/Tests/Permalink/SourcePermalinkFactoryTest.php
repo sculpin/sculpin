@@ -29,7 +29,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
     public function provideCreateData()
     {
         return array(
-            array(
+            'none setting for permalink' => array(
                 'none',
                 static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
@@ -38,7 +38,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
 
-            array(
+            'pretty permalink page' => array(
                 'pretty',
                 static::makeTestSource('about.md'),
                 new Permalink(
@@ -47,8 +47,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
 
-
-            array(
+            'basename with html ending' => array(
                 ':basename.html',
                 static::makeTestSource('about.md'),
                 new Permalink(
@@ -57,7 +56,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
 
-            array(
+            'pretty permalink post' => array(
                 'pretty',
                 static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
@@ -66,12 +65,21 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
 
-            array(
+            'Permalink with windows path' => array(
                 ':basename.html',
                 static::makeTestSource('some\windows\path.md'),
                 new Permalink(
                     'some\windows\path.html',
                     '/some/windows/path.html'
+                ),
+            ),
+
+            'Permalink with trailing slash' => array(
+                ':basename/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about/index.html',
+                    '/about/'
                 ),
             ),
         );
