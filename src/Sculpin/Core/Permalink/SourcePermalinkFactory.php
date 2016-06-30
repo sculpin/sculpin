@@ -49,6 +49,12 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $relativeUrlPath = $relativeFilePath;
             } else {
                 $relativeUrlPath = dirname($relativeFilePath);
+
+                // Check for trailing slashes
+                $permalink = $this->getPermaLinkTemplate($source);
+                if (substr($permalink, -1, 1) == '/') {
+                    $relativeUrlPath .= '/';
+                }
             }
             if ($relativeUrlPath == '/.') {
                 $relativeUrlPath = '/';
@@ -72,9 +78,8 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         $date = $source->data()->get('calculated_date');
         $title = $source->data()->get('title');
         $slug = $source->data()->get('slug');
-        if (!$permalink = $source->data()->get('permalink')) {
-            $permalink = $this->defaultPermalink;
-        }
+        $permalink = $this->getPermaLinkTemplate($source);
+
         switch ($permalink) {
             case 'none':
                 return $pathname;
@@ -129,6 +134,24 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 return $permalink;
                 break;
         }
+    }
+
+    /**
+     * Getting the permalink template
+     *
+     * @param SourceInterface $source Data source
+     *
+     * @return string Template for permalink
+     */
+    private function getPermaLinkTemplate(SourceInterface $source)
+    {
+        $permalink = $source->data()->get('permalink');
+
+        if (!$permalink) {
+            $permalink = $this->defaultPermalink;
+        }
+
+        return $permalink;
     }
 
     /**
