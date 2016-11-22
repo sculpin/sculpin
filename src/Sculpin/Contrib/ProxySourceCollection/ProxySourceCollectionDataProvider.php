@@ -95,7 +95,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
 
         if (!$foudAtLeastOne) {
-            echo 'Didnt find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
+            echo 'Didnt find at least one of this type : ' , $this->dataProviderName , PHP_EOL;
         }
 
         $this->collection->init();
