@@ -21,21 +21,21 @@ class SourceSet
     /**
      * Sources
      *
-     * @var Array
+     * @var array
      */
     protected $sources = array();
 
     /**
      * New Sources
      *
-     * @var Array
+     * @var array
      */
     protected $newSources = array();
 
     /**
      * Constructor.
      *
-     * @param Array $sources
+     * @param array $sources
      */
     public function __construct(array $sources = array())
     {

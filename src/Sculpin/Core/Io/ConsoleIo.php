@@ -77,7 +77,7 @@ class ConsoleIo implements IoInterface
      */
     public function isVeryVerbose()
     {
-        return $this->output->getVerbosity() >= 3; // OutputInterface::VERSOBITY_VERY_VERBOSE
+        return $this->output->getVerbosity() >= 3; // OutputInterface::VERBOSITY_VERY_VERBOSE
     }
 
     /**

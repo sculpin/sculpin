@@ -109,7 +109,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            throw new \InvalidArgumentException("Proxy source items cannot have values pushed onto them");
+            throw new \InvalidArgumentException('Proxy source items cannot have values pushed onto them');
         } else {
             if (method_exists($this, $offset)) {
                 return call_user_func(array($this, $offset, $value));

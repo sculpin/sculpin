@@ -163,9 +163,9 @@ class Sculpin
             $timer = microtime(true);
             foreach ($updatedSources as $source) {
                 $this->generatorManager->generate($source, $sourceSet);
-                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+                $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
-            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+            $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
@@ -192,9 +192,9 @@ class Sculpin
                 if ($source->canBeFormatted()) {
                     $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
                 }
-                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+                $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
-            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+            $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
         if ($updatedSources = $sourceSet->updatedSources()) {
@@ -215,10 +215,10 @@ class Sculpin
                 } else {
                     $source->setFormattedContent($source->content());
                 }
-                $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
+                $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
             $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new SourceSetEvent($sourceSet));
-            $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
+            $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
@@ -236,7 +236,7 @@ class Sculpin
         $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
 
         if ($found) {
-            $io->write(sprintf("Processing completed in %4.2f seconds", microtime(true) - $startTime));
+            $io->write(sprintf('Processing completed in %4.2f seconds', microtime(true) - $startTime));
         }
     }
 }
