@@ -17,7 +17,7 @@ if (function_exists('ini_set')) {
     $memoryInBytes = function ($value) {
         $unit = strtolower(substr($value, -1, 1));
         $value = (int) $value;
-        switch($unit) {
+        switch ($unit) {
             case 'g':
                 $value *= 1024;
                 // no break (cumulative multiplier)
@@ -54,7 +54,7 @@ if ($projectDir = $input->getParameterOption('--project-dir')) {
 
     if (! is_dir($projectDir)) {
         throw new \InvalidArgumentException(
-            sprintf("Specified project directory %s does not exist", $projectDir)
+            sprintf('Specified project directory %s does not exist', $projectDir)
         );
     }
 

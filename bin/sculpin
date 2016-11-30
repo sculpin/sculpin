@@ -18,4 +18,4 @@ if (
     exit(1);
 }
 
-include('sculpin.php');
+include 'sculpin.php';

@@ -104,7 +104,7 @@ class FormatterManager
         }
 
         foreach ($this->dataProviderManager->dataProviders() as $name) {
-            if (isset($context['use']) and in_array($name, $context['use'])) {
+            if (isset($context['use']) && in_array($name, $context['use'])) {
                 $baseContext->set('data.'.$name, $this->dataProviderManager->dataProvider($name)->provideData());
             }
         }

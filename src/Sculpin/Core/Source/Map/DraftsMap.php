@@ -23,10 +23,9 @@ class DraftsMap implements MapInterface
                 $tags = array('drafts');
             } else {
                 if (!is_array($tags)) {
+                    $tags = array();
                     if ($tags) {
                         $tags = array($tags);
-                    } else {
-                        $tags = array();
                     }
                 }
 

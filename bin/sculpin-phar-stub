@@ -14,4 +14,4 @@ if (!$classLoader = includeIfExists(__DIR__.'/../vendor/autoload.php')) {
     exit(1);
 }
 
-include('sculpin.php');
+include 'sculpin.php';

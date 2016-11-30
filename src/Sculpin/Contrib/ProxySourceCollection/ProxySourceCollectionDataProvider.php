@@ -85,17 +85,17 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
             }
         }
-        $foudAtLeastOne = false;
+        $foundAtLeastOne = false;
 
         foreach ($sourceSetEvent->allSources() as $source) {
             if ($this->filter->match($source)) {
-                $foudAtLeastOne = true;
+                $foundAtLeastOne = true;
                 break;
             }
         }
 
-        if (!$foudAtLeastOne) {
-            echo 'Didnt find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
+        if (!$foundAtLeastOne) {
+            echo 'Didn\'t find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
         }
 
         $this->collection->init();
@@ -113,7 +113,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
         if ($anItemHasChanged) {
             foreach ($sourceSetEvent->allSources() as $source) {
-                if ($source->data()->get('use') and in_array($this->dataProviderName, $source->data()->get('use'))) {
+                if ($source->data()->get('use') && in_array($this->dataProviderName, $source->data()->get('use'))) {
                     $source->forceReprocess();
                 }
             }

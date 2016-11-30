@@ -42,9 +42,8 @@ class SiteConfigurationFactory
     private function getConfigFile($configFile)
     {
         $builder = new YamlFileConfigurationBuilder(array($configFile));
-        $config = $builder->build();
 
-        return $config;
+        return $builder->build();
     }
 
     /**
@@ -69,11 +68,11 @@ class SiteConfigurationFactory
         if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
             return $this->getConfigFile($file);
         }
-        
+
         if (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
             return $this->getConfigFile($file);
         }
-        
+
         return  new Configuration();
     }
 }
