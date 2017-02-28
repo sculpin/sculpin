@@ -22,7 +22,7 @@
     </testsuites>
 
     <filter>
-        <whitelist>
+        <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>./src/Sculpin/</directory>
             <exclude>
                 <directory>./src/Sculpin/Bundle/*/Tests</directory>
