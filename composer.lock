@@ -1,3 +1,9 @@
+	{
+	    "require": {
+	        "payum/payum-bundle": "1.0.x-dev",
+	        "payum/core": "1.0.x-dev"
+	    }
+	}
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
@@ -858,7 +864,7 @@
             "require-dev": {
                 "doctrine/common": "*",
                 "monolog/monolog": "1.*",
-                "phpunit/phpunit": "3.7.*",
+                "phpunit/phpunit": "~4.7",
                 "symfony/class-loader": "*",
                 "zend/zend-cache1": "1.12",
                 "zend/zend-log1": "1.12",
