@@ -21,14 +21,15 @@
         "dflydev/ant-path-matcher": "1.*",
         "dflydev/apache-mime-types": "~1.0,>=1.0.1",
         "dflydev/canal": "1.*",
-        "dflydev/dot-access-configuration": "1.*",
+        "webignition/internet-media-type": "^0.4",
+        "dflydev/dot-access-configuration": "^1.0.1",
         "dflydev/symfony-finder-factory": "1.*",
         "doctrine/inflector": "1.0.*",
         "michelf/php-markdown": "~1.5.0",
         "netcarver/textile": "3.5.*",
         "react/http": "0.2.*",
         "guzzle/guzzle": "~3.0",
-        "sculpin/sculpin-theme-composer-plugin": "1.0.*@dev",
+        "sculpin/sculpin-theme-composer-plugin": "^1.0",
         "symfony/class-loader": "~2.3",
         "symfony/config": "~2.3",
         "symfony/console": "~2.3",
@@ -39,15 +40,16 @@
         "symfony/http-kernel": "~2.3",
         "symfony/process": "~2.3",
         "symfony/yaml": "~2.3",
-        "twig/twig": "~1.9",
+        "twig/twig": "~1.11",
         "twig/extensions": "~1.0",
         "dflydev/embedded-composer": "^1.0@dev",
         "seld/jsonlint": "^1.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "^4.8",
         "symfony/dom-crawler": "~2.6",
-        "symfony/css-selector": "~2.6"
+        "symfony/css-selector": "~2.6",
+        "squizlabs/php_codesniffer": "^2.8"
     },
     "replace": {
         "sculpin/core": "self.version",
