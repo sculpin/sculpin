@@ -14,16 +14,10 @@ matrix:
         - DEPS=lowest
     - php: 5.4
       env:
-        - DEPS=locked
-    - php: 5.4
-      env:
         - DEPS=latest
     - php: 5.5
       env:
         - DEPS=lowest
-    - php: 5.5
-      env:
-        - DEPS=locked
     - php: 5.5
       env:
         - DEPS=latest
