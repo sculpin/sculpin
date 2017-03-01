@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Clear and Warmup the cache.
  *
- * Originally from FrameworkBundle/DependencyInjection/Compiler/RegisterKernelListenersPass.php
+ * Originally from FrameworkBundle/Command/CacheClearCommand.php
  *
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Fabien Potencier <fabien@symfony.com>
