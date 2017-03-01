@@ -165,11 +165,10 @@ class FilesystemDataSource implements DataSourceInterface
                 if (!$this->matcher->isPattern($pattern)) {
                     continue;
                 }
-                if (
-                    $this->matcher->match(
-                        $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
-                    )
+                if ($this->matcher->match(
+                    $pattern,
+                    $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                )
                 ) {
                     // Ignored files are completely ignored.
                     continue 2;
@@ -180,9 +179,9 @@ class FilesystemDataSource implements DataSourceInterface
                     continue;
                 }
                 if ($this->matcher->match(
-                        $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
-                    )
+                    $pattern,
+                    $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                )
                 ) {
                     $excludedFilesHaveChanged = true;
                     continue 2;
@@ -196,9 +195,9 @@ class FilesystemDataSource implements DataSourceInterface
                     continue;
                 }
                 if ($this->matcher->match(
-                        $pattern,
-                        $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
-                    )
+                    $pattern,
+                    $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
+                )
                 ) {
                     $isRaw = true;
                     break;

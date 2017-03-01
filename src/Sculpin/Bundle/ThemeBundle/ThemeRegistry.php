@@ -66,7 +66,11 @@ class ThemeRegistry
             $theme = $themes[$activeTheme];
             if (isset($theme['parent'])) {
                 if (! isset($themes[$theme['parent']])) {
-                    throw new \RuntimeException(sprintf("Theme %s is a child of nonexistent parent theme %s", $this->activeTheme, $theme['parent']));
+                    throw new \RuntimeException(sprintf(
+                        "Theme %s is a child of nonexistent parent theme %s",
+                        $this->activeTheme,
+                        $theme['parent']
+                    ));
                 }
 
                 $theme['parent'] = $themes[$theme['parent']];

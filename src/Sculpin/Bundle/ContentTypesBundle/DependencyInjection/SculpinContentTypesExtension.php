@@ -101,7 +101,6 @@ class SculpinContentTypesExtension extends Extension
             }
 
             if (in_array('meta', $detectionTypes)) {
-
                 //
                 // Meta Filter
                 //
@@ -120,7 +119,6 @@ class SculpinContentTypesExtension extends Extension
             }
 
             if (count($orFilters) > 0) {
-
                 //
                 // "or" Filter
                 //

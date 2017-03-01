@@ -55,7 +55,9 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function itShouldIgnoreTheTimeIfItsProbablyNotATime()
     {
-        $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-10-reasons-why-sculpin-is-great.markdown");
+        $source = $this->getSourceWithoutCalculatedDateAndPathname(
+            "2013-12-12-10-reasons-why-sculpin-is-great.markdown"
+        );
 
         $this->map->process($source);
 
