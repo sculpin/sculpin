@@ -1,0 +1,22 @@
+before_commands:
+    - "composer update --prefer-source --ignore-platform-reqs"
+
+checks:
+    php:
+        custom_coding_standard:
+            ruleset_path: 'phpcs.xml'
+
+tools:
+    external_code_coverage:
+        timeout: 1800
+    php_code_coverage:
+        enabled: true
+    php_code_sniffer:
+        enabled: true
+    php_cs_fixer:
+        enabled: false
+    php_analyzer:
+        enabled: true
+        filter:
+            paths: ["src/*"]
+    sensiolabs_security_checker: true
