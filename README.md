@@ -19,7 +19,8 @@ Visit [sculpin.io](http://sculpin.io) for more information.
 Documentation
 -------------
 
-Sculpin has [documentation](https://sculpin.io/documentation/) but also is "learn by example". If you are interested in trying out Sculpin you should fire
+Sculpin has [documentation](https://sculpin.io/documentation/) but also is
+"learn by example". If you are interested in trying out Sculpin you should fire
 up a Sculpin skeleton site to see Sculpin in action.
 
 
@@ -37,6 +38,14 @@ expected to add all of the style magic yourself.
  * [Blog Skeleton](https://github.com/sculpin/sculpin-blog-skeleton)
    A very basic Sculpin based blog.
 
+
+Phar distributions
+------------------
+
+[Phar distribution and embedded composer are
+deprecated](https://blog.sculpin.io/2016/08/31/deprecating-phar-distribution-and-embedded-composer).
+Phar files are no longer published, please use composer to install sculpin.  
+Embedded composer will be removed in sculpin v3
 
 License
 -------
