@@ -38,7 +38,8 @@ install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
   - if [[ $DEPS == 'locked' ]]; then travis_retry composer install --no-interaction --ignore-platform-reqs ; fi
-  - composer show
+  - stty cols 120
+  - COLUMNS=120 composer show
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then vendor/bin/phpunit --verbose --coverage-text --coverage-clover clover.xml ; fi
