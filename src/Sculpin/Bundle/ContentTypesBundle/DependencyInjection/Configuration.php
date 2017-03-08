@@ -11,6 +11,9 @@
 
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
+use Doctrine\Common\Inflector\Inflector;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -30,11 +33,50 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->root('sculpin_content_types');
 
+        /** @var NodeDefinition $contentTypeNode */
         $contentTypeNode = $rootNode
             ->useAttributeAsKey('name')
+            ->beforeNormalization()
+            ->always(function ($v) {
+                $default = array(
+                  'permalink' => 'pretty',
+                  'taxonomies' => array(
+                    'tags',
+                    'categories',
+                  ),
+                );
+
+                if (!isset($v['posts'])) {
+                    $v['posts'] = $default;
+                } else {
+                    $v['posts'] = array_replace($default, $v['posts']);
+                }
+
+                foreach ($v as $key => &$value) {
+                    if (!isset($value['path']) && ((isset($value['type']) && $value['type'] == 'path') || !isset($value['type']))) {
+                        $value['path'] = array('_'. $key);
+                    }
+
+                    // What should use use for the singular name?
+                    if (!isset($value['singular_name'])) {
+                        $value['singular_name'] = Inflector::singularize($key);
+                    }
+
+                    if (!isset($value['meta'])) {
+                        $value['meta'] = $value['singular_name'];
+                    }
+
+                    if (!isset($value['layout'])) {
+                        $value['layout'] = $value['singular_name'];
+                    }
+                }
+                return $v;
+            })
+            ->end()
             ->prototype('array')
         ;
 
+        /** @var ArrayNodeDefinition $contentTypeNode */
         $contentTypeNode
             ->children()
                 ->scalarNode('type')->defaultValue('path')->end()
@@ -48,11 +90,16 @@ class Configuration implements ConfigurationInterface
                         ->then(function ($v) { return array($v); })
                     ->end()
                     ->prototype('scalar')->end()
+                    ->validate()
+                    ->always(function ($v) {
+                        return array_unique($v);
+                    })
+                    ->end()
                 ->end()
-                ->scalarNode('meta_key')->end()
+                ->scalarNode('meta_key')->defaultValue('type')->end()
                 ->scalarNode('meta')->end()
                 ->booleanNode('publish_drafts')->defaultNull()->end()
-                ->scalarNode('permalink')->end()
+                ->scalarNode('permalink')->defaultValue('none')->end()
                 ->scalarNode('layout')->end()
                 ->arrayNode('taxonomies')
                     ->beforeNormalization()
