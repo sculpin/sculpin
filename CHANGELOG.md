@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-- Nothing.
+- [#332](https://github.com/sculpin/sculpin/pull/332) dropped php 5 support.
 
 ### Fixed
 
