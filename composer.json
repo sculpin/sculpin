@@ -77,6 +77,15 @@
     },
     "scripts": {
         "post-autoload-dump": "Dflydev\\EmbeddedComposer\\Core\\Script::postAutoloadDump",
-        "phpstan": "phpstan analyse -l 4 src/"
+        "check": [
+            "@cs-check",
+            "@phpstan",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "phpstan": "phpstan analyse -l 4 src/",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-clover clover.xml --coverage-text --colors=always"
     }
 }
