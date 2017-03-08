@@ -72,7 +72,11 @@ EOT
 
         // check for permissions in local filesystem before start connection process
         if (!is_writable($tempDirectory = dirname($tempFilename))) {
-            throw new FilesystemException('Sculpin update failed: the "'.$tempDirectory.'" directory used to download the temp file could not be written');
+            throw new FilesystemException(
+                'Sculpin update failed: the "'
+                . $tempDirectory
+                . '" directory used to download the temp file could not be written'
+            );
         }
 
         if (!is_writable($localFilename)) {
@@ -98,7 +102,10 @@ EOT
 
             $remoteFilename = $protocol . '://download.sculpin.io/sculpin.phar';
 
-            if (!file_put_contents($tempFilename, file_get_contents($remoteFilename, false, $this->getStreamContext()))) {
+            if (!file_put_contents(
+                $tempFilename,
+                file_get_contents($remoteFilename, false, $this->getStreamContext())
+            )) {
                 $output->writeln('<error>The download of the new Sculpin version failed for an unexpected reason');
             }
 

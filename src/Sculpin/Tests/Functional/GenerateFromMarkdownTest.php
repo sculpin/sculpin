@@ -59,8 +59,11 @@ EOT
         $crawler = $this->crawlGeneratedProjectFile('/my_page_with_layout/index.html');
 
         $pageContentEl = $crawler->filter('.page-content');
-        $this->assertEquals(1, $pageContentEl->count(),
-            "Expected generated file to have a single .page-content element.");
+        $this->assertEquals(
+            1,
+            $pageContentEl->count(),
+            "Expected generated file to have a single .page-content element."
+        );
         $this->assertContains('Hello World', $pageContentEl->text());
     }
 }

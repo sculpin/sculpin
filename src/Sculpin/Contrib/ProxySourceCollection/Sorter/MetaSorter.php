@@ -44,8 +44,9 @@ class MetaSorter implements SorterInterface
                 $this->reversed = false;
                 break;
             default:
-                throw new \InvalidArgumentException('Invalid value passed for direction, must be one of: asc, ascending, desc, descending');
-
+                throw new \InvalidArgumentException(
+                    'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
+                );
         }
     }
 

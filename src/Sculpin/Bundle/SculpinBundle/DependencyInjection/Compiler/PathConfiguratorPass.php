@@ -54,7 +54,10 @@ class PathConfiguratorPass implements CompilerPassInterface
                     }
 
                     if ($container->hasParameter($typeParameter)) {
-                        $container->setParameter($typeParameter, array_unique(array_merge($container->getParameter($typeParameter), $this->antify($value))));
+                        $container->setParameter($typeParameter, array_unique(array_merge(
+                            $container->getParameter($typeParameter),
+                            $this->antify($value)
+                        )));
                     } else {
                         $container->setParameter($typeParameter, array_unique($this->antify($value)));
                     }

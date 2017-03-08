@@ -65,6 +65,7 @@ class HttpServer
                     '<h1>404</h1>',
                     '<h2>Not Found</h2>',
                     '<p>',
+                    // @codingStandardsIgnoreLine
                     'The embedded <a href="https://sculpin.io">Sculpin</a> web server could not find the requested resource.',
                     '</p>'
                 ]));
@@ -105,8 +106,16 @@ class HttpServer
      */
     public function run()
     {
-        $this->output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
-        $this->output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
+        $this->output->writeln(sprintf(
+            'Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>',
+            $this->env,
+            var_export($this->debug, true)
+        ));
+        $this->output->writeln(sprintf(
+            'Development server is running at <info>http://%s:%s</info>',
+            'localhost',
+            $this->port
+        ));
         $this->output->writeln('Quit the server with CONTROL-C.');
 
         $this->loop->run();
@@ -130,6 +139,13 @@ class HttpServer
             $wrapOpen = '<comment>';
             $wrapClose = '</comment>';
         }
-        $output->writeln($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date("d/M/Y H:i:s"), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
+        $output->writeln($wrapOpen.sprintf(
+            '[%s] "%s %s HTTP/%s" %s',
+            date("d/M/Y H:i:s"),
+            $request->getMethod(),
+            $request->getPath(),
+            $request->getHttpVersion(),
+            $responseCode
+        ).$wrapClose);
     }
 }

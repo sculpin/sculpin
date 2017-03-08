@@ -24,7 +24,10 @@ class FormatContextTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('someTemplateId', $formatContext->templateId());
         $this->assertEquals('template text', $formatContext->template());
-        $this->assertEquals(array('a' => 'Some A Value', 'formatter' => 'SOME_FORMATTER', ), $formatContext->data()->export());
+        $this->assertEquals(
+            array('a' => 'Some A Value', 'formatter' => 'SOME_FORMATTER', ),
+            $formatContext->data()->export()
+        );
         $this->assertEquals('SOME_FORMATTER', $formatContext->formatter());
     }
 }

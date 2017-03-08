@@ -37,9 +37,24 @@ class GenerateCommand extends AbstractCommand
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
-                new InputOption('clean', null, InputOption::VALUE_NONE, 'Cleans the output directory prior to generation.'),
-                new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
-                new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
+                new InputOption(
+                    'clean',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Cleans the output directory prior to generation.'
+                ),
+                new InputOption(
+                    'watch',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Watch source and regenerate site as changes are made.'
+                ),
+                new InputOption(
+                    'server',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Start an HTTP server to host your generated site'
+                ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
             ))
@@ -127,7 +142,10 @@ EOT
                 // Prompt the user for confirmation.
                 /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(sprintf('Are you sure you want to delete all the contents of the %s directory?', $dir), false);
+                $question = new ConfirmationQuestion(sprintf(
+                    'Are you sure you want to delete all the contents of the %s directory?',
+                    $dir
+                ), false);
                 if (!$helper->ask($input, $output, $question)) {
                     return;
                 }
