@@ -32,8 +32,13 @@ class FileSource extends AbstractSource
      * @param bool                $isRaw      Should be treated as raw
      * @param bool                $hasChanged Has the file changed?
      */
-    public function __construct(Analyzer $analyzer, DataSourceInterface $dataSource, SplFileInfo $file, $isRaw, $hasChanged = false)
-    {
+    public function __construct(
+        Analyzer $analyzer,
+        DataSourceInterface $dataSource,
+        SplFileInfo $file,
+        $isRaw,
+        $hasChanged = false
+    ) {
         $this->analyzer = $analyzer;
         $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
