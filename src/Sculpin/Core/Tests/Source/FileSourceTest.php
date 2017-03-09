@@ -2,12 +2,13 @@
 namespace Sculpin\Core\Tests\Source;
 
 use Dflydev\Canal\Analyzer\Analyzer;
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\FileSource;
 use Sculpin\Core\Source\FilesystemDataSource;
 use Sculpin\Core\Source\MemorySource;
 use Symfony\Component\Finder\SplFileInfo;
 
-class FileSourceTest extends \PHPUnit_Framework_TestCase
+class FileSourceTest extends TestCase
 {
     /*
      * mock analyzer for detectFromFilename, should return text/html
@@ -29,7 +30,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestAnalyzer()
     {
-        $analyzer = $this->getMock('Dflydev\Canal\Analyzer\Analyzer');
+        $analyzer = $this->createMock('Dflydev\Canal\Analyzer\Analyzer');
 
         $analyzer
             ->expects($this->any())
@@ -46,7 +47,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestInternetMediaType()
     {
-        $type = $this->getMock('Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface');
+        $type = $this->createMock('Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface');
 
         $type
             ->expects($this->any())
@@ -58,7 +59,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestInternetMediaFactory()
     {
-        $factory = $this->getMock('Dflydev\Canal\InternetMediaType\InternetMediaTypeFactory');
+        $factory = $this->createMock('Dflydev\Canal\InternetMediaType\InternetMediaTypeFactory');
 
         $factory
             ->expects($this->any())
@@ -70,7 +71,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestDatasource()
     {
-        $datasource = $this->getMock('Sculpin\Core\Source\DataSourceInterface');
+        $datasource = $this->createMock('Sculpin\Core\Source\DataSourceInterface');
 
         $datasource
             ->expects($this->any())
