@@ -39,7 +39,6 @@ if (function_exists('ini_set')) {
     unset($memoryInBytes, $memoryLimit);
 }
 
-use Dflydev\EmbeddedComposer\Core\EmbeddedComposerBuilder;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Sculpin\Bundle\SculpinBundle\HttpKernel\KernelFactory;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -61,15 +60,6 @@ if ($projectDir = $input->getParameterOption('--project-dir')) {
     chdir($projectDir);
 }
 
-$embeddedComposerBuilder = new EmbeddedComposerBuilder($classLoader);
-
-$embeddedComposer = $embeddedComposerBuilder
-    ->setComposerFilename('sculpin.json')
-    ->setVendorDirectory('.sculpin')
-    ->build();
-
-$embeddedComposer->processAdditionalAutoloads();
-
 $kernel = KernelFactory::create($input);
-$application = new Application($kernel, $embeddedComposer);
+$application = new Application($kernel);
 $application->run($input);
