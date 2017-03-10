@@ -48,7 +48,10 @@ class HttpServer
         $this->port = $port;
 
         $this->loop = new StreamSelectLoop;
-        $socketServer = new ReactSocketServer($this->loop);
+        $socketServer = new ReactSocketServer(
+            sprintf('0.0.0.0:%d', $port),
+            $this->loop
+        );
         $httpServer = new ReactHttpServer($socketServer);
         $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
             $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
@@ -86,8 +89,6 @@ class HttpServer
             ));
             $response->end(file_get_contents($path));
         });
-
-        $socketServer->listen($port, '0.0.0.0');
     }
 
     /**
@@ -144,7 +145,7 @@ class HttpServer
             date("d/M/Y H:i:s"),
             $request->getMethod(),
             $request->getPath(),
-            $request->getHttpVersion(),
+            $request->getProtocolVersion(),
             $responseCode
         ).$wrapClose);
     }
