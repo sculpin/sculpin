@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e743d0b2673d3cd550f2d6c88871c4a",
+    "content-hash": "2b1e179d45f149241dfa82dea01fbf09",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1141,23 +1141,23 @@
         },
         {
             "name": "react/http",
-            "version": "v0.5.0",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/http.git",
-                "reference": "3f4821c3021ac7e5a404edb5d371c3d2fdeb38b7"
+                "reference": "b5e7d9bfc9effe8ec723af942c66df042ad17fe6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/http/zipball/3f4821c3021ac7e5a404edb5d371c3d2fdeb38b7",
-                "reference": "3f4821c3021ac7e5a404edb5d371c3d2fdeb38b7",
+                "url": "https://api.github.com/repos/reactphp/http/zipball/b5e7d9bfc9effe8ec723af942c66df042ad17fe6",
+                "reference": "b5e7d9bfc9effe8ec723af942c66df042ad17fe6",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "^2.0 || ^1.0",
                 "php": ">=5.3.0",
                 "react/socket": "^0.5",
-                "react/stream": "^0.4.4",
+                "react/stream": "^0.6 || ^0.5 || ^0.4.4",
                 "ringcentral/psr7": "^1.2"
             },
             "require-dev": {
@@ -1182,7 +1182,7 @@
                 "server",
                 "streaming"
             ],
-            "time": "2017-02-16T15:01:02+00:00"
+            "time": "2017-03-09T14:03:48+00:00"
         },
         {
             "name": "react/promise",
@@ -1229,16 +1229,16 @@
         },
         {
             "name": "react/socket",
-            "version": "v0.5.0",
+            "version": "v0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/socket.git",
-                "reference": "691dbf6cb3aa9ae67ef25d29c32e853d5d34fa99"
+                "reference": "c0e337e375d5fb064da4ba62a91a29815e7502f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/socket/zipball/691dbf6cb3aa9ae67ef25d29c32e853d5d34fa99",
-                "reference": "691dbf6cb3aa9ae67ef25d29c32e853d5d34fa99",
+                "url": "https://api.github.com/repos/reactphp/socket/zipball/c0e337e375d5fb064da4ba62a91a29815e7502f8",
+                "reference": "c0e337e375d5fb064da4ba62a91a29815e7502f8",
                 "shasum": ""
             },
             "require": {
@@ -1246,7 +1246,7 @@
                 "php": ">=5.3.0",
                 "react/event-loop": "0.4.*|0.3.*",
                 "react/promise": "^2.0 || ^1.1",
-                "react/stream": "^0.4.5"
+                "react/stream": "^0.6 || ^0.5 || ^0.4.5"
             },
             "require-dev": {
                 "clue/block-react": "^1.1",
@@ -1267,20 +1267,20 @@
             "keywords": [
                 "Socket"
             ],
-            "time": "2017-02-14T06:49:09+00:00"
+            "time": "2017-03-09T12:13:07+00:00"
         },
         {
             "name": "react/stream",
-            "version": "v0.4.6",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/stream.git",
-                "reference": "44dc7f51ea48624110136b535b9ba44fd7d0c1ee"
+                "reference": "6ccc4bd601e362aebfe5f449411a08b5f38b229d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/stream/zipball/44dc7f51ea48624110136b535b9ba44fd7d0c1ee",
-                "reference": "44dc7f51ea48624110136b535b9ba44fd7d0c1ee",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/6ccc4bd601e362aebfe5f449411a08b5f38b229d",
+                "reference": "6ccc4bd601e362aebfe5f449411a08b5f38b229d",
                 "shasum": ""
             },
             "require": {
@@ -1289,6 +1289,7 @@
             },
             "require-dev": {
                 "clue/stream-filter": "~1.2",
+                "phpunit/phpunit": "^5.0 || ^4.8.10",
                 "react/event-loop": "^0.4|^0.3",
                 "react/promise": "^2.0|^1.0"
             },
@@ -1311,7 +1312,7 @@
                 "pipe",
                 "stream"
             ],
-            "time": "2017-01-25T14:44:14+00:00"
+            "time": "2017-03-08T08:17:17+00:00"
         },
         {
             "name": "ringcentral/psr7",
