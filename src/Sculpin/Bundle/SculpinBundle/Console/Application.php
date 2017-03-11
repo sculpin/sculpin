@@ -12,10 +12,6 @@
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Sculpin\Core\Sculpin;
-use Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand;
-use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
-use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
-use Sculpin\Bundle\SculpinBundle\Command\UpdateCommand;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
