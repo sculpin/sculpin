@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 - [#332](https://github.com/sculpin/sculpin/pull/332) dropped php 5 support.
+- [#335](https://github.com/sculpin/sculpin/pull/335) removed embedded composer
+  and related commands: install, update, self-update and dump-autoload
 
 ### Fixed
 
