@@ -37,7 +37,7 @@
         "symfony/process": "^3.2",
         "symfony/yaml": "^3.2",
         "twig/extensions": "^1.4",
-        "twig/twig": "^1.32",
+        "twig/twig": "^2.2",
         "webignition/internet-media-type": "^0.4"
     },
     "require-dev": {
