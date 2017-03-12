@@ -11,13 +11,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
-use Dflydev\EmbeddedComposer\Core\EmbeddedComposerInterface;
 use Sculpin\Core\Sculpin;
-use Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand;
-use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
-use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
-use Sculpin\Bundle\SculpinBundle\Command\UpdateCommand;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -33,30 +27,24 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Application extends BaseApplication implements EmbeddedComposerAwareInterface
+class Application extends BaseApplication
 {
     protected $kernel;
-    protected $embeddedComposer;
 
     /**
      * Constructor.
      *
      * @param KernelInterface           $kernel           A KernelInterface instance
-     * @param EmbeddedComposerInterface $embeddedComposer Composer Class Loader
      */
-    public function __construct(KernelInterface $kernel, EmbeddedComposerInterface $embeddedComposer)
+    public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
-        $this->embeddedComposer = $embeddedComposer;
 
         if (function_exists('date_default_timezone_set') && function_exists('date_default_timezone_get')) {
             date_default_timezone_set(@date_default_timezone_get());
         }
 
-        $version = $embeddedComposer->findPackage('sculpin/sculpin')->getPrettyVersion();
-        if ($version !== Sculpin::GIT_VERSION && Sculpin::GIT_VERSION !== '@'.'git_version'.'@') {
-            $version .= ' ('.Sculpin::GIT_VERSION.')';
-        }
+        $version = '(' . Sculpin::GIT_VERSION . ')';
 
         parent::__construct(
             'Sculpin',
@@ -98,14 +86,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getEmbeddedComposer()
-    {
-        return $this->embeddedComposer;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function run(InputInterface $input = null, OutputInterface $output = null)
@@ -133,14 +113,8 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             return;
         }
 
-        if ($input->hasParameterOption('--safe')) {
-            // For safe mode we should enable some commands
-            // manually because we won't enable any others.
-            $this->add(new DumpAutoloadCommand(''));
-            $this->add(new InstallCommand(''));
-            $this->add(new SelfUpdateCommand(''));
-            $this->add(new UpdateCommand(''));
-        } else {
+        if (!$input->hasParameterOption('--safe')) {
+            // In safe mode enable no commands
             $this->registerCommands();
         }
 

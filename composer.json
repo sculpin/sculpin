@@ -22,7 +22,6 @@
         "dflydev/apache-mime-types": "^1.0.1",
         "dflydev/canal": "^1.0",
         "dflydev/dot-access-configuration": "^1.0.1",
-        "dflydev/embedded-composer": "^1.0@dev",
         "dflydev/symfony-finder-factory": "^1.0",
         "doctrine/inflector": "^1.1",
         "michelf/php-markdown": "^1.7",
@@ -76,7 +75,6 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": "Dflydev\\EmbeddedComposer\\Core\\Script::postAutoloadDump",
         "check": [
             "@cs-check",
             "@phpstan",
