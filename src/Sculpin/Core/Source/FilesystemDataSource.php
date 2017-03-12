@@ -12,8 +12,7 @@
 namespace Sculpin\Core\Source;
 
 use Dflydev\Canal\Analyzer\Analyzer;
-use Dflydev\Symfony\FinderFactory\FinderFactory;
-use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
+use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 
@@ -104,7 +103,7 @@ class FilesystemDataSource implements DataSourceInterface
         $excludes,
         $ignores,
         $raws,
-        FinderFactoryInterface $finderFactory = null,
+        $finderFactory = null,
         AntPathMatcher $matcher = null,
         Analyzer $analyzer = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
@@ -113,7 +112,6 @@ class FilesystemDataSource implements DataSourceInterface
         $this->excludes = $excludes;
         $this->ignores = $ignores;
         $this->raws = $raws;
-        $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->analyzer = $analyzer;
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
@@ -140,8 +138,7 @@ class FilesystemDataSource implements DataSourceInterface
         // We regenerate the whole site if an excluded file changes.
         $excludedFilesHaveChanged = false;
 
-        $files = $this
-            ->finderFactory->createFinder()
+        $files = Finder::create()
             ->files()
             ->ignoreVCS(true)
             ->ignoreDotFiles(false)
