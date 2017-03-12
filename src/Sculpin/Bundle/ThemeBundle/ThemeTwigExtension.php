@@ -21,9 +21,9 @@ class ThemeTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'theme_path' => new \Twig_Function_Method($this, 'themePath'),
-            'theme_path_exists' => new \Twig_Function_Method($this, 'themePathExists'),
-            'theme_paths' => new \Twig_Function_Method($this, 'themePaths'),
+            new \Twig_SimpleFunction('theme_path', [$this, 'themePath']),
+            new \Twig_SimpleFunction('theme_path_exists', [$this, 'themePathExists']),
+            new \Twig_SimpleFunction('theme_paths', [$this, 'themePaths']),
         );
     }
 

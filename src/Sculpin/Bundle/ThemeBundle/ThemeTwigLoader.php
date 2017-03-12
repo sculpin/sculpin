@@ -51,9 +51,9 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
     /**
      * {@inheritdoc}
      */
-    public function getSource($name)
+    public function getSourceContext($name)
     {
-        return $this->chainLoader->getSource($name);
+        return $this->chainLoader->getSourceContext($name);
     }
 
     /**
