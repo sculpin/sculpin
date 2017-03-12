@@ -29,7 +29,6 @@
         "netcarver/textile": "3.5.*",
         "react/http": "0.4.*",
         "sculpin/sculpin-theme-composer-plugin": "^1.0",
-        "symfony/class-loader": "~2.3",
         "symfony/config": "~2.3",
         "symfony/console": "~2.3",
         "symfony/dependency-injection": "~2.3",
