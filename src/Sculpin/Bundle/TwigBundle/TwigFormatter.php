@@ -73,11 +73,7 @@ class TwigFormatter implements FormatterInterface
 
     public function findAllBlocks(\Twig_Template $template, array $context)
     {
-        if (false !== $parent = $template->getParent($context)) {
-            return array_unique(array_merge($this->findAllBlocks($parent, $context), $template->getBlockNames()));
-        }
-
-        return $template->getBlockNames();
+        return $template->getBlockNames($context);
     }
 
     /**
@@ -105,7 +101,8 @@ class TwigFormatter implements FormatterInterface
     public function reset()
     {
         $this->twig->clearCacheFiles();
-        $this->twig->clearTemplateCache();
+        // removed in twig v2
+        //$this->twig->clearTemplateCache();
     }
 
     protected function massageTemplate(FormatContext $formatContext)
