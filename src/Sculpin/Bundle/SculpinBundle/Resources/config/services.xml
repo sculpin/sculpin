@@ -30,7 +30,9 @@
             <argument>%kernel.environment%</argument>
         </service>
 
-        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" factory-service="sculpin.site_configuration_factory" factory-method="create" />
+        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%">
+            <factory service="sculpin.site_configuration_factory" method="create" />
+        </service>
 
         <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
             <argument>%sculpin.permalink%</argument>
