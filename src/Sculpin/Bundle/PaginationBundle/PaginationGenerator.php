@@ -62,6 +62,9 @@ class PaginationGenerator implements GeneratorInterface
             switch ($matches[1]) {
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
+                    if (!count($data)) {
+                        $data = array('');
+                    }
                     break;
                 case 'page':
                     $data = $source->data()->get($matches[2]);
