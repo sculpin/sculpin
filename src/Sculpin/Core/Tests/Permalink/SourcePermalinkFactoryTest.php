@@ -128,8 +128,8 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                 new Permalink(
                     'about.md/index.html',
                     '/about.md/'
-	    	),
-	    ),
+                ),
+            ),
 
             'Permalink with trailing slash' => array(
                 ':basename/',
