@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Nothing.
 
+### Changed
+
+- [#341](https://github.com/sculpin/sculpin/pull/341) bumped minimum symfony
+  packages version to 3.2.6
+
 ### Deprecated
 
 - Nothing.

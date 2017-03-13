@@ -17,7 +17,6 @@
         <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
         <parameter key="sculpin.default_config_filesystem_data_source.class">Sculpin\Core\Source\ConfigFilesystemDataSource</parameter>
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
-        <parameter key="sculpin.finder_factory.class">Dflydev\Symfony\FinderFactory\FinderFactory</parameter>
         <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
     </parameters>
 
@@ -30,7 +29,9 @@
             <argument>%kernel.environment%</argument>
         </service>
 
-        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" factory-service="sculpin.site_configuration_factory" factory-method="create" />
+        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%">
+            <factory service="sculpin.site_configuration_factory" method="create" />
+        </service>
 
         <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
             <argument>%sculpin.permalink%</argument>
@@ -74,8 +75,6 @@
             <argument type="service" id="sculpin.converter_manager" />
         </service>
 
-        <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" />
-
         <service id="sculpin.canal.custom_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector">
             <argument type="service" id="sculpin.custom_mime_types_repository" />
         </service>
@@ -98,7 +97,7 @@
             <argument>%sculpin.exclude%</argument>
             <argument>%sculpin.ignore%</argument>
             <argument>%sculpin.raw%</argument>
-            <argument type="service" id="sculpin.finder_factory" />
+            <argument>null</argument>
             <argument type="service" id="sculpin.matcher" />
             <argument type="service" id="sculpin.canal.analyzer" />
             <tag name="sculpin.data_source" />
@@ -108,7 +107,7 @@
             <argument>%kernel.root_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
-            <argument type="service" id="sculpin.finder_factory" />
+            <argument>null</argument>
             <argument type="service" id="sculpin.matcher" />
             <tag name="sculpin.data_source" />
         </service>
