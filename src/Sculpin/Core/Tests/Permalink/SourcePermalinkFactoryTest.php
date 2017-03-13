@@ -30,7 +30,7 @@ class SourcePermalinkFactoryTest extends TestCase
     public function provideCreateData()
     {
         return array(
-            array(
+            'none setting for permalink' => array(
                 'none',
                 static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
@@ -39,7 +39,7 @@ class SourcePermalinkFactoryTest extends TestCase
                 ),
             ),
 
-            array(
+            'pretty permalink page' => array(
                 'pretty',
                 static::makeTestSource('about.md'),
                 new Permalink(
@@ -48,8 +48,7 @@ class SourcePermalinkFactoryTest extends TestCase
                 ),
             ),
 
-
-            array(
+            'basename with html ending' => array(
                 ':basename.html',
                 static::makeTestSource('about.md'),
                 new Permalink(
@@ -58,7 +57,7 @@ class SourcePermalinkFactoryTest extends TestCase
                 ),
             ),
 
-            array(
+            'pretty permalink post' => array(
                 'pretty',
                 static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
@@ -67,12 +66,78 @@ class SourcePermalinkFactoryTest extends TestCase
                 ),
             ),
 
-            array(
+            'Permalink with windows path' => array(
                 ':basename.html',
                 static::makeTestSource('some\windows\path.md'),
                 new Permalink(
                     'some\windows\path.html',
                     '/some/windows/path.html'
+                ),
+            ),
+
+            array(
+                'blog/:year/:month/:day/:slug_title',
+                static::makeTestSource('about.md', array(
+                    'slug' => 'some-about-me',
+                    'calculated_date' => mktime(0, 0, 0, 1, 12, 2005)
+                )),
+                new Permalink(
+                    'blog/2005/01/12/some-about-me/index.html',
+                    '/blog/2005/01/12/some-about-me'
+                ),
+            ),
+
+            array(
+                ':basename.html/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.html/index.html',
+                    '/about.html/'
+                ),
+            ),
+
+            array(
+                ':filename.html',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md.html',
+                    '/about.md.html'
+                ),
+            ),
+
+            array(
+                ':filename.html/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md.html/index.html',
+                    '/about.md.html/'
+                ),
+            ),
+
+            array(
+                ':filename',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md/index.html',
+                    '/about.md'
+                ),
+            ),
+
+            array(
+                ':filename/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md/index.html',
+                    '/about.md/'
+                ),
+            ),
+
+            'Permalink with trailing slash' => array(
+                ':basename/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about/index.html',
+                    '/about/'
                 ),
             ),
         );
