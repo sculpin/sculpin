@@ -73,11 +73,6 @@ class TwigFormatter implements FormatterInterface
 
     public function findAllBlocks(\Twig_Template $template, array $context)
     {
-        // it appears getBlockNames already do this in v2
-        //if (false !== $parent = $template->getParent($context)) {
-        //    return array_unique(array_merge($this->findAllBlocks($parent, $context), $template->getBlockNames($context)));
-        //}
-
         return $template->getBlockNames($context);
     }
 
