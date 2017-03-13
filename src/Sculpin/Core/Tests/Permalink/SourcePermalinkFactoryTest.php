@@ -74,6 +74,63 @@ class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
                     '/some/windows/path.html'
                 ),
             ),
+
+            array(
+                'blog/:year/:month/:day/:slug_title',
+                static::makeTestSource('about.md', array(
+                    'slug' => 'some-about-me',
+                    'calculated_date' => mktime(0, 0, 0, 1, 12, 2005)
+                )),
+                new Permalink(
+                    'blog/2005/01/12/some-about-me/index.html',
+                    '/blog/2005/01/12/some-about-me'
+                ),
+            ),
+
+            array(
+                ':basename.html/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.html/index.html',
+                    '/about.html/'
+                ),
+            ),
+
+            array(
+                ':filename.html',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md.html',
+                    '/about.md.html'
+                ),
+            ),
+
+            array(
+                ':filename.html/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md.html/index.html',
+                    '/about.md.html/'
+                ),
+            ),
+
+            array(
+                ':filename',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md/index.html',
+                    '/about.md'
+                ),
+            ),
+
+            array(
+                ':filename/',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.md/index.html',
+                    '/about.md/'
+                ),
+            ),
         );
     }
 
