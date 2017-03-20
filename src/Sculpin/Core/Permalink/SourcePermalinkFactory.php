@@ -204,7 +204,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         if (function_exists('iconv')) {
             $param = @iconv('utf-8', 'us-ascii//TRANSLIT', $param);
         }
-        $param = preg_replace('/[^a-zA-Z0-9 -]/', '', $param);
+        $param = preg_replace('/[^a-zA-Z0-9 -\/]/', '', $param);
         $param = strtolower($param);
         $param = preg_replace('/[\s-]+/', $space, $param);
 
