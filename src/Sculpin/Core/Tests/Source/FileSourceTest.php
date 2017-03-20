@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Sculpin\Core\Tests\Source;
 
 use Dflydev\Canal\Analyzer\Analyzer;
