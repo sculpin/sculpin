@@ -222,7 +222,6 @@ EOF
 
         // loop through to get space needed and filter private services
         $maxName = 4;
-        $maxScope = 6;
         $maxTags = array();
         foreach ($serviceIds as $key => $serviceId) {
             $definition = $this->resolveServiceDefinition($serviceId);
@@ -232,10 +231,6 @@ EOF
                 if (!$showPrivate && !$definition->isPublic()) {
                     unset($serviceIds[$key]);
                     continue;
-                }
-
-                if (strlen($definition->getScope()) > $maxScope) {
-                    $maxScope = strlen($definition->getScope());
                 }
 
                 if (null !== $showTagAttributes) {
@@ -261,14 +256,14 @@ EOF
         $format .= implode("", array_map(function ($length) {
             return "%-{$length}s ";
         }, $maxTags));
-        $format .= '%-'.$maxScope.'s %s';
+        $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
         $format1 .= implode("", array_map(function ($length) {
             return '%-'.($length + 19).'s ';
         }, $maxTags));
-        $format1 .= '%-'.($maxScope + 19).'s %s';
+        $format1 .= '%s';
 
         $tags = array();
         foreach ($maxTags as $tagName => $length) {
@@ -276,7 +271,6 @@ EOF
         }
         $output->writeln(vsprintf($format1, $this->buildArgumentsArray(
             '<comment>Service Id</comment>',
-            '<comment>Scope</comment>',
             '<comment>Class Name</comment>',
             $tags
         )));
@@ -295,16 +289,15 @@ EOF
                         if (0 === $key) {
                             $lines[] = $this->buildArgumentsArray(
                                 $serviceId,
-                                $definition->getScope(),
                                 $definition->getClass(),
                                 $tagValues
                             );
                         } else {
-                            $lines[] = $this->buildArgumentsArray('  "', '', '', $tagValues);
+                            $lines[] = $this->buildArgumentsArray('  "', '', $tagValues);
                         }
                     }
                 } else {
-                    $lines[] = $this->buildArgumentsArray($serviceId, $definition->getScope(), $definition->getClass());
+                    $lines[] = $this->buildArgumentsArray($serviceId, $definition->getClass());
                 }
 
                 foreach ($lines as $arguments) {
@@ -314,7 +307,6 @@ EOF
                 $alias = $definition;
                 $output->writeln(vsprintf($format, $this->buildArgumentsArray(
                     $serviceId,
-                    'n/a',
                     sprintf('<comment>alias for</comment> <info>%s</info>', (string) $alias),
                     count($maxTags) ? array_fill(0, count($maxTags), "") : array()
                 )));
@@ -323,7 +315,6 @@ EOF
                 $service = $definition;
                 $output->writeln(vsprintf($format, $this->buildArgumentsArray(
                     $serviceId,
-                    '',
                     get_class($service),
                     count($maxTags) ? array_fill(0, count($maxTags), "") : array()
                 )));
@@ -331,13 +322,12 @@ EOF
         }
     }
 
-    protected function buildArgumentsArray($serviceId, $scope, $className, array $tagAttributes = array())
+    protected function buildArgumentsArray($serviceId, $className, array $tagAttributes = array())
     {
         $arguments = array($serviceId);
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
-        $arguments[] = $scope;
         $arguments[] = $className;
 
         return $arguments;
@@ -379,8 +369,6 @@ EOF
             } else {
                 $output->writeln('<comment>Tags</comment>             -');
             }
-
-            $output->writeln(sprintf('<comment>Scope</comment>            %s', $definition->getScope()));
 
             $public = $definition->isPublic() ? 'yes' : 'no';
             $output->writeln(sprintf('<comment>Public</comment>           %s', $public));
