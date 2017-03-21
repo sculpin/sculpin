@@ -23,6 +23,9 @@ use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
  */
 class SiteConfigurationFactory
 {
+    protected $rootDir;
+    protected $environment;
+
     /**
      * Constructor.
      *
@@ -51,7 +54,7 @@ class SiteConfigurationFactory
     /**
      * Create Site Configuration
      *
-     * @return Configuration
+     * @return YamlFileConfigurationBuilder
      */
     public function create()
     {
@@ -63,7 +66,7 @@ class SiteConfigurationFactory
     /**
      * Detect configuration file and create Site Configuration from it
      *
-     * @return Configuration
+     * @return YamlFileConfigurationBuilder
      */
     public function detectConfig()
     {

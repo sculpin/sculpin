@@ -30,13 +30,15 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
 
 /**
  * A console command for retrieving information about services
@@ -130,6 +132,9 @@ EOF
         $this->validateInput($input);
 
         if ($input->getOption('parameters')) {
+            if (!$this->getContainer() instanceof Container) {
+                return;
+            }
             $parameters = $this->getContainer()->getParameterBag()->all();
 
             // Sort parameters alphabetically
@@ -154,10 +159,13 @@ EOF
         }
 
         $tag = $input->getOption('tag');
-        if (null !== $tag) {
-            $serviceIds = array_keys($this->getContainer()->findTaggedServiceIds($tag));
-        } else {
-            $serviceIds = $this->getContainer()->getServiceIds();
+        $serviceIds = [];
+        if ($this->getContainer() instanceof ContainerBuilder) {
+            if (null !== $tag) {
+                $serviceIds = array_keys($this->getContainer()->findTaggedServiceIds($tag));
+            } else {
+                $serviceIds = $this->getContainer()->getServiceIds();
+            }
         }
 
         // sort so that it reads like an index of services
