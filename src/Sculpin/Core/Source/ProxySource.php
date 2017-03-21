@@ -180,7 +180,7 @@ class ProxySource implements SourceInterface
      */
     public function isGenerator()
     {
-        return $this->source->data();
+        return $this->source->isGenerator();
     }
 
     /**

@@ -19,6 +19,7 @@ use Sculpin\Core\Converter\ParserInterface;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Michelf\Markdown;
 
 /**
  * Markdown Converter.
@@ -50,7 +51,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     public function __construct(ParserInterface $markdown, array $extensions = array())
     {
         $this->markdown = $markdown;
-        $this->markdown->header_id_func = array($this, 'generateHeaderId');
+        if ($this->markdown instanceof Markdown) {
+            $this->markdown->header_id_func = array($this, 'generateHeaderId');
+        }
         $this->extensions = $extensions;
     }
 

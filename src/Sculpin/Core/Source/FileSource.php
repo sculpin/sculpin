@@ -25,6 +25,15 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
  */
 class FileSource extends AbstractSource
 {
+    protected $analyzer;
+    protected $sourceId;
+    protected $relativePathname;
+    protected $filename;
+    protected $file;
+    protected $isRaw;
+    protected $hasChanged;
+    protected $applicationXmlType;
+
     /**
      * Constructor
      *

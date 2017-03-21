@@ -42,16 +42,9 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * Site configuration factory
      *
-     * @var string
+     * @var SiteConfigurationFactory
      */
     protected $siteConfigurationFactory;
-
-    /**
-     * Finder Factory
-     *
-     * @var FinderFactoryInterface
-     */
-    protected $finderFactory;
 
     /**
      * Path Matcher
@@ -73,14 +66,12 @@ class ConfigFilesystemDataSource implements DataSourceInterface
      * @param string                   $sourceDir                Source directory
      * @param ConfigurationInterface   $siteConfiguration        Site Configuration
      * @param SiteConfigurationFactory $siteConfigurationFactory Site Configuration Factory
-     * @param FinderFactoryInterface   $finderFactory            Finder Factory
      * @param AntPathMatcher           $matcher                  Matcher
      */
     public function __construct(
         $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
-        $finderFactory = null,
         AntPathMatcher $matcher = null
     ) {
         $this->sourceDir = $sourceDir;

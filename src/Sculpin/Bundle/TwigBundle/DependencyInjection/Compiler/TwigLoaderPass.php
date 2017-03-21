@@ -53,7 +53,7 @@ class TwigLoaderPass implements CompilerPassInterface
         foreach ($container->getParameter('kernel.bundles') as $class) {
             $reflection = new \ReflectionClass($class);
             foreach ($sourceViewPaths as $sourceViewPath) {
-                if (is_dir($dir = dirname($reflection->getFilename()).'/Resources/'.$sourceViewPath)) {
+                if (is_dir($dir = dirname($reflection->getFileName()).'/Resources/'.$sourceViewPath)) {
                     $appendedLoaders[] = $dir;
                 }
             }

@@ -35,7 +35,7 @@ class TwigFormatter implements FormatterInterface
      *
      * @var \Twig_Loader_Array
      */
-    protected $loader;
+    protected $arrayLoader;
 
     /**
      * Constructor.
@@ -55,7 +55,10 @@ class TwigFormatter implements FormatterInterface
     public function formatBlocks(FormatContext $formatContext)
     {
         try {
-            $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
+            $this->arrayLoader->setTemplate(
+                $formatContext->templateId(),
+                $this->massageTemplate($formatContext)
+            );
             $data = $formatContext->data()->export();
             $template = $this->twig->loadTemplate($formatContext->templateId());
 
@@ -102,9 +105,9 @@ class TwigFormatter implements FormatterInterface
      */
     public function reset()
     {
-        $this->twig->clearCacheFiles();
-        // removed in twig v2
-        //$this->twig->clearTemplateCache();
+        // cache clearing is completely removed in twig v2
+        // $this->twig->clearCacheFiles();
+        // $this->twig->clearTemplateCache();
     }
 
     protected function massageTemplate(FormatContext $formatContext)

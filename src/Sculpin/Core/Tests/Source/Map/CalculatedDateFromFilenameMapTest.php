@@ -20,7 +20,9 @@ use Sculpin\Core\Source\MemorySource;
 
 class CalculatedDateFromFilenameMapTest extends TestCase
 {
-    public function setUp()
+    private $map;
+
+    protected function setUp()
     {
         $this->map = new CalculatedDateFromFilenameMap();
     }

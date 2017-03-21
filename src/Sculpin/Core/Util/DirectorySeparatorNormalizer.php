@@ -20,6 +20,9 @@ namespace Sculpin\Core\Util;
  */
 class DirectorySeparatorNormalizer
 {
+    protected $preferredDirectorySeparator;
+    protected $directorySeparator;
+
     /**
      * Constructor
      *

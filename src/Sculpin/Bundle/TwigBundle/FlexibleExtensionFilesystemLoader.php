@@ -34,6 +34,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     protected $cachedCacheKey = array();
     protected $cachedCacheKeyExtension = array();
     protected $cachedCacheKeyException = array();
+    protected $extensions = [];
 
     /**
      * Constructor.

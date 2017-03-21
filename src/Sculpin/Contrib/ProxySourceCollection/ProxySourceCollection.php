@@ -18,7 +18,10 @@ use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
 
 class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
-    protected $items;
+    /**
+     * @var $items ProxySourceItem[]
+     */
+    protected $items = [];
     protected $sorter;
 
     public function __construct(array $items = array(), SorterInterface $sorter = null)
@@ -85,15 +88,17 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     {
         $this->sort();
 
-        $previousItem = null;
+        /**
+         * @var $item ProxySourceItem|null
+         */
         $item = null;
 
-        foreach (array_reverse($this->items) as $item) {
-            if ($previousItem) {
-                $previousItem->setNextItem($item);
+        foreach (array_reverse($this->items) as $currItem) {
+            if ($item) {
+                $item->setNextItem($currItem);
             }
-            $item->setPreviousItem($previousItem);
-            $previousItem = $item;
+            $currItem->setPreviousItem($item);
+            $item = $currItem;
         }
 
         if ($item) {

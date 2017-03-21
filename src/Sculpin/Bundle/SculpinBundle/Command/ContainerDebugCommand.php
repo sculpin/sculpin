@@ -441,17 +441,20 @@ EOF
      */
     protected function resolveServiceDefinition($serviceId)
     {
-        if ($this->getContainer()->hasDefinition($serviceId)) {
-            return $this->getContainer()->getDefinition($serviceId);
-        }
+        $container = $this->getContainer();
+        if ($container instanceof ContainerBuilder) {
+            if ($container->hasDefinition($serviceId)) {
+                return $container->getDefinition($serviceId);
+            }
 
-        // Some service IDs don't have a Definition, they're simply an Alias
-        if ($this->getContainer()->hasAlias($serviceId)) {
-            return $this->getContainer()->getAlias($serviceId);
+            // Some service IDs don't have a Definition, they're simply an Alias
+            if ($container->hasAlias($serviceId)) {
+                return $container->getAlias($serviceId);
+            }
         }
 
         // the service has been injected in some special way, just return the service
-        return $this->getContainer()->get($serviceId);
+        return $container->get($serviceId);
     }
 
     /**
@@ -462,14 +465,18 @@ EOF
      */
     protected function outputTags(OutputInterface $output, $showPrivate = false)
     {
-        $tags = $this->getContainer()->findTags();
+        $container = $this->getContainer();
+        if (! $container instanceof ContainerBuilder) {
+            return;
+        }
+        $tags = $container->findTags();
         asort($tags);
 
         $label = 'Tagged services';
         $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
 
         foreach ($tags as $tag) {
-            $serviceIds = $this->getContainer()->findTaggedServiceIds($tag);
+            $serviceIds = $container->findTaggedServiceIds($tag);
 
             foreach ($serviceIds as $serviceId => $attributes) {
                 $definition = $this->resolveServiceDefinition($serviceId);

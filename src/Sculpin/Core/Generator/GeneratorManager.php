@@ -118,7 +118,7 @@ class GeneratorManager
                 $source->setIsNotGenerator();
             }
 
-            return;
+            return '';
         }
 
         $targetSources = array($source);

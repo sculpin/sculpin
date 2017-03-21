@@ -21,6 +21,10 @@ class AntPathFilter implements FilterInterface
 {
     private $antPathMatcher;
     private $patterns;
+    /**
+     * @var DirectorySeparatorNormalizer
+     */
+    private $directorySeparatorNormalizer;
 
     public function __construct(
         array $paths,

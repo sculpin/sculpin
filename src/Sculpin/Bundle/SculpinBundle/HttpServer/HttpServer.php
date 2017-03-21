@@ -27,6 +27,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HttpServer
 {
+    protected $debug;
+    protected $env;
+    protected $loop;
+    protected $output;
+    protected $port;
+
     /**
      * Constructor
      *

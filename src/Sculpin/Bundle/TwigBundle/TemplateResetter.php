@@ -24,6 +24,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class TemplateResetter implements EventSubscriberInterface
 {
+    protected $twig;
+
     /**
      * Constructor.
      *
