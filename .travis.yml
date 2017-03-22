@@ -67,7 +67,7 @@ script:
   - if [[ $CHECK_CS == 'true' ]]; then vendor/bin/phpcs ; fi
 
 after_script:
-  - if [ $TEST_COVERAGE = 'true' ]; then travis_retry wget https://scrutinizer-ci.com/ocular.phar; php ocular.phar code-coverage:upload --format=php-clover clover.xml; fi
+  - if [[ $TEST_COVERAGE = 'true' ]]; then travis_retry wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover clover.xml ; fi
 
 notifications:
   irc: "irc.freenode.org#sculpin"
