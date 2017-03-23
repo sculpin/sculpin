@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sculpin\Bundle\ThemeBundle;
 
 class ThemeTwigExtension extends \Twig_Extension

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -18,7 +20,9 @@ use Sculpin\Core\Source\MemorySource;
 
 class CalculatedDateFromFilenameMapTest extends TestCase
 {
-    public function setUp()
+    private $map;
+
+    protected function setUp()
     {
         $this->map = new CalculatedDateFromFilenameMap();
     }

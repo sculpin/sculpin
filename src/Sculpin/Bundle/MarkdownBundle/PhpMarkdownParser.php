@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sculpin\Bundle\MarkdownBundle;
 
 use Michelf\Markdown;

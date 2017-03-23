@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -132,6 +134,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     public function offsetUnset($offset)
     {
         if (! method_exists($this, $offset)) {
+            // @TODO phpstan says this method does not exist. find bug source
             $this->data()->remove($offset);
         }
     }

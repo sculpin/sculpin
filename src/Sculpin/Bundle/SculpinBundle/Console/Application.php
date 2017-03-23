@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -110,7 +112,7 @@ class Application extends BaseApplication
         if ($input->hasParameterOption('--git-version')) {
             $output->writeln(Sculpin::GIT_VERSION);
 
-            return;
+            return 0;
         }
 
         if (!$input->hasParameterOption('--safe')) {

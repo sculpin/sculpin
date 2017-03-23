@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -178,7 +180,7 @@ class ProxySource implements SourceInterface
      */
     public function isGenerator()
     {
-        return $this->source->data();
+        return $this->source->isGenerator();
     }
 
     /**

@@ -97,7 +97,6 @@
             <argument>%sculpin.exclude%</argument>
             <argument>%sculpin.ignore%</argument>
             <argument>%sculpin.raw%</argument>
-            <argument>null</argument>
             <argument type="service" id="sculpin.matcher" />
             <argument type="service" id="sculpin.canal.analyzer" />
             <tag name="sculpin.data_source" />
@@ -107,7 +106,6 @@
             <argument>%kernel.root_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
-            <argument>null</argument>
             <argument type="service" id="sculpin.matcher" />
             <tag name="sculpin.data_source" />
         </service>

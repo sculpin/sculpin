@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -52,13 +54,6 @@ class FilesystemDataSource implements DataSourceInterface
     protected $raws;
 
     /**
-     * Finder Factory
-     *
-     * @var FinderFactoryInterface
-     */
-    protected $finderFactory;
-
-    /**
      * Path Matcher
      *
      * @var AntPathMatcher
@@ -93,7 +88,6 @@ class FilesystemDataSource implements DataSourceInterface
      * @param array                        $excludes                     Exclude paths
      * @param array                        $ignores                      Ignore paths
      * @param array                        $raws                         Raw paths
-     * @param FinderFactoryInterface       $finderFactory                Finder Factory
      * @param AntPathMatcher               $matcher                      Matcher
      * @param Analyzer                     $analyzer                     Analyzer
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
@@ -103,7 +97,6 @@ class FilesystemDataSource implements DataSourceInterface
         $excludes,
         $ignores,
         $raws,
-        $finderFactory = null,
         AntPathMatcher $matcher = null,
         Analyzer $analyzer = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null

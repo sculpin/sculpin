@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -32,6 +34,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     protected $cachedCacheKey = array();
     protected $cachedCacheKeyExtension = array();
     protected $cachedCacheKeyException = array();
+    protected $extensions = [];
 
     /**
      * Constructor.
