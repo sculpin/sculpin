@@ -7,17 +7,10 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.4
       env:
-        - DEPS=lowest
-    - php: 5.4
-      env:
         - DEPS=latest
-    - php: 5.5
-      env:
-        - DEPS=lowest
     - php: 5.5
       env:
         - DEPS=latest
@@ -58,7 +51,7 @@ before_install:
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
-  - if [[ $DEPS == 'locked' ]]; then travis_retry composer install --no-interaction --ignore-platform-reqs ; fi
+  - if [[ $DEPS == 'locked' ]]; then travis_retry composer install --no-interaction ; fi
   - composer show
 
 script:
