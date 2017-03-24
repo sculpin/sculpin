@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Nothing.
 
-## 2.1.1 - TBD
+## 2.1.2 - TBD
 
 ### Added
 
@@ -43,6 +43,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 - Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 2.1.1 - 2017-03-24
 
 ### Fixed
 
