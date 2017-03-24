@@ -133,8 +133,12 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $permalink = preg_replace('/:basename_real/', $basename, $permalink);
                 $permalink = preg_replace('/:basename/', $prettyBasename, $permalink);
 
-                if (substr($permalink, -5, 5) != '.html') {
-                    $permalink = rtrim($permalink, '/').'/';
+                if (preg_match('#(^|[\\/])[^.]+$#', $permalink)
+                    // Exclude .md and .twig for BC
+                    || substr($permalink, -3, 3) === '.md'
+                    || substr($permalink, -5, 5) === '.twig'
+                ) {
+                    $permalink = rtrim($permalink, '/') . '/';
                 }
 
                 if (substr($permalink, -1, 1) == '/') {
