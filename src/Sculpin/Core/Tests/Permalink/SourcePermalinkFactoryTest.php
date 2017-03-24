@@ -134,6 +134,24 @@ class SourcePermalinkFactoryTest extends TestCase
                 ),
             ),
 
+            'Permalink for .xml' => array(
+                ':filename',
+                static::makeTestSource('about.xml'),
+                new Permalink(
+                    'about.xml',
+                    '/about.xml'
+                ),
+            ),
+
+            'Permalink for .json' => array(
+                ':filename',
+                static::makeTestSource('about.json'),
+                new Permalink(
+                    'about.json',
+                    '/about.json'
+                ),
+            ),
+
             'Permalink with trailing slash' => array(
                 ':basename/',
                 static::makeTestSource('about.md'),

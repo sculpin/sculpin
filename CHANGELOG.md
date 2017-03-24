@@ -46,6 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- [#345](https://github.com/sculpin/sculpin/pull/345) fixed regression in permalink
+ generator introduced by [#233](https://github.com/sculpin/sculpin/pull/233)
 - [#281](https://github.com/sculpin/sculpin/pull/281) fixed pagination generator
   not producing page for empty list of items.
 
