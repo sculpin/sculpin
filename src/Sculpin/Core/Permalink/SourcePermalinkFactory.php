@@ -114,7 +114,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                     $permalink = preg_replace('/:year/', $year, $permalink);
                     $permalink = preg_replace('/:month/', $month, $permalink);
                     $permalink = preg_replace('/:day/', $day, $permalink);
-                    $filename = end($isDatePath);
+                    $filename = $title;
                 } else {
                     list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', (int)$date));
                     $permalink = preg_replace('/:year/', $year, $permalink);
