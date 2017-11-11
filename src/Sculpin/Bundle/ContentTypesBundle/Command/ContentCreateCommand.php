@@ -228,7 +228,9 @@ use: [${plural}_${taxonomy}]
 <h1>${title}</h1>
 <ul>
     {% for ${singularTaxonomy},${plural} in data.${plural}_${taxonomy} %}
-        <li><a href="/${plural}/${taxonomy}/{{ ${singularTaxonomy}|url_encode(true) }}">{{ ${singularTaxonomy} }}</a></li>
+        <li>
+            <a href="/${plural}/${taxonomy}/{{ ${singularTaxonomy}|url_encode(true) }}">{{ ${singularTaxonomy} }}</a>
+        </li>
     {% endfor %}
 </ul>
 EOT;
