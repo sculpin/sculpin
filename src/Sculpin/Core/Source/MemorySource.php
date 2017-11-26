@@ -26,7 +26,7 @@ class MemorySource extends AbstractSource
      * @param string       $sourceId         Source ID
      * @param Data         $data             Data
      * @param string       $content          Content
-     * @param string       $formattedContent Formatted content
+     * @param string|null       $formattedContent Formatted content
      * @param string       $relativePathname Relative Pathname
      * @param string       $filename         Filename
      * @param \SplFileInfo $file             File
@@ -38,7 +38,7 @@ class MemorySource extends AbstractSource
         string $sourceId,
         Data $data,
         string $content,
-        string $formattedContent,
+        $formattedContent,
         string $relativePathname,
         string $filename,
         \SplFileInfo $file,

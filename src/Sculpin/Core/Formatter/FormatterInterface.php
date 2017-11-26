@@ -23,18 +23,18 @@ interface FormatterInterface
      *
      * @param FormatContext $formatContext Format context
      *
-     * @return array
+     * @return array|void
      */
-    public function formatBlocks(FormatContext $formatContext): array;
+    public function formatBlocks(FormatContext $formatContext);
 
     /**
      * Format an entire page
      *
      * @param FormatContext $formatContext Format context
      *
-     * @return string
+     * @return string|void
      */
-    public function formatPage(FormatContext $formatContext): string;
+    public function formatPage(FormatContext $formatContext);
 
     /**
      * Reset

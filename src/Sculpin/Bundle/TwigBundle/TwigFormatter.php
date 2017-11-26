@@ -50,7 +50,7 @@ class TwigFormatter implements FormatterInterface
      /**
      * {@inheritdoc}
      */
-    public function formatBlocks(FormatContext $formatContext): array
+    public function formatBlocks(FormatContext $formatContext)
     {
         try {
             $this->arrayLoader->setTemplate($formatContext->templateId(), $this->massageTemplate($formatContext));
@@ -83,7 +83,7 @@ class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function formatPage(FormatContext $formatContext): string
+    public function formatPage(FormatContext $formatContext)
     {
         try {
             $this->arrayLoader->setTemplate(

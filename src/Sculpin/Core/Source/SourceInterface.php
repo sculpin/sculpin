@@ -103,9 +103,9 @@ interface SourceInterface
     /**
      * Formatted content (if not use file reference)
      *
-     * @return string
+     * @return string|null
      */
-    public function formattedContent(): string;
+    public function formattedContent();
 
     /**
      * Set formatted content

@@ -168,9 +168,9 @@ class FormatterManager
      * @param string $template   Template
      * @param array  $context    Context
      *
-     * @return string
+     * @return string|null
      */
-    public function formatPage(string $templateId, string $template, array $context): string
+    public function formatPage(string $templateId, string $template, array $context)
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
@@ -189,9 +189,9 @@ class FormatterManager
      *
      * @param SourceInterface $source Source
      *
-     * @return string
+     * @return string|null
      */
-    public function formatSourcePage(SourceInterface $source): string
+    public function formatSourcePage(SourceInterface $source)
     {
         return $this->formatPage(
             $source->sourceId(),
@@ -207,9 +207,9 @@ class FormatterManager
      * @param string $template   Template
      * @param array  $context    Context
      *
-     * @return array
+     * @return array|null
      */
-    public function formatBlocks(string $templateId, string $template, array $context): array
+    public function formatBlocks(string $templateId, string $template, array $context)
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
@@ -228,9 +228,9 @@ class FormatterManager
      *
      * @param SourceInterface $source Source
      *
-     * @return array
+     * @return array|null
      */
-    public function formatSourceBlocks(SourceInterface $source): array
+    public function formatSourceBlocks(SourceInterface $source)
     {
         return $this->formatBlocks(
             $source->sourceId(),
