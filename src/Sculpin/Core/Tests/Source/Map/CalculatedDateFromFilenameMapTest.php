@@ -12,10 +12,12 @@
 namespace Sculpin\Core\Tests\Source\Map;
 
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
 use Sculpin\Core\Source\MemorySource;
+use SplFileInfo;
 
-class CalculatedDateFromFilenameMapTest extends \PHPUnit\Framework\TestCase
+class CalculatedDateFromFilenameMapTest extends TestCase
 {
     public function setUp()
     {
@@ -73,7 +75,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit\Framework\TestCase
             "formatted contents",
             __FILE__,
             __FILE__,
-            new \SplFileInfo(__FILE__),
+            new SplFileInfo(__FILE__),
             false,
             false,
             false
@@ -89,7 +91,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit\Framework\TestCase
             "formatted contents",
             $path,
             $path,
-            new \SplFileInfo(__FILE__),
+            new SplFileInfo(__FILE__),
             false,
             false,
             false

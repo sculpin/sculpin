@@ -13,7 +13,7 @@ namespace Sculpin\Bundle\SculpinBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -31,7 +31,7 @@ class SculpinExtension extends Extension
         $configuration = new Configuration;
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
         foreach ($config as $key => $value) {

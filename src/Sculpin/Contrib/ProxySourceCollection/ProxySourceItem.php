@@ -11,9 +11,11 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ArrayAccess;
+use InvalidArgumentException;
 use Sculpin\Core\Source\ProxySource;
 
-class ProxySourceItem extends ProxySource implements \ArrayAccess
+class ProxySourceItem extends ProxySource implements ArrayAccess
 {
     private $previousItem;
     private $nextItem;
@@ -109,7 +111,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            throw new \InvalidArgumentException('Proxy source items cannot have values pushed onto them');
+            throw new InvalidArgumentException('Proxy source items cannot have values pushed onto them');
         } else {
             if (method_exists($this, $offset)) {
                 return call_user_func([$this, $offset, $value]);

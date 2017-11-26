@@ -12,6 +12,7 @@
 namespace Sculpin\Core\Generator;
 
 use Dflydev\DotAccessConfiguration\Configuration;
+use InvalidArgumentException;
 use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
@@ -102,7 +103,7 @@ class GeneratorManager
 
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
-                    throw new \InvalidArgumentException(
+                    throw new InvalidArgumentException(
                         "Requested generator '$generatorName' could not be found; was it registered?"
                     );
                 }

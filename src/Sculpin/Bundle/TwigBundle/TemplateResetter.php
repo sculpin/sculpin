@@ -14,6 +14,7 @@ namespace Sculpin\Bundle\TwigBundle;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig_Environment;
 
 /**
  * Template Resetter.
@@ -25,7 +26,7 @@ class TemplateResetter implements EventSubscriberInterface
     /**
      * Constructor.
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Twig_Environment $twig)
     {
         $this->twig = $twig;
     }

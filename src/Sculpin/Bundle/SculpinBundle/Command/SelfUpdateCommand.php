@@ -12,9 +12,14 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Composer\Downloader\FilesystemException;
+use Phar;
+use PharException;
+use RuntimeException;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
+use UnexpectedValueException;
 
 /**
  * @author Igor Wiedler <igor@wiedler.ch>
@@ -118,13 +123,13 @@ EOT
             try {
                 chmod($tempFilename, 0777 & ~umask());
                 // test the phar validity
-                $phar = new \Phar($tempFilename);
+                $phar = new Phar($tempFilename);
                 // free the variable to unlock the file
                 unset($phar);
                 rename($tempFilename, $localFilename);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 @unlink($tempFilename);
-                if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
+                if (!$e instanceof UnexpectedValueException && !$e instanceof PharException) {
                     throw $e;
                 }
                 $output->writeln('<error>The download is corrupted ('.$e->getMessage().').</error>');
@@ -168,7 +173,7 @@ EOT
             $proxyURL = str_replace(['http://', 'https://'], ['tcp://', 'ssl://'], $proxyURL);
 
             if (0 === strpos($proxyURL, 'ssl:') && !extension_loaded('openssl')) {
-                throw new \RuntimeException('You must enable the openssl extension to use a proxy over https');
+                throw new RuntimeException('You must enable the openssl extension to use a proxy over https');
             }
 
             $options['http'] = [

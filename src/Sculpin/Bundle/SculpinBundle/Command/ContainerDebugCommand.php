@@ -28,6 +28,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use InvalidArgumentException;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -182,11 +183,11 @@ EOF
 
         $name = $input->getArgument('name');
         if ((null !== $name) && ($optionsCount > 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The options tags, tag, parameters & parameter can not be combined with the service name argument.'
             );
         } elseif ((null === $name) && $optionsCount > 1) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The options tags, tag, parameters & parameter can not be combined together.'
             );
         }

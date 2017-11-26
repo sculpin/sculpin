@@ -11,14 +11,16 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\CompositeDataSource;
+use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
 
-class CompositeDataSourceTest extends \PHPUnit\Framework\TestCase
+class CompositeDataSourceTest extends TestCase
 {
     public function makeDataSource($dataSourceId)
     {
-        $dataSource = $this->createMock('Sculpin\Core\Source\DataSourceInterface');
+        $dataSource = $this->createMock(DataSourceInterface::class);
 
         $dataSource
             ->expects($this->any())

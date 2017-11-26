@@ -3,12 +3,14 @@
 namespace Sculpin\Core\Tests\Permalink;
 
 use Dflydev\DotAccessConfiguration\Configuration;
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Permalink\Permalink;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\MemorySource;
 use Sculpin\Core\Source\SourceInterface;
+use SplFileInfo;
 
-class SourcePermalinkFactoryTest extends \PHPUnit\Framework\TestCase
+class SourcePermalinkFactoryTest extends TestCase
 {
     /**
      * @test
@@ -168,7 +170,7 @@ class SourcePermalinkFactoryTest extends \PHPUnit\Framework\TestCase
             '',
             $relativePathname,
             '',
-            new \SplFileInfo('/tmp'),
+            new SplFileInfo('/tmp'),
             false,
             true,
             false

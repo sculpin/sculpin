@@ -13,6 +13,10 @@ namespace Sculpin\Bundle\TwigBundle;
 
 use Sculpin\Core\Formatter\FormatContext;
 use Sculpin\Core\Formatter\FormatterInterface;
+use Throwable;
+use Twig_Environment;
+use Twig_Loader_Array;
+use Twig_Template;
 
 /**
  * Twig Formatter.
@@ -41,7 +45,7 @@ class TwigFormatter implements FormatterInterface
      * @param \Twig_Environment  $twig        Twig
      * @param \Twig_Loader_Array $arrayLoader Array Loader
      */
-    public function __construct(\Twig_Environment $twig, \Twig_Loader_Array $arrayLoader)
+    public function __construct(Twig_Environment $twig, Twig_Loader_Array $arrayLoader)
     {
         $this->twig = $twig;
         $this->arrayLoader = $arrayLoader;
@@ -66,12 +70,12 @@ class TwigFormatter implements FormatterInterface
             }
 
             return $blocks;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }
 
-    public function findAllBlocks(\Twig_Template $template, array $context)
+    public function findAllBlocks(Twig_Template $template, array $context)
     {
         if (false !== $parent = $template->getParent($context)) {
             return array_unique(array_merge($this->findAllBlocks($parent, $context), $template->getBlockNames()));
@@ -94,7 +98,7 @@ class TwigFormatter implements FormatterInterface
             $data = $formatContext->data()->export();
 
             return $this->twig->render($formatContext->templateId(), $data);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }

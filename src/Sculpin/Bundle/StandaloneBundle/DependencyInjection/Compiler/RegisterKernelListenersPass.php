@@ -12,8 +12,11 @@
 
 namespace Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler;
 
+use InvalidArgumentException;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Register Kernel Listener Pass
@@ -40,7 +43,7 @@ class RegisterKernelListenersPass implements CompilerPassInterface
                 $priority = $event['priority'] ?? 0;
 
                 if (!isset($event['event'])) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new InvalidArgumentException(sprintf(
                         'Service "%s" must define the "event" attribute on "kernel.event_listener" tags.',
                         $id
                     ));
@@ -68,10 +71,10 @@ class RegisterKernelListenersPass implements CompilerPassInterface
             // even if the service is created by a factory
             $class = $container->getDefinition($id)->getClass();
 
-            $refClass = new \ReflectionClass($class);
-            $interface = 'Symfony\Component\EventDispatcher\EventSubscriberInterface';
+            $refClass = new ReflectionClass($class);
+            $interface = EventSubscriberInterface::class;
             if (!$refClass->implementsInterface($interface)) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'Service "%s" must implement interface "%s".',
                     $id,
                     $interface

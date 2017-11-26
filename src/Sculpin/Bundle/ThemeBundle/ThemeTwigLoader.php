@@ -12,8 +12,11 @@
 namespace Sculpin\Bundle\ThemeBundle;
 
 use Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader;
+use Twig_ExistsLoaderInterface;
+use Twig_Loader_Chain;
+use Twig_LoaderInterface;
 
-class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
+class ThemeTwigLoader implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
 {
     /** @var \Twig_Loader_Chain */
     private $chainLoader;
@@ -34,7 +37,7 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
             }
         }
 
-        $this->chainLoader = new \Twig_Loader_Chain($loaders);
+        $this->chainLoader = new Twig_Loader_Chain($loaders);
     }
 
     private function findPaths($theme, array $paths = [])

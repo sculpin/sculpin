@@ -2,7 +2,9 @@
 
 namespace Sculpin\Bundle\ThemeBundle;
 
-class ThemeTwigExtension extends \Twig_Extension
+use Twig_Extension;
+use Twig_Function_Method;
+class ThemeTwigExtension extends Twig_Extension
 {
     private $theme;
     private $sourceDir;
@@ -21,9 +23,9 @@ class ThemeTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'theme_path' => new \Twig_Function_Method($this, 'themePath'),
-            'theme_path_exists' => new \Twig_Function_Method($this, 'themePathExists'),
-            'theme_paths' => new \Twig_Function_Method($this, 'themePaths'),
+            'theme_path' => new Twig_Function_Method($this, 'themePath'),
+            'theme_path_exists' => new Twig_Function_Method($this, 'themePathExists'),
+            'theme_paths' => new Twig_Function_Method($this, 'themePaths'),
         ];
     }
 

@@ -11,12 +11,13 @@
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Twig_Loader_Filesystem;
 /**
  * Filesystem Loader.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FilesystemLoader extends \Twig_Loader_Filesystem
+class FilesystemLoader extends Twig_Loader_Filesystem
 {
     /**
      * {@inheritdoc}

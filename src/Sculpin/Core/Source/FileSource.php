@@ -14,6 +14,7 @@ namespace Sculpin\Core\Source;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
+use InvalidArgumentException;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -93,7 +94,7 @@ class FileSource extends AbstractSource
                         try {
                             $builder = new YamlDataBuilder($matches[1]);
                             $this->data = $builder->build();
-                        } catch (\InvalidArgumentException $e) {
+                        } catch (InvalidArgumentException $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
                             echo ' ! ' . $this->sourceId() . ' ' . $e->getMessage() . ' !' . PHP_EOL;

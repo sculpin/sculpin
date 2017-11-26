@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler;
 
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -49,7 +50,7 @@ class TwigLoaderPass implements CompilerPassInterface
 
         $sourceViewPaths = $container->getParameter('sculpin_twig.source_view_paths');
         foreach ($container->getParameter('kernel.bundles') as $class) {
-            $reflection = new \ReflectionClass($class);
+            $reflection = new ReflectionClass($class);
             foreach ($sourceViewPaths as $sourceViewPath) {
                 if (is_dir($dir = dirname($reflection->getFilename()).'/Resources/'.$sourceViewPath)) {
                     $appendedLoaders[] = $dir;

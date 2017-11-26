@@ -11,13 +11,15 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
+use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 
-class SourceSetTest extends \PHPUnit\Framework\TestCase
+class SourceSetTest extends TestCase
 {
     public function makeTestSource($sourceId, $hasChanged = true)
     {
-        $source = $this->createMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
 
         $source
             ->expects($this->any())

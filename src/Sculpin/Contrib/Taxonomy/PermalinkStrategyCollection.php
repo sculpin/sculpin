@@ -12,6 +12,7 @@
 namespace Sculpin\Contrib\Taxonomy;
 
 use Sculpin\Contrib\Taxonomy\PermalinkStrategy\PermalinkStrategyInterface;
+use SplObjectStorage;
 
 class PermalinkStrategyCollection
 {
@@ -19,7 +20,7 @@ class PermalinkStrategyCollection
 
     public function __construct()
     {
-        $this->strategies = new \SplObjectStorage();
+        $this->strategies = new SplObjectStorage();
     }
 
     public function push(PermalinkStrategyInterface $strategy)

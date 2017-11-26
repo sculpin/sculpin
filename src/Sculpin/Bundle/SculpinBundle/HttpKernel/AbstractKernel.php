@@ -11,6 +11,16 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
 
+use Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle;
+use Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle;
+use Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle;
+use Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle;
+use Sculpin\Bundle\PostsBundle\SculpinPostsBundle;
+use Sculpin\Bundle\SculpinBundle\SculpinBundle;
+use Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle;
+use Sculpin\Bundle\TextileBundle\SculpinTextileBundle;
+use Sculpin\Bundle\ThemeBundle\SculpinThemeBundle;
+use Sculpin\Bundle\TwigBundle\SculpinTwigBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -59,16 +69,16 @@ abstract class AbstractKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
-            new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle,
-            new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
-            new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
-            new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
-            new \Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle,
-            new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
-            new \Sculpin\Bundle\ThemeBundle\SculpinThemeBundle,
-            new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
-            new \Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle,
-            new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
+            new SculpinStandaloneBundle,
+            new SculpinMarkdownBundle,
+            new SculpinTextileBundle,
+            new SculpinMarkdownTwigCompatBundle,
+            new SculpinPaginationBundle,
+            new SculpinBundle,
+            new SculpinThemeBundle,
+            new SculpinTwigBundle,
+            new SculpinContentTypesBundle,
+            new SculpinPostsBundle,
         ];
 
         foreach ($this->getAdditionalSculpinBundles() as $class) {

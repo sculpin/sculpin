@@ -12,6 +12,7 @@
 namespace Sculpin\Core\Source;
 
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use SplFileInfo;
 
 /**
  * Memory Source.
@@ -40,7 +41,7 @@ class MemorySource extends AbstractSource
         $formattedContent,
         string $relativePathname,
         string $filename,
-        \SplFileInfo $file,
+        SplFileInfo $file,
         bool $isRaw,
         bool $canBeFormatted,
         bool $hasChanged

@@ -12,6 +12,7 @@
 
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
+use RuntimeException;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,7 +57,7 @@ EOF
 
         if ($filesystem->exists($cacheDir)) {
             if (!is_writable($cacheDir)) {
-                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
+                throw new RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
             }
 
             $filesystem->remove($cacheDir);

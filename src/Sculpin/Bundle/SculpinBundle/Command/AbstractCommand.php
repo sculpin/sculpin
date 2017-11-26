@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 
 /**
@@ -25,6 +26,6 @@ abstract class AbstractCommand extends ContainerAwareCommand
      */
     protected function isStandaloneSculpin(): bool
     {
-        return class_exists('Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false);
+        return class_exists(SculpinStandaloneBundle::class, false);
     }
 }

@@ -11,10 +11,13 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
 
-class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
+class ProxySourceCollection implements ArrayAccess, Iterator, Countable
 {
     protected $items;
     protected $sorter;

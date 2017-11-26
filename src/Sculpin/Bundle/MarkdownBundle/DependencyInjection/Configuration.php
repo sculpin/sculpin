@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\MarkdownBundle\DependencyInjection;
 
+use Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -33,7 +34,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('parser_class')
-                    ->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')
+                    ->defaultValue(PhpMarkdownExtraParser::class)
                 ->end()
                 ->arrayNode('extensions')
                     ->defaultValue(['md', 'mdown', 'mkdn', 'markdown'])

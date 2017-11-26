@@ -11,6 +11,7 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection\Sorter;
 
+use InvalidArgumentException;
 use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 
 class MetaSorter implements SorterInterface
@@ -27,7 +28,7 @@ class MetaSorter implements SorterInterface
     private function setKey($key = null)
     {
         if (null === $key) {
-            throw new \InvalidArgumentException('Key must be specified');
+            throw new InvalidArgumentException('Key must be specified');
         }
 
         $this->key = $key;
@@ -44,7 +45,7 @@ class MetaSorter implements SorterInterface
                 $this->reversed = false;
                 break;
             default:
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
                 );
         }
