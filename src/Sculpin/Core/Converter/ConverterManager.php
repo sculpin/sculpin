@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -43,7 +43,7 @@ class ConverterManager
      *
      * @var array
      */
-    protected $converters = array();
+    protected $converters = [];
 
     /**
      * Constructor.
@@ -64,7 +64,7 @@ class ConverterManager
      * @param string             $name      Name
      * @param ConverterInterface $converter Converter
      */
-    public function registerConverter($name, ConverterInterface $converter)
+    public function registerConverter(string $name, ConverterInterface $converter): void
     {
         $this->converters[$name] = $converter;
     }
@@ -73,10 +73,8 @@ class ConverterManager
      * Converter
      *
      * @param string $name Name
-     *
-     * @return ConverterInterface
      */
-    public function converter($name)
+    public function converter(string $name): ConverterInterface
     {
         return $this->converters[$name];
     }
@@ -86,11 +84,11 @@ class ConverterManager
      *
      * @param SourceInterface $source Source
      */
-    public function convertSource(SourceInterface $source)
+    public function convertSource(SourceInterface $source): void
     {
         $converters = $source->data()->get('converters');
         if (!$converters || !is_array($converters)) {
-            $converters = array('null');
+            $converters = ['null'];
         }
 
         foreach ($converters as $converter) {

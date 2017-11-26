@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,7 +23,7 @@ interface FormatterInterface
      *
      * @param FormatContext $formatContext Format context
      *
-     * @return array
+     * @return array|void
      */
     public function formatBlocks(FormatContext $formatContext);
 
@@ -32,7 +32,7 @@ interface FormatterInterface
      *
      * @param FormatContext $formatContext Format context
      *
-     * @return string
+     * @return string|void
      */
     public function formatPage(FormatContext $formatContext);
 
@@ -43,5 +43,5 @@ interface FormatterInterface
      * (if applicable) or do anything else they need to do after having
      * run once.
      */
-    public function reset();
+    public function reset(): void;
 }

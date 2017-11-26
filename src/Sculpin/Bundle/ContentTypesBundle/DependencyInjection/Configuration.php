@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -22,8 +22,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
                         // path but we can allow for multiple if they want to.
                         ->ifString()
                         ->then(function ($v) {
-                            return array($v);
+                            return [$v];
                         })
                     ->end()
                     ->prototype('scalar')->end()
@@ -62,14 +62,14 @@ class Configuration implements ConfigurationInterface
                         // taxonomy but we can allow for multiple if they want to.
                         ->ifString()
                         ->then(function ($v) {
-                            return array(array('name' => $v));
+                            return [['name' => $v]];
                         })
                     ->end()
                     ->prototype('array')
                         ->beforeNormalization()
                             ->ifString()
                             ->then(function ($v) {
-                                return array('name' => $v);
+                                return ['name' => $v];
                             })
                         ->end()
                         ->children()

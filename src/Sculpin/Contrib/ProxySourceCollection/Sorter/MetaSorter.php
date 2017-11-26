@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,6 +11,7 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection\Sorter;
 
+use InvalidArgumentException;
 use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 
 class MetaSorter implements SorterInterface
@@ -24,15 +25,15 @@ class MetaSorter implements SorterInterface
         $this->setReversed($direction);
     }
 
-    private function setKey($key = null)
+    private function setKey($key = null): void
     {
         if (null === $key) {
-            throw new \InvalidArgumentException('Key must be specified');
+            throw new InvalidArgumentException('Key must be specified');
         }
 
         $this->key = $key;
     }
-    private function setReversed($direction)
+    private function setReversed($direction): void
     {
         switch (strtolower($direction)) {
             case 'asc':
@@ -44,7 +45,7 @@ class MetaSorter implements SorterInterface
                 $this->reversed = false;
                 break;
             default:
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
                 );
         }

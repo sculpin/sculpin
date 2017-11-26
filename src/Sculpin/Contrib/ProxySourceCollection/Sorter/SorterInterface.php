@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -15,5 +15,5 @@ use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 
 interface SorterInterface
 {
-    public function sort(ProxySourceItem $a, ProxySourceItem $b);
+    public function sort(ProxySourceItem $a, ProxySourceItem $b): int;
 }

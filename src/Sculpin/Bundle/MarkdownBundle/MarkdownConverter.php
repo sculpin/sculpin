@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -37,25 +37,24 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @var array
      */
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * Constructor.
      *
-     * @param ParserInterface $markdown
      * @param array           $extensions Extensions
      */
-    public function __construct(ParserInterface $markdown, array $extensions = array())
+    public function __construct(ParserInterface $markdown, array $extensions = [])
     {
         $this->markdown = $markdown;
-        $this->markdown->header_id_func = array($this, 'generateHeaderId');
+        $this->markdown->header_id_func = [$this, 'generateHeaderId'];
         $this->extensions = $extensions;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convert(ConverterContextInterface $converterContext)
+    public function convert(ConverterContextInterface $converterContext): void
     {
         $converterContext->setContent($this->markdown->transform($converterContext->content()));
     }
@@ -65,9 +64,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     /**
@@ -75,7 +74,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
@@ -92,9 +91,8 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * This method is called to generate an id="" attribute for a header.
      *
      * @param string $headerText raw markdown input for the header name
-     * @return string
      */
-    public function generateHeaderId($headerText)
+    public function generateHeaderId(string $headerText): string
     {
 
         // $headerText is completely raw markdown input. We need to strip it
@@ -118,13 +116,13 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 
         // Step 3: Convert spaces to dashes, and remove unwanted special
         // characters.
-        $map = array(
+        $map = [
             ' ' => '-',
             '(' => '',
             ')' => '',
             '[' => '',
             ']' => '',
-        );
+        ];
         return rawurlencode(strtolower(
             strtr($result, $map)
         ));

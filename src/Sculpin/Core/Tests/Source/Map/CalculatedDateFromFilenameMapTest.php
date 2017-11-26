@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,18 +12,20 @@
 namespace Sculpin\Core\Tests\Source\Map;
 
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
 use Sculpin\Core\Source\MemorySource;
+use SplFileInfo;
 
-class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
+class CalculatedDateFromFilenameMapTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->map = new CalculatedDateFromFilenameMap();
     }
 
     /** @test */
-    public function itShouldNotModifyAnExistingCalculatedDate()
+    public function itShouldNotModifyAnExistingCalculatedDate(): void
     {
         $source = $this->getSourceWithCalculatedDate($timestamp = 123456);
 
@@ -33,7 +35,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldSetTheCalculatedDateIfFound()
+    public function itShouldSetTheCalculatedDateIfFound(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-sculpin-is-great.markdown");
 
@@ -43,7 +45,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldIncludeTheTimeIfFound()
+    public function itShouldIncludeTheTimeIfFound(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-220212-sculpin-is-great.markdown");
 
@@ -53,7 +55,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldIgnoreTheTimeIfItsProbablyNotATime()
+    public function itShouldIgnoreTheTimeIfItsProbablyNotATime(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname(
             "2013-12-12-10-reasons-why-sculpin-is-great.markdown"
@@ -68,12 +70,12 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     {
         return new MemorySource(
             uniqid(),
-            new Data(array('calculated_date' => $timestamp)),
+            new Data(['calculated_date' => $timestamp]),
             "contents",
             "formatted contents",
             __FILE__,
             __FILE__,
-            new \SplFileInfo(__FILE__),
+            new SplFileInfo(__FILE__),
             false,
             false,
             false
@@ -89,7 +91,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
             "formatted contents",
             $path,
             $path,
-            new \SplFileInfo(__FILE__),
+            new SplFileInfo(__FILE__),
             false,
             false,
             false

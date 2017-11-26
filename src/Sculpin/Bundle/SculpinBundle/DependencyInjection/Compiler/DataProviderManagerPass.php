@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -25,7 +25,7 @@ class DataProviderManagerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin.data_provider_manager')) {
             return;
@@ -35,7 +35,7 @@ class DataProviderManagerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('sculpin.data_provider') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerDataProvider', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerDataProvider', [$attributes['alias'], new Reference($id)]);
             }
         }
     }

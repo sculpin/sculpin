@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,7 +11,9 @@
 
 namespace Sculpin\Core\Output;
 
+use Sculpin\Core\Permalink\PermalinkInterface;
 use Sculpin\Core\Source\SourceInterface;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Source Output.
@@ -40,7 +42,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function outputId()
+    public function outputId(): string
     {
         return $this->source->sourceId();
     }
@@ -48,7 +50,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function pathname()
+    public function pathname(): string
     {
         return $this->source->relativePathname();
     }
@@ -56,7 +58,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function permalink()
+    public function permalink(): PermalinkInterface
     {
         return $this->source->permalink();
     }
@@ -64,7 +66,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function hasFileReference()
+    public function hasFileReference(): bool
     {
         return $this->source->useFileReference();
     }
@@ -72,7 +74,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function file()
+    public function file(): ?SplFileInfo
     {
         return $this->source->useFileReference() ? $this->source->file() : null;
     }
@@ -80,7 +82,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function formattedContent()
+    public function formattedContent(): ?string
     {
         return $this->source->useFileReference() ? null : $this->source->formattedContent();
     }

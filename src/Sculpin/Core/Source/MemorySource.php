@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,6 +12,7 @@
 namespace Sculpin\Core\Source;
 
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use SplFileInfo;
 
 /**
  * Memory Source.
@@ -24,9 +25,8 @@ class MemorySource extends AbstractSource
      * Constructor
      *
      * @param string       $sourceId         Source ID
-     * @param Data         $data             Data
      * @param string       $content          Content
-     * @param string       $formattedContent Formatted content
+     * @param string|null       $formattedContent Formatted content
      * @param string       $relativePathname Relative Pathname
      * @param string       $filename         Filename
      * @param \SplFileInfo $file             File
@@ -35,16 +35,16 @@ class MemorySource extends AbstractSource
      * @param bool         $hasChanged       Has changed?
      */
     public function __construct(
-        $sourceId,
+        string $sourceId,
         Data $data,
-        $content,
-        $formattedContent,
-        $relativePathname,
-        $filename,
-        $file,
-        $isRaw,
-        $canBeFormatted,
-        $hasChanged
+        string $content,
+        ?string $formattedContent,
+        string $relativePathname,
+        string $filename,
+        SplFileInfo $file,
+        bool $isRaw,
+        bool $canBeFormatted,
+        bool $hasChanged
     ) {
         $this->sourceId = $sourceId;
         $this->data = $data;

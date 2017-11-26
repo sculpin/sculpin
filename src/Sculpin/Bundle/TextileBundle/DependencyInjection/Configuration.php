@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\TextileBundle\DependencyInjection;
 
+use Netcarver\Textile\Parser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -22,8 +23,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -32,9 +33,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('Netcarver\Textile\Parser')->end()
+                ->scalarNode('parser_class')->defaultValue(Parser::class)->end()
                 ->arrayNode('extensions')
-                    ->defaultValue(array('textile'))
+                    ->defaultValue(['textile'])
                     ->prototype('scalar')->end()
                 ->end()
             ->end();

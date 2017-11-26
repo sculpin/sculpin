@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -15,5 +15,5 @@ use Sculpin\Core\Source\SourceInterface;
 
 interface FilterInterface
 {
-    public function match(SourceInterface $source);
+    public function match(SourceInterface $source): bool;
 }

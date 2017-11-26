@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,9 +12,14 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Composer\Downloader\FilesystemException;
+use Phar;
+use PharException;
+use RuntimeException;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
+use UnexpectedValueException;
 
 /**
  * @author Igor Wiedler <igor@wiedler.ch>
@@ -39,12 +44,12 @@ class SelfUpdateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $fullCommand = $this->commandPrefix.'self-update';
         $this
             ->setName($fullCommand)
-            ->setAliases(array($this->commandPrefix.'selfupdate'))
+            ->setAliases([$this->commandPrefix.'selfupdate'])
             ->setDescription('Updates sculpin to the latest version.')
             ->setHelp(<<<EOT
 The <info>self-update</info> command checks for newer versions of sculpin and if found,
@@ -83,7 +88,7 @@ EOT
             throw new FilesystemException('Sculpin update failed: the "'.$localFilename. '" file could not be written');
         }
 
-        set_error_handler(array($this, 'handleError'));
+        set_error_handler([$this, 'handleError']);
 
         $protocol = extension_loaded('openssl') ? 'https' : 'http';
 
@@ -118,13 +123,13 @@ EOT
             try {
                 chmod($tempFilename, 0777 & ~umask());
                 // test the phar validity
-                $phar = new \Phar($tempFilename);
+                $phar = new Phar($tempFilename);
                 // free the variable to unlock the file
                 unset($phar);
                 rename($tempFilename, $localFilename);
-            } catch (\Exception $e) {
+            } catch (Throwable $e) {
                 @unlink($tempFilename);
-                if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
+                if (!$e instanceof UnexpectedValueException && !$e instanceof PharException) {
                     throw $e;
                 }
                 $output->writeln('<error>The download is corrupted ('.$e->getMessage().').</error>');
@@ -144,7 +149,7 @@ EOT
      */
     protected function getStreamContext()
     {
-        $options = array('http' => array());
+        $options = ['http' => []];
 
         // Handle system proxy
         if (!empty($_SERVER['HTTP_PROXY']) || !empty($_SERVER['http_proxy'])) {
@@ -154,7 +159,7 @@ EOT
 
         if (!empty($proxy)) {
             $proxyURL = isset($proxy['scheme']) ? $proxy['scheme'] . '://' : '';
-            $proxyURL .= isset($proxy['host']) ? $proxy['host'] : '';
+            $proxyURL .= $proxy['host'] ?? '';
 
             if (isset($proxy['port'])) {
                 $proxyURL .= ":" . $proxy['port'];
@@ -165,16 +170,16 @@ EOT
             }
 
             // http(s):// is not supported in proxy
-            $proxyURL = str_replace(array('http://', 'https://'), array('tcp://', 'ssl://'), $proxyURL);
+            $proxyURL = str_replace(['http://', 'https://'], ['tcp://', 'ssl://'], $proxyURL);
 
             if (0 === strpos($proxyURL, 'ssl:') && !extension_loaded('openssl')) {
-                throw new \RuntimeException('You must enable the openssl extension to use a proxy over https');
+                throw new RuntimeException('You must enable the openssl extension to use a proxy over https');
             }
 
-            $options['http'] = array(
+            $options['http'] = [
                 'proxy'           => $proxyURL,
                 'request_fulluri' => true,
-            );
+            ];
 
             if (isset($proxy['user'])) {
                 $auth = $proxy['user'];
@@ -190,7 +195,7 @@ EOT
         return stream_context_create($options);
     }
 
-    public function handleError($code, $msg)
+    public function handleError($code, $msg): void
     {
         if ($this->message) {
             $this->message .= "\n";

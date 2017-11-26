@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,13 +11,15 @@
 
 namespace Sculpin\Core\Tests\Converter;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Converter\SourceConverterContext;
+use Sculpin\Core\Source\SourceInterface;
 
-class SourceConverterContextTest extends \PHPUnit_Framework_TestCase
+class SourceConverterContextTest extends TestCase
 {
-    public function testContent()
+    public function testContent(): void
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
         $source
             ->expects($this->once())
             ->method('content')
@@ -28,9 +30,9 @@ class SourceConverterContextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hello world', $sourceConverterContext->content());
     }
 
-    public function testSetContent()
+    public function testSetContent(): void
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
         $source
             ->expects($this->once())
             ->method('setContent')

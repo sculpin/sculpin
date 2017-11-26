@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,6 +11,7 @@
 
 namespace Sculpin\Bundle\MarkdownBundle\DependencyInjection;
 
+use Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -22,8 +23,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder;
@@ -33,10 +34,10 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('parser_class')
-                    ->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')
+                    ->defaultValue(PhpMarkdownExtraParser::class)
                 ->end()
                 ->arrayNode('extensions')
-                    ->defaultValue(array('md', 'mdown', 'mkdn', 'markdown'))
+                    ->defaultValue(['md', 'mdown', 'mkdn', 'markdown'])
                     ->prototype('scalar')->end()
                 ->end()
             ->end();

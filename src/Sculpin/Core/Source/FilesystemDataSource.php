@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -96,18 +96,17 @@ class FilesystemDataSource implements DataSourceInterface
      * @param array                        $raws                         Raw paths
      * @param FinderFactoryInterface       $finderFactory                Finder Factory
      * @param AntPathMatcher               $matcher                      Matcher
-     * @param Analyzer                     $analyzer                     Analyzer
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
     public function __construct(
-        $sourceDir,
-        $excludes,
-        $ignores,
-        $raws,
-        FinderFactoryInterface $finderFactory = null,
-        AntPathMatcher $matcher = null,
-        Analyzer $analyzer = null,
-        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+        string $sourceDir,
+        array $excludes,
+        array $ignores,
+        array $raws,
+        ?FinderFactoryInterface $finderFactory = null,
+        ?AntPathMatcher $matcher = null,
+        ?Analyzer $analyzer = null,
+        ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->excludes = $excludes;
@@ -123,7 +122,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function dataSourceId()
+    public function dataSourceId(): string
     {
         return 'FilesystemDataSource:'.$this->sourceDir;
     }
@@ -131,7 +130,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         $sinceTimeLast = $this->sinceTime;
 

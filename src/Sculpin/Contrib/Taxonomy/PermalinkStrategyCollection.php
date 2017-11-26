@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,6 +12,7 @@
 namespace Sculpin\Contrib\Taxonomy;
 
 use Sculpin\Contrib\Taxonomy\PermalinkStrategy\PermalinkStrategyInterface;
+use SplObjectStorage;
 
 class PermalinkStrategyCollection
 {
@@ -19,10 +20,10 @@ class PermalinkStrategyCollection
 
     public function __construct()
     {
-        $this->strategies = new \SplObjectStorage();
+        $this->strategies = new SplObjectStorage();
     }
 
-    public function push(PermalinkStrategyInterface $strategy)
+    public function push(PermalinkStrategyInterface $strategy): void
     {
         $this->strategies->attach($strategy);
     }

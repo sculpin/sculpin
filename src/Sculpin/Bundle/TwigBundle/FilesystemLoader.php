@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,12 +11,14 @@
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Twig_Loader_Filesystem;
+
 /**
  * Filesystem Loader.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FilesystemLoader extends \Twig_Loader_Filesystem
+class FilesystemLoader extends Twig_Loader_Filesystem
 {
     /**
      * {@inheritdoc}

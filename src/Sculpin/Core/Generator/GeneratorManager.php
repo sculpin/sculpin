@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,6 +12,7 @@
 namespace Sculpin\Core\Generator;
 
 use Dflydev\DotAccessConfiguration\Configuration;
+use InvalidArgumentException;
 use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
@@ -50,7 +51,7 @@ class GeneratorManager
      *
      * @var array
      */
-    protected $generators = array();
+    protected $generators = [];
 
     /**
      * Constructor.
@@ -62,7 +63,7 @@ class GeneratorManager
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
-        DataProviderManager $dataProviderManager = null
+        ?DataProviderManager $dataProviderManager = null
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->siteConfiguration = $siteConfiguration;
@@ -75,7 +76,7 @@ class GeneratorManager
      * @param string             $name      Name
      * @param GeneratorInterface $generator Generator
      */
-    public function registerGenerator($name, GeneratorInterface $generator)
+    public function registerGenerator(string $name, GeneratorInterface $generator): void
     {
         $this->generators[$name] = $generator;
     }
@@ -86,14 +87,12 @@ class GeneratorManager
      * @param  SourceInterface           $source    Source
      * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
-    public function generate(SourceInterface $source, SourceSet $sourceSet)
+    public function generate(SourceInterface $source, SourceSet $sourceSet): void
     {
         $data = $source->data();
 
-        $generators = array();
+        $generators = [];
         $isGenerator = $source->isGenerator();
         if ($generatorNames = $data->get('generator')) {
             if (!$isGenerator) {
@@ -104,7 +103,7 @@ class GeneratorManager
 
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
-                    throw new \InvalidArgumentException(
+                    throw new InvalidArgumentException(
                         "Requested generator '$generatorName' could not be found; was it registered?"
                     );
                 }
@@ -119,10 +118,10 @@ class GeneratorManager
             return;
         }
 
-        $targetSources = array($source);
+        $targetSources = [$source];
 
         foreach ($generators as $generator) {
-            $newTargetSources = array();
+            $newTargetSources = [];
             foreach ($targetSources as $targetSource) {
                 foreach ((array) $generator->generate($targetSource) as $generatedSource) {
                     $generatedSource->setIsGenerated();
@@ -146,7 +145,7 @@ class GeneratorManager
      *
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null)
+    public function setDataProviderManager(?DataProviderManager $dataProviderManager = null): void
     {
         $this->dataProviderManager = $dataProviderManager;
     }

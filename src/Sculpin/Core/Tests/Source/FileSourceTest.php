@@ -1,20 +1,23 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Sculpin\Core\Tests\Source;
 
 use Dflydev\Canal\Analyzer\Analyzer;
+use Dflydev\Canal\InternetMediaType\InternetMediaTypeFactory;
+use Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface;
+use PHPUnit\Framework\TestCase;
+use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\FileSource;
 use Sculpin\Core\Source\FilesystemDataSource;
-use Sculpin\Core\Source\MemorySource;
 use Symfony\Component\Finder\SplFileInfo;
 
-class FileSourceTest extends \PHPUnit_Framework_TestCase
+class FileSourceTest extends TestCase
 {
     /*
      * mock analyzer for detectFromFilename, should return text/html
-     *
      */
 
-    public function makeTestSource($filename, $hasChanged = true)
+    public function makeTestSource(string $filename, bool $hasChanged = true)
     {
         $source = new FileSource(
             $this->makeTestAnalyzer(),
@@ -29,7 +32,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestAnalyzer()
     {
-        $analyzer = $this->getMock('Dflydev\Canal\Analyzer\Analyzer');
+        $analyzer = $this->createMock(Analyzer::class);
 
         $analyzer
             ->expects($this->any())
@@ -46,7 +49,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestInternetMediaType()
     {
-        $type = $this->getMock('Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface');
+        $type = $this->createMock(InternetMediaTypeInterface::class);
 
         $type
             ->expects($this->any())
@@ -58,7 +61,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestInternetMediaFactory()
     {
-        $factory = $this->getMock('Dflydev\Canal\InternetMediaType\InternetMediaTypeFactory');
+        $factory = $this->createMock(InternetMediaTypeFactory::class);
 
         $factory
             ->expects($this->any())
@@ -70,7 +73,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function makeTestDatasource()
     {
-        $datasource = $this->getMock('Sculpin\Core\Source\DataSourceInterface');
+        $datasource = $this->createMock(DataSourceInterface::class);
 
         $datasource
             ->expects($this->any())
@@ -83,7 +86,7 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideTestParseYaml
      */
-    public function testParseYaml($filename, $msg)
+    public function testParseYaml($filename, $msg): void
     {
         $expectedOutput = $this->getErrorMessage($filename, $msg);
         ob_end_flush();
@@ -97,23 +100,23 @@ class FileSourceTest extends \PHPUnit_Framework_TestCase
 
     public function provideTestParseYaml()
     {
-        return array(
-            array(__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''),
-            array(__DIR__ . '/../Fixtures/valid/frontmatter-nocontent.yml', ''),
-            array(__DIR__ . '/../Fixtures/valid/frontmatter-content.yml', ''),
-            array(
+        return [
+            [__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''],
+            [__DIR__ . '/../Fixtures/valid/frontmatter-nocontent.yml', ''],
+            [__DIR__ . '/../Fixtures/valid/frontmatter-content.yml', ''],
+            [
                 __DIR__ . '/../Fixtures/invalid/one-line-edge-case.yml',
                 'Yaml could not be parsed, parser detected a string.'
-            ),
-            array(
+            ],
+            [
                 __DIR__ . '/../Fixtures/invalid/malformed-yaml.yml',
                 'Yaml could not be parsed, parser detected a string.'
-            ),
-            array(
+            ],
+            [
                 __DIR__ . '/../Fixtures/invalid/malformed-yaml2.yml',
                 'Unable to parse at line 2 (near "first:fsdqf").'
-            ),
-        );
+            ],
+        ];
     }
 
     public function getErrorMessage($filename, $msg)

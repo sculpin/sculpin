@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -13,11 +13,11 @@ namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerInterface;
-use Sculpin\Core\Sculpin;
 use Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand;
 use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
 use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
 use Sculpin\Bundle\SculpinBundle\Command\UpdateCommand;
+use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -41,7 +41,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * Constructor.
      *
-     * @param KernelInterface           $kernel           A KernelInterface instance
      * @param EmbeddedComposerInterface $embeddedComposer Composer Class Loader
      */
     public function __construct(KernelInterface $kernel, EmbeddedComposerInterface $embeddedComposer)
@@ -108,13 +107,13 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * {@inheritDoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null)
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null)
     {
         if (null === $output) {
-            $styles = array(
+            $styles = [
                 'highlight' => new OutputFormatterStyle('red'),
                 'warning' => new OutputFormatterStyle('black', 'yellow'),
-            );
+            ];
             $formatter = new OutputFormatter(null, $styles);
             $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
@@ -155,7 +154,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
     public function getMissingSculpinBundlesMessages()
     {
-        $messages = array();
+        $messages = [];
 
         // Display missing bundle to user.
         if ($missingBundles = $this->kernel->getMissingSculpinBundles()) {
@@ -172,15 +171,13 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
     /**
      * Get Kernel
-     *
-     * @return KernelInterface
      */
-    public function getKernel()
+    public function getKernel(): KernelInterface
     {
         return $this->kernel;
     }
 
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         $this->kernel->boot();
 

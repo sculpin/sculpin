@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -24,7 +24,7 @@ class CustomMimeTypesRepositoryPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin.custom_mime_types_repository')) {
             return;
@@ -32,7 +32,7 @@ class CustomMimeTypesRepositoryPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('sculpin.custom_mime_types_repository');
 
-        $data = array();
+        $data = [];
         foreach ($container->findTaggedServiceIds('sculpin.custom_mime_extensions') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $type = $attributes['type'];

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,14 +11,16 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\CompositeDataSource;
+use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
 
-class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
+class CompositeDataSourceTest extends TestCase
 {
     public function makeDataSource($dataSourceId)
     {
-        $dataSource = $this->getMock('Sculpin\Core\Source\DataSourceInterface');
+        $dataSource = $this->createMock(DataSourceInterface::class);
 
         $dataSource
             ->expects($this->any())
@@ -28,42 +30,42 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
         return $dataSource;
     }
 
-    public function testAddDataSource()
+    public function testAddDataSource(): void
     {
         $ds000 = $this->makeDataSource('TestDataSource:000');
         $ds001 = $this->makeDataSource('TestDataSource:001');
         $ds002 = $this->makeDataSource('TestDataSource:002');
 
-        $dataSource = new CompositeDataSource(array($ds000, $ds002));
+        $dataSource = new CompositeDataSource([$ds000, $ds002]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestDataSource:000' => $ds000,
             'TestDataSource:002' => $ds002,
-        ), $dataSource->dataSources());
+        ], $dataSource->dataSources());
 
         $dataSource->addDataSource($ds001);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestDataSource:000' => $ds000,
             'TestDataSource:002' => $ds002,
             'TestDataSource:001' => $ds001,
-        ), $dataSource->dataSources());
+        ], $dataSource->dataSources());
     }
 
-    public function testDataSourceId()
+    public function testDataSourceId(): void
     {
         $ds000 = $this->makeDataSource('TestDataSource:000');
         $ds001 = $this->makeDataSource('TestDataSource:001');
         $ds002 = $this->makeDataSource('TestDataSource:002');
 
-        $dataSource = new CompositeDataSource(array($ds000, $ds001, $ds002));
+        $dataSource = new CompositeDataSource([$ds000, $ds001, $ds002]);
 
         $this->assertContains('TestDataSource:000', $dataSource->dataSourceId());
         $this->assertContains('TestDataSource:001', $dataSource->dataSourceId());
         $this->assertContains('TestDataSource:002', $dataSource->dataSourceId());
     }
 
-    public function testRefresh()
+    public function testRefresh(): void
     {
         $sourceSet = new SourceSet;
 
@@ -71,14 +73,14 @@ class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
         $ds001 = $this->makeDataSource('TestDataSource:001');
         $ds002 = $this->makeDataSource('TestDataSource:002');
 
-        foreach (array($ds000, $ds001, $ds002) as $dataSource) {
+        foreach ([$ds000, $ds001, $ds002] as $dataSource) {
             $dataSource
                 ->expects($this->once())
                 ->method('refresh')
                 ->with($this->equalTo($sourceSet));
         }
 
-        $dataSource = new CompositeDataSource(array($ds000, $ds001, $ds002));
+        $dataSource = new CompositeDataSource([$ds000, $ds001, $ds002]);
 
         $dataSource->refresh($sourceSet);
     }

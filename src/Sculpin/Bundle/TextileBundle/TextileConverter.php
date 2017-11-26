@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -37,15 +37,14 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @var array
      */
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * Constructor.
      *
-     * @param Parser $parser     Parser
      * @param array  $extensions Extensions
      */
-    public function __construct(Parser $parser, array $extensions = array())
+    public function __construct(Parser $parser, array $extensions = [])
     {
         $this->parser = $parser;
         $this->extensions = $extensions;
@@ -54,7 +53,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(ConverterContextInterface $converterContext)
+    public function convert(ConverterContextInterface $converterContext): void
     {
         $converterContext->setContent($this->parser->textileThis($converterContext->content()));
     }
@@ -64,9 +63,9 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     /**
@@ -74,7 +73,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -48,7 +48,7 @@ class ConvertEvent extends Event
      * @param string          $converter        Converter
      * @param string          $defaultFormatter Default formatter
      */
-    public function __construct(SourceInterface $source, $converter, $defaultFormatter)
+    public function __construct(SourceInterface $source, string $converter, string $defaultFormatter)
     {
         $this->source = $source;
         $this->converter = $converter;
@@ -57,46 +57,36 @@ class ConvertEvent extends Event
 
     /**
      * Source
-     *
-     * @return SourceInterface
      */
-    public function source()
+    public function source(): SourceInterface
     {
         return $this->source;
     }
 
     /**
      * Converter
-     *
-     * @return string
      */
-    public function converter()
+    public function converter(): string
     {
         return $this->converter;
     }
 
     /**
      * Test if Source is converted by requested converter
-     *
-     * @param string $requestedConverter
-     *
-     * @return boolean
      */
-    public function isConvertedBy($requestedConverter)
+    public function isConvertedBy(string $requestedConverter): bool
     {
         return $requestedConverter === $this->converter;
     }
 
     /**
      * Test if Source is formatted by requested formatter
-     *
-     * @param string $requestedFormatter
-     *
-     * @return boolean
      */
-    public function isFormattedBy($requestedFormatter)
+    public function isFormattedBy(string $requestedFormatter): string
     {
-        return $requestedFormatter == $this->source->data()->get('formatter') ?: $this->defaultFormatter;
+        return $requestedFormatter === $this->source->data()->get('formatter')
+            ? $requestedFormatter
+            : $this->defaultFormatter;
     }
 
     /**
@@ -104,10 +94,8 @@ class ConvertEvent extends Event
      *
      * @param string $requestedConverter Converter
      * @param string $requestedFormatter Formatter
-     *
-     * @return boolean
      */
-    public function isHandledBy($requestedConverter, $requestedFormatter)
+    public function isHandledBy(string $requestedConverter, string $requestedFormatter): bool
     {
         return $this->isConvertedBy($requestedConverter) and $this->isFormattedBy($requestedFormatter);
     }

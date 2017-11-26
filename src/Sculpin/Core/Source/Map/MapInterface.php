@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -15,5 +15,5 @@ use Sculpin\Core\Source\SourceInterface;
 
 interface MapInterface
 {
-    public function process(SourceInterface $source);
+    public function process(SourceInterface $source): void;
 }

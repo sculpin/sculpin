@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -13,5 +13,5 @@ namespace Sculpin\Contrib\Taxonomy\PermalinkStrategy;
 
 interface PermalinkStrategyInterface
 {
-    public function process($str);
+    public function process($str): void;
 }

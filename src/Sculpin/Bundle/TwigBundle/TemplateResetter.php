@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -14,6 +14,7 @@ namespace Sculpin\Bundle\TwigBundle;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig_Environment;
 
 /**
  * Template Resetter.
@@ -24,10 +25,8 @@ class TemplateResetter implements EventSubscriberInterface
 {
     /**
      * Constructor.
-     *
-     * @param \Twig_Environment $twig
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Twig_Environment $twig)
     {
         $this->twig = $twig;
     }
@@ -37,9 +36,9 @@ class TemplateResetter implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     /**
@@ -47,7 +46,7 @@ class TemplateResetter implements EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         if ($sourceSetEvent->updatedSources()) {
             $this->twig->clearTemplateCache();

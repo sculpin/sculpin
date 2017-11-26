@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -51,7 +51,7 @@ class FormatterManager
      *
      * @var array
      */
-    protected $formatters = array();
+    protected $formatters = [];
 
     /**
      * Default formatter
@@ -70,7 +70,7 @@ class FormatterManager
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
-        DataProviderManager $dataProviderManager = null
+        ?DataProviderManager $dataProviderManager = null
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->siteConfiguration = $siteConfiguration;
@@ -81,17 +81,15 @@ class FormatterManager
      * Build base format context
      *
      * @param mixed $context
-     *
-     * @return Configuration
      */
-    protected function buildBaseFormatContext($context)
+    protected function buildBaseFormatContext($context): Configuration
     {
-        $baseContext = new Configuration(array(
+        $baseContext = new Configuration([
             'site' => $this->siteConfiguration->export(),
             'page' => $context,
             'formatter' => $this->defaultFormatter,
-            'converters' => array(),
-        ));
+            'converters' => [],
+        ]);
 
         if (isset($context['url'])) {
             if ('/' === $context['url']) {
@@ -118,14 +116,12 @@ class FormatterManager
      * @param string $templateId Template ID
      * @param string $template   Template
      * @param array  $context    Context
-     *
-     * @return FormatContext
      */
-    public function buildFormatContext($templateId, $template, $context)
+    public function buildFormatContext(string $templateId, string $template, array $context): FormatContext
     {
         $baseContext = $this->buildBaseFormatContext($context);
 
-        foreach (array('layout', 'formatter', 'converters') as $key) {
+        foreach (['layout', 'formatter', 'converters'] as $key) {
             if (isset($context[$key])) {
                 $baseContext->set($key, $context[$key]);
             }
@@ -140,7 +136,7 @@ class FormatterManager
      * @param string             $name      Name
      * @param FormatterInterface $formatter Formatter
      */
-    public function registerFormatter($name, FormatterInterface $formatter)
+    public function registerFormatter(string $name, FormatterInterface $formatter): void
     {
         $this->formatters[$name] = $formatter;
 
@@ -153,10 +149,8 @@ class FormatterManager
      * Formatter
      *
      * @param string $name Name
-     *
-     * @return FormatterInterface
      */
-    public function formatter($name)
+    public function formatter(string $name): FormatterInterface
     {
         return $this->formatters[$name];
     }
@@ -167,10 +161,8 @@ class FormatterManager
      * @param string $templateId Template ID
      * @param string $template   Template
      * @param array  $context    Context
-     *
-     * @return string
      */
-    public function formatPage($templateId, $template, $context)
+    public function formatPage(string $templateId, string $template, array $context): ?string
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
@@ -188,10 +180,8 @@ class FormatterManager
      * Format a page for a Source
      *
      * @param SourceInterface $source Source
-     *
-     * @return string
      */
-    public function formatSourcePage(SourceInterface $source)
+    public function formatSourcePage(SourceInterface $source): ?string
     {
         return $this->formatPage(
             $source->sourceId(),
@@ -206,15 +196,13 @@ class FormatterManager
      * @param string $templateId Template ID
      * @param string $template   Template
      * @param array  $context    Context
-     *
-     * @return array
      */
-    public function formatBlocks($templateId, $template, $context)
+    public function formatBlocks(string $templateId, string $template, array $context): ?array
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
         if (!$formatContext->formatter()) {
-            return array('content' => $template);
+            return ['content' => $template];
         }
 
         $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
@@ -227,10 +215,8 @@ class FormatterManager
      * Format blocks for a Source
      *
      * @param SourceInterface $source Source
-     *
-     * @return array
      */
-    public function formatSourceBlocks(SourceInterface $source)
+    public function formatSourceBlocks(SourceInterface $source): ?array
     {
         return $this->formatBlocks(
             $source->sourceId(),
@@ -241,10 +227,8 @@ class FormatterManager
 
     /**
      * Default Formatter.
-     *
-     * @return string
      */
-    public function defaultFormatter()
+    public function defaultFormatter(): string
     {
         return $this->defaultFormatter;
     }
@@ -258,7 +242,7 @@ class FormatterManager
      *
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null)
+    public function setDataProviderManager(?DataProviderManager $dataProviderManager = null): void
     {
         $this->dataProviderManager = $dataProviderManager;
     }

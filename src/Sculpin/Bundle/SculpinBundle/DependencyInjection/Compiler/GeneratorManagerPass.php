@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,8 +11,8 @@
 
 namespace Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -25,7 +25,7 @@ class GeneratorManagerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin.generator_manager')) {
             return;
@@ -35,7 +35,7 @@ class GeneratorManagerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('sculpin.generator') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerGenerator', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerGenerator', [$attributes['alias'], new Reference($id)]);
             }
         }
     }

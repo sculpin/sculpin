@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,12 +12,12 @@
 namespace Sculpin\Bundle\SculpinBundle;
 
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\ConverterManagerPass;
-use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataSourcePass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\CustomMimeTypesRepositoryPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataProviderManagerPass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DataSourcePass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\GeneratorManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\PathConfiguratorPass;
-use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\CustomMimeTypesRepositoryPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -31,7 +31,7 @@ class SculpinBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ConverterManagerPass);
         $container->addCompilerPass(new DataProviderManagerPass);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,9 +11,9 @@
 
 namespace Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Adds tagged twig.extension services to twig service
@@ -26,7 +26,7 @@ class TwigEnvironmentPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin_twig.twig')) {
             return;
@@ -39,9 +39,9 @@ class TwigEnvironmentPass implements CompilerPassInterface
         // afterward. If not, the globals from the extensions will never
         // be registered.
         $calls = $definition->getMethodCalls();
-        $definition->setMethodCalls(array());
+        $definition->setMethodCalls([]);
         foreach ($container->findTaggedServiceIds('twig.extension') as $id => $attributes) {
-            $definition->addMethodCall('addExtension', array(new Reference($id)));
+            $definition->addMethodCall('addExtension', [new Reference($id)]);
         }
         $definition->setMethodCalls(array_merge($definition->getMethodCalls(), $calls));
     }

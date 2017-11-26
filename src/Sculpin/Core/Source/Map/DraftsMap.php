@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -15,17 +15,17 @@ use Sculpin\Core\Source\SourceInterface;
 
 class DraftsMap implements MapInterface
 {
-    public function process(SourceInterface $source)
+    public function process(SourceInterface $source): void
     {
         if ($source->data()->get('draft')) {
             $tags = $source->data()->get('tags');
             if (null === $tags) {
-                $tags = array('drafts');
+                $tags = ['drafts'];
             } else {
                 if (!is_array($tags)) {
-                    $tags = array();
+                    $tags = [];
                     if ($tags) {
-                        $tags = array($tags);
+                        $tags = [$tags];
                     }
                 }
 

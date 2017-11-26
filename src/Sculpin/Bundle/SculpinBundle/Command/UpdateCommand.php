@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Dflydev\EmbeddedComposer\Console\Command\UpdateCommand as BaseUpdateCommand;
+use Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle;
 
 /**
  * Update Command.
@@ -25,7 +26,7 @@ class UpdateCommand extends BaseUpdateCommand
      */
     public function __construct($commandPrefix = 'sculpin:')
     {
-        $prefix = class_exists('Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false)
+        $prefix = class_exists(SculpinStandaloneBundle::class, false)
             ? ''
             : $commandPrefix;
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,10 +11,11 @@
 
 namespace Sculpin\Core\Source;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
+use InvalidArgumentException;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * File Source.
@@ -26,7 +27,6 @@ class FileSource extends AbstractSource
     /**
      * Constructor
      *
-     * @param Analyzer            $analyzer   Analyzer
      * @param DataSourceInterface $dataSource Data Source
      * @param SplFileInfo         $file       File
      * @param bool                $isRaw      Should be treated as raw
@@ -36,8 +36,8 @@ class FileSource extends AbstractSource
         Analyzer $analyzer,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
-        $isRaw,
-        $hasChanged = false
+        bool $isRaw,
+        bool $hasChanged = false
     ) {
         $this->analyzer = $analyzer;
         $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
@@ -58,7 +58,7 @@ class FileSource extends AbstractSource
      *
      * @param bool $hasChanged Has the file changed?
      */
-    protected function init($hasChanged = null)
+    protected function init(?bool $hasChanged = null): void
     {
         parent::init($hasChanged);
 
@@ -82,7 +82,7 @@ class FileSource extends AbstractSource
                 // Additionally, any text file is a candidate for formatting.
                 $this->canBeFormatted = true;
 
-                $content = file_get_contents($this->file);
+                $content = file_get_contents($this->file->getRealPath());
 
                 if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {
                     $this->content = $matches[2];
@@ -94,7 +94,7 @@ class FileSource extends AbstractSource
                         try {
                             $builder = new YamlDataBuilder($matches[1]);
                             $this->data = $builder->build();
-                        } catch (\InvalidArgumentException $e) {
+                        } catch (InvalidArgumentException $e) {
                             // Likely not actually YAML front matter available,
                             // treat the entire file as pure content.
                             echo ' ! ' . $this->sourceId() . ' ' . $e->getMessage() . ' !' . PHP_EOL;

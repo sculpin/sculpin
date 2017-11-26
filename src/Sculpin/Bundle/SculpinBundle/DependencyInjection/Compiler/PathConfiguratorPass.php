@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -40,7 +40,7 @@ class PathConfiguratorPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
@@ -50,7 +50,7 @@ class PathConfiguratorPass implements CompilerPassInterface
                 if ($container->hasParameter($parameter)) {
                     $value = $container->getParameter($parameter);
                     if (! is_array($value)) {
-                        $value = array($value);
+                        $value = [$value];
                     }
 
                     if ($container->hasParameter($typeParameter)) {

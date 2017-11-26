@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -42,7 +42,7 @@ class PaginationGenerator implements GeneratorInterface
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      * @param int                 $maxPerPage          Max items per page
      */
-    public function __construct(DataProviderManager $dataProviderManager, $maxPerPage)
+    public function __construct(DataProviderManager $dataProviderManager, int $maxPerPage)
     {
         $this->dataProviderManager = $dataProviderManager;
         $this->maxPerPage = $maxPerPage;
@@ -54,7 +54,7 @@ class PaginationGenerator implements GeneratorInterface
     public function generate(SourceInterface $source)
     {
         $data = null;
-        $config = $source->data()->get('pagination') ?: array();
+        $config = $source->data()->get('pagination') ?: [];
         if (!isset($config['provider'])) {
             $config['provider'] = 'data.posts';
         }
@@ -63,7 +63,7 @@ class PaginationGenerator implements GeneratorInterface
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
                     if (!count($data)) {
-                        $data = array('');
+                        $data = [''];
                     }
                     break;
                 case 'page':
@@ -76,15 +76,15 @@ class PaginationGenerator implements GeneratorInterface
             return;
         }
 
-        $maxPerPage = isset($config['max_per_page']) ? $config['max_per_page'] : $this->maxPerPage;
+        $maxPerPage = $config['max_per_page'] ?? $this->maxPerPage;
 
-        $slices = array();
-        $slice = array();
+        $slices = [];
+        $slice = [];
         $totalItems = 0;
         foreach ($data as $k => $v) {
             if (count($slice) == $maxPerPage) {
                 $slices[] = $slice;
-                $slice = array();
+                $slice = [];
             }
 
             $slice[$k] = $v;
@@ -95,7 +95,7 @@ class PaginationGenerator implements GeneratorInterface
             $slices[] = $slice;
         }
 
-        $sources = array();
+        $sources = [];
         $pageNumber = 0;
         foreach ($slices as $slice) {
             $pageNumber++;

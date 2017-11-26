@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,9 +11,10 @@
 
 namespace Sculpin\Bundle\TwigBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Adds tagged twig.loaders services to twig loader service
@@ -26,7 +27,7 @@ class TwigLoaderPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin_twig.loader')) {
             return;
@@ -36,8 +37,8 @@ class TwigLoaderPass implements CompilerPassInterface
         $arguments = $definition->getArguments();
         $loaders = $arguments[0];
 
-        $prependedLoaders = array();
-        $appendedLoaders = array();
+        $prependedLoaders = [];
+        $appendedLoaders = [];
 
         foreach ($container->findTaggedServiceIds('twig.loaders.prepend') as $id => $attributes) {
             $prependedLoaders[] = new Reference($id);
@@ -49,7 +50,7 @@ class TwigLoaderPass implements CompilerPassInterface
 
         $sourceViewPaths = $container->getParameter('sculpin_twig.source_view_paths');
         foreach ($container->getParameter('kernel.bundles') as $class) {
-            $reflection = new \ReflectionClass($class);
+            $reflection = new ReflectionClass($class);
             foreach ($sourceViewPaths as $sourceViewPath) {
                 if (is_dir($dir = dirname($reflection->getFilename()).'/Resources/'.$sourceViewPath)) {
                     $appendedLoaders[] = $dir;

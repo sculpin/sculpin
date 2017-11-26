@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -21,7 +21,7 @@ class NullConverter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(ConverterContextInterface $converterContext)
+    public function convert(ConverterContextInterface $converterContext): void
     {
     }
 }

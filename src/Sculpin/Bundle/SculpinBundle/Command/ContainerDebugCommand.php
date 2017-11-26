@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the Symfony package.
@@ -28,13 +28,14 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use InvalidArgumentException;
+use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
 
 /**
  * A console command for retrieving information about services
@@ -46,11 +47,11 @@ class ContainerDebugCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('container:debug')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputArgument('name', InputArgument::OPTIONAL, 'A service name (foo)'),
                 new InputOption(
                     'show-private',
@@ -82,7 +83,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
                     InputOption::VALUE_NONE,
                     'Displays parameters for an application'
                 )
-            ))
+            ])
             ->setDescription('Displays current services for an application')
             ->setHelp(<<<EOF
 The <info>%command.name%</info> command displays all configured <comment>public</comment> services:
@@ -123,7 +124,7 @@ EOF
      *
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->validateInput($input);
 
@@ -169,9 +170,9 @@ EOF
         }
     }
 
-    protected function validateInput(InputInterface $input)
+    protected function validateInput(InputInterface $input): void
     {
-        $options = array('tags', 'tag', 'parameters', 'parameter');
+        $options = ['tags', 'tag', 'parameters', 'parameter'];
 
         $optionsCount = 0;
         foreach ($options as $option) {
@@ -182,11 +183,11 @@ EOF
 
         $name = $input->getArgument('name');
         if ((null !== $name) && ($optionsCount > 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The options tags, tag, parameters & parameter can not be combined with the service name argument.'
             );
         } elseif ((null === $name) && $optionsCount > 1) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The options tags, tag, parameters & parameter can not be combined together.'
             );
         }
@@ -197,7 +198,7 @@ EOF
         $serviceIds,
         $showPrivate = false,
         $showTagAttributes = null
-    ) {
+    ): void {
         // set the label to specify public or public+private
         if ($showPrivate) {
             $label = '<comment>Public</comment> and <comment>private</comment> services';
@@ -213,7 +214,7 @@ EOF
         // loop through to get space needed and filter private services
         $maxName = 4;
         $maxScope = 6;
-        $maxTags = array();
+        $maxTags = [];
         foreach ($serviceIds as $key => $serviceId) {
             $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -260,7 +261,7 @@ EOF
         }, $maxTags));
         $format1 .= '%-'.($maxScope + 19).'s %s';
 
-        $tags = array();
+        $tags = [];
         foreach ($maxTags as $tagName => $length) {
             $tags[] = '<comment>'.$tagName.'</comment>';
         }
@@ -275,12 +276,12 @@ EOF
             $definition = $this->resolveServiceDefinition($serviceId);
 
             if ($definition instanceof Definition) {
-                $lines = array();
+                $lines = [];
                 if (null !== $showTagAttributes) {
                     foreach ($definition->getTag($showTagAttributes) as $key => $tag) {
-                        $tagValues = array();
+                        $tagValues = [];
                         foreach (array_keys($maxTags) as $tagName) {
-                            $tagValues[] = isset($tag[$tagName]) ? $tag[$tagName] : "";
+                            $tagValues[] = $tag[$tagName] ?? "";
                         }
                         if (0 === $key) {
                             $lines[] = $this->buildArgumentsArray(
@@ -306,7 +307,7 @@ EOF
                     $serviceId,
                     'n/a',
                     sprintf('<comment>alias for</comment> <info>%s</info>', (string) $alias),
-                    count($maxTags) ? array_fill(0, count($maxTags), "") : array()
+                    count($maxTags) ? array_fill(0, count($maxTags), "") : []
                 )));
             } else {
                 // we have no information (happens with "service_container")
@@ -315,15 +316,15 @@ EOF
                     $serviceId,
                     '',
                     get_class($service),
-                    count($maxTags) ? array_fill(0, count($maxTags), "") : array()
+                    count($maxTags) ? array_fill(0, count($maxTags), "") : []
                 )));
             }
         }
     }
 
-    protected function buildArgumentsArray($serviceId, $scope, $className, array $tagAttributes = array())
+    protected function buildArgumentsArray($serviceId, $scope, $className, array $tagAttributes = [])
     {
-        $arguments = array($serviceId);
+        $arguments = [$serviceId];
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
@@ -336,7 +337,7 @@ EOF
     /**
      * Renders detailed service information about one service
      */
-    protected function outputService(OutputInterface $output, $serviceId)
+    protected function outputService(OutputInterface $output, $serviceId): void
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -391,7 +392,7 @@ EOF
         }
     }
 
-    protected function outputParameters(OutputInterface $output, $parameters)
+    protected function outputParameters(OutputInterface $output, $parameters): void
     {
         $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
 
@@ -441,7 +442,7 @@ EOF
      *
      * @return Definition|Alias
      */
-    protected function resolveServiceDefinition($serviceId)
+    protected function resolveServiceDefinition(string $serviceId)
     {
         if ($this->getContainer()->hasDefinition($serviceId)) {
             return $this->getContainer()->getDefinition($serviceId);
@@ -458,11 +459,8 @@ EOF
 
     /**
      * Renders list of tagged services grouped by tag
-     *
-     * @param OutputInterface $output
-     * @param bool            $showPrivate
      */
-    protected function outputTags(OutputInterface $output, $showPrivate = false)
+    protected function outputTags(OutputInterface $output, bool $showPrivate = false): void
     {
         $tags = $this->getContainer()->findTags();
         asort($tags);

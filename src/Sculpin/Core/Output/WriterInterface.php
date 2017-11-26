@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,5 +23,5 @@ interface WriterInterface
      *
      * @param OutputInterface $output Output
      */
-    public function write(OutputInterface $output);
+    public function write(OutputInterface $output): void;
 }

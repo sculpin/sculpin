@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Sculpin\Bundle\MarkdownBundle;
 
@@ -13,7 +13,7 @@ class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($content)
+    public function transform($content): string
     {
         return parent::transform($content);
     }

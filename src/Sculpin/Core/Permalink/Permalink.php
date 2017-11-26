@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -38,7 +38,7 @@ class Permalink implements PermalinkInterface
      * @param string $relativeFilePath Relative file path
      * @param string $relativeUrlPath  Relative URL path
      */
-    public function __construct($relativeFilePath, $relativeUrlPath)
+    public function __construct(string $relativeFilePath, string $relativeUrlPath)
     {
         $this->relativeFilePath = $relativeFilePath;
         $this->relativeUrlPath = $relativeUrlPath;
@@ -47,7 +47,7 @@ class Permalink implements PermalinkInterface
     /**
      * {@inheritdoc}
      */
-    public function relativeFilePath()
+    public function relativeFilePath(): string
     {
         return $this->relativeFilePath;
     }
@@ -55,7 +55,7 @@ class Permalink implements PermalinkInterface
     /**
      * {@inheritdoc}
      */
-    public function relativeUrlPath()
+    public function relativeUrlPath(): string
     {
         return $this->relativeUrlPath;
     }

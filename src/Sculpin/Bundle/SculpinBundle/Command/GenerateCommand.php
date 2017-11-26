@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -29,14 +29,14 @@ class GenerateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
         $this
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputOption(
                     'clean',
                     null,
@@ -57,7 +57,7 @@ class GenerateCommand extends AbstractCommand
                 ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
-            ))
+            ])
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
 
@@ -68,7 +68,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         foreach ($this->getApplication()->getMissingSculpinBundlesMessages() as $message) {
             $output->writeln($message);
@@ -105,7 +105,7 @@ EOT
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo): void {
                     clearstatcache();
                     $sourceSet->reset();
 
@@ -130,11 +130,9 @@ EOT
     /**
      * Cleanup an output directory by deleting it.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
      * @param string          $dir    The directory to remove
      */
-    protected function clean(InputInterface $input, OutputInterface $output, $dir)
+    protected function clean(InputInterface $input, OutputInterface $output, string $dir): void
     {
         $fileSystem = $this->getContainer()->get('filesystem');
         if ($fileSystem->exists($dir)) {

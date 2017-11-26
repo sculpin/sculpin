@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Sculpin\Tests\Functional;
 
 class GenerateFromMarkdownTest extends FunctionalTestCase
 {
     /** @test */
-    public function shouldGenerateAnHtmlFileFromMarkdown()
+    public function shouldGenerateAnHtmlFileFromMarkdown(): void
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
 
@@ -15,7 +15,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     }
 
     /** @test */
-    public function shouldGenerateHtmlContentFromMarkdown()
+    public function shouldGenerateHtmlContentFromMarkdown(): void
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
 
@@ -27,7 +27,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     }
 
     /** @test */
-    public function shouldGenerateIntoNestedDirectories()
+    public function shouldGenerateIntoNestedDirectories(): void
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello/world.md');
 
@@ -37,7 +37,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     }
 
     /** @test */
-    public function shouldGenerateHtmlUsingALayout()
+    public function shouldGenerateHtmlUsingALayout(): void
     {
         $this->addProjectFile('/source/_layouts/my_layout.html.twig', <<<EOT
 <body>

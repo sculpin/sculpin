@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,13 +11,15 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\ProxySource;
+use Sculpin\Core\Source\SourceInterface;
 
-class ProxySourceTest extends \PHPUnit_Framework_TestCase
+class ProxySourceTest extends TestCase
 {
-    public function testSetFormattedContent()
+    public function testSetFormattedContent(): void
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
         $source
             ->expects($this->once())
             ->method('setFormattedContent')

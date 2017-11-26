@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -15,7 +15,7 @@ use Sculpin\Core\Source\SourceInterface;
 
 class CalculatedDateFromFilenameMap implements MapInterface
 {
-    public function process(SourceInterface $source)
+    public function process(SourceInterface $source): void
     {
         if (!$source->data()->get('calculated_date')) {
             if (preg_match(
@@ -23,8 +23,8 @@ class CalculatedDateFromFilenameMap implements MapInterface
                 $source->relativePathname(),
                 $matches
             )) {
-                list($dummy, $year, $month, $day, $time) = $matches;
-                $parts = array(implode('-', array($year, $month, $day)));
+                [$dummy, $year, $month, $day, $time] = $matches;
+                $parts = [implode('-', [$year, $month, $day])];
                 if ($time && false !== strtotime($time)) {
                     $parts[] = $time;
                 }

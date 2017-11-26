@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,7 +11,9 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
 
+use SculpinKernel;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Kernel Factory
@@ -24,16 +26,14 @@ class KernelFactory
      * Create a kernel.
      *
      * @param InputInterface $input Input
-     *
-     * @return \Symfony\Component\HttpKernel\Kernel
      */
-    public static function create(InputInterface $input)
+    public static function create(InputInterface $input): Kernel
     {
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('SCULPIN_DEBUG') ?: 'dev');
+        $env = $input->getParameterOption(['--env', '-e'], getenv('SCULPIN_DEBUG') ?: 'dev');
         $debug = (
             $env !== 'prod'
             && getenv('SCULPIN_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
+            && !$input->hasParameterOption(['--no-debug', ''])
         );
 
         // do something here to locate and try to create
@@ -46,7 +46,7 @@ class KernelFactory
         if (file_exists($customKernel = $projectDir.'/app/SculpinKernel.php')) {
             require $customKernel;
 
-            return new \SculpinKernel($env, $debug, $projectDir);
+            return new SculpinKernel($env, $debug, $projectDir);
         }
 
         // Fallback to using the default kernel in case

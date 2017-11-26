@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Sculpin\Core\Converter;
 
@@ -8,9 +8,7 @@ namespace Sculpin\Core\Converter;
 interface ParserInterface
 {
     /**
-     * @param string $content
-     *
-     * @return string
+     * @param string|mixed $content
      */
-    public function transform($content);
+    public function transform($content): string;
 }

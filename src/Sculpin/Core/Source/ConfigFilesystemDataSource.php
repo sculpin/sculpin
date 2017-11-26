@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -76,11 +76,11 @@ class ConfigFilesystemDataSource implements DataSourceInterface
      * @param AntPathMatcher           $matcher                  Matcher
      */
     public function __construct(
-        $sourceDir,
+        string $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
-        FinderFactoryInterface $finderFactory = null,
-        AntPathMatcher $matcher = null
+        ?FinderFactoryInterface $finderFactory = null,
+        ?AntPathMatcher $matcher = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->siteConfiguration = $siteConfiguration;
@@ -93,7 +93,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function dataSourceId()
+    public function dataSourceId(): string
     {
         // This is not really needed since we are not going to
         // ever create actual sources.
@@ -103,7 +103,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         if (! is_dir($this->sourceDir)) {
             return;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,7 +23,7 @@ class DirectorySeparatorNormalizer
      *
      * @param string $preferredDirectorySeparator Preferred directory separator
      */
-    public function __construct($preferredDirectorySeparator = '/')
+    public function __construct(string $preferredDirectorySeparator = '/')
     {
         $this->preferredDirectorySeparator = $preferredDirectorySeparator;
         $this->directorySeparator = DIRECTORY_SEPARATOR;
@@ -35,10 +35,8 @@ class DirectorySeparatorNormalizer
      * Useful for testing to override DIRECTORY_SEPARATOR.
      *
      * @param string $directorySeparator Directory separator
-     *
-     * @return DirectorySeparatorNormalizer
      */
-    public function setDirectorySeparator($directorySeparator)
+    public function setDirectorySeparator(string $directorySeparator): DirectorySeparatorNormalizer
     {
         $this->directorySeparator = $directorySeparator;
 
@@ -49,10 +47,8 @@ class DirectorySeparatorNormalizer
      * Normalize filesystem paths to a preferred $separator
      *
      * @param string $path Path
-     *
-     * @return null|string
      */
-    public function normalize($path = null)
+    public function normalize(?string $path = null): ?string
     {
         if ($this->preferredDirectorySeparator === $this->directorySeparator) {
             return $path;

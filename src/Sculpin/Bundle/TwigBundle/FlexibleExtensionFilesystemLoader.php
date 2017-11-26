@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -14,13 +14,15 @@ namespace Sculpin\Bundle\TwigBundle;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig_Error_Loader;
+use Twig_LoaderInterface;
 
 /**
  * Flexible Extension Filesystem Loader.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventSubscriberInterface
+class FlexibleExtensionFilesystemLoader implements Twig_LoaderInterface, EventSubscriberInterface
 {
     /**
      * Filesystem loader
@@ -29,19 +31,18 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     protected $filesystemLoader;
 
-    protected $cachedCacheKey = array();
-    protected $cachedCacheKeyExtension = array();
-    protected $cachedCacheKeyException = array();
+    protected $cachedCacheKey = [];
+    protected $cachedCacheKeyExtension = [];
+    protected $cachedCacheKeyException = [];
 
     /**
      * Constructor.
      *
-     * @param string   $sourceDir
      * @param string[] $sourcePaths
      * @param string[] $paths
      * @param string[] $extensions
      */
-    public function __construct($sourceDir, array $sourcePaths, array $paths, array $extensions)
+    public function __construct(string $sourceDir, array $sourcePaths, array $paths, array $extensions)
     {
         $mappedSourcePaths = array_map(function ($path) use ($sourceDir) {
             return $sourceDir.'/'.$path;
@@ -95,11 +96,11 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
                 $this->cachedCacheKeyExtension[$name] = $extension;
 
                 return $this->cachedCacheKey[$name];
-            } catch (\Twig_Error_Loader $e) {
+            } catch (Twig_Error_Loader $e) {
             }
         }
 
-        throw $this->cachedCacheKeyException[$name] = new \Twig_Error_Loader(
+        throw $this->cachedCacheKeyException[$name] = new Twig_Error_Loader(
             sprintf('Template "%s" is not defined.', $name)
         );
     }
@@ -121,17 +122,17 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         if ($sourceSetEvent->sourceSet()->newSources()) {
-            $this->cachedCacheKey = array();
-            $this->cachedCacheKeyExtension = array();
-            $this->cachedCacheKeyException = array();
+            $this->cachedCacheKey = [];
+            $this->cachedCacheKeyExtension = [];
+            $this->cachedCacheKeyException = [];
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,6 +11,16 @@
 
 namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
 
+use Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle;
+use Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle;
+use Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle;
+use Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle;
+use Sculpin\Bundle\PostsBundle\SculpinPostsBundle;
+use Sculpin\Bundle\SculpinBundle\SculpinBundle;
+use Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle;
+use Sculpin\Bundle\TextileBundle\SculpinTextileBundle;
+use Sculpin\Bundle\ThemeBundle\SculpinThemeBundle;
+use Sculpin\Bundle\TwigBundle\SculpinTwigBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -24,7 +34,7 @@ use Symfony\Component\HttpKernel\Kernel;
 abstract class AbstractKernel extends Kernel
 {
     protected $projectDir;
-    protected $missingSculpinBundles = array();
+    protected $missingSculpinBundles = [];
 
     /**
      * {@inheritdoc}
@@ -48,9 +58,9 @@ abstract class AbstractKernel extends Kernel
             $this->projectDir = dirname($this->rootDir);
         }
 
-        return array_merge(parent::getKernelParameters(), array(
+        return array_merge(parent::getKernelParameters(), [
             'sculpin.project_dir' => $this->projectDir,
-        ));
+        ]);
     }
 
     /**
@@ -58,18 +68,18 @@ abstract class AbstractKernel extends Kernel
      */
     public function registerBundles()
     {
-        $bundles = array(
-            new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle,
-            new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
-            new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
-            new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
-            new \Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle,
-            new \Sculpin\Bundle\SculpinBundle\SculpinBundle,
-            new \Sculpin\Bundle\ThemeBundle\SculpinThemeBundle,
-            new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
-            new \Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle,
-            new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
-        );
+        $bundles = [
+            new SculpinStandaloneBundle,
+            new SculpinMarkdownBundle,
+            new SculpinTextileBundle,
+            new SculpinMarkdownTwigCompatBundle,
+            new SculpinPaginationBundle,
+            new SculpinBundle,
+            new SculpinThemeBundle,
+            new SculpinTwigBundle,
+            new SculpinContentTypesBundle,
+            new SculpinPostsBundle,
+        ];
 
         foreach ($this->getAdditionalSculpinBundles() as $class) {
             if (class_exists($class)) {
@@ -85,7 +95,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         // Load defaults.
         $loader->load(__DIR__.'/../Resources/config/kernel.yml');
@@ -100,7 +110,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function boot()
+    public function boot(): void
     {
         if (true === $this->booted) {
             return;
@@ -135,7 +145,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    protected function initializeContainer()
+    protected function initializeContainer(): void
     {
         $container = $this->buildContainer();
         $container->set('kernel', $this);
@@ -150,18 +160,14 @@ abstract class AbstractKernel extends Kernel
      * things. This should be checked early by any Console applications to
      * ensure that proper warnings are issued if there are any missing bundles
      * detected.
-     *
-     * @return array
      */
-    public function getMissingSculpinBundles()
+    public function getMissingSculpinBundles(): array
     {
         return $this->missingSculpinBundles;
     }
 
     /**
      * Get additional Sculpin bundles to register
-     *
-     * @return array
      */
-    abstract protected function getAdditionalSculpinBundles();
+    abstract protected function getAdditionalSculpinBundles(): array;
 }

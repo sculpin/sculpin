@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\ThemeBundle;
 
 use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
+use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 class ThemeRegistry
@@ -30,7 +31,7 @@ class ThemeRegistry
     public function listThemes()
     {
         if (! file_exists($this->directory)) {
-            return array();
+            return [];
         }
 
         $directories = $this
@@ -40,11 +41,11 @@ class ThemeRegistry
             ->depth('== 1')
             ->in($this->directory);
 
-        $themes = array();
+        $themes = [];
 
         foreach ($directories as $directory) {
             $name = basename(dirname($directory)).'/'.basename($directory);
-            $theme = array('name' => $name, 'path' => $directory);
+            $theme = ['name' => $name, 'path' => $directory];
             if (file_exists($directory.'/theme.yml')) {
                 $theme = array_merge(Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
             }
@@ -58,7 +59,7 @@ class ThemeRegistry
     {
         $themes = $this->listThemes();
 
-        foreach (array($this->activeTheme.'-dev', $this->activeTheme) as $activeTheme) {
+        foreach ([$this->activeTheme.'-dev', $this->activeTheme] as $activeTheme) {
             if (! isset($themes[$activeTheme])) {
                 continue;
             }
@@ -66,7 +67,7 @@ class ThemeRegistry
             $theme = $themes[$activeTheme];
             if (isset($theme['parent'])) {
                 if (! isset($themes[$theme['parent']])) {
-                    throw new \RuntimeException(sprintf(
+                    throw new RuntimeException(sprintf(
                         "Theme %s is a child of nonexistent parent theme %s",
                         $this->activeTheme,
                         $theme['parent']

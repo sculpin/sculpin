@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,9 +11,11 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ArrayAccess;
+use InvalidArgumentException;
 use Sculpin\Core\Source\ProxySource;
 
-class ProxySourceItem extends ProxySource implements \ArrayAccess
+class ProxySourceItem extends ProxySource implements ArrayAccess
 {
     private $previousItem;
     private $nextItem;
@@ -28,7 +30,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->data()->export();
     }
 
-    public function url()
+    public function url(): string
     {
         return $this->permalink()->relativeUrlPath();
     }
@@ -50,9 +52,9 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->data()->get('blocks');
     }
 
-    public function setBlocks(array $blocks = null)
+    public function setBlocks(?array $blocks = null): void
     {
-        $this->data()->set('blocks', $blocks ?: array());
+        $this->data()->set('blocks', $blocks ?: []);
     }
 
     public function previousItem()
@@ -60,7 +62,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->previousItem;
     }
 
-    public function setPreviousItem(ProxySourceItem $item = null)
+    public function setPreviousItem(?self $item = null): void
     {
         $lastPreviousItem = $this->previousItem;
         $this->previousItem = $item;
@@ -83,7 +85,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->nextItem;
     }
 
-    public function setNextItem(ProxySourceItem $item = null)
+    public function setNextItem(?self $item = null): void
     {
         $lastNextItem = $this->nextItem;
         $this->nextItem = $item;
@@ -101,7 +103,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
-    public function reprocess()
+    public function reprocess(): void
     {
         $this->setHasChanged();
     }
@@ -109,15 +111,15 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            throw new \InvalidArgumentException('Proxy source items cannot have values pushed onto them');
+            throw new InvalidArgumentException('Proxy source items cannot have values pushed onto them');
         } else {
             if (method_exists($this, $offset)) {
-                return call_user_func(array($this, $offset, $value));
+                return call_user_func([$this, $offset, $value]);
             }
 
             $setMethod = 'set'.ucfirst($offset);
             if (method_exists($this, $setMethod)) {
-                return call_user_func(array($this, $setMethod, $value));
+                return call_user_func([$this, $setMethod, $value]);
             }
 
             $this->data()->set($offset, $value);
@@ -129,7 +131,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return ! method_exists($this, $offset) && null !== $this->data()->get($offset);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (! method_exists($this, $offset)) {
             $this->data()->remove($offset);
@@ -139,7 +141,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     public function offsetGet($offset)
     {
         if (method_exists($this, $offset)) {
-            return call_user_func(array($this, $offset));
+            return call_user_func([$this, $offset]);
         }
 
         return $this->data()->get($offset);

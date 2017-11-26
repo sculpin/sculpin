@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -20,5 +20,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SculpinMarkdownBundle extends Bundle
 {
-    const CONVERTER_NAME = 'markdown';
+    public const CONVERTER_NAME = 'markdown';
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,13 +11,15 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
+use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 
-class SourceSetTest extends \PHPUnit_Framework_TestCase
+class SourceSetTest extends TestCase
 {
     public function makeTestSource($sourceId, $hasChanged = true)
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
 
         $source
             ->expects($this->any())
@@ -32,13 +34,13 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         return $source;
     }
 
-    public function testContainsSource()
+    public function testContainsSource(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
         $source002 = $this->makeTestSource('TestSource:002');
 
-        $sourceSet = new SourceSet(array($source000, $source002));
+        $sourceSet = new SourceSet([$source000, $source002]);
 
         $this->assertTrue($sourceSet->containsSource($source000));
         $this->assertFalse($sourceSet->containsSource($source001));
@@ -51,7 +53,7 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($sourceSet->containsSource($source002));
     }
 
-    public function testMergeSource()
+    public function testMergeSource(): void
     {
         $source000a = $this->makeTestSource('TestSource:000');
         $source000a
@@ -82,48 +84,48 @@ class SourceSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('b', $internalSources['TestSource:000']->content());
     }
 
-    public function testAllSources()
+    public function testAllSources(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
         $source002 = $this->makeTestSource('TestSource:002');
 
-        $sourceSet = new SourceSet(array($source000, $source001, $source002));
+        $sourceSet = new SourceSet([$source000, $source001, $source002]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestSource:000' => $source000,
             'TestSource:001' => $source001,
             'TestSource:002' => $source002,
-        ), $sourceSet->allSources());
+        ], $sourceSet->allSources());
     }
 
-    public function testUpdatedSources()
+    public function testUpdatedSources(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001', false);
         $source002 = $this->makeTestSource('TestSource:002');
 
-        $sourceSet = new SourceSet(array($source000, $source001, $source002));
+        $sourceSet = new SourceSet([$source000, $source001, $source002]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestSource:000' => $source000,
             'TestSource:002' => $source002,
-        ), $sourceSet->updatedSources());
+        ], $sourceSet->updatedSources());
     }
 
-    public function testReset()
+    public function testReset(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
         $source002 = $this->makeTestSource('TestSource:002');
 
-        foreach (array($source000, $source001, $source002) as $source) {
+        foreach ([$source000, $source001, $source002] as $source) {
             $source
                 ->expects($this->once())
                 ->method('setHasNotChanged');
         }
 
-        $sourceSet = new SourceSet(array($source000, $source001, $source002));
+        $sourceSet = new SourceSet([$source000, $source001, $source002]);
         $sourceSet->reset();
     }
 }

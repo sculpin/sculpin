@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,8 +11,9 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Permalink\PermalinkInterface;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use Sculpin\Core\Permalink\PermalinkInterface;
+use SplFileInfo;
 
 /**
  * Abstract Source.
@@ -73,7 +74,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * File
      *
-     * @var \SplFileInfo
+     * @var SplFileInfo
      */
     protected $file;
 
@@ -131,7 +132,7 @@ abstract class AbstractSource implements SourceInterface
      *
      * @param bool $hasChanged Has the Source changed?
      */
-    protected function init($hasChanged = null)
+    protected function init(?bool $hasChanged = null): void
     {
         if (null !== $hasChanged) {
             $this->hasChanged = $hasChanged;
@@ -142,7 +143,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function sourceId()
+    public function sourceId(): string
     {
         return $this->sourceId;
     }
@@ -150,7 +151,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function isRaw()
+    public function isRaw(): bool
     {
         return $this->isRaw;
     }
@@ -158,7 +159,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function content()
+    public function content(): string
     {
         return $this->content;
     }
@@ -166,7 +167,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent($content = null)
+    public function setContent(?string $content = null): void
     {
         $this->content = $content;
 
@@ -178,7 +179,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function formattedContent()
+    public function formattedContent(): ?string
     {
         return $this->formattedContent;
     }
@@ -186,7 +187,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormattedContent($formattedContent = null)
+    public function setFormattedContent(?string $formattedContent = null): void
     {
         $this->formattedContent = $formattedContent;
     }
@@ -194,7 +195,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function data()
+    public function data(): Data
     {
         return $this->data;
     }
@@ -202,7 +203,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function hasChanged()
+    public function hasChanged(): bool
     {
         return $this->hasChanged;
     }
@@ -210,7 +211,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setHasChanged()
+    public function setHasChanged(): void
     {
         $this->hasChanged = true;
     }
@@ -218,7 +219,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setHasNotChanged()
+    public function setHasNotChanged(): void
     {
         $this->hasChanged = false;
     }
@@ -226,7 +227,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function permalink()
+    public function permalink(): PermalinkInterface
     {
         return $this->permalink;
     }
@@ -234,7 +235,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setPermalink(PermalinkInterface $permalink)
+    public function setPermalink(PermalinkInterface $permalink): void
     {
         $this->permalink = $permalink;
     }
@@ -242,7 +243,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function useFileReference()
+    public function useFileReference(): bool
     {
         return $this->useFileReference;
     }
@@ -250,7 +251,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function canBeFormatted()
+    public function canBeFormatted(): bool
     {
         return $this->canBeFormatted;
     }
@@ -258,7 +259,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function isGenerator()
+    public function isGenerator(): bool
     {
         return $this->isGenerator;
     }
@@ -266,7 +267,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsGenerator()
+    public function setIsGenerator(): void
     {
         $this->isGenerator = true;
     }
@@ -274,7 +275,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsNotGenerator()
+    public function setIsNotGenerator(): void
     {
         $this->isGenerator = false;
     }
@@ -282,7 +283,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function isGenerated()
+    public function isGenerated(): bool
     {
         return $this->isGenerated;
     }
@@ -290,7 +291,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsGenerated()
+    public function setIsGenerated(): void
     {
         $this->isGenerated = true;
     }
@@ -298,7 +299,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsNotGenerated()
+    public function setIsNotGenerated(): void
     {
         $this->isGenerated = false;
     }
@@ -306,7 +307,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function shouldBeSkipped()
+    public function shouldBeSkipped(): bool
     {
         return $this->shouldBeSkipped;
     }
@@ -314,7 +315,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setShouldBeSkipped()
+    public function setShouldBeSkipped(): void
     {
         $this->shouldBeSkipped = true;
     }
@@ -322,7 +323,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setShouldNotBeSkipped()
+    public function setShouldNotBeSkipped(): void
     {
         $this->shouldBeSkipped = false;
     }
@@ -330,7 +331,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function forceReprocess()
+    public function forceReprocess(): void
     {
         $this->init(true);
     }
@@ -338,7 +339,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function relativePathname()
+    public function relativePathname(): string
     {
         return $this->relativePathname;
     }
@@ -346,7 +347,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function filename()
+    public function filename(): string
     {
         return $this->filename;
     }
@@ -354,7 +355,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function file()
+    public function file(): SplFileInfo
     {
         return $this->file;
     }
@@ -362,7 +363,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function url()
+    public function url(): string
     {
         return $this->permalink()->relativeUrlPath();
     }
@@ -370,19 +371,19 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function duplicate($newSourceId, array $options = array())
+    public function duplicate(string $newSourceId, array $options = []): SourceInterface
     {
         return new MemorySource(
             $newSourceId,
             new Data($this->data->exportRaw()),
-            isset($options['content']) ? $options['content'] : $this->content,
-            isset($options['formattedContent']) ? $options['formattedContent'] : $this->formattedContent,
-            isset($options['relativePathname']) ? $options['relativePathname'] : $this->relativePathname,
-            isset($options['filename']) ? $options['filename'] : $this->filename,
-            isset($options['file']) ? $options['file'] : $this->file,
-            isset($options['isRaw']) ? $options['isRaw'] : $this->isRaw,
-            isset($options['canBeFormatted']) ? $options['canBeFormatted'] : $this->canBeFormatted,
-            isset($options['hasChanged']) ? $options['hasChanged'] : $this->hasChanged
+            $options['content'] ?? $this->content,
+            $options['formattedContent'] ?? $this->formattedContent,
+            $options['relativePathname'] ?? $this->relativePathname,
+            $options['filename'] ?? $this->filename,
+            $options['file'] ?? $this->file,
+            $options['isRaw'] ?? $this->isRaw,
+            $options['canBeFormatted'] ?? $this->canBeFormatted,
+            $options['hasChanged'] ?? $this->hasChanged
         );
     }
 }

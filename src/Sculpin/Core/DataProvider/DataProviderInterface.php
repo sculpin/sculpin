@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -21,7 +21,7 @@ interface DataProviderInterface
     /**
      * Provide data.
      *
-     * @return array
+     * @return array|mixed
      */
     public function provideData();
 }

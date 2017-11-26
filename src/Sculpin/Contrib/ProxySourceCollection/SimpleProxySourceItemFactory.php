@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,6 +11,7 @@
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ReflectionClass;
 use Sculpin\Core\Source\SourceInterface;
 
 class SimpleProxySourceItemFactory implements ProxySourceItemFactoryInterface
@@ -19,12 +20,12 @@ class SimpleProxySourceItemFactory implements ProxySourceItemFactoryInterface
 
     public function __construct($class = null)
     {
-        $this->reflectionClass = new \ReflectionClass(
-            $class ?: 'Sculpin\Contrib\ProxySourceCollection\ProxySourceItem'
+        $this->reflectionClass = new ReflectionClass(
+            $class ?: ProxySourceItem::class
         );
     }
 
-    public function createProxySourceItem(SourceInterface $source)
+    public function createProxySourceItem(SourceInterface $source): ProxySourceItem
     {
         return $this->reflectionClass->newInstance($source);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -12,6 +12,7 @@
 
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
+use RuntimeException;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +30,7 @@ class CacheClearCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('cache:clear')
@@ -49,14 +50,14 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $cacheDir = $this->getContainer()->getParameter('kernel.cache_dir');
         $filesystem   = $this->getContainer()->get('filesystem');
 
         if ($filesystem->exists($cacheDir)) {
             if (!is_writable($cacheDir)) {
-                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
+                throw new RuntimeException(sprintf('Unable to write in the "%s" directory', $cacheDir));
             }
 
             $filesystem->remove($cacheDir);

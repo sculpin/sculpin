@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,7 +11,7 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Configuration\Configuration;
+use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Permalink\PermalinkInterface;
 
 /**
@@ -24,189 +24,151 @@ interface SourceInterface
     /**
      * Source ID
      *
-     * @return String
+     * @return string
      */
-    public function sourceId();
+    public function sourceId(): String;
 
     /**
      * Represents a raw source
-     *
-     * @return boolean
      */
-    public function isRaw();
+    public function isRaw(): bool;
 
     /**
      * Represents a source that can be formatted
-     *
-     * @return boolean
      */
-    public function canBeFormatted();
+    public function canBeFormatted(): bool;
 
     /**
      * Has changed
-     *
-     * @return boolean
      */
-    public function hasChanged();
+    public function hasChanged(): bool;
 
     /**
      * Mark source as changed
      */
-    public function setHasChanged();
+    public function setHasChanged(): void;
 
     /**
      * Mark source as not changed
      */
-    public function setHasNotChanged();
+    public function setHasNotChanged(): void;
 
     /**
      * Permalink
-     *
-     * @return PermalinkInterface
      */
-    public function permalink();
+    public function permalink(): PermalinkInterface;
 
     /**
      * Set permalink
-     *
-     * @param PermalinkInterface $permalink
      */
-    public function setPermalink(PermalinkInterface $permalink);
+    public function setPermalink(PermalinkInterface $permalink): void;
 
     /**
      * Use file reference reference instead of string content
-     *
-     * @return bool
      */
-    public function useFileReference();
+    public function useFileReference(): bool;
 
     /**
      * File reference. (if uses file reference)
-     *
-     * @return \SplFileInfo
      */
-    public function file();
+    public function file(): \SplFileInfo;
 
     /**
      * Content (if not use file reference)
-     *
-     * @return string
      */
-    public function content();
+    public function content(): string;
 
     /**
      * Set content
-     *
-     * @param string|null $content
      */
-    public function setContent($content = null);
+    public function setContent(?string $content = null): void;
 
     /**
      * Formatted content (if not use file reference)
      *
-     * @return string
+     * @return string|null
      */
-    public function formattedContent();
+    public function formattedContent(): ?string;
 
     /**
      * Set formatted content
-     *
-     * @param string|null $formattedContent
      */
-    public function setFormattedContent($formattedContent = null);
+    public function setFormattedContent(?string $formattedContent = null): void;
 
     /**
      * Relative pathname
-     *
-     * @return string
      */
-    public function relativePathname();
+    public function relativePathname(): string;
 
     /**
      * Filename
-     *
-     * @return string
      */
-    public function filename();
+    public function filename(): string;
 
     /**
      * Data
-     *
-     * @return Configuration
      */
-    public function data();
+    public function data(): Configuration;
 
     /**
      * Source is a generator
-     *
-     * @return bool
      */
-    public function isGenerator();
+    public function isGenerator(): bool;
 
     /**
      * Mark Source as being a generator
      */
-    public function setIsGenerator();
+    public function setIsGenerator(): void;
 
     /**
      * Mark Source as not being a generator
      */
-    public function setIsNotGenerator();
+    public function setIsNotGenerator(): void;
 
     /**
      * Source is generated (from a generator)
-     *
-     * @return bool
      */
-    public function isGenerated();
+    public function isGenerated(): bool;
 
     /**
      * Mark Source as being generated (by a generator)
      */
-    public function setIsGenerated();
+    public function setIsGenerated(): void;
 
     /**
      * Mark Source as not being generated (by a generator)
      */
-    public function setIsNotGenerated();
+    public function setIsNotGenerated(): void;
 
     /**
      * Source should be skipped
-     *
-     * @return bool
      */
-    public function shouldBeSkipped();
+    public function shouldBeSkipped(): bool;
 
     /**
      * Mark Source as being skipped
      */
-    public function setShouldBeSkipped();
+    public function setShouldBeSkipped(): void;
 
     /**
      * Mark Source as not being skipped
      */
-    public function setShouldNotBeSkipped();
+    public function setShouldNotBeSkipped(): void;
 
     /**
      * Force Source to be reprocessed
      */
-    public function forceReprocess();
+    public function forceReprocess(): void;
 
     /**
      * URL
      *
      * Convenience method.
-     *
-     * @return string
      */
-    public function url();
+    public function url(): string;
 
     /**
      * Duplicate the source
-     *
-     * @param string $newSourceId
-     *
-     * @return SourceInterface
      */
-    public function duplicate($newSourceId);
+    public function duplicate(string $newSourceId): SourceInterface;
 }

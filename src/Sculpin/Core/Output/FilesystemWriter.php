@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -37,10 +37,9 @@ class FilesystemWriter implements WriterInterface
     /**
      * Constructor.
      *
-     * @param Filesystem $filesystem Filesystem
      * @param string     $outputDir  Output directory
      */
-    public function __construct(Filesystem $filesystem, $outputDir)
+    public function __construct(Filesystem $filesystem, string $outputDir)
     {
         $this->filesystem = $filesystem;
         $this->outputDir = $outputDir;
@@ -48,7 +47,7 @@ class FilesystemWriter implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function write(OutputInterface $output)
+    public function write(OutputInterface $output): void
     {
         $outputPath = $this->outputDir.'/'.$output->permalink()->relativeFilePath();
         if ($output->hasFileReference()) {

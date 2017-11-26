@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,9 +11,9 @@
 
 namespace Sculpin\Core\Io;
 
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\HelperSet;
 
 /**
  * The Input/Output helper.
@@ -31,10 +31,6 @@ class ConsoleIo implements IoInterface
 
     /**
      * Constructor.
-     *
-     * @param InputInterface  $input     The input instance
-     * @param OutputInterface $output    The output instance
-     * @param HelperSet       $helperSet The helperSet instance
      */
     public function __construct(InputInterface $input, OutputInterface $output, HelperSet $helperSet)
     {
@@ -43,7 +39,7 @@ class ConsoleIo implements IoInterface
         $this->helperSet = $helperSet;
     }
 
-    public function enableDebugging($startTime)
+    public function enableDebugging($startTime): void
     {
         $this->startTime = $startTime;
     }
@@ -51,7 +47,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isInteractive()
+    public function isInteractive(): bool
     {
         return $this->input->isInteractive();
     }
@@ -59,7 +55,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isDecorated()
+    public function isDecorated(): bool
     {
         return $this->output->isDecorated();
     }
@@ -67,7 +63,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isVerbose()
+    public function isVerbose(): bool
     {
         return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
     }
@@ -75,7 +71,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isVeryVerbose()
+    public function isVeryVerbose(): bool
     {
         return $this->output->getVerbosity() >= 3; // OutputInterface::VERBOSITY_VERY_VERBOSE
     }
@@ -83,7 +79,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isDebug()
+    public function isDebug(): bool
     {
         return $this->output->getVerbosity() >= 4; // OutputInterface::VERBOSITY_DEBUG
     }
@@ -91,7 +87,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function write($messages, $newline = true)
+    public function write($messages, $newline = true): void
     {
         if (null !== $this->startTime) {
             $messages = (array) $messages;
@@ -109,7 +105,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function overwrite($messages, $newline = true, $size = null)
+    public function overwrite($messages, $newline = true, $size = null): void
     {
         // messages can be an array, let's convert it to string anyway
         $messages = join($newline ? "\n" : '', (array) $messages);

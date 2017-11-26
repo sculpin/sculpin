@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -37,10 +37,10 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         FormatterManager $formatterManager,
         $dataProviderName,
         $dataSingularName = null,
-        ProxySourceCollection $collection = null,
+        ?ProxySourceCollection $collection = null,
         FilterInterface $filter,
         MapInterface $map,
-        ProxySourceItemFactoryInterface $factory = null
+        ?ProxySourceItemFactoryInterface $factory = null
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
@@ -51,23 +51,23 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $this->factory = $factory ?: new SimpleProxySourceItemFactory;
     }
 
-    public function provideData()
+    public function provideData(): ProxySourceCollection
     {
         return $this->collection;
     }
 
     public static function getSubscribedEvents()
     {
-        return array(
-            Sculpin::EVENT_BEFORE_RUN => array(
-                array('beforeRun', 0),
-                array('beforeRunPost', -100),
-            ),
+        return [
+            Sculpin::EVENT_BEFORE_RUN => [
+                ['beforeRun', 0],
+                ['beforeRunPost', -100],
+            ],
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
-        );
+        ];
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             if ($source->isGenerated()) {
@@ -101,7 +101,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $this->collection->init();
     }
 
-    public function beforeRunPost(SourceSetEvent $sourceSetEvent)
+    public function beforeRunPost(SourceSetEvent $sourceSetEvent): void
     {
         $anItemHasChanged = false;
         foreach ($this->collection as $item) {
@@ -124,7 +124,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
     }
 
-    public function afterConvert(ConvertEvent $convertEvent)
+    public function afterConvert(ConvertEvent $convertEvent): void
     {
         $sourceId = $convertEvent->source()->sourceId();
         if (isset($this->collection[$sourceId])) {

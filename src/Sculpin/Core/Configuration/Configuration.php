@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -25,21 +25,21 @@ class Configuration extends BaseConfiguration
      *
      * @var array
      */
-    private $excludes = array();
+    private $excludes = [];
 
     /**
      * Ignore patterns
      *
      * @var array
      */
-    private $ignores = array();
+    private $ignores = [];
 
     /**
      * Raw patterns
      *
      * @var array
      */
-    private $raws = array();
+    private $raws = [];
 
     /**
      * Source directory
@@ -75,10 +75,8 @@ class Configuration extends BaseConfiguration
      * NOTE: Does not clear existing values first.
      *
      * @param array $excludes Excludes.
-     *
-     * @return Configuration
      */
-    public function setExcludes(array $excludes = array())
+    public function setExcludes(array $excludes = []): Configuration
     {
         foreach ($excludes as $exclude) {
             $this->addExclude($exclude);
@@ -89,12 +87,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Add an exclude pattern
-     *
-     * @param string $pattern
-     *
-     * @return Configuration
      */
-    public function addExclude($pattern)
+    public function addExclude(string $pattern): Configuration
     {
         if (substr($pattern, 0, 2)=='./') {
             $pattern = substr($pattern, 2);
@@ -109,10 +103,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Excludes
-     *
-     * @return array
      */
-    public function excludes()
+    public function excludes(): array
     {
         return $this->excludes;
     }
@@ -123,10 +115,8 @@ class Configuration extends BaseConfiguration
      * NOTE: Does not clear existing values first.
      *
      * @param array $ignores Ignores.
-     *
-     * @return Configuration
      */
-    public function setIgnores(array $ignores = array())
+    public function setIgnores(array $ignores = []): Configuration
     {
         foreach ($ignores as $ignore) {
             $this->addIgnore($ignore);
@@ -137,12 +127,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Add an ignore pattern
-     *
-     * @param string $pattern
-     *
-     * @return Configuration
      */
-    public function addIgnore($pattern)
+    public function addIgnore(string $pattern): Configuration
     {
         if (substr($pattern, 0, 2)=='./') {
             $pattern = substr($pattern, 2);
@@ -157,10 +143,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Ignores
-     *
-     * @return array
      */
-    public function ignores()
+    public function ignores(): array
     {
         return $this->ignores;
     }
@@ -171,10 +155,8 @@ class Configuration extends BaseConfiguration
      * NOTE: Does not clear existing values first.
      *
      * @param array $raws Raws.
-     *
-     * @return Configuration
      */
-    public function setRaws(array $raws = array())
+    public function setRaws(array $raws = []): Configuration
     {
         foreach ($raws as $raw) {
             $this->addRaw($raw);
@@ -185,12 +167,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Add a raw pattern
-     *
-     * @param string $pattern
-     *
-     * @return Configuration
      */
-    public function addRaw($pattern)
+    public function addRaw(string $pattern): Configuration
     {
         if (substr($pattern, 0, 2)=='./') {
             $pattern = substr($pattern, 2);
@@ -204,10 +182,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Raws
-     *
-     * @return array
      */
-    public function raws()
+    public function raws(): array
     {
         return $this->raws;
     }
@@ -216,10 +192,8 @@ class Configuration extends BaseConfiguration
      * Set source directory
      *
      * @param string $sourceDir Source directory
-     *
-     * @return Configuration
      */
-    public function setSourceDir($sourceDir)
+    public function setSourceDir(string $sourceDir): Configuration
     {
         $this->sourceDir = $sourceDir;
 
@@ -228,10 +202,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Source directory
-     *
-     * @return string
      */
-    public function sourceDir()
+    public function sourceDir(): string
     {
         return $this->sourceDir;
     }
@@ -243,7 +215,7 @@ class Configuration extends BaseConfiguration
      *
      * @return $this
      */
-    public function setOutputDir($outputDir)
+    public function setOutputDir(string $outputDir)
     {
         $this->outputDir = $outputDir;
 
@@ -252,10 +224,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Output directory
-     *
-     * @return string
      */
-    public function outputDir()
+    public function outputDir(): string
     {
         return $this->outputDir;
     }
@@ -267,7 +237,7 @@ class Configuration extends BaseConfiguration
      *
      * @return $this
      */
-    public function setPermalink($permalink)
+    public function setPermalink(string $permalink)
     {
         $this->permalink = $permalink;
 
@@ -276,10 +246,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Permalink
-     *
-     * @return string
      */
-    public function permalink()
+    public function permalink(): string
     {
         return $this->permalink;
     }
@@ -288,10 +256,8 @@ class Configuration extends BaseConfiguration
      * Set default formatter
      *
      * @param string $defaultFormatter Default formatter
-     *
-     * @return Configuration
      */
-    public function setDefaultFormatter($defaultFormatter)
+    public function setDefaultFormatter(string $defaultFormatter): Configuration
     {
         $this->defaultFormatter = $defaultFormatter;
 
@@ -300,10 +266,8 @@ class Configuration extends BaseConfiguration
 
     /**
      * Default formatter
-     *
-     * @return string
      */
-    public function defaultFormatter()
+    public function defaultFormatter(): string
     {
         return $this->defaultFormatter;
     }

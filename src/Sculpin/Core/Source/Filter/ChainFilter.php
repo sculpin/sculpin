@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -15,16 +15,16 @@ use Sculpin\Core\Source\SourceInterface;
 
 class ChainFilter implements FilterInterface
 {
-    private $filters = array();
+    private $filters = [];
     private $or;
 
-    public function __construct(array $filters = array(), $or = false)
+    public function __construct(array $filters = [], $or = false)
     {
         $this->filters = $filters;
         $this->or = $or;
     }
 
-    public function match(SourceInterface $source)
+    public function match(SourceInterface $source): bool
     {
         $matched = false;
 
@@ -53,7 +53,7 @@ class ChainFilter implements FilterInterface
         return $matched;
     }
 
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(FilterInterface $filter): void
     {
         $this->filters[] = $filter;
     }

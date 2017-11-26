@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -11,8 +11,8 @@
 
 namespace Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -25,7 +25,7 @@ class FormatterManagerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin.formatter_manager')) {
             return;
@@ -35,7 +35,7 @@ class FormatterManagerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('sculpin.formatter') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerFormatter', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerFormatter', [$attributes['alias'], new Reference($id)]);
             }
         }
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -39,10 +39,8 @@ class FormatEvent extends Event
 
     /**
      * Format Context
-     *
-     * @return FormatContext
      */
-    public function formatContext()
+    public function formatContext(): FormatContext
     {
         return $this->formatContext;
     }
