@@ -13,7 +13,7 @@ namespace Sculpin\Core\Tests\Formatter;
 
 use Sculpin\Core\Formatter\FormatContext;
 
-class FormatContextTest extends \PHPUnit_Framework_TestCase
+class FormatContextTest extends \PHPUnit\Framework\TestCase
 {
     public function test()
     {

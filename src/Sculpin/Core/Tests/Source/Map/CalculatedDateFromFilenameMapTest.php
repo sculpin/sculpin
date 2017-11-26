@@ -15,7 +15,7 @@ use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
 use Sculpin\Core\Source\MemorySource;
 
-class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
+class CalculatedDateFromFilenameMapTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

@@ -13,11 +13,11 @@ namespace Sculpin\Core\Tests\Source;
 
 use Sculpin\Core\Source\ProxySource;
 
-class ProxySourceTest extends \PHPUnit_Framework_TestCase
+class ProxySourceTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetFormattedContent()
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock('Sculpin\Core\Source\SourceInterface');
         $source
             ->expects($this->once())
             ->method('setFormattedContent')

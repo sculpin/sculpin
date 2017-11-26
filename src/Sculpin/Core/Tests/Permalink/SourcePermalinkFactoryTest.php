@@ -8,7 +8,7 @@ use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\MemorySource;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
+class SourcePermalinkFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
