@@ -4,6 +4,7 @@ namespace Sculpin\Bundle\ThemeBundle;
 
 use Twig_Extension;
 use Twig_Function_Method;
+
 class ThemeTwigExtension extends Twig_Extension
 {
     private $theme;

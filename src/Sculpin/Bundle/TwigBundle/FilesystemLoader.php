@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\TwigBundle;
 
 use Twig_Loader_Filesystem;
+
 /**
  * Filesystem Loader.
  *

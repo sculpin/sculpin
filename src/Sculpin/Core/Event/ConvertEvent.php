@@ -84,7 +84,9 @@ class ConvertEvent extends Event
      */
     public function isFormattedBy(string $requestedFormatter): string
     {
-        return $requestedFormatter === $this->source->data()->get('formatter') ? $requestedFormatter : $this->defaultFormatter;
+        return $requestedFormatter === $this->source->data()->get('formatter')
+            ? $requestedFormatter
+            : $this->defaultFormatter;
     }
 
     /**
