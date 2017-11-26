@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Sculpin\Core\Converter;
 
@@ -12,5 +12,5 @@ interface ParserInterface
      *
      * @return string
      */
-    public function transform($content);
+    public function transform(string $content): string;
 }

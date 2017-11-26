@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,7 +23,7 @@ interface DataSourceInterface
      *
      * @return string
      */
-    public function dataSourceId();
+    public function dataSourceId(): string;
 
     /**
      * Refresh the Source Set with updated Sources.

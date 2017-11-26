@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -27,5 +27,5 @@ interface SourcePermalinkFactoryInterface
      *
      * @return PermalinkInterface
      */
-    public function create(SourceInterface $source);
+    public function create(SourceInterface $source): PermalinkInterface;
 }

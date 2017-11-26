@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the Symfony package.
@@ -30,7 +30,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     /**
      * @return ContainerInterface
      */
-    protected function getContainer()
+    protected function getContainer(): ContainerInterface
     {
         if (null === $this->container) {
             $this->container = $this->getApplication()->getKernel()->getContainer();

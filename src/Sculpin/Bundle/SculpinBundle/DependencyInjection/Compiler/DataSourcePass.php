@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -34,7 +34,7 @@ class DataSourcePass implements CompilerPassInterface
         $definition = $container->getDefinition('sculpin.data_source');
 
         foreach ($container->findTaggedServiceIds('sculpin.data_source') as $id => $tagAttributes) {
-            $definition->addMethodCall('addDataSource', array(new Reference($id)));
+            $definition->addMethodCall('addDataSource', [new Reference($id)]);
         }
     }
 }

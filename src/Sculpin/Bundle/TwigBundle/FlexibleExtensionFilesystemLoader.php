@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -29,9 +29,9 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     protected $filesystemLoader;
 
-    protected $cachedCacheKey = array();
-    protected $cachedCacheKeyExtension = array();
-    protected $cachedCacheKeyException = array();
+    protected $cachedCacheKey = [];
+    protected $cachedCacheKeyExtension = [];
+    protected $cachedCacheKeyException = [];
 
     /**
      * Constructor.
@@ -41,7 +41,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      * @param string[] $paths
      * @param string[] $extensions
      */
-    public function __construct($sourceDir, array $sourcePaths, array $paths, array $extensions)
+    public function __construct(string $sourceDir, array $sourcePaths, array $paths, array $extensions)
     {
         $mappedSourcePaths = array_map(function ($path) use ($sourceDir) {
             return $sourceDir.'/'.$path;
@@ -121,17 +121,17 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
         if ($sourceSetEvent->sourceSet()->newSources()) {
-            $this->cachedCacheKey = array();
-            $this->cachedCacheKeyExtension = array();
-            $this->cachedCacheKeyException = array();
+            $this->cachedCacheKey = [];
+            $this->cachedCacheKeyExtension = [];
+            $this->cachedCacheKeyException = [];
         }
     }
 }

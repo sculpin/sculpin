@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -44,7 +44,7 @@ class SelfUpdateCommand extends AbstractCommand
         $fullCommand = $this->commandPrefix.'self-update';
         $this
             ->setName($fullCommand)
-            ->setAliases(array($this->commandPrefix.'selfupdate'))
+            ->setAliases([$this->commandPrefix.'selfupdate'])
             ->setDescription('Updates sculpin to the latest version.')
             ->setHelp(<<<EOT
 The <info>self-update</info> command checks for newer versions of sculpin and if found,
@@ -83,7 +83,7 @@ EOT
             throw new FilesystemException('Sculpin update failed: the "'.$localFilename. '" file could not be written');
         }
 
-        set_error_handler(array($this, 'handleError'));
+        set_error_handler([$this, 'handleError']);
 
         $protocol = extension_loaded('openssl') ? 'https' : 'http';
 
@@ -122,7 +122,7 @@ EOT
                 // free the variable to unlock the file
                 unset($phar);
                 rename($tempFilename, $localFilename);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 @unlink($tempFilename);
                 if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
                     throw $e;
@@ -144,7 +144,7 @@ EOT
      */
     protected function getStreamContext()
     {
-        $options = array('http' => array());
+        $options = ['http' => []];
 
         // Handle system proxy
         if (!empty($_SERVER['HTTP_PROXY']) || !empty($_SERVER['http_proxy'])) {
@@ -154,7 +154,7 @@ EOT
 
         if (!empty($proxy)) {
             $proxyURL = isset($proxy['scheme']) ? $proxy['scheme'] . '://' : '';
-            $proxyURL .= isset($proxy['host']) ? $proxy['host'] : '';
+            $proxyURL .= $proxy['host'] ?? '';
 
             if (isset($proxy['port'])) {
                 $proxyURL .= ":" . $proxy['port'];
@@ -165,16 +165,16 @@ EOT
             }
 
             // http(s):// is not supported in proxy
-            $proxyURL = str_replace(array('http://', 'https://'), array('tcp://', 'ssl://'), $proxyURL);
+            $proxyURL = str_replace(['http://', 'https://'], ['tcp://', 'ssl://'], $proxyURL);
 
             if (0 === strpos($proxyURL, 'ssl:') && !extension_loaded('openssl')) {
                 throw new \RuntimeException('You must enable the openssl extension to use a proxy over https');
             }
 
-            $options['http'] = array(
+            $options['http'] = [
                 'proxy'           => $proxyURL,
                 'request_fulluri' => true,
-            );
+            ];
 
             if (isset($proxy['user'])) {
                 $auth = $proxy['user'];

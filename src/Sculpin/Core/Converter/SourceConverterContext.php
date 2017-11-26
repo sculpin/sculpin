@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -40,7 +40,7 @@ class SourceConverterContext implements ConverterContextInterface
     /**
      * {@inheritdoc}
      */
-    public function content()
+    public function content(): string
     {
         return $this->source->content();
     }
@@ -48,7 +48,7 @@ class SourceConverterContext implements ConverterContextInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->source->setContent($content);
     }

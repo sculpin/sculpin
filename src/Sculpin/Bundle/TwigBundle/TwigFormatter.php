@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -58,15 +58,15 @@ class TwigFormatter implements FormatterInterface
             $template = $this->twig->loadTemplate($formatContext->templateId());
 
             if (!count($blockNames = $this->findAllBlocks($template, $data))) {
-                return array('content' => $template->render($data));
+                return ['content' => $template->render($data)];
             }
-            $blocks = array();
+            $blocks = [];
             foreach ($blockNames as $blockName) {
                 $blocks[$blockName] = $template->renderBlock($blockName, $data);
             }
 
             return $blocks;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }
@@ -94,7 +94,7 @@ class TwigFormatter implements FormatterInterface
             $data = $formatContext->data()->export();
 
             return $this->twig->render($formatContext->templateId(), $data);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
         }
     }

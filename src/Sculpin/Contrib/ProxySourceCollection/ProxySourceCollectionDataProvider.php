@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -58,13 +58,13 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
 
     public static function getSubscribedEvents()
     {
-        return array(
-            Sculpin::EVENT_BEFORE_RUN => array(
-                array('beforeRun', 0),
-                array('beforeRunPost', -100),
-            ),
+        return [
+            Sculpin::EVENT_BEFORE_RUN => [
+                ['beforeRun', 0],
+                ['beforeRunPost', -100],
+            ],
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
-        );
+        ];
     }
 
     public function beforeRun(SourceSetEvent $sourceSetEvent)

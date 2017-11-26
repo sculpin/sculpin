@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -51,7 +51,7 @@ class FormatterManager
      *
      * @var array
      */
-    protected $formatters = array();
+    protected $formatters = [];
 
     /**
      * Default formatter
@@ -84,14 +84,14 @@ class FormatterManager
      *
      * @return Configuration
      */
-    protected function buildBaseFormatContext($context)
+    protected function buildBaseFormatContext($context): Configuration
     {
-        $baseContext = new Configuration(array(
+        $baseContext = new Configuration([
             'site' => $this->siteConfiguration->export(),
             'page' => $context,
             'formatter' => $this->defaultFormatter,
-            'converters' => array(),
-        ));
+            'converters' => [],
+        ]);
 
         if (isset($context['url'])) {
             if ('/' === $context['url']) {
@@ -121,11 +121,11 @@ class FormatterManager
      *
      * @return FormatContext
      */
-    public function buildFormatContext($templateId, $template, $context)
+    public function buildFormatContext(string $templateId, string $template, array $context): FormatContext
     {
         $baseContext = $this->buildBaseFormatContext($context);
 
-        foreach (array('layout', 'formatter', 'converters') as $key) {
+        foreach (['layout', 'formatter', 'converters'] as $key) {
             if (isset($context[$key])) {
                 $baseContext->set($key, $context[$key]);
             }
@@ -140,7 +140,7 @@ class FormatterManager
      * @param string             $name      Name
      * @param FormatterInterface $formatter Formatter
      */
-    public function registerFormatter($name, FormatterInterface $formatter)
+    public function registerFormatter(string $name, FormatterInterface $formatter)
     {
         $this->formatters[$name] = $formatter;
 
@@ -156,7 +156,7 @@ class FormatterManager
      *
      * @return FormatterInterface
      */
-    public function formatter($name)
+    public function formatter(string $name): FormatterInterface
     {
         return $this->formatters[$name];
     }
@@ -170,7 +170,7 @@ class FormatterManager
      *
      * @return string
      */
-    public function formatPage($templateId, $template, $context)
+    public function formatPage(string $templateId, string $template, array $context): string
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
@@ -191,7 +191,7 @@ class FormatterManager
      *
      * @return string
      */
-    public function formatSourcePage(SourceInterface $source)
+    public function formatSourcePage(SourceInterface $source): string
     {
         return $this->formatPage(
             $source->sourceId(),
@@ -209,12 +209,12 @@ class FormatterManager
      *
      * @return array
      */
-    public function formatBlocks($templateId, $template, $context)
+    public function formatBlocks(string $templateId, string $template, array $context): array
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
         if (!$formatContext->formatter()) {
-            return array('content' => $template);
+            return ['content' => $template];
         }
 
         $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
@@ -230,7 +230,7 @@ class FormatterManager
      *
      * @return array
      */
-    public function formatSourceBlocks(SourceInterface $source)
+    public function formatSourceBlocks(SourceInterface $source): array
     {
         return $this->formatBlocks(
             $source->sourceId(),
@@ -244,7 +244,7 @@ class FormatterManager
      *
      * @return string
      */
-    public function defaultFormatter()
+    public function defaultFormatter(): string
     {
         return $this->defaultFormatter;
     }

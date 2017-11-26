@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,12 +23,12 @@ interface ConverterContextInterface
      *
      * @return string
      */
-    public function content();
+    public function content(): string;
 
     /**
      * Set content
      *
      * @param string $content Content
      */
-    public function setContent($content);
+    public function setContent(string $content);
 }

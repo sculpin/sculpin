@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -68,7 +68,7 @@ class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
     {
         return new MemorySource(
             uniqid(),
-            new Data(array('calculated_date' => $timestamp)),
+            new Data(['calculated_date' => $timestamp]),
             "contents",
             "formatted contents",
             __FILE__,

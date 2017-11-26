@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -34,7 +34,7 @@ class HttpServer
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
+    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, int $port = null)
     {
         $repository = new PhpRepository;
 
@@ -81,9 +81,9 @@ class HttpServer
 
             HttpServer::logRequest($output, 200, $request);
 
-            $response->writeHead(200, array(
+            $response->writeHead(200, [
                 "Content-Type" => $type,
-            ));
+            ]);
             $response->end(file_get_contents($path));
         });
 
@@ -96,7 +96,7 @@ class HttpServer
      * @param int      $interval Interval
      * @param callable $callback Callback
      */
-    public function addPeriodicTimer($interval, $callback)
+    public function addPeriodicTimer(int $interval, callable $callback)
     {
         $this->loop->addPeriodicTimer($interval, $callback);
     }
@@ -128,7 +128,7 @@ class HttpServer
      * @param string          $responseCode Response code
      * @param Request         $request      Request
      */
-    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
+    public static function logRequest(OutputInterface $output, string $responseCode, Request $request)
     {
         $wrapOpen = '';
         $wrapClose = '';

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -111,10 +111,10 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         if (null === $output) {
-            $styles = array(
+            $styles = [
                 'highlight' => new OutputFormatterStyle('red'),
                 'warning' => new OutputFormatterStyle('black', 'yellow'),
-            );
+            ];
             $formatter = new OutputFormatter(null, $styles);
             $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
@@ -155,7 +155,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
     public function getMissingSculpinBundlesMessages()
     {
-        $messages = array();
+        $messages = [];
 
         // Display missing bundle to user.
         if ($missingBundles = $this->kernel->getMissingSculpinBundles()) {
@@ -175,7 +175,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
      *
      * @return KernelInterface
      */
-    public function getKernel()
+    public function getKernel(): KernelInterface
     {
         return $this->kernel;
     }

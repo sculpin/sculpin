@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -100,10 +100,10 @@ class FilesystemDataSource implements DataSourceInterface
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
     public function __construct(
-        $sourceDir,
-        $excludes,
-        $ignores,
-        $raws,
+        string $sourceDir,
+        array $excludes,
+        array $ignores,
+        array $raws,
         FinderFactoryInterface $finderFactory = null,
         AntPathMatcher $matcher = null,
         Analyzer $analyzer = null,

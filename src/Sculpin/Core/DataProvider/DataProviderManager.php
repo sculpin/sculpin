@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,7 +23,7 @@ class DataProviderManager
      *
      * @var array
      */
-    protected $dataProviders = array();
+    protected $dataProviders = [];
 
     /**
      * Register data provider
@@ -31,7 +31,7 @@ class DataProviderManager
      * @param string                $name         Name
      * @param DataProviderInterface $dataProvider Data provider
      */
-    public function registerDataProvider($name, DataProviderInterface $dataProvider)
+    public function registerDataProvider(string $name, DataProviderInterface $dataProvider)
     {
         $this->dataProviders[$name] = $dataProvider;
     }
@@ -41,7 +41,7 @@ class DataProviderManager
      *
      * @return array
      */
-    public function dataProviders()
+    public function dataProviders(): array
     {
         return array_keys($this->dataProviders);
     }
@@ -53,7 +53,7 @@ class DataProviderManager
      *
      * @return DataProviderInterface
      */
-    public function dataProvider($name)
+    public function dataProvider(string $name): DataProviderInterface
     {
         return $this->dataProviders[$name];
     }

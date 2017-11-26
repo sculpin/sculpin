@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -50,7 +50,7 @@ class GeneratorManager
      *
      * @var array
      */
-    protected $generators = array();
+    protected $generators = [];
 
     /**
      * Constructor.
@@ -75,7 +75,7 @@ class GeneratorManager
      * @param string             $name      Name
      * @param GeneratorInterface $generator Generator
      */
-    public function registerGenerator($name, GeneratorInterface $generator)
+    public function registerGenerator(string $name, GeneratorInterface $generator)
     {
         $this->generators[$name] = $generator;
     }
@@ -87,13 +87,12 @@ class GeneratorManager
      * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
      *
-     * @return string
      */
     public function generate(SourceInterface $source, SourceSet $sourceSet)
     {
         $data = $source->data();
 
-        $generators = array();
+        $generators = [];
         $isGenerator = $source->isGenerator();
         if ($generatorNames = $data->get('generator')) {
             if (!$isGenerator) {
@@ -119,10 +118,10 @@ class GeneratorManager
             return;
         }
 
-        $targetSources = array($source);
+        $targetSources = [$source];
 
         foreach ($generators as $generator) {
-            $newTargetSources = array();
+            $newTargetSources = [];
             foreach ($targetSources as $targetSource) {
                 foreach ((array) $generator->generate($targetSource) as $generatedSource) {
                     $generatedSource->setIsGenerated();

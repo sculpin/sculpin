@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -50,7 +50,7 @@ class PathConfiguratorPass implements CompilerPassInterface
                 if ($container->hasParameter($parameter)) {
                     $value = $container->getParameter($parameter);
                     if (! is_array($value)) {
-                        $value = array($value);
+                        $value = [$value];
                     }
 
                     if ($container->hasParameter($typeParameter)) {

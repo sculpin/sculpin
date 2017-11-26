@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -32,7 +32,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @param string $defaultPermalink Default permalink
      */
-    public function __construct($defaultPermalink)
+    public function __construct(string $defaultPermalink)
     {
         $this->defaultPermalink = $defaultPermalink;
     }
@@ -40,7 +40,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function create(SourceInterface $source)
+    public function create(SourceInterface $source): PermalinkInterface
     {
         if ($source->canBeFormatted()) {
             $relativeFilePath = $this->generatePermalinkPathname($source);
@@ -89,7 +89,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 break;
             case 'pretty':
                 if ($response = $this->isDatePath($pathname)) {
-                    return implode('/', array_merge($response, array('index.html')));
+                    return implode('/', array_merge($response, ['index.html']));
                 } else {
                     $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', $pathname);
                     if (basename($pretty) == 'index') {
@@ -157,7 +157,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @return string Template for permalink
      */
-    private function getPermaLinkTemplate(SourceInterface $source)
+    private function getPermaLinkTemplate(SourceInterface $source): string
     {
         $permalink = $source->data()->get('permalink');
 
@@ -175,14 +175,14 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @return mixed
      */
-    private function isDatePath($path)
+    private function isDatePath(string $path)
     {
         if (preg_match(
             '/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/',
             $path,
             $matches
         )) {
-            return array($matches[1], $matches[2], $matches[3], $matches[4]);
+            return [$matches[1], $matches[2], $matches[3], $matches[4]];
         }
 
         return null;
@@ -198,7 +198,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @return string
      */
-    private function normalize($param, $space = '-')
+    private function normalize(string $param, string $space = '-'): string
     {
         $param = trim($param);
         if (function_exists('iconv')) {

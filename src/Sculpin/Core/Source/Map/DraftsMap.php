@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -20,12 +20,12 @@ class DraftsMap implements MapInterface
         if ($source->data()->get('draft')) {
             $tags = $source->data()->get('tags');
             if (null === $tags) {
-                $tags = array('drafts');
+                $tags = ['drafts'];
             } else {
                 if (!is_array($tags)) {
-                    $tags = array();
+                    $tags = [];
                     if ($tags) {
-                        $tags = array($tags);
+                        $tags = [$tags];
                     }
                 }
 

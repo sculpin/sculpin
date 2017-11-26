@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -27,13 +27,13 @@ class KernelFactory
      *
      * @return \Symfony\Component\HttpKernel\Kernel
      */
-    public static function create(InputInterface $input)
+    public static function create(InputInterface $input): \Symfony\Component\HttpKernel\Kernel
     {
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('SCULPIN_DEBUG') ?: 'dev');
+        $env = $input->getParameterOption(['--env', '-e'], getenv('SCULPIN_DEBUG') ?: 'dev');
         $debug = (
             $env !== 'prod'
             && getenv('SCULPIN_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
+            && !$input->hasParameterOption(['--no-debug', ''])
         );
 
         // do something here to locate and try to create

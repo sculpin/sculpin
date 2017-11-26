@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Sculpin\Bundle\ThemeBundle;
 
@@ -20,11 +20,11 @@ class ThemeTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             'theme_path' => new \Twig_Function_Method($this, 'themePath'),
             'theme_path_exists' => new \Twig_Function_Method($this, 'themePathExists'),
             'theme_paths' => new \Twig_Function_Method($this, 'themePaths'),
-        );
+        ];
     }
 
     /**
@@ -45,7 +45,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function themePath($resource)
+    public function themePath(string $resource): string
     {
         if (null === $this->theme) {
             return $resource;
@@ -77,7 +77,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return bool
      */
-    public function themePathExists($resource)
+    public function themePathExists(string $resource): bool
     {
         if (file_exists($this->sourceDir.'/'.$resource)) {
             return true;
@@ -111,9 +111,9 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function themePaths($resource)
+    public function themePaths(string $resource): array
     {
-        $paths = array();
+        $paths = [];
 
         if (file_exists($this->sourceDir.'/'.$resource)) {
             $paths[] = $resource;

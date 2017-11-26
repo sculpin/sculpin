@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,14 +23,14 @@ class CompositeDataSource implements DataSourceInterface
      *
      * @var array
      */
-    private $dataSources = array();
+    private $dataSources = [];
 
     /**
      * Constructor.
      *
      * @param array $dataSources Data sources
      */
-    public function __construct(array $dataSources = array())
+    public function __construct(array $dataSources = [])
     {
         foreach ($dataSources as $dataSource) {
             $this->dataSources[$dataSource->dataSourceId()] = $dataSource;
@@ -52,7 +52,7 @@ class CompositeDataSource implements DataSourceInterface
      *
      * @return array
      */
-    public function dataSources()
+    public function dataSources(): array
     {
         return $this->dataSources;
     }
@@ -60,7 +60,7 @@ class CompositeDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function dataSourceId()
+    public function dataSourceId(): string
     {
         return 'CompositeDataSource('.implode(',', array_map(function ($dataSource) {
             return $dataSource->dataSourceId();

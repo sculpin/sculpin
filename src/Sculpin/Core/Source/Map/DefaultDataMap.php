@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -17,7 +17,7 @@ class DefaultDataMap implements MapInterface
 {
     private $defaults;
 
-    public function __construct(array $defaults = array())
+    public function __construct(array $defaults = [])
     {
         $this->defaults = $defaults;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -33,7 +33,7 @@ class MapPass implements CompilerPassInterface
 
             foreach ($container->findTaggedServiceIds($mapId) as $id => $tagAttributes) {
                 foreach ($tagAttributes as $attributes) {
-                    $definition->addMethodCall('addMap', array(new Reference($id)));
+                    $definition->addMethodCall('addMap', [new Reference($id)]);
                 }
             }
         }
@@ -41,11 +41,11 @@ class MapPass implements CompilerPassInterface
 
     private static function generateId($value)
     {
-        return implode('.', array('sculpin_content_types', $value));
+        return implode('.', ['sculpin_content_types', $value]);
     }
 
     private static function generateTypesId($type, $value)
     {
-        return implode('.', array('sculpin_content_types.types', $type, $value));
+        return implode('.', ['sculpin_content_types.types', $type, $value]);
     }
 }

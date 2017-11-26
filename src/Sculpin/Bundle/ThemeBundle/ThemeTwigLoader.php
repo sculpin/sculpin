@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -20,7 +20,7 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
 
     public function __construct(ThemeRegistry $themeRegistry, array $extensions)
     {
-        $loaders = array();
+        $loaders = [];
 
         $theme = $themeRegistry->findActiveTheme();
         if (null !== $theme) {
@@ -30,16 +30,16 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
             }
 
             if ($paths) {
-                $loaders[] = new FlexibleExtensionFilesystemLoader('', array(), $paths, $extensions);
+                $loaders[] = new FlexibleExtensionFilesystemLoader('', [], $paths, $extensions);
             }
         }
 
         $this->chainLoader = new \Twig_Loader_Chain($loaders);
     }
 
-    private function findPaths($theme, array $paths = array())
+    private function findPaths($theme, array $paths = [])
     {
-        foreach (array('_views', '_layouts', '_includes', '_partials') as $type) {
+        foreach (['_views', '_layouts', '_includes', '_partials'] as $type) {
             if (is_dir($viewPath = $theme['path'].'/'.$type)) {
                 $paths[] = $viewPath;
             }

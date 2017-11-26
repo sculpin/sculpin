@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -39,9 +39,9 @@ class TwigEnvironmentPass implements CompilerPassInterface
         // afterward. If not, the globals from the extensions will never
         // be registered.
         $calls = $definition->getMethodCalls();
-        $definition->setMethodCalls(array());
+        $definition->setMethodCalls([]);
         foreach ($container->findTaggedServiceIds('twig.extension') as $id => $attributes) {
-            $definition->addMethodCall('addExtension', array(new Reference($id)));
+            $definition->addMethodCall('addExtension', [new Reference($id)]);
         }
         $definition->setMethodCalls(array_merge($definition->getMethodCalls(), $calls));
     }

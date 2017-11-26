@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Kernel;
 abstract class AbstractKernel extends Kernel
 {
     protected $projectDir;
-    protected $missingSculpinBundles = array();
+    protected $missingSculpinBundles = [];
 
     /**
      * {@inheritdoc}
@@ -48,9 +48,9 @@ abstract class AbstractKernel extends Kernel
             $this->projectDir = dirname($this->rootDir);
         }
 
-        return array_merge(parent::getKernelParameters(), array(
+        return array_merge(parent::getKernelParameters(), [
             'sculpin.project_dir' => $this->projectDir,
-        ));
+        ]);
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AbstractKernel extends Kernel
      */
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
@@ -69,7 +69,7 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
             new \Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle,
             new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
-        );
+        ];
 
         foreach ($this->getAdditionalSculpinBundles() as $class) {
             if (class_exists($class)) {
@@ -153,7 +153,7 @@ abstract class AbstractKernel extends Kernel
      *
      * @return array
      */
-    public function getMissingSculpinBundles()
+    public function getMissingSculpinBundles(): array
     {
         return $this->missingSculpinBundles;
     }
@@ -163,5 +163,5 @@ abstract class AbstractKernel extends Kernel
      *
      * @return array
      */
-    abstract protected function getAdditionalSculpinBundles();
+    abstract protected function getAdditionalSculpinBundles(): array;
 }

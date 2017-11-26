@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -76,7 +76,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
      * @param AntPathMatcher           $matcher                  Matcher
      */
     public function __construct(
-        $sourceDir,
+        string $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
         FinderFactoryInterface $finderFactory = null,

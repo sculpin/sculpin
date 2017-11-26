@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -37,7 +37,7 @@ class RegisterKernelListenersPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('kernel.event_listener') as $id => $events) {
             foreach ($events as $event) {
-                $priority = isset($event['priority']) ? $event['priority'] : 0;
+                $priority = $event['priority'] ?? 0;
 
                 if (!isset($event['event'])) {
                     throw new \InvalidArgumentException(sprintf(
@@ -47,10 +47,10 @@ class RegisterKernelListenersPass implements CompilerPassInterface
                 }
 
                 if (!isset($event['method'])) {
-                    $event['method'] = 'on'.preg_replace_callback(array(
+                    $event['method'] = 'on'.preg_replace_callback([
                         '/(?<=\b)[a-z]/i',
                         '/[^a-z0-9]/i',
-                    ), function ($matches) {
+                    ], function ($matches) {
                         return strtoupper($matches[0]);
                     }, $event['event']);
                     $event['method'] = preg_replace('/[^a-z0-9]/i', '', $event['method']);
@@ -58,7 +58,7 @@ class RegisterKernelListenersPass implements CompilerPassInterface
 
                 $definition->addMethodCall(
                     'addListenerService',
-                    array($event['event'], array($id, $event['method']), $priority)
+                    [$event['event'], [$id, $event['method']], $priority]
                 );
             }
         }
@@ -78,7 +78,7 @@ class RegisterKernelListenersPass implements CompilerPassInterface
                 ));
             }
 
-            $definition->addMethodCall('addSubscriberService', array($id, $class));
+            $definition->addMethodCall('addSubscriberService', [$id, $class]);
         }
     }
 }

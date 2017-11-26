@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -42,7 +42,7 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
         $taxons = $dataProvider->provideData();
 
-        $generatedSources = array();
+        $generatedSources = [];
         foreach ($taxons as $taxon => $items) {
             $generatedSource = $source->duplicate(
                 $source->sourceId().':'.$this->injectedTaxonKey.'='.$taxon
@@ -58,7 +58,7 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             if (preg_match('/^(.+?)\.(.+)$/', $basename, $matches)) {
                 $urlTaxon = $this->permalinkStrategyCollection->process($taxon);
                 $indexType = $matches[2];
-                $suffix = in_array($indexType, array('xml', 'rss', 'json')) ? '.'.$indexType : '/';
+                $suffix = in_array($indexType, ['xml', 'rss', 'json']) ? '.'.$indexType : '/';
                 $permalink = $permalink.'/'.$urlTaxon.$suffix;
             } else {
                 // not sure what case this is?
@@ -83,7 +83,7 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             if ($indexType) {
                 foreach ($items as $item) {
                     $key = $this->injectedTaxonKey.'_'.$indexType.'_index_permalinks';
-                    $taxonIndexPermalinks = $item->data()->get($key) ?: array();
+                    $taxonIndexPermalinks = $item->data()->get($key) ?: [];
 
                     $taxonIndexPermalinks[$taxon] = $permalink;
 

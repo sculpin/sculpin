@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,35 +23,35 @@ interface IoInterface
      *
      * @return bool
      */
-    public function isInteractive();
+    public function isInteractive(): bool;
 
     /**
      * Is this output verbose?
      *
      * @return bool
      */
-    public function isVerbose();
+    public function isVerbose(): bool;
 
     /**
      * Is the output very verbose?
      *
      * @return bool
      */
-    public function isVeryVerbose();
+    public function isVeryVerbose(): bool;
 
     /**
      * Is the output in debug verbosity?
      *
      * @return bool
      */
-    public function isDebug();
+    public function isDebug(): bool;
 
     /**
      * Is this output decorated?
      *
      * @return bool
      */
-    public function isDecorated();
+    public function isDecorated(): bool;
 
     /**
      * Writes a message to the output.

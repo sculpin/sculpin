@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('parser_class')->defaultValue('Netcarver\Textile\Parser')->end()
                 ->arrayNode('extensions')
-                    ->defaultValue(array('textile'))
+                    ->defaultValue(['textile'])
                     ->prototype('scalar')->end()
                 ->end()
             ->end();

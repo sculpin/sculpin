@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -23,21 +23,21 @@ class SourceSet
      *
      * @var array
      */
-    protected $sources = array();
+    protected $sources = [];
 
     /**
      * New Sources
      *
      * @var array
      */
-    protected $newSources = array();
+    protected $newSources = [];
 
     /**
      * Constructor.
      *
      * @param array $sources
      */
-    public function __construct(array $sources = array())
+    public function __construct(array $sources = [])
     {
         foreach ($sources as $source) {
             $this->sources[$source->sourceId()] = $source;
@@ -46,11 +46,10 @@ class SourceSet
     /**
      * Set contains the source?
      *
-     * @param SourceInterface $source
      *
      * @return boolean
      */
-    public function containsSource(SourceInterface $source)
+    public function containsSource(SourceInterface $source): bool
     {
         return array_key_exists($source->sourceId(), $this->sources);
     }
@@ -58,7 +57,6 @@ class SourceSet
     /**
      * Merge a source
      *
-     * @param SourceInterface $source
      */
     public function mergeSource(SourceInterface $source)
     {
@@ -75,7 +73,7 @@ class SourceSet
      *
      * @return array
      */
-    public function allSources()
+    public function allSources(): array
     {
         return $this->sources;
     }
@@ -85,7 +83,7 @@ class SourceSet
      *
      * @return array
      */
-    public function updatedSources()
+    public function updatedSources(): array
     {
         return array_filter($this->sources, function (SourceInterface $source) {
             return $source->hasChanged();
@@ -108,6 +106,6 @@ class SourceSet
             $source->setHasNotChanged();
         }
 
-        $this->newSources = array();
+        $this->newSources = [];
     }
 }

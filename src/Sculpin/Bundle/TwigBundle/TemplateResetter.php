@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -25,7 +25,6 @@ class TemplateResetter implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \Twig_Environment $twig
      */
     public function __construct(\Twig_Environment $twig)
     {
@@ -37,9 +36,9 @@ class TemplateResetter implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     /**

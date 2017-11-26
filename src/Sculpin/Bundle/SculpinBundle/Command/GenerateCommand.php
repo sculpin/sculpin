@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -36,7 +36,7 @@ class GenerateCommand extends AbstractCommand
         $this
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputOption(
                     'clean',
                     null,
@@ -57,7 +57,7 @@ class GenerateCommand extends AbstractCommand
                 ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
-            ))
+            ])
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
 
@@ -134,7 +134,7 @@ EOT
      * @param OutputInterface $output An OutputInterface instance
      * @param string          $dir    The directory to remove
      */
-    protected function clean(InputInterface $input, OutputInterface $output, $dir)
+    protected function clean(InputInterface $input, OutputInterface $output, string $dir)
     {
         $fileSystem = $this->getContainer()->get('filesystem');
         if ($fileSystem->exists($dir)) {

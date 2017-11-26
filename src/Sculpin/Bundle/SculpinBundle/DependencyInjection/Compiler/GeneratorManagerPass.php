@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -35,7 +35,7 @@ class GeneratorManagerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('sculpin.generator') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerGenerator', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerGenerator', [$attributes['alias'], new Reference($id)]);
             }
         }
     }

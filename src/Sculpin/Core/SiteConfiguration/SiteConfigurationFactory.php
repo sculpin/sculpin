@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -27,7 +27,7 @@ class SiteConfigurationFactory
      * @param string $rootDir     Root directory
      * @param string $environment Environment
      */
-    public function __construct($rootDir, $environment)
+    public function __construct(string $rootDir, string $environment)
     {
         $this->rootDir = $rootDir;
         $this->environment = $environment;
@@ -39,9 +39,9 @@ class SiteConfigurationFactory
      * @param  string $configFile
      * @return YamlFileConfigurationBuilder
      */
-    private function getConfigFile($configFile)
+    private function getConfigFile(string $configFile): YamlFileConfigurationBuilder
     {
-        $builder = new YamlFileConfigurationBuilder(array($configFile));
+        $builder = new YamlFileConfigurationBuilder([$configFile]);
 
         return $builder->build();
     }
@@ -51,7 +51,7 @@ class SiteConfigurationFactory
      *
      * @return Configuration
      */
-    public function create()
+    public function create(): Configuration
     {
         $config = $this->detectConfig();
         $config->set('env', $this->environment);
@@ -63,7 +63,7 @@ class SiteConfigurationFactory
      *
      * @return Configuration
      */
-    public function detectConfig()
+    public function detectConfig(): Configuration
     {
         if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
             return $this->getConfigFile($file);

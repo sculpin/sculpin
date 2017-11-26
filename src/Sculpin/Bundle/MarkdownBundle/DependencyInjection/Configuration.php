@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is a part of Sculpin.
@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')
                 ->end()
                 ->arrayNode('extensions')
-                    ->defaultValue(array('md', 'mdown', 'mkdn', 'markdown'))
+                    ->defaultValue(['md', 'mdown', 'mkdn', 'markdown'])
                     ->prototype('scalar')->end()
                 ->end()
             ->end();
