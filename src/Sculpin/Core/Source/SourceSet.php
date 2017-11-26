@@ -43,8 +43,6 @@ class SourceSet
     }
     /**
      * Set contains the source?
-     *
-     *
      */
     public function containsSource(SourceInterface $source): bool
     {

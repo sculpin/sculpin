@@ -20,31 +20,26 @@ interface IoInterface
 {
     /**
      * Is this input means interactive?
-     *
      */
     public function isInteractive(): bool;
 
     /**
      * Is this output verbose?
-     *
      */
     public function isVerbose(): bool;
 
     /**
      * Is the output very verbose?
-     *
      */
     public function isVeryVerbose(): bool;
 
     /**
      * Is the output in debug verbosity?
-     *
      */
     public function isDebug(): bool;
 
     /**
      * Is this output decorated?
-     *
      */
     public function isDecorated(): bool;
 

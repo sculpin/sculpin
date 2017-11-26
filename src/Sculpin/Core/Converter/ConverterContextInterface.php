@@ -20,7 +20,6 @@ interface ConverterContextInterface
 {
     /**
      * Content
-     *
      */
     public function content(): string;
 

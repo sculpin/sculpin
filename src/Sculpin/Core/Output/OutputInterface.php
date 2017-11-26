@@ -23,25 +23,21 @@ interface OutputInterface
 {
     /**
      * Unique ID
-     *
      */
     public function outputId(): string;
 
     /**
      * Pathname (relative)
-     *
      */
     public function pathname(): string;
 
     /**
      * Suggested permalink
-     *
      */
     public function permalink(): PermalinkInterface;
 
     /**
      * Has a file reference?
-     *
      */
     public function hasFileReference(): bool;
 

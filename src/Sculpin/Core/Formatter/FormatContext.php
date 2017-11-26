@@ -73,7 +73,6 @@ class FormatContext
 
     /**
      * Data
-     *
      */
     public function data(): Data
     {

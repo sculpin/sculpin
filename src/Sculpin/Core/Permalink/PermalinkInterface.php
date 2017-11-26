@@ -20,13 +20,11 @@ interface PermalinkInterface
 {
     /**
      * Relative file path
-     *
      */
     public function relativeFilePath(): string;
 
     /**
      * Relative URL path
-     *
      */
     public function relativeUrlPath(): string;
 }

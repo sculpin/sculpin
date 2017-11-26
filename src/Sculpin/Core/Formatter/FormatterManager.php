@@ -81,7 +81,6 @@ class FormatterManager
      * Build base format context
      *
      * @param mixed $context
-     *
      */
     protected function buildBaseFormatContext($context): Configuration
     {
@@ -117,7 +116,6 @@ class FormatterManager
      * @param string $templateId Template ID
      * @param string $template   Template
      * @param array  $context    Context
-     *
      */
     public function buildFormatContext(string $templateId, string $template, array $context): FormatContext
     {
@@ -151,7 +149,6 @@ class FormatterManager
      * Formatter
      *
      * @param string $name Name
-     *
      */
     public function formatter(string $name): FormatterInterface
     {
@@ -164,8 +161,6 @@ class FormatterManager
      * @param string $templateId Template ID
      * @param string $template   Template
      * @param array  $context    Context
-     *
-     * @return string|null
      */
     public function formatPage(string $templateId, string $template, array $context): ?string
     {
@@ -185,8 +180,6 @@ class FormatterManager
      * Format a page for a Source
      *
      * @param SourceInterface $source Source
-     *
-     * @return string|null
      */
     public function formatSourcePage(SourceInterface $source): ?string
     {
@@ -203,8 +196,6 @@ class FormatterManager
      * @param string $templateId Template ID
      * @param string $template   Template
      * @param array  $context    Context
-     *
-     * @return array|null
      */
     public function formatBlocks(string $templateId, string $template, array $context): ?array
     {
@@ -224,8 +215,6 @@ class FormatterManager
      * Format blocks for a Source
      *
      * @param SourceInterface $source Source
-     *
-     * @return array|null
      */
     public function formatSourceBlocks(SourceInterface $source): ?array
     {

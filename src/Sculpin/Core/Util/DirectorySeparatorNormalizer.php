@@ -35,7 +35,6 @@ class DirectorySeparatorNormalizer
      * Useful for testing to override DIRECTORY_SEPARATOR.
      *
      * @param string $directorySeparator Directory separator
-     *
      */
     public function setDirectorySeparator(string $directorySeparator): DirectorySeparatorNormalizer
     {
@@ -48,8 +47,6 @@ class DirectorySeparatorNormalizer
      * Normalize filesystem paths to a preferred $separator
      *
      * @param string $path Path
-     *
-     * @return null|string
      */
     public function normalize(?string $path = null): ?string
     {

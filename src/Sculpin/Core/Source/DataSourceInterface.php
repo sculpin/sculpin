@@ -20,7 +20,6 @@ interface DataSourceInterface
 {
     /**
      * Data Source ID
-     *
      */
     public function dataSourceId(): string;
 

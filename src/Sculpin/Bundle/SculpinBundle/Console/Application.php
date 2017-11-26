@@ -171,7 +171,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
 
     /**
      * Get Kernel
-     *
      */
     public function getKernel(): KernelInterface
     {

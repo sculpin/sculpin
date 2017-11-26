@@ -57,7 +57,6 @@ class ConvertEvent extends Event
 
     /**
      * Source
-     *
      */
     public function source(): SourceInterface
     {
@@ -74,8 +73,6 @@ class ConvertEvent extends Event
 
     /**
      * Test if Source is converted by requested converter
-     *
-     *
      */
     public function isConvertedBy(string $requestedConverter): bool
     {
@@ -95,7 +92,6 @@ class ConvertEvent extends Event
      *
      * @param string $requestedConverter Converter
      * @param string $requestedFormatter Formatter
-     *
      */
     public function isHandledBy(string $requestedConverter, string $requestedFormatter): bool
     {

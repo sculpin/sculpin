@@ -48,7 +48,6 @@ class DataProviderManager
      * Data provider
      *
      * @param string $name Name
-     *
      */
     public function dataProvider(string $name): DataProviderInterface
     {

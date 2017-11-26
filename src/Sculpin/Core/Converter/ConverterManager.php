@@ -73,7 +73,6 @@ class ConverterManager
      * Converter
      *
      * @param string $name Name
-     *
      */
     public function converter(string $name): ConverterInterface
     {

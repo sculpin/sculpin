@@ -30,19 +30,16 @@ interface SourceInterface
 
     /**
      * Represents a raw source
-     *
      */
     public function isRaw(): bool;
 
     /**
      * Represents a source that can be formatted
-     *
      */
     public function canBeFormatted(): bool;
 
     /**
      * Has changed
-     *
      */
     public function hasChanged(): bool;
 
@@ -58,7 +55,6 @@ interface SourceInterface
 
     /**
      * Permalink
-     *
      */
     public function permalink(): PermalinkInterface;
 
@@ -69,25 +65,21 @@ interface SourceInterface
 
     /**
      * Use file reference reference instead of string content
-     *
      */
     public function useFileReference(): bool;
 
     /**
      * File reference. (if uses file reference)
-     *
      */
     public function file(): \SplFileInfo;
 
     /**
      * Content (if not use file reference)
-     *
      */
     public function content(): string;
 
     /**
      * Set content
-     *
      */
     public function setContent(?string $content = null): void;
 
@@ -100,31 +92,26 @@ interface SourceInterface
 
     /**
      * Set formatted content
-     *
      */
     public function setFormattedContent(?string $formattedContent = null): void;
 
     /**
      * Relative pathname
-     *
      */
     public function relativePathname(): string;
 
     /**
      * Filename
-     *
      */
     public function filename(): string;
 
     /**
      * Data
-     *
      */
     public function data(): Configuration;
 
     /**
      * Source is a generator
-     *
      */
     public function isGenerator(): bool;
 
@@ -140,7 +127,6 @@ interface SourceInterface
 
     /**
      * Source is generated (from a generator)
-     *
      */
     public function isGenerated(): bool;
 
@@ -156,7 +142,6 @@ interface SourceInterface
 
     /**
      * Source should be skipped
-     *
      */
     public function shouldBeSkipped(): bool;
 
@@ -179,14 +164,11 @@ interface SourceInterface
      * URL
      *
      * Convenience method.
-     *
      */
     public function url(): string;
 
     /**
      * Duplicate the source
-     *
-     *
      */
     public function duplicate(string $newSourceId): SourceInterface;
 }
