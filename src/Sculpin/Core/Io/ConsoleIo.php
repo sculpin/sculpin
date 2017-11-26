@@ -51,7 +51,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isInteractive()
+    public function isInteractive(): bool
     {
         return $this->input->isInteractive();
     }
@@ -59,7 +59,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isDecorated()
+    public function isDecorated(): bool
     {
         return $this->output->isDecorated();
     }
@@ -67,7 +67,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isVerbose()
+    public function isVerbose(): bool
     {
         return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
     }
@@ -75,7 +75,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isVeryVerbose()
+    public function isVeryVerbose(): bool
     {
         return $this->output->getVerbosity() >= 3; // OutputInterface::VERBOSITY_VERY_VERBOSE
     }
@@ -83,7 +83,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isDebug()
+    public function isDebug(): bool
     {
         return $this->output->getVerbosity() >= 4; // OutputInterface::VERBOSITY_DEBUG
     }

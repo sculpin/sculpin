@@ -12,6 +12,7 @@
 namespace Sculpin\Core\Output;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Output Interface
@@ -51,14 +52,14 @@ interface OutputInterface
     /**
      * File reference. (if hasFileReference)
      *
-     * @return \Symfony\Component\Finder\SplFileInfo
+     * @return SplFileInfo|null
      */
-    public function file(): \Symfony\Component\Finder\SplFileInfo;
+    public function file();
 
     /**
      * Formatted content (if not hasFileReference)
      *
-     * @return string
+     * @return string|null
      */
-    public function formattedContent(): string;
+    public function formattedContent();
 }

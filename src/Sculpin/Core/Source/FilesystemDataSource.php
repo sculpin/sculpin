@@ -123,7 +123,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function dataSourceId()
+    public function dataSourceId(): string
     {
         return 'FilesystemDataSource:'.$this->sourceDir;
     }

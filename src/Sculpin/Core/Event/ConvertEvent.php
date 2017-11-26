@@ -91,12 +91,10 @@ class ConvertEvent extends Event
      * Test if Source is formatted by requested formatter
      *
      * @param string $requestedFormatter
-     *
-     * @return boolean
      */
-    public function isFormattedBy(string $requestedFormatter): bool
+    public function isFormattedBy(string $requestedFormatter): string
     {
-        return $requestedFormatter == $this->source->data()->get('formatter') ?: $this->defaultFormatter;
+        return $requestedFormatter === $this->source->data()->get('formatter') ? $requestedFormatter : $this->defaultFormatter;
     }
 
     /**

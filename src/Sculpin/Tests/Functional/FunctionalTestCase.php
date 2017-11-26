@@ -62,6 +62,10 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
     {
         $binPath = __DIR__ . '/../../../../bin';
         $projectDir = self::projectDir();
+
+        var_dump("$binPath/sculpin $command --project-dir $projectDir --env=test");
+        die;
+
         exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
     }
 

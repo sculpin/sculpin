@@ -15,7 +15,7 @@ class FileSourceTest extends \PHPUnit\Framework\TestCase
      *
      */
 
-    public function makeTestSource($filename, $hasChanged = true)
+    public function makeTestSource(string $filename, bool $hasChanged = true)
     {
         $source = new FileSource(
             $this->makeTestAnalyzer(),
