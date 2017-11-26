@@ -5,7 +5,6 @@ namespace Sculpin\Core\Tests\Source;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Sculpin\Core\Source\FileSource;
 use Sculpin\Core\Source\FilesystemDataSource;
-use Sculpin\Core\Source\MemorySource;
 use Symfony\Component\Finder\SplFileInfo;
 
 class FileSourceTest extends \PHPUnit\Framework\TestCase

@@ -11,10 +11,10 @@
 
 namespace Sculpin\Core\Source;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * File Source.

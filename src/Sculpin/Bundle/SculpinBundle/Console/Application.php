@@ -13,11 +13,11 @@ namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerInterface;
-use Sculpin\Core\Sculpin;
 use Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand;
 use Sculpin\Bundle\SculpinBundle\Command\InstallCommand;
 use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
 use Sculpin\Bundle\SculpinBundle\Command\UpdateCommand;
+use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;

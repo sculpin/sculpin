@@ -11,9 +11,9 @@
 
 namespace Sculpin\Bundle\PostsBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * Sculpin Posts Extension.
