@@ -19,19 +19,10 @@ matrix:
     - php: 7.1
       env:
         - DEPS=latest
-    - php: hhvm
-      env:
-        - DEPS=lowest
-    - php: hhvm
-      env:
-        - DEPS=locked
-    - php: hhvm
-      env:
-        - DEPS=latest
 
 before_install:
   - travis_retry composer self-update
-  - if [[ $TRAVIS_PHP_VERSION != "hhvm" && $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini ; fi
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini ; fi
 
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
