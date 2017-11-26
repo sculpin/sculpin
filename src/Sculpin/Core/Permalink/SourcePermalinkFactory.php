@@ -171,7 +171,6 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
     /**
      * Does the specified path represent a date?
      *
-     * @param string $path
      *
      * @return mixed
      */
@@ -195,8 +194,6 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @param string $param Parameter to normalize
      * @param string $space What to use as space separator
-     *
-     * @return string
      */
     private function normalize(string $param, string $space = '-'): string
     {

@@ -20,7 +20,6 @@ interface ConverterInterface
 {
     /**
      * Convert content.
-     *
      */
     public function convert(ConverterContextInterface $converterContext);
 }

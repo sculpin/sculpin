@@ -130,8 +130,6 @@ EOT
     /**
      * Cleanup an output directory by deleting it.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
      * @param string          $dir    The directory to remove
      */
     protected function clean(InputInterface $input, OutputInterface $output, string $dir)

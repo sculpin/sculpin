@@ -24,7 +24,6 @@ class TemplateResetter implements EventSubscriberInterface
 {
     /**
      * Constructor.
-     *
      */
     public function __construct(\Twig_Environment $twig)
     {

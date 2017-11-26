@@ -57,8 +57,6 @@ class FormatContext
 
     /**
      * Template ID
-     *
-     * @return string
      */
     public function templateId(): string
     {
@@ -67,8 +65,6 @@ class FormatContext
 
     /**
      * Template
-     *
-     * @return string
      */
     public function template(): string
     {
@@ -87,8 +83,6 @@ class FormatContext
 
     /**
      * Formatter
-     *
-     * @return string
      */
     public function formatter(): string
     {

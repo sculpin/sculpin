@@ -96,7 +96,6 @@ class FilesystemDataSource implements DataSourceInterface
      * @param array                        $raws                         Raw paths
      * @param FinderFactoryInterface       $finderFactory                Finder Factory
      * @param AntPathMatcher               $matcher                      Matcher
-     * @param Analyzer                     $analyzer                     Analyzer
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
     public function __construct(

@@ -56,7 +56,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
 
     /**
      * Execute a command against the sculpin binary
-     * @param string $command
      */
     protected function executeSculpin(string $command)
     {
@@ -66,10 +65,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
     }
 
-    /**
-     * @param string $path
-     * @param bool $recursive
-     */
     protected function addProjectDirectory(string $path, bool $recursive = true)
     {
         $pathParts = explode('/', $path);
@@ -92,10 +87,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @param string $filePath
-     * @param string $content
-     */
     protected function addProjectFile(string $filePath, string $content = null)
     {
         $dirPathParts = explode('/', $filePath);
@@ -120,17 +111,12 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @param string $fixturePath
-     * @param string $projectPath
-     */
     protected function copyFixtureToProject(string $fixturePath, string $projectPath)
     {
         self::$fs->copy($fixturePath, self::projectDir() . $projectPath);
     }
 
     /**
-     * @param string $filePath
      * @param null   $msg
      */
     protected function assertProjectHasFile(string $filePath, $msg = null)
@@ -140,10 +126,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(self::$fs->exists(self::projectDir() . $filePath), $msg);
     }
 
-    /**
-     * @param string $filePath
-     * @param string $msg
-     */
     protected function assertProjectHasGeneratedFile(string $filePath, string $msg = null)
     {
         $outputDir = '/output_test';
@@ -152,17 +134,12 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         $this->assertProjectHasFile($outputDir . $filePath, $msg);
     }
 
-    /**
-     * @param string $filePath
-     * @param string $content
-     */
     protected function writeToProjectFile(string $filePath, string $content)
     {
         self::$fs->dumpFile(self::projectDir() . $filePath, $content);
     }
 
     /**
-     * @param string $filePath
      * @return Crawler
      */
     protected function crawlGeneratedProjectFile(string $filePath): Crawler
@@ -171,7 +148,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param string $filePath
      * @return Crawler
      */
     protected function crawlProjectFile(string $filePath): Crawler
@@ -180,7 +156,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param string $filePath
      * @return Crawler
      */
     private function crawlFile(string $filePath): Crawler
@@ -190,10 +165,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         return new Crawler($content);
     }
 
-    /**
-     * @param $filePath
-     * @return string
-     */
     private function readFile($filePath): string
     {
         if (!self::$fs->exists($filePath)) {
@@ -208,9 +179,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
         return $content;
     }
 
-    /**
-     * @return string
-     */
     protected static function projectDir(): string
     {
         return __DIR__ . self::PROJECT_DIR;

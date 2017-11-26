@@ -24,7 +24,7 @@ interface SourceInterface
     /**
      * Source ID
      *
-     * @return String
+     * @return string
      */
     public function sourceId(): String;
 
@@ -68,7 +68,6 @@ interface SourceInterface
 
     /**
      * Set permalink
-     *
      */
     public function setPermalink(PermalinkInterface $permalink);
 

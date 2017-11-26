@@ -40,10 +40,6 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * Will always return a value. Default return value is the input unless the
      * file actually exists at a theme location.
-     *
-     * @param string $resource
-     *
-     * @return string
      */
     public function themePath(string $resource): string
     {
@@ -72,10 +68,6 @@ class ThemeTwigExtension extends \Twig_Extension
 
     /**
      * Check to see if a given Theme resource exists anywhere on disk
-     *
-     * @param string $resource
-     *
-     * @return bool
      */
     public function themePathExists(string $resource): bool
     {
@@ -106,10 +98,6 @@ class ThemeTwigExtension extends \Twig_Extension
      * Generate a collection of URLs for a Theme's resource
      *
      * May end up returning an empty array.
-     *
-     * @param string $resource
-     *
-     * @return array
      */
     public function themePaths(string $resource): array
     {

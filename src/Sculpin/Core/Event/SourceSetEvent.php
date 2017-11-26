@@ -39,8 +39,6 @@ class SourceSetEvent extends Event
 
     /**
      * All sources
-     *
-     * @return array
      */
     public function allSources(): array
     {
@@ -49,8 +47,6 @@ class SourceSetEvent extends Event
 
     /**
      * Updated sources
-     *
-     * @return array
      */
     public function updatedSources(): array
     {

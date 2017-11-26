@@ -31,7 +31,6 @@ class ProxySource implements SourceInterface
 
     /**
      * Constructor
-     *
      */
     public function __construct(SourceInterface $source)
     {

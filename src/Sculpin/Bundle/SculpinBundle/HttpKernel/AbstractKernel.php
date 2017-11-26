@@ -150,8 +150,6 @@ abstract class AbstractKernel extends Kernel
      * things. This should be checked early by any Console applications to
      * ensure that proper warnings are issued if there are any missing bundles
      * detected.
-     *
-     * @return array
      */
     public function getMissingSculpinBundles(): array
     {
@@ -160,8 +158,6 @@ abstract class AbstractKernel extends Kernel
 
     /**
      * Get additional Sculpin bundles to register
-     *
-     * @return array
      */
     abstract protected function getAdditionalSculpinBundles(): array;
 }

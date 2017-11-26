@@ -24,7 +24,6 @@ class MemorySource extends AbstractSource
      * Constructor
      *
      * @param string       $sourceId         Source ID
-     * @param Data         $data             Data
      * @param string       $content          Content
      * @param string|null       $formattedContent Formatted content
      * @param string       $relativePathname Relative Pathname

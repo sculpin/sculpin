@@ -38,8 +38,6 @@ class DataProviderManager
 
     /**
      * List of registered ata provider names
-     *
-     * @return array
      */
     public function dataProviders(): array
     {

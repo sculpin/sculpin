@@ -47,7 +47,7 @@ class TwigFormatter implements FormatterInterface
         $this->arrayLoader = $arrayLoader;
     }
 
-     /**
+    /**
      * {@inheritdoc}
      */
     public function formatBlocks(FormatContext $formatContext)

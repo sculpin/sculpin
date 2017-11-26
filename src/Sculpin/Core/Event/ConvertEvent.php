@@ -67,8 +67,6 @@ class ConvertEvent extends Event
 
     /**
      * Converter
-     *
-     * @return string
      */
     public function converter(): string
     {
@@ -78,7 +76,6 @@ class ConvertEvent extends Event
     /**
      * Test if Source is converted by requested converter
      *
-     * @param string $requestedConverter
      *
      * @return boolean
      */
@@ -89,8 +86,6 @@ class ConvertEvent extends Event
 
     /**
      * Test if Source is formatted by requested formatter
-     *
-     * @param string $requestedFormatter
      */
     public function isFormattedBy(string $requestedFormatter): string
     {

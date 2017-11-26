@@ -126,7 +126,6 @@ class HttpServer
      *
      * @param OutputInterface $output       Output
      * @param string          $responseCode Response code
-     * @param Request         $request      Request
      */
     public static function logRequest(OutputInterface $output, string $responseCode, Request $request)
     {

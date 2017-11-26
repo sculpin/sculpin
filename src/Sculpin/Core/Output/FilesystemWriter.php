@@ -37,7 +37,6 @@ class FilesystemWriter implements WriterInterface
     /**
      * Constructor.
      *
-     * @param Filesystem $filesystem Filesystem
      * @param string     $outputDir  Output directory
      */
     public function __construct(Filesystem $filesystem, string $outputDir)

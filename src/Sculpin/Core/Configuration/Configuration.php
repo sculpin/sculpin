@@ -90,7 +90,6 @@ class Configuration extends BaseConfiguration
     /**
      * Add an exclude pattern
      *
-     * @param string $pattern
      *
      * @return Configuration
      */
@@ -109,8 +108,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Excludes
-     *
-     * @return array
      */
     public function excludes(): array
     {
@@ -138,7 +135,6 @@ class Configuration extends BaseConfiguration
     /**
      * Add an ignore pattern
      *
-     * @param string $pattern
      *
      * @return Configuration
      */
@@ -157,8 +153,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Ignores
-     *
-     * @return array
      */
     public function ignores(): array
     {
@@ -186,7 +180,6 @@ class Configuration extends BaseConfiguration
     /**
      * Add a raw pattern
      *
-     * @param string $pattern
      *
      * @return Configuration
      */
@@ -204,8 +197,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Raws
-     *
-     * @return array
      */
     public function raws(): array
     {
@@ -228,8 +219,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Source directory
-     *
-     * @return string
      */
     public function sourceDir(): string
     {
@@ -252,8 +241,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Output directory
-     *
-     * @return string
      */
     public function outputDir(): string
     {
@@ -276,8 +263,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Permalink
-     *
-     * @return string
      */
     public function permalink(): string
     {
@@ -300,8 +285,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Default formatter
-     *
-     * @return string
      */
     public function defaultFormatter(): string
     {

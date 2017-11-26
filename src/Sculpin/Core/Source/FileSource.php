@@ -26,7 +26,6 @@ class FileSource extends AbstractSource
     /**
      * Constructor
      *
-     * @param Analyzer            $analyzer   Analyzer
      * @param DataSourceInterface $dataSource Data Source
      * @param SplFileInfo         $file       File
      * @param bool                $isRaw      Should be treated as raw

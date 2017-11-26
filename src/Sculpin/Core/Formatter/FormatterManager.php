@@ -241,8 +241,6 @@ class FormatterManager
 
     /**
      * Default Formatter.
-     *
-     * @return string
      */
     public function defaultFormatter(): string
     {

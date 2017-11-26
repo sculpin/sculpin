@@ -41,7 +41,6 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * Constructor.
      *
-     * @param KernelInterface           $kernel           A KernelInterface instance
      * @param EmbeddedComposerInterface $embeddedComposer Composer Class Loader
      */
     public function __construct(KernelInterface $kernel, EmbeddedComposerInterface $embeddedComposer)

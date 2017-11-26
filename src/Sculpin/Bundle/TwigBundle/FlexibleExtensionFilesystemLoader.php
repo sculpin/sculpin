@@ -36,7 +36,6 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     /**
      * Constructor.
      *
-     * @param string   $sourceDir
      * @param string[] $sourcePaths
      * @param string[] $paths
      * @param string[] $extensions

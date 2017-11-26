@@ -22,8 +22,6 @@ abstract class AbstractCommand extends ContainerAwareCommand
 {
     /**
      * Test to see if Sculpin is running in standalone mode.
-     *
-     * @return bool
      */
     protected function isStandaloneSculpin(): bool
     {

@@ -13,8 +13,6 @@ class SourcePermalinkFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      * @dataProvider provideCreateData
-     * @param string $defaultPermalink
-     * @param Permalink $expectedPermalink
      */
     public function testCreate(string $defaultPermalink, SourceInterface $source, Permalink $expectedPermalink)
     {

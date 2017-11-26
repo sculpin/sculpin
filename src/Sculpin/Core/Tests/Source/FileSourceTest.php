@@ -12,7 +12,6 @@ class FileSourceTest extends \PHPUnit\Framework\TestCase
 {
     /*
      * mock analyzer for detectFromFilename, should return text/html
-     *
      */
 
     public function makeTestSource(string $filename, bool $hasChanged = true)

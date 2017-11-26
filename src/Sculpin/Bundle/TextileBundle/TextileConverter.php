@@ -42,7 +42,6 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param Parser $parser     Parser
      * @param array  $extensions Extensions
      */
     public function __construct(Parser $parser, array $extensions = [])

@@ -36,7 +36,6 @@ class SiteConfigurationFactory
     /**
      * Get an instance of the Configuration() class from the given file.
      *
-     * @param  string $configFile
      * @return YamlFileConfigurationBuilder
      */
     private function getConfigFile(string $configFile): YamlFileConfigurationBuilder

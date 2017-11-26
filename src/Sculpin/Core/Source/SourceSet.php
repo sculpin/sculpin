@@ -34,8 +34,6 @@ class SourceSet
 
     /**
      * Constructor.
-     *
-     * @param array $sources
      */
     public function __construct(array $sources = [])
     {
@@ -56,7 +54,6 @@ class SourceSet
 
     /**
      * Merge a source
-     *
      */
     public function mergeSource(SourceInterface $source)
     {
@@ -70,8 +67,6 @@ class SourceSet
 
     /**
      * All sources
-     *
-     * @return array
      */
     public function allSources(): array
     {
@@ -80,8 +75,6 @@ class SourceSet
 
     /**
      * All sources that have been updated
-     *
-     * @return array
      */
     public function updatedSources(): array
     {

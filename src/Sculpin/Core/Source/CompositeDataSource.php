@@ -49,8 +49,6 @@ class CompositeDataSource implements DataSourceInterface
 
     /**
      * Backing Data Sources
-     *
-     * @return array
      */
     public function dataSources(): array
     {
