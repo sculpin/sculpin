@@ -13,22 +13,16 @@ matrix:
         - DEPS=lowest
     - php: 7.1
       env:
-        - DEPS=locked
         - CHECK_CS=true
         - TEST_COVERAGE=true
-    - php: 7.1
-      env:
-        - DEPS=latest
     - php: 7.2
 
 before_install:
-  - travis_retry composer self-update
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini ; fi
 
 install:
-  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
-  - if [[ $DEPS == 'locked' ]]; then travis_retry composer install --no-interaction ; fi
+  - if [[ $DEPS != 'lowest' ]]; then travis_retry composer install --no-interaction ; fi
   - composer show
 
 script:
