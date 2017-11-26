@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "424fd312e7ca054e4547fc8bc925a9c4",
+    "content-hash": "40527714bf07845ddbea7a6c12681b09",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3983,25 +3983,25 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.8.31",
+            "version": "v3.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "b7b041487197fb6d803b7edbcaae7f00a793b1c4"
+                "reference": "66e6e046032ebdf1f562c26928549f613d428bd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/b7b041487197fb6d803b7edbcaae7f00a793b1c4",
-                "reference": "b7b041487197fb6d803b7edbcaae7f00a793b1c4",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/66e6e046032ebdf1f562c26928549f613d428bd1",
+                "reference": "66e6e046032ebdf1f562c26928549f613d428bd1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": "^5.5.9|>=7.0.8"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -4032,28 +4032,28 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T15:25:56+00:00"
+            "time": "2017-11-05T15:47:03+00:00"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v2.8.31",
+            "version": "v3.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "eeb78092b5cc95b9e37017887da0e39f1530b8a8"
+                "reference": "cebe3c068867956e012d9135282ba6a05d8a259e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/eeb78092b5cc95b9e37017887da0e39f1530b8a8",
-                "reference": "eeb78092b5cc95b9e37017887da0e39f1530b8a8",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/cebe3c068867956e012d9135282ba6a05d8a259e",
+                "reference": "cebe3c068867956e012d9135282ba6a05d8a259e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9",
+                "php": "^5.5.9|>=7.0.8",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
-                "symfony/css-selector": "~2.8|~3.0.0"
+                "symfony/css-selector": "~2.8|~3.0"
             },
             "suggest": {
                 "symfony/css-selector": ""
@@ -4061,7 +4061,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -4088,7 +4088,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T15:25:56+00:00"
+            "time": "2017-11-05T15:47:03+00:00"
         },
         {
             "name": "theseer/tokenizer",
