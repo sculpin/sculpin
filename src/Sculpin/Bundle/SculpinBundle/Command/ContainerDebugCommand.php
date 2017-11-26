@@ -47,7 +47,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('container:debug')
@@ -124,7 +124,7 @@ EOF
      *
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->validateInput($input);
 
@@ -170,7 +170,7 @@ EOF
         }
     }
 
-    protected function validateInput(InputInterface $input)
+    protected function validateInput(InputInterface $input): void
     {
         $options = ['tags', 'tag', 'parameters', 'parameter'];
 
@@ -198,7 +198,7 @@ EOF
         $serviceIds,
         $showPrivate = false,
         $showTagAttributes = null
-    ) {
+    ): void {
         // set the label to specify public or public+private
         if ($showPrivate) {
             $label = '<comment>Public</comment> and <comment>private</comment> services';
@@ -337,7 +337,7 @@ EOF
     /**
      * Renders detailed service information about one service
      */
-    protected function outputService(OutputInterface $output, $serviceId)
+    protected function outputService(OutputInterface $output, $serviceId): void
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -392,7 +392,7 @@ EOF
         }
     }
 
-    protected function outputParameters(OutputInterface $output, $parameters)
+    protected function outputParameters(OutputInterface $output, $parameters): void
     {
         $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
 
@@ -460,7 +460,7 @@ EOF
     /**
      * Renders list of tagged services grouped by tag
      */
-    protected function outputTags(OutputInterface $output, bool $showPrivate = false)
+    protected function outputTags(OutputInterface $output, bool $showPrivate = false): void
     {
         $tags = $this->getContainer()->findTags();
         asort($tags);

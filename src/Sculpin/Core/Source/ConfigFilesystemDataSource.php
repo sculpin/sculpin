@@ -79,8 +79,8 @@ class ConfigFilesystemDataSource implements DataSourceInterface
         string $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
-        FinderFactoryInterface $finderFactory = null,
-        AntPathMatcher $matcher = null
+        ?FinderFactoryInterface $finderFactory = null,
+        ?AntPathMatcher $matcher = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->siteConfiguration = $siteConfiguration;
@@ -103,7 +103,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         if (! is_dir($this->sourceDir)) {
             return;

@@ -25,7 +25,7 @@ class SimpleProxySourceItemFactory implements ProxySourceItemFactoryInterface
         );
     }
 
-    public function createProxySourceItem(SourceInterface $source)
+    public function createProxySourceItem(SourceInterface $source): ProxySourceItem
     {
         return $this->reflectionClass->newInstance($source);
     }

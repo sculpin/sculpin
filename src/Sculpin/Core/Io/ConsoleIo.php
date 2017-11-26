@@ -39,7 +39,7 @@ class ConsoleIo implements IoInterface
         $this->helperSet = $helperSet;
     }
 
-    public function enableDebugging($startTime)
+    public function enableDebugging($startTime): void
     {
         $this->startTime = $startTime;
     }
@@ -87,7 +87,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function write($messages, $newline = true)
+    public function write($messages, $newline = true): void
     {
         if (null !== $this->startTime) {
             $messages = (array) $messages;
@@ -105,7 +105,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function overwrite($messages, $newline = true, $size = null)
+    public function overwrite($messages, $newline = true, $size = null): void
     {
         // messages can be an array, let's convert it to string anyway
         $messages = join($newline ? "\n" : '', (array) $messages);

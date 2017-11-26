@@ -40,7 +40,6 @@ class FormatEvent extends Event
     /**
      * Format Context
      *
-     * @return FormatContext
      */
     public function formatContext(): FormatContext
     {

@@ -47,7 +47,7 @@ class FilesystemWriter implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function write(OutputInterface $output)
+    public function write(OutputInterface $output): void
     {
         $outputPath = $this->outputDir.'/'.$output->permalink()->relativeFilePath();
         if ($output->hasFileReference()) {

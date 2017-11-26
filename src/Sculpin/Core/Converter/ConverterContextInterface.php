@@ -21,7 +21,6 @@ interface ConverterContextInterface
     /**
      * Content
      *
-     * @return string
      */
     public function content(): string;
 
@@ -30,5 +29,5 @@ interface ConverterContextInterface
      *
      * @param string $content Content
      */
-    public function setContent(string $content);
+    public function setContent(string $content): void;
 }

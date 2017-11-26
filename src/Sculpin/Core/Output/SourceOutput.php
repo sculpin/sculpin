@@ -13,6 +13,7 @@ namespace Sculpin\Core\Output;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
 use Sculpin\Core\Source\SourceInterface;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Source Output.
@@ -73,7 +74,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function file()
+    public function file(): ?SplFileInfo
     {
         return $this->source->useFileReference() ? $this->source->file() : null;
     }
@@ -81,7 +82,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function formattedContent()
+    public function formattedContent(): ?string
     {
         return $this->source->useFileReference() ? null : $this->source->formattedContent();
     }

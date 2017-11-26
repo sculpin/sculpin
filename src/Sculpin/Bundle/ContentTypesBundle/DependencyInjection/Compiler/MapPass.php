@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class MapPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $typesId = self::generateId('types');
         $types = $container->getParameter($typesId);

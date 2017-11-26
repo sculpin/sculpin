@@ -45,7 +45,6 @@ class SourceSet
      * Set contains the source?
      *
      *
-     * @return boolean
      */
     public function containsSource(SourceInterface $source): bool
     {
@@ -55,7 +54,7 @@ class SourceSet
     /**
      * Merge a source
      */
-    public function mergeSource(SourceInterface $source)
+    public function mergeSource(SourceInterface $source): void
     {
         if (array_key_exists($source->sourceId(), $this->sources)) {
             unset($this->sources[$source->sourceId()]);
@@ -93,7 +92,7 @@ class SourceSet
      *
      * Should be called after each loop while watching.
      */
-    public function reset()
+    public function reset(): void
     {
         foreach ($this->sources as $source) {
             $source->setHasNotChanged();

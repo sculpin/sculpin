@@ -37,10 +37,10 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         FormatterManager $formatterManager,
         $dataProviderName,
         $dataSingularName = null,
-        ProxySourceCollection $collection = null,
+        ?ProxySourceCollection $collection = null,
         FilterInterface $filter,
         MapInterface $map,
-        ProxySourceItemFactoryInterface $factory = null
+        ?ProxySourceItemFactoryInterface $factory = null
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
@@ -67,7 +67,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         ];
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             if ($source->isGenerated()) {
@@ -101,7 +101,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $this->collection->init();
     }
 
-    public function beforeRunPost(SourceSetEvent $sourceSetEvent)
+    public function beforeRunPost(SourceSetEvent $sourceSetEvent): void
     {
         $anItemHasChanged = false;
         foreach ($this->collection as $item) {
@@ -124,7 +124,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
     }
 
-    public function afterConvert(ConvertEvent $convertEvent)
+    public function afterConvert(ConvertEvent $convertEvent): void
     {
         $sourceId = $convertEvent->source()->sourceId();
         if (isset($this->collection[$sourceId])) {

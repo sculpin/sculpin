@@ -36,7 +36,6 @@ class SiteConfigurationFactory
     /**
      * Get an instance of the Configuration() class from the given file.
      *
-     * @return YamlFileConfigurationBuilder
      */
     private function getConfigFile(string $configFile): YamlFileConfigurationBuilder
     {
@@ -48,7 +47,6 @@ class SiteConfigurationFactory
     /**
      * Create Site Configuration
      *
-     * @return Configuration
      */
     public function create(): Configuration
     {
@@ -60,7 +58,6 @@ class SiteConfigurationFactory
     /**
      * Detect configuration file and create Site Configuration from it
      *
-     * @return Configuration
      */
     public function detectConfig(): Configuration
     {

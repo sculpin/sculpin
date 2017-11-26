@@ -48,7 +48,7 @@ class SourceConverterContext implements ConverterContextInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent(string $content)
+    public function setContent(string $content): void
     {
         $this->source->setContent($content);
     }

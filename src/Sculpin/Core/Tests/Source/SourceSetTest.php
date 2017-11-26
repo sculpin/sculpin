@@ -34,7 +34,7 @@ class SourceSetTest extends TestCase
         return $source;
     }
 
-    public function testContainsSource()
+    public function testContainsSource(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
@@ -53,7 +53,7 @@ class SourceSetTest extends TestCase
         $this->assertTrue($sourceSet->containsSource($source002));
     }
 
-    public function testMergeSource()
+    public function testMergeSource(): void
     {
         $source000a = $this->makeTestSource('TestSource:000');
         $source000a
@@ -84,7 +84,7 @@ class SourceSetTest extends TestCase
         $this->assertEquals('b', $internalSources['TestSource:000']->content());
     }
 
-    public function testAllSources()
+    public function testAllSources(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
@@ -99,7 +99,7 @@ class SourceSetTest extends TestCase
         ], $sourceSet->allSources());
     }
 
-    public function testUpdatedSources()
+    public function testUpdatedSources(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001', false);
@@ -113,7 +113,7 @@ class SourceSetTest extends TestCase
         ], $sourceSet->updatedSources());
     }
 
-    public function testReset()
+    public function testReset(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');

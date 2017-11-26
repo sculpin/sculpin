@@ -43,5 +43,5 @@ interface FormatterInterface
      * (if applicable) or do anything else they need to do after having
      * run once.
      */
-    public function reset();
+    public function reset(): void;
 }

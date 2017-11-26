@@ -24,28 +24,24 @@ interface OutputInterface
     /**
      * Unique ID
      *
-     * @return string
      */
     public function outputId(): string;
 
     /**
      * Pathname (relative)
      *
-     * @return string
      */
     public function pathname(): string;
 
     /**
      * Suggested permalink
      *
-     * @return PermalinkInterface
      */
     public function permalink(): PermalinkInterface;
 
     /**
      * Has a file reference?
      *
-     * @return boolean
      */
     public function hasFileReference(): bool;
 
@@ -54,12 +50,12 @@ interface OutputInterface
      *
      * @return SplFileInfo|null
      */
-    public function file();
+    public function file(): ?SplFileInfo;
 
     /**
      * Formatted content (if not hasFileReference)
      *
      * @return string|null
      */
-    public function formattedContent();
+    public function formattedContent(): ?string;
 }

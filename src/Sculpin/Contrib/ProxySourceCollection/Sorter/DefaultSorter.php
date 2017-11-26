@@ -15,7 +15,7 @@ use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 
 class DefaultSorter implements SorterInterface
 {
-    public function sort(ProxySourceItem $a, ProxySourceItem $b)
+    public function sort(ProxySourceItem $a, ProxySourceItem $b): int
     {
         if ($a->date() && $a->title() && $b->date() && $b->title()) {
             return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());

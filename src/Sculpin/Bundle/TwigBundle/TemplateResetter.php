@@ -46,7 +46,7 @@ class TemplateResetter implements EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         if ($sourceSetEvent->updatedSources()) {
             $this->twig->clearTemplateCache();

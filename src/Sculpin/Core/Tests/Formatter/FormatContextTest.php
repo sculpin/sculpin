@@ -16,7 +16,7 @@ use Sculpin\Core\Formatter\FormatContext;
 
 class FormatContextTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $formatContext = new FormatContext('someTemplateId', 'template text', [
             'a' => 'Some A Value',

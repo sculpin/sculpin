@@ -72,7 +72,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setHasChanged(): bool
+    public function setHasChanged(): void
     {
         $this->source->setHasChanged();
     }
@@ -80,7 +80,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setHasNotChanged(): bool
+    public function setHasNotChanged(): void
     {
         $this->source->setHasNotChanged();
     }
@@ -96,7 +96,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setPermalink(PermalinkInterface $permalink)
+    public function setPermalink(PermalinkInterface $permalink): void
     {
         $this->source->setPermalink($permalink);
     }
@@ -128,7 +128,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent(string $content = null)
+    public function setContent(?string $content = null): void
     {
         $this->source->setContent($content);
     }
@@ -144,7 +144,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormattedContent(string $formattedContent = null)
+    public function setFormattedContent(?string $formattedContent = null): void
     {
         $this->source->setFormattedContent($formattedContent);
     }
@@ -184,7 +184,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsGenerator()
+    public function setIsGenerator(): void
     {
         $this->source->setIsGenerator();
     }
@@ -192,7 +192,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsNotGenerator()
+    public function setIsNotGenerator(): void
     {
         $this->source->setIsNotGenerator();
     }
@@ -208,7 +208,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsGenerated()
+    public function setIsGenerated(): void
     {
         $this->source->setIsGenerated();
     }
@@ -216,7 +216,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsNotGenerated()
+    public function setIsNotGenerated(): void
     {
         $this->source->setIsNotGenerated();
     }
@@ -232,7 +232,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setShouldBeSkipped()
+    public function setShouldBeSkipped(): void
     {
         $this->source->setShouldBeSkipped();
     }
@@ -240,7 +240,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setShouldNotBeSkipped()
+    public function setShouldNotBeSkipped(): void
     {
         $this->source->setShouldNotBeSkipped();
     }
@@ -248,7 +248,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function forceReprocess()
+    public function forceReprocess(): void
     {
         $this->source->forceReprocess();
     }

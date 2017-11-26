@@ -127,7 +127,7 @@ class FlexibleExtensionFilesystemLoader implements Twig_LoaderInterface, EventSu
         ];
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         if ($sourceSetEvent->sourceSet()->newSources()) {
             $this->cachedCacheKey = [];

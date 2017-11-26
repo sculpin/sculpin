@@ -22,13 +22,13 @@ class ProxySourceCollection implements ArrayAccess, Iterator, Countable
     protected $items;
     protected $sorter;
 
-    public function __construct(array $items = [], SorterInterface $sorter = null)
+    public function __construct(array $items = [], ?SorterInterface $sorter = null)
     {
         $this->items = $items;
         $this->sorter = $sorter ?: new DefaultSorter;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->items[] = $value;
@@ -42,7 +42,7 @@ class ProxySourceCollection implements ArrayAccess, Iterator, Countable
         return isset($this->items[$offset]);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
@@ -52,7 +52,7 @@ class ProxySourceCollection implements ArrayAccess, Iterator, Countable
         return isset($this->items[$offset]) ? $this->items[$offset] : null;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->items);
     }
@@ -82,7 +82,7 @@ class ProxySourceCollection implements ArrayAccess, Iterator, Countable
         return count($this->items);
     }
 
-    public function init()
+    public function init(): void
     {
         $this->sort();
 
@@ -109,7 +109,7 @@ class ProxySourceCollection implements ArrayAccess, Iterator, Countable
         return $this->items[$keys[0]];
     }
 
-    public function sort()
+    public function sort(): void
     {
         uasort($this->items, [$this->sorter, 'sort']);
     }

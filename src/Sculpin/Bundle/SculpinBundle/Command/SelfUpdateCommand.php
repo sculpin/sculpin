@@ -44,7 +44,7 @@ class SelfUpdateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $fullCommand = $this->commandPrefix.'self-update';
         $this
@@ -195,7 +195,7 @@ EOT
         return stream_context_create($options);
     }
 
-    public function handleError($code, $msg)
+    public function handleError($code, $msg): void
     {
         if ($this->message) {
             $this->message .= "\n";

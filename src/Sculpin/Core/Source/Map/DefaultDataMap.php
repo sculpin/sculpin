@@ -22,7 +22,7 @@ class DefaultDataMap implements MapInterface
         $this->defaults = $defaults;
     }
 
-    public function process(SourceInterface $source)
+    public function process(SourceInterface $source): void
     {
         foreach ($this->defaults as $name => $value) {
             if (!$source->data()->get($name) && $value) {

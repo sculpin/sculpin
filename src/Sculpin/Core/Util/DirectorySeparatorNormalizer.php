@@ -36,7 +36,6 @@ class DirectorySeparatorNormalizer
      *
      * @param string $directorySeparator Directory separator
      *
-     * @return DirectorySeparatorNormalizer
      */
     public function setDirectorySeparator(string $directorySeparator): DirectorySeparatorNormalizer
     {
@@ -52,7 +51,7 @@ class DirectorySeparatorNormalizer
      *
      * @return null|string
      */
-    public function normalize(string $path = null)
+    public function normalize(?string $path = null): ?string
     {
         if ($this->preferredDirectorySeparator === $this->directorySeparator) {
             return $path;

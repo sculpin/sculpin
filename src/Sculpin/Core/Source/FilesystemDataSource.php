@@ -103,10 +103,10 @@ class FilesystemDataSource implements DataSourceInterface
         array $excludes,
         array $ignores,
         array $raws,
-        FinderFactoryInterface $finderFactory = null,
-        AntPathMatcher $matcher = null,
-        Analyzer $analyzer = null,
-        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+        ?FinderFactoryInterface $finderFactory = null,
+        ?AntPathMatcher $matcher = null,
+        ?Analyzer $analyzer = null,
+        ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->excludes = $excludes;
@@ -130,7 +130,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         $sinceTimeLast = $this->sinceTime;
 

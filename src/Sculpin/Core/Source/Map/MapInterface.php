@@ -15,5 +15,5 @@ use Sculpin\Core\Source\SourceInterface;
 
 interface MapInterface
 {
-    public function process(SourceInterface $source);
+    public function process(SourceInterface $source): void;
 }

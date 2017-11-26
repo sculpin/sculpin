@@ -63,7 +63,7 @@ class GeneratorManager
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
-        DataProviderManager $dataProviderManager = null
+        ?DataProviderManager $dataProviderManager = null
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->siteConfiguration = $siteConfiguration;
@@ -76,7 +76,7 @@ class GeneratorManager
      * @param string             $name      Name
      * @param GeneratorInterface $generator Generator
      */
-    public function registerGenerator(string $name, GeneratorInterface $generator)
+    public function registerGenerator(string $name, GeneratorInterface $generator): void
     {
         $this->generators[$name] = $generator;
     }
@@ -88,7 +88,7 @@ class GeneratorManager
      * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
      */
-    public function generate(SourceInterface $source, SourceSet $sourceSet)
+    public function generate(SourceInterface $source, SourceSet $sourceSet): void
     {
         $data = $source->data();
 
@@ -145,7 +145,7 @@ class GeneratorManager
      *
      * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null)
+    public function setDataProviderManager(?DataProviderManager $dataProviderManager = null): void
     {
         $this->dataProviderManager = $dataProviderManager;
     }

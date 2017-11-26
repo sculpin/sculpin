@@ -74,7 +74,6 @@ class FormatContext
     /**
      * Data
      *
-     * @return Data
      */
     public function data(): Data
     {

@@ -32,16 +32,16 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class Sculpin
 {
-    const GIT_VERSION = '@git_version@';
+    public const GIT_VERSION = '@git_version@';
 
-    const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
-    const EVENT_AFTER_RUN = 'sculpin.core.after_run';
+    public const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+    public const EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
-    const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
-    const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
+    public const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+    public const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
-    const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
-    const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
+    public const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+    public const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     /**
      * Site Configuration
@@ -135,7 +135,7 @@ class Sculpin
      * @param SourceSet           $sourceSet  Source set
      * @param IoInterface         $io         IO Interface
      */
-    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, IoInterface $io = null)
+    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null): void
     {
         if (null === $io) {
             $io = new NullIo();

@@ -61,14 +61,14 @@ class NullIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function write($messages, $newline = true)
+    public function write($messages, $newline = true): void
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function overwrite($messages, $newline = true, $size = 80)
+    public function overwrite($messages, $newline = true, $size = 80): void
     {
     }
 }

@@ -107,7 +107,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
                 break;
             default:
-                list($year, $yr, $month, $mo, $day, $dy) = explode('-', date('Y-y-m-n-d-j', (int) $date));
+                [$year, $yr, $month, $mo, $day, $dy] = explode('-', date('Y-y-m-n-d-j', (int) $date));
                 $permalink = preg_replace('/:year/', $year, $permalink);
                 $permalink = preg_replace('/:yr/', $yr, $permalink);
                 $permalink = preg_replace('/:month/', $month, $permalink);

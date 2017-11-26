@@ -15,5 +15,5 @@ use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 
 interface SorterInterface
 {
-    public function sort(ProxySourceItem $a, ProxySourceItem $b);
+    public function sort(ProxySourceItem $a, ProxySourceItem $b): int;
 }

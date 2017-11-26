@@ -14,24 +14,24 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class FunctionalTestCase extends TestCase
 {
-    const PROJECT_DIR = '/__SculpinTestProject__';
+    public const PROJECT_DIR = '/__SculpinTestProject__';
 
     /** @var Filesystem */
     protected static $fs;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fs = new Filesystem();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->setUpTestProject();
     }
 
-    protected function setUpTestProject()
+    protected function setUpTestProject(): void
     {
         $this->tearDownTestProject();
 
@@ -48,7 +48,7 @@ class FunctionalTestCase extends TestCase
         $this->writeToProjectFile('/source/_layouts/raw.html.twig', '{% block content %}{% endblock content %}');
     }
 
-    protected function tearDownTestProject()
+    protected function tearDownTestProject(): void
     {
         $projectDir = self::projectDir();
         if (self::$fs->exists($projectDir)) {
@@ -59,7 +59,7 @@ class FunctionalTestCase extends TestCase
     /**
      * Execute a command against the sculpin binary
      */
-    protected function executeSculpin(string $command)
+    protected function executeSculpin(string $command): void
     {
         $binPath = __DIR__ . '/../../../../bin';
         $projectDir = self::projectDir();
@@ -67,7 +67,7 @@ class FunctionalTestCase extends TestCase
         exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
     }
 
-    protected function addProjectDirectory(string $path, bool $recursive = true)
+    protected function addProjectDirectory(string $path, bool $recursive = true): void
     {
         $pathParts = explode('/', $path);
         // Remove leading slash
@@ -89,7 +89,7 @@ class FunctionalTestCase extends TestCase
         }
     }
 
-    protected function addProjectFile(string $filePath, string $content = null)
+    protected function addProjectFile(string $filePath, ?string $content = null): void
     {
         $dirPathParts = explode('/', $filePath);
         // Remove leading slash
@@ -113,7 +113,7 @@ class FunctionalTestCase extends TestCase
         }
     }
 
-    protected function copyFixtureToProject(string $fixturePath, string $projectPath)
+    protected function copyFixtureToProject(string $fixturePath, string $projectPath): void
     {
         self::$fs->copy($fixturePath, self::projectDir() . $projectPath);
     }
@@ -121,14 +121,14 @@ class FunctionalTestCase extends TestCase
     /**
      * @param null   $msg
      */
-    protected function assertProjectHasFile(string $filePath, $msg = null)
+    protected function assertProjectHasFile(string $filePath, $msg = null): void
     {
         $msg = $msg ?: "Expected project to contain file at path $filePath.";
 
         $this->assertTrue(self::$fs->exists(self::projectDir() . $filePath), $msg);
     }
 
-    protected function assertProjectHasGeneratedFile(string $filePath, string $msg = null)
+    protected function assertProjectHasGeneratedFile(string $filePath, ?string $msg = null): void
     {
         $outputDir = '/output_test';
 
@@ -136,7 +136,7 @@ class FunctionalTestCase extends TestCase
         $this->assertProjectHasFile($outputDir . $filePath, $msg);
     }
 
-    protected function writeToProjectFile(string $filePath, string $content)
+    protected function writeToProjectFile(string $filePath, string $content): void
     {
         self::$fs->dumpFile(self::projectDir() . $filePath, $content);
     }

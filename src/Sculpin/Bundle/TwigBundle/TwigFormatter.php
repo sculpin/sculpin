@@ -106,7 +106,7 @@ class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function reset()
+    public function reset(): void
     {
         $this->twig->clearCacheFiles();
         $this->twig->clearTemplateCache();

@@ -38,7 +38,7 @@ class MemorySource extends AbstractSource
         string $sourceId,
         Data $data,
         string $content,
-        $formattedContent,
+        ?string $formattedContent,
         string $relativePathname,
         string $filename,
         SplFileInfo $file,

@@ -76,7 +76,6 @@ class Configuration extends BaseConfiguration
      *
      * @param array $excludes Excludes.
      *
-     * @return Configuration
      */
     public function setExcludes(array $excludes = []): Configuration
     {
@@ -91,7 +90,6 @@ class Configuration extends BaseConfiguration
      * Add an exclude pattern
      *
      *
-     * @return Configuration
      */
     public function addExclude(string $pattern): Configuration
     {
@@ -121,7 +119,6 @@ class Configuration extends BaseConfiguration
      *
      * @param array $ignores Ignores.
      *
-     * @return Configuration
      */
     public function setIgnores(array $ignores = []): Configuration
     {
@@ -136,7 +133,6 @@ class Configuration extends BaseConfiguration
      * Add an ignore pattern
      *
      *
-     * @return Configuration
      */
     public function addIgnore(string $pattern): Configuration
     {
@@ -166,7 +162,6 @@ class Configuration extends BaseConfiguration
      *
      * @param array $raws Raws.
      *
-     * @return Configuration
      */
     public function setRaws(array $raws = []): Configuration
     {
@@ -181,7 +176,6 @@ class Configuration extends BaseConfiguration
      * Add a raw pattern
      *
      *
-     * @return Configuration
      */
     public function addRaw(string $pattern): Configuration
     {
@@ -208,7 +202,6 @@ class Configuration extends BaseConfiguration
      *
      * @param string $sourceDir Source directory
      *
-     * @return Configuration
      */
     public function setSourceDir(string $sourceDir): Configuration
     {
@@ -274,7 +267,6 @@ class Configuration extends BaseConfiguration
      *
      * @param string $defaultFormatter Default formatter
      *
-     * @return Configuration
      */
     public function setDefaultFormatter(string $defaultFormatter): Configuration
     {

@@ -21,35 +21,30 @@ interface IoInterface
     /**
      * Is this input means interactive?
      *
-     * @return bool
      */
     public function isInteractive(): bool;
 
     /**
      * Is this output verbose?
      *
-     * @return bool
      */
     public function isVerbose(): bool;
 
     /**
      * Is the output very verbose?
      *
-     * @return bool
      */
     public function isVeryVerbose(): bool;
 
     /**
      * Is the output in debug verbosity?
      *
-     * @return bool
      */
     public function isDebug(): bool;
 
     /**
      * Is this output decorated?
      *
-     * @return bool
      */
     public function isDecorated(): bool;
 
@@ -59,7 +54,7 @@ interface IoInterface
      * @param string|array $messages The message as an array of lines or a single string
      * @param bool         $newline  Whether to add a newline or not
      */
-    public function write($messages, $newline = true);
+    public function write($messages, $newline = true): void;
 
     /**
      * Overwrites a previous message to the output.
@@ -68,5 +63,5 @@ interface IoInterface
      * @param bool         $newline  Whether to add a newline or not
      * @param integer      $size     The size of line
      */
-    public function overwrite($messages, $newline = true, $size = null);
+    public function overwrite($messages, $newline = true, $size = null): void;
 }

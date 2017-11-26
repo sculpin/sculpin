@@ -52,7 +52,7 @@ class ProxySourceItem extends ProxySource implements ArrayAccess
         return $this->data()->get('blocks');
     }
 
-    public function setBlocks(array $blocks = null)
+    public function setBlocks(?array $blocks = null): void
     {
         $this->data()->set('blocks', $blocks ?: []);
     }
@@ -62,7 +62,7 @@ class ProxySourceItem extends ProxySource implements ArrayAccess
         return $this->previousItem;
     }
 
-    public function setPreviousItem(self $item = null)
+    public function setPreviousItem(?self $item = null): void
     {
         $lastPreviousItem = $this->previousItem;
         $this->previousItem = $item;
@@ -85,7 +85,7 @@ class ProxySourceItem extends ProxySource implements ArrayAccess
         return $this->nextItem;
     }
 
-    public function setNextItem(self $item = null)
+    public function setNextItem(?self $item = null): void
     {
         $lastNextItem = $this->nextItem;
         $this->nextItem = $item;
@@ -103,7 +103,7 @@ class ProxySourceItem extends ProxySource implements ArrayAccess
         }
     }
 
-    public function reprocess()
+    public function reprocess(): void
     {
         $this->setHasChanged();
     }
@@ -131,7 +131,7 @@ class ProxySourceItem extends ProxySource implements ArrayAccess
         return ! method_exists($this, $offset) && null !== $this->data()->get($offset);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (! method_exists($this, $offset)) {
             $this->data()->remove($offset);

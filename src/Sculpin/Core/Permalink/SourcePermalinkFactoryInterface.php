@@ -25,7 +25,6 @@ interface SourcePermalinkFactoryInterface
      *
      * @param SourceInterface $source Source
      *
-     * @return PermalinkInterface
      */
     public function create(SourceInterface $source): PermalinkInterface;
 }

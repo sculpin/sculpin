@@ -22,8 +22,8 @@ class AntPathFilter implements FilterInterface
 
     public function __construct(
         array $paths,
-        AntPathMatcher $antPathMatcher = null,
-        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+        ?AntPathMatcher $antPathMatcher = null,
+        ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         if (null === $antPathMatcher) {
             $antPathMatcher = new AntPathMatcher;
@@ -35,7 +35,7 @@ class AntPathFilter implements FilterInterface
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
     }
 
-    public function match(SourceInterface $source)
+    public function match(SourceInterface $source): bool
     {
         $normalizedPath = $this->directorySeparatorNormalizer->normalize($source->relativePathname());
 

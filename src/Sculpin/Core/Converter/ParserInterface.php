@@ -8,9 +8,7 @@ namespace Sculpin\Core\Converter;
 interface ParserInterface
 {
     /**
-     * @param string $content
-     *
-     * @return string
+     * @param string|mixed $content
      */
     public function transform($content): string;
 }

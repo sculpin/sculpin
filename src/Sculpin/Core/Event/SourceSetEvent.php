@@ -56,7 +56,6 @@ class SourceSetEvent extends Event
     /**
      * Current source set
      *
-     * @return SourceSet
      */
     public function sourceSet(): SourceSet
     {

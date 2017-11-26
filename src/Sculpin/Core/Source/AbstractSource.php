@@ -132,7 +132,7 @@ abstract class AbstractSource implements SourceInterface
      *
      * @param bool $hasChanged Has the Source changed?
      */
-    protected function init(bool $hasChanged = null)
+    protected function init(?bool $hasChanged = null): void
     {
         if (null !== $hasChanged) {
             $this->hasChanged = $hasChanged;
@@ -167,7 +167,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent(string $content = null)
+    public function setContent(?string $content = null): void
     {
         $this->content = $content;
 
@@ -179,7 +179,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function formattedContent()
+    public function formattedContent(): ?string
     {
         return $this->formattedContent;
     }
@@ -187,7 +187,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormattedContent(string $formattedContent = null)
+    public function setFormattedContent(?string $formattedContent = null): void
     {
         $this->formattedContent = $formattedContent;
     }
@@ -211,7 +211,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setHasChanged()
+    public function setHasChanged(): void
     {
         $this->hasChanged = true;
     }
@@ -219,7 +219,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setHasNotChanged()
+    public function setHasNotChanged(): void
     {
         $this->hasChanged = false;
     }
@@ -235,7 +235,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setPermalink(PermalinkInterface $permalink)
+    public function setPermalink(PermalinkInterface $permalink): void
     {
         $this->permalink = $permalink;
     }
@@ -267,7 +267,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsGenerator()
+    public function setIsGenerator(): void
     {
         $this->isGenerator = true;
     }
@@ -275,7 +275,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsNotGenerator()
+    public function setIsNotGenerator(): void
     {
         $this->isGenerator = false;
     }
@@ -291,7 +291,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsGenerated()
+    public function setIsGenerated(): void
     {
         $this->isGenerated = true;
     }
@@ -299,7 +299,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsNotGenerated()
+    public function setIsNotGenerated(): void
     {
         $this->isGenerated = false;
     }
@@ -315,7 +315,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setShouldBeSkipped()
+    public function setShouldBeSkipped(): void
     {
         $this->shouldBeSkipped = true;
     }
@@ -323,7 +323,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setShouldNotBeSkipped()
+    public function setShouldNotBeSkipped(): void
     {
         $this->shouldBeSkipped = false;
     }
@@ -331,7 +331,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function forceReprocess()
+    public function forceReprocess(): void
     {
         $this->init(true);
     }

@@ -107,7 +107,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * {@inheritDoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null)
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null)
     {
         if (null === $output) {
             $styles = [
@@ -172,14 +172,13 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     /**
      * Get Kernel
      *
-     * @return KernelInterface
      */
     public function getKernel(): KernelInterface
     {
         return $this->kernel;
     }
 
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         $this->kernel->boot();
 

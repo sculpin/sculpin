@@ -20,5 +20,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SculpinTextileBundle extends Bundle
 {
-    const CONVERTER_NAME = 'textile';
+    public const CONVERTER_NAME = 'textile';
 }

@@ -15,7 +15,7 @@ use Sculpin\Core\Source\SourceInterface;
 
 class NullMap implements MapInterface
 {
-    public function process(SourceInterface $source)
+    public function process(SourceInterface $source): void
     {
         // NOOP
     }

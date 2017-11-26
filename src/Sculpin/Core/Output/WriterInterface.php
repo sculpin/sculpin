@@ -23,5 +23,5 @@ interface WriterInterface
      *
      * @param OutputInterface $output Output
      */
-    public function write(OutputInterface $output);
+    public function write(OutputInterface $output): void;
 }
