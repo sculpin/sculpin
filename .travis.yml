@@ -19,6 +19,7 @@ matrix:
     - php: 7.1
       env:
         - DEPS=latest
+    - php: 7.2
 
 before_install:
   - travis_retry composer self-update
