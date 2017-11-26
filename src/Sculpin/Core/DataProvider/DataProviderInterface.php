@@ -21,7 +21,7 @@ interface DataProviderInterface
     /**
      * Provide data.
      *
-     * @return array
+     * @return array|mixed
      */
-    public function provideData(): array;
+    public function provideData();
 }

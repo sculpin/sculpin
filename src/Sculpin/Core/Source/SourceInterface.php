@@ -11,7 +11,7 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Configuration\Configuration;
+use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Permalink\PermalinkInterface;
 
 /**

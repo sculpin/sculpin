@@ -34,7 +34,7 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
         $this->taxonomyKey = $taxonomyKey;
     }
 
-    public function provideData()
+    public function provideData(): array
     {
         return $this->taxons;
     }

@@ -21,7 +21,7 @@ class DefaultKernel extends AbstractKernel
     /**
      * {@inheritdoc}
      */
-    protected function getAdditionalSculpinBundles()
+    protected function getAdditionalSculpinBundles(): array
     {
         return [];
     }

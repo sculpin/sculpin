@@ -13,7 +13,7 @@ class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($content)
+    public function transform($content): string
     {
         return parent::transform($content);
     }

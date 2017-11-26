@@ -11,7 +11,6 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Permalink\PermalinkInterface;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use SplFileInfo;
@@ -196,7 +195,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function data(): Configuration
+    public function data(): Data
     {
         return $this->data;
     }
