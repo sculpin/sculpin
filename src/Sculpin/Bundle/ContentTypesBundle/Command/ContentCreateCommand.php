@@ -183,38 +183,77 @@ EOT;
 ---
 layout: default
 title: $title
+generator: pagination
+pagination:
+    provider: data.$plural
+    max_per_page: 10
 use: [$plural]
 ---
 <ul>
-    {% for $singular in data.$plural %}
+    {% for $singular in page.pagination.items %}
         <li><a href="{{ $singular.url }}">{{ $singular.title }}</a></li>
     {% endfor %}
 </ul>
+
+<nav>
+    {% if page.pagination.previous_page or page.pagination.next_page %}
+    {% if page.pagination.previous_page %}
+    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${plural}</a>
+    {% endif %}
+    {% if page.pagination.next_page %}
+    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${plural}</a>
+    {% endif %}
+    {% endif %}
+</nav>
 EOT;
     }
 
     protected function getViewTemplate($plural, $singular, $taxonomies = [])
     {
-        return <<<EOT
+        $output = <<<EOT
 {% extends 'default' %}
 
-{% block content %}
+{% block content_wrapper %}
 <article>
   <header>
     <h2>{{ page.title }}</h2>
-    {% if page.subtitle %}
-      <h3 class="subtitle">{{ page.subtitle }}</h3>
-    {% endif %}
+  {% if page.subtitle %}
+    <h3 class="subtitle">{{ page.subtitle }}</h3>
+  {% endif %}
   </header>
   <section class="main_body">
     {{ page.blocks.content|raw }}
   </section>
+EOT;
+
+        if ($taxonomies) {
+            $output .= "\n" . '  <section class="taxonomies">' . "\n";
+
+            foreach ($taxonomies as $taxonomy) {
+                $capitalTaxonomy  = ucwords($taxonomy);
+                $singularTaxonomy = Inflector::singularize($taxonomy);
+                $output .= <<<EOT
+    <div class="taxonomy">
+        <a href="{{site.url }}/${plural}/{$taxonomy}">${capitalTaxonomy}</a>:
+        {% for ${singularTaxonomy} in page.${taxonomy} %}
+        <a href="{{ site.url }}/${plural}/${taxonomy}/{{ ${singularTaxonomy} }}">{{ ${singularTaxonomy} }}</a>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+EOT;
+            }
+
+            $output .= "\n" . '  </section>' . "\n";
+        }
+
+        $output .= <<<EOT
   <footer>
     <p class="published_date">Published: {{page.date|date('F j, Y')}}</p>
   </footer>
 </article>
-{% endblock content %}
+{% endblock content_wrapper %}
 EOT;
+
+        return $output;
     }
 
     protected function getTaxonomyIndexTemplate($plural, $singular, $taxonomy, $singularTaxonomy)
@@ -242,14 +281,28 @@ EOT;
 
         return <<<EOT
 ---
-generator: ${plural}_${singularTaxonomy}_index
+generator: [${plural}_${singularTaxonomy}_index, pagination]
+pagination:
+    provider: page.${singularTaxonomy}_${plural}
+    max_per_page: 10
 ---
 <h1>{{ page.${singularTaxonomy}|capitalize }}</h1>
 <ul>
-    {% for ${singular} in page.${singularTaxonomy}_${plural} %}
+    {% for ${singular} in page.pagination.items %}
         <li><a href="{{ ${singular}.url }}">{{ ${singular}.title }}</a></li>
     {% endfor %}
 </ul>
+
+<nav>
+    {% if page.pagination.previous_page or page.pagination.next_page %}
+    {% if page.pagination.previous_page %}
+    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${plural}</a>
+    {% endif %}
+    {% if page.pagination.next_page %}
+    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${plural}</a>
+    {% endif %}
+    {% endif %}
+</nav>
 EOT;
     }
 }
