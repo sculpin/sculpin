@@ -236,7 +236,9 @@ EOT;
     <div class="taxonomy">
         <a href="{{site.url }}/${plural}/{$taxonomy}">${capitalTaxonomy}</a>:
         {% for ${singularTaxonomy} in page.${taxonomy} %}
-        <a href="{{ site.url }}/${plural}/${taxonomy}/{{ ${singularTaxonomy} }}">{{ ${singularTaxonomy} }}</a>{% if not loop.last %}, {% endif %}
+        <a href="{{ site.url }}/${plural}/${taxonomy}/{{ ${singularTaxonomy} }}">
+            {{ ${singularTaxonomy} }}
+        </a>{% if not loop.last %}, {% endif %}
         {% endfor %}
       </div>
 EOT;
