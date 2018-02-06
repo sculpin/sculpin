@@ -198,10 +198,10 @@ use: [$plural]
 <nav>
     {% if page.pagination.previous_page or page.pagination.next_page %}
     {% if page.pagination.previous_page %}
-    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${plural}</a>
+    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${title}</a>
     {% endif %}
     {% if page.pagination.next_page %}
-    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${plural}</a>
+    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${title}</a>
     {% endif %}
     {% endif %}
 </nav>
@@ -298,10 +298,10 @@ pagination:
 <nav>
     {% if page.pagination.previous_page or page.pagination.next_page %}
     {% if page.pagination.previous_page %}
-    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${plural}</a>
+    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${title}</a>
     {% endif %}
     {% if page.pagination.next_page %}
-    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${plural}</a>
+    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${title}</a>
     {% endif %}
     {% endif %}
 </nav>
