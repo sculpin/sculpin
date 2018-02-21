@@ -80,12 +80,12 @@ class SourcePermalinkFactoryTest extends TestCase
             array(
                 'blog/:year/:month/:day/:slug_title',
                 static::makeTestSource('about.md', array(
-                    'slug' => 'some-about-me',
+                    'slug' => 'some/about-me',
                     'calculated_date' => mktime(0, 0, 0, 1, 12, 2005)
                 )),
                 new Permalink(
-                    'blog/2005/01/12/some-about-me/index.html',
-                    '/blog/2005/01/12/some-about-me'
+                    'blog/2005/01/12/some/about-me/index.html',
+                    '/blog/2005/01/12/some/about-me'
                 ),
             ),
 
