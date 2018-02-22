@@ -68,4 +68,97 @@ EOT
         );
         $this->assertContains('Hello World', $pageContentEl->text());
     }
+
+    /** @test */
+    public function shouldRefreshGeneratedHtmlAfterFilesystemChange()
+    {
+        $layoutFile    = '/source/_layouts/my_layout.html.twig';
+        $pageFile      = '/source/my_page_with_layout.md';
+        $pageGenerated = '/my_page_with_layout/index.html';
+
+        $expectedHeader  = 'ORIGINAL_HEADER';
+        $expectedContent = 'Hello World';
+
+        $layoutContent = <<<EOT
+<body>
+    <h1 class="header">{$expectedHeader}</h1>
+	<div class="page-content">{% block content %}{% endblock content %}</div>
+</body>
+EOT;
+
+        $pageContent = <<<EOT
+---
+layout: my_layout.html.twig
+---
+{$expectedContent}
+EOT;
+
+        $this->addProjectFile($layoutFile, $layoutContent);
+        $this->addProjectFile($pageFile, $pageContent);
+
+        // start our async sculpin watcher/server
+        $process = $this->executeSculpinAsync('generate --watch');
+
+        sleep(1); // wait until our file exists
+        $crawler = $this->crawlGeneratedProjectFile($pageGenerated);
+
+        $pageContentEl = $crawler->filter('.page-content');
+        $this->assertEquals(
+            1,
+            $pageContentEl->count(),
+            "Expected generated file to have a single .page-content element."
+        );
+
+        $pageHeaderEl = $crawler->filter('.header');
+        $this->assertEquals(
+            1,
+            $pageHeaderEl->count(),
+            "Expected generated file to have a single .header element."
+        );
+
+        $this->assertContains($expectedHeader, $pageHeaderEl->text());
+        $this->assertContains($expectedContent, $pageContentEl->text());
+
+        // update the content
+        $originalHeader  = $expectedHeader;
+        $originalContent = $expectedContent;
+
+        $expectedHeader  = 'FRESH HEADER';
+        $expectedContent = 'HELLO WORLD!';
+
+        $layoutContent = str_replace($originalHeader, $expectedHeader, $layoutContent);
+        $pageContent   = str_replace($originalContent, $expectedContent, $pageContent);
+
+        // test that page content refreshes properly
+        $this->addProjectFile($pageFile, $pageContent);
+
+        sleep(2);
+        $crawler = $this->crawlGeneratedProjectFile($pageGenerated);
+
+        $pageContentEl = $crawler->filter('.page-content');
+        $this->assertEquals(
+            1,
+            $pageContentEl->count(),
+            "Expected generated file to have a single .page-content element."
+        );
+
+        $this->assertContains($expectedContent, $pageContentEl->text());
+
+        // test that layouts/views refresh properly
+        $this->addProjectFile($layoutFile, $layoutContent);
+
+        sleep(2);
+        $crawler = $this->crawlGeneratedProjectFile($pageGenerated);
+
+        $pageHeaderEl = $crawler->filter('.header');
+        $this->assertEquals(
+            1,
+            $pageHeaderEl->count(),
+            "Expected generated file to have a single .header element."
+        );
+
+        $this->assertContains($expectedHeader, $pageHeaderEl->text()); // I don't get it. This should be failing.
+
+        $process->stop(0);
+    }
 }
