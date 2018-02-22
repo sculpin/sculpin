@@ -29,7 +29,7 @@ class Environment extends \Twig_Environment
             $me     = new \ReflectionClass($this);
             $parent = $me;
 
-            while ($parent !== false) {
+            while ($parent instanceof \ReflectionClass) {
                 $me     = $parent;
                 $parent = $me->getParentClass();
             }
