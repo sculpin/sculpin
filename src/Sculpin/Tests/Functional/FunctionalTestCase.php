@@ -8,6 +8,7 @@ namespace Sculpin\Tests\Functional;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
 
 /**
  * This test case allows you to create a test project on the fly,
@@ -67,6 +68,30 @@ class FunctionalTestCase extends TestCase
         $binPath = __DIR__ . '/../../../../bin';
         $projectDir = self::projectDir();
         exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
+    }
+
+    /**
+     * Asynchronously execute a command against the sculpin binary
+     *
+     * Remember to stop the process when finished!
+     *
+     * @param string   $command
+     * @param bool     $start     Default: start the process right away
+     * @param callable $callback
+     *
+     * @return Process
+     */
+    protected function executeSculpinAsync($command, $start = true, callable $callback = null)
+    {
+        $binPath    = __DIR__ . '/../../../../bin';
+        $projectDir = self::projectDir();
+        $process    = new Process("$binPath/sculpin $command --project-dir $projectDir --env=test");
+
+        if ($start) {
+            $process->start($callback);
+        }
+
+        return $process;
     }
 
     /**

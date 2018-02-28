@@ -29,9 +29,9 @@ class TemplateResetter implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \Twig_Environment $twig
+     * @param Environment $twig
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
@@ -53,9 +53,9 @@ class TemplateResetter implements EventSubscriberInterface
      */
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
-        if ($sourceSetEvent->updatedSources()) {
-            // removed in twig v2
-            //$this->twig->clearTemplateCache();
+        $updated = $sourceSetEvent->updatedSources();
+        if ($updated) {
+            $this->twig->invalidateLoadedTemplates();
         }
     }
 }
