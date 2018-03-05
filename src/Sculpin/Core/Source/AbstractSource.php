@@ -352,6 +352,14 @@ abstract class AbstractSource implements SourceInterface
     }
 
     /**
+     * Mark source as can be formatted
+     */
+    public function setCanBeFormatted()
+    {
+        $this->canBeFormatted = true;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function file()
