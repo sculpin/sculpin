@@ -69,8 +69,8 @@
     "bin": ["bin/sculpin", "bin/sculpin.php"],
     "extra": {
         "branch-alias": {
-            "dev-master": "2.1.x-dev",
-            "dev-develop": "3.0.x-dev"
+            "dev-master": "3.0.x-dev",
+            "dev-develop": "3.1.x-dev"
         }
     },
     "scripts": {
