@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8ca51dea5babd85c3053d9aa715bd35",
+    "content-hash": "84843fe60ed4f63abe2d78a80af60343",
     "packages": [
         {
             "name": "dflydev/ant-path-matcher",
@@ -4341,7 +4341,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.0"
+        "php": "^7.2",
+        "ext-mbstring": "*"
     },
     "platform-dev": []
 }
