@@ -23,6 +23,6 @@ class DefaultSorter implements SorterInterface
             return strnatcmp($b->date().' '.$b->title(), $a->date().' '.$a->title());
         }
 
-        return strnatcmp($a->relativePathname(), $b->relativePathname());
+        return strnatcmp($b->relativePathname(), $a->relativePathname());
     }
 }
