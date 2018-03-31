@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -73,7 +75,7 @@ class PaginationGenerator implements GeneratorInterface
         }
 
         if (null === $data) {
-            return;
+            return [];
         }
 
         $maxPerPage = isset($config['max_per_page']) ? $config['max_per_page'] : $this->maxPerPage;

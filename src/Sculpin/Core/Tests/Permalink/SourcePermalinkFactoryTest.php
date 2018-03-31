@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sculpin\Core\Tests\Permalink;
 
 use Dflydev\DotAccessConfiguration\Configuration;
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Permalink\Permalink;
 use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\MemorySource;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourcePermalinkFactoryTest extends \PHPUnit_Framework_TestCase
+class SourcePermalinkFactoryTest extends TestCase
 {
     /**
      * @test

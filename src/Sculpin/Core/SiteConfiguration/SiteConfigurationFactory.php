@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -21,6 +23,9 @@ use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
  */
 class SiteConfigurationFactory
 {
+    protected $rootDir;
+    protected $environment;
+
     /**
      * Constructor.
      *
@@ -37,7 +42,7 @@ class SiteConfigurationFactory
      * Get an instance of the Configuration() class from the given file.
      *
      * @param  string $configFile
-     * @return YamlFileConfigurationBuilder
+     * @return Configuration
      */
     private function getConfigFile($configFile)
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -11,13 +13,14 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\SourceSet;
 
-class SourceSetTest extends \PHPUnit_Framework_TestCase
+class SourceSetTest extends TestCase
 {
     public function makeTestSource($sourceId, $hasChanged = true)
     {
-        $source = $this->getMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock('Sculpin\Core\Source\SourceInterface');
 
         $source
             ->expects($this->any())

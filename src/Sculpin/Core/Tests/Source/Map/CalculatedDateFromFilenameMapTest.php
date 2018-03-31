@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -12,12 +14,15 @@
 namespace Sculpin\Core\Tests\Source\Map;
 
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
 use Sculpin\Core\Source\MemorySource;
 
-class CalculatedDateFromFilenameMapTest extends \PHPUnit_Framework_TestCase
+class CalculatedDateFromFilenameMapTest extends TestCase
 {
-    public function setUp()
+    private $map;
+
+    protected function setUp()
     {
         $this->map = new CalculatedDateFromFilenameMap();
     }

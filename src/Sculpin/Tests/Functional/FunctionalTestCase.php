@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Sculpin\Tests\Functional;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -11,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * and run the sculpin binary against it. Test project files
  * will automatically be created and removed with every test.
  */
-class FunctionalTestCase extends \PHPUnit_Framework_TestCase
+class FunctionalTestCase extends TestCase
 {
     const PROJECT_DIR = '/__SculpinTestProject__';
 
@@ -197,12 +200,12 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
     private function readFile($filePath)
     {
         if (!self::$fs->exists($filePath)) {
-            throw new \PHPUnit_Framework_Exception("Unable to read file at path $filePath: file does not exist");
+            throw new \PHPUnit\Framework\Exception("Unable to read file at path $filePath: file does not exist");
         }
 
         $content = file_get_contents($filePath);
         if ($content === false) {
-            throw new \PHPUnit_Framework_Exception("Unable to read file at path $filePath: failed to read file.");
+            throw new \PHPUnit\Framework\Exception("Unable to read file at path $filePath: failed to read file.");
         }
 
         return $content;

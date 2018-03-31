@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -12,6 +14,7 @@
 namespace Sculpin\Bundle\ThemeBundle;
 
 use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class ThemeRegistry
@@ -20,7 +23,7 @@ class ThemeRegistry
     private $directory;
     private $activeTheme;
 
-    public function __construct(FinderFactoryInterface $finderFactory, $directory, $activeTheme = null)
+    public function __construct($finderFactory, $directory, $activeTheme = null)
     {
         $this->finderFactory = $finderFactory;
         $this->directory = $directory;
@@ -33,8 +36,7 @@ class ThemeRegistry
             return array();
         }
 
-        $directories = $this
-            ->finderFactory->createFinder()
+        $directories = Finder::create()
             ->directories()
             ->ignoreVCS(true)
             ->depth('== 1')

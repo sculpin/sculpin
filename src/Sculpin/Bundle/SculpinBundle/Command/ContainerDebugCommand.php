@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -28,13 +30,15 @@
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
 
 /**
  * A console command for retrieving information about services
@@ -128,6 +132,9 @@ EOF
         $this->validateInput($input);
 
         if ($input->getOption('parameters')) {
+            if (!$this->getContainer() instanceof Container) {
+                return;
+            }
             $parameters = $this->getContainer()->getParameterBag()->all();
 
             // Sort parameters alphabetically
@@ -152,10 +159,13 @@ EOF
         }
 
         $tag = $input->getOption('tag');
-        if (null !== $tag) {
-            $serviceIds = array_keys($this->getContainer()->findTaggedServiceIds($tag));
-        } else {
-            $serviceIds = $this->getContainer()->getServiceIds();
+        $serviceIds = [];
+        if ($this->getContainer() instanceof ContainerBuilder) {
+            if (null !== $tag) {
+                $serviceIds = array_keys($this->getContainer()->findTaggedServiceIds($tag));
+            } else {
+                $serviceIds = $this->getContainer()->getServiceIds();
+            }
         }
 
         // sort so that it reads like an index of services
@@ -212,7 +222,6 @@ EOF
 
         // loop through to get space needed and filter private services
         $maxName = 4;
-        $maxScope = 6;
         $maxTags = array();
         foreach ($serviceIds as $key => $serviceId) {
             $definition = $this->resolveServiceDefinition($serviceId);
@@ -222,10 +231,6 @@ EOF
                 if (!$showPrivate && !$definition->isPublic()) {
                     unset($serviceIds[$key]);
                     continue;
-                }
-
-                if (strlen($definition->getScope()) > $maxScope) {
-                    $maxScope = strlen($definition->getScope());
                 }
 
                 if (null !== $showTagAttributes) {
@@ -251,14 +256,14 @@ EOF
         $format .= implode("", array_map(function ($length) {
             return "%-{$length}s ";
         }, $maxTags));
-        $format .= '%-'.$maxScope.'s %s';
+        $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
         $format1 .= implode("", array_map(function ($length) {
             return '%-'.($length + 19).'s ';
         }, $maxTags));
-        $format1 .= '%-'.($maxScope + 19).'s %s';
+        $format1 .= '%s';
 
         $tags = array();
         foreach ($maxTags as $tagName => $length) {
@@ -266,7 +271,6 @@ EOF
         }
         $output->writeln(vsprintf($format1, $this->buildArgumentsArray(
             '<comment>Service Id</comment>',
-            '<comment>Scope</comment>',
             '<comment>Class Name</comment>',
             $tags
         )));
@@ -285,16 +289,15 @@ EOF
                         if (0 === $key) {
                             $lines[] = $this->buildArgumentsArray(
                                 $serviceId,
-                                $definition->getScope(),
                                 $definition->getClass(),
                                 $tagValues
                             );
                         } else {
-                            $lines[] = $this->buildArgumentsArray('  "', '', '', $tagValues);
+                            $lines[] = $this->buildArgumentsArray('  "', '', $tagValues);
                         }
                     }
                 } else {
-                    $lines[] = $this->buildArgumentsArray($serviceId, $definition->getScope(), $definition->getClass());
+                    $lines[] = $this->buildArgumentsArray($serviceId, $definition->getClass());
                 }
 
                 foreach ($lines as $arguments) {
@@ -304,7 +307,6 @@ EOF
                 $alias = $definition;
                 $output->writeln(vsprintf($format, $this->buildArgumentsArray(
                     $serviceId,
-                    'n/a',
                     sprintf('<comment>alias for</comment> <info>%s</info>', (string) $alias),
                     count($maxTags) ? array_fill(0, count($maxTags), "") : array()
                 )));
@@ -313,7 +315,6 @@ EOF
                 $service = $definition;
                 $output->writeln(vsprintf($format, $this->buildArgumentsArray(
                     $serviceId,
-                    '',
                     get_class($service),
                     count($maxTags) ? array_fill(0, count($maxTags), "") : array()
                 )));
@@ -321,13 +322,12 @@ EOF
         }
     }
 
-    protected function buildArgumentsArray($serviceId, $scope, $className, array $tagAttributes = array())
+    protected function buildArgumentsArray($serviceId, $className, array $tagAttributes = array())
     {
         $arguments = array($serviceId);
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
-        $arguments[] = $scope;
         $arguments[] = $className;
 
         return $arguments;
@@ -369,8 +369,6 @@ EOF
             } else {
                 $output->writeln('<comment>Tags</comment>             -');
             }
-
-            $output->writeln(sprintf('<comment>Scope</comment>            %s', $definition->getScope()));
 
             $public = $definition->isPublic() ? 'yes' : 'no';
             $output->writeln(sprintf('<comment>Public</comment>           %s', $public));
@@ -443,17 +441,20 @@ EOF
      */
     protected function resolveServiceDefinition($serviceId)
     {
-        if ($this->getContainer()->hasDefinition($serviceId)) {
-            return $this->getContainer()->getDefinition($serviceId);
-        }
+        $container = $this->getContainer();
+        if ($container instanceof ContainerBuilder) {
+            if ($container->hasDefinition($serviceId)) {
+                return $container->getDefinition($serviceId);
+            }
 
-        // Some service IDs don't have a Definition, they're simply an Alias
-        if ($this->getContainer()->hasAlias($serviceId)) {
-            return $this->getContainer()->getAlias($serviceId);
+            // Some service IDs don't have a Definition, they're simply an Alias
+            if ($container->hasAlias($serviceId)) {
+                return $container->getAlias($serviceId);
+            }
         }
 
         // the service has been injected in some special way, just return the service
-        return $this->getContainer()->get($serviceId);
+        return $container->get($serviceId);
     }
 
     /**
@@ -464,14 +465,18 @@ EOF
      */
     protected function outputTags(OutputInterface $output, $showPrivate = false)
     {
-        $tags = $this->getContainer()->findTags();
+        $container = $this->getContainer();
+        if (! $container instanceof ContainerBuilder) {
+            return;
+        }
+        $tags = $container->findTags();
         asort($tags);
 
         $label = 'Tagged services';
         $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
 
         foreach ($tags as $tag) {
-            $serviceIds = $this->getContainer()->findTaggedServiceIds($tag);
+            $serviceIds = $container->findTaggedServiceIds($tag);
 
             foreach ($serviceIds as $serviceId => $attributes) {
                 $definition = $this->resolveServiceDefinition($serviceId);
