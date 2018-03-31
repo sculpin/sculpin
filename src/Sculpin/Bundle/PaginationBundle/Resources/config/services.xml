@@ -11,6 +11,7 @@
 
         <service id="sculpin_pagination.generator" class="%sculpin_pagination.generator.class%">
             <argument type="service" id="sculpin.data_provider_manager" />
+            <argument type="service" id="sculpin.source_permalink_factory" />
             <argument>%sculpin_pagination.max_per_page%</argument>
             <tag name="sculpin.generator" alias="pagination" />
         </service>
