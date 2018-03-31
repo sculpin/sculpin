@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -32,6 +34,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     protected $cachedCacheKey = array();
     protected $cachedCacheKeyExtension = array();
     protected $cachedCacheKeyException = array();
+    protected $extensions = [];
 
     /**
      * Constructor.
@@ -65,13 +68,13 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     /**
      * {@inheritdoc}
      */
-    public function getSource($name)
+    public function getSourceContext($name)
     {
         $this->getCacheKey($name);
 
         $extension = $this->cachedCacheKeyExtension[$name];
 
-        return $this->filesystemLoader->getSource($name.$extension);
+        return $this->filesystemLoader->getSourceContext($name.$extension);
     }
 
     /**
@@ -114,6 +117,18 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
         $extension = $this->cachedCacheKeyExtension[$name];
 
         return $this->filesystemLoader->isFresh($name.$extension, $time);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function exists($name)
+    {
+        $this->getCacheKey($name);
+
+        $extension = $this->cachedCacheKeyExtension[$name];
+
+        return $this->filesystemLoader->exists($name.$extension);
     }
 
     /**

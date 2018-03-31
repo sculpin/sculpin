@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -11,8 +13,8 @@
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Configuration\Configuration;
 use Sculpin\Core\Permalink\PermalinkInterface;
+use Dflydev\DotAccessConfiguration\Configuration;
 
 /**
  * Source Interface.

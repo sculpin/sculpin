@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -22,6 +24,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class TemplateResetter implements EventSubscriberInterface
 {
+    protected $twig;
+
     /**
      * Constructor.
      *
@@ -50,7 +54,8 @@ class TemplateResetter implements EventSubscriberInterface
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
         if ($sourceSetEvent->updatedSources()) {
-            $this->twig->clearTemplateCache();
+            // removed in twig v2
+            //$this->twig->clearTemplateCache();
         }
     }
 }

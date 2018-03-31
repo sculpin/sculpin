@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -12,8 +14,7 @@
 namespace Sculpin\Core\Source;
 
 use Dflydev\Canal\Analyzer\Analyzer;
-use Dflydev\Symfony\FinderFactory\FinderFactory;
-use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
+use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 
@@ -53,13 +54,6 @@ class FilesystemDataSource implements DataSourceInterface
     protected $raws;
 
     /**
-     * Finder Factory
-     *
-     * @var FinderFactoryInterface
-     */
-    protected $finderFactory;
-
-    /**
      * Path Matcher
      *
      * @var AntPathMatcher
@@ -94,7 +88,6 @@ class FilesystemDataSource implements DataSourceInterface
      * @param array                        $excludes                     Exclude paths
      * @param array                        $ignores                      Ignore paths
      * @param array                        $raws                         Raw paths
-     * @param FinderFactoryInterface       $finderFactory                Finder Factory
      * @param AntPathMatcher               $matcher                      Matcher
      * @param Analyzer                     $analyzer                     Analyzer
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
@@ -104,7 +97,6 @@ class FilesystemDataSource implements DataSourceInterface
         $excludes,
         $ignores,
         $raws,
-        FinderFactoryInterface $finderFactory = null,
         AntPathMatcher $matcher = null,
         Analyzer $analyzer = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
@@ -113,7 +105,6 @@ class FilesystemDataSource implements DataSourceInterface
         $this->excludes = $excludes;
         $this->ignores = $ignores;
         $this->raws = $raws;
-        $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->analyzer = $analyzer;
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
@@ -140,8 +131,7 @@ class FilesystemDataSource implements DataSourceInterface
         // We regenerate the whole site if an excluded file changes.
         $excludedFilesHaveChanged = false;
 
-        $files = $this
-            ->finderFactory->createFinder()
+        $files = Finder::create()
             ->files()
             ->ignoreVCS(true)
             ->ignoreDotFiles(false)

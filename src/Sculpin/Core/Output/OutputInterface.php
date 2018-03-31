@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -51,7 +53,7 @@ interface OutputInterface
     /**
      * File reference. (if hasFileReference)
      *
-     * @return \Symfony\Component\Finder\SplFileInfo
+     * @return \SplFileInfo|null
      */
     public function file();
 

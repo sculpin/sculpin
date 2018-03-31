@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -11,14 +13,15 @@
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\CompositeDataSource;
 use Sculpin\Core\Source\SourceSet;
 
-class CompositeDataSourceTest extends \PHPUnit_Framework_TestCase
+class CompositeDataSourceTest extends TestCase
 {
     public function makeDataSource($dataSourceId)
     {
-        $dataSource = $this->getMock('Sculpin\Core\Source\DataSourceInterface');
+        $dataSource = $this->createMock('Sculpin\Core\Source\DataSourceInterface');
 
         $dataSource
             ->expects($this->any())

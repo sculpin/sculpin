@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -19,6 +21,10 @@ class AntPathFilter implements FilterInterface
 {
     private $antPathMatcher;
     private $patterns;
+    /**
+     * @var DirectorySeparatorNormalizer
+     */
+    private $directorySeparatorNormalizer;
 
     public function __construct(
         array $paths,

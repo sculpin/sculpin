@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -11,9 +13,10 @@
 
 namespace Sculpin\Core\Tests\Formatter;
 
+use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Formatter\FormatContext;
 
-class FormatContextTest extends \PHPUnit_Framework_TestCase
+class FormatContextTest extends TestCase
 {
     public function test()
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -23,6 +25,15 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
  */
 class FileSource extends AbstractSource
 {
+    protected $analyzer;
+    protected $sourceId;
+    protected $relativePathname;
+    protected $filename;
+    protected $file;
+    protected $isRaw;
+    protected $hasChanged;
+    protected $applicationXmlType;
+
     /**
      * Constructor
      *
@@ -82,7 +93,7 @@ class FileSource extends AbstractSource
                 // Additionally, any text file is a candidate for formatting.
                 $this->canBeFormatted = true;
 
-                $content = file_get_contents($this->file);
+                $content = file_get_contents((string)$this->file);
 
                 if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {
                     $this->content = $matches[2];

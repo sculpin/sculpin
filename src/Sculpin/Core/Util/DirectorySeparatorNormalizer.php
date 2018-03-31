@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -18,6 +20,9 @@ namespace Sculpin\Core\Util;
  */
 class DirectorySeparatorNormalizer
 {
+    protected $preferredDirectorySeparator;
+    protected $directorySeparator;
+
     /**
      * Constructor
      *

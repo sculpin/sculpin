@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -12,6 +14,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
@@ -70,8 +73,11 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getApplication()->getMissingSculpinBundlesMessages() as $message) {
-            $output->writeln($message);
+        $application = $this->getApplication();
+        if ($application instanceof Application) {
+            foreach ($application->getMissingSculpinBundlesMessages() as $message) {
+                $output->writeln($message);
+            }
         }
 
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -12,8 +14,7 @@
 namespace Sculpin\Core\Source;
 
 use Dflydev\DotAccessConfiguration\ConfigurationInterface;
-use Dflydev\Symfony\FinderFactory\FinderFactory;
-use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
+use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\SiteConfiguration\SiteConfigurationFactory;
 
@@ -41,16 +42,9 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * Site configuration factory
      *
-     * @var string
+     * @var SiteConfigurationFactory
      */
     protected $siteConfigurationFactory;
-
-    /**
-     * Finder Factory
-     *
-     * @var FinderFactoryInterface
-     */
-    protected $finderFactory;
 
     /**
      * Path Matcher
@@ -72,20 +66,17 @@ class ConfigFilesystemDataSource implements DataSourceInterface
      * @param string                   $sourceDir                Source directory
      * @param ConfigurationInterface   $siteConfiguration        Site Configuration
      * @param SiteConfigurationFactory $siteConfigurationFactory Site Configuration Factory
-     * @param FinderFactoryInterface   $finderFactory            Finder Factory
      * @param AntPathMatcher           $matcher                  Matcher
      */
     public function __construct(
         $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
-        FinderFactoryInterface $finderFactory = null,
         AntPathMatcher $matcher = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->siteConfiguration = $siteConfiguration;
         $this->siteConfigurationFactory = $siteConfigurationFactory;
-        $this->finderFactory = $finderFactory ?: new FinderFactory;
         $this->matcher = $matcher ?: new AntPathMatcher;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
@@ -116,8 +107,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
         // We regenerate the whole site if any config file changes.
         $configFilesHaveChanged = false;
 
-        $files = $this
-            ->finderFactory->createFinder()
+        $files = Finder::create()
             ->files()
             ->name('sculpin_site*.yml')
             ->date('>='.$sinceTimeLast)
