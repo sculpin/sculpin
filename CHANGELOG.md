@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Nothing.
+- New `--output-dir` flag allows users to override the default output
+  directory (`output_dev`, `output_prod`) with their own custom target.
+  - Also works with `SCULPIN_OUTPUT_DIR` environment variable.
 
 ### Changed
 
@@ -28,7 +30,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Nothing.
+- BC BREAK: Upgrading the Symfony YAML component has resulted in some
+  changes to YAML Front Matter processing.
+  - Most notably, values with a **colon**, such as page titles, now
+    require quoting. E.g., `title: My Journey: Back From Whence I Came`
+    must now be `title: "My Journey: Back From Whence I Came"`
+  - These instances should be clearly called out the first time you
+    call the generate command, so it should require minimal effort to
+    locate and fix.
 
 ## 2.1.2 - TBD
 

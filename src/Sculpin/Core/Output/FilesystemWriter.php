@@ -45,12 +45,13 @@ class FilesystemWriter implements WriterInterface
     public function __construct(Filesystem $filesystem, $outputDir)
     {
         $this->filesystem = $filesystem;
-        $this->outputDir = $outputDir;
+        $this->outputDir  = $outputDir;
     }
+
     /**
      * {@inheritdoc}
      */
-    public function write(OutputInterface $output)
+    public function write(OutputInterface $output): void
     {
         $outputPath = $this->outputDir.'/'.$output->permalink()->relativeFilePath();
         if ($output->hasFileReference()) {
@@ -59,5 +60,15 @@ class FilesystemWriter implements WriterInterface
             $this->filesystem->mkdir(dirname($outputPath));
             file_put_contents($outputPath, $output->formattedContent());
         }
+    }
+
+    /**
+     * Set or override output directory
+     *
+     * @param string    $outputDir  path to desired output directory
+     */
+    public function setOutputDir(string $outputDir): void
+    {
+        $this->outputDir = $outputDir;
     }
 }

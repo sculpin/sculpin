@@ -60,6 +60,7 @@ class GenerateCommand extends AbstractCommand
                 ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
@@ -80,7 +81,10 @@ EOT
             }
         }
 
-        $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+        $override = $this->getContainer()->hasParameter('sculpin.output_dir_override')
+            ? $this->getContainer()->getParameter('sculpin.output_dir_override')
+            : null;
+        $docroot  = $override ?: $this->getContainer()->getParameter('sculpin.output_dir');
         if ($input->getOption('clean')) {
             $this->clean($input, $output, $docroot);
         }
