@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Console\Command;
 
+use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,11 +32,19 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     /**
      * @return ContainerInterface
+     *
+     * @throws \RuntimeException    if the expected Sculpin Console Application instance could not be found
      */
     protected function getContainer()
     {
         if (null === $this->container) {
-            $this->container = $this->getApplication()->getKernel()->getContainer();
+            $app = $this->getApplication();
+
+            if (!$app instanceof Application) {
+                throw new \RuntimeException('Sculpin Application not found!');
+            }
+
+            $this->container = $app->getKernel()->getContainer();
         }
 
         return $this->container;
