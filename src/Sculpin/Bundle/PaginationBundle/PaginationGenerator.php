@@ -53,8 +53,11 @@ class PaginationGenerator implements GeneratorInterface
      * @param SourcePermalinkFactory $permalinkFactory    Factory for generating permalinks
      * @param int                    $maxPerPage          Max items per page
      */
-    public function __construct(DataProviderManager $dataProviderManager, SourcePermalinkFactory $permalinkFactory, $maxPerPage)
-    {
+    public function __construct(
+        DataProviderManager $dataProviderManager,
+        SourcePermalinkFactory $permalinkFactory,
+        $maxPerPage
+    ) {
         $this->dataProviderManager = $dataProviderManager;
         $this->permalinkFactory = $permalinkFactory;
         $this->maxPerPage = $maxPerPage;
