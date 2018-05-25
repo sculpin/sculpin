@@ -51,7 +51,7 @@ Embedded composer will be removed in sculpin v3
 License
 -------
 
-MIT, see LICENSE.
+MIT, see [LICENSE](/LICENSE).
 
 
 Community
