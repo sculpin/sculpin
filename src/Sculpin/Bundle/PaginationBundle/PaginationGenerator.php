@@ -180,10 +180,8 @@ class PaginationGenerator implements GeneratorInterface
      */
     private function filtered($matches)
     {
-        $parts = explode('.', $matches[2]);
-        $name = $parts[0];
-        $expectedKey = $parts[1];
-        $expectedValue = $parts[2];
+        list($name, $expectedKey, $expectedValue) = explode('.', $matches[2]);
+
         if ($expectedValue === 'true') {
             $expectedValue = '1';
         }
@@ -199,12 +197,14 @@ class PaginationGenerator implements GeneratorInterface
 
         $filteredData = array();
         foreach ($data as $key => $page) {
-            if (is_string($page->meta()[$expectedKey]) && $page->meta()[$expectedKey] === $expectedValue) {
+            $actualValue = $page->meta()[$expectedKey] ?? null;
+
+            if ($actualValue === $expectedValue) {
                 $filteredData[] = $data[$key];
                 continue;
             }
 
-            if (is_array($page->meta()[$expectedKey]) && in_array($expectedValue, $page->meta()[$expectedKey])) {
+            if (is_array($actualValue) && in_array($expectedValue, $actualValue)) {
                 $filteredData[] = $data[$key];
                 continue;
             }
