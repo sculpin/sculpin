@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- New `--output-dir` flag allows users to override the default output
+  directory (`output_dev`, `output_prod`) with their own custom target.
+  - Also works with `SCULPIN_OUTPUT_DIR` environment variable.
 - New `content:create` command allows users to quickly and easily create
   new content types. It will generate appropriate templates, including
   pagination.
