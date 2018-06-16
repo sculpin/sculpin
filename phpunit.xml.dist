@@ -10,7 +10,6 @@
     stopOnError="false"
     stopOnIncomplete="false"
     stopOnSkipped="false"
-    syntaxCheck="false"
     bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="Sculpin Test Suite">

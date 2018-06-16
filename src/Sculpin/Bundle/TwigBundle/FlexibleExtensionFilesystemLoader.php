@@ -124,7 +124,11 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     public function exists($name)
     {
-        $this->getCacheKey($name);
+        try {
+            $this->getCacheKey($name);
+        } catch (\Twig_Error_Loader $e) {
+            return false;
+        }
 
         $extension = $this->cachedCacheKeyExtension[$name];
 

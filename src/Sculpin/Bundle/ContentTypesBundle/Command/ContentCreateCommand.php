@@ -13,6 +13,7 @@ namespace Sculpin\Bundle\ContentTypesBundle\Command;
 
 use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
+use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -108,9 +109,14 @@ EOT
         }
     }
 
-    protected function generateBoilerplateManifest($plural, $singular, $taxonomies = [])
+    protected function generateBoilerplateManifest($plural, $singular, array $taxonomies = []): array
     {
-        $rootDir  = dirname($this->getApplication()->getKernel()->getRootDir());
+        $app = $this->getApplication();
+        if (!$app instanceof Application) {
+            throw new \RuntimeException('Sculpin Application not found!');
+        }
+
+        $rootDir  = \dirname($app->getKernel()->getRootDir());
         $manifest = [];
 
         // ensure the content type storage folder exists
