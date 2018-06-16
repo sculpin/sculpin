@@ -46,7 +46,7 @@
         "symfony/dom-crawler": "^3.4",
         "symfony/css-selector": "^3.4",
         "squizlabs/php_codesniffer": "^2.8",
-        "phpstan/phpstan": "^0.6.4",
+        "phpstan/phpstan": "^0.7",
         "phpdocumentor/reflection-docblock": "^3.0|^4.0"
     },
     "replace": {

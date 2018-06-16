@@ -20,7 +20,9 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -178,17 +180,22 @@ class Application extends BaseApplication
             $this->setCommandLoader($container->get('console.command_loader'));
         }
 
-        if ($container->hasParameter('console.command.ids')) {
-            $lazyCommandIds = $container->hasParameter('console.lazy_command.ids') ? $container->getParameter('console.lazy_command.ids') : [];
-            foreach ($container->getParameter('console.command.ids') as $id) {
-                if (!isset($lazyCommandIds[$id])) {
-                    try {
-                        $this->add($container->get($id));
-                    } catch (\Exception $e) {
-                        $this->registrationErrors[] = $e;
-                    } catch (\Throwable $e) {
-                        $this->registrationErrors[] = new FatalThrowableError($e);
-                    }
+        if (!$container->hasParameter('console.command.ids')) {
+            return;
+        }
+
+        $lazyCommandIds = $container->hasParameter('console.lazy_command.ids')
+            ? $container->getParameter('console.lazy_command.ids')
+            : [];
+
+        foreach ($container->getParameter('console.command.ids') as $id) {
+            if (!isset($lazyCommandIds[$id])) {
+                try {
+                    $this->add($container->get($id));
+                } catch (\Exception $e) {
+                    $this->registrationErrors[] = $e;
+                } catch (\Throwable $e) {
+                    $this->registrationErrors[] = new FatalThrowableError($e);
                 }
             }
         }
