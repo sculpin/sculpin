@@ -11,6 +11,6 @@
         <service id="event_dispatcher" class="%event_dispatcher.class%">
             <argument type="service" id="service_container" />
         </service>
-        <service id="filesystem" class="%filesystem.class%" />
+        <service id="filesystem" class="%filesystem.class%" public="true" />
     </services>
 </container>
