@@ -29,7 +29,7 @@
             <argument>%kernel.environment%</argument>
         </service>
 
-        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%">
+        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" public="true">
             <factory service="sculpin.site_configuration_factory" method="create" />
         </service>
 
@@ -65,7 +65,7 @@
             <argument type="service" id="sculpin.formatter_manager" />
         </service>
 
-        <service id="sculpin" class="%sculpin.class%">
+        <service id="sculpin" class="%sculpin.class%" public="true">
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
@@ -110,7 +110,7 @@
             <tag name="sculpin.data_source" />
         </service>
 
-        <service id="sculpin.data_source" class="%sculpin.data_source.class%" />
+        <service id="sculpin.data_source" class="%sculpin.data_source.class%" public="true"/>
 
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
