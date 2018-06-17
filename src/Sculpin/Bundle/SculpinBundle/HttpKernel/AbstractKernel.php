@@ -37,7 +37,7 @@ abstract class AbstractKernel extends Kernel
         $projectDir = $overrides['projectDir'] ?? '.';
         if (null !== $projectDir) {
             $this->projectDir = $projectDir;
-            $this->rootDir    = $projectDir . '/app';
+            $this->rootDir    = realpath($projectDir . '/app');
         }
 
         $outputDir = $overrides['outputDir'] ?? null;
