@@ -56,7 +56,7 @@ class KernelFactory
             require $customKernel;
             $customKernelClass = '\SculpinKernel';
 
-            return new $customKernelClass($env, $debug, $projectDir);
+            return new $customKernelClass($env, $debug, $overrides);
         }
 
         // Fallback to using the default kernel in case

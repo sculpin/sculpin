@@ -22,7 +22,7 @@
         "dflydev/ant-path-matcher": "^1.0",
         "dflydev/apache-mime-types": "^1.0.1",
         "dflydev/canal": "^1.0",
-        "dflydev/dot-access-configuration": "^1.0.1",
+        "dflydev/dot-access-configuration": "^1.0.2",
         "doctrine/inflector": "^1.1",
         "michelf/php-markdown": "^1.7",
         "netcarver/textile": "^3.6",

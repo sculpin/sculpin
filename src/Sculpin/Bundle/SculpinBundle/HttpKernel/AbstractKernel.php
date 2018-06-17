@@ -34,10 +34,10 @@ abstract class AbstractKernel extends Kernel
      */
     public function __construct($environment, $debug, $overrides = null)
     {
-        $projectDir = $overrides['projectDir'] ?? '.';
+        $projectDir = $overrides['projectDir'] ?? null;
         if (null !== $projectDir) {
             $this->projectDir = $projectDir;
-            $this->rootDir    = realpath($projectDir . '/app');
+            $this->rootDir    = $projectDir . '/app';
         }
 
         $outputDir = $overrides['outputDir'] ?? null;
