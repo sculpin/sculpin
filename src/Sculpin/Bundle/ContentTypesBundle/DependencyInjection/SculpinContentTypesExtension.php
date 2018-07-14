@@ -15,8 +15,10 @@ namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -34,6 +36,9 @@ class SculpinContentTypesExtension extends Extension
     {
         $configuration = new Configuration;
         $config = $this->processConfiguration($configuration, $configs);
+
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.xml');
 
         // So we can get all available types.
         $container->setParameter(self::generateId('types'), array_keys($config));
