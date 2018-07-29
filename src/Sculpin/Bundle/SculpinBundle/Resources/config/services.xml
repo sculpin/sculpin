@@ -114,5 +114,20 @@
 
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
+        <service id="Sculpin\Bundle\SculpinBundle\Command\ContainerDebugCommand"
+                 class="Sculpin\Bundle\SculpinBundle\Command\ContainerDebugCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Sculpin\Bundle\SculpinBundle\Command\GenerateCommand"
+                 class="Sculpin\Bundle\SculpinBundle\Command\GenerateCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Sculpin\Bundle\SculpinBundle\Command\ServeCommand"
+                 class="Sculpin\Bundle\SculpinBundle\Command\ServeCommand">
+            <tag name="console.command"/>
+        </service>
+
     </services>
 </container>
