@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\StandaloneBundle;
 
-use Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler\RegisterKernelListenersPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -27,6 +27,6 @@ class SculpinStandaloneBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new RegisterKernelListenersPass, PassConfig::TYPE_AFTER_REMOVING);
+        $container->addCompilerPass(new RegisterListenersPass, PassConfig::TYPE_AFTER_REMOVING);
     }
 }
