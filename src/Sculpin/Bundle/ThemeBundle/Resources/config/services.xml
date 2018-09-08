@@ -19,7 +19,7 @@
 
     <services>
 
-        <service id="sculpin_theme.theme_registry" class="%sculpin_theme.theme_registry.class%">
+        <service id="sculpin_theme.theme_registry" class="%sculpin_theme.theme_registry.class%" public="true">
             <argument>null</argument>
             <argument>%sculpin_theme.directory%</argument>
             <argument>%sculpin_theme.theme%</argument>

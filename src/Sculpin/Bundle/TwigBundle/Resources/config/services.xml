@@ -16,7 +16,7 @@
 
     <services>
 
-        <service id="sculpin_twig.flexible_extension_filesystem_loader" class="%sculpin_twig.flexible_extension_filesystem_loader.class%">
+        <service id="sculpin_twig.flexible_extension_filesystem_loader" class="%sculpin_twig.flexible_extension_filesystem_loader.class%" public="true">
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin_twig.source_view_paths%</argument>
             <argument>%sculpin_twig.view_paths%</argument>
@@ -50,7 +50,7 @@
             <tag name="sculpin.formatter" alias="twig" />
         </service>
 
-        <service id="sculpin_twig.template_resetter" class="%sculpin_twig.template_resetter.class%">
+        <service id="sculpin_twig.template_resetter" class="%sculpin_twig.template_resetter.class%" public="true">
             <argument type="service" id="sculpin_twig.twig" />
             <tag name="kernel.event_subscriber" />
         </service>

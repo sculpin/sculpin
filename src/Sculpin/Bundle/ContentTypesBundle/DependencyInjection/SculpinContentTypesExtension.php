@@ -230,7 +230,7 @@ class SculpinContentTypesExtension extends Extension
             $dataProvider->addArgument(new Reference($factoryId));
             $dataProvider->addTag('sculpin.data_provider', array('alias' => $type));
             $dataProvider->addTag('kernel.event_subscriber');
-            $container->setDefinition($dataProviderId, $dataProvider);
+            $container->setDefinition($dataProviderId, $dataProvider->setPublic(true));
 
             foreach ($setup['taxonomies'] as $taxonomy) {
                 $permalinkStrategies = new PermalinkStrategyCollection();
@@ -258,7 +258,7 @@ class SculpinContentTypesExtension extends Extension
                 $taxonomyDataProvider->addArgument($taxonomyName);
                 $taxonomyDataProvider->addTag('kernel.event_subscriber');
                 $taxonomyDataProvider->addTag('sculpin.data_provider', array('alias' => $taxonomyDataProviderName));
-                $container->setDefinition($taxonomyDataProviderId, $taxonomyDataProvider);
+                $container->setDefinition($taxonomyDataProviderId, $taxonomyDataProvider->setPublic(true));
 
                 $taxonomyIndexGeneratorId = self::generateTypesId($type, $taxonomyName.'_index_generator');
                 $taxonomyIndexGenerator = new Definition('Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator');
@@ -268,7 +268,7 @@ class SculpinContentTypesExtension extends Extension
                 $taxonomyIndexGenerator->addArgument($reversedName);
                 $taxonomyIndexGenerator->addArgument($permalinkStrategies);
                 $taxonomyIndexGenerator->addTag('sculpin.generator', array('alias' => $taxonomyIndexGeneratorName));
-                $container->setDefinition($taxonomyIndexGeneratorId, $taxonomyIndexGenerator);
+                $container->setDefinition($taxonomyIndexGeneratorId, $taxonomyIndexGenerator->setPublic(true));
             }
         }
     }

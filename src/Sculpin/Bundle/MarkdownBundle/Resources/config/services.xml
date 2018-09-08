@@ -11,7 +11,7 @@
 
         <service id="sculpin_markdown.parser" class="%sculpin_markdown.parser.class%" />
 
-        <service id="sculpin_markdown.converter" class="%sculpin_markdown.converter.class%">
+        <service id="sculpin_markdown.converter" class="%sculpin_markdown.converter.class%" public="true">
             <argument type="service" id="sculpin_markdown.parser" />
             <tag name="sculpin.converter" alias="markdown" />
             <tag name="sculpin.custom_mime_extensions" type="text/markdown" parameter="sculpin_markdown.extensions" />

@@ -9,7 +9,7 @@
 
     <services>
 
-        <service id="sculpin_markdown_twig_compat.converter_listener" class="%sculpin_markdown_twig_compat.convert_listener.class%">
+        <service id="sculpin_markdown_twig_compat.converter_listener" class="%sculpin_markdown_twig_compat.convert_listener.class%" public="true">
             <tag name="kernel.event_subscriber" />
         </service>
 
