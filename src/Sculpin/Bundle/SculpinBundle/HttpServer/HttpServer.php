@@ -145,14 +145,17 @@ class HttpServer
             $wrapClose = '</comment>';
         }
 
-        $output->writeln($wrapOpen . sprintf(
-                '[%s] "%s %s HTTP/%s" %s',
+        $output->writeln(
+            sprintf(
+                '%s[%s] "%s %s HTTP/%s" %s%s',
+                $wrapOpen,
                 date("d/M/Y H:i:s"),
                 $request->getMethod(),
                 $request->getUri()->getPath(),
                 $request->getProtocolVersion(),
-                $responseCode
-            ) . $wrapClose
+                $responseCode,
+                $wrapClose
+            )
         );
     }
 }
