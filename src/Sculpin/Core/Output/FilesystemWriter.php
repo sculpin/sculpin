@@ -77,7 +77,8 @@ class FilesystemWriter implements WriterInterface
      *
      * @return string
      */
-    public function getOutputDir(): string {
+    public function getOutputDir(): string
+    {
         return $this->outputDir;
     }
 }
