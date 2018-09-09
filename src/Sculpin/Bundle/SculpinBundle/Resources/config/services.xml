@@ -37,7 +37,7 @@
             <argument>%sculpin.permalink%</argument>
         </service>
 
-        <service id="sculpin.writer" class="%sculpin.writer.class%">
+        <service id="sculpin.writer" class="%sculpin.writer.class%" public="true">
             <argument type="service" id="filesystem" />
             <argument>%sculpin.output_dir%</argument>
         </service>
