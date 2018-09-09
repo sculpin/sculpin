@@ -81,10 +81,8 @@ EOT
             }
         }
 
-        $override = $this->getContainer()->hasParameter('sculpin.output_dir_override')
-            ? $this->getContainer()->getParameter('sculpin.output_dir_override')
-            : null;
-        $docroot  = $override ?: $this->getContainer()->getParameter('sculpin.output_dir');
+        $writer  = $this->getContainer()->get('sculpin.writer');
+        $docroot = $writer->getOutputDir();
         if ($input->getOption('clean')) {
             $this->clean($input, $output, $docroot);
         }
