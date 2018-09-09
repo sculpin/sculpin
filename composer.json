@@ -16,19 +16,13 @@
             "homepage": "http://beausimensen.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/beryllium/dflydev-dot-access-configuration"
-        }
-    ],
     "require": {
         "php": "^7.2",
         "ext-mbstring": "*",
         "dflydev/ant-path-matcher": "^1.0",
-        "dflydev/apache-mime-types": "^1.0.1",
+        "dflydev/apache-mime-types": "^1.0",
         "dflydev/canal": "^1.0",
-        "dflydev/dot-access-configuration": "dev-patch-2",
+        "dflydev/dot-access-configuration": "^1.0",
         "doctrine/inflector": "^1.3",
         "michelf/php-markdown": "^1.8",
         "netcarver/textile": "^3.6",

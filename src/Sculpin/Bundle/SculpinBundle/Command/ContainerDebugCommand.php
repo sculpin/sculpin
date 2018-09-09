@@ -393,10 +393,9 @@ EOF
     {
         $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
 
-        $terminalDimensions = $this->getApplication()->getTerminalDimensions();
-        $maxTerminalWidth = $terminalDimensions[0];
-        $maxParameterWidth = 0;
-        $maxValueWidth = 0;
+        $maxTerminalWidth   = (int) (getenv('COLUMNS') ?? 80);
+        $maxParameterWidth  = 0;
+        $maxValueWidth      = 0;
 
         // Determine max parameter & value length
         foreach ($parameters as $parameter => $value) {

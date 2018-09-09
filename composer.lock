@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25c989e2922790d9d2921e3c9df9f2df",
+    "content-hash": "7591166f9c054886d522c9b046e3e4c4",
     "packages": [
         {
             "name": "dflydev/ant-path-matcher",
@@ -167,16 +167,16 @@
         },
         {
             "name": "dflydev/dot-access-configuration",
-            "version": "dev-patch-2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/beryllium/dflydev-dot-access-configuration.git",
-                "reference": "9e012306388a362a19cb0f15c27bbb281b865446"
+                "url": "https://github.com/dflydev/dflydev-dot-access-configuration.git",
+                "reference": "2e6eb0c8b8830b26bb23defcfc38d4276508fc49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beryllium/dflydev-dot-access-configuration/zipball/9e012306388a362a19cb0f15c27bbb281b865446",
-                "reference": "9e012306388a362a19cb0f15c27bbb281b865446",
+                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-configuration/zipball/2e6eb0c8b8830b26bb23defcfc38d4276508fc49",
+                "reference": "2e6eb0c8b8830b26bb23defcfc38d4276508fc49",
                 "shasum": ""
             },
             "require": {
@@ -201,6 +201,7 @@
                     "Dflydev\\DotAccessConfiguration": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -222,10 +223,7 @@
                 "config",
                 "configuration"
             ],
-            "support": {
-                "source": "https://github.com/beryllium/dflydev-dot-access-configuration/tree/patch-2"
-            },
-            "time": "2018-06-17T05:53:47+00:00"
+            "time": "2018-09-08T23:00:17+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -4660,9 +4658,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "dflydev/dot-access-configuration": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
