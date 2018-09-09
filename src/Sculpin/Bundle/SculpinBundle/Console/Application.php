@@ -101,7 +101,7 @@ class Application extends BaseApplication
                 'highlight' => new OutputFormatterStyle('red'),
                 'warning' => new OutputFormatterStyle('black', 'yellow'),
             );
-            $formatter = new OutputFormatter(null, $styles);
+            $formatter = new OutputFormatter(false, $styles);
             $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
 

@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Dflydev\ApacheMimeTypes\PhpRepository;
+use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\StreamSelectLoop;
-use React\Http\Request;
+use React\Http\Response;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,40 +47,38 @@ class HttpServer
     {
         $repository = new PhpRepository;
 
-        if (!$port) {
-            $port = 8000;
-        }
-
+        $this->debug  = $debug;
+        $this->env    = $env;
         $this->output = $output;
-        $this->env = $env;
-        $this->debug = $debug;
-        $this->port = $port;
+        $this->port   = $port ?: 8000;
 
-        $this->loop = new StreamSelectLoop;
+        $this->loop   = new StreamSelectLoop;
         $socketServer = new ReactSocketServer(
-            sprintf('0.0.0.0:%d', $port),
+            sprintf('0.0.0.0:%d', $this->port),
             $this->loop
         );
-        $httpServer = new ReactHttpServer($socketServer);
-        $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
-            $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
+
+        $httpServer = new ReactHttpServer(function (ServerRequestInterface $request) use (
+            $repository,
+            $docroot,
+            $output
+        ) {
+            $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
+
             if (is_dir($path)) {
-                $path .= '/index.html';
+                $path = rtrim($path, '/') . '/index.html';
             }
+
             if (!file_exists($path)) {
                 HttpServer::logRequest($output, 404, $request);
-                $response->writeHead(404, [
-                    'Content-Type' => 'text/html',
-                ]);
 
-                return $response->end(implode('', [
-                    '<h1>404</h1>',
-                    '<h2>Not Found</h2>',
-                    '<p>',
-                    // @codingStandardsIgnoreLine
-                    'The embedded <a href="https://sculpin.io">Sculpin</a> web server could not find the requested resource.',
-                    '</p>'
-                ]));
+                $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
+                    . '<p>'
+                    . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                    . 'could not find the requested resource.'
+                    . '</p>';
+
+                return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
             }
 
             $type = 'application/octet-stream';
@@ -92,11 +91,10 @@ class HttpServer
 
             HttpServer::logRequest($output, 200, $request);
 
-            $response->writeHead(200, array(
-                "Content-Type" => $type,
-            ));
-            $response->end(file_get_contents($path));
+            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
         });
+
+        $httpServer->listen($socketServer);
     }
 
     /**
@@ -133,28 +131,31 @@ class HttpServer
     /**
      * Log a request
      *
-     * @param OutputInterface $output       Output
-     * @param string          $responseCode Response code
-     * @param Request         $request      Request
+     * @param OutputInterface           $output       Output
+     * @param string                    $responseCode Response code
+     * @param ServerRequestInterface    $request      Request
      */
-    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
+    public static function logRequest(OutputInterface $output, $responseCode, ServerRequestInterface $request)
     {
-        $wrapOpen = '';
+        $wrapOpen  = '';
         $wrapClose = '';
-        if ($responseCode < 400) {
-            $wrapOpen = '';
-            $wrapClose = '';
-        } elseif ($responseCode >= 400) {
-            $wrapOpen = '<comment>';
+
+        if ($responseCode >= 400) {
+            $wrapOpen  = '<comment>';
             $wrapClose = '</comment>';
         }
-        $output->writeln($wrapOpen.sprintf(
-            '[%s] "%s %s HTTP/%s" %s',
-            date("d/M/Y H:i:s"),
-            $request->getMethod(),
-            $request->getPath(),
-            $request->getProtocolVersion(),
-            $responseCode
-        ).$wrapClose);
+
+        $output->writeln(
+            sprintf(
+                '%s[%s] "%s %s HTTP/%s" %s%s',
+                $wrapOpen,
+                date("d/M/Y H:i:s"),
+                $request->getMethod(),
+                $request->getUri()->getPath(),
+                $request->getProtocolVersion(),
+                $responseCode,
+                $wrapClose
+            )
+        );
     }
 }
