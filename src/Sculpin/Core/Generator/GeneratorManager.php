@@ -52,7 +52,7 @@ class GeneratorManager
      *
      * @var array
      */
-    protected $generators = array();
+    protected $generators = [];
 
     /**
      * Constructor.
@@ -95,7 +95,7 @@ class GeneratorManager
     {
         $data = $source->data();
 
-        $generators = array();
+        $generators = [];
         $isGenerator = $source->isGenerator();
         if ($generatorNames = $data->get('generator')) {
             if (!$isGenerator) {
@@ -121,10 +121,10 @@ class GeneratorManager
             return '';
         }
 
-        $targetSources = array($source);
+        $targetSources = [$source];
 
         foreach ($generators as $generator) {
-            $newTargetSources = array();
+            $newTargetSources = [];
             foreach ($targetSources as $targetSource) {
                 foreach ((array) $generator->generate($targetSource) as $generatedSource) {
                     $generatedSource->setIsGenerated();

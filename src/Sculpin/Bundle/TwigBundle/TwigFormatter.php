@@ -63,9 +63,9 @@ class TwigFormatter implements FormatterInterface
             $template = $this->twig->loadTemplate($formatContext->templateId());
 
             if (!count($blockNames = $this->findAllBlocks($template, $data))) {
-                return array('content' => $template->render($data));
+                return ['content' => $template->render($data)];
             }
-            $blocks = array();
+            $blocks = [];
             foreach ($blockNames as $blockName) {
                 $blocks[$blockName] = $template->renderBlock($blockName, $data);
             }

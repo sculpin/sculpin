@@ -40,7 +40,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @var array
      */
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * Constructor.
@@ -48,11 +48,11 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * @param ParserInterface $markdown
      * @param array           $extensions Extensions
      */
-    public function __construct(ParserInterface $markdown, array $extensions = array())
+    public function __construct(ParserInterface $markdown, array $extensions = [])
     {
         $this->markdown = $markdown;
         if ($this->markdown instanceof Markdown) {
-            $this->markdown->header_id_func = array($this, 'generateHeaderId');
+            $this->markdown->header_id_func = [$this, 'generateHeaderId'];
         }
         $this->extensions = $extensions;
     }
@@ -70,9 +70,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     /**
@@ -123,13 +123,13 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 
         // Step 3: Convert spaces to dashes, and remove unwanted special
         // characters.
-        $map = array(
+        $map = [
             ' ' => '-',
             '(' => '',
             ')' => '',
             '[' => '',
             ']' => '',
-        );
+        ];
         return rawurlencode(strtolower(
             strtr($result, $map)
         ));

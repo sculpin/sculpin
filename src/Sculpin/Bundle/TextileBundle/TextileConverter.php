@@ -39,7 +39,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @var array
      */
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * Constructor.
@@ -47,7 +47,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      * @param Parser $parser     Parser
      * @param array  $extensions Extensions
      */
-    public function __construct(Parser $parser, array $extensions = array())
+    public function __construct(Parser $parser, array $extensions = [])
     {
         $this->parser = $parser;
         $this->extensions = $extensions;
@@ -66,9 +66,9 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     /**

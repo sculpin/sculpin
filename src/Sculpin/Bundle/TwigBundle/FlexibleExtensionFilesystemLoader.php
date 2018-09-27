@@ -31,9 +31,9 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     protected $filesystemLoader;
 
-    protected $cachedCacheKey = array();
-    protected $cachedCacheKeyExtension = array();
-    protected $cachedCacheKeyException = array();
+    protected $cachedCacheKey = [];
+    protected $cachedCacheKeyExtension = [];
+    protected $cachedCacheKeyException = [];
     protected $extensions = [];
 
     /**
@@ -140,17 +140,17 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
         if ($sourceSetEvent->sourceSet()->newSources()) {
-            $this->cachedCacheKey = array();
-            $this->cachedCacheKeyExtension = array();
-            $this->cachedCacheKeyException = array();
+            $this->cachedCacheKey = [];
+            $this->cachedCacheKeyExtension = [];
+            $this->cachedCacheKeyException = [];
         }
     }
 }

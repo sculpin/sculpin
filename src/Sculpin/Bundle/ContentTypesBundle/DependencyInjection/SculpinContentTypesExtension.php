@@ -53,7 +53,7 @@ class SculpinContentTypesExtension extends Extension
             $singularName = isset($setup['singular_name']) ? $setup['singular_name'] : Inflector::singularize($type);
 
             // How is the type detected?
-            $detectionTypes = is_array($setup['type']) ? $setup['type'] : array($setup['type']);
+            $detectionTypes = is_array($setup['type']) ? $setup['type'] : [$setup['type']];
 
             $itemClassId = self::generateTypesId($type, 'item.class');
             if (! $container->hasParameter($itemClassId)) {
@@ -78,19 +78,19 @@ class SculpinContentTypesExtension extends Extension
             $collectionId = self::generateTypesId($type, 'collection');
 
             $collection = new Definition('Sculpin\Contrib\ProxySourceCollection\ProxySourceCollection');
-            $collection->addArgument(array());
+            $collection->addArgument([]);
             $collection->addArgument(new Reference($collectionSorterId));
             $container->setDefinition($collectionId, $collection);
 
             // Contains all of our filters.
-            $filters = array();
+            $filters = [];
 
             // Contains all of our "or" filters.
-            $orFilters = array();
+            $orFilters = [];
 
             if (in_array('path', $detectionTypes)) {
                 if (0 == count($setup['path'])) {
-                    $setup['path'] = array('_'.$type);
+                    $setup['path'] = ['_'.$type];
                 }
 
                 //
@@ -173,10 +173,10 @@ class SculpinContentTypesExtension extends Extension
 
             $defaultDataMapId = self::generateTypesId($type, 'default_data_map');
             $defaultDataMap = new Definition('Sculpin\Core\Source\Map\DefaultDataMap');
-            $defaultDataMap->addArgument(array(
+            $defaultDataMap->addArgument([
                 'layout' => isset($setup['layout']) ? $setup['layout'] : $singularName,
                 'permalink' => isset($setup['permalink']) ? $setup['permalink'] : 'none',
-            ));
+            ]);
             $defaultDataMap->addTag(self::generateTypesId($type, 'map'));
             $container->setDefinition($defaultDataMapId, $defaultDataMap);
 
@@ -228,7 +228,7 @@ class SculpinContentTypesExtension extends Extension
             $dataProvider->addArgument(new Reference($filterId));
             $dataProvider->addArgument(new Reference($mapId));
             $dataProvider->addArgument(new Reference($factoryId));
-            $dataProvider->addTag('sculpin.data_provider', array('alias' => $type));
+            $dataProvider->addTag('sculpin.data_provider', ['alias' => $type]);
             $dataProvider->addTag('kernel.event_subscriber');
             $container->setDefinition($dataProviderId, $dataProvider->setPublic(true));
 
@@ -257,7 +257,7 @@ class SculpinContentTypesExtension extends Extension
                 $taxonomyDataProvider->addArgument($type);
                 $taxonomyDataProvider->addArgument($taxonomyName);
                 $taxonomyDataProvider->addTag('kernel.event_subscriber');
-                $taxonomyDataProvider->addTag('sculpin.data_provider', array('alias' => $taxonomyDataProviderName));
+                $taxonomyDataProvider->addTag('sculpin.data_provider', ['alias' => $taxonomyDataProviderName]);
                 $container->setDefinition($taxonomyDataProviderId, $taxonomyDataProvider->setPublic(true));
 
                 $taxonomyIndexGeneratorId = self::generateTypesId($type, $taxonomyName.'_index_generator');
@@ -267,7 +267,7 @@ class SculpinContentTypesExtension extends Extension
                 $taxonomyIndexGenerator->addArgument($taxon);
                 $taxonomyIndexGenerator->addArgument($reversedName);
                 $taxonomyIndexGenerator->addArgument($permalinkStrategies);
-                $taxonomyIndexGenerator->addTag('sculpin.generator', array('alias' => $taxonomyIndexGeneratorName));
+                $taxonomyIndexGenerator->addTag('sculpin.generator', ['alias' => $taxonomyIndexGeneratorName]);
                 $container->setDefinition($taxonomyIndexGeneratorId, $taxonomyIndexGenerator->setPublic(true));
             }
         }
@@ -280,11 +280,11 @@ class SculpinContentTypesExtension extends Extension
 
     private static function generateId($value)
     {
-        return implode('.', array('sculpin_content_types', $value));
+        return implode('.', ['sculpin_content_types', $value]);
     }
 
     private static function generateTypesId($type, $value)
     {
-        return implode('.', array('sculpin_content_types.types', $type, $value));
+        return implode('.', ['sculpin_content_types.types', $type, $value]);
     }
 }

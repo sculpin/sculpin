@@ -38,8 +38,8 @@ class TwigLoaderPass implements CompilerPassInterface
         $arguments = $definition->getArguments();
         $loaders = $arguments[0];
 
-        $prependedLoaders = array();
-        $appendedLoaders = array();
+        $prependedLoaders = [];
+        $appendedLoaders = [];
 
         foreach ($container->findTaggedServiceIds('twig.loaders.prepend') as $id => $attributes) {
             $prependedLoaders[] = new Reference($id);

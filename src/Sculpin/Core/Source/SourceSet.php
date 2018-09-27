@@ -25,21 +25,21 @@ class SourceSet
      *
      * @var array
      */
-    protected $sources = array();
+    protected $sources = [];
 
     /**
      * New Sources
      *
      * @var array
      */
-    protected $newSources = array();
+    protected $newSources = [];
 
     /**
      * Constructor.
      *
      * @param array $sources
      */
-    public function __construct(array $sources = array())
+    public function __construct(array $sources = [])
     {
         foreach ($sources as $source) {
             $this->sources[$source->sourceId()] = $source;
@@ -110,6 +110,6 @@ class SourceSet
             $source->setHasNotChanged();
         }
 
-        $this->newSources = array();
+        $this->newSources = [];
     }
 }

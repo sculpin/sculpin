@@ -19,7 +19,7 @@ class DefaultDataMap implements MapInterface
 {
     private $defaults;
 
-    public function __construct(array $defaults = array())
+    public function __construct(array $defaults = [])
     {
         $this->defaults = $defaults;
     }

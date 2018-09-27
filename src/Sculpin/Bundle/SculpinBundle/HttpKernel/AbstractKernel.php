@@ -27,7 +27,7 @@ abstract class AbstractKernel extends Kernel
 {
     protected $projectDir;
     protected $outputDir;
-    protected $missingSculpinBundles = array();
+    protected $missingSculpinBundles = [];
 
     /**
      * {@inheritdoc}
@@ -68,7 +68,7 @@ abstract class AbstractKernel extends Kernel
      */
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
@@ -79,7 +79,7 @@ abstract class AbstractKernel extends Kernel
             new \Sculpin\Bundle\TwigBundle\SculpinTwigBundle,
             new \Sculpin\Bundle\ContentTypesBundle\SculpinContentTypesBundle,
             new \Sculpin\Bundle\PostsBundle\SculpinPostsBundle,
-        );
+        ];
 
         foreach ($this->getAdditionalSculpinBundles() as $class) {
             if (class_exists($class)) {

@@ -31,11 +31,11 @@ class ConvertListener implements EventSubscriberInterface
      *
      * @var array
      */
-    protected static $addPlaceholderRe = array(
+    protected static $addPlaceholderRe = [
         '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
         '/^({%\s+endblock\s+%})$/m',       // {% %} style code
         '/^({{.+?}})$/m',                  // {{ }} style code
-    );
+    ];
 
     /**
      * Placeholder text
@@ -56,10 +56,10 @@ class ConvertListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_CONVERT => 'beforeConvert',
             Sculpin::EVENT_AFTER_CONVERT => 'afterConvert',
-        );
+        ];
     }
 
     /**

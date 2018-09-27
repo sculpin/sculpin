@@ -100,23 +100,23 @@ class FileSourceTest extends TestCase
 
     public function provideTestParseYaml()
     {
-        return array(
-            array(__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''),
-            array(__DIR__ . '/../Fixtures/valid/frontmatter-nocontent.yml', ''),
-            array(__DIR__ . '/../Fixtures/valid/frontmatter-content.yml', ''),
-            array(
+        return [
+            [__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''],
+            [__DIR__ . '/../Fixtures/valid/frontmatter-nocontent.yml', ''],
+            [__DIR__ . '/../Fixtures/valid/frontmatter-content.yml', ''],
+            [
                 __DIR__ . '/../Fixtures/invalid/one-line-edge-case.yml',
                 'Yaml could not be parsed, parser detected a string.'
-            ),
-            array(
+            ],
+            [
                 __DIR__ . '/../Fixtures/invalid/malformed-yaml.yml',
                 'Yaml could not be parsed, parser detected a string.'
-            ),
-            array(
+            ],
+            [
                 __DIR__ . '/../Fixtures/invalid/malformed-yaml2.yml',
                 'Unable to parse at line 2 (near "first:fsdqf").'
-            ),
-        );
+            ],
+        ];
     }
 
     public function getErrorMessage($filename, $msg)

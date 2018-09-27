@@ -38,11 +38,11 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('source_view_paths')
-                    ->defaultValue(array('_views', '_layouts', '_includes', '_partials'))
+                    ->defaultValue(['_views', '_layouts', '_includes', '_partials'])
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('extensions')
-                    ->defaultValue(array('', 'twig', 'html', 'html.twig', 'twig.html'))
+                    ->defaultValue(['', 'twig', 'html', 'html.twig', 'twig.html'])
                     ->prototype('scalar')->end()
                 ->end()
             ->end();

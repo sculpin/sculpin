@@ -22,11 +22,11 @@ class ThemeTwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction('theme_path', [$this, 'themePath']),
             new \Twig_SimpleFunction('theme_path_exists', [$this, 'themePathExists']),
             new \Twig_SimpleFunction('theme_paths', [$this, 'themePaths']),
-        );
+        ];
     }
 
     /**
@@ -115,7 +115,7 @@ class ThemeTwigExtension extends \Twig_Extension
      */
     public function themePaths($resource)
     {
-        $paths = array();
+        $paths = [];
 
         if (file_exists($this->sourceDir.'/'.$resource)) {
             $paths[] = $resource;

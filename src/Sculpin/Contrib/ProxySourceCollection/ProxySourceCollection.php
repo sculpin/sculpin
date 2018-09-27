@@ -24,7 +24,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     protected $items = [];
     protected $sorter;
 
-    public function __construct(array $items = array(), SorterInterface $sorter = null)
+    public function __construct(array $items = [], SorterInterface $sorter = null)
     {
         $this->items = $items;
         $this->sorter = $sorter ?: new DefaultSorter;
@@ -115,6 +115,6 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 
     public function sort()
     {
-        uasort($this->items, array($this->sorter, 'sort'));
+        uasort($this->items, [$this->sorter, 'sort']);
     }
 }

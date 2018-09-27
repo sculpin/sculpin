@@ -38,11 +38,11 @@ class FunctionalTestCase extends TestCase
     {
         $this->tearDownTestProject();
 
-        $projectFiles = array(
+        $projectFiles = [
             '/config/sculpin_kernel.yml',
             '/config/sculpin_site.yml',
             '/source/_layouts/raw.html.twig',
-        );
+        ];
 
         foreach ($projectFiles as $file) {
             $this->addProjectFile($file);
