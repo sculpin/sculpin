@@ -39,7 +39,7 @@ class GenerateCommand extends AbstractCommand
         $this
             ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputOption(
                     'clean',
                     null,
@@ -61,7 +61,7 @@ class GenerateCommand extends AbstractCommand
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
-            ))
+            ])
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
 

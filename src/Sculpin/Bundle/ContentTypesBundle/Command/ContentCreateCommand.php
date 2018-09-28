@@ -40,7 +40,7 @@ class ContentCreateCommand extends AbstractCommand
         $this->setName($prefix . 'content:create');
         $this->setDescription('Create a new content type.');
         $this->setDefinition(
-            array(
+            [
                 new InputArgument(
                     'type',
                     InputArgument::REQUIRED,
@@ -58,7 +58,7 @@ class ContentCreateCommand extends AbstractCommand
                     InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                     'Organize content by taxonomy categories ("tags", "categories", "types", etc)'
                 )
-            )
+            ]
         );
 
         $this->setHelp(<<<EOT

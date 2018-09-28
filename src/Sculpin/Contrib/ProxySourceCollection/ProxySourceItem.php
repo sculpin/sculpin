@@ -55,7 +55,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
 
     public function setBlocks(array $blocks = null)
     {
-        $this->data()->set('blocks', $blocks ?: array());
+        $this->data()->set('blocks', $blocks ?: []);
     }
 
     public function previousItem()
@@ -115,12 +115,12 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
             throw new \InvalidArgumentException('Proxy source items cannot have values pushed onto them');
         } else {
             if (method_exists($this, $offset)) {
-                return call_user_func(array($this, $offset, $value));
+                return call_user_func([$this, $offset, $value]);
             }
 
             $setMethod = 'set'.ucfirst($offset);
             if (method_exists($this, $setMethod)) {
-                return call_user_func(array($this, $setMethod, $value));
+                return call_user_func([$this, $setMethod, $value]);
             }
 
             $this->data()->set($offset, $value);
@@ -145,7 +145,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     public function offsetGet($offset)
     {
         if (method_exists($this, $offset)) {
-            return call_user_func(array($this, $offset));
+            return call_user_func([$this, $offset]);
         }
 
         return $this->data()->get($offset);

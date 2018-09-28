@@ -35,14 +35,14 @@ class ServeCommand extends AbstractCommand
         $this
             ->setName($prefix.'serve')
             ->setDescription('Serve a site.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
-            ))
+            ])
             ->setHelp(<<<EOT
 The <info>serve</info> command serves a site.
 
 EOT
-            )->setAliases(array('server'));
+            )->setAliases(['server']);
     }
 
     /**

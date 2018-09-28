@@ -380,7 +380,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function duplicate($newSourceId, array $options = array())
+    public function duplicate($newSourceId, array $options = [])
     {
         return new MemorySource(
             $newSourceId,

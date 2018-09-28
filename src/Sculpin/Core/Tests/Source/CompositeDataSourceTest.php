@@ -37,20 +37,20 @@ class CompositeDataSourceTest extends TestCase
         $ds001 = $this->makeDataSource('TestDataSource:001');
         $ds002 = $this->makeDataSource('TestDataSource:002');
 
-        $dataSource = new CompositeDataSource(array($ds000, $ds002));
+        $dataSource = new CompositeDataSource([$ds000, $ds002]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestDataSource:000' => $ds000,
             'TestDataSource:002' => $ds002,
-        ), $dataSource->dataSources());
+        ], $dataSource->dataSources());
 
         $dataSource->addDataSource($ds001);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestDataSource:000' => $ds000,
             'TestDataSource:002' => $ds002,
             'TestDataSource:001' => $ds001,
-        ), $dataSource->dataSources());
+        ], $dataSource->dataSources());
     }
 
     public function testDataSourceId()
@@ -59,7 +59,7 @@ class CompositeDataSourceTest extends TestCase
         $ds001 = $this->makeDataSource('TestDataSource:001');
         $ds002 = $this->makeDataSource('TestDataSource:002');
 
-        $dataSource = new CompositeDataSource(array($ds000, $ds001, $ds002));
+        $dataSource = new CompositeDataSource([$ds000, $ds001, $ds002]);
 
         $this->assertContains('TestDataSource:000', $dataSource->dataSourceId());
         $this->assertContains('TestDataSource:001', $dataSource->dataSourceId());
@@ -74,14 +74,14 @@ class CompositeDataSourceTest extends TestCase
         $ds001 = $this->makeDataSource('TestDataSource:001');
         $ds002 = $this->makeDataSource('TestDataSource:002');
 
-        foreach (array($ds000, $ds001, $ds002) as $dataSource) {
+        foreach ([$ds000, $ds001, $ds002] as $dataSource) {
             $dataSource
                 ->expects($this->once())
                 ->method('refresh')
                 ->with($this->equalTo($sourceSet));
         }
 
-        $dataSource = new CompositeDataSource(array($ds000, $ds001, $ds002));
+        $dataSource = new CompositeDataSource([$ds000, $ds001, $ds002]);
 
         $dataSource->refresh($sourceSet);
     }

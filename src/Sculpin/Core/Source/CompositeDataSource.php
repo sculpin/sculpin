@@ -25,14 +25,14 @@ class CompositeDataSource implements DataSourceInterface
      *
      * @var array
      */
-    private $dataSources = array();
+    private $dataSources = [];
 
     /**
      * Constructor.
      *
      * @param array $dataSources Data sources
      */
-    public function __construct(array $dataSources = array())
+    public function __construct(array $dataSources = [])
     {
         foreach ($dataSources as $dataSource) {
             $this->dataSources[$dataSource->dataSourceId()] = $dataSource;

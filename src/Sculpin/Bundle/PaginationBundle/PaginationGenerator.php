@@ -69,7 +69,7 @@ class PaginationGenerator implements GeneratorInterface
     public function generate(SourceInterface $source)
     {
         $data = null;
-        $config = $source->data()->get('pagination') ?: array();
+        $config = $source->data()->get('pagination') ?: [];
         if (!isset($config['provider'])) {
             $config['provider'] = 'data.posts';
         }
@@ -78,7 +78,7 @@ class PaginationGenerator implements GeneratorInterface
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
                     if (!count($data)) {
-                        $data = array('');
+                        $data = [''];
                     }
                     break;
                 case 'page':
@@ -93,13 +93,13 @@ class PaginationGenerator implements GeneratorInterface
 
         $maxPerPage = isset($config['max_per_page']) ? $config['max_per_page'] : $this->maxPerPage;
 
-        $slices = array();
-        $slice = array();
+        $slices = [];
+        $slice = [];
         $totalItems = 0;
         foreach ($data as $k => $v) {
             if (count($slice) == $maxPerPage) {
                 $slices[] = $slice;
-                $slice = array();
+                $slice = [];
             }
 
             $slice[$k] = $v;
@@ -110,7 +110,7 @@ class PaginationGenerator implements GeneratorInterface
             $slices[] = $slice;
         }
 
-        $sources = array();
+        $sources = [];
         $pageNumber = 0;
         foreach ($slices as $slice) {
             $pageNumber++;

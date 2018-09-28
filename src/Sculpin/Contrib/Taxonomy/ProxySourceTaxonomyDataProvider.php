@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
-    private $taxons = array();
+    private $taxons = [];
     private $dataProviderManager;
     private $dataProviderName;
     private $taxonomyKey;
@@ -43,19 +43,19 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
-        );
+        ];
     }
 
     public function beforeRun(SourceSetEvent $sourceSetEvent)
     {
-        $taxons = array();
+        $taxons = [];
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
 
         foreach ($dataProvider->provideData() as $item) {
             if ($itemTaxons = $item->data()->get($this->taxonomyKey)) {
-                $normalizedItemTaxons = array();
+                $normalizedItemTaxons = [];
                 foreach ((array) $itemTaxons as $itemTaxon) {
                     $normalizedItemTaxon = trim($itemTaxon);
                     $taxons[$normalizedItemTaxon][] = $item;

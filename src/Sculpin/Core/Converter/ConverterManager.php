@@ -45,7 +45,7 @@ class ConverterManager
      *
      * @var array
      */
-    protected $converters = array();
+    protected $converters = [];
 
     /**
      * Constructor.
@@ -92,7 +92,7 @@ class ConverterManager
     {
         $converters = $source->data()->get('converters');
         if (!$converters || !is_array($converters)) {
-            $converters = array('null');
+            $converters = ['null'];
         }
 
         foreach ($converters as $converter) {

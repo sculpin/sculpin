@@ -53,7 +53,7 @@ class FormatterManager
      *
      * @var array
      */
-    protected $formatters = array();
+    protected $formatters = [];
 
     /**
      * Default formatter
@@ -88,12 +88,12 @@ class FormatterManager
      */
     protected function buildBaseFormatContext($context)
     {
-        $baseContext = new Configuration(array(
+        $baseContext = new Configuration([
             'site' => $this->siteConfiguration->export(),
             'page' => $context,
             'formatter' => $this->defaultFormatter,
-            'converters' => array(),
-        ));
+            'converters' => [],
+        ]);
 
         if (isset($context['url'])) {
             if ('/' === $context['url']) {
@@ -127,7 +127,7 @@ class FormatterManager
     {
         $baseContext = $this->buildBaseFormatContext($context);
 
-        foreach (array('layout', 'formatter', 'converters') as $key) {
+        foreach (['layout', 'formatter', 'converters'] as $key) {
             if (isset($context[$key])) {
                 $baseContext->set($key, $context[$key]);
             }
@@ -216,7 +216,7 @@ class FormatterManager
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
         if (!$formatContext->formatter()) {
-            return array('content' => $template);
+            return ['content' => $template];
         }
 
         $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));

@@ -91,7 +91,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 break;
             case 'pretty':
                 if ($response = $this->isDatePath($pathname)) {
-                    return implode('/', array_merge($response, array('index.html')));
+                    return implode('/', array_merge($response, ['index.html']));
                 } else {
                     $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', $pathname);
                     if (basename($pretty) == 'index') {
@@ -184,7 +184,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
             $path,
             $matches
         )) {
-            return array($matches[1], $matches[2], $matches[3], $matches[4]);
+            return [$matches[1], $matches[2], $matches[3], $matches[4]];
         }
 
         return null;

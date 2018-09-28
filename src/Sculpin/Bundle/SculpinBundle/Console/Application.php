@@ -97,10 +97,10 @@ class Application extends BaseApplication
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         if (null === $output) {
-            $styles = array(
+            $styles = [
                 'highlight' => new OutputFormatterStyle('red'),
                 'warning' => new OutputFormatterStyle('black', 'yellow'),
-            );
+            ];
             $formatter = new OutputFormatter(false, $styles);
             $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
@@ -139,7 +139,7 @@ class Application extends BaseApplication
 
     public function getMissingSculpinBundlesMessages()
     {
-        $messages = array();
+        $messages = [];
 
         // Display missing bundle to user.
         if ($missingBundles = $this->kernel->getMissingSculpinBundles()) {

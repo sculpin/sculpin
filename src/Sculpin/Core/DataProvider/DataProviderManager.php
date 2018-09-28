@@ -25,7 +25,7 @@ class DataProviderManager
      *
      * @var array
      */
-    protected $dataProviders = array();
+    protected $dataProviders = [];
 
     /**
      * Register data provider

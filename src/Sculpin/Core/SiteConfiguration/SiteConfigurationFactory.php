@@ -46,7 +46,7 @@ class SiteConfigurationFactory
      */
     private function getConfigFile($configFile)
     {
-        $builder = new YamlFileConfigurationBuilder(array($configFile));
+        $builder = new YamlFileConfigurationBuilder([$configFile]);
 
         return $builder->build();
     }

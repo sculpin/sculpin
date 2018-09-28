@@ -17,9 +17,9 @@ use Sculpin\Core\Source\SourceInterface;
 
 class ChainMap implements MapInterface
 {
-    private $maps = array();
+    private $maps = [];
 
-    public function __construct(array $maps = array())
+    public function __construct(array $maps = [])
     {
         $this->maps = $maps;
     }

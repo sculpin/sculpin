@@ -41,7 +41,7 @@ class SourceSetTest extends TestCase
         $source001 = $this->makeTestSource('TestSource:001');
         $source002 = $this->makeTestSource('TestSource:002');
 
-        $sourceSet = new SourceSet(array($source000, $source002));
+        $sourceSet = new SourceSet([$source000, $source002]);
 
         $this->assertTrue($sourceSet->containsSource($source000));
         $this->assertFalse($sourceSet->containsSource($source001));
@@ -91,13 +91,13 @@ class SourceSetTest extends TestCase
         $source001 = $this->makeTestSource('TestSource:001');
         $source002 = $this->makeTestSource('TestSource:002');
 
-        $sourceSet = new SourceSet(array($source000, $source001, $source002));
+        $sourceSet = new SourceSet([$source000, $source001, $source002]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestSource:000' => $source000,
             'TestSource:001' => $source001,
             'TestSource:002' => $source002,
-        ), $sourceSet->allSources());
+        ], $sourceSet->allSources());
     }
 
     public function testUpdatedSources()
@@ -106,12 +106,12 @@ class SourceSetTest extends TestCase
         $source001 = $this->makeTestSource('TestSource:001', false);
         $source002 = $this->makeTestSource('TestSource:002');
 
-        $sourceSet = new SourceSet(array($source000, $source001, $source002));
+        $sourceSet = new SourceSet([$source000, $source001, $source002]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'TestSource:000' => $source000,
             'TestSource:002' => $source002,
-        ), $sourceSet->updatedSources());
+        ], $sourceSet->updatedSources());
     }
 
     public function testReset()
@@ -120,13 +120,13 @@ class SourceSetTest extends TestCase
         $source001 = $this->makeTestSource('TestSource:001');
         $source002 = $this->makeTestSource('TestSource:002');
 
-        foreach (array($source000, $source001, $source002) as $source) {
+        foreach ([$source000, $source001, $source002] as $source) {
             $source
                 ->expects($this->once())
                 ->method('setHasNotChanged');
         }
 
-        $sourceSet = new SourceSet(array($source000, $source001, $source002));
+        $sourceSet = new SourceSet([$source000, $source001, $source002]);
         $sourceSet->reset();
     }
 }

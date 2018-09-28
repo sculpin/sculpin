@@ -27,21 +27,21 @@ class Configuration extends BaseConfiguration
      *
      * @var array
      */
-    private $excludes = array();
+    private $excludes = [];
 
     /**
      * Ignore patterns
      *
      * @var array
      */
-    private $ignores = array();
+    private $ignores = [];
 
     /**
      * Raw patterns
      *
      * @var array
      */
-    private $raws = array();
+    private $raws = [];
 
     /**
      * Source directory
@@ -80,7 +80,7 @@ class Configuration extends BaseConfiguration
      *
      * @return Configuration
      */
-    public function setExcludes(array $excludes = array())
+    public function setExcludes(array $excludes = [])
     {
         foreach ($excludes as $exclude) {
             $this->addExclude($exclude);
@@ -128,7 +128,7 @@ class Configuration extends BaseConfiguration
      *
      * @return Configuration
      */
-    public function setIgnores(array $ignores = array())
+    public function setIgnores(array $ignores = [])
     {
         foreach ($ignores as $ignore) {
             $this->addIgnore($ignore);
@@ -176,7 +176,7 @@ class Configuration extends BaseConfiguration
      *
      * @return Configuration
      */
-    public function setRaws(array $raws = array())
+    public function setRaws(array $raws = [])
     {
         foreach ($raws as $raw) {
             $this->addRaw($raw);

@@ -37,7 +37,7 @@ class ConverterManagerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('sculpin.converter') as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('registerConverter', array($attributes['alias'], new Reference($id)));
+                $definition->addMethodCall('registerConverter', [$attributes['alias'], new Reference($id)]);
             }
         }
     }

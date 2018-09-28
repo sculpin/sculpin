@@ -73,7 +73,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     {
         return new MemorySource(
             uniqid(),
-            new Data(array('calculated_date' => $timestamp)),
+            new Data(['calculated_date' => $timestamp]),
             "contents",
             "formatted contents",
             __FILE__,

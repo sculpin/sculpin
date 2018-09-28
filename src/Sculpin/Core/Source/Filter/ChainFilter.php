@@ -17,10 +17,10 @@ use Sculpin\Core\Source\SourceInterface;
 
 class ChainFilter implements FilterInterface
 {
-    private $filters = array();
+    private $filters = [];
     private $or;
 
-    public function __construct(array $filters = array(), $or = false)
+    public function __construct(array $filters = [], $or = false)
     {
         $this->filters = $filters;
         $this->or = $or;
