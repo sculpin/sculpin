@@ -17,5 +17,5 @@ use Sculpin\Core\Source\SourceInterface;
 
 interface FilterInterface
 {
-    public function match(SourceInterface $source);
+    public function match(SourceInterface $source): bool;
 }

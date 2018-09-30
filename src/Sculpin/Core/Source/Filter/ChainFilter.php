@@ -26,7 +26,7 @@ class ChainFilter implements FilterInterface
         $this->or = $or;
     }
 
-    public function match(SourceInterface $source)
+    public function match(SourceInterface $source): bool
     {
         $matched = false;
 

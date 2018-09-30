@@ -27,7 +27,7 @@ interface FormatterInterface
      *
      * @return array
      */
-    public function formatBlocks(FormatContext $formatContext);
+    public function formatBlocks(FormatContext $formatContext): array;
 
     /**
      * Format an entire page
@@ -36,7 +36,7 @@ interface FormatterInterface
      *
      * @return string
      */
-    public function formatPage(FormatContext $formatContext);
+    public function formatPage(FormatContext $formatContext): string;
 
     /**
      * Reset

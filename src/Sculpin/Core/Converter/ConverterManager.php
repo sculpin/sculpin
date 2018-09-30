@@ -66,7 +66,7 @@ class ConverterManager
      * @param string             $name      Name
      * @param ConverterInterface $converter Converter
      */
-    public function registerConverter($name, ConverterInterface $converter)
+    public function registerConverter(string $name, ConverterInterface $converter)
     {
         $this->converters[$name] = $converter;
     }
@@ -78,7 +78,7 @@ class ConverterManager
      *
      * @return ConverterInterface
      */
-    public function converter($name)
+    public function converter(string $name): ConverterInterface
     {
         return $this->converters[$name];
     }

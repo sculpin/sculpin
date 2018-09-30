@@ -47,8 +47,8 @@ class FileSource extends AbstractSource
         Analyzer $analyzer,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
-        $isRaw,
-        $hasChanged = false
+        bool $isRaw,
+        bool $hasChanged = false
     ) {
         $this->analyzer = $analyzer;
         $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();

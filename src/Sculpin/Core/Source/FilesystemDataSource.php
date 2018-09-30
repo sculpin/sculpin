@@ -93,10 +93,10 @@ class FilesystemDataSource implements DataSourceInterface
      * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
      */
     public function __construct(
-        $sourceDir,
-        $excludes,
-        $ignores,
-        $raws,
+        string $sourceDir,
+        array $excludes,
+        array $ignores,
+        array $raws,
         AntPathMatcher $matcher = null,
         Analyzer $analyzer = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
@@ -114,7 +114,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function dataSourceId()
+    public function dataSourceId(): string
     {
         return 'FilesystemDataSource:'.$this->sourceDir;
     }

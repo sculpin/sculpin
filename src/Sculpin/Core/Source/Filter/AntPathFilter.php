@@ -41,7 +41,7 @@ class AntPathFilter implements FilterInterface
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
     }
 
-    public function match(SourceInterface $source)
+    public function match(SourceInterface $source): bool
     {
         $normalizedPath = $this->directorySeparatorNormalizer->normalize($source->relativePathname());
 

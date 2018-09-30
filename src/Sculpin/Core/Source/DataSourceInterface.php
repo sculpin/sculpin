@@ -25,7 +25,7 @@ interface DataSourceInterface
      *
      * @return string
      */
-    public function dataSourceId();
+    public function dataSourceId(): string;
 
     /**
      * Refresh the Source Set with updated Sources.

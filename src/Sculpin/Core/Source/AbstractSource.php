@@ -133,7 +133,7 @@ abstract class AbstractSource implements SourceInterface
      *
      * @param bool $hasChanged Has the Source changed?
      */
-    protected function init($hasChanged = null)
+    protected function init(bool $hasChanged = null)
     {
         if (null !== $hasChanged) {
             $this->hasChanged = $hasChanged;
@@ -144,7 +144,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function sourceId()
+    public function sourceId(): string
     {
         return $this->sourceId;
     }
@@ -152,7 +152,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function isRaw()
+    public function isRaw(): bool
     {
         return $this->isRaw;
     }
@@ -160,7 +160,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function content()
+    public function content(): string
     {
         return $this->content;
     }
@@ -168,7 +168,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent($content = null)
+    public function setContent(?string $content = null)
     {
         $this->content = $content;
 
@@ -180,7 +180,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function formattedContent()
+    public function formattedContent(): ?string
     {
         return $this->formattedContent;
     }
@@ -196,7 +196,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function data()
+    public function data(): \Dflydev\DotAccessConfiguration\Configuration
     {
         return $this->data;
     }
@@ -204,7 +204,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function hasChanged()
+    public function hasChanged(): bool
     {
         return $this->hasChanged;
     }
@@ -228,7 +228,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function permalink()
+    public function permalink(): \Sculpin\Core\Permalink\PermalinkInterface
     {
         return $this->permalink;
     }
@@ -244,7 +244,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function useFileReference()
+    public function useFileReference(): bool
     {
         return $this->useFileReference;
     }
@@ -252,7 +252,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function canBeFormatted()
+    public function canBeFormatted(): bool
     {
         return $this->canBeFormatted;
     }
@@ -260,7 +260,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function isGenerator()
+    public function isGenerator(): bool
     {
         return $this->isGenerator;
     }
@@ -284,7 +284,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function isGenerated()
+    public function isGenerated(): bool
     {
         return $this->isGenerated;
     }
@@ -308,7 +308,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function shouldBeSkipped()
+    public function shouldBeSkipped(): bool
     {
         return $this->shouldBeSkipped;
     }
@@ -340,7 +340,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function relativePathname()
+    public function relativePathname(): string
     {
         return $this->relativePathname;
     }
@@ -348,7 +348,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function filename()
+    public function filename(): string
     {
         return $this->filename;
     }
@@ -364,7 +364,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function file()
+    public function file(): \SplFileInfo
     {
         return $this->file;
     }
@@ -372,7 +372,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function url()
+    public function url(): string
     {
         return $this->permalink()->relativeUrlPath();
     }
@@ -380,7 +380,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function duplicate($newSourceId, array $options = [])
+    public function duplicate(string $newSourceId, array $options = []): \Sculpin\Core\Source\SourceInterface
     {
         return new MemorySource(
             $newSourceId,

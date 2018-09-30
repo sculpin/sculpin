@@ -44,7 +44,7 @@ class FormatEvent extends Event
      *
      * @return FormatContext
      */
-    public function formatContext()
+    public function formatContext(): FormatContext
     {
         return $this->formatContext;
     }

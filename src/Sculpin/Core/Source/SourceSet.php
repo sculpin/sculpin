@@ -52,7 +52,7 @@ class SourceSet
      *
      * @return boolean
      */
-    public function containsSource(SourceInterface $source)
+    public function containsSource(SourceInterface $source): bool
     {
         return array_key_exists($source->sourceId(), $this->sources);
     }
@@ -77,7 +77,7 @@ class SourceSet
      *
      * @return array
      */
-    public function allSources()
+    public function allSources(): array
     {
         return $this->sources;
     }
@@ -87,7 +87,7 @@ class SourceSet
      *
      * @return array
      */
-    public function updatedSources()
+    public function updatedSources(): array
     {
         return array_filter($this->sources, function (SourceInterface $source) {
             return $source->hasChanged();

@@ -26,7 +26,7 @@ class MetaFilter implements FilterInterface
         $this->value = $value;
     }
 
-    public function match(SourceInterface $source)
+    public function match(SourceInterface $source): bool
     {
         return $source->data()->get($this->key) === $this->value;
     }

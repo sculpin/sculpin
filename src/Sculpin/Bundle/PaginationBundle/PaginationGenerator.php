@@ -66,7 +66,7 @@ class PaginationGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(SourceInterface $source)
+    public function generate(SourceInterface $source): array
     {
         $data = null;
         $config = $source->data()->get('pagination') ?: [];
