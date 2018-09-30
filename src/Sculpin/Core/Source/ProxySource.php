@@ -147,7 +147,7 @@ class ProxySource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormattedContent($formattedContent = null): void
+    public function setFormattedContent(?string $formattedContent = null): void
     {
         $this->source->setFormattedContent($formattedContent);
     }

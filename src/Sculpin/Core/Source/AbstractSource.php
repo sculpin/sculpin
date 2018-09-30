@@ -189,7 +189,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormattedContent(?$formattedContent = null): void
+    public function setFormattedContent(?string $formattedContent = null): void
     {
         $this->formattedContent = $formattedContent;
     }

@@ -115,7 +115,7 @@ interface SourceInterface
      *
      * @param string|null $formattedContent
      */
-    public function setFormattedContent($formattedContent = null): void;
+    public function setFormattedContent(?string $formattedContent = null): void;
 
     /**
      * Relative pathname
