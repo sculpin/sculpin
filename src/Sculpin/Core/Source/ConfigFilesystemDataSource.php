@@ -94,7 +94,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         if (! is_dir($this->sourceDir)) {
             return;

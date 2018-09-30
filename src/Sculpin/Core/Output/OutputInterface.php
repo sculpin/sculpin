@@ -55,12 +55,12 @@ interface OutputInterface
      *
      * @return \SplFileInfo|null
      */
-    public function file();
+    public function file() :?\SplFileInfo;
 
     /**
      * Formatted content (if not hasFileReference)
      *
      * @return string
      */
-    public function formattedContent(): string;
+    public function formattedContent(): ?string;
 }

@@ -54,12 +54,12 @@ interface SourceInterface
     /**
      * Mark source as changed
      */
-    public function setHasChanged();
+    public function setHasChanged(): void;
 
     /**
      * Mark source as not changed
      */
-    public function setHasNotChanged();
+    public function setHasNotChanged(): void;
 
     /**
      * Permalink
@@ -94,14 +94,14 @@ interface SourceInterface
      *
      * @return string
      */
-    public function content(): string;
+    public function content(): ?string;
 
     /**
      * Set content
      *
      * @param string|null $content
      */
-    public function setContent(?string $content = null);
+    public function setContent(?string $content = null): void;
 
     /**
      * Formatted content (if not use file reference)
@@ -115,7 +115,7 @@ interface SourceInterface
      *
      * @param string|null $formattedContent
      */
-    public function setFormattedContent($formattedContent = null);
+    public function setFormattedContent($formattedContent = null): void;
 
     /**
      * Relative pathname
@@ -148,12 +148,12 @@ interface SourceInterface
     /**
      * Mark Source as being a generator
      */
-    public function setIsGenerator();
+    public function setIsGenerator(): void;
 
     /**
      * Mark Source as not being a generator
      */
-    public function setIsNotGenerator();
+    public function setIsNotGenerator(): void;
 
     /**
      * Source is generated (from a generator)
@@ -165,12 +165,12 @@ interface SourceInterface
     /**
      * Mark Source as being generated (by a generator)
      */
-    public function setIsGenerated();
+    public function setIsGenerated(): void;
 
     /**
      * Mark Source as not being generated (by a generator)
      */
-    public function setIsNotGenerated();
+    public function setIsNotGenerated(): void;
 
     /**
      * Source should be skipped
@@ -182,17 +182,17 @@ interface SourceInterface
     /**
      * Mark Source as being skipped
      */
-    public function setShouldBeSkipped();
+    public function setShouldBeSkipped(): void;
 
     /**
      * Mark Source as not being skipped
      */
-    public function setShouldNotBeSkipped();
+    public function setShouldNotBeSkipped(): void;
 
     /**
      * Force Source to be reprocessed
      */
-    public function forceReprocess();
+    public function forceReprocess(): void;
 
     /**
      * URL

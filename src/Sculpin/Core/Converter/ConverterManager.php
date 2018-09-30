@@ -66,7 +66,7 @@ class ConverterManager
      * @param string             $name      Name
      * @param ConverterInterface $converter Converter
      */
-    public function registerConverter(string $name, ConverterInterface $converter)
+    public function registerConverter(string $name, ConverterInterface $converter): void
     {
         $this->converters[$name] = $converter;
     }
@@ -88,7 +88,7 @@ class ConverterManager
      *
      * @param SourceInterface $source Source
      */
-    public function convertSource(SourceInterface $source)
+    public function convertSource(SourceInterface $source): void
     {
         $converters = $source->data()->get('converters');
         if (!$converters || !is_array($converters)) {

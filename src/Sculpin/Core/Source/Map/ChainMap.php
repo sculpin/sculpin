@@ -31,7 +31,7 @@ class ChainMap implements MapInterface
         }
     }
 
-    public function addMap(MapInterface $map)
+    public function addMap(MapInterface $map): void
     {
         $this->maps[] = $map;
     }

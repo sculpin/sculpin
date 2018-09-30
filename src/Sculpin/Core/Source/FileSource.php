@@ -69,7 +69,7 @@ class FileSource extends AbstractSource
      *
      * @param bool $hasChanged Has the file changed?
      */
-    protected function init($hasChanged = null)
+    protected function init(bool $hasChanged = false): void
     {
         parent::init($hasChanged);
 

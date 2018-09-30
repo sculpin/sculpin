@@ -75,7 +75,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function file()
+    public function file(): ?\SplFileInfo
     {
         return $this->source->useFileReference() ? $this->source->file() : null;
     }
@@ -83,7 +83,7 @@ class SourceOutput implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function formattedContent(): string
+    public function formattedContent(): ?string
     {
         return $this->source->useFileReference() ? null : $this->source->formattedContent();
     }

@@ -122,7 +122,7 @@ class FilesystemDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         $sinceTimeLast = $this->sinceTime;
 

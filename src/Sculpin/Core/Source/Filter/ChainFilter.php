@@ -55,7 +55,7 @@ class ChainFilter implements FilterInterface
         return $matched;
     }
 
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(FilterInterface $filter): void
     {
         $this->filters[] = $filter;
     }

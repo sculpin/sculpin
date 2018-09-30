@@ -32,5 +32,5 @@ interface DataSourceInterface
      *
      * @param SourceSet $sourceSet Source set to be updated
      */
-    public function refresh(SourceSet $sourceSet);
+    public function refresh(SourceSet $sourceSet): void;
 }
