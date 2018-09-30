@@ -161,7 +161,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function content(): string
+    public function content(): ?string
     {
         return $this->content;
     }
@@ -189,7 +189,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormattedContent($formattedContent = null): void
+    public function setFormattedContent(?$formattedContent = null): void
     {
         $this->formattedContent = $formattedContent;
     }
