@@ -18,7 +18,6 @@
     ],
     "require": {
         "php": "^7.2",
-        "ext-iconv": "*",
         "ext-mbstring": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
         "dflydev/apache-mime-types": "^1.0.1",
@@ -49,6 +48,9 @@
         "symfony/css-selector": "^4.1",
         "symfony/dom-crawler": "^4.1",
         "symfony/process": "^4.1"
+    },
+    "suggest": {
+        "ext-iconv": "To convert non-UTF-8 strings to UTF-8."
     },
     "replace": {
         "sculpin/core": "self.version",
