@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sculpin\Core\SiteConfiguration;
 
 use Dflydev\DotAccessConfiguration\Configuration;
+use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
 
 /**
@@ -32,7 +33,7 @@ class SiteConfigurationFactory
      * @param string $rootDir     Root directory
      * @param string $environment Environment
      */
-    public function __construct($rootDir, $environment)
+    public function __construct(string $rootDir, string $environment)
     {
         $this->rootDir = $rootDir;
         $this->environment = $environment;
@@ -42,9 +43,10 @@ class SiteConfigurationFactory
      * Get an instance of the Configuration() class from the given file.
      *
      * @param  string $configFile
-     * @return Configuration
+     *
+     * @return ConfigurationInterface
      */
-    private function getConfigFile($configFile)
+    private function getConfigFile(string $configFile): ConfigurationInterface
     {
         $builder = new YamlFileConfigurationBuilder([$configFile]);
 
@@ -56,7 +58,7 @@ class SiteConfigurationFactory
      *
      * @return Configuration
      */
-    public function create()
+    public function create(): Configuration
     {
         $config = $this->detectConfig();
         $config->set('env', $this->environment);
@@ -68,7 +70,7 @@ class SiteConfigurationFactory
      *
      * @return Configuration
      */
-    public function detectConfig()
+    public function detectConfig(): ConfigurationInterface
     {
         if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
             return $this->getConfigFile($file);
@@ -78,6 +80,6 @@ class SiteConfigurationFactory
             return $this->getConfigFile($file);
         }
 
-        return  new Configuration();
+        return new Configuration();
     }
 }

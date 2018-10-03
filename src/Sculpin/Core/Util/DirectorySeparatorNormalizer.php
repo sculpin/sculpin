@@ -28,7 +28,7 @@ class DirectorySeparatorNormalizer
      *
      * @param string $preferredDirectorySeparator Preferred directory separator
      */
-    public function __construct($preferredDirectorySeparator = '/')
+    public function __construct(string $preferredDirectorySeparator = '/')
     {
         $this->preferredDirectorySeparator = $preferredDirectorySeparator;
         $this->directorySeparator = DIRECTORY_SEPARATOR;
@@ -43,7 +43,7 @@ class DirectorySeparatorNormalizer
      *
      * @return DirectorySeparatorNormalizer
      */
-    public function setDirectorySeparator($directorySeparator)
+    public function setDirectorySeparator(string $directorySeparator): DirectorySeparatorNormalizer
     {
         $this->directorySeparator = $directorySeparator;
 
@@ -57,7 +57,7 @@ class DirectorySeparatorNormalizer
      *
      * @return null|string
      */
-    public function normalize($path = null)
+    public function normalize(string $path = null): ?string
     {
         if ($this->preferredDirectorySeparator === $this->directorySeparator) {
             return $path;

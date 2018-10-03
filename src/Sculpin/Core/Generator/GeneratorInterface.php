@@ -29,5 +29,5 @@ interface GeneratorInterface
      *
      * @return SourceInterface[]
      */
-    public function generate(SourceInterface $source);
+    public function generate(SourceInterface $source): array;
 }

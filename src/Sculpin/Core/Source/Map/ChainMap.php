@@ -24,14 +24,14 @@ class ChainMap implements MapInterface
         $this->maps = $maps;
     }
 
-    public function process(SourceInterface $source)
+    public function process(SourceInterface $source): void
     {
         foreach ($this->maps as $map) {
             $map->process($source);
         }
     }
 
-    public function addMap(MapInterface $map)
+    public function addMap(MapInterface $map): void
     {
         $this->maps[] = $map;
     }

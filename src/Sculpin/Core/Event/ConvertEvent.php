@@ -50,7 +50,7 @@ class ConvertEvent extends Event
      * @param string          $converter        Converter
      * @param string          $defaultFormatter Default formatter
      */
-    public function __construct(SourceInterface $source, $converter, $defaultFormatter)
+    public function __construct(SourceInterface $source, string $converter, string $defaultFormatter)
     {
         $this->source = $source;
         $this->converter = $converter;
@@ -62,7 +62,7 @@ class ConvertEvent extends Event
      *
      * @return SourceInterface
      */
-    public function source()
+    public function source(): SourceInterface
     {
         return $this->source;
     }
@@ -72,7 +72,7 @@ class ConvertEvent extends Event
      *
      * @return string
      */
-    public function converter()
+    public function converter(): string
     {
         return $this->converter;
     }
@@ -84,7 +84,7 @@ class ConvertEvent extends Event
      *
      * @return boolean
      */
-    public function isConvertedBy($requestedConverter)
+    public function isConvertedBy(string $requestedConverter): bool
     {
         return $requestedConverter === $this->converter;
     }
@@ -96,9 +96,9 @@ class ConvertEvent extends Event
      *
      * @return boolean
      */
-    public function isFormattedBy($requestedFormatter)
+    public function isFormattedBy(string $requestedFormatter): bool
     {
-        return $requestedFormatter == $this->source->data()->get('formatter') ?: $this->defaultFormatter;
+        return $requestedFormatter == ($this->source->data()->get('formatter') ?: $this->defaultFormatter);
     }
 
     /**
@@ -109,7 +109,7 @@ class ConvertEvent extends Event
      *
      * @return boolean
      */
-    public function isHandledBy($requestedConverter, $requestedFormatter)
+    public function isHandledBy(string $requestedConverter, string $requestedFormatter): bool
     {
         return $this->isConvertedBy($requestedConverter) and $this->isFormattedBy($requestedFormatter);
     }

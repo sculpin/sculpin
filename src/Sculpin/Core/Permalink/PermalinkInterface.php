@@ -25,12 +25,12 @@ interface PermalinkInterface
      *
      * @return string
      */
-    public function relativeFilePath();
+    public function relativeFilePath(): string;
 
     /**
      * Relative URL path
      *
      * @return string
      */
-    public function relativeUrlPath();
+    public function relativeUrlPath(): string;
 }

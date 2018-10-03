@@ -88,10 +88,8 @@ class GeneratorManager
      * @param  SourceInterface           $source    Source
      * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
-    public function generate(SourceInterface $source, SourceSet $sourceSet)
+    public function generate(SourceInterface $source, SourceSet $sourceSet): void
     {
         $data = $source->data();
 
@@ -117,8 +115,6 @@ class GeneratorManager
             if ($isGenerator) {
                 $source->setIsNotGenerator();
             }
-
-            return '';
         }
 
         $targetSources = [$source];

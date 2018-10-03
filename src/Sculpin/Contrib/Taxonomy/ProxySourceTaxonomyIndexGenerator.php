@@ -39,7 +39,7 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
         $this->permalinkStrategyCollection = $permalinkStrategyCollection;
     }
 
-    public function generate(SourceInterface $source)
+    public function generate(SourceInterface $source): array
     {
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
         $taxons = $dataProvider->provideData();

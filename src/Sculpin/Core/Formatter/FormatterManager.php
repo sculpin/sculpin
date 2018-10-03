@@ -86,7 +86,7 @@ class FormatterManager
      *
      * @return Configuration
      */
-    protected function buildBaseFormatContext($context)
+    protected function buildBaseFormatContext($context): Configuration
     {
         $baseContext = new Configuration([
             'site' => $this->siteConfiguration->export(),
@@ -123,7 +123,7 @@ class FormatterManager
      *
      * @return FormatContext
      */
-    public function buildFormatContext($templateId, $template, $context)
+    public function buildFormatContext(string $templateId, string $template, array $context): FormatContext
     {
         $baseContext = $this->buildBaseFormatContext($context);
 
@@ -142,7 +142,7 @@ class FormatterManager
      * @param string             $name      Name
      * @param FormatterInterface $formatter Formatter
      */
-    public function registerFormatter($name, FormatterInterface $formatter)
+    public function registerFormatter(string $name, FormatterInterface $formatter)
     {
         $this->formatters[$name] = $formatter;
 
@@ -158,7 +158,7 @@ class FormatterManager
      *
      * @return FormatterInterface
      */
-    public function formatter($name)
+    public function formatter(string $name): FormatterInterface
     {
         return $this->formatters[$name];
     }
@@ -172,7 +172,7 @@ class FormatterManager
      *
      * @return string
      */
-    public function formatPage($templateId, $template, $context)
+    public function formatPage(string $templateId, string $template, array $context): string
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
@@ -193,7 +193,7 @@ class FormatterManager
      *
      * @return string
      */
-    public function formatSourcePage(SourceInterface $source)
+    public function formatSourcePage(SourceInterface $source): string
     {
         return $this->formatPage(
             $source->sourceId(),
@@ -211,7 +211,7 @@ class FormatterManager
      *
      * @return array
      */
-    public function formatBlocks($templateId, $template, $context)
+    public function formatBlocks(string $templateId, string $template, array $context): array
     {
         $formatContext = $this->buildFormatContext($templateId, $template, $context);
 
@@ -232,7 +232,7 @@ class FormatterManager
      *
      * @return array
      */
-    public function formatSourceBlocks(SourceInterface $source)
+    public function formatSourceBlocks(SourceInterface $source): array
     {
         return $this->formatBlocks(
             $source->sourceId(),
@@ -246,7 +246,7 @@ class FormatterManager
      *
      * @return string
      */
-    public function defaultFormatter()
+    public function defaultFormatter(): string
     {
         return $this->defaultFormatter;
     }

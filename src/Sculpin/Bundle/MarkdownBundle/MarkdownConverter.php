@@ -60,7 +60,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(ConverterContextInterface $converterContext)
+    public function convert(ConverterContextInterface $converterContext): void
     {
         $converterContext->setContent($this->markdown->transform($converterContext->content()));
     }

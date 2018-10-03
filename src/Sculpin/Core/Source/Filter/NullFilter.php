@@ -17,7 +17,7 @@ use Sculpin\Core\Source\SourceInterface;
 
 class NullFilter implements FilterInterface
 {
-    public function match(SourceInterface $source)
+    public function match(SourceInterface $source): bool
     {
         return false;
     }

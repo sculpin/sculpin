@@ -47,8 +47,8 @@ class FileSource extends AbstractSource
         Analyzer $analyzer,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
-        $isRaw,
-        $hasChanged = false
+        bool $isRaw,
+        bool $hasChanged = false
     ) {
         $this->analyzer = $analyzer;
         $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
@@ -69,7 +69,7 @@ class FileSource extends AbstractSource
      *
      * @param bool $hasChanged Has the file changed?
      */
-    protected function init($hasChanged = null)
+    protected function init(bool $hasChanged = false): void
     {
         parent::init($hasChanged);
 

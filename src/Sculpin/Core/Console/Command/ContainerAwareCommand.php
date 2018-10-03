@@ -35,7 +35,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      *
      * @throws \RuntimeException    if the expected Sculpin Console Application instance could not be found
      */
-    protected function getContainer()
+    protected function getContainer(): ContainerInterface
     {
         if (null === $this->container) {
             $app = $this->getApplication();

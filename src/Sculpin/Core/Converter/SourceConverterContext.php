@@ -42,7 +42,7 @@ class SourceConverterContext implements ConverterContextInterface
     /**
      * {@inheritdoc}
      */
-    public function content()
+    public function content(): string
     {
         return $this->source->content();
     }
@@ -50,7 +50,7 @@ class SourceConverterContext implements ConverterContextInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->source->setContent($content);
     }
