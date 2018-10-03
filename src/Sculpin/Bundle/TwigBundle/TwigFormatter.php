@@ -52,7 +52,7 @@ class TwigFormatter implements FormatterInterface
      /**
      * {@inheritdoc}
      */
-    public function formatBlocks(FormatContext $formatContext)
+    public function formatBlocks(FormatContext $formatContext): array
     {
         try {
             $this->arrayLoader->setTemplate(
@@ -73,6 +73,7 @@ class TwigFormatter implements FormatterInterface
             return $blocks;
         } catch (\Exception $e) {
             print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
+            return [];
         }
     }
 
@@ -84,7 +85,7 @@ class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function formatPage(FormatContext $formatContext)
+    public function formatPage(FormatContext $formatContext): string
     {
         try {
             $this->arrayLoader->setTemplate(
@@ -97,6 +98,7 @@ class TwigFormatter implements FormatterInterface
             return $this->twig->render($formatContext->templateId(), $data);
         } catch (\Exception $e) {
             print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
+            return '';
         }
     }
 

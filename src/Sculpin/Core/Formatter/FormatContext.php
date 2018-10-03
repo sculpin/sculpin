@@ -50,7 +50,7 @@ class FormatContext
      * @param string $template   Template
      * @param array  $data       Data
      */
-    public function __construct($templateId, $template, $data)
+    public function __construct(string $templateId, string $template, array $data)
     {
         $this->templateId = $templateId;
         $this->template = $template;
@@ -62,7 +62,7 @@ class FormatContext
      *
      * @return string
      */
-    public function templateId()
+    public function templateId(): string
     {
         return $this->templateId;
     }
@@ -72,7 +72,7 @@ class FormatContext
      *
      * @return string
      */
-    public function template()
+    public function template(): string
     {
         return $this->template;
     }
@@ -82,7 +82,7 @@ class FormatContext
      *
      * @return Data
      */
-    public function data()
+    public function data(): Data
     {
         return $this->data;
     }
@@ -92,7 +92,7 @@ class FormatContext
      *
      * @return string
      */
-    public function formatter()
+    public function formatter(): ?string
     {
         return $this->data->get('formatter');
     }

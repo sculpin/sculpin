@@ -53,7 +53,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isInteractive()
+    public function isInteractive(): bool
     {
         return $this->input->isInteractive();
     }
@@ -61,7 +61,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isDecorated()
+    public function isDecorated(): bool
     {
         return $this->output->isDecorated();
     }
@@ -69,7 +69,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isVerbose()
+    public function isVerbose(): bool
     {
         return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
     }
@@ -77,7 +77,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isVeryVerbose()
+    public function isVeryVerbose(): bool
     {
         return $this->output->getVerbosity() >= 3; // OutputInterface::VERBOSITY_VERY_VERBOSE
     }
@@ -85,7 +85,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function isDebug()
+    public function isDebug(): bool
     {
         return $this->output->getVerbosity() >= 4; // OutputInterface::VERBOSITY_DEBUG
     }
@@ -93,7 +93,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function write($messages, $newline = true)
+    public function write($messages, bool $newline = true)
     {
         if (null !== $this->startTime) {
             $messages = (array) $messages;
@@ -111,7 +111,7 @@ class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function overwrite($messages, $newline = true, $size = null)
+    public function overwrite($messages, bool $newline = true, ?int $size = null)
     {
         // messages can be an array, let's convert it to string anyway
         $messages = join($newline ? "\n" : '', (array) $messages);

@@ -44,7 +44,7 @@ class CompositeDataSource implements DataSourceInterface
      *
      * @param DataSourceInterface $dataSource Data Source
      */
-    public function addDataSource(DataSourceInterface $dataSource)
+    public function addDataSource(DataSourceInterface $dataSource): void
     {
         $this->dataSources[$dataSource->dataSourceId()] = $dataSource;
     }
@@ -54,7 +54,7 @@ class CompositeDataSource implements DataSourceInterface
      *
      * @return array
      */
-    public function dataSources()
+    public function dataSources(): array
     {
         return $this->dataSources;
     }
@@ -62,7 +62,7 @@ class CompositeDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function dataSourceId()
+    public function dataSourceId(): string
     {
         return 'CompositeDataSource('.implode(',', array_map(function ($dataSource) {
             return $dataSource->dataSourceId();
@@ -72,7 +72,7 @@ class CompositeDataSource implements DataSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function refresh(SourceSet $sourceSet)
+    public function refresh(SourceSet $sourceSet): void
     {
         foreach ($this->dataSources as $dataSource) {
             $dataSource->refresh($sourceSet);

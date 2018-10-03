@@ -25,5 +25,5 @@ interface ConverterInterface
      *
      * @param ConverterContextInterface $converterContext
      */
-    public function convert(ConverterContextInterface $converterContext);
+    public function convert(ConverterContextInterface $converterContext): void;
 }

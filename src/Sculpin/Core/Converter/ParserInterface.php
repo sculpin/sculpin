@@ -14,5 +14,5 @@ interface ParserInterface
      *
      * @return string
      */
-    public function transform($content);
+    public function transform(string $content): string;
 }

@@ -44,7 +44,7 @@ class SourceSetEvent extends Event
      *
      * @return array
      */
-    public function allSources()
+    public function allSources(): array
     {
         return $this->sourceSet->allSources();
     }
@@ -54,7 +54,7 @@ class SourceSetEvent extends Event
      *
      * @return array
      */
-    public function updatedSources()
+    public function updatedSources(): array
     {
         return $this->sourceSet->updatedSources();
     }
@@ -64,7 +64,7 @@ class SourceSetEvent extends Event
      *
      * @return SourceSet
      */
-    public function sourceSet()
+    public function sourceSet(): SourceSet
     {
         return $this->sourceSet;
     }

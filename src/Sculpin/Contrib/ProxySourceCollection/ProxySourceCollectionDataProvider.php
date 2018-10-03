@@ -53,9 +53,9 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $this->factory = $factory ?: new SimpleProxySourceItemFactory;
     }
 
-    public function provideData()
+    public function provideData(): array
     {
-        return $this->collection;
+        return iterator_to_array($this->collection);
     }
 
     public static function getSubscribedEvents()

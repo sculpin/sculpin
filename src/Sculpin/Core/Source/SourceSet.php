@@ -52,7 +52,7 @@ class SourceSet
      *
      * @return boolean
      */
-    public function containsSource(SourceInterface $source)
+    public function containsSource(SourceInterface $source): bool
     {
         return array_key_exists($source->sourceId(), $this->sources);
     }
@@ -62,7 +62,7 @@ class SourceSet
      *
      * @param SourceInterface $source
      */
-    public function mergeSource(SourceInterface $source)
+    public function mergeSource(SourceInterface $source): void
     {
         if (array_key_exists($source->sourceId(), $this->sources)) {
             unset($this->sources[$source->sourceId()]);
@@ -77,7 +77,7 @@ class SourceSet
      *
      * @return array
      */
-    public function allSources()
+    public function allSources(): array
     {
         return $this->sources;
     }
@@ -87,14 +87,14 @@ class SourceSet
      *
      * @return array
      */
-    public function updatedSources()
+    public function updatedSources(): array
     {
         return array_filter($this->sources, function (SourceInterface $source) {
             return $source->hasChanged();
         });
     }
 
-    public function newSources()
+    public function newSources(): array
     {
         return $this->newSources;
     }
@@ -104,7 +104,7 @@ class SourceSet
      *
      * Should be called after each loop while watching.
      */
-    public function reset()
+    public function reset(): void
     {
         foreach ($this->sources as $source) {
             $source->setHasNotChanged();

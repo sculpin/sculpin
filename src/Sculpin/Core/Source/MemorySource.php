@@ -37,16 +37,16 @@ class MemorySource extends AbstractSource
      * @param bool         $hasChanged       Has changed?
      */
     public function __construct(
-        $sourceId,
+        string $sourceId,
         Data $data,
-        $content,
-        $formattedContent,
-        $relativePathname,
-        $filename,
-        $file,
-        $isRaw,
-        $canBeFormatted,
-        $hasChanged
+        string $content,
+        ?string $formattedContent,
+        string $relativePathname,
+        string $filename,
+        \SplFileInfo $file,
+        bool $isRaw,
+        bool $canBeFormatted,
+        bool $hasChanged
     ) {
         $this->sourceId = $sourceId;
         $this->data = $data;
