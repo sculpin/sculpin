@@ -56,9 +56,9 @@ class SiteConfigurationFactory
     /**
      * Create Site Configuration
      *
-     * @return Configuration
+     * @return ConfigurationInterface
      */
-    public function create(): Configuration
+    public function create(): ConfigurationInterface
     {
         $config = $this->detectConfig();
         $config->set('env', $this->environment);

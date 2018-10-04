@@ -439,7 +439,7 @@ EOF
      * @return Definition|Alias
      * @throws \Exception
      */
-    protected function resolveServiceDefinition($serviceId): object
+    protected function resolveServiceDefinition($serviceId)
     {
         $container = $this->getContainer();
         if ($container instanceof ContainerBuilder) {
