@@ -73,7 +73,7 @@ class PaginationGenerator implements GeneratorInterface
         if (!isset($config['provider'])) {
             $config['provider'] = 'data.posts';
         }
-        if (preg_match('/^(data|page)\.(.+)$/', $config['provider'], $matches)) {
+        if (preg_match('/^(data|page|filtered)\.(.+)$/', $config['provider'], $matches)) {
             switch ($matches[1]) {
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
@@ -83,6 +83,9 @@ class PaginationGenerator implements GeneratorInterface
                     break;
                 case 'page':
                     $data = $source->data()->get($matches[2]);
+                    break;
+                case 'filtered':
+                    $data = $this->filtered($matches);
                     break;
             }
         }
@@ -168,5 +171,45 @@ class PaginationGenerator implements GeneratorInterface
         }
 
         return $sources;
+    }
+
+    /**
+     * @param $matches
+     *
+     * @return array
+     */
+    private function filtered($matches)
+    {
+        list($name, $expectedKey, $expectedValue) = explode('.', $matches[2]);
+
+        if ($expectedValue === 'true') {
+            $expectedValue = '1';
+        }
+
+        if ($expectedValue === 'false') {
+            $expectedValue = '';
+        }
+
+        $data = $this->dataProviderManager->dataProvider($name)->provideData();
+        if (!count($data)) {
+            $data = array();
+        }
+
+        $filteredData = array();
+        foreach ($data as $key => $page) {
+            $actualValue = $page->meta()[$expectedKey] ?? null;
+
+            if ($actualValue === $expectedValue) {
+                $filteredData[] = $data[$key];
+                continue;
+            }
+
+            if (is_array($actualValue) && in_array($expectedValue, $actualValue)) {
+                $filteredData[] = $data[$key];
+                continue;
+            }
+        }
+
+        return $filteredData;
     }
 }
