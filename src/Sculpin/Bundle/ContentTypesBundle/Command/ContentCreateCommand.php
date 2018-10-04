@@ -264,8 +264,12 @@ EOT;
         return $output;
     }
 
-    protected function getTaxonomyIndexTemplate(string $plural, string $singular, string $taxonomy, string $singularTaxonomy): string
-    {
+    protected function getTaxonomyIndexTemplate(
+        string $plural,
+        string $singular,
+        string $taxonomy,
+        string $singularTaxonomy
+    ): string {
         $title = ucfirst($taxonomy);
 
         return <<<EOT
@@ -283,8 +287,12 @@ use: [${plural}_${taxonomy}]
 EOT;
     }
 
-    protected function getTaxonomyViewTemplate(string $plural, string $singular, string $taxonomy, string $singularTaxonomy): string
-    {
+    protected function getTaxonomyViewTemplate(
+        string $plural,
+        string $singular,
+        string $taxonomy,
+        string $singularTaxonomy
+    ): string {
         $title = ucfirst($plural);
 
         return <<<EOT
