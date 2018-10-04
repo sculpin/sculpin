@@ -43,7 +43,7 @@ class HttpServer
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?$port = null)
+    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
     {
         $repository = new PhpRepository;
 

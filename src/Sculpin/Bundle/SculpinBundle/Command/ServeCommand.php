@@ -58,7 +58,7 @@ EOT
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
-            $input->getOption('port')
+            (int) $input->getOption('port')
         );
 
         $httpServer->run();
