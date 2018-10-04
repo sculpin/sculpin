@@ -77,7 +77,7 @@ class TwigFormatter implements FormatterInterface
         }
     }
 
-    public function findAllBlocks(\Twig_Template $template, array $context)
+    public function findAllBlocks(\Twig_Template $template, array $context): array
     {
         return $template->getBlockNames($context);
     }

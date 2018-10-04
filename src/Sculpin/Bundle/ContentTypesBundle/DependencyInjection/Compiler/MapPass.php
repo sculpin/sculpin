@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class MapPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $typesId = self::generateId('types');
         $types = $container->getParameter($typesId);
@@ -41,12 +41,12 @@ class MapPass implements CompilerPassInterface
         }
     }
 
-    private static function generateId($value)
+    private static function generateId(string $value): string
     {
         return implode('.', ['sculpin_content_types', $value]);
     }
 
-    private static function generateTypesId($type, $value)
+    private static function generateTypesId(string $type, string $value): string
     {
         return implode('.', ['sculpin_content_types.types', $type, $value]);
     }

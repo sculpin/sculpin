@@ -23,7 +23,7 @@ class FilesystemLoader extends \Twig_Loader_Filesystem
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name)
+    public function getCacheKey($name): string
     {
         $filename = $this->findTemplate($name);
 

@@ -56,7 +56,7 @@ class PaginationGenerator implements GeneratorInterface
     public function __construct(
         DataProviderManager $dataProviderManager,
         SourcePermalinkFactory $permalinkFactory,
-        $maxPerPage
+        int $maxPerPage
     ) {
         $this->dataProviderManager = $dataProviderManager;
         $this->permalinkFactory = $permalinkFactory;

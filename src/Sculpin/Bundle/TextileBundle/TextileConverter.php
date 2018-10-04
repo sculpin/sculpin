@@ -18,6 +18,7 @@ use Sculpin\Core\Converter\ConverterContextInterface;
 use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
+use Sculpin\Core\Source\SourceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -64,7 +65,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
@@ -76,8 +77,9 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
+        /** @var SourceInterface $source */
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {

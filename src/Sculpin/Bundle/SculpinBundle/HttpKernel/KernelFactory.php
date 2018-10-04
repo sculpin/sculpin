@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\HttpKernel;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Kernel Factory
@@ -27,9 +28,9 @@ class KernelFactory
      *
      * @param InputInterface $input Input
      *
-     * @return \Symfony\Component\HttpKernel\Kernel
+     * @return Kernel
      */
-    public static function create(InputInterface $input)
+    public static function create(InputInterface $input): Kernel
     {
         $env = $input->getParameterOption(['--env', '-e'], getenv('SCULPIN_DEBUG') ?: 'dev');
         $debug = (

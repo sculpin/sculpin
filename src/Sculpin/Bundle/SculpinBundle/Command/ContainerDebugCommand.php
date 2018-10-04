@@ -50,7 +50,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('container:debug')
@@ -127,7 +127,7 @@ EOF
      *
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->validateInput($input);
 
@@ -207,7 +207,7 @@ EOF
         $serviceIds,
         $showPrivate = false,
         $showTagAttributes = null
-    ) {
+    ): void {
         // set the label to specify public or public+private
         if ($showPrivate) {
             $label = '<comment>Public</comment> and <comment>private</comment> services';
@@ -322,7 +322,7 @@ EOF
         }
     }
 
-    protected function buildArgumentsArray($serviceId, $className, array $tagAttributes = [])
+    protected function buildArgumentsArray($serviceId, $className, array $tagAttributes = []): array
     {
         $arguments = [$serviceId];
         foreach ($tagAttributes as $tagAttribute) {
@@ -336,7 +336,7 @@ EOF
     /**
      * Renders detailed service information about one service
      */
-    protected function outputService(OutputInterface $output, $serviceId)
+    protected function outputService(OutputInterface $output, string $serviceId)
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -389,7 +389,7 @@ EOF
         }
     }
 
-    protected function outputParameters(OutputInterface $output, $parameters)
+    protected function outputParameters(OutputInterface $output, array $parameters): void
     {
         $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
 
@@ -437,8 +437,9 @@ EOF
      * @param string $serviceId The service id to resolve
      *
      * @return Definition|Alias
+     * @throws \Exception
      */
-    protected function resolveServiceDefinition($serviceId)
+    protected function resolveServiceDefinition($serviceId): object
     {
         $container = $this->getContainer();
         if ($container instanceof ContainerBuilder) {
@@ -460,9 +461,11 @@ EOF
      * Renders list of tagged services grouped by tag
      *
      * @param OutputInterface $output
-     * @param bool            $showPrivate
+     * @param bool $showPrivate
+     *
+     * @throws \Exception
      */
-    protected function outputTags(OutputInterface $output, $showPrivate = false)
+    protected function outputTags(OutputInterface $output, bool $showPrivate = false): void
     {
         $container = $this->getContainer();
         if (! $container instanceof ContainerBuilder) {
