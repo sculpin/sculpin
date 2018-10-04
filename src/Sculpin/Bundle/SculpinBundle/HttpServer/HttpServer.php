@@ -132,10 +132,10 @@ class HttpServer
      * Log a request
      *
      * @param OutputInterface           $output       Output
-     * @param string                    $responseCode Response code
+     * @param int                       $responseCode Response code
      * @param ServerRequestInterface    $request      Request
      */
-    public static function logRequest(OutputInterface $output, string $responseCode, ServerRequestInterface $request): void
+    public static function logRequest(OutputInterface $output, int $responseCode, ServerRequestInterface $request): void
     {
         $wrapOpen  = '';
         $wrapClose = '';
