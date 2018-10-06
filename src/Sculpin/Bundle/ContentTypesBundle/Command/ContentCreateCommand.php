@@ -109,7 +109,7 @@ EOT
         }
     }
 
-    protected function generateBoilerplateManifest(string $plural, $singular, array $taxonomies = []): array
+    protected function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array
     {
         $app = $this->getApplication();
         if (!$app instanceof Application) {
