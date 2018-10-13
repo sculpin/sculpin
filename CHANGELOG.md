@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 2.1.2 - TBD
+## 2.1.2 - 2018-10-12
 
 ### Added
 
@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- [#393](https://github.com/sculpin/sculpin/issues/393) Non-existent flag being
+  passed to YamlConfigurationBuilder due to an accidental BC break in the
+  dflydev/dot-access-configuration library.
 - [#343](https://github.com/sculpin/sculpin/pull/343) slugs are used literally
   and not escaped again.
 
