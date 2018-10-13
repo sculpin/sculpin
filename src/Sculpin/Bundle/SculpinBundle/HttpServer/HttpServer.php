@@ -43,7 +43,7 @@ class HttpServer
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
+    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
     {
         $repository = new PhpRepository;
 
@@ -103,7 +103,7 @@ class HttpServer
      * @param int      $interval Interval
      * @param callable $callback Callback
      */
-    public function addPeriodicTimer($interval, $callback)
+    public function addPeriodicTimer(int $interval, callable $callback): void
     {
         $this->loop->addPeriodicTimer($interval, $callback);
     }
@@ -111,7 +111,7 @@ class HttpServer
     /**
      * Run server
      */
-    public function run()
+    public function run(): void
     {
         $this->output->writeln(sprintf(
             'Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>',
@@ -132,10 +132,10 @@ class HttpServer
      * Log a request
      *
      * @param OutputInterface           $output       Output
-     * @param string                    $responseCode Response code
+     * @param int                       $responseCode Response code
      * @param ServerRequestInterface    $request      Request
      */
-    public static function logRequest(OutputInterface $output, $responseCode, ServerRequestInterface $request)
+    public static function logRequest(OutputInterface $output, int $responseCode, ServerRequestInterface $request): void
     {
         $wrapOpen  = '';
         $wrapClose = '';

@@ -28,7 +28,7 @@ class ServeCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
@@ -48,7 +48,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
         $kernel = $this->getContainer()->get('kernel');
@@ -58,7 +58,7 @@ EOT
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
-            $input->getOption('port')
+            (int) $input->getOption('port')
         );
 
         $httpServer->run();

@@ -39,7 +39,7 @@ class TemplateResetter implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
@@ -51,7 +51,7 @@ class TemplateResetter implements EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         $updated = $sourceSetEvent->updatedSources();
         if ($updated) {

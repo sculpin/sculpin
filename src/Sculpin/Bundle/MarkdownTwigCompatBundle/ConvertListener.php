@@ -54,7 +54,7 @@ class ConvertListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Sculpin::EVENT_BEFORE_CONVERT => 'beforeConvert',
@@ -67,7 +67,7 @@ class ConvertListener implements EventSubscriberInterface
      *
      * @param ConvertEvent $convertEvent Convert Event
      */
-    public function beforeConvert(ConvertEvent $convertEvent)
+    public function beforeConvert(ConvertEvent $convertEvent): void
     {
         if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
             $content = $convertEvent->source()->content();
@@ -88,7 +88,7 @@ class ConvertListener implements EventSubscriberInterface
      *
      * @param ConvertEvent $convertEvent Convert event
      */
-    public function afterConvert(ConvertEvent $convertEvent)
+    public function afterConvert(ConvertEvent $convertEvent): void
     {
         if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
             $content = $convertEvent->source()->content();

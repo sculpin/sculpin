@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ThemeBundle;
 
-use Dflydev\Symfony\FinderFactory\FinderFactoryInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -23,14 +22,14 @@ class ThemeRegistry
     private $directory;
     private $activeTheme;
 
-    public function __construct($finderFactory, $directory, $activeTheme = null)
+    public function __construct($finderFactory, string $directory, ?string $activeTheme = null)
     {
         $this->finderFactory = $finderFactory;
         $this->directory = $directory;
         $this->activeTheme = $activeTheme;
     }
 
-    public function listThemes()
+    public function listThemes(): array
     {
         if (! file_exists($this->directory)) {
             return [];
@@ -44,6 +43,7 @@ class ThemeRegistry
 
         $themes = [];
 
+        /** @var \SplFileInfo $directory */
         foreach ($directories as $directory) {
             $name = basename(dirname($directory->getRealPath())).'/'.basename($directory->getRealPath());
             $theme = ['name' => $name, 'path' => $directory];
@@ -56,7 +56,7 @@ class ThemeRegistry
         return $themes;
     }
 
-    public function findActiveTheme()
+    public function findActiveTheme(): ?array
     {
         $themes = $this->listThemes();
 
@@ -80,5 +80,7 @@ class ThemeRegistry
 
             return $theme;
         }
+
+        return null;
     }
 }

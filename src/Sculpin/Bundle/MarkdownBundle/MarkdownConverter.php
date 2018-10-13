@@ -18,6 +18,7 @@ use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Converter\ParserInterface;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
+use Sculpin\Core\Source\SourceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Michelf\Markdown;
 
@@ -68,7 +69,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
@@ -80,8 +81,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      *
      * @param SourceSetEvent $sourceSetEvent Source Set Event
      */
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
+        /** @var SourceInterface $source */
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {
@@ -99,7 +101,7 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
      * @param string $headerText raw markdown input for the header name
      * @return string
      */
-    public function generateHeaderId($headerText)
+    public function generateHeaderId(string $headerText): string
     {
 
         // $headerText is completely raw markdown input. We need to strip it

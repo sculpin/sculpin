@@ -20,7 +20,7 @@ class ThemeTwigExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_SimpleFunction('theme_path', [$this, 'themePath']),
@@ -32,7 +32,7 @@ class ThemeTwigExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'theme';
     }
@@ -47,7 +47,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function themePath($resource)
+    public function themePath(string $resource): string
     {
         if (null === $this->theme) {
             return $resource;
@@ -79,7 +79,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return bool
      */
-    public function themePathExists($resource)
+    public function themePathExists(string $resource): bool
     {
         if (file_exists($this->sourceDir.'/'.$resource)) {
             return true;
@@ -113,7 +113,7 @@ class ThemeTwigExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function themePaths($resource)
+    public function themePaths(string $resource): array
     {
         $paths = [];
 
@@ -140,7 +140,7 @@ class ThemeTwigExtension extends \Twig_Extension
         return array_reverse($paths);
     }
 
-    private function findThemeResource($theme, $resource)
+    private function findThemeResource(array $theme, string $resource): string
     {
         if (file_exists($theme['path'].'/'.$resource)) {
             return $this->directory.'/'.$theme['name'].'/'.$resource;

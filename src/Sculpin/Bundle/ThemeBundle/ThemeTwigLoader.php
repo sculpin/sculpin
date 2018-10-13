@@ -39,7 +39,7 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
         $this->chainLoader = new \Twig_Loader_Chain($loaders);
     }
 
-    private function findPaths($theme, array $paths = [])
+    private function findPaths(array $theme, array $paths = []): array
     {
         foreach (['_views', '_layouts', '_includes', '_partials'] as $type) {
             if (is_dir($viewPath = $theme['path'].'/'.$type)) {
@@ -61,7 +61,7 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
     /**
      * {@inheritdoc}
      */
-    public function exists($name)
+    public function exists($name): bool
     {
         return $this->chainLoader->exists($name);
     }
@@ -69,7 +69,7 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name)
+    public function getCacheKey($name): string
     {
         return $this->chainLoader->getCacheKey($name);
     }
@@ -77,7 +77,7 @@ class ThemeTwigLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterf
     /**
      * {@inheritdoc}
      */
-    public function isFresh($name, $time)
+    public function isFresh($name, $time): bool
     {
         return $this->chainLoader->isFresh($name, $time);
     }

@@ -273,17 +273,17 @@ class SculpinContentTypesExtension extends Extension
         }
     }
 
-    private static function generatePlaceholder($value)
+    private static function generatePlaceholder(string $value): string
     {
         return '%'.$value.'%';
     }
 
-    private static function generateId($value)
+    private static function generateId(string $value): string
     {
         return implode('.', ['sculpin_content_types', $value]);
     }
 
-    private static function generateTypesId($type, $value)
+    private static function generateTypesId(string $type, string $value)
     {
         return implode('.', ['sculpin_content_types.types', $type, $value]);
     }

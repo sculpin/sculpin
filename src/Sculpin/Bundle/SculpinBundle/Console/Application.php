@@ -94,7 +94,7 @@ class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null)
+    public function run(InputInterface $input = null, OutputInterface $output = null): int
     {
         if (null === $output) {
             $styles = [
@@ -111,7 +111,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if ($input->hasParameterOption('--git-version')) {
             $output->writeln(Sculpin::GIT_VERSION);
@@ -137,7 +137,7 @@ class Application extends BaseApplication
         return $exitCode;
     }
 
-    public function getMissingSculpinBundlesMessages()
+    public function getMissingSculpinBundlesMessages(): array
     {
         $messages = [];
 
@@ -159,12 +159,12 @@ class Application extends BaseApplication
      *
      * @return KernelInterface
      */
-    public function getKernel()
+    public function getKernel(): KernelInterface
     {
         return $this->kernel;
     }
 
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         $this->kernel->boot();
 
@@ -201,7 +201,7 @@ class Application extends BaseApplication
         }
     }
 
-    private function renderRegistrationErrors(InputInterface $input, OutputInterface $output)
+    private function renderRegistrationErrors(InputInterface $input, OutputInterface $output): void
     {
         if ($output instanceof ConsoleOutputInterface) {
             $output = $output->getErrorOutput();

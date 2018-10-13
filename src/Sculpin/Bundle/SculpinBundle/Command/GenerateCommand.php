@@ -32,7 +32,7 @@ class GenerateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
@@ -72,7 +72,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -109,7 +109,7 @@ EOT
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
-                $input->getOption('port')
+                (int) $input->getOption('port')
             );
 
             if ($watch) {
@@ -142,7 +142,7 @@ EOT
      * @param OutputInterface $output An OutputInterface instance
      * @param string          $dir    The directory to remove
      */
-    protected function clean(InputInterface $input, OutputInterface $output, $dir)
+    protected function clean(InputInterface $input, OutputInterface $output, string $dir): void
     {
         $fileSystem = $this->getContainer()->get('filesystem');
         if ($fileSystem->exists($dir)) {

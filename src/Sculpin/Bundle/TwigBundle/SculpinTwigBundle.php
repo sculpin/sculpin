@@ -25,12 +25,12 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SculpinTwigBundle extends Bundle
 {
-    const FORMATTER_NAME = 'twig';
+    public const FORMATTER_NAME = 'twig';
 
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new TwigEnvironmentPass);
         $container->addCompilerPass(new TwigLoaderPass);

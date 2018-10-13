@@ -28,12 +28,12 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ContentCreateCommand extends AbstractCommand
 {
-    const DIRECTORY_FLAG = '_directory_';
+    private const DIRECTORY_FLAG = '_directory_';
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
@@ -72,7 +72,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $pluralType   = $input->getArgument('type');
         $singularType = Inflector::singularize($pluralType);
@@ -109,7 +109,7 @@ EOT
         }
     }
 
-    protected function generateBoilerplateManifest($plural, $singular, array $taxonomies = []): array
+    protected function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array
     {
         $app = $this->getApplication();
         if (!$app instanceof Application) {
@@ -153,7 +153,7 @@ EOT
         return $manifest;
     }
 
-    protected function getOutputMessage($type, $singularType, $taxonomies = [])
+    protected function getOutputMessage(string $type, string $singularType, array $taxonomies = []): string
     {
         $outputMessage = <<<EOT
 =============================================
@@ -181,7 +181,7 @@ EOT;
         return $outputMessage;
     }
 
-    protected function getIndexTemplate($plural, $singular)
+    protected function getIndexTemplate(string $plural, string $singular)
     {
         $title = ucfirst($plural);
 
@@ -214,7 +214,7 @@ use: [$plural]
 EOT;
     }
 
-    protected function getViewTemplate($plural, $singular, $taxonomies = [])
+    protected function getViewTemplate(string $plural, string $singular, array $taxonomies = []): string
     {
         $output = <<<EOT
 {% extends 'default' %}
@@ -264,8 +264,12 @@ EOT;
         return $output;
     }
 
-    protected function getTaxonomyIndexTemplate($plural, $singular, $taxonomy, $singularTaxonomy)
-    {
+    protected function getTaxonomyIndexTemplate(
+        string $plural,
+        string $singular,
+        string $taxonomy,
+        string $singularTaxonomy
+    ): string {
         $title = ucfirst($taxonomy);
 
         return <<<EOT
@@ -283,8 +287,12 @@ use: [${plural}_${taxonomy}]
 EOT;
     }
 
-    protected function getTaxonomyViewTemplate($plural, $singular, $taxonomy, $singularTaxonomy)
-    {
+    protected function getTaxonomyViewTemplate(
+        string $plural,
+        string $singular,
+        string $taxonomy,
+        string $singularTaxonomy
+    ): string {
         $title = ucfirst($plural);
 
         return <<<EOT
