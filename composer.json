@@ -22,7 +22,7 @@
         "dflydev/apache-mime-types": "~1.0,>=1.0.1",
         "dflydev/canal": "1.*",
         "webignition/internet-media-type": "^0.4",
-        "dflydev/dot-access-configuration": "^1.0.1",
+        "dflydev/dot-access-configuration": "v1.0.2",
         "dflydev/symfony-finder-factory": "1.*",
         "doctrine/inflector": "1.0.*",
         "michelf/php-markdown": "^1.7.0",
