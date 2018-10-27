@@ -8,4 +8,5 @@
  <file>./src/</file>
 
  <rule ref="PSR2"/>
+ <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 </ruleset>
