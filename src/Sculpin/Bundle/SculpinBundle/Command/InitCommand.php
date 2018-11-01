@@ -15,6 +15,7 @@ namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -26,6 +27,9 @@ class InitCommand extends AbstractCommand
     public const COMMAND_SUCCESS          = 0;
     public const PROJECT_FOLDER_NOT_EMPTY = 101;
 
+    public const DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
+    public const DEFAULT_TITLE    = 'My Sculpin Site';
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +40,22 @@ class InitCommand extends AbstractCommand
         $this
             ->setName($prefix.'init')
             ->setDescription('Initialize a default site configuration.')
-            ->setDefinition([])
+            ->setDefinition([
+                new InputOption(
+                    'title',
+                    't',
+                    InputOption::VALUE_REQUIRED,
+                    'Specify a title for your Sculpin site.',
+                    self::DEFAULT_TITLE
+                ),
+                new InputOption(
+                    'subtitle',
+                    's',
+                    InputOption::VALUE_REQUIRED,
+                    'Specify a sub-title for your Sculpin site.',
+                    self::DEFAULT_SUBTITLE
+                ),
+            ])
             ->setHelp(<<<EOT
 The <info>init</info> command initializes a default site configuration.
 
@@ -55,6 +74,9 @@ EOT
                 $output->writeln($message);
             }
         }
+
+        $title    = $input->getOption('title');
+        $subTitle = $input->getOption('subtitle');
 
         $projectDir = $this->getContainer()->getParameter('sculpin.project_dir');
         $output->writeln('Project Directory: <info>' . $projectDir . '</info>');
@@ -75,9 +97,9 @@ EOT
 
         // 3. Create default Site config files
         $this->createSiteKernelFile($projectDir, $output);
-        $this->createSiteConfigFile($projectDir, $output);
+        $this->createSiteConfigFile($projectDir, $title, $subTitle, $output);
 
-        // 4. Create source folder and very first basic entry in source folder
+        // 4. Create source folder (with or without posts) and the very first basic entry in the source folder
         $this->createSourceFolder($projectDir, $output);
 
         $output->writeln('<info>Success!</info>');
@@ -138,11 +160,15 @@ EOF;
         return true;
     }
 
-    protected function createSiteConfigFile(string $projectDir, OutputInterface $output): bool
-    {
+    protected function createSiteConfigFile(
+        string $projectDir,
+        string $title,
+        string $subTitle,
+        OutputInterface $output
+    ): bool {
         $contents = <<<EOF
-title: My Sculpin Site
-subtitle: A Static Site Powered By Sculpin
+title: "$title"
+subtitle: "$subTitle"
 google_analytics_tracking_id: ''
 url: ''
 
