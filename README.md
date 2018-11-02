@@ -5,7 +5,6 @@ Sculpin - PHP Static Site Generator
 [![License](https://poser.pugx.org/sculpin/sculpin/license.svg)](https://packagist.org/packages/sculpin/sculpin)
 [![Build Status](https://travis-ci.org/sculpin/sculpin.svg?branch=develop)](https://travis-ci.org/sculpin/sculpin)
 [![Code Coverage](https://scrutinizer-ci.com/g/sculpin/sculpin/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/sculpin/sculpin/?branch=develop)
-[![HHVM Status](http://hhvm.h4cc.de/badge/sculpin/sculpin.svg?branch=master)](http://hhvm.h4cc.de/package/sculpin/sculpin)
 [![Total Downloads](https://poser.pugx.org/sculpin/sculpin/downloads.svg)](https://packagist.org/packages/sculpin/sculpin)
 
 
