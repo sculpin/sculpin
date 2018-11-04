@@ -20,6 +20,7 @@ use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\FormatterManagerPa
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\GeneratorManagerPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\PathConfiguratorPass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\CustomMimeTypesRepositoryPass;
+use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\DirectoryOverridePass;
 use Sculpin\Bundle\SculpinBundle\DependencyInjection\Compiler\WriterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Console\DependencyInjection\AddConsoleCommandPass;
@@ -46,5 +47,6 @@ class SculpinBundle extends Bundle
         $container->addCompilerPass(new DataSourcePass);
         $container->addCompilerPass(new WriterPass);
         $container->addCompilerPass(new AddConsoleCommandPass);
+        $container->addCompilerPass(new DirectoryOverridePass);
     }
 }
