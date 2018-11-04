@@ -36,20 +36,12 @@ abstract class AbstractKernel extends Kernel
      */
     public function __construct(string $environment, bool $debug, array $overrides = [])
     {
-        $projectDir = $overrides['projectDir'] ?? null;
-        if (null !== $projectDir) {
-            $this->projectDir = $projectDir;
-            $this->rootDir    = $projectDir . '/app';
-        }
+        $this->projectDir = $overrides['projectDir'] ?? null;
+        $this->outputDir  = $overrides['outputDir']  ?? null;
+        $this->sourceDir  = $overrides['sourceDir']  ?? null;
 
-        $outputDir = $overrides['outputDir'] ?? null;
-        if (null !== $outputDir) {
-            $this->outputDir = $outputDir;
-        }
-
-        $sourceDir = $overrides['sourceDir'] ?? null;
-        if (null !== $sourceDir) {
-            $this->sourceDir = $sourceDir;
+        if (null !== $this->projectDir) {
+            $this->rootDir = $this->projectDir . '/app';
         }
 
         parent::__construct($environment, $debug);
