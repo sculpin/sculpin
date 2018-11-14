@@ -87,20 +87,25 @@ class InitCommandTest extends FunctionalTestCase
     protected function assertProjectInitialized($projectDir): void
     {
         $files = $this->finder->in($projectDir);
-        $this->assertSame(
-            [
-                $projectDir . '/app',
-                $projectDir . '/app/config',
-                $projectDir . '/app/config/sculpin_site.yml',
-                $projectDir . '/app/config/sculpin_kernel.yml',
-                $projectDir . '/app/SculpinKernel.php',
-                $projectDir . '/source',
-                $projectDir . '/source/_views',
-                $projectDir . '/source/_views/default.html',
-                $projectDir . '/source/index.md',
-            ],
-            array_keys(iterator_to_array($files))
-        );
+
+        $expected = [
+            $projectDir . '/app',
+            $projectDir . '/app/config',
+            $projectDir . '/app/config/sculpin_site.yml',
+            $projectDir . '/app/config/sculpin_kernel.yml',
+            $projectDir . '/app/SculpinKernel.php',
+            $projectDir . '/source',
+            $projectDir . '/source/_views',
+            $projectDir . '/source/_views/default.html',
+            $projectDir . '/source/index.md',
+        ];
+
+        $actual = array_keys(iterator_to_array($files));
+
+        natsort($expected);
+        natsort($actual);
+
+        $this->assertSame($expected, $actual);
     }
 
     protected function assertYamlFileEqualsArray(array $expected, string $file): void
