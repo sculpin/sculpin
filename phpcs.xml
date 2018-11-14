@@ -7,6 +7,8 @@
 
  <file>./src/</file>
 
+ <exclude-pattern>*/__BlankSculpinProject__/*</exclude-pattern>
+
  <rule ref="PSR2"/>
  <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 </ruleset>

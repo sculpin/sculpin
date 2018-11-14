@@ -17,14 +17,14 @@ use Symfony\Component\Process\Process;
  */
 class FunctionalTestCase extends TestCase
 {
-    private const PROJECT_DIR = '/__SculpinTestProject__';
+    protected const PROJECT_DIR = '/__SculpinTestProject__';
 
     /** @var Filesystem */
     protected static $fs;
 
     public static function setUpBeforeClass(): void
     {
-        self::$fs = new Filesystem();
+        static::$fs = new Filesystem();
     }
 
     public function setUp(): void
@@ -53,9 +53,9 @@ class FunctionalTestCase extends TestCase
 
     protected function tearDownTestProject(): void
     {
-        $projectDir = self::projectDir();
-        if (self::$fs->exists($projectDir)) {
-            self::$fs->remove($projectDir);
+        $projectDir = static::projectDir();
+        if (static::$fs->exists($projectDir)) {
+            static::$fs->remove($projectDir);
         }
     }
 
@@ -65,8 +65,8 @@ class FunctionalTestCase extends TestCase
      */
     protected function executeSculpin($command): void
     {
-        $binPath = __DIR__ . '/../../../../bin';
-        $projectDir = self::projectDir();
+        $binPath    = __DIR__ . '/../../../../bin';
+        $projectDir = static::projectDir();
         exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
     }
 
@@ -84,7 +84,7 @@ class FunctionalTestCase extends TestCase
     protected function executeSculpinAsync(string $command, bool $start = true, ?callable $callback = null): Process
     {
         $binPath    = __DIR__ . '/../../../../bin';
-        $projectDir = self::projectDir();
+        $projectDir = static::projectDir();
         $process    = new Process("$binPath/sculpin $command --project-dir $projectDir --env=test");
 
         if ($start) {
@@ -104,18 +104,18 @@ class FunctionalTestCase extends TestCase
         // Remove leading slash
         array_shift($pathParts);
 
-        $projectDir = self::projectDir();
+        $projectDir = static::projectDir();
 
         if (!$recursive) {
-            self::$fs->mkdir("$projectDir/$path");
+            static::$fs->mkdir("$projectDir/$path");
             return;
         }
 
         $currPath = "$projectDir/";
         foreach ($pathParts as $dir) {
             $currPath .= "$dir/";
-            if (!self::$fs->exists($currPath)) {
-                self::$fs->mkdir($currPath);
+            if (!static::$fs->exists($currPath)) {
+                static::$fs->mkdir($currPath);
             }
         }
     }
@@ -140,7 +140,7 @@ class FunctionalTestCase extends TestCase
         }
 
         // Create the file
-        self::$fs->touch(self::projectDir() . $filePath);
+        static::$fs->touch(static::projectDir() . $filePath);
 
         // Add content to the file
         if (!is_null($content)) {
@@ -154,7 +154,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function copyFixtureToProject(string $fixturePath, string $projectPath): void
     {
-        self::$fs->copy($fixturePath, self::projectDir() . $projectPath);
+        static::$fs->copy($fixturePath, static::projectDir() . $projectPath);
     }
 
     /**
@@ -165,7 +165,7 @@ class FunctionalTestCase extends TestCase
     {
         $msg = $msg ?: "Expected project to contain file at path $filePath.";
 
-        $this->assertTrue(self::$fs->exists(self::projectDir() . $filePath), $msg);
+        $this->assertTrue(static::$fs->exists(static::projectDir() . $filePath), $msg);
     }
 
     /**
@@ -186,7 +186,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function writeToProjectFile(string $filePath, string $content): void
     {
-        self::$fs->dumpFile(self::projectDir() . $filePath, $content);
+        static::$fs->dumpFile(static::projectDir() . $filePath, $content);
     }
 
     /**
@@ -204,7 +204,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function crawlProjectFile(string $filePath): Crawler
     {
-        return $this->crawlFile(self::projectDir() . $filePath);
+        return $this->crawlFile(static::projectDir() . $filePath);
     }
 
     /**
@@ -224,7 +224,7 @@ class FunctionalTestCase extends TestCase
      */
     private function readFile(string $filePath): string
     {
-        if (!self::$fs->exists($filePath)) {
+        if (!static::$fs->exists($filePath)) {
             throw new \PHPUnit\Framework\Exception("Unable to read file at path $filePath: file does not exist");
         }
 
@@ -241,6 +241,6 @@ class FunctionalTestCase extends TestCase
      */
     protected static function projectDir(): string
     {
-        return __DIR__ . self::PROJECT_DIR;
+        return __DIR__ . static::PROJECT_DIR;
     }
 }
