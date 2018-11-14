@@ -102,8 +102,8 @@ class InitCommandTest extends FunctionalTestCase
 
         $actual = array_keys(iterator_to_array($files));
 
-        natsort($expected);
-        natsort($actual);
+        sort($expected);
+        sort($actual);
 
         $this->assertSame($expected, $actual);
     }
