@@ -15,7 +15,7 @@ class InitCommandTest extends FunctionalTestCase
     /** @var Finder */
     protected $finder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tearDownTestProject();
         $this->addProjectDirectory('', $recursive = false);
