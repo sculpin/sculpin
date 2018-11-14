@@ -169,6 +169,17 @@ class FunctionalTestCase extends TestCase
     }
 
     /**
+     * @param string        $filePath
+     * @param string|null   $msg
+     */
+    protected function assertProjectLacksFile(string $filePath, ?string $msg = null): void
+    {
+        $msg = $msg ?: "Expected project to NOT contain file at path $filePath.";
+
+        $this->assertFalse(static::$fs->exists(static::projectDir() . $filePath), $msg);
+    }
+
+    /**
      * @param string $filePath
      * @param string|null $msg
      */
