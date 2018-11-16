@@ -40,6 +40,7 @@ class KernelFactory
         );
 
         $outputDir = $input->getParameterOption(['--output-dir'], getenv('SCULPIN_OUTPUT_DIR') ?: null);
+        $sourceDir = $input->getParameterOption(['--source-dir'], getenv('SCULPIN_SOURCE_DIR') ?: null);
 
         // do something here to locate and try to create
         // a custom kernel.
@@ -51,6 +52,7 @@ class KernelFactory
         $overrides = [
             'projectDir' => $projectDir,
             'outputDir'  => $outputDir,
+            'sourceDir'  => $sourceDir,
         ];
 
         if (file_exists($customKernel = $projectDir.'/app/SculpinKernel.php')) {

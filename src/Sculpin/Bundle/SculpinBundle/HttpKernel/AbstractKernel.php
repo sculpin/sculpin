@@ -26,24 +26,22 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class AbstractKernel extends Kernel
 {
-    protected $projectDir;
-    protected $outputDir;
     protected $missingSculpinBundles = [];
+    protected $outputDir;
+    protected $projectDir;
+    protected $sourceDir;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(string $environment, bool $debug, ?array $overrides = [])
+    public function __construct(string $environment, bool $debug, array $overrides = [])
     {
-        $projectDir = $overrides['projectDir'] ?? null;
-        if (null !== $projectDir) {
-            $this->projectDir = $projectDir;
-            $this->rootDir    = $projectDir . '/app';
-        }
+        $this->projectDir = $overrides['projectDir'] ?? null;
+        $this->outputDir  = $overrides['outputDir']  ?? null;
+        $this->sourceDir  = $overrides['sourceDir']  ?? null;
 
-        $outputDir = $overrides['outputDir'] ?? null;
-        if (null !== $outputDir) {
-            $this->outputDir = $outputDir;
+        if (null !== $this->projectDir) {
+            $this->rootDir = $this->projectDir . '/app';
         }
 
         parent::__construct($environment, $debug);
@@ -61,6 +59,7 @@ abstract class AbstractKernel extends Kernel
         return array_merge(parent::getKernelParameters(), [
             'sculpin.project_dir'         => $this->projectDir,
             'sculpin.output_dir_override' => $this->outputDir,
+            'sculpin.source_dir_override' => $this->sourceDir,
         ]);
     }
 

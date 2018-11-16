@@ -61,6 +61,7 @@ class GenerateCommand extends AbstractCommand
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
+                new InputOption('source-dir', null, InputOption::VALUE_REQUIRED, 'Source Directory'),
             ])
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.

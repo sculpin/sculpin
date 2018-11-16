@@ -20,4 +20,27 @@ class GenerateCommandTest extends FunctionalTestCase
 
         $this->assertProjectHasFile($filePath, $msg);
     }
+
+    /** @test */
+    public function shouldGenerateUsingSpecifiedSourceDir(): void
+    {
+        $filePath  = '/output_test/index.html';
+        $sourceDir = 'custom_source_dir';
+
+        $this->assertProjectLacksFile($filePath, "Expected project to NOT have generated file at path $filePath.");
+
+        // set up test scenario
+        static::$fs->rename(
+            $this->projectDir() . '/source',
+            $this->projectDir() . '/' . $sourceDir
+        );
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/blog_index.html', '/'. $sourceDir .'/index.html');
+        $this->addProjectDirectory('/' . $sourceDir . '/_posts');
+
+        // generate the site
+        $this->executeSculpin('generate --source-dir=' . $sourceDir);
+
+        // check that it worked
+        $this->assertProjectHasFile($filePath, "Expected project to have generated file at path $filePath.");
+    }
 }
