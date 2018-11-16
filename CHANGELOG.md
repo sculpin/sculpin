@@ -12,16 +12,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - New `--output-dir` flag allows users to override the default output
   directory (`output_dev`, `output_prod`) with their own custom target.
   - Also works with `SCULPIN_OUTPUT_DIR` environment variable.
+- New `--source-dir` flag allows users to override the default source
+  directory (`source`) with their own custom target.
+  - Also works with `SCULPIN_SOURCE_DIR` environment variable.
 - New `content:create` command allows users to quickly and easily create
   new content types. It will generate appropriate templates, including
   pagination.
+- New `init` command allows users to spin up an **EXTREMELY** bare-bones
+  Sculpin site, automatically creating YAML configuration files and some
+  placeholder `source/` files.
+  - Note that "posts" are disabled in this bare-bones configuration. If
+    you would like to create a traditional Blog site, definitely use an
+    existing skeleton project such as:
+    https://github.com/sculpin/sculpin-blog-skeleton
 
 ### Changed
 
-- BC BREAK: [#367](https://github.com/sculpin/sculpin/pull/367) moved to PHP 7.2
-  and started Sculpin 3 development
-- [#341](https://github.com/sculpin/sculpin/pull/341) bumped minimum symfony
-  packages version to 3.2.6
+- BC BREAK: [#367](https://github.com/sculpin/sculpin/pull/367) moved to
+  PHP 7.2 as the new minimum PHP version for Sculpin.
+- BC BREAK: [#392](https://github.com/sculpin/sculpin/pull/392) changed
+  the signature of the `getAdditionalSculpinBundles()` method to specify
+  an `array` return type. If you have a custom `SculpinKernel.php` file
+  you will need to
+- [#385](https://github.com/sculpin/sculpin/pull/385) bumped minimum
+  Symfony packages version to 4.1
+  - See the "Fixed" section for a BC Break related to the Symfony YAML
+    component.
 
 ### Deprecated
 
