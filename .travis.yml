@@ -1,16 +1,16 @@
 language: php
 
-os:
-- windows
-- linux
-- osx
-
-dist: trusty
 sudo: false
 
 cache:
   directories:
     - $HOME/.composer/cache
+
+addons:
+  homebrew:
+    packages:
+    - php
+    - composer
 
 matrix:
   allow_failures:
@@ -44,7 +44,6 @@ matrix:
         - TEST_COVERAGE=false
         - CHECK_PHPSTAN=false
     - os: osx
-      php: 7.2
       env:
         - DEPS=latest
         - CHECK_CS=false
@@ -53,7 +52,7 @@ matrix:
 
 before_install:
   - travis_retry composer self-update
-  - phpenv config-rm xdebug.ini || true
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then phpenv config-rm xdebug.ini || true; fi
 
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
