@@ -1,5 +1,10 @@
 language: php
 
+os:
+- windows
+- linux
+- osx
+
 dist: trusty
 sudo: false
 
@@ -8,19 +13,43 @@ cache:
     - $HOME/.composer/cache
 
 matrix:
+  allow_failures:
+    - os:
+      - osx
+      - windows
   include:
-    - php: 7.2
+    - os: linux
+      dist: trusty
+      php: 7.2
       env:
         - DEPS=lowest
-    - php: 7.2
+    - os: linux
+      dist: trusty
+      php: 7.2
       env:
         - DEPS=locked
         - CHECK_CS=true
         - TEST_COVERAGE=true
         - CHECK_PHPSTAN=true
-    - php: 7.2
+    - os: linux
+      dist: trusty
+      php: 7.2
       env:
         - DEPS=latest
+    - os: windows
+      php: 7.2
+      env:
+        - DEPS=latest
+        - CHECK_CS=false
+        - TEST_COVERAGE=false
+        - CHECK_PHPSTAN=false
+    - os: osx
+      php: 7.2
+      env:
+        - DEPS=latest
+        - CHECK_CS=false
+        - TEST_COVERAGE=false
+        - CHECK_PHPSTAN=false
 
 before_install:
   - travis_retry composer self-update
