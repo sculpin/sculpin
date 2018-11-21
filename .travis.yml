@@ -9,6 +9,9 @@ addons:
     - composer
 
 matrix:
+  allow_failures:
+    - os: windows
+      language: bash
   include:
     - os: linux
       dist: trusty
@@ -32,6 +35,7 @@ matrix:
       env:
         - DEPS=latest
     - os: windows
+      language: bash
       env:
         - DEPS=locked
         - CHECK_CS=false
