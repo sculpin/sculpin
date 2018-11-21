@@ -12,11 +12,13 @@ matrix:
   include:
     - os: linux
       dist: trusty
+      language: php
       php: 7.2
       env:
         - DEPS=lowest
     - os: linux
       dist: trusty
+      language: php
       php: 7.2
       env:
         - DEPS=locked
@@ -25,6 +27,7 @@ matrix:
         - CHECK_PHPSTAN=true
     - os: linux
       dist: trusty
+      language: php
       php: 7.2
       env:
         - DEPS=latest
