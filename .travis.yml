@@ -1,7 +1,3 @@
-language: php
-
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -13,10 +9,6 @@ addons:
     - composer
 
 matrix:
-  allow_failures:
-    - os:
-      - osx
-      - windows
   include:
     - os: linux
       dist: trusty
@@ -37,15 +29,14 @@ matrix:
       env:
         - DEPS=latest
     - os: windows
-      php: 7.2
       env:
-        - DEPS=latest
+        - DEPS=locked
         - CHECK_CS=false
         - TEST_COVERAGE=false
         - CHECK_PHPSTAN=false
     - os: osx
       env:
-        - DEPS=latest
+        - DEPS=locked
         - CHECK_CS=false
         - TEST_COVERAGE=false
         - CHECK_PHPSTAN=false
