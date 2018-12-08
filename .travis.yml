@@ -34,6 +34,12 @@ matrix:
       php: 7.2
       env:
         - DEPS=latest
+    - os: linux
+      dist: trusty
+      language: php
+      php: 7.3
+      env:
+        - DEPS=latest
     - os: windows
       language: bash
       env:
