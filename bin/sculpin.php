@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -12,9 +14,9 @@
 set_time_limit(0);
 
 if (function_exists('ini_set')) {
-    @ini_set('display_errors', 1);
+    @ini_set('display_errors', '1');
 
-    $memoryInBytes = function ($value) {
+    $memoryInBytes = function ($value): int {
         $unit = strtolower(substr($value, -1, 1));
         $value = (int) $value;
         switch ($unit) {
