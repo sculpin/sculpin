@@ -19,6 +19,7 @@
     "require": {
         "php": "^7.2",
         "ext-mbstring": "*",
+        "ext-posix": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
         "dflydev/apache-mime-types": "^1.0.1",
         "dflydev/canal": "^1.0",
