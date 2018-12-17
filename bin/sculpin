@@ -1,8 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-function includeIfExists($file)
-{
+declare(strict_types=1);
+
+function includeIfExists($file) {
     if (file_exists($file)) {
         return include $file;
     }
