@@ -51,7 +51,7 @@
     },
     "suggest": {
         "ext-iconv": "To convert non-UTF-8 strings to UTF-8.",
-        "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
+        "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well."
     },
     "replace": {
         "sculpin/core": "self.version",
