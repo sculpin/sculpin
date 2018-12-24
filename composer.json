@@ -19,7 +19,6 @@
     "require": {
         "php": "^7.2",
         "ext-mbstring": "*",
-        "ext-posix": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
         "dflydev/apache-mime-types": "^1.0.1",
         "dflydev/canal": "^1.0",
@@ -51,7 +50,8 @@
         "symfony/process": "^4.1"
     },
     "suggest": {
-        "ext-iconv": "To convert non-UTF-8 strings to UTF-8."
+        "ext-iconv": "To convert non-UTF-8 strings to UTF-8.",
+        "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
     },
     "replace": {
         "sculpin/core": "self.version",
