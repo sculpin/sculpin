@@ -135,6 +135,27 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $permalink = preg_replace('/:basename_real/', $basename, $permalink);
                 $permalink = preg_replace('/:basename/', $prettyBasename, $permalink);
 
+                $folder = '';
+                // Find FIRST position here
+                $folderPos = strpos($pathname, DIRECTORY_SEPARATOR);
+                if ($folderPos !== false) {
+                    $folderTemp = $pathname;
+
+                    // Strip the first folder if it's a type folder
+                    if ('_' === substr($pathname, 0, 1)) {
+                        $folderTemp = substr($pathname, $folderPos+1);
+                    }
+
+                    // Now check for actual subfolders we are interested in here
+                    // Find LAST position here
+                    $lastFolderPos = strrpos($folderTemp, DIRECTORY_SEPARATOR);
+
+                    if ($lastFolderPos !== false) {
+                        $folder = substr($folderTemp, 0, $lastFolderPos) . '/';
+                    }
+                }
+                $permalink = preg_replace('/:folder/', $folder, $permalink);
+
                 if (preg_match('#(^|[\\/])[^.]+$#', $permalink)
                     // Exclude .md and .twig for BC
                     || substr($permalink, -3, 3) === '.md'

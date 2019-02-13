@@ -160,6 +160,42 @@ class SourcePermalinkFactoryTest extends TestCase
                     '/about/'
                 ),
             ],
+
+            'Folder with basename, no type' => [
+                ':folder:basename.html',
+                static::makeTestSource('site/about.md'),
+                new Permalink(
+                    'site/about.html',
+                    '/site/about.html'
+                ),
+            ],
+
+            'Folder with basename, no folder, no type' => [
+                ':folder:basename.html',
+                static::makeTestSource('about.md'),
+                new Permalink(
+                    'about.html',
+                    '/about.html'
+                ),
+            ],
+
+            'Folder with basename, with type, no folder' => [
+                'posts/:folder:basename.html',
+                static::makeTestSource('_posts/somepost.md'),
+                new Permalink(
+                    'posts/somepost.html',
+                    '/posts/somepost.html'
+                ),
+            ],
+
+            'Folder with basename, with type' => [
+                'posts/:folder:basename.html',
+                static::makeTestSource('_posts/somefolder/somepost.md'),
+                new Permalink(
+                    'posts/somefolder/somepost.html',
+                    '/posts/somefolder/somepost.html'
+                ),
+            ],
         ];
     }
 
