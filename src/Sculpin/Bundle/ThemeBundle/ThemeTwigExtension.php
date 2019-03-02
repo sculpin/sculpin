@@ -140,10 +140,12 @@ class ThemeTwigExtension extends \Twig_Extension
         return array_reverse($paths);
     }
 
-    private function findThemeResource(array $theme, string $resource): string
+    private function findThemeResource(array $theme, string $resource): ?string
     {
         if (file_exists($theme['path'].'/'.$resource)) {
             return $this->directory.'/'.$theme['name'].'/'.$resource;
         }
+        
+        return null;
     }
 }
