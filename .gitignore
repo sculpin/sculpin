@@ -2,4 +2,5 @@ vendor
 cache
 __BlankSculpinProject__/
 __SculpinTestProject__/
+output_test/
 clover.xml
