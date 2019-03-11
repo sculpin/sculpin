@@ -1,0 +1,77 @@
+---
+# This is the file used by Ansible to provision your project
+# You can decide what you want to install in your box by choosing
+# various provided roles or add tasks to this file. If you need
+# more explanation, please refer to the drifter README
+
+# For some part, multiple roles are proposed, just uncomment the ones
+# you need.
+
+- hosts: all
+  vars_files:
+   - parameters.yml
+  become: no
+
+  roles:
+    ## Install some base packages and configuration files, this should be ok for all projects
+    - { role: base }
+    - { role: git }
+
+    ## Database, choose either mysql or postgres, some subsequent roles will be configured
+    ## depending on your choice here.
+    # - { role: mysql }
+    # - { role: postgresql }
+
+    ## Scripting / Language support
+    # - { role: php-fpm }       # PHP using Nginx and PHP-FPM
+    # - { role: php-apache }    # PHP using Apache and mod-php
+    # - { role: django }        # Django framework
+
+    ## Webserver, choose one of those only if you have not chosen a scripting language
+    ## above
+    # - { role: nginx }          # Nginx for basic HTML website
+    # - { role: apache }         # Apache for basic HTML website
+
+    ## Install Webpack in the box
+    # - { role: webpack }
+
+    ## Install Solr in the box
+    # - { role: solr }
+
+    ## Install Elasticsearch in the box
+    # - { role: elasticsearch }
+
+    ## Install Composer in the box
+    # - { role: composer }
+
+    ## Install OpenLDAP's slapd in the box
+    # - { role: openldap }
+
+    # If you want php xdebug in your local boxes, uncomment this
+    # The when clause prevents it to be installed on the CI_SERVER
+    # - { role: php-xdebug, when: "lookup('env','CI_SERVER') != 'yes'" }
+
+    ## Install the ssh rule, installs gitlab.liip.ch and github.com host key
+    # - { role: ssh }
+
+    ## Install some Gitlab CI scripts and .gitlab-ci.yml.
+    ## See https://github.com/liip/drifter/blob/master/ci/README.md for details
+    # - { role: gitlabci }
+
+    # Install Browsers for end-to-end tests
+    # - { role: firefox }
+    # - { role: chrome }
+    # - { role: phantomjs }
+
+    ## You can also creates your own role, just add a directory under the 'virtualization'
+    ## folder and refer to it like for other roles :
+    # - { role: my_own_role }
+
+# If needed, you can specify your own tasks, here is an example :
+#  tasks:
+#    - name: install project dev tools
+#      shell: cd {{ root_directory }} && composer.phar --quiet install
+#    - name: Copy application config file
+#      shell: cp -f {{ root_directory }}/config/server_config.php.vagrant {{ root_directory }}/config/server_config.php
+#    - name: Provision the database
+#      shell: cd {{ root_directory }} && ./console mysql:reset

@@ -1,0 +1,3 @@
+[submodule "virtualization/drifter"]
+	path = virtualization/drifter
+	url = https://github.com/liip/drifter.git
