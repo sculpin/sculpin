@@ -59,7 +59,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function convert(ConverterContextInterface $converterContext): void
     {
-        $converterContext->setContent($this->parser->textileThis($converterContext->content()));
+        $converterContext->setContent($this->parser->parse($converterContext->content()));
     }
 
     /**
