@@ -1,9 +1,9 @@
 ---
 # Name of your project, will also be the vagrant box name
-project_name: "example"
+project_name: "sculpin"
 
 # Main hostname through which the vagrant box will be accessible
-hostname: "example.lo"
+hostname: "sculpin.test"
 # Alternative hostnames through which you want to access the vagrant box
 hostnames: []
 
@@ -12,13 +12,13 @@ hostnames: []
 forwarded_ports: {
     "80": "8080",    # HTTP
     "443": "8443",   # HTTPS
-    "3000": "3000",  # BrowserSync default port
 }
 
-# Backingstore used by LXC. Defaults to dir. Uncomment and change this
-# value to suit your needs.
-# Note: only used with vagrant-lxc provider.
-# backingstore: dir
+# Configure PHP Version
+php_version: "7.2"
+
+# Setting Ansible version
+ansible_version: "2.6.0"
 
 # Virtual machine memory size use in MB. Defaults to 4096. Uncomment and change
 # this value to suit your needs.
@@ -35,10 +35,6 @@ forwarded_ports: {
 # will be accessible at this IP depending on your network configuration or
 # provider choice.
 # box_ip: "10.10.10.10"
-
-# Name of the database to create for your project if you include the
-# MySQL or PostgreSQL role
-database_name: "example"
 
 # Root directory of your project for the webserver and other purposes
 root_directory: "/vagrant/"
@@ -75,15 +71,5 @@ root_directory: "/vagrant/"
 # If you want to use ubuntu instead of debian (or any other box),
 # uncomment this. You can also replace "base" with "php7", if you need
 # php7 (with fpm and nginx) anyway.
-box_name: "drifter/stretch64-base"
-box_url: "https://vagrantbox-public.liip.ch/drifter-stretch64-base.json"
-
-# Default Java version is 7. If you need another java version, uncomment
-# the matching line and set the correct value.
-# Set your version according to your needs and your Linux distribution.
-# java_jre_version: "7"
-# java_jdk_version: "7"
-
-# Ansible version to use. If you need another version, you can define that here
-# and it will be installed during provisioining.
-# ansible_version: "2.7.0"
+box_name: "drifter/trusty64-php7"
+box_url: "https://vagrantbox-public.liip.ch/drifter-trusty64-php7.json"

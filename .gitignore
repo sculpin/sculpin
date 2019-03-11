@@ -4,4 +4,7 @@ __BlankSculpinProject__/
 __SculpinTestProject__/
 output_test/
 clover.xml
+
+# Drifter
 /.vagrant/
+/virtualization/playbook.retry
