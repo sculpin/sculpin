@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     call the generate command, so it should require minimal effort to
     locate and fix.
 
-## 2.1.2 - TBD
+## 2.1.2 - 2018-10-12
 
 ### Added
 

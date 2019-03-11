@@ -38,15 +38,6 @@ expected to add all of the style magic yourself.
  * [Blog Skeleton](https://github.com/sculpin/sculpin-blog-skeleton)
    A very basic Sculpin based blog.
 
-
-Phar distributions
-------------------
-
-[Phar distribution and embedded composer are
-deprecated](https://blog.sculpin.io/2016/08/31/deprecating-phar-distribution-and-embedded-composer).
-Phar files are no longer published, please use composer to install sculpin.  
-Embedded composer will be removed in sculpin v3
-
 License
 -------
 
