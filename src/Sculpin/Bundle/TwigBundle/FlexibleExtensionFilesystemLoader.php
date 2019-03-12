@@ -21,31 +21,38 @@ use Twig\Loader\LoaderInterface;
 use Twig\Source as TwigSource;
 
 /**
- * Flexible Extension Filesystem Loader.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
+final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
 {
     /**
-     * Filesystem loader
-     *
      * @var FilesystemLoader
      */
-    protected $filesystemLoader;
-
-    protected $cachedCacheKey = [];
-    protected $cachedCacheKeyExtension = [];
-    protected $cachedCacheKeyException = [];
-    protected $extensions = [];
+    private $filesystemLoader;
 
     /**
-     * Constructor.
-     *
-     * @param string   $sourceDir
+     * @var string[]
+     */
+    private $cachedCacheKey = [];
+
+    /**
+     * @var string[]
+     */
+    private $cachedCacheKeyExtension = [];
+
+    /**
+     * @var \Throwable[]
+     */
+    private $cachedCacheKeyException = [];
+    /**
+     * @var string[]
+     */
+    private $extensions = [];
+
+    /**
      * @param string[] $sourcePaths
      * @param string[] $paths
-     * @param string[] $extensions
+     * @param string[] $extensions  List of file extensions for twig files
      */
     public function __construct(string $sourceDir, array $sourcePaths, array $paths, array $extensions)
     {
@@ -54,12 +61,8 @@ class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscri
         }, $sourcePaths);
 
         $allPaths = array_merge(
-            array_filter($mappedSourcePaths, function ($path) {
-                return file_exists($path);
-            }),
-            array_filter($paths, function ($path) {
-                return file_exists($path);
-            })
+            array_filter($mappedSourcePaths, 'file_exists'),
+            array_filter($paths, 'file_exists')
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);

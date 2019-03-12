@@ -20,8 +20,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * Base Kernel implementation
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 abstract class AbstractKernel extends Kernel
@@ -169,9 +167,9 @@ abstract class AbstractKernel extends Kernel
     }
 
     /**
-     * Get additional Sculpin bundles to register
+     * Get additional Sculpin bundles to register.
      *
-     * @return array
+     * @return string[] Fully qualified class names of the bundles to register.
      */
     abstract protected function getAdditionalSculpinBundles(): array;
 }

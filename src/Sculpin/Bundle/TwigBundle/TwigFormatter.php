@@ -20,32 +20,20 @@ use Twig\Loader\ArrayLoader;
 use Twig\Template;
 
 /**
- * Twig Formatter.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class TwigFormatter implements FormatterInterface
+final class TwigFormatter implements FormatterInterface
 {
     /**
-     * Twig
-     *
-     * @var \Twig\Environment
+     * @var Environment
      */
-    protected $twig;
+    private $twig;
 
     /**
-     * Array loader
-     *
      * @var ArrayLoader
      */
-    protected $arrayLoader;
+    private $arrayLoader;
 
-    /**
-     * Constructor.
-     *
-     * @param Environment $twig        Twig
-     * @param ArrayLoader $arrayLoader Array Loader
-     */
     public function __construct(Environment $twig, ArrayLoader $arrayLoader)
     {
         $this->twig = $twig;
@@ -109,12 +97,13 @@ class TwigFormatter implements FormatterInterface
      */
     public function reset()
     {
+        // TODO should we delete this?
         // cache clearing is completely removed in twig v2
         // $this->twig->clearCacheFiles();
         // $this->twig->clearTemplateCache();
     }
 
-    protected function massageTemplate(FormatContext $formatContext)
+    private function massageTemplate(FormatContext $formatContext)
     {
         $template = $formatContext->template();
         if ($layout = $formatContext->data()->get('layout')) {

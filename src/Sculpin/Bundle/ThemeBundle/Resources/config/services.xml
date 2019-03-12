@@ -12,27 +12,24 @@
             <parameter>%sculpin_theme.root_dir%/*/*/_partials/**</parameter>
             <parameter>%sculpin_theme.root_dir%/*/*/theme.yml</parameter>
         </parameter>
-        <parameter key="sculpin_theme.theme_registry.class">Sculpin\Bundle\ThemeBundle\ThemeRegistry</parameter>
-        <parameter key="sculpin_theme.theme_twig_loader.class">Sculpin\Bundle\ThemeBundle\ThemeTwigLoader</parameter>
-        <parameter key="sculpin_theme.theme_twig_extension.class">Sculpin\Bundle\ThemeBundle\ThemeTwigExtension</parameter>
     </parameters>
 
     <services>
 
-        <service id="sculpin_theme.theme_registry" class="%sculpin_theme.theme_registry.class%" public="true">
+        <service id="sculpin_theme.theme_registry" class="Sculpin\Bundle\ThemeBundle\ThemeRegistry" public="true">
             <argument>null</argument>
             <argument>%sculpin_theme.directory%</argument>
             <argument>%sculpin_theme.theme%</argument>
             <tag name="sculpin.path_configurator" type="exclude" parameter="sculpin_theme.exclude_patterns" />
         </service>
 
-        <service id="sculpin_theme.theme_twig_loader" class="%sculpin_theme.theme_twig_loader.class%">
+        <service id="sculpin_theme.theme_twig_loader" class="Sculpin\Bundle\ThemeBundle\ThemeTwigLoader">
             <argument type="service" id="sculpin_theme.theme_registry" />
             <argument>%sculpin_twig.extensions%</argument>
             <tag name="twig.loaders.append" />
         </service>
 
-        <service id="sculpin_theme.theme_twig_extension" class="%sculpin_theme.theme_twig_extension.class%">
+        <service id="sculpin_theme.theme_twig_extension" class="Sculpin\Bundle\ThemeBundle\ThemeTwigExtension">
             <argument type="service" id="sculpin_theme.theme_registry" />
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin_theme.root_dir%</argument>

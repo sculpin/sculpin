@@ -22,8 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Sculpin Content Types Extension.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinContentTypesExtension extends Extension

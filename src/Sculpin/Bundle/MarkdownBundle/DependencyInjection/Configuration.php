@@ -13,12 +13,11 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\MarkdownBundle\DependencyInjection;
 
+use Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class Configuration implements ConfigurationInterface
@@ -35,9 +34,11 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('parser_class')
-                    ->defaultValue('Sculpin\Bundle\MarkdownBundle\PhpMarkdownExtraParser')
+                    ->info('The markdown parser to use - must be a class without any constructor arguments')
+                    ->defaultValue(PhpMarkdownExtraParser::class)
                 ->end()
                 ->arrayNode('extensions')
+                    ->info('File name extensions to handle as markdown')
                     ->defaultValue(['md', 'mdown', 'mkdn', 'markdown'])
                     ->prototype('scalar')->end()
                 ->end()

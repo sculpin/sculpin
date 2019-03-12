@@ -18,11 +18,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Converter Manager pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConverterManagerPass implements CompilerPassInterface
+final class ConverterManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

@@ -19,8 +19,6 @@ use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Standalone Bundle.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinStandaloneBundle extends Bundle

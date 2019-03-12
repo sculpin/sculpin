@@ -28,20 +28,20 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Application
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Application extends BaseApplication
+final class Application extends BaseApplication
 {
-    protected $kernel;
-    private $registrationErrors = [];
+    /**
+     * @var KernelInterface
+     */
+    private $kernel;
 
     /**
-     * Constructor.
-     *
-     * @param KernelInterface           $kernel           A KernelInterface instance
+     * @var \Throwable[]
      */
+    private $registrationErrors = [];
+
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
@@ -150,7 +150,7 @@ class Application extends BaseApplication
         return $this->kernel;
     }
 
-    protected function registerCommands(): void
+    private function registerCommands(): void
     {
         $this->kernel->boot();
 

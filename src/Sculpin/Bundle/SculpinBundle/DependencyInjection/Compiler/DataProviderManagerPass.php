@@ -18,11 +18,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Data Provider pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class DataProviderManagerPass implements CompilerPassInterface
+final class DataProviderManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

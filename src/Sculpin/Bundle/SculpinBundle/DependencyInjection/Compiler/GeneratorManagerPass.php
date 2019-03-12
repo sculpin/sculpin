@@ -18,11 +18,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Generator pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class GeneratorManagerPass implements CompilerPassInterface
+final class GeneratorManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

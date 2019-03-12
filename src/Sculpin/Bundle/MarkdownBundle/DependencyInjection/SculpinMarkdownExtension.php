@@ -19,8 +19,6 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Sculpin Markdown Extension.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinMarkdownExtension extends Extension

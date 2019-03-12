@@ -19,11 +19,9 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Sculpin Extension.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinExtension extends Extension
+final class SculpinExtension extends Extension
 {
     /**
      * {@inheritdoc}

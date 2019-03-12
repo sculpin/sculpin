@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Directory Override pass
+ * @author Kevin Boyd
  */
 class DirectoryOverridePass implements CompilerPassInterface
 {

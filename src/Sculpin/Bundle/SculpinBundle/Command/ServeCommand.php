@@ -19,8 +19,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Serve Command.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class ServeCommand extends AbstractCommand
