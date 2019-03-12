@@ -17,32 +17,20 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Writer.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FilesystemWriter implements WriterInterface
+final class FilesystemWriter implements WriterInterface
 {
     /**
-     * Filesystem
-     *
      * @var Filesystem
      */
-    protected $filesystem;
+    private $filesystem;
 
     /**
-     * Output directory
-     *
      * @var string
      */
-    protected $outputDir;
+    private $outputDir;
 
-    /**
-     * Constructor.
-     *
-     * @param Filesystem $filesystem Filesystem
-     * @param string     $outputDir  Output directory
-     */
     public function __construct(Filesystem $filesystem, string $outputDir)
     {
         $this->filesystem = $filesystem;

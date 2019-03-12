@@ -17,67 +17,48 @@ use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\SiteConfiguration\SiteConfigurationFactory;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Config Filesystem Data Source.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConfigFilesystemDataSource implements DataSourceInterface
+final class ConfigFilesystemDataSource implements DataSourceInterface
 {
     /**
-     * Source directory
-     *
      * @var string
      */
-    protected $sourceDir;
+    private $sourceDir;
 
     /**
-     * Site configuration
-     *
      * @var ConfigurationInterface
      */
-    protected $siteConfiguration;
+    private $siteConfiguration;
 
     /**
-     * Site configuration factory
-     *
      * @var SiteConfigurationFactory
      */
-    protected $siteConfigurationFactory;
+    private $siteConfigurationFactory;
 
     /**
-     * Path Matcher
-     *
      * @var AntPathMatcher
      */
-    protected $matcher;
+    private $pathMatcher;
 
     /**
-     * Since time
-     *
      * @var string
      */
-    protected $sinceTime;
+    private $sinceTime;
 
-    /**
-     * Constructor.
-     *
-     * @param string                   $sourceDir                Source directory
-     * @param ConfigurationInterface   $siteConfiguration        Site Configuration
-     * @param SiteConfigurationFactory $siteConfigurationFactory Site Configuration Factory
-     * @param AntPathMatcher           $matcher                  Matcher
-     */
     public function __construct(
         string $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
-        AntPathMatcher $matcher = null
+        AntPathMatcher $pathMatcher = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->siteConfiguration = $siteConfiguration;
         $this->siteConfigurationFactory = $siteConfigurationFactory;
-        $this->matcher = $matcher ?: new AntPathMatcher;
+        $this->pathMatcher = $pathMatcher ?: new AntPathMatcher;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
@@ -115,6 +96,7 @@ class ConfigFilesystemDataSource implements DataSourceInterface
 
         $sinceTimeLastSeconds = strtotime($sinceTimeLast);
 
+        /** @var SplFileInfo $file */
         foreach ($files as $file) {
             if ($sinceTimeLastSeconds > $file->getMTime()) {
                 // This is a hack because Finder is actually incapable

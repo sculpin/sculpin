@@ -199,9 +199,9 @@ class SourcePermalinkFactoryTest extends TestCase
         ];
     }
 
-    private static function makeTestSource($relativePathname, array $configuration = [])
+    private static function makeTestSource($relativePathname, array $configurationData = [])
     {
-        $configuration = new Configuration($configuration);
+        $configuration = new Configuration($configurationData);
 
         return new MemorySource(
             'testid',

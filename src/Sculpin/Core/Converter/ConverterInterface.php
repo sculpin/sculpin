@@ -14,16 +14,17 @@ declare(strict_types=1);
 namespace Sculpin\Core\Converter;
 
 /**
- * Converter Interface.
+ * A converter knows how to convert content of a specific format.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
 interface ConverterInterface
 {
     /**
-     * Convert content.
+     * Convert the thing specified in the context.
      *
-     * @param ConverterContextInterface $converterContext
+     * Usually, this means getting the content with ConverterContextInterface::content()
+     * and then updating the context with ConverterContextInterface->setContent().
      */
     public function convert(ConverterContextInterface $converterContext): void;
 }

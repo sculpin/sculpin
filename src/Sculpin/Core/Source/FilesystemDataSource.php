@@ -17,95 +17,72 @@ use Dflydev\Canal\Analyzer\Analyzer;
 use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Util\DirectorySeparatorNormalizer;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Filesystem Data Source.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FilesystemDataSource implements DataSourceInterface
+final class FilesystemDataSource implements DataSourceInterface
 {
     /**
-     * Source directory
-     *
      * @var string
      */
-    protected $sourceDir;
+    private $sourceDir;
 
     /**
-     * Exclude paths
-     *
-     * @var array
+     * @var string[]
      */
-    protected $excludes;
+    private $excludePaths;
 
     /**
-     * Ignore paths
-     *
-     * @var array
+     * @var string[]
      */
-    protected $ignores;
+    private $ignorePaths;
 
     /**
-     * Raw paths
-     *
-     * @var array
+     * @var string[]
      */
-    protected $raws;
+    private $rawPaths;
 
     /**
-     * Path Matcher
-     *
      * @var AntPathMatcher
      */
-    protected $matcher;
+    private $pathMatcher;
 
     /**
-     * Analyzer
-     *
      * @var Analyzer
      */
-    protected $analyzer;
+    private $analyzer;
 
     /**
-     * DirectorySeparatorNormalizer
-     *
      * @var DirectorySeparatorNormalizer
      */
-    protected $directorySeparatorNormalizer;
+    private $directorySeparatorNormalizer;
 
     /**
-     * Since time
-     *
      * @var string
      */
-    protected $sinceTime;
+    private $sinceTime;
 
     /**
-     * Constructor.
-     *
-     * @param string                       $sourceDir                    Source directory
-     * @param array                        $excludes                     Exclude paths
-     * @param array                        $ignores                      Ignore paths
-     * @param array                        $raws                         Raw paths
-     * @param AntPathMatcher               $matcher                      Matcher
-     * @param Analyzer                     $analyzer                     Analyzer
-     * @param DirectorySeparatorNormalizer $directorySeparatorNormalizer Directory Separator Normalizer
+     * @param string[] $excludePaths Exclude paths
+     * @param string[] $ignorePaths  Ignore paths
+     * @param string[] $rawPaths     Raw paths
      */
     public function __construct(
         string $sourceDir,
-        array $excludes,
-        array $ignores,
-        array $raws,
+        array $excludePaths,
+        array $ignorePaths,
+        array $rawPaths,
         AntPathMatcher $matcher = null,
         Analyzer $analyzer = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->sourceDir = $sourceDir;
-        $this->excludes = $excludes;
-        $this->ignores = $ignores;
-        $this->raws = $raws;
-        $this->matcher = $matcher ?: new AntPathMatcher;
+        $this->excludePaths = $excludePaths;
+        $this->ignorePaths = $ignorePaths;
+        $this->rawPaths = $rawPaths;
+        $this->pathMatcher = $matcher ?: new AntPathMatcher;
         $this->analyzer = $analyzer;
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
         $this->sinceTime = '1970-01-01T00:00:00Z';
@@ -141,6 +118,7 @@ class FilesystemDataSource implements DataSourceInterface
 
         $sinceTimeLastSeconds = strtotime($sinceTimeLast);
 
+        /** @var SplFileInfo $file */
         foreach ($files as $file) {
             if ($sinceTimeLastSeconds > $file->getMTime()) {
                 // This is a hack because Finder is actually incapable
@@ -151,11 +129,11 @@ class FilesystemDataSource implements DataSourceInterface
                 continue;
             }
 
-            foreach ($this->ignores as $pattern) {
-                if (!$this->matcher->isPattern($pattern)) {
+            foreach ($this->ignorePaths as $pattern) {
+                if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match(
+                if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
                 )
@@ -164,11 +142,11 @@ class FilesystemDataSource implements DataSourceInterface
                     continue 2;
                 }
             }
-            foreach ($this->excludes as $pattern) {
-                if (!$this->matcher->isPattern($pattern)) {
+            foreach ($this->excludePaths as $pattern) {
+                if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match(
+                if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
                 )
@@ -180,11 +158,11 @@ class FilesystemDataSource implements DataSourceInterface
 
             $isRaw = false;
 
-            foreach ($this->raws as $pattern) {
-                if (!$this->matcher->isPattern($pattern)) {
+            foreach ($this->rawPaths as $pattern) {
+                if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
-                if ($this->matcher->match(
+                if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
                 )

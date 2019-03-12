@@ -14,23 +14,17 @@ declare(strict_types=1);
 namespace Sculpin\Core\Source;
 
 /**
- * Composite Data Source.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class CompositeDataSource implements DataSourceInterface
 {
     /**
-     * Data sources
-     *
-     * @var array
+     * @var DataSourceInterface[]
      */
     private $dataSources = [];
 
     /**
-     * Constructor.
-     *
-     * @param array $dataSources Data sources
+     * @param DataSourceInterface[] $dataSources
      */
     public function __construct(array $dataSources = [])
     {
@@ -39,20 +33,15 @@ class CompositeDataSource implements DataSourceInterface
         }
     }
 
-    /**
-     * Add a Data Source.
-     *
-     * @param DataSourceInterface $dataSource Data Source
-     */
     public function addDataSource(DataSourceInterface $dataSource): void
     {
         $this->dataSources[$dataSource->dataSourceId()] = $dataSource;
     }
 
     /**
-     * Backing Data Sources
+     * Get the data sources that this source is composed of.
      *
-     * @return array
+     * @return DataSourceInterface[]
      */
     public function dataSources(): array
     {
@@ -64,7 +53,7 @@ class CompositeDataSource implements DataSourceInterface
      */
     public function dataSourceId(): string
     {
-        return 'CompositeDataSource('.implode(',', array_map(function ($dataSource) {
+        return 'CompositeDataSource('.implode(',', array_map(function (DataSourceInterface $dataSource) {
             return $dataSource->dataSourceId();
         }, $this->dataSources));
     }

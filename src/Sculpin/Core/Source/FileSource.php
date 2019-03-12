@@ -13,36 +13,27 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
+use Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface;
 use Symfony\Component\Finder\SplFileInfo;
 use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
 
 /**
- * File Source.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FileSource extends AbstractSource
+final class FileSource extends AbstractSource
 {
-    protected $analyzer;
-    protected $sourceId;
-    protected $relativePathname;
-    protected $filename;
-    protected $file;
-    protected $isRaw;
-    protected $hasChanged;
-    protected $applicationXmlType;
+    /**
+     * @var Analyzer
+     */
+    private $analyzer;
 
     /**
-     * Constructor
-     *
-     * @param Analyzer            $analyzer   Analyzer
-     * @param DataSourceInterface $dataSource Data Source
-     * @param SplFileInfo         $file       File
-     * @param bool                $isRaw      Should be treated as raw
-     * @param bool                $hasChanged Has the file changed?
+     * @var InternetMediaTypeInterface
      */
+    private $applicationXmlType;
+
     public function __construct(
         Analyzer $analyzer,
         DataSourceInterface $dataSource,
@@ -79,6 +70,7 @@ class FileSource extends AbstractSource
             $this->useFileReference = true;
             $this->data = new Data;
         } else {
+            /** @var InternetMediaTypeInterface $internetMediaType */
             $internetMediaType = $this->analyzer->detectFromFilename($this->file);
 
             if ($internetMediaType &&

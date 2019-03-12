@@ -17,24 +17,15 @@ use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Permalink\PermalinkInterface;
 
 /**
- * Proxy source
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class ProxySource implements SourceInterface
 {
     /**
-     * Source
-     *
      * @var SourceInterface
      */
     protected $source;
 
-    /**
-     * Constructor
-     *
-     * @param SourceInterface $source
-     */
     public function __construct(SourceInterface $source)
     {
         $this->source = $source;
@@ -229,7 +220,7 @@ class ProxySource implements SourceInterface
      */
     public function shouldBeSkipped(): bool
     {
-        $this->source->shouldBeSkipped();
+        return $this->source->shouldBeSkipped();
     }
 
     /**

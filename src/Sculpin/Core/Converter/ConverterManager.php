@@ -20,39 +20,31 @@ use Sculpin\Core\Source\SourceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Converter Manager.
+ * Allow to register converters and trigger them when a source needs to be converted.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConverterManager
+final class ConverterManager
 {
     /**
      * Event Dispatcher
      *
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
-     * Formatter Manager
+     * Used to know the default formatter name.
      *
      * @var FormatterManager
      */
-    protected $formatterManager;
+    private $formatterManager;
 
     /**
-     * Converters
-     *
-     * @var array
+     * @var ConverterInterface[]
      */
-    protected $converters = [];
+    private $converters = [];
 
-    /**
-     * Constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher  Event Dispatcher
-     * @param FormatterManager         $formatterManager Formatter Manager
-     */
     public function __construct(EventDispatcherInterface $eventDispatcher, FormatterManager $formatterManager)
     {
         $this->formatterManager = $formatterManager;
@@ -61,10 +53,9 @@ class ConverterManager
     }
 
     /**
-     * Register converter
+     * Add a converter to the manager.
      *
-     * @param string             $name      Name
-     * @param ConverterInterface $converter Converter
+     * @param string             $name      Name of the converter
      */
     public function registerConverter(string $name, ConverterInterface $converter): void
     {
@@ -84,9 +75,9 @@ class ConverterManager
     }
 
     /**
-     * Convert Source
+     * Convert a source to the output.
      *
-     * @param SourceInterface $source Source
+     * The converter does not save anything but trigger an event
      */
     public function convertSource(SourceInterface $source): void
     {

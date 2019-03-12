@@ -18,122 +18,85 @@ use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
- * Abstract Source.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 abstract class AbstractSource implements SourceInterface
 {
     /**
-     * Source ID
-     *
      * @var string
      */
     protected $sourceId;
 
     /**
-     * Is raw?
-     *
      * @var boolean
      */
     protected $isRaw;
 
     /**
-     * Content
-     *
      * @var string
      */
     protected $content;
 
     /**
-     * Formatted content
-     *
      * @var string
      */
     protected $formattedContent;
 
     /**
-     * Data
-     *
      * @var Data
      */
     protected $data;
 
     /**
-     * Has changed?
-     *
      * @var boolean
      */
     protected $hasChanged;
 
     /**
-     * Permalink
-     *
      * @var PermalinkInterface
      */
     protected $permalink;
 
     /**
-     * File
-     *
      * @var \SplFileInfo
      */
     protected $file;
 
     /**
-     * Relative pathname
-     *
      * @var string
      */
     protected $relativePathname;
 
     /**
-     * Filename
-     *
      * @var string
      */
     protected $filename;
 
     /**
-     * Use file reference?
-     *
      * @var boolean
      */
     protected $useFileReference = false;
 
     /**
-     * Can be formatted?
-     *
      * @var boolean
      */
     protected $canBeFormatted = false;
 
     /**
-     * Is a generator?
-     *
      * @var boolean
      */
     protected $isGenerator = false;
 
     /**
-     * Is generated?
-     *
      * @var boolean
      */
     protected $isGenerated = false;
 
     /**
-     * Should be skipped?
-     *
      * @var boolean
      */
     protected $shouldBeSkipped = false;
 
-    /**
-     * Initialize source
-     *
-     * @param bool $hasChanged Has the Source changed?
-     */
     protected function init(bool $hasChanged = false)
     {
         if ($hasChanged) {
