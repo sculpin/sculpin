@@ -54,9 +54,16 @@ class DataProviderManager
      * @param string $name Name
      *
      * @return DataProviderInterface
+     * @throws \InvalidArgumentException
      */
     public function dataProvider(string $name): DataProviderInterface
     {
-        return $this->dataProviders[$name];
+        if (isset($this->dataProviders[$name])) {
+            return $this->dataProviders[$name];
+        }
+        throw new \InvalidArgumentException(sprintf(
+            "Requested data provider '%s' could not be found; does the content type exist, or provider not specified?",
+            $name
+        ));
     }
 }
