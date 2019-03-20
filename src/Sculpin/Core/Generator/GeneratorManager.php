@@ -104,9 +104,11 @@ class GeneratorManager
 
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
-                    throw new \InvalidArgumentException(
-                        "Requested generator '$generatorName' could not be found; was it registered?"
-                    );
+                    throw new \InvalidArgumentException(sprintf(
+                        "Requested generator '%s' could not be found in %s; was it registered?",
+                        $generatorName,
+                        $source->relativePathname()
+                    ));
                 }
 
                 $generators[] = $this->generators[$generatorName];
