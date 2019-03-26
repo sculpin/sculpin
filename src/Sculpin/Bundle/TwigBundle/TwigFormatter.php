@@ -49,32 +49,32 @@ class TwigFormatter implements FormatterInterface
         $this->arrayLoader = $arrayLoader;
     }
 
-     /**
+    /**
      * {@inheritdoc}
+     *
+     * @throws \Throwable
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function formatBlocks(FormatContext $formatContext): array
     {
-        try {
-            $this->arrayLoader->setTemplate(
-                $formatContext->templateId(),
-                $this->massageTemplate($formatContext)
-            );
-            $data = $formatContext->data()->export();
-            $template = $this->twig->loadTemplate($formatContext->templateId());
+        $this->arrayLoader->setTemplate(
+            $formatContext->templateId(),
+            $this->massageTemplate($formatContext)
+        );
+        $data = $formatContext->data()->export();
+        $template = $this->twig->loadTemplate($formatContext->templateId());
 
-            if (!count($blockNames = $this->findAllBlocks($template, $data))) {
-                return ['content' => $template->render($data)];
-            }
-            $blocks = [];
-            foreach ($blockNames as $blockName) {
-                $blocks[$blockName] = $template->renderBlock($blockName, $data);
-            }
-
-            return $blocks;
-        } catch (\Exception $e) {
-            print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
-            return [];
+        if (!count($blockNames = $this->findAllBlocks($template, $data))) {
+            return ['content' => $template->render($data)];
         }
+        $blocks = [];
+        foreach ($blockNames as $blockName) {
+            $blocks[$blockName] = $template->renderBlock($blockName, $data);
+        }
+
+        return $blocks;
     }
 
     public function findAllBlocks(\Twig_Template $template, array $context): array
@@ -84,22 +84,21 @@ class TwigFormatter implements FormatterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function formatPage(FormatContext $formatContext): string
     {
-        try {
-            $this->arrayLoader->setTemplate(
-                $formatContext->templateId(),
-                $this->massageTemplate($formatContext)
-            );
+        $this->arrayLoader->setTemplate(
+            $formatContext->templateId(),
+            $this->massageTemplate($formatContext)
+        );
 
-            $data = $formatContext->data()->export();
+        $data = $formatContext->data()->export();
 
-            return $this->twig->render($formatContext->templateId(), $data);
-        } catch (\Exception $e) {
-            print ' [ ' . get_class($e) . ': ' . $e->getMessage() . " ]\n";
-            return '';
-        }
+        return $this->twig->render($formatContext->templateId(), $data);
     }
 
     /**

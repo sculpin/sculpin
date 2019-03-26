@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Io;
 
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\HelperSet;
 
 /**
  * The Input/Output helper.
@@ -71,7 +71,7 @@ class ConsoleIo implements IoInterface
      */
     public function isVerbose(): bool
     {
-        return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+        return $this->output->isVerbose();
     }
 
     /**
@@ -79,7 +79,7 @@ class ConsoleIo implements IoInterface
      */
     public function isVeryVerbose(): bool
     {
-        return $this->output->getVerbosity() >= 3; // OutputInterface::VERBOSITY_VERY_VERBOSE
+        return $this->output->isVeryVerbose();
     }
 
     /**
@@ -87,7 +87,7 @@ class ConsoleIo implements IoInterface
      */
     public function isDebug(): bool
     {
-        return $this->output->getVerbosity() >= 4; // OutputInterface::VERBOSITY_DEBUG
+        return $this->output->isDebug();
     }
 
     /**

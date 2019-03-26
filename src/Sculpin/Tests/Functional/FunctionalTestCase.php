@@ -41,6 +41,7 @@ class FunctionalTestCase extends TestCase
         $projectFiles = [
             '/config/sculpin_kernel.yml',
             '/config/sculpin_site.yml',
+            '/source/_layouts/default.html.twig',
             '/source/_layouts/raw.html.twig',
         ];
 
@@ -48,7 +49,11 @@ class FunctionalTestCase extends TestCase
             $this->addProjectFile($file);
         }
 
-        $this->writeToProjectFile('/source/_layouts/raw.html.twig', '{% block content %}{% endblock content %}');
+        $this->writeToProjectFile('/source/_layouts/default.html.twig', '{% block content %}{% endblock content %}');
+        $this->writeToProjectFile(
+            '/source/_layouts/raw.html.twig',
+            '{% extends "default" %}{% block content %}{% endblock content %}'
+        );
     }
 
     protected function tearDownTestProject(): void

@@ -13,14 +13,18 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
-use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
+use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Sculpin\Core\Io\ConsoleIo;
+use Sculpin\Core\Io\IoInterface;
+use Sculpin\Core\Sculpin;
+use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * Generate Command.
@@ -29,6 +33,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class GenerateCommand extends AbstractCommand
 {
+    /**
+     * @var bool
+     */
+    protected $throwExceptions;
+
     /**
      * {@inheritdoc}
      */
@@ -101,7 +110,9 @@ EOT
         $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
 
         if ($input->getOption('server')) {
-            $sculpin->run($dataSource, $sourceSet, $consoleIo);
+            $this->throwExceptions = false;
+            $output->isDebug();
+            $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
 
             $kernel = $this->getContainer()->get('kernel');
 
@@ -118,14 +129,15 @@ EOT
                     clearstatcache();
                     $sourceSet->reset();
 
-                    $sculpin->run($dataSource, $sourceSet, $consoleIo);
+                    $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
                 });
             }
 
             $httpServer->run();
         } else {
+            $this->throwExceptions = !$watch;
             do {
-                $sculpin->run($dataSource, $sourceSet, $consoleIo);
+                $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
 
                 if ($watch) {
                     sleep(2);
@@ -162,5 +174,50 @@ EOT
             $output->writeln(sprintf('Deleting %s', $dir));
             $fileSystem->remove($dir);
         }
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    protected function runSculpin(
+        Sculpin $sculpin,
+        DataSourceInterface $dataSource,
+        SourceSet $sourceSet,
+        IoInterface $io
+    ) {
+        $messages = [];
+        $errPrint = function (\Exception $e) {
+            return $e->getMessage().PHP_EOL.' at '.str_replace(getcwd().DIRECTORY_SEPARATOR, '', $e->getFile());
+        };
+        try {
+            $sculpin->run($dataSource, $sourceSet, $io);
+
+            return;
+        } catch (\Twig_Error_Loader | \Twig_Error_Runtime | \Twig_Error_Syntax $e) {
+            $messages[] = '<error>Twig exception: '.$errPrint($e).'</error>';
+        } catch (IOException $e) {
+            $messages[] = '<error>Filesystem exception: '.$errPrint($e).'</error>';
+        } catch (\Throwable $e) {
+            $messages[] = '<error>Exception: '.$errPrint($e).'</error>';
+        }
+        if ($this->throwExceptions) {
+            throw $e;
+        }
+        if ($io->isDebug()) {
+            $messages[] = '<comment>Exception trace:</comment>';
+            foreach ($e->getTrace() as $trace) {
+                $messages[] = sprintf(
+                    '<comment>  %s at %s:%s</comment>',
+                    isset($trace['class']) ? $trace['class'].'->'.$trace['function'] : $trace['function'],
+                    $trace['file'],
+                    $trace['line']
+                );
+            }
+        }
+        $io->write('<error>[FAILED]</error>');
+        foreach ($messages as $message) {
+            $io->write($message);
+        }
+        $io->write('');
     }
 }
