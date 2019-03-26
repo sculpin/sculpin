@@ -75,7 +75,7 @@ class SourceSet
     /**
      * All sources
      *
-     * @return array
+     * @return SourceInterface[]
      */
     public function allSources(): array
     {
@@ -85,7 +85,7 @@ class SourceSet
     /**
      * All sources that have been updated
      *
-     * @return array
+     * @return SourceInterface[]
      */
     public function updatedSources(): array
     {
