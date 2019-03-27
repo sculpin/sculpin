@@ -16,13 +16,16 @@ namespace Sculpin\Bundle\TwigBundle;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig\Error\LoaderError;
+use Twig\Loader\LoaderInterface;
+use Twig\Source as TwigSource;
 
 /**
  * Flexible Extension Filesystem Loader.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventSubscriberInterface
+class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
 {
     /**
      * Filesystem loader
@@ -68,7 +71,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     /**
      * {@inheritdoc}
      */
-    public function getSourceContext($name): \Twig_Source
+    public function getSourceContext($name): TwigSource
     {
         $this->getCacheKey($name);
 
@@ -98,11 +101,11 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
                 $this->cachedCacheKeyExtension[$name] = $extension;
 
                 return $this->cachedCacheKey[$name];
-            } catch (\Twig_Error_Loader $e) {
+            } catch (LoaderError $e) {
             }
         }
 
-        throw $this->cachedCacheKeyException[$name] = new \Twig_Error_Loader(
+        throw $this->cachedCacheKeyException[$name] = new LoaderError(
             sprintf('Template "%s" is not defined.', $name)
         );
     }
@@ -126,7 +129,7 @@ class FlexibleExtensionFilesystemLoader implements \Twig_LoaderInterface, EventS
     {
         try {
             $this->getCacheKey($name);
-        } catch (\Twig_Error_Loader $e) {
+        } catch (LoaderError $e) {
             return false;
         }
 

@@ -5,13 +5,13 @@
 
     <parameters>
         <parameter key="sculpin_twig.flexible_extension_filesystem_loader.class">Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader</parameter>
-        <parameter key="sculpin_twig.array_loader.class">Twig_Loader_Array</parameter>
-        <parameter key="sculpin_twig.loader.class">Twig_Loader_Chain</parameter>
+        <parameter key="sculpin_twig.array_loader.class">Twig\Loader\ArrayLoader</parameter>
+        <parameter key="sculpin_twig.loader.class">Twig\Loader\ChainLoader</parameter>
         <parameter key="sculpin_twig.template_resetter.class">Sculpin\Bundle\TwigBundle\TemplateResetter</parameter>
         <parameter key="sculpin_twig.twig.class">Sculpin\Bundle\TwigBundle\Environment</parameter>
         <parameter key="sculpin_twig.formatter.class">Sculpin\Bundle\TwigBundle\TwigFormatter</parameter>
-        <parameter key="sculpin_twig.extensions.debug.class">Twig_Extension_Debug</parameter>
-        <parameter key="sculpin_twig.extensions.intl.class">Twig_Extensions_Extension_Intl</parameter>
+        <parameter key="sculpin_twig.extensions.debug.class">Twig\Extension\DebugExtension</parameter>
+        <parameter key="sculpin_twig.extensions.intl.class">Twig\Extensions\IntlExtension</parameter>
     </parameters>
 
     <services>

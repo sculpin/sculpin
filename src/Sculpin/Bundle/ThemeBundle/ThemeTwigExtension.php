@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ThemeBundle;
 
-class ThemeTwigExtension extends \Twig_Extension
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
+
+class ThemeTwigExtension extends AbstractExtension
 {
     private $theme;
     private $sourceDir;
@@ -23,9 +26,9 @@ class ThemeTwigExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('theme_path', [$this, 'themePath']),
-            new \Twig_SimpleFunction('theme_path_exists', [$this, 'themePathExists']),
-            new \Twig_SimpleFunction('theme_paths', [$this, 'themePaths']),
+            new TwigFunction('theme_path', [$this, 'themePath']),
+            new TwigFunction('theme_path_exists', [$this, 'themePathExists']),
+            new TwigFunction('theme_paths', [$this, 'themePaths']),
         ];
     }
 
@@ -145,7 +148,7 @@ class ThemeTwigExtension extends \Twig_Extension
         if (file_exists($theme['path'].'/'.$resource)) {
             return $this->directory.'/'.$theme['name'].'/'.$resource;
         }
-        
+
         return null;
     }
 }
