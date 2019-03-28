@@ -48,7 +48,7 @@ class ThemeRegistry
             $name = basename(dirname($directory->getRealPath())).'/'.basename($directory->getRealPath());
             $theme = ['name' => $name, 'path' => $directory];
             if (file_exists($directory.'/theme.yml')) {
-                $theme = array_merge(Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
+                $theme = array_merge((array) Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
             }
             $themes[$theme['name']] = $theme;
         }
