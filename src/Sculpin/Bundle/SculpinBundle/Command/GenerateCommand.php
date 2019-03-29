@@ -25,6 +25,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Generate Command.
@@ -158,6 +161,7 @@ EOT
     protected function clean(InputInterface $input, OutputInterface $output, string $dir): void
     {
         $fileSystem = $this->getContainer()->get('filesystem');
+
         if ($fileSystem->exists($dir)) {
             if ($input->isInteractive()) {
                 // Prompt the user for confirmation.
@@ -167,10 +171,12 @@ EOT
                     'Are you sure you want to delete all the contents of the %s directory?',
                     $dir
                 ), false);
+
                 if (!$helper->ask($input, $output, $question)) {
                     return;
                 }
             }
+
             $output->writeln(sprintf('Deleting %s', $dir));
             $fileSystem->remove($dir);
         }
@@ -189,31 +195,36 @@ EOT
         $errPrint = function (\Exception $e) {
             return $e->getMessage().PHP_EOL.' at '.str_replace(getcwd().DIRECTORY_SEPARATOR, '', $e->getFile());
         };
+
         try {
             $sculpin->run($dataSource, $sourceSet, $io);
 
             return;
-        } catch (\Twig_Error_Loader | \Twig_Error_Runtime | \Twig_Error_Syntax $e) {
-            $messages[] = '<error>Twig exception: '.$errPrint($e).'</error>';
+        } catch (LoaderError | RuntimeError | SyntaxError $e) {
+            $messages[] = '<error>Twig exception: ' . $errPrint($e) . '</error>';
         } catch (IOException $e) {
-            $messages[] = '<error>Filesystem exception: '.$errPrint($e).'</error>';
+            $messages[] = '<error>Filesystem exception: ' . $errPrint($e) . '</error>';
         } catch (\Throwable $e) {
-            $messages[] = '<error>Exception: '.$errPrint($e).'</error>';
+            $messages[] = '<error>Exception: ' . $errPrint($e) . '</error>';
         }
+
         if ($this->throwExceptions) {
             throw $e;
         }
+
         if ($io->isDebug()) {
             $messages[] = '<comment>Exception trace:</comment>';
+
             foreach ($e->getTrace() as $trace) {
                 $messages[] = sprintf(
                     '<comment>  %s at %s:%s</comment>',
-                    isset($trace['class']) ? $trace['class'].'->'.$trace['function'] : $trace['function'],
+                    isset($trace['class']) ? $trace['class'] . '->' . $trace['function'] : $trace['function'],
                     $trace['file'],
                     $trace['line']
                 );
             }
         }
+
         $io->write('<error>[FAILED]</error>');
         foreach ($messages as $message) {
             $io->write($message);
