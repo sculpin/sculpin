@@ -15,6 +15,9 @@ namespace Sculpin\Bundle\TwigBundle;
 
 use Sculpin\Core\Formatter\FormatContext;
 use Sculpin\Core\Formatter\FormatterInterface;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
+use Twig\Template;
 
 /**
  * Twig Formatter.
@@ -26,24 +29,24 @@ class TwigFormatter implements FormatterInterface
     /**
      * Twig
      *
-     * @var \Twig_Environment
+     * @var \Twig\Environment
      */
     protected $twig;
 
     /**
      * Array loader
      *
-     * @var \Twig_Loader_Array
+     * @var ArrayLoader
      */
     protected $arrayLoader;
 
     /**
      * Constructor.
      *
-     * @param \Twig_Environment  $twig        Twig
-     * @param \Twig_Loader_Array $arrayLoader Array Loader
+     * @param Environment $twig        Twig
+     * @param ArrayLoader $arrayLoader Array Loader
      */
-    public function __construct(\Twig_Environment $twig, \Twig_Loader_Array $arrayLoader)
+    public function __construct(Environment $twig, ArrayLoader $arrayLoader)
     {
         $this->twig = $twig;
         $this->arrayLoader = $arrayLoader;
@@ -53,9 +56,9 @@ class TwigFormatter implements FormatterInterface
      * {@inheritdoc}
      *
      * @throws \Throwable
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function formatBlocks(FormatContext $formatContext): array
     {
@@ -77,7 +80,7 @@ class TwigFormatter implements FormatterInterface
         return $blocks;
     }
 
-    public function findAllBlocks(\Twig_Template $template, array $context): array
+    public function findAllBlocks(Template $template, array $context): array
     {
         return $template->getBlockNames($context);
     }
@@ -85,9 +88,9 @@ class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function formatPage(FormatContext $formatContext): string
     {

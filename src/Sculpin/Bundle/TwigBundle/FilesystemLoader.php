@@ -13,12 +13,16 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
+
 /**
  * Filesystem Loader.
  *
+ * @method getSourceContext(string $name) \Twig\Source
+ *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FilesystemLoader extends \Twig_Loader_Filesystem
+class FilesystemLoader extends TwigFilesystemLoader
 {
     /**
      * {@inheritdoc}
