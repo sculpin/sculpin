@@ -24,6 +24,7 @@ use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactoryInterface;
 use Sculpin\Core\Source\DataSourceInterface;
+use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -149,7 +150,7 @@ class Sculpin
 
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet));
 
-        if ($updatedSources = array_filter($sourceSet->updatedSources(), function ($source) {
+        if ($updatedSources = array_filter($sourceSet->updatedSources(), function (SourceInterface $source) {
             return !$source->isGenerated();
         })) {
             if (!$found) {

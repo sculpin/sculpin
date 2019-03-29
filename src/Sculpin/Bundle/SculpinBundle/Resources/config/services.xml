@@ -25,7 +25,7 @@
         <service id="sculpin.matcher" class="%sculpin.matcher.class%" />
 
         <service id="sculpin.site_configuration_factory" class="%sculpin.site_configuration_factory.class%">
-            <argument>%kernel.root_dir%</argument>
+            <argument>%kernel.project_dir%</argument>
             <argument>%kernel.environment%</argument>
         </service>
 
@@ -103,7 +103,7 @@
         </service>
 
         <service id="sculpin.default_config_filesystem_data_source" class="%sculpin.default_config_filesystem_data_source.class%">
-            <argument>%kernel.root_dir%/config</argument>
+            <argument>%kernel.project_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
             <argument type="service" id="sculpin.matcher" />
