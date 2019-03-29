@@ -50,11 +50,9 @@ class Application extends BaseApplication
             date_default_timezone_set(@date_default_timezone_get());
         }
 
-        $version = '(' . Sculpin::GIT_VERSION . ')';
-
         parent::__construct(
             'Sculpin',
-            $version.' - ' . $kernel->getName() . '/' . $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
+            $kernel->getName() . '/' . $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
         );
 
         $this->getDefinition()->addOption(new InputOption(
@@ -83,12 +81,6 @@ class Application extends BaseApplication
             InputOption::VALUE_NONE,
             'Enable safe mode (no bundles loaded, no kernel booted)'
         ));
-        $this->getDefinition()->addOption(new InputOption(
-            '--git-version',
-            null,
-            InputOption::VALUE_NONE,
-            'See Git version'
-        ));
     }
 
     /**
@@ -113,12 +105,6 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->hasParameterOption('--git-version')) {
-            $output->writeln(Sculpin::GIT_VERSION);
-
-            return 0;
-        }
-
         if (!$input->hasParameterOption('--safe')) {
             // In safe mode enable no commands
             $this->registerCommands();

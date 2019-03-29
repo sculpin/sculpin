@@ -35,8 +35,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class Sculpin
 {
-    const GIT_VERSION = '@git_version@';
-
     const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
     const EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
