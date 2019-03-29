@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
-use Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -233,17 +232,15 @@ class SculpinContentTypesExtension extends Extension
             $container->setDefinition($dataProviderId, $dataProvider->setPublic(true));
 
             foreach ($setup['taxonomies'] as $taxonomy) {
-                $permalinkStrategies = new PermalinkStrategyCollection();
-                if (is_string($taxonomy)) {
-                    $taxonomyName = $taxonomy;
-                } else {
-                    $taxonomyName = $taxonomy['name'];
-                    if (isset($taxonomy['strategies'])) {
-                        foreach ($taxonomy['strategies'] as $strategy) {
-                            $permalinkStrategies->push(new $strategy());
-                        }
-                    }
-                }
+                $taxonomyName = is_string($taxonomy) ? $taxonomy : $taxonomy['name'];
+                $permalinkStrategyId = $taxonomyName.'_permalink_strategy';
+                $permalinkStrategies = new Definition('Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection');
+                $permalinkStrategies->setFactory([
+                    'Sculpin\Contrib\Taxonomy\PermalinkStrategyCollectionFactory', 'create'
+                ]);
+                $permalinkStrategies->addArgument($taxonomy);
+                $container->setDefinition($permalinkStrategyId, $permalinkStrategies);
+
                 $taxon = Inflector::singularize($taxonomyName);
 
                 $taxonomyDataProviderName = $type.'_'.$taxonomyName;
