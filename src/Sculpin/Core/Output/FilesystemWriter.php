@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Output;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -50,6 +51,8 @@ class FilesystemWriter implements WriterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws IOException
      */
     public function write(OutputInterface $output): void
     {
@@ -58,7 +61,7 @@ class FilesystemWriter implements WriterInterface
             $this->filesystem->copy($output->file(), $outputPath, true);
         } else {
             $this->filesystem->mkdir(dirname($outputPath));
-            file_put_contents($outputPath, $output->formattedContent());
+            $this->filesystem->dumpFile($outputPath, $output->formattedContent());
         }
     }
 
