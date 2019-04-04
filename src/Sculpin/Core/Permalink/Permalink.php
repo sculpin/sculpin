@@ -14,32 +14,20 @@ declare(strict_types=1);
 namespace Sculpin\Core\Permalink;
 
 /**
- * Permalink.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class Permalink implements PermalinkInterface
 {
     /**
-     * Relative file path
-     *
      * @var string
      */
     private $relativeFilePath;
 
     /**
-     * Relative URL path
-     *
      * @var string
      */
     private $relativeUrlPath;
 
-    /**
-     * Constructor.
-     *
-     * @param string $relativeFilePath Relative file path
-     * @param string $relativeUrlPath  Relative URL path
-     */
     public function __construct(string $relativeFilePath, string $relativeUrlPath)
     {
         $this->relativeFilePath = $relativeFilePath;

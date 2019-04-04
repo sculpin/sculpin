@@ -16,8 +16,6 @@ namespace Sculpin\Core\Event;
 use Symfony\Component\EventDispatcher\Event as BaseEvent;
 
 /**
- * Event.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class Event extends BaseEvent

@@ -13,36 +13,26 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Event;
 
+use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 
 /**
- * Source Set Event.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SourceSetEvent extends Event
+final class SourceSetEvent extends Event
 {
     /**
-     * Source Set
-     *
      * @var SourceSet
      */
-    protected $sourceSet;
+    private $sourceSet;
 
-    /**
-     * Constructor.
-     *
-     * @param SourceSet $sourceSet Source set
-     */
     public function __construct(SourceSet $sourceSet)
     {
         $this->sourceSet = $sourceSet;
     }
 
     /**
-     * All sources
-     *
-     * @return array
+     * @return SourceInterface[]
      */
     public function allSources(): array
     {
@@ -50,20 +40,13 @@ class SourceSetEvent extends Event
     }
 
     /**
-     * Updated sources
-     *
-     * @return array
+     * @return SourceInterface[]
      */
     public function updatedSources(): array
     {
         return $this->sourceSet->updatedSources();
     }
 
-    /**
-     * Current source set
-     *
-     * @return SourceSet
-     */
     public function sourceSet(): SourceSet
     {
         return $this->sourceSet;

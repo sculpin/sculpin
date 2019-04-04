@@ -16,40 +16,27 @@ namespace Sculpin\Core\Event;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
- * Convert Source Event.
+ * Event for converting a source.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConvertEvent extends Event
+final class ConvertEvent extends Event
 {
     /**
-     * Source
-     *
      * @var SourceInterface
      */
-    protected $source;
+    private $source;
 
     /**
-     * Converter
-     *
      * @var string
      */
-    protected $converter;
+    private $converter;
 
     /**
-     * Default formatter
-     *
      * @var string
      */
-    protected $defaultFormatter;
+    private $defaultFormatter;
 
-    /**
-     * Constructor.
-     *
-     * @param SourceInterface $source           Source
-     * @param string          $converter        Converter
-     * @param string          $defaultFormatter Default formatter
-     */
     public function __construct(SourceInterface $source, string $converter, string $defaultFormatter)
     {
         $this->source = $source;
@@ -57,21 +44,11 @@ class ConvertEvent extends Event
         $this->defaultFormatter = $defaultFormatter;
     }
 
-    /**
-     * Source
-     *
-     * @return SourceInterface
-     */
     public function source(): SourceInterface
     {
         return $this->source;
     }
 
-    /**
-     * Converter
-     *
-     * @return string
-     */
     public function converter(): string
     {
         return $this->converter;
@@ -79,10 +56,6 @@ class ConvertEvent extends Event
 
     /**
      * Test if Source is converted by requested converter
-     *
-     * @param string $requestedConverter
-     *
-     * @return boolean
      */
     public function isConvertedBy(string $requestedConverter): bool
     {
@@ -91,10 +64,6 @@ class ConvertEvent extends Event
 
     /**
      * Test if Source is formatted by requested formatter
-     *
-     * @param string $requestedFormatter
-     *
-     * @return boolean
      */
     public function isFormattedBy(string $requestedFormatter): bool
     {
@@ -103,11 +72,6 @@ class ConvertEvent extends Event
 
     /**
      * Test if Source is converted and formatted by requested converter and formatter
-     *
-     * @param string $requestedConverter Converter
-     * @param string $requestedFormatter Formatter
-     *
-     * @return boolean
      */
     public function isHandledBy(string $requestedConverter, string $requestedFormatter): bool
     {

@@ -20,47 +20,30 @@ use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Generator Manager.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class GeneratorManager
 {
     /**
-     * Event Dispatcher
-     *
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
     /**
-     * Site Configuration
-     *
      * @var Configuration
      */
     protected $siteConfiguration;
 
     /**
-     * Data Provider Manager
-     *
      * @var DataProviderManager
      */
     protected $dataProviderManager;
 
     /**
-     * Generators
-     *
      * @var array
      */
     protected $generators = [];
 
-    /**
-     * Constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher     Event Dispatcher
-     * @param Configuration            $siteConfiguration   Site Configuration
-     * @param DataProviderManager      $dataProviderManager Data Provider Manager
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         Configuration $siteConfiguration,
@@ -71,22 +54,12 @@ class GeneratorManager
         $this->dataProviderManager = $dataProviderManager;
     }
 
-    /**
-     * Register generator
-     *
-     * @param string             $name      Name
-     * @param GeneratorInterface $generator Generator
-     */
-    public function registerGenerator($name, GeneratorInterface $generator)
+    public function registerGenerator($name, GeneratorInterface $generator): void
     {
         $this->generators[$name] = $generator;
     }
 
     /**
-     * Generate
-     *
-     * @param  SourceInterface           $source    Source
-     * @param  SourceSet                 $sourceSet Source set
      * @throws \InvalidArgumentException
      */
     public function generate(SourceInterface $source, SourceSet $sourceSet): void
@@ -143,10 +116,8 @@ class GeneratorManager
      * NOTE: This is a hack because Symfony DiC cannot handle passing Data Provider
      * Manager via constructor injection as some data providers might also rely
      * on formatter. Hurray for circular dependencies. :(
-     *
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null)
+    public function setDataProviderManager(DataProviderManager $dataProviderManager = null): void
     {
         $this->dataProviderManager = $dataProviderManager;
     }

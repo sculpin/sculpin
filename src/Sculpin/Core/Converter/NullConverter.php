@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Sculpin\Core\Converter;
 
 /**
- * Converter Interface.
+ * A converter that does nothing.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class NullConverter implements ConverterInterface
 {
     /**
-     * {@inheritdoc}
+     * Does nothing.
      */
     public function convert(ConverterContextInterface $converterContext): void
     {

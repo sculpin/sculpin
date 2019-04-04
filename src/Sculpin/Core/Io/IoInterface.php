@@ -14,44 +14,34 @@ declare(strict_types=1);
 namespace Sculpin\Core\Io;
 
 /**
- * The Input/Output helper interface.
+ * Defines how to output information and provides meta information on the output.
  *
  * @author François Pluchino <francois.pluchino@opendisplay.com>
  */
 interface IoInterface
 {
     /**
-     * Is this input means interactive?
-     *
-     * @return bool
+     * Is this an interactive output?
      */
     public function isInteractive(): bool;
 
     /**
      * Is this output verbose?
-     *
-     * @return bool
      */
     public function isVerbose(): bool;
 
     /**
      * Is the output very verbose?
-     *
-     * @return bool
      */
     public function isVeryVerbose(): bool;
 
     /**
      * Is the output in debug verbosity?
-     *
-     * @return bool
      */
     public function isDebug(): bool;
 
     /**
      * Is this output decorated?
-     *
-     * @return bool
      */
     public function isDecorated(): bool;
 
@@ -68,7 +58,7 @@ interface IoInterface
      *
      * @param string|array $messages The message as an array of lines or a single string
      * @param bool         $newline  Whether to add a newline or not
-     * @param integer      $size     The size of line
+     * @param integer      $size     The size to overwrite (defaults to the whole last line)
      */
     public function overwrite($messages, bool $newline = true, ?int $size = null);
 }

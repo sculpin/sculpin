@@ -15,12 +15,13 @@ namespace Sculpin\Core\Tests\Converter;
 
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Converter\SourceConverterContext;
+use Sculpin\Core\Source\SourceInterface;
 
 class SourceConverterContextTest extends TestCase
 {
     public function testContent()
     {
-        $source = $this->createMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
         $source
             ->expects($this->once())
             ->method('content')
@@ -33,7 +34,7 @@ class SourceConverterContextTest extends TestCase
 
     public function testSetContent()
     {
-        $source = $this->createMock('Sculpin\Core\Source\SourceInterface');
+        $source = $this->createMock(SourceInterface::class);
         $source
             ->expects($this->once())
             ->method('setContent')

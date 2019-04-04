@@ -16,24 +16,17 @@ namespace Sculpin\Core\Permalink;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
- * Source Permalink Factory.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
 {
     /**
-     * Default permalink
+     * Default permalink template for when the source does not specify a template.
      *
      * @var string
      */
     protected $defaultPermalink;
 
-    /**
-     * Constructor
-     *
-     * @param string $defaultPermalink Default permalink
-     */
     public function __construct(string $defaultPermalink)
     {
         $this->defaultPermalink = $defaultPermalink;

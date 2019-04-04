@@ -17,198 +17,129 @@ use Sculpin\Core\Permalink\PermalinkInterface;
 use Dflydev\DotAccessConfiguration\Configuration;
 
 /**
- * Source Interface.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 interface SourceInterface
 {
     /**
-     * Source ID
-     *
      * @return String
      */
     public function sourceId(): string;
 
     /**
-     * Represents a raw source
-     *
-     * @return boolean
+     * Whether this source is a raw source.
      */
     public function isRaw(): bool;
 
     /**
-     * Represents a source that can be formatted
-     *
-     * @return boolean
+     * Whether this source can be formatted.
      */
     public function canBeFormatted(): bool;
 
-    /**
-     * Has changed
-     *
-     * @return boolean
-     */
     public function hasChanged(): bool;
 
     /**
-     * Mark source as changed
+     * Mark source as changed.
      */
     public function setHasChanged(): void;
 
     /**
-     * Mark source as not changed
+     * Mark source as not changed.
      */
     public function setHasNotChanged(): void;
 
-    /**
-     * Permalink
-     *
-     * @return PermalinkInterface
-     */
     public function permalink(): PermalinkInterface;
 
-    /**
-     * Set permalink
-     *
-     * @param PermalinkInterface $permalink
-     */
     public function setPermalink(PermalinkInterface $permalink);
 
     /**
-     * Use file reference reference instead of string content
-     *
-     * @return bool
+     * Whether to use file reference reference instead of string content.
      */
     public function useFileReference(): bool;
 
     /**
-     * File reference. (if uses file reference)
-     *
-     * @return \SplFileInfo
+     * File reference. (if useFileReference)
      */
     public function file(): \SplFileInfo;
 
     /**
-     * Content (if not use file reference)
-     *
-     * @return string
+     * Content (if not useFileReference)
      */
     public function content(): ?string;
 
-    /**
-     * Set content
-     *
-     * @param string|null $content
-     */
     public function setContent(?string $content = null): void;
 
     /**
-     * Formatted content (if not use file reference)
-     *
-     * @return string
+     * Formatted content (if not useFileReference)
      */
     public function formattedContent(): ?string;
 
-    /**
-     * Set formatted content
-     *
-     * @param string|null $formattedContent
-     */
     public function setFormattedContent(?string $formattedContent = null): void;
 
-    /**
-     * Relative pathname
-     *
-     * @return string
-     */
     public function relativePathname(): string;
 
-    /**
-     * Filename
-     *
-     * @return string
-     */
     public function filename(): string;
 
-    /**
-     * Data
-     *
-     * @return Configuration
-     */
     public function data(): Configuration;
 
     /**
-     * Source is a generator
-     *
-     * @return bool
+     * Whether this source is a generator.
      */
     public function isGenerator(): bool;
 
     /**
-     * Mark Source as being a generator
+     * Mark Source as being a generator.
      */
     public function setIsGenerator(): void;
 
     /**
-     * Mark Source as not being a generator
+     * Mark Source as not being a generator.
      */
     public function setIsNotGenerator(): void;
 
     /**
-     * Source is generated (from a generator)
-     *
-     * @return bool
+     * Whether source is generated (from a generator).
      */
     public function isGenerated(): bool;
 
     /**
-     * Mark Source as being generated (by a generator)
+     * Mark Source as being generated (by a generator).
      */
     public function setIsGenerated(): void;
 
     /**
-     * Mark Source as not being generated (by a generator)
+     * Mark Source as not being generated (by a generator).
      */
     public function setIsNotGenerated(): void;
 
     /**
-     * Source should be skipped
-     *
-     * @return bool
+     * Whether this source should be skipped.
      */
     public function shouldBeSkipped(): bool;
 
     /**
-     * Mark Source as being skipped
+     * Mark Source as being skipped.
      */
     public function setShouldBeSkipped(): void;
 
     /**
-     * Mark Source as not being skipped
+     * Mark Source as not being skipped.
      */
     public function setShouldNotBeSkipped(): void;
 
     /**
-     * Force Source to be reprocessed
+     * Force Source to be reprocessed.
      */
     public function forceReprocess(): void;
 
     /**
-     * URL
+     * Get the URL for this source.
      *
-     * Convenience method.
+     * Convenience method based on the permalink of this source.
      *
      * @return string
      */
     public function url(): string;
 
-    /**
-     * Duplicate the source
-     *
-     * @param string $newSourceId
-     *
-     * @return SourceInterface
-     */
     public function duplicate(string $newSourceId): SourceInterface;
 }

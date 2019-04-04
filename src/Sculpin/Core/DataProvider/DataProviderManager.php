@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Sculpin\Core\DataProvider;
 
 /**
- * Data Provider Manager.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class DataProviderManager
@@ -27,21 +25,15 @@ class DataProviderManager
      */
     protected $dataProviders = [];
 
-    /**
-     * Register data provider
-     *
-     * @param string                $name         Name
-     * @param DataProviderInterface $dataProvider Data provider
-     */
-    public function registerDataProvider(string $name, DataProviderInterface $dataProvider)
+    public function registerDataProvider(string $name, DataProviderInterface $dataProvider): void
     {
         $this->dataProviders[$name] = $dataProvider;
     }
 
     /**
-     * List of registered ata provider names
+     * List of registered data provider names.
      *
-     * @return array
+     * @return string[]
      */
     public function dataProviders(): array
     {
@@ -49,11 +41,8 @@ class DataProviderManager
     }
 
     /**
-     * Data provider
+     * Get a data provider by name.
      *
-     * @param string $name Name
-     *
-     * @return DataProviderInterface
      * @throws \InvalidArgumentException
      */
     public function dataProvider(string $name): DataProviderInterface

@@ -19,8 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Command.
- *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface

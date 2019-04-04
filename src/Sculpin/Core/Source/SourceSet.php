@@ -14,30 +14,22 @@ declare(strict_types=1);
 namespace Sculpin\Core\Source;
 
 /**
- * Source Set.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SourceSet
 {
     /**
-     * Sources
-     *
-     * @var array
+     * @var SourceInterface[]
      */
     protected $sources = [];
 
     /**
-     * New Sources
-     *
-     * @var array
+     * @var SourceInterface[]
      */
     protected $newSources = [];
 
     /**
-     * Constructor.
-     *
-     * @param array $sources
+     * @param SourceInterface[] $sources
      */
     public function __construct(array $sources = [])
     {
@@ -46,11 +38,7 @@ class SourceSet
         }
     }
     /**
-     * Set contains the source?
-     *
-     * @param SourceInterface $source
-     *
-     * @return boolean
+     * Whether this set contains the specified source.
      */
     public function containsSource(SourceInterface $source): bool
     {
@@ -58,9 +46,7 @@ class SourceSet
     }
 
     /**
-     * Merge a source
-     *
-     * @param SourceInterface $source
+     * Add this source to the list, tracking whether its a new or existing source.
      */
     public function mergeSource(SourceInterface $source): void
     {
@@ -73,8 +59,6 @@ class SourceSet
     }
 
     /**
-     * All sources
-     *
      * @return SourceInterface[]
      */
     public function allSources(): array
@@ -83,7 +67,7 @@ class SourceSet
     }
 
     /**
-     * All sources that have been updated
+     * All sources that have been changed.
      *
      * @return SourceInterface[]
      */
@@ -94,13 +78,16 @@ class SourceSet
         });
     }
 
+    /**
+     * @return SourceInterface[]
+     */
     public function newSources(): array
     {
         return $this->newSources;
     }
 
     /**
-     * Reset all sources
+     * Reset all sources.
      *
      * Should be called after each loop while watching.
      */

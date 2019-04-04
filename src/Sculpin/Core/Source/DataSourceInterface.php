@@ -14,15 +14,11 @@ declare(strict_types=1);
 namespace Sculpin\Core\Source;
 
 /**
- * Data Source Interface.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 interface DataSourceInterface
 {
     /**
-     * Data Source ID
-     *
      * @return string
      */
     public function dataSourceId(): string;
