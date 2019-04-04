@@ -97,10 +97,7 @@ final class TwigFormatter implements FormatterInterface
      */
     public function reset()
     {
-        // TODO should we delete this?
-        // cache clearing is completely removed in twig v2
-        // $this->twig->clearCacheFiles();
-        // $this->twig->clearTemplateCache();
+        // nothing to do
     }
 
     private function massageTemplate(FormatContext $formatContext)
