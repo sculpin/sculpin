@@ -14,25 +14,17 @@ declare(strict_types=1);
 namespace Sculpin\Core\Formatter;
 
 /**
- * Formatter interface
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 interface FormatterInterface
 {
     /**
      * Format the input blocks
-     *
-     * @param FormatContext $formatContext Format context
-     *
-     * @return array
      */
     public function formatBlocks(FormatContext $formatContext): array;
 
     /**
      * Format an entire page
-     *
-     * @param FormatContext $formatContext Format context
      *
      * @return string
      */

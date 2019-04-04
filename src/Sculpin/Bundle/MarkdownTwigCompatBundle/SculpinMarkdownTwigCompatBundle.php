@@ -16,8 +16,6 @@ namespace Sculpin\Bundle\MarkdownTwigCompatBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Markdown/Twig Compatibility Bundle.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinMarkdownTwigCompatBundle extends Bundle

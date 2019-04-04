@@ -18,8 +18,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Dump Autoload Command.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class ListCommand extends ContainerAwareCommand

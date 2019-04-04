@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Sculpin\Core\DataProvider;
 
 /**
- * Data Provider Interface.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 interface DataProviderInterface

@@ -20,6 +20,7 @@ use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,7 +31,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 /**
- * Generate Command.
+ * Generate the site.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
@@ -103,7 +104,7 @@ EOT
         $watch = $input->getOption('watch') ?: false;
         $sculpin = $this->getContainer()->get('sculpin');
         $dataSource = $this->getContainer()->get('sculpin.data_source');
-        $sourceSet = new SourceSet;
+        $sourceSet = new SourceSet();
 
         $config = $this->getContainer()->get('sculpin.site_configuration');
         if ($url = $input->getOption('url')) {
@@ -154,18 +155,16 @@ EOT
     /**
      * Cleanup an output directory by deleting it.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     * @param string          $dir    The directory to remove
+     * @param string $dir The directory to remove
      */
-    protected function clean(InputInterface $input, OutputInterface $output, string $dir): void
+    private function clean(InputInterface $input, OutputInterface $output, string $dir): void
     {
         $fileSystem = $this->getContainer()->get('filesystem');
 
         if ($fileSystem->exists($dir)) {
             if ($input->isInteractive()) {
                 // Prompt the user for confirmation.
-                /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
+                /** @var QuestionHelper $helper */
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion(sprintf(
                     'Are you sure you want to delete all the contents of the %s directory?',
@@ -192,7 +191,7 @@ EOT
         IoInterface $io
     ) {
         $messages = [];
-        $errPrint = function (\Exception $e) {
+        $errPrint = function (\Throwable $e) {
             return $e->getMessage().PHP_EOL.' at '.str_replace(getcwd().DIRECTORY_SEPARATOR, '', $e->getFile());
         };
 

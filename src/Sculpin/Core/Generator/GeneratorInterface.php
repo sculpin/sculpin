@@ -16,8 +16,6 @@ namespace Sculpin\Core\Generator;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
- * Generator Interface.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 interface GeneratorInterface

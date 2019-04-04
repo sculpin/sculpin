@@ -17,11 +17,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Text Extension Provider pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class CustomMimeTypesRepositoryPass implements CompilerPassInterface
+final class CustomMimeTypesRepositoryPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

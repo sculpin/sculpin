@@ -29,88 +29,56 @@ use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Sculpin.
+ * Main entry point to interact with the Sculpin system.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class Sculpin
+final class Sculpin
 {
-    const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
-    const EVENT_AFTER_RUN = 'sculpin.core.after_run';
+    public const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+    public const EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
-    const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
-    const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
+    public const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+    public const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
-    const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
-    const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
+    public const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+    public const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     /**
-     * Site Configuration
-     *
      * @var Configuration
      */
-    protected $siteConfiguration;
+    private $siteConfiguration;
 
     /**
-     * Event Dispatcher
-     *
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
-     * Permalink factory
-     *
      * @var SourcePermalinkFactoryInterface
      */
-    protected $permalinkFactory;
+    private $permalinkFactory;
 
     /**
-     * Writer
-     *
      * @var WriterInterface
      */
-    protected $writer;
+    private $writer;
 
     /**
-     * Generator Manager
-     *
      * @var GeneratorManager
      */
-    protected $generatorManager;
+    private $generatorManager;
 
     /**
-     * Formatter Manager
-     *
      * @var FormatterManager
      */
-    protected $formatterManager;
+    private $formatterManager;
 
     /**
-     * Converter Manager
-     *
      * @var ConverterManager
      */
-    protected $converterManager;
+    private $converterManager;
 
-    /**
-     * IO
-     *
-     * @var IoInterface
-     */
-    protected $io;
-
-    /**
-     * Constructor.
-     *
-     * @param Configuration                    $siteConfiguration Site Configuration
-     * @param EventDispatcherInterface         $eventDispatcher   Event dispatcher
-     * @param SourcePermalinkFactoryInterface  $permalinkFactory  Permalink factory
-     * @param WriterInterface                  $writer            Writer
-     * @param GeneratorManager                 $generatorManager  Generator Manager
-     * @param FormatterManager                 $formatterManager  Formatter Manager
-     * @param ConverterManager                 $converterManager  Converter Manager
-     */
     public function __construct(
         Configuration $siteConfiguration,
         EventDispatcherInterface $eventDispatcher,
@@ -129,13 +97,6 @@ class Sculpin
         $this->converterManager = $converterManager;
     }
 
-    /**
-     * Run.
-     *
-     * @param DataSourceInterface $dataSource Data source
-     * @param SourceSet           $sourceSet  Source set
-     * @param IoInterface         $io         IO Interface
-     */
     public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, IoInterface $io = null)
     {
         if (null === $io) {

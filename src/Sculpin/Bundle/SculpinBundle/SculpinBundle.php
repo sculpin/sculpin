@@ -28,8 +28,6 @@ use Symfony\Component\Console\DependencyInjection\AddConsoleCommandPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Framework Bundle.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinBundle extends Bundle

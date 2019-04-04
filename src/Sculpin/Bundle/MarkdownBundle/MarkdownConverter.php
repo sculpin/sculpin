@@ -23,31 +23,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Michelf\Markdown;
 
 /**
- * Markdown Converter.
+ * Convert Markdown content with michelf/php-markdown.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
+final class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 {
     /**
-     * Markdown
-     *
      * @var ParserInterface
      */
-    protected $markdown;
+    private $markdown;
 
     /**
-     * Extensions
+     * File name extensions that are handled as markdown.
      *
-     * @var array
+     * @var string[]
      */
-    protected $extensions = [];
+    private $extensions = [];
 
     /**
      * Constructor.
      *
      * @param ParserInterface $markdown
-     * @param array           $extensions Extensions
+     * @param string[]        $extensions file name extensions that are handled as markdown
      */
     public function __construct(ParserInterface $markdown, array $extensions = [])
     {
@@ -77,9 +75,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     }
 
     /**
-     * Before run
+     * Event hook to register this converter for all sources that have markdown file extensions.
      *
-     * @param SourceSetEvent $sourceSetEvent Source Set Event
+     * @internal
      */
     public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
@@ -98,8 +96,9 @@ class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
     /**
      * This method is called to generate an id="" attribute for a header.
      *
+     * @internal
+     *
      * @param string $headerText raw markdown input for the header name
-     * @return string
      */
     public function generateHeaderId(string $headerText): string
     {

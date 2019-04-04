@@ -13,12 +13,11 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\TextileBundle\DependencyInjection;
 
+use Netcarver\Textile\Parser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class Configuration implements ConfigurationInterface
@@ -34,7 +33,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('parser_class')->defaultValue('Netcarver\Textile\Parser')->end()
+                ->scalarNode('parser_class')->defaultValue(Parser::class)->end()
                 ->arrayNode('extensions')
                     ->defaultValue(['textile'])
                     ->prototype('scalar')->end()

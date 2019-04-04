@@ -18,21 +18,20 @@ use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
 
 /**
- * Site Configuration Factory.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SiteConfigurationFactory
+final class SiteConfigurationFactory
 {
-    protected $rootDir;
-    protected $environment;
+    /**
+     * @var string
+     */
+    private $rootDir;
 
     /**
-     * Constructor.
-     *
-     * @param string $rootDir     Root directory
-     * @param string $environment Environment
+     * @var string
      */
+    private $environment;
+
     public function __construct(string $rootDir, string $environment)
     {
         $this->rootDir = $rootDir;

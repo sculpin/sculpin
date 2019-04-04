@@ -18,34 +18,44 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * The Input/Output helper.
+ * Console I/O implementation.
  *
  * @author François Pluchino <francois.pluchino@opendisplay.com>
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class ConsoleIo implements IoInterface
+final class ConsoleIo implements IoInterface
 {
-    protected $input;
-    protected $output;
-    protected $helperSet;
-    protected $lastMessage;
-    private $startTime;
+    /**
+     * @var InputInterface
+     */
+    private $input;
 
     /**
-     * Constructor.
-     *
-     * @param InputInterface  $input     The input instance
-     * @param OutputInterface $output    The output instance
-     * @param HelperSet       $helperSet The helperSet instance
+     * @var OutputInterface
      */
-    public function __construct(InputInterface $input, OutputInterface $output, HelperSet $helperSet)
+    private $output;
+
+    /**
+     * The last message that has been output, to be able to overwrite it.
+     *
+     * @var string
+     */
+    private $lastMessage;
+
+    /**
+     * Time in seconds with fractions when debugging has been enabled.
+     *
+     * @var float
+     */
+    private $startTime;
+
+    public function __construct(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
         $this->output = $output;
-        $this->helperSet = $helperSet;
     }
 
-    public function enableDebugging($startTime)
+    public function enableDebugging(float $startTime): void
     {
         $this->startTime = $startTime;
     }

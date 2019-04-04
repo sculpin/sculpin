@@ -8,7 +8,7 @@ use Michelf\MarkdownExtra;
 use Sculpin\Core\Converter\ParserInterface;
 
 /**
- * Class PhpMarkdownExtraParser
+ * Provide Michelf\MarkdownExtra as Sculpin parser.
  */
 class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
 {

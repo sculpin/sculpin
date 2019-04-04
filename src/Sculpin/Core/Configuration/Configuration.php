@@ -16,8 +16,6 @@ namespace Sculpin\Core\Configuration;
 use Dflydev\DotAccessConfiguration\Configuration as BaseConfiguration;
 
 /**
- * Configuration.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class Configuration extends BaseConfiguration

@@ -17,24 +17,15 @@ use Sculpin\Core\Permalink\PermalinkInterface;
 use Sculpin\Core\Source\SourceInterface;
 
 /**
- * Source Output.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SourceOutput implements OutputInterface
 {
     /**
-     * Source
-     *
      * @var SourceInterface
      */
     protected $source;
 
-    /**
-     * Constructor.
-     *
-     * @param SourceInterface $source Source
-     */
     public function __construct(SourceInterface $source)
     {
         $this->source = $source;

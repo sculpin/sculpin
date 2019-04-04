@@ -16,8 +16,6 @@ namespace Sculpin\Bundle\PostsBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Posts Bundle.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinPostsBundle extends Bundle

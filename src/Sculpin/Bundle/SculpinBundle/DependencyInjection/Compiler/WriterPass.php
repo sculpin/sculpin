@@ -17,11 +17,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * Writer pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class WriterPass implements CompilerPassInterface
+final class WriterPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

@@ -22,35 +22,28 @@ use Sculpin\Core\Source\SourceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Textile Converter.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class TextileConverter implements ConverterInterface, EventSubscriberInterface
+final class TextileConverter implements ConverterInterface, EventSubscriberInterface
 {
     /**
-     * Textile parser
-     *
      * @var Parser
      */
-    protected $parser;
+    private $textileParser;
 
     /**
-     * Extensions
+     * File name extensions that are handled as textile.
      *
-     * @var array
+     * @var string[]
      */
-    protected $extensions = [];
+    private $extensions = [];
 
     /**
-     * Constructor.
-     *
-     * @param Parser $parser     Parser
-     * @param array  $extensions Extensions
+     * @param string[] $extensions file name extensions that are handled as markdown
      */
     public function __construct(Parser $parser, array $extensions = [])
     {
-        $this->parser = $parser;
+        $this->textileParser = $parser;
         $this->extensions = $extensions;
     }
 
@@ -59,7 +52,7 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
      */
     public function convert(ConverterContextInterface $converterContext): void
     {
-        $converterContext->setContent($this->parser->parse($converterContext->content()));
+        $converterContext->setContent($this->textileParser->parse($converterContext->content()));
     }
 
     /**
@@ -73,9 +66,9 @@ class TextileConverter implements ConverterInterface, EventSubscriberInterface
     }
 
     /**
-     * Before run
+     * Event hook to register this converter for all sources that have markdown file extensions.
      *
-     * @param SourceSetEvent $sourceSetEvent Source Set Event
+     * @internal
      */
     public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {

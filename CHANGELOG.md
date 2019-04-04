@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- BC BREAK: Many classes have been made final to reduce complexity. If there
+  is a valid use case to extend one of the classes, please do a pull request
+  to remove the final keyword and explain why you need to extend the class.
 - BC BREAK: [#367](https://github.com/sculpin/sculpin/pull/367) moved to
   PHP 7.2 as the new minimum PHP version for Sculpin.
 - BC BREAK: [#392](https://github.com/sculpin/sculpin/pull/392) changed

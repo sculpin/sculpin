@@ -17,9 +17,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Override default visibility of services tagged with kernel.event_subscriber
+ * Make sure that all services tagged with kernel.event_subscriber are public.
  */
-class EventSubscriberOverridePass implements CompilerPassInterface
+final class EventSubscriberOverridePass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

@@ -5,14 +5,9 @@ declare(strict_types=1);
 namespace Sculpin\Core\Converter;
 
 /**
- * Interface ParserInterface
+ * A parser transforms input data into the corresponding output data.
  */
 interface ParserInterface
 {
-    /**
-     * @param string $content
-     *
-     * @return string
-     */
     public function transform(string $content): string;
 }

@@ -20,18 +20,18 @@ use Sculpin\Core\Sculpin;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Sculpin Markdown/Twig Compatibility Bundle.
+ * Hide some twig instructions from markdown parser.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ConvertListener implements EventSubscriberInterface
+final class ConvertListener implements EventSubscriberInterface
 {
     /**
      * List of regular expressions needing placeholders
      *
      * @var array
      */
-    protected static $addPlaceholderRe = [
+    private static $addPlaceholderRe = [
         '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
         '/^({%\s+endblock\s+%})$/m',       // {% %} style code
         '/^({{.+?}})$/m',                  // {{ }} style code
@@ -42,14 +42,14 @@ class ConvertListener implements EventSubscriberInterface
      *
      * @var string
      */
-    protected static $placeholder = "\n<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>\n";
+    private static $placeholder = "\n<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>\n";
 
     /**
      * Regex used to remove placeholder
      *
      * @var string
      */
-    protected static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // @codingStandardsIgnoreLine
+    private static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // @codingStandardsIgnoreLine
 
     /**
      * {@inheritdoc}
@@ -64,8 +64,6 @@ class ConvertListener implements EventSubscriberInterface
 
     /**
      * Called before conversion
-     *
-     * @param ConvertEvent $convertEvent Convert Event
      */
     public function beforeConvert(ConvertEvent $convertEvent): void
     {
@@ -85,8 +83,6 @@ class ConvertListener implements EventSubscriberInterface
 
     /**
      * Called after conversion
-     *
-     * @param ConvertEvent $convertEvent Convert event
      */
     public function afterConvert(ConvertEvent $convertEvent): void
     {
