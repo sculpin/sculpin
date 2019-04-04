@@ -13,22 +13,19 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 
 /**
- * Generate Command.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 abstract class AbstractCommand extends ContainerAwareCommand
 {
     /**
      * Test to see if Sculpin is running in standalone mode.
-     *
-     * @return bool
      */
     protected function isStandaloneSculpin(): bool
     {
-        return class_exists('Sculpin\\Bundle\\StandaloneBundle\\SculpinStandaloneBundle', false);
+        return class_exists(SculpinStandaloneBundle::class, false);
     }
 }

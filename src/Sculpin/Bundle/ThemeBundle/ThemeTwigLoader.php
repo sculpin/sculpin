@@ -19,7 +19,9 @@ use Twig\Loader\LoaderInterface;
 
 class ThemeTwigLoader implements LoaderInterface
 {
-    /** @var ChainLoader */
+    /**
+     * @var ChainLoader
+     */
     private $chainLoader;
 
     public function __construct(ThemeRegistry $themeRegistry, array $extensions)

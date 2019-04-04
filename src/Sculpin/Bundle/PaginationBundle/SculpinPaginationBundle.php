@@ -16,8 +16,6 @@ namespace Sculpin\Bundle\PaginationBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Pagination Bundle.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinPaginationBundle extends Bundle

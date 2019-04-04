@@ -23,36 +23,25 @@ use Sculpin\Core\Permalink\SourcePermalinkFactory;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class PaginationGenerator implements GeneratorInterface
+final class PaginationGenerator implements GeneratorInterface
 {
     /**
-     * Data Provider Manager
-     *
      * @var DataProviderManager
      */
-    protected $dataProviderManager;
+    private $dataProviderManager;
 
     /**
-     * Source permalink factory
-     *
      * @var SourcePermalinkFactory
      */
-    protected $permalinkFactory;
+    private $permalinkFactory;
 
     /**
      * Max per page (default)
      *
      * @var int
      */
-    protected $maxPerPage;
+    private $maxPerPage;
 
-    /**
-     * Constructor
-     *
-     * @param DataProviderManager    $dataProviderManager Data Provider Manager
-     * @param SourcePermalinkFactory $permalinkFactory    Factory for generating permalinks
-     * @param int                    $maxPerPage          Max items per page
-     */
     public function __construct(
         DataProviderManager $dataProviderManager,
         SourcePermalinkFactory $permalinkFactory,

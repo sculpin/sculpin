@@ -20,9 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Init Command - Initialize default website configuration and structure.
+ * Initialize default website configuration and structure.
  */
-class InitCommand extends AbstractCommand
+final class InitCommand extends AbstractCommand
 {
     public const COMMAND_SUCCESS          = 0;
     public const PROJECT_FOLDER_NOT_EMPTY = 101;
@@ -108,7 +108,7 @@ EOT
         return self::COMMAND_SUCCESS;
     }
 
-    protected function ensureCleanSlate(string $projectDir, OutputInterface $output): bool
+    private function ensureCleanSlate(string $projectDir, OutputInterface $output): bool
     {
         $fs = new Filesystem();
         if ($fs->exists($projectDir . '/app')) {
@@ -126,7 +126,7 @@ EOT
         return true;
     }
 
-    protected function createDefaultKernel(string $projectDir, OutputInterface $output): bool
+    private function createDefaultKernel(string $projectDir, OutputInterface $output): bool
     {
         $contents = <<<EOF
 <?php
@@ -147,7 +147,7 @@ EOF;
         return true;
     }
 
-    protected function createSiteKernelFile(string $projectDir, OutputInterface $output): bool
+    private function createSiteKernelFile(string $projectDir, OutputInterface $output): bool
     {
         $contents = <<<EOF
 sculpin_content_types:
@@ -160,7 +160,7 @@ EOF;
         return true;
     }
 
-    protected function createSiteConfigFile(
+    private function createSiteConfigFile(
         string $projectDir,
         string $title,
         string $subTitle,
@@ -178,7 +178,7 @@ EOF;
         return true;
     }
 
-    protected function createSourceFolder(string $projectDir, OutputInterface $output): bool
+    private function createSourceFolder(string $projectDir, OutputInterface $output): bool
     {
         $fs = new Filesystem();
 
@@ -210,7 +210,7 @@ EOF
         return true;
     }
 
-    protected function createFile(string $path, string $contents): void
+    private function createFile(string $path, string $contents): void
     {
         $fs = new Filesystem();
         $fs->dumpFile($path, $contents);

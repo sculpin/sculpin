@@ -3,20 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="sculpin_twig.flexible_extension_filesystem_loader.class">Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader</parameter>
-        <parameter key="sculpin_twig.array_loader.class">Twig\Loader\ArrayLoader</parameter>
-        <parameter key="sculpin_twig.loader.class">Twig\Loader\ChainLoader</parameter>
-        <parameter key="sculpin_twig.template_resetter.class">Sculpin\Bundle\TwigBundle\TemplateResetter</parameter>
-        <parameter key="sculpin_twig.twig.class">Sculpin\Bundle\TwigBundle\Environment</parameter>
-        <parameter key="sculpin_twig.formatter.class">Sculpin\Bundle\TwigBundle\TwigFormatter</parameter>
-        <parameter key="sculpin_twig.extensions.debug.class">Twig\Extension\DebugExtension</parameter>
-        <parameter key="sculpin_twig.extensions.intl.class">Twig\Extensions\IntlExtension</parameter>
-    </parameters>
-
     <services>
 
-        <service id="sculpin_twig.flexible_extension_filesystem_loader" class="%sculpin_twig.flexible_extension_filesystem_loader.class%" public="true">
+        <service id="sculpin_twig.flexible_extension_filesystem_loader" class="Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader" public="true">
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin_twig.source_view_paths%</argument>
             <argument>%sculpin_twig.view_paths%</argument>
@@ -26,40 +15,40 @@
             <tag name="sculpin.custom_mime_extensions" type="text/twig" parameter="sculpin_twig.extensions" />
         </service>
 
-        <service id="sculpin_twig.array_loader" class="%sculpin_twig.array_loader.class%">
+        <service id="sculpin_twig.array_loader" class="Twig\Loader\ArrayLoader">
             <argument type="collection" />
         </service>
 
-        <service id="sculpin_twig.loader" class="%sculpin_twig.loader.class%">
+        <service id="sculpin_twig.loader" class="Twig\Loader\ChainLoader">
             <argument type="collection">
                 <argument type="service" id="sculpin_twig.array_loader" />
                 <argument type="service" id="sculpin_twig.flexible_extension_filesystem_loader" />
             </argument>
         </service>
 
-        <service id="sculpin_twig.twig" class="%sculpin_twig.twig.class%">
+        <service id="sculpin_twig.twig" class="Sculpin\Bundle\TwigBundle\Environment">
             <argument type="service" id="sculpin_twig.loader" />
             <argument type="collection">
                 <argument key="debug">%kernel.debug%</argument>
             </argument>
         </service>
 
-        <service id="sculpin_twig.formatter" class="%sculpin_twig.formatter.class%">
+        <service id="sculpin_twig.formatter" class="Sculpin\Bundle\TwigBundle\TwigFormatter">
             <argument type="service" id="sculpin_twig.twig" />
             <argument type="service" id="sculpin_twig.array_loader" />
             <tag name="sculpin.formatter" alias="twig" />
         </service>
 
-        <service id="sculpin_twig.template_resetter" class="%sculpin_twig.template_resetter.class%" public="true">
+        <service id="sculpin_twig.template_resetter" class="Sculpin\Bundle\TwigBundle\TemplateResetter" public="true">
             <argument type="service" id="sculpin_twig.twig" />
             <tag name="kernel.event_subscriber" />
         </service>
 
-        <service id="sculpin_twig.extensions.debug" class="%sculpin_twig.extensions.debug.class%">
+        <service id="sculpin_twig.extensions.debug" class="Twig\Extension\DebugExtension">
             <tag name="twig.extension" />
         </service>
 
-        <service id="sculpin_twig.extensions.intl" class="%sculpin_twig.extensions.intl.class%">
+        <service id="sculpin_twig.extensions.intl" class="Twig\Extensions\IntlExtension">
             <tag name="twig.extension" />
         </service>
 

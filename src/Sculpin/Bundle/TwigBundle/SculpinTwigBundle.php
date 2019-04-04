@@ -19,11 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Sculpin Twig Bundle.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class SculpinTwigBundle extends Bundle
+final class SculpinTwigBundle extends Bundle
 {
     public const FORMATTER_NAME = 'twig';
 

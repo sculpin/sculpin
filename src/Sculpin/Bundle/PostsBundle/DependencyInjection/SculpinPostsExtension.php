@@ -18,8 +18,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
- * Sculpin Posts Extension.
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
 class SculpinPostsExtension extends Extension

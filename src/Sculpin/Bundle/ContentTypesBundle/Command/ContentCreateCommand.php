@@ -21,12 +21,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Content Type Creation Command.
+ * Helper command to create a new content type.
  *
  * Outputs the YAML required to add a new content type, and optionally
  * generates the associated boilerplate for the type.
  */
-class ContentCreateCommand extends AbstractCommand
+final class ContentCreateCommand extends AbstractCommand
 {
     private const DIRECTORY_FLAG = '_directory_';
 
@@ -109,7 +109,7 @@ EOT
         }
     }
 
-    protected function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array
+    private function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array
     {
         $app = $this->getApplication();
         if (!$app instanceof Application) {
@@ -133,13 +133,13 @@ EOT
 
         // content type view template
         $index            = $rootDir . '/source/_views/' . $singular . '.html';
-        $manifest[$index] = $this->getViewTemplate($plural, $singular, $taxonomies);
+        $manifest[$index] = $this->getViewTemplate($plural, $taxonomies);
 
         foreach ($taxonomies as $taxonomy) {
             $singularTaxonomy = Inflector::singularize($taxonomy);
             // content taxonomy index template
             $index            = $rootDir . '/source/' . $plural . '/' . $taxonomy . '.html';
-            $manifest[$index] = $this->getTaxonomyIndexTemplate($plural, $singular, $taxonomy, $singularTaxonomy);
+            $manifest[$index] = $this->getTaxonomyIndexTemplate($plural, $taxonomy, $singularTaxonomy);
 
             // content taxonomy directory
             $storageFolder            = $rootDir . '/source/' . $plural . '/' . $taxonomy;
@@ -147,13 +147,13 @@ EOT
 
             // content taxonomy view template(s)
             $index            = $rootDir . '/source/' . $plural . '/' . $taxonomy . '/' . $singularTaxonomy . '.html';
-            $manifest[$index] = $this->getTaxonomyViewTemplate($plural, $singular, $taxonomy, $singularTaxonomy);
+            $manifest[$index] = $this->getTaxonomyViewTemplate($plural, $singular, $singularTaxonomy);
         }
 
         return $manifest;
     }
 
-    protected function getOutputMessage(string $type, string $singularType, array $taxonomies = []): string
+    private function getOutputMessage(string $type, string $singularType, array $taxonomies = []): string
     {
         $outputMessage = <<<EOT
 =============================================
@@ -181,7 +181,7 @@ EOT;
         return $outputMessage;
     }
 
-    protected function getIndexTemplate(string $plural, string $singular)
+    private function getIndexTemplate(string $plural, string $singular)
     {
         $title = ucfirst($plural);
 
@@ -214,7 +214,7 @@ use: [$plural]
 EOT;
     }
 
-    protected function getViewTemplate(string $plural, string $singular, array $taxonomies = []): string
+    private function getViewTemplate(string $plural, array $taxonomies = []): string
     {
         $output = <<<EOT
 {% extends 'default' %}
@@ -264,9 +264,8 @@ EOT;
         return $output;
     }
 
-    protected function getTaxonomyIndexTemplate(
+    private function getTaxonomyIndexTemplate(
         string $plural,
-        string $singular,
         string $taxonomy,
         string $singularTaxonomy
     ): string {
@@ -287,10 +286,9 @@ use: [${plural}_${taxonomy}]
 EOT;
     }
 
-    protected function getTaxonomyViewTemplate(
+    private function getTaxonomyViewTemplate(
         string $plural,
         string $singular,
-        string $taxonomy,
         string $singularTaxonomy
     ): string {
         $title = ucfirst($plural);

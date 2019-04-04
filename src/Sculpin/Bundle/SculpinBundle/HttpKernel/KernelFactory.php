@@ -17,19 +17,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * Kernel Factory
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class KernelFactory
+final class KernelFactory
 {
-    /**
-     * Create a kernel.
-     *
-     * @param InputInterface $input Input
-     *
-     * @return Kernel
-     */
     public static function create(InputInterface $input): Kernel
     {
         $env = $input->getParameterOption(['--env', '-e'], getenv('SCULPIN_DEBUG') ?: 'dev');

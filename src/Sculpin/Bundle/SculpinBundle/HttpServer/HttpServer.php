@@ -22,27 +22,35 @@ use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * HTTP Server
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class HttpServer
+final class HttpServer
 {
-    protected $debug;
-    protected $env;
-    protected $loop;
-    protected $output;
-    protected $port;
+    /**
+     * @var bool
+     */
+    private $debug;
 
     /**
-     * Constructor
-     *
-     * @param OutputInterface $output  Output
-     * @param string          $docroot Docroot
-     * @param string          $env     Environment
-     * @param bool            $debug   Debug
-     * @param int             $port    Port
+     * @var string
      */
+    private $env;
+
+    /**
+     * @var StreamSelectLoop
+     */
+    private $loop;
+
+    /**
+     * @var OutputInterface
+     */
+    private $output;
+
+    /**
+     * @var int
+     */
+    private $port;
+
     public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
     {
         $repository = new PhpRepository;

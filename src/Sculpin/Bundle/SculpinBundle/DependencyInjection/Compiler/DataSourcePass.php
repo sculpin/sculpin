@@ -18,11 +18,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Data Source pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class DataSourcePass implements CompilerPassInterface
+final class DataSourcePass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

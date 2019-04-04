@@ -3,48 +3,31 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="sculpin.matcher.class">dflydev\util\antPathMatcher\AntPathMatcher</parameter>
-        <parameter key="sculpin.site_configuration.class">Dflydev\DotAccessConfiguration\Configuration</parameter>
-        <parameter key="sculpin.site_configuration_factory.class">Sculpin\Core\SiteConfiguration\SiteConfigurationFactory</parameter>
-        <parameter key="sculpin.writer.class">Sculpin\Core\Output\FilesystemWriter</parameter>
-        <parameter key="sculpin.data_provider_manager.class">Sculpin\Core\DataProvider\DataProviderManager</parameter>
-        <parameter key="sculpin.generator_manager.class">Sculpin\Core\Generator\GeneratorManager</parameter>
-        <parameter key="sculpin.formatter_manager.class">Sculpin\Core\Formatter\FormatterManager</parameter>
-        <parameter key="sculpin.converter_manager.class">Sculpin\Core\Converter\ConverterManager</parameter>
-        <parameter key="sculpin.class">Sculpin\Core\Sculpin</parameter>
-        <parameter key="sculpin.data_source.class">Sculpin\Core\Source\CompositeDataSource</parameter>
-        <parameter key="sculpin.default_filesystem_data_source.class">Sculpin\Core\Source\FilesystemDataSource</parameter>
-        <parameter key="sculpin.default_config_filesystem_data_source.class">Sculpin\Core\Source\ConfigFilesystemDataSource</parameter>
-        <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
-        <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
-    </parameters>
-
     <services>
 
-        <service id="sculpin.matcher" class="%sculpin.matcher.class%" />
+        <service id="sculpin.matcher" class="dflydev\util\antPathMatcher\AntPathMatcher" />
 
-        <service id="sculpin.site_configuration_factory" class="%sculpin.site_configuration_factory.class%">
+        <service id="sculpin.site_configuration_factory" class="Sculpin\Core\SiteConfiguration\SiteConfigurationFactory">
             <argument>%kernel.project_dir%</argument>
             <argument>%kernel.environment%</argument>
         </service>
 
-        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" public="true">
+        <service id="sculpin.site_configuration" class="Dflydev\DotAccessConfiguration\Configuration" public="true">
             <factory service="sculpin.site_configuration_factory" method="create" />
         </service>
 
-        <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
+        <service id="sculpin.source_permalink_factory" class="Sculpin\Core\Permalink\SourcePermalinkFactory">
             <argument>%sculpin.permalink%</argument>
         </service>
 
-        <service id="sculpin.writer" class="%sculpin.writer.class%" public="true">
+        <service id="sculpin.writer" class="Sculpin\Core\Output\FilesystemWriter" public="true">
             <argument type="service" id="filesystem" />
             <argument>%sculpin.output_dir%</argument>
         </service>
 
-        <service id="sculpin.data_provider_manager" class="%sculpin.data_provider_manager.class%" />
+        <service id="sculpin.data_provider_manager" class="Sculpin\Core\DataProvider\DataProviderManager" />
 
-        <service id="sculpin.generator_manager" class="%sculpin.generator_manager.class%">
+        <service id="sculpin.generator_manager" class="Sculpin\Core\Generator\GeneratorManager">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.site_configuration" />
             <call method="setDataProviderManager">
@@ -52,7 +35,7 @@
             </call>
         </service>
 
-        <service id="sculpin.formatter_manager" class="%sculpin.formatter_manager.class%">
+        <service id="sculpin.formatter_manager" class="Sculpin\Core\Formatter\FormatterManager">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.site_configuration" />
             <call method="setDataProviderManager">
@@ -60,12 +43,12 @@
             </call>
         </service>
 
-        <service id="sculpin.converter_manager" class="%sculpin.converter_manager.class%">
+        <service id="sculpin.converter_manager" class="Sculpin\Core\Converter\ConverterManager">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.formatter_manager" />
         </service>
 
-        <service id="sculpin" class="%sculpin.class%" public="true">
+        <service id="sculpin" class="Sculpin\Core\Sculpin" public="true">
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
@@ -92,7 +75,7 @@
             <argument type="service" id="sculpin.canal.detector" />
         </service>
 
-        <service id="sculpin.default_filesystem_data_source" class="%sculpin.default_filesystem_data_source.class%">
+        <service id="sculpin.default_filesystem_data_source" class="Sculpin\Core\Source\FilesystemDataSource">
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin.exclude%</argument>
             <argument>%sculpin.ignore%</argument>
@@ -102,7 +85,7 @@
             <tag name="sculpin.data_source" />
         </service>
 
-        <service id="sculpin.default_config_filesystem_data_source" class="%sculpin.default_config_filesystem_data_source.class%">
+        <service id="sculpin.default_config_filesystem_data_source" class="Sculpin\Core\Source\ConfigFilesystemDataSource">
             <argument>%kernel.project_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
@@ -110,7 +93,7 @@
             <tag name="sculpin.data_source" />
         </service>
 
-        <service id="sculpin.data_source" class="%sculpin.data_source.class%" public="true"/>
+        <service id="sculpin.data_source" class="Sculpin\Core\Source\CompositeDataSource" public="true"/>
 
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 

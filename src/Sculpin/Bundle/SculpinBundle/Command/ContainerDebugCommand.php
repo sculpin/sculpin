@@ -3,29 +3,15 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Symfony package.
+ * This file is a part of Sculpin.
  *
+ * (c) Dragonfly Development Inc.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This command is derived from the Symfony container debug command,
  * (c) Fabien Potencier <fabien@symfony.com>
- *
- * Copyright (c) 2004-2014 Fabien Potencier
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
-
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
  */
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
@@ -45,7 +31,7 @@ use Symfony\Component\DependencyInjection\Definition;
  *
  * @author Ryan Weaver <ryan@thatsquality.com>
  */
-class ContainerDebugCommand extends ContainerAwareCommand
+final class ContainerDebugCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -179,7 +165,7 @@ EOF
         }
     }
 
-    protected function validateInput(InputInterface $input)
+    private function validateInput(InputInterface $input)
     {
         $options = ['tags', 'tag', 'parameters', 'parameter'];
 
@@ -202,7 +188,7 @@ EOF
         }
     }
 
-    protected function outputServices(
+    private function outputServices(
         OutputInterface $output,
         $serviceIds,
         $showPrivate = false,
@@ -322,7 +308,7 @@ EOF
         }
     }
 
-    protected function buildArgumentsArray($serviceId, $className, array $tagAttributes = []): array
+    private function buildArgumentsArray($serviceId, $className, array $tagAttributes = []): array
     {
         $arguments = [$serviceId];
         foreach ($tagAttributes as $tagAttribute) {
@@ -336,7 +322,7 @@ EOF
     /**
      * Renders detailed service information about one service
      */
-    protected function outputService(OutputInterface $output, string $serviceId)
+    private function outputService(OutputInterface $output, string $serviceId)
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -389,7 +375,7 @@ EOF
         }
     }
 
-    protected function outputParameters(OutputInterface $output, array $parameters): void
+    private function outputParameters(OutputInterface $output, array $parameters): void
     {
         $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
 
@@ -439,7 +425,7 @@ EOF
      * @return Definition|Alias
      * @throws \Exception
      */
-    protected function resolveServiceDefinition($serviceId)
+    private function resolveServiceDefinition($serviceId)
     {
         $container = $this->getContainer();
         if ($container instanceof ContainerBuilder) {
@@ -465,7 +451,7 @@ EOF
      *
      * @throws \Exception
      */
-    protected function outputTags(OutputInterface $output, bool $showPrivate = false): void
+    private function outputTags(OutputInterface $output, bool $showPrivate = false): void
     {
         $container = $this->getContainer();
         if (! $container instanceof ContainerBuilder) {
@@ -504,7 +490,7 @@ EOF
         }
     }
 
-    protected function formatParameter($value)
+    private function formatParameter($value)
     {
         if (is_bool($value) || is_array($value) || (null === $value)) {
             return json_encode($value);

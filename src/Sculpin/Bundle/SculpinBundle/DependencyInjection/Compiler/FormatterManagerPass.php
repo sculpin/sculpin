@@ -18,11 +18,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Formatter pass
- *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class FormatterManagerPass implements CompilerPassInterface
+final class FormatterManagerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
