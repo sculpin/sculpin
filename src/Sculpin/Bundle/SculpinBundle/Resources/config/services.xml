@@ -8,7 +8,7 @@
         <service id="sculpin.matcher" class="dflydev\util\antPathMatcher\AntPathMatcher" />
 
         <service id="sculpin.site_configuration_factory" class="Sculpin\Core\SiteConfiguration\SiteConfigurationFactory">
-            <argument>%kernel.project_dir%</argument>
+            <argument>%kernel.root_dir%</argument>
             <argument>%kernel.environment%</argument>
         </service>
 
@@ -86,7 +86,7 @@
         </service>
 
         <service id="sculpin.default_config_filesystem_data_source" class="Sculpin\Core\Source\ConfigFilesystemDataSource">
-            <argument>%kernel.project_dir%/config</argument>
+            <argument>%kernel.root_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
             <argument type="service" id="sculpin.matcher" />
