@@ -301,6 +301,7 @@ EOT;
 
         return <<<EOT
 ---
+layout: default
 use: [${plural}_${taxonomy}]
 ---
 <h1>${title}</h1>
@@ -323,6 +324,7 @@ EOT;
 
         return <<<EOT
 ---
+layout: default
 generator: [${plural}_${singularTaxonomy}_index, pagination]
 pagination:
     provider: page.${singularTaxonomy}_${plural}
