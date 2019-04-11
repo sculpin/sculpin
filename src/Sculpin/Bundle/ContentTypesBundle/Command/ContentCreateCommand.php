@@ -38,7 +38,7 @@ final class ContentCreateCommand extends AbstractCommand
         $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
 
         $this->setName($prefix . 'content:create');
-        $this->setDescription('Create a new content type.');
+        $this->setDescription('Create a new content type, including boilerplate template files.');
         $this->setDefinition(
             [
                 new InputArgument(
@@ -50,20 +50,33 @@ final class ContentCreateCommand extends AbstractCommand
                     'boilerplate',
                     'b',
                     InputOption::VALUE_NONE,
-                    'Generate boilerplate/placeholder/template files.'
+                    'Enabled by default. Use --dry-run if you do not want to generate the files.'
+                ),
+                new InputOption(
+                    'dry-run',
+                    'd',
+                    InputOption::VALUE_NONE,
+                    'Don\'t generate boilerplate/placeholder/template files.'
                 ),
                 new InputOption(
                     'taxonomy',
                     't',
                     InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                    'Organize content by taxonomy categories ("tags", "categories", "types", etc)'
+                    "Organize content by taxonomy categories (\"tags\", \"categories\", \"types\", etc)\n"
+                    . "Add multiple taxonomies by repeating the option."
                 )
             ]
         );
 
         $this->setHelp(<<<EOT
-The <info>content:create</info> command helps you create a custom content type and,
-optionally, the associated boilerplate/templates.
+The <info>content:create</info> command helps you create a custom content type and the associated boilerplate/templates.
+
+Example:
+
+      vendor/bin/sculpin content:create docs -t product -t year
+
+NOTE: This command does not automatically modify the <info>app/config/sculpin_kernel.yml</info> file. You will have to
+      add the suggested changes yourself.
 
 EOT
         );
@@ -76,7 +89,7 @@ EOT
     {
         $pluralType   = $input->getArgument('type');
         $singularType = Inflector::singularize($pluralType);
-        $boilerplate  = $input->getOption('boilerplate');
+        $dryRun       = $input->getOption('dry-run');
         $taxonomies   = $input->getOption('taxonomy');
 
         $output->writeln('Generating new content type: <info>' . $pluralType . '</info>');
@@ -86,27 +99,41 @@ EOT
 
         // TODO: Write a yaml file to configure the content type (and recommend a wildcard include for types?)
 
-        if ($boilerplate) {
-            $output->writeln('Generating boilerplate for ' . $pluralType);
-            $boilerplateManifest = $this->generateBoilerplateManifest($pluralType, $singularType, $taxonomies);
+        // grab the boilerplate manifest
+        $boilerplateManifest = $this->generateBoilerplateManifest($pluralType, $singularType, $taxonomies);
 
-            $fs = new Filesystem();
+        // skip creating boilerplate files if this is a dry run
+        if ($dryRun) {
+            $output->writeln("Dry run. Skipping creation of these boilerplate files:");
+
             foreach ($boilerplateManifest as $filename => $value) {
-                // create directory and skip the rest of the loop
-                if ($value === static::DIRECTORY_FLAG) {
-                    $fs->mkdir($filename);
-                    continue;
-                }
-
-                if ($fs->exists($filename)) {
-                    $output->writeln('Warning: ' . $filename . ' already exists at the target location. Skipping.');
-                    continue;
-                }
-
-                // create file $filename with contents $value
-                $fs->dumpFile($filename, $value);
+                $output->writeln("\t<info>" . $filename . '</info>');
             }
+
+            $output->writeln("\nRemember to add the content type definition (displayed above) to sculpin_kernel.yml!");
+
+            return;
         }
+
+        $output->writeln('Generating boilerplate for ' . $pluralType);
+        $fs = new Filesystem();
+        foreach ($boilerplateManifest as $filename => $value) {
+            // create directory and skip the rest of the loop
+            if ($value === static::DIRECTORY_FLAG) {
+                $fs->mkdir($filename);
+                continue;
+            }
+
+            if ($fs->exists($filename)) {
+                $output->writeln('Warning: ' . $filename . ' already exists at the target location. Skipping.');
+                continue;
+            }
+
+            // create file $filename with contents $value
+            $fs->dumpFile($filename, $value);
+        }
+
+        $output->writeln("\nRemember to add the content type definition (displayed above) to sculpin_kernel.yml!");
     }
 
     private function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array
@@ -156,9 +183,10 @@ EOT
     private function getOutputMessage(string $type, string $singularType, array $taxonomies = []): string
     {
         $outputMessage = <<<EOT
-=============================================
-YAML to add to <info>app/config/sculpin_kernel.yml</info>:
-=============================================
+
+YAML content type definition you will have to
+add to <info>app/config/sculpin_kernel.yml</info>:
+================START OF YAML================
 
 sculpin_content_types:
     ${type}:
