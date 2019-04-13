@@ -39,7 +39,7 @@
         "twig/extensions": "^1.5",
         "twig/twig": "^2.5",
         "webignition/internet-media-type": "^0.4",
-        "vanderlee/php-stable-sort-functions": "^2.0"
+        "vanderlee/php-stable-sort-functions": "^2.0.4"
     },
     "require-dev": {
         "phpdocumentor/reflection-docblock": "^4.3",
