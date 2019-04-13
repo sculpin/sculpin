@@ -15,6 +15,7 @@ namespace Sculpin\Contrib\ProxySourceCollection;
 
 use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
+use StableSort\StableSort;
 
 class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
@@ -115,6 +116,6 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 
     public function sort()
     {
-        uasort($this->items, [$this->sorter, 'sort']);
+        StableSort::uasort($this->items, [$this->sorter, 'sort']);
     }
 }
