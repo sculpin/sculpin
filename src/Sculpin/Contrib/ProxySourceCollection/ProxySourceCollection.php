@@ -15,6 +15,7 @@ namespace Sculpin\Contrib\ProxySourceCollection;
 
 use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
+use StableSort\StableSort;
 
 class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
@@ -113,8 +114,33 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         return $this->items[$keys[0]];
     }
 
+    /**
+     * Sorts proxy source items using the StableSort algorithm from Martijn van der Lee
+     *
+     * See: https://github.com/vanderlee/PHP-stable-sort-functions
+     */
     public function sort()
     {
-        uasort($this->items, [$this->sorter, 'sort']);
+        $index      = 0;
+        $comparator = [$this->sorter, 'sort'];
+
+        // add an index to provide stable sorting
+        foreach ($this->items as &$item) {
+            $item = [$index++, $item];
+        }
+        unset($item);
+
+        uasort($this->items, function ($a, $b) use ($comparator) {
+            $result = $comparator($a[1], $b[1]);
+
+            // use the index to prevent undefined behaviour when comparator reports items are "equal"
+            return $result === 0 ? $a[0] - $b[0] : $result;
+        });
+
+        // remove the index
+        foreach ($this->items as &$item) {
+            $item = $item[1];
+        }
+        unset($item);
     }
 }
