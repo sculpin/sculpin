@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25ddb09d82c3578afc43f33908bda8d5",
+    "content-hash": "f88c231fa090f953d671c7e0ad4c3a70",
     "packages": [
         {
             "name": "dflydev/ant-path-matcher",
@@ -2142,52 +2142,6 @@
                 "templating"
             ],
             "time": "2019-04-16T17:14:24+00:00"
-        },
-        {
-            "name": "vanderlee/php-stable-sort-functions",
-            "version": "2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vanderlee/PHP-stable-sort-functions.git",
-                "reference": "0209c0f667fce883e683cd4f1eea3ff36f186a7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/vanderlee/PHP-stable-sort-functions/zipball/0209c0f667fce883e683cd4f1eea3ff36f186a7f",
-                "reference": "0209c0f667fce883e683cd4f1eea3ff36f186a7f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "StableSort\\": "classes/"
-                },
-                "files": [
-                    "functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Class of stable sort methods. Equal values remain in the original order. Only different values are sorted.",
-            "homepage": "https://github.com/vanderlee/PHP-stable-sort-functions",
-            "keywords": [
-                "array",
-                "arsort",
-                "asort",
-                "natcasesort",
-                "natsort",
-                "sort",
-                "stable",
-                "uasort",
-                "uksort",
-                "usort"
-            ],
-            "time": "2018-06-30T18:39:34+00:00"
         },
         {
             "name": "webignition/disallowed-character-terminated-string",
