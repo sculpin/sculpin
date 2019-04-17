@@ -134,6 +134,8 @@ final class Sculpin
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
             $source->data()->set('url', $permalink->relativeUrlPath());
+            $source->data()->set('relative_pathname', $source->relativePathname());
+            $source->data()->set('filename', $source->filename());
         }
 
         if ($updatedSources = $sourceSet->updatedSources()) {
