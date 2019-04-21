@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\Console\Application;
+use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Bundle\SculpinBundle\HttpServer\LiveEditorContentFetcher;
 use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Sculpin;
@@ -118,10 +120,17 @@ EOT
             $output->isDebug();
             $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
 
+            $fetcher = new LiveEditorContentFetcher(
+                $sourceSet,
+                $docroot,
+                $this->getContainer()->getParameter('sculpin.source_dir')
+            );
+
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
                 $output,
+                $fetcher,
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
@@ -129,12 +138,16 @@ EOT
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
-                    clearstatcache();
-                    $sourceSet->reset();
+                $httpServer->addPeriodicTimer(
+                    1,
+                    function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo) {
+                        clearstatcache();
+                        $sourceSet->reset();
+                        $fetcher->buildPathMap($sourceSet);
 
-                    $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
-                });
+                        $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
+                    }
+                );
             }
 
             $httpServer->run();

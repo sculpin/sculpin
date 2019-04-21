@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,6 +54,7 @@ EOT
 
         $httpServer = new HttpServer(
             $output,
+            new DefaultContentFetcher(),
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),

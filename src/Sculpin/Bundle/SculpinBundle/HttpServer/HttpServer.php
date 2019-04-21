@@ -51,14 +51,20 @@ final class HttpServer
      */
     private $port;
 
-    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
-    {
+    public function __construct(
+        OutputInterface $output,
+        ContentFetcher $fetcher,
+        string $docroot,
+        string $env,
+        bool $debug,
+        ?int $port = null
+    ) {
         $repository = new PhpRepository;
 
-        $this->debug  = $debug;
-        $this->env    = $env;
-        $this->output = $output;
-        $this->port   = $port ?: 8000;
+        $this->debug   = $debug;
+        $this->env     = $env;
+        $this->output  = $output;
+        $this->port    = $port ?: 8000;
 
         $this->loop   = new StreamSelectLoop;
         $socketServer = new ReactSocketServer(
@@ -69,12 +75,18 @@ final class HttpServer
         $httpServer = new ReactHttpServer(function (ServerRequestInterface $request) use (
             $repository,
             $docroot,
-            $output
+            $output,
+            $fetcher
         ) {
-            $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
+            $urlPath = ltrim(rawurldecode($request->getUri()->getPath()), '/');
+            $path    = $docroot . '/' . $urlPath;
 
             if (is_dir($path)) {
                 $path = rtrim($path, '/') . '/index.html';
+            }
+
+            if ($urlPath === '_SCULPIN_/editor.js' && $fetcher instanceof LiveEditorContentFetcher) {
+                return new Response(200, ['Content-Type' => 'text/javascript'], $fetcher->editorJs());
             }
 
             if (!file_exists($path)) {
@@ -99,7 +111,7 @@ final class HttpServer
 
             HttpServer::logRequest($output, 200, $request);
 
-            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
+            return new Response(200, ['Content-Type' => $type], $fetcher->fetchData($path));
         });
 
         $httpServer->listen($socketServer);
