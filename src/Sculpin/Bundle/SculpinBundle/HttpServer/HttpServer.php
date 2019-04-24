@@ -101,6 +101,18 @@ final class HttpServer
                 return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
             }
 
+            if ($request->getMethod() === 'PUT' && $fetcher instanceof LiveEditorContentFetcher) {
+                $edit = json_decode($request->getBody()->getContents(), true);
+
+                if ($fetcher->diskPathExists($path)) {
+                    $fetcher->save($path, $edit['content']);
+                }
+
+                HttpServer::logRequest($output, 307, $request);
+
+                return new Response(307, ['Location' => $urlPath]);
+            }
+
             $type = 'application/octet-stream';
 
             if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {

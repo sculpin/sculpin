@@ -74,4 +74,22 @@ EOF;
     {
         return file_get_contents(__DIR__ . '/../Resources/js/editor.js');
     }
+
+    public function diskPathExists($path): bool
+    {
+        if (!isset($this->pathMap[$path])) {
+            return false;
+        }
+
+        return file_exists($this->pathMap[$path]);
+    }
+
+    public function save($path, $content): void
+    {
+        if (!$this->diskPathExists($path)) {
+            return;
+        }
+
+        file_put_contents($this->pathMap[$path], $content);
+    }
 }
