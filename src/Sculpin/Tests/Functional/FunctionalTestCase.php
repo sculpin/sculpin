@@ -201,6 +201,25 @@ class FunctionalTestCase extends TestCase
 
     /**
      * @param string $filePath
+     * @param string $expected
+     * @param string|null $msg
+     */
+    protected function assertGeneratedFileHasContent(string $filePath, string $expected, ?string $msg = null): void
+    {
+        $outputDir = '/output_test';
+
+        $msg        = $msg ?: "Expected generated file at path $filePath to have content '$expected'.";
+        $fullPath   = static::projectDir() . $outputDir . $filePath;
+        $fileExists = static::$fs->exists($fullPath);
+
+        $this->assertTrue($fileExists, $msg . ' (File Not Found!)');
+
+        $contents = file_get_contents($fullPath);
+        $this->assertContains($expected, $contents, $msg);
+    }
+
+    /**
+     * @param string $filePath
      * @param string $content
      */
     protected function writeToProjectFile(string $filePath, string $content): void
