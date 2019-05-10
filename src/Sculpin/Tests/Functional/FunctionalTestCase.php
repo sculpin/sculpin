@@ -22,6 +22,9 @@ class FunctionalTestCase extends TestCase
     /** @var Filesystem */
     protected static $fs;
 
+    /** @var string */
+    protected $executeOutput;
+
     public static function setUpBeforeClass(): void
     {
         static::$fs = new Filesystem();
@@ -72,7 +75,7 @@ class FunctionalTestCase extends TestCase
     {
         $binPath    = __DIR__ . '/../../../../bin';
         $projectDir = static::projectDir();
-        exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
+        exec("$binPath/sculpin $command --project-dir $projectDir --env=test", $this->executeOutput);
     }
 
     /**
