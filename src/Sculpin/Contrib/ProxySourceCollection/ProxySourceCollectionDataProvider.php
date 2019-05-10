@@ -82,7 +82,15 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 // future...
                 continue;
             }
+
             if ($this->filter->match($source)) {
+                // Skip file types that cannot be parsed into blocks.
+                if (!$source->canBeFormatted()) {
+                    $source->setShouldBeSkipped();
+
+                    continue;
+                }
+
                 $this->map->process($source);
                 $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
             }
@@ -129,9 +137,19 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     public function afterConvert(ConvertEvent $convertEvent)
     {
         $sourceId = $convertEvent->source()->sourceId();
-        if (isset($this->collection[$sourceId])) {
-            $item = $this->collection[$sourceId];
-            $item->setBlocks($this->formatterManager->formatSourceBlocks($convertEvent->source()));
+
+        if (!isset($this->collection[$sourceId])) {
+            return;
         }
+
+        $item = $this->collection[$sourceId];
+
+        if (!$item->canBeFormatted()) {
+            echo 'Failed to format (unknown file type?) : ' . $sourceId . PHP_EOL;
+
+            return;
+        }
+
+        $item->setBlocks($this->formatterManager->formatSourceBlocks($convertEvent->source()));
     }
 }

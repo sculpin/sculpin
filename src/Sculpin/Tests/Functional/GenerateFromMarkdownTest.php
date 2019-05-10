@@ -161,4 +161,50 @@ EOT;
 
         $process->stop(0);
     }
+
+    /** @test */
+    public function shouldPassThruFilesWithNoExtension(): void
+    {
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world2');
+
+        $this->executeSculpin('generate');
+
+        $this->assertProjectHasGeneratedFile('/hello_world');
+        $this->assertProjectHasGeneratedFile('/hello_world2');
+
+        $this->assertGeneratedFileHasContent('/hello_world', '# Hello World');
+        $this->assertGeneratedFileHasContent('/hello_world2', '# Hello World');
+    }
+
+    /** @test */
+    public function shouldSkipContentTypeFilesWithNoExtension(): void
+    {
+        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->writeToProjectFile(
+            '/app/config/sculpin_kernel.yml',
+            <<<EOF
+sculpin_content_types:
+  posts:
+    permalink: blog/:basename
+EOF
+        );
+
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world2');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
+
+        $this->executeSculpin('generate');
+
+        $this->assertContains('unknown file type?', implode("\n", $this->executeOutput));
+
+        $this->assertProjectLacksFile('/output_test/_posts/hello_world');
+        $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
+        $this->assertProjectHasGeneratedFile('/blog/hello_world3/index.html');
+
+        $this->assertGeneratedFileHasContent(
+            '/blog/hello_world3/index.html',
+            '<h1 id="hello-world">Hello World</h1>'
+        );
+    }
 }
