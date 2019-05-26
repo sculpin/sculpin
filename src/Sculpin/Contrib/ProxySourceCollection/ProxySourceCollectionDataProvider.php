@@ -84,8 +84,21 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
             }
 
             if ($this->filter->match($source)) {
+                // Skip hidden files.
+                if (0 === strpos($source->filename(), '.')) {
+                    $source->setShouldBeSkipped();
+
+                    continue;
+                }
+
                 // Skip file types that cannot be parsed into blocks.
+                // Files without an extension fall into this category
+                // because the formatter looks for specific extensions.
+                // Files without a newline after the YAML front matter
+                // also fall into this category.
                 if (!$source->canBeFormatted()) {
+                    echo 'Skipping empty or unknown file: ' . $source->relativePathname() . PHP_EOL;
+
                     $source->setShouldBeSkipped();
 
                     continue;
@@ -143,12 +156,6 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
 
         $item = $this->collection[$sourceId];
-
-        if (!$item->canBeFormatted()) {
-            echo 'Failed to format (unknown file type?) : ' . $sourceId . PHP_EOL;
-
-            return;
-        }
 
         $item->setBlocks($this->formatterManager->formatSourceBlocks($convertEvent->source()));
     }

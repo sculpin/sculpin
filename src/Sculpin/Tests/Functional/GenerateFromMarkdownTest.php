@@ -196,10 +196,47 @@ EOF
 
         $this->executeSculpin('generate');
 
-        $this->assertContains('unknown file type?', implode("\n", $this->executeOutput));
+        $actualOutput = implode("\n", $this->executeOutput);
+        $this->assertContains('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
+        $this->assertContains('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
+        $this->assertNotContains('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/hello_world');
         $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
+        $this->assertProjectHasGeneratedFile('/blog/hello_world3/index.html');
+
+        $this->assertGeneratedFileHasContent(
+            '/blog/hello_world3/index.html',
+            '<h1 id="hello-world">Hello World</h1>'
+        );
+    }
+
+    /** @test */
+    public function shouldSkipHiddenFilesSilently(): void
+    {
+        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->writeToProjectFile(
+            '/app/config/sculpin_kernel.yml',
+            <<<EOF
+sculpin_content_types:
+  posts:
+    permalink: blog/:basename
+EOF
+        );
+
+        $this->addProjectFile('/source/_posts/.DS_Store');
+        $this->addProjectFile('/source/_posts/.hello_world2.swp');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
+
+        $this->executeSculpin('generate');
+
+        $actualOutput = implode("\n", $this->executeOutput);
+        $this->assertNotContains('.DS_Store', $actualOutput);
+        $this->assertNotContains('.hello_world2.swp', $actualOutput);
+        $this->assertNotContains('Skipping empty or unknown file:', $actualOutput);
+
+        $this->assertProjectLacksFile('/output_test/_posts/.DS_Store');
+        $this->assertProjectLacksFile('/output_test/_posts/.hello_world2.swp');
         $this->assertProjectHasGeneratedFile('/blog/hello_world3/index.html');
 
         $this->assertGeneratedFileHasContent(
