@@ -22,6 +22,9 @@ class FunctionalTestCase extends TestCase
     /** @var Filesystem */
     protected static $fs;
 
+    /** @var string */
+    protected $executeOutput;
+
     public static function setUpBeforeClass(): void
     {
         static::$fs = new Filesystem();
@@ -72,7 +75,7 @@ class FunctionalTestCase extends TestCase
     {
         $binPath    = __DIR__ . '/../../../../bin';
         $projectDir = static::projectDir();
-        exec("$binPath/sculpin $command --project-dir $projectDir --env=test");
+        exec("$binPath/sculpin $command --project-dir $projectDir --env=test", $this->executeOutput);
     }
 
     /**
@@ -194,6 +197,25 @@ class FunctionalTestCase extends TestCase
 
         $msg = $msg ?: "Expected project to have generated file at path $filePath.";
         $this->assertProjectHasFile($outputDir . $filePath, $msg);
+    }
+
+    /**
+     * @param string $filePath
+     * @param string $expected
+     * @param string|null $msg
+     */
+    protected function assertGeneratedFileHasContent(string $filePath, string $expected, ?string $msg = null): void
+    {
+        $outputDir = '/output_test';
+
+        $msg        = $msg ?: "Expected generated file at path $filePath to have content '$expected'.";
+        $fullPath   = static::projectDir() . $outputDir . $filePath;
+        $fileExists = static::$fs->exists($fullPath);
+
+        $this->assertTrue($fileExists, $msg . ' (File Not Found!)');
+
+        $contents = file_get_contents($fullPath);
+        $this->assertContains($expected, $contents, $msg);
     }
 
     /**
