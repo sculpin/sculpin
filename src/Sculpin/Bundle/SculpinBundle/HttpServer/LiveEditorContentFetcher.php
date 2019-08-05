@@ -20,16 +20,17 @@ class LiveEditorContentFetcher implements ContentFetcher
 
     public function buildPathMap(SourceSet $set): void
     {
-        $this->pathMap = [];
-        $sources       = $set->allSources();
+        $pathMap = [];
+        $docRoot = rtrim($this->docroot, '/\\');
+        $sources = $set->allSources();
 
         foreach ($sources as $source) {
-            if ($source->isGenerated() || $source->isGenerator()) {
-                continue;
-            }
-
-            $this->pathMap[$this->docroot . $source->permalink()->relativeFilePath()] = $source->file()->getPathname();
+            $relativePath      = ltrim($source->permalink()->relativeFilePath(), '/\\');
+            $pathKey           = $docRoot . DIRECTORY_SEPARATOR . $relativePath;
+            $pathMap[$pathKey] = $source->file()->getPathname();
         }
+
+        $this->pathMap = $pathMap;
     }
 
     public function fetchData(string $path): ?string
