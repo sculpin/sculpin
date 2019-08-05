@@ -8,7 +8,7 @@ var SculpinEditor = {
         var body = document.getElementsByTagName('body')[0];
 
         // render bottom bar with edit button
-        body.innerHTML += '<div style="background-color: steelblue; padding: 20px; margin: 0; position: absolute; bottom: 0; left: 0; right: 0;" id="SCULPIN_BOTTOM_BAR">' +
+        body.innerHTML += '<div style="background-color: steelblue; padding: 20px; margin: 0; position: fixed; bottom: 0; left: 0; right: 0;" id="SCULPIN_BOTTOM_BAR">' +
             '<div style="float: left; color: white; font-family: sans-serif;font-size: 1.1em;"><strong><em style="text-transform: uppercase; padding-right: 20px;">Sculpin</em></strong>' +
             '<a href="https://sculpin.io/documentation/sources" style="color: white;">Documentation</a></div>' +
             '<div style="float: right;">' +
