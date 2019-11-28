@@ -11,7 +11,7 @@ addons:
 matrix:
   allow_failures:
     - os: windows
-      language: bash
+      language: node_js
   include:
     - os: linux
       dist: trusty
