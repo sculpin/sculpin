@@ -84,7 +84,7 @@ install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
   - if [[ $DEPS == 'locked' ]]; then travis_retry composer install --no-interaction --ignore-platform-reqs ; fi
-  - stty cols 120
+  - if [[ "$TRAVIS_OS_NAME" == "linux" -o "$TRAVIS_OS_NAME" == "osx" ]]; then stty cols 120; fi
   - COLUMNS=120 composer show
 
 script:
