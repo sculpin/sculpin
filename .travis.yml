@@ -54,19 +54,14 @@ matrix:
         - TEST_COVERAGE=false
         - CHECK_PHPSTAN=false
     - os: osx
-      language: generic
-      env:
-        - DEPS=locked
-        - CHECK_CS=false
-        - TEST_COVERAGE=false
-        - CHECK_PHPSTAN=false
-      before_install:
-        - brew tap homebrew/php
-        - brew update
-        - brew install gettext php73
-        - brew link --force gettext
-        - curl https://getcomposer.org/installer | php
-        - ln -s /Users/travis/build/sculpin/sculpin/composer.phar /usr/local/bin/composer
+      language: node_js
+      node_js: 10
+      addons:
+        homebrew:
+          packages:
+            - php
+            - composer
+          update: true
 
 before_install:
   - travis_retry composer self-update
