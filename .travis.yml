@@ -11,7 +11,7 @@ addons:
 matrix:
   allow_failures:
     - os: windows
-      language: bash
+      language: node_js
   include:
     - os: linux
       dist: trusty
@@ -40,19 +40,41 @@ matrix:
       php: 7.3
       env:
         - DEPS=latest
+    - os: linux
+      dist: trusty
+      language: php
+      php: 7.4snapshot
+      env:
+        - DEPS=latest
     - os: windows
-      language: bash
       env:
         - DEPS=locked
         - CHECK_CS=false
         - TEST_COVERAGE=false
         - CHECK_PHPSTAN=false
+      language: node_js
+      node_js: 10
+      before_install:
+        - choco install php composer
+        - export PATH=/c/tools/php74:/c/ProgramData/ComposerSetup/bin:$PATH
+        - PHP_EXTENSIONS="curl bz2 gd2"
+        - for php_ext in $PHP_EXTENSIONS ; do sed -i -e "s/^;extension=${php_ext}/extension=${php_ext}/" /c/tools/php74/php.ini ; done
+        - sed -i -e 's/^memory_limit = .*/memory_limit = -1/' /c/tools/php74/php.ini
+        - find . -type f -name "*.php" -print0 | xargs -0 sed -i ':a;N;$!ba;s/\r//g'
     - os: osx
+      language: node_js
       env:
         - DEPS=locked
         - CHECK_CS=false
         - TEST_COVERAGE=false
         - CHECK_PHPSTAN=false
+      node_js: 10
+      addons:
+        homebrew:
+          packages:
+            - php
+            - composer
+          update: true
 
 before_install:
   - travis_retry composer self-update
@@ -62,7 +84,7 @@ install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
   - if [[ $DEPS == 'locked' ]]; then travis_retry composer install --no-interaction --ignore-platform-reqs ; fi
-  - stty cols 120
+  - if [[ "$TRAVIS_OS_NAME" == "linux" || "$TRAVIS_OS_NAME" == "osx" ]]; then stty cols 120; fi
   - COLUMNS=120 composer show
 
 script:
