@@ -55,6 +55,11 @@ matrix:
         - CHECK_PHPSTAN=false
     - os: osx
       language: node_js
+      env:
+        - DEPS=locked
+        - CHECK_CS=false
+        - TEST_COVERAGE=false
+        - CHECK_PHPSTAN=false
       node_js: 10
       addons:
         homebrew:
