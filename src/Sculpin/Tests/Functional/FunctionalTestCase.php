@@ -81,7 +81,7 @@ class FunctionalTestCase extends TestCase
             . DIRECTORY_SEPARATOR . 'bin';
         $projectDir = static::projectDir();
         exec(
-            "$binPath" . DIRECTORY_SEPARATOR . "sculpin $command --project-dir $projectDir --env=test",
+            "php $binPath" . DIRECTORY_SEPARATOR . "sculpin $command --project-dir $projectDir --env=test",
             $this->executeOutput
         );
     }
@@ -106,7 +106,7 @@ class FunctionalTestCase extends TestCase
             . DIRECTORY_SEPARATOR . '..'
             . DIRECTORY_SEPARATOR . 'bin';
         $projectDir = static::projectDir();
-        $process    = new Process("$binPath" . DIRECTORY_SEPARATOR . "sculpin $command --project-dir $projectDir --env=test");
+        $process    = new Process("php $binPath" . DIRECTORY_SEPARATOR . "sculpin $command --project-dir $projectDir --env=test");
 
         if ($start) {
             $process->start($callback);
