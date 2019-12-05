@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.3 - 2019-12-04
+
+### Fixed
+
+* PR #438 upgrades the michelf/php-markdown library to version 1.9,
+  fixing some deprecated syntax notices under PHP 7.4
+
 ## 3.0.2 - 2019-05-26
 
 ### Fixed
