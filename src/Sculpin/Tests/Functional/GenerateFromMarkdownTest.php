@@ -197,9 +197,9 @@ EOF
         $this->executeSculpin('generate');
 
         $actualOutput = implode("\n", $this->executeOutput);
-        $this->assertContains('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
-        $this->assertContains('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
-        $this->assertNotContains('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
+        $this->assertContains('Skipping empty or unknown file: _posts' . DIRECTORY_SEPARATOR . 'hello_world' . PHP_EOL, $actualOutput);
+        $this->assertContains('Skipping empty or unknown file: _posts' . DIRECTORY_SEPARATOR . 'hello_world2', $actualOutput);
+        $this->assertNotContains('Skipping empty or unknown file: _posts' . DIRECTORY_SEPARATOR . 'hello_world3.md', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/hello_world');
         $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
