@@ -197,7 +197,7 @@ EOF
         $this->executeSculpin('generate');
 
         $actualOutput = implode("\n", $this->executeOutput);
-        $actualOutput = 0 === strpos($actualOutput, '0x') ? substr($actualOutput, 2) : $actualOutput;
+        $actualOutput = 0 === strpos($actualOutput, '0x') ? hex2bin(substr($actualOutput, 2)) : $actualOutput;
         $this->assertContains('Skipping empty or unknown file: _posts' . DIRECTORY_SEPARATOR . 'hello_world' . PHP_EOL, $actualOutput);
         $this->assertContains('Skipping empty or unknown file: _posts' . DIRECTORY_SEPARATOR . 'hello_world2', $actualOutput);
         $this->assertNotContains('Skipping empty or unknown file: _posts' . DIRECTORY_SEPARATOR . 'hello_world3.md', $actualOutput);
