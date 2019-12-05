@@ -17,7 +17,7 @@ use Symfony\Component\Process\Process;
  */
 class FunctionalTestCase extends TestCase
 {
-    protected const PROJECT_DIR = '/__SculpinTestProject__';
+    protected const PROJECT_DIR = DIRECTORY_SEPARATOR . '__SculpinTestProject__';
 
     /** @var Filesystem */
     protected static $fs;
@@ -42,19 +42,19 @@ class FunctionalTestCase extends TestCase
         $this->tearDownTestProject();
 
         $projectFiles = [
-            '/config/sculpin_kernel.yml',
-            '/config/sculpin_site.yml',
-            '/source/_layouts/default.html.twig',
-            '/source/_layouts/raw.html.twig',
+            DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml',
+            DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_site.yml',
+            DIRECTORY_SEPARATOR . 'source' . DIRECTORY_SEPARATOR . '_layouts' . DIRECTORY_SEPARATOR . 'default.html.twig',
+            DIRECTORY_SEPARATOR . 'source' . DIRECTORY_SEPARATOR . '_layouts' . DIRECTORY_SEPARATOR . 'raw.html.twig',
         ];
 
         foreach ($projectFiles as $file) {
             $this->addProjectFile($file);
         }
 
-        $this->writeToProjectFile('/source/_layouts/default.html.twig', '{% block content %}{% endblock content %}');
+        $this->writeToProjectFile(DIRECTORY_SEPARATOR . 'source' . DIRECTORY_SEPARATOR . '_layouts' . DIRECTORY_SEPARATOR . 'default.html.twig', '{% block content %}{% endblock content %}');
         $this->writeToProjectFile(
-            '/source/_layouts/raw.html.twig',
+            DIRECTORY_SEPARATOR . 'source' . DIRECTORY_SEPARATOR . '_layouts' . DIRECTORY_SEPARATOR . 'raw.html.twig',
             '{% extends "default" %}{% block content %}{% endblock content %}'
         );
     }
@@ -73,9 +73,17 @@ class FunctionalTestCase extends TestCase
      */
     protected function executeSculpin($command): void
     {
-        $binPath    = __DIR__ . '/../../../../bin';
+        $binPath    = __DIR__
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . 'bin';
         $projectDir = static::projectDir();
-        exec("$binPath/sculpin $command --project-dir $projectDir --env=test", $this->executeOutput);
+        exec(
+            "$binPath" . DIRECTORY_SEPARATOR . "sculpin $command --project-dir $projectDir --env=test",
+            $this->executeOutput
+        );
     }
 
     /**
@@ -91,9 +99,14 @@ class FunctionalTestCase extends TestCase
      */
     protected function executeSculpinAsync(string $command, bool $start = true, ?callable $callback = null): Process
     {
-        $binPath    = __DIR__ . '/../../../../bin';
+        $binPath    = __DIR__
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . 'bin';
         $projectDir = static::projectDir();
-        $process    = new Process("$binPath/sculpin $command --project-dir $projectDir --env=test");
+        $process    = new Process("$binPath" . DIRECTORY_SEPARATOR . "sculpin $command --project-dir $projectDir --env=test");
 
         if ($start) {
             $process->start($callback);
@@ -108,20 +121,20 @@ class FunctionalTestCase extends TestCase
      */
     protected function addProjectDirectory(string $path, bool $recursive = true): void
     {
-        $pathParts = explode('/', $path);
+        $pathParts = explode(DIRECTORY_SEPARATOR, $path);
         // Remove leading slash
         array_shift($pathParts);
 
         $projectDir = static::projectDir();
 
         if (!$recursive) {
-            static::$fs->mkdir("$projectDir/$path");
+            static::$fs->mkdir("$projectDir" . DIRECTORY_SEPARATOR . "$path");
             return;
         }
 
-        $currPath = "$projectDir/";
+        $currPath = "$projectDir" . DIRECTORY_SEPARATOR;
         foreach ($pathParts as $dir) {
-            $currPath .= "$dir/";
+            $currPath .= "$dir" . DIRECTORY_SEPARATOR;
             if (!static::$fs->exists($currPath)) {
                 static::$fs->mkdir($currPath);
             }
@@ -134,7 +147,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function addProjectFile(string $filePath, ?string $content = null): void
     {
-        $dirPathParts = explode('/', $filePath);
+        $dirPathParts = explode(DIRECTORY_SEPARATOR, $filePath);
         // Remove leading slash
         array_shift($dirPathParts);
         // Remove file name
@@ -143,7 +156,7 @@ class FunctionalTestCase extends TestCase
         // Add the file directories
         $hasDirectoryPath = !empty($dirPathParts);
         if ($hasDirectoryPath) {
-            $dirPath = '/' . join('/', $dirPathParts);
+            $dirPath = DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, $dirPathParts);
             $this->addProjectDirectory($dirPath);
         }
 
@@ -193,7 +206,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function assertProjectHasGeneratedFile(string $filePath, ?string $msg = null): void
     {
-        $outputDir = '/output_test';
+        $outputDir = DIRECTORY_SEPARATOR . 'output_test';
 
         $msg = $msg ?: "Expected project to have generated file at path $filePath.";
         $this->assertProjectHasFile($outputDir . $filePath, $msg);
@@ -206,7 +219,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function assertGeneratedFileHasContent(string $filePath, string $expected, ?string $msg = null): void
     {
-        $outputDir = '/output_test';
+        $outputDir = DIRECTORY_SEPARATOR . 'output_test';
 
         $msg        = $msg ?: "Expected generated file at path $filePath to have content '$expected'.";
         $fullPath   = static::projectDir() . $outputDir . $filePath;
@@ -233,7 +246,7 @@ class FunctionalTestCase extends TestCase
      */
     protected function crawlGeneratedProjectFile(string $filePath): Crawler
     {
-        return $this->crawlProjectFile('/output_test' . $filePath);
+        return $this->crawlProjectFile(DIRECTORY_SEPARATOR . 'output_test' . $filePath);
     }
 
     /**
