@@ -23,16 +23,48 @@ running with your next Sculpin website.
 Sculpin Skeletons
 -----------------
 
-Skeletons are starting points for a new Sculpin based site. While not strictly
-required (you can always start a site from scratch) using a skeleton is a good
-way to get a bunch of structure in place with little or no effort.
+Skeletons are starting points for a new Sculpin based site. They include the 
+basic structure of a site, such as Twig-based layout files and the supporting 
+templates for generating pagination interfaces and listing your content by 
+custom-defined categories.
 
-Unless otherwise noted, the following skeletons are **barebones**. They will have
-minimal styles (if any at all) and are not intended to be pretty. You are
-expected to add all of the style magic yourself.
+In Sculpin, a metadata property such as a category or tag is called a "taxonomy",
+and the Blog skeletons below also provide taxonomy layouts to help you organize 
+and categorize your content in multiple ways.
+
+While you can always start a site from scratch, using a skeleton is a good way
+to get a bunch of structure in place with little or no effort.
+
+Unless otherwise noted, the following skeletons are **barebones**. They have
+minimal styling and design, and are intended to help you get started with adding 
+all of your own style and flavor.
 
  * [Blog Skeleton](https://github.com/sculpin/sculpin-blog-skeleton)
-   A very basic Sculpin based blog.
+   A minimal Sculpin based blog, based on an older version of Bootstrap CSS.
+ * [Tailwind Blog Skeleton](https://github.com/beryllium/sculpin-tailwind-blog-skeleton)
+   A basic Sculpin-based blog, with updated styling and configuration in place
+   based on the Tailwind utility-first CSS framework.
+ * [Tailwind Landing Page Skeleton](https://github.com/beryllium/sculpin-tailwind-landing-skeleton)
+   Ideal for a Company or Product website, this skeleton focuses on a single
+   product page as an example - no blog in sight. The design is responsive and 
+   mobile-friendly, thanks to TailwindCSS.
+
+Skeletons can be combined with the `composer create-project` command to clone
+Sculpin and install dependencies at the same time:
+
+```
+# Bootstrap Blog
+
+composer create-project sculpin/blog-skeleton my-blog
+
+# Tailwind Blog
+
+composer create-project beryllium/sculpin-tailwind-blog-skeleton my-blog
+
+# Tailwind Product Landing Page
+
+composer create-project beryllium/sculpin-tailwind-landing-skeleton my-company
+```
 
 License
 -------
