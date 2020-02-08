@@ -14,10 +14,11 @@ Visit [sculpin.io](https://sculpin.io) for more information.
 Documentation
 -------------
 
-Sculpin has [documentation](https://sculpin.io/documentation/) but also is
-"learn by example". If you are interested in trying out Sculpin you should fire
-up a Sculpin skeleton site to see Sculpin in action.
+Sculpin documentation can be found at [https://sculpin.io/documentation](https://sculpin.io/documentation/),
+and documentation for the Twig template  language can be found at [https://twig.symfony.com](https://twig.symfony.com/)
 
+There is also a collection of Sculpin "skeletons" to help you hit the ground 
+running with your next Sculpin website.
 
 Sculpin Skeletons
 -----------------
