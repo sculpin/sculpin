@@ -86,14 +86,11 @@ Want to get involved? Here are a few ways:
 Not Invented Here
 -----------------
 
-There are other fine projects from which Sculpin has been inspired. Many are
-more mature than this one. If you are looking for a stable project with an
-established community, try something on the following admittedly incomplete
-list:
+There are other fine projects from which Sculpin has been inspired. If you are 
+looking for a stable project with an established community, try something from 
+the following list:
 
- * [Jekyll](http://jekyllrb.com/) &mdash; Ruby
- * [Octopress](http://octopress.org) &mdash; Ruby (framework on top of Jekyll)
- * [Hyde](http://hyde.github.io/) &mdash; Python
- * [Phrozn](https://github.com/Pawka/phrozn) &mdash; PHP
- * [Pie Crust](https://github.com/ludovicchabant/PieCrust) &mdash; PHP
- * [Pie Crust 2](http://bolt80.com/piecrust) &mdash; Python
+ * [Jigsaw](https://jigsaw.tighten.co/) &mdash; PHP & Laravel-based static site generator
+ * [Jekyll](https://jekyllrb.com/) &mdash; Ruby
+ * [Hugo](https://gohugo.io/) &mdash; Go-based static site generator
+ * [GatsbyJS](https://www.gatsbyjs.org/) &mdash; JS-based static site generator and JAMstack orchestration tool
