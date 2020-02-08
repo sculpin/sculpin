@@ -71,17 +71,17 @@ License
 
 MIT, see [LICENSE](/LICENSE).
 
-
 Community
 ---------
 
 Want to get involved? Here are a few ways:
 
-* Find us in the **#sculpin** IRC channel on **irc.freenode.org**.
-* Join the [Sculpin Users](http://groups.google.com/group/sculpin-users)
-  mailing list.
-* Mention [@getsculpin](http://twitter.com/getsculpin) on Twitter.
-
+* Mention [@getsculpin](https://twitter.com/getsculpin) on Twitter
+* Participate in [Sculpin's GitHub Project](https://github.com/sculpin/sculpin)
+  * A great way to get started in helping with the Sculpin project is by 
+    contributing to the documentation in the [sculpin.io repository](https://github.com/sculpin/sculpin.io/)
+  * For support questions, please add issues to the github repository's
+    [issues page](https://github.com/sculpin/sculpin/issues)
 
 Not Invented Here
 -----------------
