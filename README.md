@@ -1,20 +1,15 @@
 Sculpin - PHP Static Site Generator
 ===================================
 
-[![Gitter chat](https://badges.gitter.im/sculpin/sculpin.svg)](https://gitter.im/sculpin/sculpin)
 [![License](https://poser.pugx.org/sculpin/sculpin/license.svg)](https://packagist.org/packages/sculpin/sculpin)
 [![Build Status](https://travis-ci.org/sculpin/sculpin.svg?branch=develop)](https://travis-ci.org/sculpin/sculpin)
-[![Code Coverage](https://scrutinizer-ci.com/g/sculpin/sculpin/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/sculpin/sculpin/?branch=develop)
 [![Total Downloads](https://poser.pugx.org/sculpin/sculpin/downloads.svg)](https://packagist.org/packages/sculpin/sculpin)
 
+Sculpin takes data sources such as text files (Markdown, Textile, etc.) and
+transforms them using Twig templates to produce a set of static HTML files that
+can be deployed to almost any hosting platform.
 
-Sculpin takes plain old text files (Markdown, Textile, etc.) and combines
-them with Twig templates to produce a set of static HTML files that can
-be easily deployed to almost any hosting platform.
-
-Visit [sculpin.io](http://sculpin.io) for more information.
-
-
+Visit [sculpin.io](https://sculpin.io) for more information.
 
 Documentation
 -------------
