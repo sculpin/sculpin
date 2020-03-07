@@ -55,6 +55,10 @@ final class TwigFormatter implements FormatterInterface
             $this->massageTemplate($formatContext)
         );
         $data = $formatContext->data()->export();
+        
+        // apply twig globals to the context array prior to loading the template
+        $data = $this->twig->mergeGlobals($data);
+        
         $template = $this->twig->loadTemplate($formatContext->templateId());
 
         if (!count($blockNames = $this->findAllBlocks($template, $data))) {
