@@ -1,0 +1,8 @@
+project: "EXAKAT Campaign"
+project_name: "EXAKAT Campaign"
+project_rulesets: 
+    - ExakatRules
+
+rulesets:
+    ExakatRules:
+        - Security/DontEchoError
