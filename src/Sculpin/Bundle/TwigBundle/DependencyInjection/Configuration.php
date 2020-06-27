@@ -43,6 +43,13 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue(['', 'twig', 'html', 'html.twig', 'twig.html'])
                     ->prototype('scalar')->end()
                 ->end()
+                ->scalarNode('webpack_manifest')
+                    ->info(
+                        'Optional relative path to the Webpack Encore manifest file within source/ '
+                        . '(e.g., "build/manifest.json")'
+                    )
+                    ->defaultNull()
+                ->end()
             ->end();
 
         return $treeBuilder;
