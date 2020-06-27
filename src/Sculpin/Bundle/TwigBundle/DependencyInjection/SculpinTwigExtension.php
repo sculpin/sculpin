@@ -37,6 +37,7 @@ class SculpinTwigExtension extends Extension
         $container->setParameter('sculpin_twig.source_view_paths', $config['source_view_paths']);
         $container->setParameter('sculpin_twig.view_paths', $config['view_paths']);
         $container->setParameter('sculpin_twig.extensions', $config['extensions']);
+        $container->setParameter('sculpin_twig.webpack_manifest', $config['webpack_manifest']);
 
         if (! extension_loaded('intl')) {
             // Do not enable the intl Twig extension if the intl PHP extension is not installed.
