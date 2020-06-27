@@ -42,8 +42,8 @@ class FunctionalTestCase extends TestCase
         $this->tearDownTestProject();
 
         $projectFiles = [
-            '/config/sculpin_kernel.yml',
-            '/config/sculpin_site.yml',
+            '/app/config/sculpin_kernel.yml',
+            '/app/config/sculpin_site.yml',
             '/source/_layouts/default.html.twig',
             '/source/_layouts/raw.html.twig',
         ];
