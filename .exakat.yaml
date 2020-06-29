@@ -1,8 +1,4 @@
-project: "EXAKAT Campaign"
-project_name: "EXAKAT Campaign"
-project_rulesets: 
-    - ExakatRules
+project_name: My Project Name
 
-rulesets:
-    ExakatRules:
-        - Security/DontEchoError
+ignore_rules:
+    - Functions/UsesDefaultArguments
