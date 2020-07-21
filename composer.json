@@ -26,7 +26,7 @@
         "doctrine/inflector": "^1.3",
         "michelf/php-markdown": "^1.9",
         "netcarver/textile": "^3.6",
-        "react/http": "^0.8.3",
+        "react/http": "^1.0",
         "sculpin/sculpin-theme-composer-plugin": "^1.0",
         "symfony/config": "^4.1",
         "symfony/console": "^4.1",

@@ -16,7 +16,7 @@ namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 use Dflydev\ApacheMimeTypes\PhpRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\StreamSelectLoop;
-use React\Http\Response;
+use React\Http\Message\Response;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -66,7 +66,7 @@ final class HttpServer
             $this->loop
         );
 
-        $httpServer = new ReactHttpServer(function (ServerRequestInterface $request) use (
+        $httpServer = new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
             $repository,
             $docroot,
             $output
