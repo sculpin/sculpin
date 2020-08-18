@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class InitCommandTest extends FunctionalTestCase
 {
-    protected const PROJECT_DIR = '/__BlankSculpinProject__';
+    protected const PROJECT_DIR = DIRECTORY_SEPARATOR . '__BlankSculpinProject__';
 
     /** @var Finder */
     protected $finder;
@@ -34,7 +34,7 @@ class InitCommandTest extends FunctionalTestCase
 
         $this->assertYamlFileEqualsArray(
             ['sculpin_content_types' => ['posts' => ['enabled' => false]]],
-            $projectDir . '/app/config/sculpin_kernel.yml'
+            $projectDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml'
         );
 
         $this->assertYamlFileEqualsArray(
@@ -44,7 +44,7 @@ class InitCommandTest extends FunctionalTestCase
                 'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
-            $projectDir . '/app/config/sculpin_site.yml'
+            $projectDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_site.yml'
         );
     }
 
@@ -60,7 +60,7 @@ class InitCommandTest extends FunctionalTestCase
 
         $this->assertYamlFileEqualsArray(
             ['sculpin_content_types' => ['posts' => ['enabled' => false]]],
-            $projectDir . '/app/config/sculpin_kernel.yml'
+            $projectDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml'
         );
 
         $this->assertYamlFileEqualsArray(
@@ -70,7 +70,7 @@ class InitCommandTest extends FunctionalTestCase
                 'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
-            $projectDir . '/app/config/sculpin_site.yml'
+            $projectDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_site.yml'
         );
     }
 
@@ -88,16 +88,17 @@ class InitCommandTest extends FunctionalTestCase
     {
         $files = $this->finder->in($projectDir);
 
+        $projectDir = $projectDir . DIRECTORY_SEPARATOR;
         $expected = [
-            $projectDir . '/app',
-            $projectDir . '/app/config',
-            $projectDir . '/app/config/sculpin_site.yml',
-            $projectDir . '/app/config/sculpin_kernel.yml',
-            $projectDir . '/app/SculpinKernel.php',
-            $projectDir . '/source',
-            $projectDir . '/source/_views',
-            $projectDir . '/source/_views/default.html',
-            $projectDir . '/source/index.md',
+            $projectDir . 'app',
+            $projectDir . 'app' . DIRECTORY_SEPARATOR . 'config',
+            $projectDir . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_site.yml',
+            $projectDir . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml',
+            $projectDir . 'app' . DIRECTORY_SEPARATOR . 'SculpinKernel.php',
+            $projectDir . 'source',
+            $projectDir . 'source' . DIRECTORY_SEPARATOR . '_views',
+            $projectDir . 'source' . DIRECTORY_SEPARATOR . '_views' . DIRECTORY_SEPARATOR . 'default.html',
+            $projectDir . 'source' . DIRECTORY_SEPARATOR . 'index.md',
         ];
 
         $actual = array_keys(iterator_to_array($files));
