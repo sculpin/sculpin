@@ -1,0 +1,15 @@
+# This is a basic workflow to help you get started with Actions
+
+on: [push, pull_request]
+name: Test
+jobs:
+  exakat:
+    name: Exakat
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Exakat
+      uses: docker://exakat/exakat-ga
+      with:
+        ignore_rules: 'Php/ShouldUseCoalesce,,Functions/UsesDefaultArguments'
+        ignore_dirs: '/src/Sculpin/Contrib','/src/Sculpin/Core','/src/Sculpin/Bundle'
