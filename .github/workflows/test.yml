@@ -4,7 +4,7 @@ on: [push, pull_request]
 name: Test
 jobs:
   exakat:
-    name: Exakat Scanner
+    name: Exakat Scanner II
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
