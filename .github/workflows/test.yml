@@ -11,5 +11,5 @@ jobs:
     - name: Exakat
       uses: docker://exakat/exakat-ga
       with:
-        ignore_rules: 'Classes/StaticMethodsCalledFromObject,Security/DontEchoError,Php/WrongTypeForNativeFunction,Typehints/MissingReturntype,Structures/NoSubstrOne,Typehints/MissingReturntype,Structures/NoSubstrOne,Structures/UselessCasting,Structures/SwitchWithoutDefault,Functions/WrongReturnedType,Functions/UsesDefaultArguments,Structures/Noscream,Namespaces/HiddenUse,Functions/UsesDefaultArguments'
+        ignore_rules: 'toto,Classes/StaticMethodsCalledFromObject,Security/DontEchoError,Php/WrongTypeForNativeFunction,Typehints/MissingReturntype,Structures/NoSubstrOne,Typehints/MissingReturntype,Structures/NoSubstrOne,Structures/UselessCasting,Structures/SwitchWithoutDefault,Functions/WrongReturnedType,Functions/UsesDefaultArguments,Structures/Noscream,Namespaces/HiddenUse,Functions/UsesDefaultArguments'
         ignore_dirs: '/src/Sculpin/Test,/src/Sculpin/Core,/src/Sculpin/Contrib,/src/Sculpin/Bundle'
