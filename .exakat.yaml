@@ -1,4 +1,4 @@
-project_name: My Project Name
+project_name: My Project Name 
 
 ignore_rules:
     - Functions/UsesDefaultArguments
