@@ -13,6 +13,7 @@ jobs:
       with:
         ignore_rules: 'toto,%+&,Classes/StaticMethodsCalledFromObject'
         ignore_dirs: '/src/Sculpin/Test,/src/Sculpin/Core,/src/Sculpin/Contrib,/src/Sculpin/Bundle'
+        project_reports: "Sarif"
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v1
       with:
