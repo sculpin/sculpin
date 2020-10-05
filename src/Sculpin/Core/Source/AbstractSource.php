@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is a part of Sculpin.
+ * This file is a part of Sculpin.  
  *
  * (c) Dragonfly Development Inc.
  *
