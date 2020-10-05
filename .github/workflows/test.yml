@@ -13,3 +13,9 @@ jobs:
       with:
         ignore_rules: 'toto,%+&,Classes/StaticMethodsCalledFromObject'
         ignore_dirs: '/src/Sculpin/Test,/src/Sculpin/Core,/src/Sculpin/Contrib,/src/Sculpin/Bundle'
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        # Path to SARIF file relative to the root of the repository
+        #Full path : /usr/src/exakat/projects/review/code/exakat.sarif
+        sarif_file: exakat.sarif
