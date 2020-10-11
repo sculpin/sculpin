@@ -85,8 +85,49 @@ final class HttpServer
                 $path = rtrim($path, '/') . '/index.html';
             }
 
-            if ($urlPath === '_SCULPIN_/editor.js' && $fetcher instanceof LiveEditorContentFetcher) {
-                return new Response(200, ['Content-Type' => 'text/javascript'], $fetcher->editorJs());
+            if ($fetcher instanceof LiveEditorContentFetcher) {
+                if ($urlPath === '_SCULPIN_/editor.js') {
+                    return new Response(200, ['Content-Type' => 'text/javascript'], $fetcher->editorJs());
+                }
+
+                if ($urlPath === '_SCULPIN_/hash' && $request->getMethod() === 'GET') {
+                    $params = $request->getQueryParams();
+                    if (!$fetcher->diskPathExists($params['diskPath'])) {
+                        return new Response(
+                            400, // While this might look like a "404" case, the requested URL technically does exist.
+                            ['Content-Type' => 'application/json'],
+                            json_encode(['error' => 'Not Found'])
+                        );
+                    }
+
+                    $hash = $fetcher->hash($params['diskPath']);
+
+                    return new Response(200, ['Content-Type' => 'application/json'], json_encode(['hash' => $hash]));
+                }
+
+                if ($urlPath === '_SCULPIN_/update'
+                    && $request->getMethod() === 'PUT'
+                ) {
+                    $edit = json_decode($request->getBody()->getContents(), true);
+
+                    if (!$fetcher->diskPathExists($edit['diskPath'])) {
+                        HttpServer::logRequest($output, 404, $request);
+
+                        $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
+                            . '<p>'
+                            . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                            . 'could not update the requested resource.'
+                            . '</p>';
+
+                        return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
+                    }
+
+                    $fetcher->save($edit['diskPath'], $edit['content']);
+
+                    HttpServer::logRequest($output, 307, $request);
+
+                    return new Response(307, ['Location' => $edit['path']]);
+                }
             }
 
             if (!file_exists($path)) {
@@ -99,18 +140,6 @@ final class HttpServer
                     . '</p>';
 
                 return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
-            }
-
-            if ($request->getMethod() === 'PUT' && $fetcher instanceof LiveEditorContentFetcher) {
-                $edit = json_decode($request->getBody()->getContents(), true);
-
-                if ($fetcher->diskPathExists($path)) {
-                    $fetcher->save($path, $edit['content']);
-                }
-
-                HttpServer::logRequest($output, 307, $request);
-
-                return new Response(307, ['Location' => $urlPath]);
             }
 
             $type = 'application/octet-stream';

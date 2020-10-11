@@ -9,8 +9,8 @@ var SculpinEditor = {
 
         // render bottom bar with edit button
         body.innerHTML += '<div style="background-color: steelblue; padding: 20px; margin: 0; position: fixed; bottom: 0; left: 0; right: 0;" id="SCULPIN_BOTTOM_BAR">' +
-            '<div style="float: left; color: white; font-family: sans-serif;font-size: 1.1em;"><strong><em style="text-transform: uppercase; padding-right: 20px;">Sculpin</em></strong>' +
-            '<a href="https://sculpin.io/documentation/sources" style="color: white;">Documentation</a></div>' +
+            '<div style="float: left; color: white; font-family: sans-serif;font-size: 1.1em; padding-right: 20px;"><strong><em style="text-transform: uppercase; padding-right: 8px;">Sculpin</em> Live Editor</strong>' +
+            '<a href="https://sculpin.io/documentation/sources" style="color: white; padding-left: 10px;">Documentation</a></div>' +
             '<div style="float: right;">' +
             '<span style="color: white; font-family: sans-serif; padding-right: 20px;"><strong>Current Disk Path:</strong> /'+SCULPIN_EDITOR_METADATA.diskPath+'</span>' +
             '<BUTTON id="SCULPIN_EDIT_BUTTON" style="color: #ffffff; background-color: #9f1770; border: 0; padding: 10px; font-weight: bolder;">Edit This Page</BUTTON></div>' +
@@ -80,11 +80,51 @@ var SculpinEditor = {
         // form submit or await the result of the async version.
         var xmlHttp = new XMLHttpRequest();
 
-        xmlHttp.open('PUT', window.location.href, false);
+        xmlHttp.open('PUT', '/_SCULPIN_/update');
         xmlHttp.setRequestHeader('Content-Type', 'application/json');
-        xmlHttp.send(JSON.stringify({'diskPath': SCULPIN_EDITOR_METADATA.diskPath,'content': content}));
+        xmlHttp.onload = function (e) {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200 || xmlHttp.status === 307) {
+                    SculpinEditor.watchForChanges(SCULPIN_EDITOR_METADATA.diskPath, SCULPIN_EDITOR_METADATA.contentHash)
+                } else {
+                    console.error(xmlHttp.statusText);
+                }
+            }
+        };
+        xmlHttp.send(JSON.stringify({
+            'diskPath': SCULPIN_EDITOR_METADATA.diskPath,
+            'path': window.location.pathname,
+            'content': content,
+            'contentHash': SCULPIN_EDITOR_METADATA.contentHash
+        }));
+    },
 
-        document.location.reload();
+    // @todo there is a bug in here where, if the content wasn't changed, the interval will constantly retry.
+    watchForChanges: function (diskPath, oldHash) {
+        console.log('watching for changes to ' + diskPath + ' hash: ' + oldHash);
+        setInterval(function () {
+            var xmlHttp = new XMLHttpRequest();
+
+            xmlHttp.open('GET', '/_SCULPIN_/hash?diskPath=' + diskPath);
+            xmlHttp.setRequestHeader('Content-Type', 'application/json');
+            xmlHttp.onload = function (e) {
+                if (xmlHttp.readyState === 4) {
+                    if (xmlHttp.status === 200) {
+                        // fetch body
+                        // check that hash has changed from oldHash
+                        // if so, reload the current page
+                        const data = JSON.parse(xmlHttp.responseText);
+                        if (data.hash !== oldHash) {
+                            document.location.reload();
+                            return;
+                        }
+                    } else {
+                        console.error(xmlHttp.statusText);
+                    }
+                }
+            };
+            xmlHttp.send();
+        }, 500);
     }
 };
 

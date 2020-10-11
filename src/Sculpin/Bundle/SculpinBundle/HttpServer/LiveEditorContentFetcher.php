@@ -60,6 +60,7 @@ class LiveEditorContentFetcher implements ContentFetcher
             'url'      => $url,
             'diskPath' => $diskPath,
             'content'  => $content,
+            'contentHash' => md5_file($path),
         ]);
 
         // modify the body content to activate the live editor
@@ -78,11 +79,13 @@ EOF;
 
     public function diskPathExists($path): bool
     {
-        if (!isset($this->pathMap[$path])) {
+        $fullPath = $this->docroot . $path;
+
+        if (!isset($this->pathMap[$fullPath])) {
             return false;
         }
 
-        return file_exists($this->pathMap[$path]);
+        return file_exists($this->pathMap[$fullPath]);
     }
 
     public function save($path, $content): void
@@ -91,6 +94,15 @@ EOF;
             return;
         }
 
-        file_put_contents($this->pathMap[$path], $content);
+        file_put_contents($this->pathMap[$this->docroot . $path], $content);
+    }
+
+    public function hash($path): ?string
+    {
+        if (!$this->diskPathExists($path)) {
+            return null;
+        }
+
+        return md5_file($this->docroot . $path);
     }
 }
