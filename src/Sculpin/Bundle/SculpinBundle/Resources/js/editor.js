@@ -74,6 +74,13 @@ var SculpinEditor = {
     saveChanges: function () {
         var content = document.getElementById('SCULPIN_EDIT_TEXTAREA').value;
 
+        if (content === SCULPIN_EDITOR_METADATA.content) {
+            // nothing has changed
+            // pretend like something changed
+            document.location.reload();
+            return;
+        }
+
         // PUT content to the appropriate spot
         // this logic is temporary. Would be nice to use local storage to make sure that nothing gets lost if
         // user navs away. Also, XHR synchronous usage is deprecated, would be nice to either redo this as a
