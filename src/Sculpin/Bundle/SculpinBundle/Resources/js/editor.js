@@ -12,7 +12,7 @@ var SculpinEditor = {
             '<div style="float: left; color: white; font-family: sans-serif;font-size: 1.1em; padding-right: 20px;"><strong><em style="text-transform: uppercase; padding-right: 8px;">Sculpin</em> Live Editor</strong>' +
             '<a href="https://sculpin.io/documentation/sources" style="color: white; padding-left: 10px;">Documentation</a></div>' +
             '<div style="float: right;">' +
-            '<span style="color: white; font-family: sans-serif; padding-right: 20px;"><strong>Current Disk Path:</strong> /'+SCULPIN_EDITOR_METADATA.diskPath+'</span>' +
+            '<span style="color: white; font-family: sans-serif; padding-right: 20px;"><strong>Current Disk Path:</strong> /'+SCULPIN_EDITOR_METADATA.url+'</span>' +
             '<BUTTON id="SCULPIN_EDIT_BUTTON" style="color: #ffffff; background-color: #9f1770; border: 0; padding: 10px; font-weight: bolder;">Edit This Page</BUTTON></div>' +
             '</div>';
         // width: 100%; background-color: steelblue; padding-top: 20px; padding-bottom: 20px; position: fixed; bottom: 0px; left: 0px; padding-left: 0px; margin: 0px !important; display: none;
@@ -26,7 +26,7 @@ var SculpinEditor = {
         // load editor box with content
         var body = document.getElementsByTagName('body')[0];
         body.innerHTML += '<div id="SCULPIN_EDIT_PANEL" style="background-color: steelblue; padding: 12px; position: fixed; bottom: 0; height: 50%; left: 0; right: 0;">' +
-            '<h3 style="color: white; font-family: sans-serif;">Editing <small>/'+SCULPIN_EDITOR_METADATA.diskPath+'</small></h3>' +
+            '<h3 style="color: white; font-family: sans-serif;">Editing <small>/'+SCULPIN_EDITOR_METADATA.url+'</small></h3>' +
             '<textarea style="width: 100%; font-size: 1.02em; font-family: \'Roboto Mono\', monospace; padding-bottom: 12px; height: 70%;" id="SCULPIN_EDIT_TEXTAREA">' + SCULPIN_EDITOR_METADATA.content + '</textarea>' +
             '<div style="margin-top: 8px;"><button id="SCULPIN_SAVE_CHANGES" style="color: #ffffff; background-color: #9f1770; border: 0; padding: 10px; margin-right: 12px;font-weight: bolder;">Save Changes</button>' +
             '<button id="SCULPIN_CANCEL_CHANGES" style="color: #ffffff; background-color: #9f480c; border: 0; padding: 10px; margin-top: 10px;font-weight: bolder;">Cancel</button></div>' +
@@ -85,7 +85,7 @@ var SculpinEditor = {
         xmlHttp.onload = function (e) {
             if (xmlHttp.readyState === 4) {
                 if (xmlHttp.status === 200 || xmlHttp.status === 307) {
-                    SculpinEditor.watchForChanges(SCULPIN_EDITOR_METADATA.diskPath, SCULPIN_EDITOR_METADATA.contentHash)
+                    SculpinEditor.watchForChanges(SCULPIN_EDITOR_METADATA.url, SCULPIN_EDITOR_METADATA.contentHash)
                 } else {
                     console.error(xmlHttp.statusText);
                 }
@@ -93,6 +93,7 @@ var SculpinEditor = {
         };
         xmlHttp.send(JSON.stringify({
             'diskPath': SCULPIN_EDITOR_METADATA.diskPath,
+            'url': SCULPIN_EDITOR_METADATA.url,
             'path': window.location.pathname,
             'content': content,
             'contentHash': SCULPIN_EDITOR_METADATA.contentHash
@@ -100,12 +101,11 @@ var SculpinEditor = {
     },
 
     // @todo there is a bug in here where, if the content wasn't changed, the interval will constantly retry.
-    watchForChanges: function (diskPath, oldHash) {
-        console.log('watching for changes to ' + diskPath + ' hash: ' + oldHash);
+    watchForChanges: function (url, oldHash) {
         setInterval(function () {
             var xmlHttp = new XMLHttpRequest();
 
-            xmlHttp.open('GET', '/_SCULPIN_/hash?diskPath=' + diskPath);
+            xmlHttp.open('GET', '/_SCULPIN_/hash?url=' + url);
             xmlHttp.setRequestHeader('Content-Type', 'application/json');
             xmlHttp.onload = function (e) {
                 if (xmlHttp.readyState === 4) {

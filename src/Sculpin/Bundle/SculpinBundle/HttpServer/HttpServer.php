@@ -92,7 +92,7 @@ final class HttpServer
 
                 if ($urlPath === '_SCULPIN_/hash' && $request->getMethod() === 'GET') {
                     $params = $request->getQueryParams();
-                    if (!$fetcher->diskPathExists($params['diskPath'])) {
+                    if (!$fetcher->diskPathExists($params['url'])) {
                         return new Response(
                             400, // While this might look like a "404" case, the requested URL technically does exist.
                             ['Content-Type' => 'application/json'],
@@ -100,7 +100,7 @@ final class HttpServer
                         );
                     }
 
-                    $hash = $fetcher->hash($params['diskPath']);
+                    $hash = $fetcher->hash($params['url']);
 
                     return new Response(200, ['Content-Type' => 'application/json'], json_encode(['hash' => $hash]));
                 }
@@ -110,7 +110,7 @@ final class HttpServer
                 ) {
                     $edit = json_decode($request->getBody()->getContents(), true);
 
-                    if (!$fetcher->diskPathExists($edit['diskPath'])) {
+                    if (!$fetcher->diskPathExists($edit['url'])) {
                         HttpServer::logRequest($output, 404, $request);
 
                         $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
@@ -122,7 +122,7 @@ final class HttpServer
                         return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
                     }
 
-                    $fetcher->save($edit['diskPath'], $edit['content']);
+                    $fetcher->save($edit['url'], $edit['content']);
 
                     HttpServer::logRequest($output, 307, $request);
 
