@@ -62,9 +62,9 @@ class CompositeDataSourceTest extends TestCase
 
         $dataSource = new CompositeDataSource([$ds000, $ds001, $ds002]);
 
-        $this->assertContains('TestDataSource:000', $dataSource->dataSourceId());
-        $this->assertContains('TestDataSource:001', $dataSource->dataSourceId());
-        $this->assertContains('TestDataSource:002', $dataSource->dataSourceId());
+        $this->assertStringContainsString('TestDataSource:000', $dataSource->dataSourceId());
+        $this->assertStringContainsString('TestDataSource:001', $dataSource->dataSourceId());
+        $this->assertStringContainsString('TestDataSource:002', $dataSource->dataSourceId());
     }
 
     public function testRefresh()
