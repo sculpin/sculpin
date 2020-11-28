@@ -45,7 +45,7 @@ class WebpackEncoreHelper extends AbstractExtension implements GlobalsInterface
     {
         $path = $this->sourceDir . DIRECTORY_SEPARATOR . $this->manifest;
 
-        if (!file_exists($path) || !is_readable($path)) {
+        if (!file_exists($path) || !is_readable($path) || !is_file($path)) {
             return '';
         }
 
