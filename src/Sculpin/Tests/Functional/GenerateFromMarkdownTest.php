@@ -25,7 +25,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
 
         $crawler = $this->crawlGeneratedProjectFile('/hello_world/index.html');
 
-        $this->assertContains('Hello World', $crawler->filter('h1')->text());
+        $this->assertStringContainsString('Hello World', $crawler->filter('h1')->text());
     }
 
     /** @test */
@@ -66,7 +66,7 @@ EOT
             $pageContentEl->count(),
             "Expected generated file to have a single .page-content element."
         );
-        $this->assertContains('Hello World', $pageContentEl->text());
+        $this->assertStringContainsString('Hello World', $pageContentEl->text());
     }
 
     /** @test */
@@ -116,8 +116,8 @@ EOT;
             "Expected generated file to have a single .header element."
         );
 
-        $this->assertContains($expectedHeader, $pageHeaderEl->text());
-        $this->assertContains($expectedContent, $pageContentEl->text());
+        $this->assertStringContainsString($expectedHeader, $pageHeaderEl->text());
+        $this->assertStringContainsString($expectedContent, $pageContentEl->text());
 
         // update the content
         $originalHeader  = $expectedHeader;
@@ -142,7 +142,7 @@ EOT;
             "Expected generated file to have a single .page-content element."
         );
 
-        $this->assertContains($expectedContent, $pageContentEl->text());
+        $this->assertStringContainsString($expectedContent, $pageContentEl->text());
 
         // test that layouts/views refresh properly
         $this->addProjectFile($layoutFile, $layoutContent);
@@ -157,7 +157,7 @@ EOT;
             "Expected generated file to have a single .header element."
         );
 
-        $this->assertContains($expectedHeader, $pageHeaderEl->text()); // I don't get it. This should be failing.
+        $this->assertStringContainsString($expectedHeader, $pageHeaderEl->text()); // I don't get it. This should be failing.
 
         $process->stop(0);
     }
@@ -197,9 +197,9 @@ EOF
         $this->executeSculpin('generate');
 
         $actualOutput = implode("\n", $this->executeOutput);
-        $this->assertContains('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
-        $this->assertContains('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
-        $this->assertNotContains('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
+        $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
+        $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
+        $this->assertStringNotContainsString('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/hello_world');
         $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
@@ -231,9 +231,9 @@ EOF
         $this->executeSculpin('generate');
 
         $actualOutput = implode("\n", $this->executeOutput);
-        $this->assertNotContains('.DS_Store', $actualOutput);
-        $this->assertNotContains('.hello_world2.swp', $actualOutput);
-        $this->assertNotContains('Skipping empty or unknown file:', $actualOutput);
+        $this->assertStringNotContainsString('.DS_Store', $actualOutput);
+        $this->assertStringNotContainsString('.hello_world2.swp', $actualOutput);
+        $this->assertStringNotContainsString('Skipping empty or unknown file:', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/.DS_Store');
         $this->assertProjectLacksFile('/output_test/_posts/.hello_world2.swp');

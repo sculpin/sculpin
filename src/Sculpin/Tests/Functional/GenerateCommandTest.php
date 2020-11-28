@@ -10,7 +10,7 @@ class GenerateCommandTest extends FunctionalTestCase
         . DIRECTORY_SEPARATOR . 'config'
         . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml';
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

@@ -215,7 +215,7 @@ class FunctionalTestCase extends TestCase
         $this->assertTrue($fileExists, $msg . ' (File Not Found!)');
 
         $contents = file_get_contents($fullPath);
-        $this->assertContains($expected, $contents, $msg);
+        $this->assertStringContainsString($expected, $contents, $msg);
     }
 
     /**
