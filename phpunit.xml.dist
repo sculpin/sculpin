@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-    backupStaticAttributes="false"
-    colors="true"
-    convertErrorsToExceptions="false"
-    convertNoticesToExceptions="false"
-    convertWarningsToExceptions="false"
-    processIsolation="false"
-    stopOnFailure="false"
-    stopOnError="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
-    bootstrap="vendor/autoload.php">
-    <testsuites>
-        <testsuite name="Sculpin Test Suite">
-            <directory>./src/Sculpin/Bundle/*/Tests</directory>
-            <directory>./src/Sculpin/Core/Tests</directory>
-            <directory>./src/Sculpin/Contrib/*/Tests</directory>
-            <directory>./src/Sculpin/Tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>./src/Sculpin/</directory>
-            <exclude>
-                <directory>./src/Sculpin/Bundle/*/Tests</directory>
-                <directory>./src/Sculpin/Bundle/*/Resources</directory>
-                <directory>./src/Sculpin/Bundle/*/vendor</directory>
-                <directory>./src/Sculpin/Core/Tests</directory>
-                <directory>./src/Sculpin/Core/vendor</directory>
-                <directory>./src/Sculpin/Contrib/*/Tests</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" convertErrorsToExceptions="false" convertNoticesToExceptions="false" convertWarningsToExceptions="false" processIsolation="false" stopOnFailure="false" stopOnError="false" stopOnIncomplete="false" stopOnSkipped="false" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory>./src/Sculpin/</directory>
+    </include>
+    <exclude>
+      <directory>./src/Sculpin/Bundle/*/Tests</directory>
+      <directory>./src/Sculpin/Bundle/*/Resources</directory>
+      <directory>./src/Sculpin/Bundle/*/vendor</directory>
+      <directory>./src/Sculpin/Core/Tests</directory>
+      <directory>./src/Sculpin/Core/vendor</directory>
+      <directory>./src/Sculpin/Contrib/*/Tests</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Sculpin Test Suite">
+      <directory>./src/Sculpin/Bundle/*/Tests</directory>
+      <directory>./src/Sculpin/Core/Tests</directory>
+      <directory>./src/Sculpin/Contrib/*/Tests</directory>
+      <directory>./src/Sculpin/Tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
