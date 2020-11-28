@@ -196,7 +196,7 @@ EOF
 
         $this->executeSculpin('generate');
 
-        $actualOutput = implode("\n", $this->executeOutput);
+        $actualOutput = $this->executeOutput;
         $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
         $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
         $this->assertStringNotContainsString('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
@@ -230,7 +230,7 @@ EOF
 
         $this->executeSculpin('generate');
 
-        $actualOutput = implode("\n", $this->executeOutput);
+        $actualOutput = $this->executeOutput;
         $this->assertStringNotContainsString('.DS_Store', $actualOutput);
         $this->assertStringNotContainsString('.hello_world2.swp', $actualOutput);
         $this->assertStringNotContainsString('Skipping empty or unknown file:', $actualOutput);

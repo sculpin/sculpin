@@ -25,6 +25,9 @@ class FunctionalTestCase extends TestCase
     /** @var string */
     protected $executeOutput;
 
+    /** @var string */
+    protected $errorOutput;
+
     public static function setUpBeforeClass(): void
     {
         static::$fs = new Filesystem();
@@ -73,9 +76,15 @@ class FunctionalTestCase extends TestCase
      */
     protected function executeSculpin($command): void
     {
-        $binPath    = __DIR__ . '/../../../../bin';
-        $projectDir = static::projectDir();
-        exec("$binPath/sculpin $command --project-dir $projectDir --env=test", $this->executeOutput);
+        $process = $this->executeSculpinAsync($command, false);
+        $process->run();
+        $this->executeOutput = $process->getOutput();
+        $this->errorOutput = $process->getErrorOutput();
+
+        // This is a temporary assertion for diagnostic purposes.
+        // When adding tests that analyze error output,
+        // you are welcome to move this to its own specific test.
+        self::assertSame('', $this->errorOutput, 'Execution output should not contain errors');
     }
 
     /**
