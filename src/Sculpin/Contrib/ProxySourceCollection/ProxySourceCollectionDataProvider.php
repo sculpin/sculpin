@@ -40,8 +40,8 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $dataProviderName,
         $dataSingularName = null,
         ProxySourceCollection $collection = null,
-        FilterInterface $filter,
-        MapInterface $map,
+        FilterInterface $filter = null,
+        MapInterface $map = null,
         ProxySourceItemFactoryInterface $factory = null
     ) {
         $this->formatterManager = $formatterManager;
