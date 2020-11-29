@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "ext-mbstring": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
         "dflydev/apache-mime-types": "^1.0.1",
@@ -41,9 +41,9 @@
         "webignition/internet-media-type": "^0.4.8"
     },
     "require-dev": {
-        "phpdocumentor/reflection-docblock": "^4.3",
-        "phpstan/phpstan": "^0.10.3",
-        "phpunit/phpunit": "^7.3",
+        "phpdocumentor/reflection-docblock": "^5.2",
+        "phpstan/phpstan": "^0.12.57",
+        "phpunit/phpunit": "^9.4",
         "squizlabs/php_codesniffer": "^3.3",
         "symfony/css-selector": "^4.1",
         "symfony/dom-crawler": "^4.1",
