@@ -157,7 +157,10 @@ EOT;
             "Expected generated file to have a single .header element."
         );
 
-        $this->assertStringContainsString($expectedHeader, $pageHeaderEl->text()); // I don't get it. This should be failing.
+        $this->assertStringContainsString(
+            $expectedHeader,
+            $pageHeaderEl->text()
+        );
 
         $process->stop(0);
     }
@@ -197,7 +200,10 @@ EOF
         $this->executeSculpin('generate');
 
         $actualOutput = $this->executeOutput;
-        $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
+        $this->assertStringContainsString(
+            'Skipping empty or unknown file: _posts/hello_world' . PHP_EOL,
+            $actualOutput
+        );
         $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
         $this->assertStringNotContainsString('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
 
