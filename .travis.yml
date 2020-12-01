@@ -41,7 +41,7 @@ matrix:
       env:
         - DEPS=latest
     - os: linux
-      dist: trusty
+      dist: xenial
       language: php
       php: 8.0
       env:
