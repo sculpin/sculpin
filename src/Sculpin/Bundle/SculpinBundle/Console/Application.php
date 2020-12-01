@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
+use Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -125,6 +126,10 @@ final class Application extends BaseApplication
 
     public function getMissingSculpinBundlesMessages(): array
     {
+        if (!$this->kernel instanceof AbstractKernel) {
+            return [];
+        }
+
         $messages = [];
 
         // Display missing bundle to user.
