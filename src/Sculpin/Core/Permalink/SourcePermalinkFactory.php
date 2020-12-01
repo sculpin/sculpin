@@ -81,7 +81,6 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         switch ($permalink) {
             case 'none':
                 return $pathname;
-                break;
             case 'pretty':
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', array_merge($response, ['index.html']));
@@ -100,7 +99,6 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 }
 
                 return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
-                break;
             default:
                 [$year, $yr, $month, $mo, $day, $dy] = explode('-', date('Y-y-m-n-d-j', (int) $date));
                 $permalink = preg_replace('/:year/', $year, $permalink);
@@ -162,7 +160,6 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 }
 
                 return $permalink;
-                break;
         }
     }
 

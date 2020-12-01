@@ -20,7 +20,7 @@ use StableSort\StableSort;
 class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
     /**
-     * @var $items ProxySourceItem[]
+     * @var ProxySourceItem[] $items
      */
     protected $items = [];
     protected $sorter;
