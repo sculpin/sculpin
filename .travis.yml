@@ -16,22 +16,7 @@ matrix:
     - os: linux
       dist: trusty
       language: php
-      php: 7.2
-      env:
-        - DEPS=lowest
-    - os: linux
-      dist: trusty
-      language: php
-      php: 7.2
-      env:
-        - DEPS=locked
-        - CHECK_CS=true
-        - TEST_COVERAGE=true
-        - CHECK_PHPSTAN=true
-    - os: linux
-      dist: trusty
-      language: php
-      php: 7.2
+      php: 7.3
       env:
         - DEPS=latest
     - os: linux
@@ -39,7 +24,16 @@ matrix:
       language: php
       php: 7.3
       env:
-        - DEPS=latest
+        - DEPS=lowest
+    - os: linux
+      dist: trusty
+      language: php
+      php: 7.3
+      env:
+        - DEPS=locked
+        - CHECK_CS=true
+        - TEST_COVERAGE=true
+        - CHECK_PHPSTAN=true
     - os: linux
       dist: trusty
       language: php
