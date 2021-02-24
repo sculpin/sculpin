@@ -1,0 +1,11 @@
+name: Codesniffer
+on: [pull_request]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Composer dependencies
+              run: composer install
+            - name: PHPCS check
+              uses: chekalsky/phpcs-action@v1
