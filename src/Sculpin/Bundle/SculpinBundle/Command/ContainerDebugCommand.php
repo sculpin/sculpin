@@ -113,13 +113,13 @@ EOF
      *
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->validateInput($input);
 
         if ($input->getOption('parameters')) {
             if (!$this->getContainer() instanceof Container) {
-                return;
+                return 0;
             }
             $parameters = $this->getContainer()->getParameterBag()->all();
 
@@ -128,20 +128,20 @@ EOF
 
             $this->outputParameters($output, $parameters);
 
-            return;
+            return 0;
         }
 
         $parameter = $input->getOption('parameter');
         if (null !== $parameter) {
             $output->write($this->formatParameter($this->getContainer()->getParameter($parameter)));
 
-            return;
+            return 0;
         }
 
         if ($input->getOption('tags')) {
             $this->outputTags($output, $input->getOption('show-private'));
 
-            return;
+            return 0;
         }
 
         $tag = $input->getOption('tag');
@@ -163,6 +163,8 @@ EOF
         } else {
             $this->outputServices($output, $serviceIds, $input->getOption('show-private'), $tag);
         }
+
+        return 0;
     }
 
     private function validateInput(InputInterface $input)

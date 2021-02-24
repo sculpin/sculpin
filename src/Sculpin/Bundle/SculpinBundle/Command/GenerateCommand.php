@@ -86,7 +86,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -150,6 +150,8 @@ EOT
                 }
             } while ($watch);
         }
+
+        return 0;
     }
 
     /**
