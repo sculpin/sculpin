@@ -186,7 +186,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @param string $path
      *
-     * @return mixed
+     * @return array|null
      */
     private function isDatePath(string $path): ?array
     {

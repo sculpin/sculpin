@@ -89,9 +89,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     {
         $this->sort();
 
-        /**
-         * @var $item ProxySourceItem|null
-         */
+        /** @var ProxySourceItem|null $item */
         $item = null;
 
         foreach (array_reverse($this->items) as $currItem) {
