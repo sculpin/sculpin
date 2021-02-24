@@ -82,17 +82,18 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
             case 'none':
                 return $pathname;
             case 'pretty':
-                if ($response = $this->isDatePath($pathname)) {
-                    return implode('/', array_merge($response, ['index.html']));
-                } else {
+                $response = $this->isDatePath($pathname);
+
+                if (!$response) {
                     $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', $pathname);
-                    if (basename($pretty) == 'index') {
+                    if (basename($pretty) === 'index') {
                         return $pretty . '.html';
-                    } else {
-                        return $pretty . '/index.html';
                     }
+
+                    return $pretty . '/index.html';
                 }
-                break;
+
+                return implode('/', array_merge($response, ['index.html']));
             case 'date':
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', $response).'.html';
