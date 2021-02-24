@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sculpin\Core\Formatter;
 
 use Dflydev\DotAccessConfiguration\Configuration as Data;
+use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -31,7 +32,7 @@ final class FormatContext
     private $template;
 
     /**
-     * @var Data
+     * @var ConfigurationInterface
      */
     private $data;
 
@@ -52,7 +53,7 @@ final class FormatContext
         return $this->template;
     }
 
-    public function data(): Data
+    public function data(): ConfigurationInterface
     {
         return $this->data;
     }

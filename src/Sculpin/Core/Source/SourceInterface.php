@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
+use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Sculpin\Core\Permalink\PermalinkInterface;
-use Dflydev\DotAccessConfiguration\Configuration;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -80,7 +80,7 @@ interface SourceInterface
 
     public function filename(): string;
 
-    public function data(): Configuration;
+    public function data(): ConfigurationInterface;
 
     /**
      * Whether this source is a generator.
