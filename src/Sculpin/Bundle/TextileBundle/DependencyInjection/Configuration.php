@@ -27,9 +27,9 @@ class Configuration implements ConfigurationInterface
     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder;
+        $treeBuilder = new TreeBuilder('sculpin_textile');
 
-        $rootNode = $treeBuilder->root('sculpin_textile');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
