@@ -46,7 +46,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
         $kernel = $this->getContainer()->get('kernel');
@@ -60,5 +60,7 @@ EOT
         );
 
         $httpServer->run();
+
+        return 0;
     }
 }
