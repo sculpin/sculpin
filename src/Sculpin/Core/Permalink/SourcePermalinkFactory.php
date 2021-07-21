@@ -215,7 +215,12 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
     {
         $param = trim($param);
         if (function_exists('iconv')) {
-            $param = @iconv('utf-8', 'us-ascii//TRANSLIT', $param);
+            // Try to transliterate accented characters
+            $converted = @iconv('utf-8', 'us-ascii//TRANSLIT', $param);
+            // Only overwrite $param if conversion was successful
+            if ($converted !== false) {
+                $param = $converted;
+            }
         }
         $param = preg_replace('/[^a-zA-Z0-9 -]/', '', $param);
         $param = strtolower($param);
