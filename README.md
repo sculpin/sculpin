@@ -20,6 +20,21 @@ and documentation for the Twig template  language can be found at [https://twig.
 There is also a collection of Sculpin "skeletons" to help you hit the ground 
 running with your next Sculpin website.
 
+Development
+-----------
+
+To make development more consistent, you can use the optional vagrant box provided. 
+You will need to install at least [vagrant](https://www.vagrantup.com/) and have 
+something to run a VM with (LXC or Virtualbox). Under Windows you will be prompted 
+to install the winnfsd plugin for faster access.
+
+To have all dependencies, you have to execute `git submodule update --init` once.
+
+To bring the box up you can just type `vagrant up`
+
+The box is then running locally under `sculpin.test` and you can ssh into it with `vagrant ssh`
+
+
 Sculpin Skeletons
 -----------------
 

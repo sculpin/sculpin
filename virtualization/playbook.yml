@@ -1,0 +1,11 @@
+---
+- hosts: all
+  vars_files:
+    - parameters.yml
+  become: no
+
+  roles:
+    - { role: base }
+    - { role: git }
+    - { role: php }
+    - { role: composer }
