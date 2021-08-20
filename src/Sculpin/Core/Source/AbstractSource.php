@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
-use Sculpin\Core\Permalink\PermalinkInterface;
+use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
-use Sculpin\Core\Source\SourceInterface;
+use Sculpin\Core\Permalink\PermalinkInterface;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -43,7 +43,7 @@ abstract class AbstractSource implements SourceInterface
     protected $formattedContent;
 
     /**
-     * @var Data
+     * @var ConfigurationInterface
      */
     protected $data;
 
@@ -160,7 +160,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function data(): Data
+    public function data(): ConfigurationInterface
     {
         return $this->data;
     }

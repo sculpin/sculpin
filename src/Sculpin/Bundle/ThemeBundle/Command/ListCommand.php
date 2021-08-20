@@ -40,7 +40,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $themeRegistry = $this->getContainer()->get('sculpin_theme.theme_registry');
         $activeTheme = $themeRegistry->findActiveTheme();
@@ -62,5 +62,7 @@ EOT
             }
             $output->writeln($themeOutput);
         }
+
+        return 0;
     }
 }

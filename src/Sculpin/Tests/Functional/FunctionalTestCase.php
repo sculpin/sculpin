@@ -266,7 +266,7 @@ class FunctionalTestCase extends TestCase
     }
 
     /**
-     * @param $filePath
+     * @param string $filePath
      * @return string
      */
     private function readFile(string $filePath): string
