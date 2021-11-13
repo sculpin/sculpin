@@ -36,7 +36,6 @@
         "symfony/finder": "^4.4.13",
         "symfony/http-kernel": "^4.4.13",
         "symfony/yaml": "^4.4.13",
-        "twig/extensions": "^1.5",
         "twig/twig": "^2.5",
         "webignition/internet-media-type": "^0.4.8"
     },
