@@ -111,7 +111,7 @@ EOT
             $config->set('url', $url);
         }
 
-        $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
+        $consoleIo = new ConsoleIo($input, $output);
 
         if ($input->getOption('server')) {
             $this->throwExceptions = false;
