@@ -10,4 +10,4 @@ jobs:
             - name: Phpstan check
               uses: OskarStark/phpstan-ga@0.12.75
               with:
-                  args: analyse src/ --level 1
+                  args: analyse
