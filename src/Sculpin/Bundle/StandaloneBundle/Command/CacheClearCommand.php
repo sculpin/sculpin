@@ -51,7 +51,7 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $cacheDir = $this->getContainer()->getParameter('kernel.cache_dir');
         $filesystem   = $this->getContainer()->get('filesystem');
@@ -63,5 +63,7 @@ EOF
 
             $filesystem->remove($cacheDir);
         }
+
+        return 0;
     }
 }
