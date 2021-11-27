@@ -85,7 +85,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluralType   = $input->getArgument('type');
         $singularType = Inflector::singularize($pluralType);
@@ -112,7 +112,7 @@ EOT
 
             $output->writeln("\nRemember to add the content type definition (displayed above) to sculpin_kernel.yml!");
 
-            return;
+            return 0;
         }
 
         $output->writeln('Generating boilerplate for ' . $pluralType);
@@ -134,6 +134,8 @@ EOT
         }
 
         $output->writeln("\nRemember to add the content type definition (displayed above) to sculpin_kernel.yml!");
+
+        return 0;
     }
 
     private function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array

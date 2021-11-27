@@ -5,7 +5,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+            - name: Composer dependencies
+              run: composer install
             - name: Phpstan check
               uses: OskarStark/phpstan-ga@0.12.75
               with:
-                  args: analyse src/ --level 4
+                  args: analyse

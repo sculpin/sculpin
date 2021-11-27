@@ -86,7 +86,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -111,7 +111,7 @@ EOT
             $config->set('url', $url);
         }
 
-        $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
+        $consoleIo = new ConsoleIo($input, $output);
 
         if ($input->getOption('server')) {
             $this->throwExceptions = false;
@@ -150,6 +150,8 @@ EOT
                 }
             } while ($watch);
         }
+
+        return 0;
     }
 
     /**
