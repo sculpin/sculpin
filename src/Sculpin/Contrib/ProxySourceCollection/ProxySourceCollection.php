@@ -31,6 +31,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         $this->sorter = $sorter ?: new DefaultSorter;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -40,46 +41,55 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->items[$offset]) ? $this->items[$offset] : null;
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->items);
     }
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->items);
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->items);
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         return next($this->items);
     }
 
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return $this->current() !== false;
     }
 
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->items);

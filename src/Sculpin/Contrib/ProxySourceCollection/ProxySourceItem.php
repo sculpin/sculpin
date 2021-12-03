@@ -109,6 +109,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         $this->setHasChanged();
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -127,11 +128,13 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return ! method_exists($this, $offset) && null !== $this->data()->get($offset);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         if (! method_exists($this, $offset)) {
@@ -142,6 +145,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (method_exists($this, $offset)) {
