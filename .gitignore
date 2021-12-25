@@ -4,3 +4,5 @@ __BlankSculpinProject__/
 __SculpinTestProject__/
 output_test/
 clover.xml
+.php-version
+.phpunit.result.cache
