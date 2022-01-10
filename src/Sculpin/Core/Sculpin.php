@@ -38,6 +38,8 @@ final class Sculpin
     public const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
     public const EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
+    public const EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
+
     public const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
     public const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
@@ -137,6 +139,8 @@ final class Sculpin
             $source->data()->set('relative_pathname', $source->relativePathname());
             $source->data()->set('filename', $source->filename());
         }
+
+        $this->eventDispatcher->dispatch(self::EVENT_AFTER_GENERATE, new SourceSetEvent($sourceSet));
 
         if ($updatedSources = $sourceSet->updatedSources()) {
             if (!$found) {
