@@ -107,14 +107,14 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $permalink = preg_replace('/:mo/', $mo, $permalink);
                 $permalink = preg_replace('/:day/', $day, $permalink);
                 $permalink = preg_replace('/:dy/', $dy, $permalink);
-                $permalink = preg_replace('/:title/', $this->normalize($title), $permalink);
-                $permalink = preg_replace('/:slug_title/', $slug ?: $this->normalize($title), $permalink);
+                $permalink = preg_replace('/:title/', $this->normalize((string)$title), $permalink);
+                $permalink = preg_replace('/:slug_title/', $slug ?: $this->normalize((string)$title), $permalink);
                 $filename = $pathname;
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];
                 }
                 $permalink = preg_replace('/:filename/', $filename, $permalink);
-                $permalink = preg_replace('/:slug_filename/', $slug ?: $this->normalize($filename), $permalink);
+                $permalink = preg_replace('/:slug_filename/', $slug ?: $this->normalize((string)$filename), $permalink);
                 if (strrpos($filename, DIRECTORY_SEPARATOR) !== false) {
                     $basename = substr($filename, strrpos($filename, DIRECTORY_SEPARATOR)+1);
                 } else {
