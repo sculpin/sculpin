@@ -19,4 +19,19 @@ class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
     {
         return parent::transform($content);
     }
+
+    /**
+     * Casts $attr to String to ensure safe internal handling of preg_* calls
+     *
+     * @inheritDoc
+     */
+    public function doExtraAttributes($tag_name, $attr, $defaultIdValue = null, $classes = [])
+    {
+        return parent::doExtraAttributes(
+            $tag_name,
+            (string)$attr,
+            $defaultIdValue,
+            $classes
+        );
+    }
 }
