@@ -86,5 +86,10 @@
         "phpstan": "phpstan analyse -l 4 src/",
         "test": "phpunit --colors=always",
         "test-coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-clover clover.xml --coverage-text --colors=always"
+    },
+    "config": {
+        "allow-plugins": {
+            "sculpin/sculpin-theme-composer-plugin": true
+        }
     }
 }
