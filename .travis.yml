@@ -14,38 +14,17 @@ matrix:
       language: node_js
   include:
     - os: linux
-      dist: trusty
+      dist: focal
       language: php
-      php: 7.3
+      php: 8.1
       env:
         - DEPS=latest
     - os: linux
-      dist: trusty
+      dist: focal
       language: php
-      php: 7.3
+      php: 8.2
       env:
-        - DEPS=lowest
-    - os: linux
-      dist: trusty
-      language: php
-      php: 7.3
-      env:
-        - DEPS=locked
-        - CHECK_CS=true
-        - TEST_COVERAGE=true
-        - CHECK_PHPSTAN=true
-    - os: linux
-      dist: trusty
-      language: php
-      php: 7.4
-      env:
-        - DEPS=latest
-    - os: linux
-      dist: xenial
-      language: php
-      php: 8.0
-      env:
-        - DEPS=latest
+          - DEPS=latest
     - os: windows
       env:
         - DEPS=locked
