@@ -191,18 +191,18 @@ add to <info>app/config/sculpin_kernel.yml</info>:
 ================START OF YAML================
 
 sculpin_content_types:
-    ${type}:
+    {$type}:
         type: path
-        path: _${type}
-        singular_name: ${singularType}
-        layout: ${singularType}
+        path: _{$type}
+        singular_name: {$singularType}
+        layout: {$singularType}
         enabled: true
-        permalink: ${type}/:title
+        permalink: {$type}/:title
 EOT;
         if ($taxonomies) {
             $outputMessage .= "\n        taxonomies:\n";
             foreach ($taxonomies as $taxonomy) {
-                $outputMessage .= "            - ${taxonomy}\n";
+                $outputMessage .= "            - {$taxonomy}\n";
             }
         }
 
@@ -234,10 +234,10 @@ use: [$plural]
 <nav>
     {% if page.pagination.previous_page or page.pagination.next_page %}
     {% if page.pagination.previous_page %}
-    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${title}</a>
+    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer {$title}</a>
     {% endif %}
     {% if page.pagination.next_page %}
-    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${title}</a>
+    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older {$title}</a>
     {% endif %}
     {% endif %}
 </nav>
@@ -270,10 +270,10 @@ EOT;
                 $singularTaxonomy = Inflector::singularize($taxonomy);
                 $output .= <<<EOT
     <div class="taxonomy">
-        <a href="{{site.url }}/${plural}/{$taxonomy}">${capitalTaxonomy}</a>:
-        {% for ${singularTaxonomy} in page.${taxonomy} %}
-        <a href="{{ site.url }}/${plural}/${taxonomy}/{{ ${singularTaxonomy} }}">
-            {{ ${singularTaxonomy} }}
+        <a href="{{site.url }}/{$plural}/{$taxonomy}">{$capitalTaxonomy}</a>:
+        {% for {$singularTaxonomy} in page.{$taxonomy} %}
+        <a href="{{ site.url }}/{$plural}/{$taxonomy}/{{ {$singularTaxonomy} }}">
+            {{ {$singularTaxonomy} }}
         </a>{% if not loop.last %}, {% endif %}
         {% endfor %}
       </div>
@@ -304,13 +304,13 @@ EOT;
         return <<<EOT
 ---
 layout: default
-use: [${plural}_${taxonomy}]
+use: [{$plural}_{$taxonomy}]
 ---
-<h1>${title}</h1>
+<h1>{$title}</h1>
 <ul>
-    {% for ${singularTaxonomy},${plural} in data.${plural}_${taxonomy} %}
+    {% for {$singularTaxonomy},{$plural} in data.{$plural}_{$taxonomy} %}
         <li>
-            <a href="/${plural}/${taxonomy}/{{ ${singularTaxonomy}|url_encode(true) }}">{{ ${singularTaxonomy} }}</a>
+            <a href="/{$plural}/{$taxonomy}/{{ {$singularTaxonomy}|url_encode(true) }}">{{ {$singularTaxonomy} }}</a>
         </li>
     {% endfor %}
 </ul>
@@ -327,25 +327,25 @@ EOT;
         return <<<EOT
 ---
 layout: default
-generator: [${plural}_${singularTaxonomy}_index, pagination]
+generator: [{$plural}_{$singularTaxonomy}_index, pagination]
 pagination:
-    provider: page.${singularTaxonomy}_${plural}
+    provider: page.{$singularTaxonomy}_{$plural}
     max_per_page: 10
 ---
-<h1>{{ page.${singularTaxonomy}|capitalize }}</h1>
+<h1>{{ page.{$singularTaxonomy}|capitalize }}</h1>
 <ul>
-    {% for ${singular} in page.pagination.items %}
-        <li><a href="{{ ${singular}.url }}">{{ ${singular}.title }}</a></li>
+    {% for {$singular} in page.pagination.items %}
+        <li><a href="{{ {$singular}.url }}">{{ {$singular}.title }}</a></li>
     {% endfor %}
 </ul>
 
 <nav>
     {% if page.pagination.previous_page or page.pagination.next_page %}
     {% if page.pagination.previous_page %}
-    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer ${title}</a>
+    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer {$title}</a>
     {% endif %}
     {% if page.pagination.next_page %}
-    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older ${title}</a>
+    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older {$title}</a>
     {% endif %}
     {% endif %}
 </nav>
