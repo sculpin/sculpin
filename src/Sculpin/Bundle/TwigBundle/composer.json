@@ -20,7 +20,7 @@
         "symfony/config": "~2.3",
         "symfony/dependency-injection": "~2.3",
         "symfony/http-kernel": "~2.3",
-        "twig/twig": ">=1.9.1,<2.0-dev",
+        "twig/twig": "^3.0",
         "sculpin/core": "self.version"
     },
     "autoload": {

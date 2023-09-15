@@ -86,7 +86,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name)
+    public function getCacheKey($name): string
     {
         if (isset($this->cachedCacheKey[$name])) {
             $extension = $this->cachedCacheKeyExtension[$name];
@@ -116,7 +116,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
     /**
      * {@inheritdoc}
      */
-    public function isFresh($name, $time)
+    public function isFresh($name, $time): bool
     {
         $this->getCacheKey($name);
 
