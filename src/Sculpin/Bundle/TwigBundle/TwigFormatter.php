@@ -17,7 +17,7 @@ use Sculpin\Core\Formatter\FormatContext;
 use Sculpin\Core\Formatter\FormatterInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
-use Twig\Template;
+use Twig\TemplateWrapper;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -55,7 +55,7 @@ final class TwigFormatter implements FormatterInterface
             $this->massageTemplate($formatContext)
         );
         $data = $formatContext->data()->export();
-        $template = $this->twig->loadTemplate($formatContext->templateId());
+        $template = $this->twig->load($formatContext->templateId());
 
         if (!count($blockNames = $this->findAllBlocks($template, $data))) {
             return ['content' => $template->render($data)];
@@ -68,7 +68,7 @@ final class TwigFormatter implements FormatterInterface
         return $blocks;
     }
 
-    public function findAllBlocks(Template $template, array $context): array
+    public function findAllBlocks(TemplateWrapper $template, array $context): array
     {
         return $template->getBlockNames($context);
     }
