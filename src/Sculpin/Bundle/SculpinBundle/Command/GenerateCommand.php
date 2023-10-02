@@ -77,9 +77,9 @@ class GenerateCommand extends AbstractCommand
                 new InputOption('source-dir', null, InputOption::VALUE_REQUIRED, 'Source Directory'),
             ])
             ->setHelp(<<<EOT
-The <info>generate</info> command generates a site.
+            The <info>generate</info> command generates a site.
 
-EOT
+            EOT
             );
     }
 

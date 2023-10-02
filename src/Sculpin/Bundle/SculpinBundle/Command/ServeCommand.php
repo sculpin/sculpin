@@ -37,9 +37,9 @@ class ServeCommand extends AbstractCommand
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
             ])
             ->setHelp(<<<EOT
-The <info>serve</info> command serves a site.
+            The <info>serve</info> command serves a site.
 
-EOT
+            EOT
             )->setAliases(['server']);
     }
 
