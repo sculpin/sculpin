@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
-use Dflydev\Canal\Analyzer\Analyzer;
+use League\MimeTypeDetection\MimeTypeDetector;
 use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Util\DirectorySeparatorNormalizer;
@@ -50,9 +50,9 @@ final class FilesystemDataSource implements DataSourceInterface
     private $pathMatcher;
 
     /**
-     * @var Analyzer
+     * @var MimeTypeDetector
      */
-    private $analyzer;
+    private $detector;
 
     /**
      * @var DirectorySeparatorNormalizer
@@ -75,7 +75,7 @@ final class FilesystemDataSource implements DataSourceInterface
         array $ignorePaths,
         array $rawPaths,
         AntPathMatcher $matcher = null,
-        Analyzer $analyzer = null,
+        MimeTypeDetector $detector = null,
         DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->sourceDir = $sourceDir;
@@ -83,7 +83,7 @@ final class FilesystemDataSource implements DataSourceInterface
         $this->ignorePaths = $ignorePaths;
         $this->rawPaths = $rawPaths;
         $this->pathMatcher = $matcher ?: new AntPathMatcher;
-        $this->analyzer = $analyzer;
+        $this->detector = $detector;
         $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
@@ -172,7 +172,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 }
             }
 
-            $source = new FileSource($this->analyzer, $this, $file, $isRaw, true);
+            $source = new FileSource($this->detector, $this, $file, $isRaw, true);
             $sourceSet->mergeSource($source);
         }
 

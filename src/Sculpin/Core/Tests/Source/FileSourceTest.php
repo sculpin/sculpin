@@ -3,12 +3,10 @@
 declare(strict_types=1);
 namespace Sculpin\Core\Tests\Source;
 
-use Dflydev\Canal\Analyzer\Analyzer;
+use League\MimeTypeDetection\FinfoMimeTypeDetector;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\FileSource;
 use Symfony\Component\Finder\SplFileInfo;
-use Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface;
-use Dflydev\Canal\InternetMediaType\InternetMediaTypeFactory;
 use Sculpin\Core\Source\DataSourceInterface;
 
 class FileSourceTest extends TestCase
@@ -20,7 +18,7 @@ class FileSourceTest extends TestCase
     public function makeTestSource($filename, $hasChanged = true)
     {
         $source = new FileSource(
-            $this->makeTestAnalyzer(),
+            $this->makeTestDetector(),
             $this->makeTestDatasource(),
             new SplFileInfo($filename, '../Fixtures', $filename),
             false,
@@ -30,45 +28,15 @@ class FileSourceTest extends TestCase
         return $source;
     }
 
-    public function makeTestAnalyzer()
+    public function makeTestDetector()
     {
-        $analyzer = $this->createMock(Analyzer::class);
-
-        $analyzer
+        $detector = $this->createMock(FinfoMimeTypeDetector::class);
+        $detector
             ->expects($this->any())
-            ->method('getInternetMediaTypeFactory')
-            ->will($this->returnValue($this->makeTestInternetMediaFactory()));
+            ->method('detectMimeType')
+            ->will($this->returnValue('text/yml'));
 
-        $analyzer
-            ->expects($this->any())
-            ->method('detectFromFilename')
-            ->will($this->returnValue($this->makeTestInternetMediaType()));
-
-        return $analyzer;
-    }
-
-    public function makeTestInternetMediaType()
-    {
-        $type = $this->createMock(InternetMediaTypeInterface::class);
-
-        $type
-            ->expects($this->any())
-            ->method('getType')
-            ->will($this->returnValue('text'));
-
-        return $type;
-    }
-
-    public function makeTestInternetMediaFactory()
-    {
-        $factory = $this->createMock(InternetMediaTypeFactory::class);
-
-        $factory
-            ->expects($this->any())
-            ->method('createApplicationXml')
-            ->will($this->returnValue('html/yml'));
-
-        return $factory;
+        return $detector;
     }
 
     public function makeTestDatasource()
