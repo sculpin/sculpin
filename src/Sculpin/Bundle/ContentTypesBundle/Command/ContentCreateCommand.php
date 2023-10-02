@@ -69,16 +69,16 @@ final class ContentCreateCommand extends AbstractCommand
         );
 
         $this->setHelp(<<<EOT
-The <info>content:create</info> command helps you create a custom content type and the associated boilerplate/templates.
+            The <info>content:create</info> command helps you create a custom content type and the associated boilerplate/templates.
 
-Example:
+            Example:
 
-      vendor/bin/sculpin content:create docs -t product -t year
+                  vendor/bin/sculpin content:create docs -t product -t year
 
-NOTE: This command does not automatically modify the <info>app/config/sculpin_kernel.yml</info> file. You will have to
-      add the suggested changes yourself.
+            NOTE: This command does not automatically modify the <info>app/config/sculpin_kernel.yml</info> file. You will have to
+                  add the suggested changes yourself.
 
-EOT
+            EOT
         );
     }
 
@@ -186,19 +186,19 @@ EOT
     {
         $outputMessage = <<<EOT
 
-YAML content type definition you will have to
-add to <info>app/config/sculpin_kernel.yml</info>:
-================START OF YAML================
+        YAML content type definition you will have to
+        add to <info>app/config/sculpin_kernel.yml</info>:
+        ================START OF YAML================
 
-sculpin_content_types:
-    {$type}:
-        type: path
-        path: _{$type}
-        singular_name: {$singularType}
-        layout: {$singularType}
-        enabled: true
-        permalink: {$type}/:title
-EOT;
+        sculpin_content_types:
+            {$type}:
+                type: path
+                path: _{$type}
+                singular_name: {$singularType}
+                layout: {$singularType}
+                enabled: true
+                permalink: {$type}/:title
+        EOT;
         if ($taxonomies) {
             $outputMessage .= "\n        taxonomies:\n";
             foreach ($taxonomies as $taxonomy) {
@@ -216,51 +216,51 @@ EOT;
         $title = ucfirst($plural);
 
         return <<<EOT
----
-layout: default
-title: $title
-generator: pagination
-pagination:
-    provider: data.$plural
-    max_per_page: 10
-use: [$plural]
----
-<ul>
-    {% for $singular in page.pagination.items %}
-        <li><a href="{{ $singular.url }}">{{ $singular.title }}</a></li>
-    {% endfor %}
-</ul>
+        ---
+        layout: default
+        title: $title
+        generator: pagination
+        pagination:
+            provider: data.$plural
+            max_per_page: 10
+        use: [$plural]
+        ---
+        <ul>
+            {% for $singular in page.pagination.items %}
+                <li><a href="{{ $singular.url }}">{{ $singular.title }}</a></li>
+            {% endfor %}
+        </ul>
 
-<nav>
-    {% if page.pagination.previous_page or page.pagination.next_page %}
-    {% if page.pagination.previous_page %}
-    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer {$title}</a>
-    {% endif %}
-    {% if page.pagination.next_page %}
-    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older {$title}</a>
-    {% endif %}
-    {% endif %}
-</nav>
-EOT;
+        <nav>
+            {% if page.pagination.previous_page or page.pagination.next_page %}
+            {% if page.pagination.previous_page %}
+            <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer {$title}</a>
+            {% endif %}
+            {% if page.pagination.next_page %}
+            <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older {$title}</a>
+            {% endif %}
+            {% endif %}
+        </nav>
+        EOT;
     }
 
     private function getViewTemplate(string $plural, array $taxonomies = []): string
     {
         $output = <<<EOT
-{% extends 'default' %}
+        {% extends 'default' %}
 
-{% block content_wrapper %}
-<article>
-  <header>
-    <h2>{{ page.title }}</h2>
-  {% if page.subtitle %}
-    <h3 class="subtitle">{{ page.subtitle }}</h3>
-  {% endif %}
-  </header>
-  <section class="main_body">
-    {{ page.blocks.content|raw }}
-  </section>
-EOT;
+        {% block content_wrapper %}
+        <article>
+          <header>
+            <h2>{{ page.title }}</h2>
+          {% if page.subtitle %}
+            <h3 class="subtitle">{{ page.subtitle }}</h3>
+          {% endif %}
+          </header>
+          <section class="main_body">
+            {{ page.blocks.content|raw }}
+          </section>
+        EOT;
 
         if ($taxonomies) {
             $output .= "\n" . '  <section class="taxonomies">' . "\n";
@@ -269,27 +269,27 @@ EOT;
                 $capitalTaxonomy  = ucwords($taxonomy);
                 $singularTaxonomy = Inflector::singularize($taxonomy);
                 $output .= <<<EOT
-    <div class="taxonomy">
-        <a href="{{site.url }}/{$plural}/{$taxonomy}">{$capitalTaxonomy}</a>:
-        {% for {$singularTaxonomy} in page.{$taxonomy} %}
-        <a href="{{ site.url }}/{$plural}/{$taxonomy}/{{ {$singularTaxonomy} }}">
-            {{ {$singularTaxonomy} }}
-        </a>{% if not loop.last %}, {% endif %}
-        {% endfor %}
-      </div>
-EOT;
+                    <div class="taxonomy">
+                        <a href="{{site.url }}/{$plural}/{$taxonomy}">{$capitalTaxonomy}</a>:
+                        {% for {$singularTaxonomy} in page.{$taxonomy} %}
+                        <a href="{{ site.url }}/{$plural}/{$taxonomy}/{{ {$singularTaxonomy} }}">
+                            {{ {$singularTaxonomy} }}
+                        </a>{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                      </div>
+                EOT;
             }
 
             $output .= "\n" . '  </section>' . "\n";
         }
 
         $output .= <<<EOT
-  <footer>
-    <p class="published_date">Published: {{page.date|date('F j, Y')}}</p>
-  </footer>
-</article>
-{% endblock content_wrapper %}
-EOT;
+          <footer>
+            <p class="published_date">Published: {{page.date|date('F j, Y')}}</p>
+          </footer>
+        </article>
+        {% endblock content_wrapper %}
+        EOT;
 
         return $output;
     }
@@ -302,19 +302,19 @@ EOT;
         $title = ucfirst($taxonomy);
 
         return <<<EOT
----
-layout: default
-use: [{$plural}_{$taxonomy}]
----
-<h1>{$title}</h1>
-<ul>
-    {% for {$singularTaxonomy},{$plural} in data.{$plural}_{$taxonomy} %}
-        <li>
-            <a href="/{$plural}/{$taxonomy}/{{ {$singularTaxonomy}|url_encode(true) }}">{{ {$singularTaxonomy} }}</a>
-        </li>
-    {% endfor %}
-</ul>
-EOT;
+        ---
+        layout: default
+        use: [{$plural}_{$taxonomy}]
+        ---
+        <h1>{$title}</h1>
+        <ul>
+            {% for {$singularTaxonomy},{$plural} in data.{$plural}_{$taxonomy} %}
+                <li>
+                    <a href="/{$plural}/{$taxonomy}/{{ {$singularTaxonomy}|url_encode(true) }}">{{ {$singularTaxonomy} }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        EOT;
     }
 
     private function getTaxonomyViewTemplate(
@@ -325,30 +325,30 @@ EOT;
         $title = ucfirst($plural);
 
         return <<<EOT
----
-layout: default
-generator: [{$plural}_{$singularTaxonomy}_index, pagination]
-pagination:
-    provider: page.{$singularTaxonomy}_{$plural}
-    max_per_page: 10
----
-<h1>{{ page.{$singularTaxonomy}|capitalize }}</h1>
-<ul>
-    {% for {$singular} in page.pagination.items %}
-        <li><a href="{{ {$singular}.url }}">{{ {$singular}.title }}</a></li>
-    {% endfor %}
-</ul>
+        ---
+        layout: default
+        generator: [{$plural}_{$singularTaxonomy}_index, pagination]
+        pagination:
+            provider: page.{$singularTaxonomy}_{$plural}
+            max_per_page: 10
+        ---
+        <h1>{{ page.{$singularTaxonomy}|capitalize }}</h1>
+        <ul>
+            {% for {$singular} in page.pagination.items %}
+                <li><a href="{{ {$singular}.url }}">{{ {$singular}.title }}</a></li>
+            {% endfor %}
+        </ul>
 
-<nav>
-    {% if page.pagination.previous_page or page.pagination.next_page %}
-    {% if page.pagination.previous_page %}
-    <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer {$title}</a>
-    {% endif %}
-    {% if page.pagination.next_page %}
-    <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older {$title}</a>
-    {% endif %}
-    {% endif %}
-</nav>
-EOT;
+        <nav>
+            {% if page.pagination.previous_page or page.pagination.next_page %}
+            {% if page.pagination.previous_page %}
+            <a href="{{ site.url }}{{ page.pagination.previous_page.url }}">Newer {$title}</a>
+            {% endif %}
+            {% if page.pagination.next_page %}
+            <a href="{{ site.url }}{{ page.pagination.next_page.url }}">Older {$title}</a>
+            {% endif %}
+            {% endif %}
+        </nav>
+        EOT;
     }
 }
