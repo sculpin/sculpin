@@ -74,36 +74,36 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                 )
             ])
             ->setDescription('Displays current services for an application')
-            ->setHelp(<<<EOF
-The <info>%command.name%</info> command displays all configured <comment>public</comment> services:
+            ->setHelp(<<<EOT
+            The <info>%command.name%</info> command displays all configured <comment>public</comment> services:
 
-  <info>php %command.full_name%</info>
+              <info>php %command.full_name%</info>
 
-To get specific information about a service, specify its name:
+            To get specific information about a service, specify its name:
 
-  <info>php %command.full_name% validator</info>
+              <info>php %command.full_name% validator</info>
 
-By default, private services are hidden. You can display all services by
-using the --show-private flag:
+            By default, private services are hidden. You can display all services by
+            using the --show-private flag:
 
-  <info>php %command.full_name% --show-private</info>
+              <info>php %command.full_name% --show-private</info>
 
-Use the --tags option to display tagged <comment>public</comment> services grouped by tag:
+            Use the --tags option to display tagged <comment>public</comment> services grouped by tag:
 
-  <info>php %command.full_name% --tags</info>
+              <info>php %command.full_name% --tags</info>
 
-Find all services with a specific tag by specifying the tag name with the --tag option:
+            Find all services with a specific tag by specifying the tag name with the --tag option:
 
-  <info>php %command.full_name% --tag=form.type</info>
+              <info>php %command.full_name% --tag=form.type</info>
 
-Use the --parameters option to display all parameters:
+            Use the --parameters option to display all parameters:
 
-  <info>php %command.full_name% --parameters</info>
+              <info>php %command.full_name% --parameters</info>
 
-Display a specific parameter by specifying his name with the --parameter option:
+            Display a specific parameter by specifying his name with the --parameter option:
 
-  <info>php %command.full_name% --parameter=kernel.debug</info>
-EOF
+              <info>php %command.full_name% --parameter=kernel.debug</info>
+            EOT
             )
         ;
     }

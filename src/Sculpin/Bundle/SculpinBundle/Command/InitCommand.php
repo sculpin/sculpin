@@ -57,9 +57,9 @@ final class InitCommand extends AbstractCommand
                 ),
             ])
             ->setHelp(<<<EOT
-The <info>init</info> command initializes a default site configuration.
+            The <info>init</info> command initializes a default site configuration.
 
-EOT
+            EOT
             );
     }
 
@@ -128,20 +128,20 @@ EOT
 
     private function createDefaultKernel(string $projectDir, OutputInterface $output): bool
     {
-        $contents = <<<EOF
-<?php
+        $contents = <<<EOT
+        <?php
 
-class SculpinKernel extends \Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel
-{
-    protected function getAdditionalSculpinBundles(): array
-    {
-        return [
-//            'App\\Bundle\\ExampleBundle\\AppExampleBundle'
-        ];
-    }
-}
+        class SculpinKernel extends \Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel
+        {
+            protected function getAdditionalSculpinBundles(): array
+            {
+                return [
+        //            'App\\Bundle\\ExampleBundle\\AppExampleBundle'
+                ];
+            }
+        }
 
-EOF;
+        EOT;
         $this->createFile($projectDir . '/app/SculpinKernel.php', $contents);
 
         return true;
@@ -149,12 +149,12 @@ EOF;
 
     private function createSiteKernelFile(string $projectDir, OutputInterface $output): bool
     {
-        $contents = <<<EOF
-sculpin_content_types:
-    posts:
-      enabled: false
+        $contents = <<<EOT
+        sculpin_content_types:
+            posts:
+              enabled: false
 
-EOF;
+        EOT;
         $this->createFile($projectDir . '/app/config/sculpin_kernel.yml', $contents);
 
         return true;
@@ -166,13 +166,13 @@ EOF;
         string $subTitle,
         OutputInterface $output
     ): bool {
-        $contents = <<<EOF
-title: "$title"
-subtitle: "$subTitle"
-google_analytics_tracking_id: ''
-url: ''
+        $contents = <<<EOT
+        title: "$title"
+        subtitle: "$subTitle"
+        google_analytics_tracking_id: ''
+        url: ''
 
-EOF;
+        EOT;
         $this->createFile($projectDir . '/app/config/sculpin_site.yml', $contents);
 
         return true;
@@ -184,27 +184,27 @@ EOF;
 
         $fs->dumpFile(
             $projectDir . '/source/index.md',
-            <<<EOF
----
-layout: default
----
+            <<<EOT
+            ---
+            layout: default
+            ---
 
-<h1>Welcome to {{site.title}}</h1>
+            <h1>Welcome to {{site.title}}</h1>
 
-EOF
+            EOT
         );
 
         $fs->dumpFile(
             $projectDir . '/source/_views/default.html',
-            <<<EOF
-<html>
-<head><title>{{site.title}}</title></head>
-<body>
-{% block content_wrapper %}{% block content '' %}{% endblock content_wrapper %}
-</body>
-</html>
+            <<<EOT
+            <html>
+            <head><title>{{site.title}}</title></head>
+            <body>
+            {% block content_wrapper %}{% block content '' %}{% endblock content_wrapper %}
+            </body>
+            </html>
 
-EOF
+            EOT
         );
 
         return true;

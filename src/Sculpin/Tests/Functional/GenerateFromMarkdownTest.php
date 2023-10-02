@@ -42,18 +42,18 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     public function shouldGenerateHtmlUsingALayout()
     {
         $this->addProjectFile('/source/_layouts/my_layout.html.twig', <<<EOT
-<body>
-	<div class="page-content">{% block content %}{% endblock content %}</div>
-</body>
-EOT
+        <body>
+            <div class="page-content">{% block content %}{% endblock content %}</div>
+        </body>
+        EOT
         );
 
         $this->addProjectFile('/source/my_page_with_layout.md', <<<EOT
----
-layout: my_layout.html.twig
----
-Hello World
-EOT
+        ---
+        layout: my_layout.html.twig
+        ---
+        Hello World
+        EOT
         );
 
         $this->executeSculpin('generate');
@@ -80,18 +80,18 @@ EOT
         $expectedContent = 'Hello World';
 
         $layoutContent = <<<EOT
-<body>
-    <h1 class="header">{$expectedHeader}</h1>
-	<div class="page-content">{% block content %}{% endblock content %}</div>
-</body>
-EOT;
+        <body>
+            <h1 class="header">{$expectedHeader}</h1>
+            <div class="page-content">{% block content %}{% endblock content %}</div>
+        </body>
+        EOT;
 
         $pageContent = <<<EOT
----
-layout: my_layout.html.twig
----
-{$expectedContent}
-EOT;
+        ---
+        layout: my_layout.html.twig
+        ---
+        {$expectedContent}
+        EOT;
 
         $this->addProjectFile($layoutFile, $layoutContent);
         $this->addProjectFile($pageFile, $pageContent);
@@ -186,11 +186,11 @@ EOT;
         $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
         $this->writeToProjectFile(
             '/app/config/sculpin_kernel.yml',
-            <<<EOF
-sculpin_content_types:
-  posts:
-    permalink: blog/:basename
-EOF
+            <<<EOT
+            sculpin_content_types:
+              posts:
+                permalink: blog/:basename
+            EOT
         );
 
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world');
@@ -223,11 +223,11 @@ EOF
         $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
         $this->writeToProjectFile(
             '/app/config/sculpin_kernel.yml',
-            <<<EOF
-sculpin_content_types:
-  posts:
-    permalink: blog/:basename
-EOF
+            <<<EOT
+            sculpin_content_types:
+              posts:
+                permalink: blog/:basename
+            EOT
         );
 
         $this->addProjectFile('/source/_posts/.DS_Store');
