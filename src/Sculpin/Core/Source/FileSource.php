@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
-use Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface;
+use League\MimeTypeDetection\MimeTypeDetector;
 use Symfony\Component\Finder\SplFileInfo;
-use Dflydev\Canal\Analyzer\Analyzer;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
 use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
 
@@ -25,32 +24,24 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
 final class FileSource extends AbstractSource
 {
     /**
-     * @var Analyzer
+     * @var MimeTypeDetector
      */
-    private $analyzer;
-
-    /**
-     * @var InternetMediaTypeInterface
-     */
-    private $applicationXmlType;
+    private $detector;
 
     public function __construct(
-        Analyzer $analyzer,
+        MimeTypeDetector $detector,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
         bool $isRaw,
         bool $hasChanged = false
     ) {
-        $this->analyzer = $analyzer;
+        $this->detector = $detector;
         $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
         $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
-
-        $internetMediaTypeFactory = $this->analyzer->getInternetMediaTypeFactory();
-        $this->applicationXmlType = $internetMediaTypeFactory->createApplicationXml();
 
         $this->init();
     }
@@ -70,12 +61,14 @@ final class FileSource extends AbstractSource
             $this->useFileReference = true;
             $this->data = new Data;
         } else {
-            /** @var InternetMediaTypeInterface $internetMediaType */
-            $internetMediaType = $this->analyzer->detectFromFilename($this->file);
+            $internetMediaType = $this->detector->detectMimeType(
+                $this->file->getRealPath(),
+                $this->file->getContents()
+            );
 
             if ($internetMediaType &&
-                ('text' === $internetMediaType->getType() ||
-                $this->applicationXmlType->equals($internetMediaType))) {
+                (str_starts_with($internetMediaType, 'text/') ||
+                $internetMediaType === 'application/xml')) {
                 // Only text files can be processed by Sculpin and since we
                 // have to read them here we are going to ensure that we use
                 // the content we read here instead of having someone else
@@ -85,7 +78,7 @@ final class FileSource extends AbstractSource
                 // Additionally, any text file is a candidate for formatting.
                 $this->canBeFormatted = true;
 
-                $content = file_get_contents((string)$this->file);
+                $content = $this->file->getContents();
 
                 if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {
                     $this->content = $matches[2];

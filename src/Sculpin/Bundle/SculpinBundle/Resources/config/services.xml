@@ -62,17 +62,10 @@
             <argument type="service" id="sculpin.custom_mime_types_repository" />
         </service>
 
-        <service id="sculpin.canal.default_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector" />
-
-        <service id="sculpin.canal.detector" class="Dflydev\Canal\Detector\CompositeDetector">
-            <argument type="collection">
-                <argument type="service" id="sculpin.canal.custom_detector" />
-                <argument type="service" id="sculpin.canal.default_detector" />
-            </argument>
-        </service>
-
-        <service id="sculpin.canal.analyzer" class="Dflydev\Canal\Analyzer\Analyzer">
-            <argument type="service" id="sculpin.canal.detector" />
+        <service id="sculpin.mime.detector" class="League\MimeTypeDetection\FinfoMimeTypeDetector">
+            <argument></argument>
+            <argument>NULL</argument>
+            <argument>200</argument>
         </service>
 
         <service id="sculpin.default_filesystem_data_source" class="Sculpin\Core\Source\FilesystemDataSource">
@@ -81,7 +74,7 @@
             <argument>%sculpin.ignore%</argument>
             <argument>%sculpin.raw%</argument>
             <argument type="service" id="sculpin.matcher" />
-            <argument type="service" id="sculpin.canal.analyzer" />
+            <argument type="service" id="sculpin.mime.detector" />
             <tag name="sculpin.data_source" />
         </service>
 
