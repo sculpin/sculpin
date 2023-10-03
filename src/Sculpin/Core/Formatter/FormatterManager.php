@@ -123,7 +123,7 @@ class FormatterManager
             return $template;
         }
 
-        $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
+        $this->eventDispatcher->dispatch(new FormatEvent($formatContext), Sculpin::EVENT_BEFORE_FORMAT);
         $response = $this->formatter($formatContext->formatter())->formatPage($formatContext);
 
         return $response;
@@ -146,7 +146,7 @@ class FormatterManager
             return ['content' => $template];
         }
 
-        $this->eventDispatcher->dispatch(Sculpin::EVENT_BEFORE_FORMAT, new FormatEvent($formatContext));
+        $this->eventDispatcher->dispatch(new FormatEvent($formatContext), Sculpin::EVENT_BEFORE_FORMAT);
         $response = $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
 
         return $response;

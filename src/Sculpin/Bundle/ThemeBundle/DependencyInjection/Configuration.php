@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('theme')->defaultNull()->end()
-                ->scalarNode('directory')->defaultValue('%sculpin.source_dir%/%sculpin_theme.root_dir%')->end()
+                ->scalarNode('directory')->defaultValue('%sculpin.source_dir%/%sculpin_theme.project_dir%')->end()
             ->end();
 
         return $treeBuilder;

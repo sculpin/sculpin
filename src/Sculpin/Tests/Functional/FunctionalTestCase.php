@@ -72,9 +72,9 @@ class FunctionalTestCase extends TestCase
 
     /**
      * Execute a command against the sculpin binary
-     * @param string $command
+     * @param array $command
      */
-    protected function executeSculpin($command): void
+    protected function executeSculpin(array $command): void
     {
         $process = $this->executeSculpinAsync($command, false);
         $process->run();
@@ -92,17 +92,17 @@ class FunctionalTestCase extends TestCase
      *
      * Remember to stop the process when finished!
      *
-     * @param string   $command
+     * @param array   $command
      * @param bool     $start     Default: start the process right away
      * @param callable $callback
      *
      * @return Process
      */
-    protected function executeSculpinAsync(string $command, bool $start = true, ?callable $callback = null): Process
+    protected function executeSculpinAsync(array $command, bool $start = true, ?callable $callback = null): Process
     {
         $binPath    = __DIR__ . '/../../../../bin';
         $projectDir = static::projectDir();
-        $process    = new Process("$binPath/sculpin $command --project-dir $projectDir --env=test");
+        $process    = new Process(["$binPath/sculpin", ...$command, "--project-dir", $projectDir, "--env", "test"]);
 
         if ($start) {
             $process->start($callback);

@@ -109,7 +109,7 @@ final class Sculpin
 
         $dataSource->refresh($sourceSet);
 
-        $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet));
+        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_BEFORE_RUN);
 
         if ($updatedSources = array_filter($sourceSet->updatedSources(), function (SourceInterface $source) {
             return !$source->isGenerated();
@@ -140,7 +140,7 @@ final class Sculpin
             $source->data()->set('filename', $source->filename());
         }
 
-        $this->eventDispatcher->dispatch(self::EVENT_AFTER_GENERATE, new SourceSetEvent($sourceSet));
+        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_GENERATE);
 
         if ($updatedSources = $sourceSet->updatedSources()) {
             if (!$found) {
@@ -185,7 +185,7 @@ final class Sculpin
                 }
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
-            $this->eventDispatcher->dispatch(self::EVENT_AFTER_FORMAT, new SourceSetEvent($sourceSet));
+            $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_FORMAT);
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
@@ -201,7 +201,7 @@ final class Sculpin
             }
         }
 
-        $this->eventDispatcher->dispatch(self::EVENT_AFTER_RUN, new SourceSetEvent($sourceSet));
+        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_RUN);
 
         if ($found) {
             $io->write(sprintf('Processing completed in %4.2f seconds', microtime(true) - $startTime));

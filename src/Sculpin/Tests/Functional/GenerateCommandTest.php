@@ -24,7 +24,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
 
         $outputDir = 'custom_test_dir';
-        $this->executeSculpin('generate --output-dir=' . $outputDir);
+        $this->executeSculpin(['generate', '--output-dir', $outputDir]);
 
         $filePath = '/' . $outputDir . '/index.html';
         $msg      = "Expected project to have generated file at path $filePath.";
@@ -49,7 +49,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->addProjectDirectory('/' . $sourceDir . '/_posts');
 
         // generate the site
-        $this->executeSculpin('generate --source-dir=' . $sourceDir);
+        $this->executeSculpin(['generate', '--source-dir', $sourceDir]);
 
         // check that it worked
         $this->assertProjectHasFile($filePath, "Expected project to have generated file at path $filePath.");
@@ -62,7 +62,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->copyFixtureToProject(__DIR__ . '/Fixture/webpack_manifest/manifest_test.md', '/source/test.md');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/webpack_manifest/manifest.json', '/source/build/manifest.json');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $filePath = '/test/index.html';
         $msg      = "Expected project to have generated file at path $filePath.";

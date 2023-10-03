@@ -24,7 +24,7 @@ class EventListenerExtensionTest extends FunctionalTestCase
 
         $this->assertProjectLacksFile('/output_test/' . $expectedFile);
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/' . $expectedFile);
     }
