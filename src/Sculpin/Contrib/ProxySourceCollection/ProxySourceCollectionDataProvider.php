@@ -24,6 +24,7 @@ use Sculpin\Core\Source\Filter\NullFilter;
 use Sculpin\Core\Source\Map\MapInterface;
 use Sculpin\Core\Source\Map\NullMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\String\Inflector\EnglishInflector;
 
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
@@ -46,7 +47,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
-        $this->dataSingularName = $dataSingularName ?: Inflector::singularize($dataProviderName);
+        $this->dataSingularName = $dataSingularName ?: (new EnglishInflector())->singularize($dataProviderName)[0];
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
         $this->map = $map ?: new NullMap;

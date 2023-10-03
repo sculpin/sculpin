@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\String\Inflector\EnglishInflector;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -47,7 +48,7 @@ class SculpinContentTypesExtension extends Extension
             }
 
             // What should use use for the singular name?
-            $singularName = isset($setup['singular_name']) ? $setup['singular_name'] : Inflector::singularize($type);
+            $singularName = $setup['singular_name'] ?? (new EnglishInflector())->singularize($type)[0];
 
             // How is the type detected?
             $detectionTypes = is_array($setup['type']) ? $setup['type'] : [$setup['type']];
@@ -239,7 +240,7 @@ class SculpinContentTypesExtension extends Extension
                 $permalinkStrategies->addArgument($taxonomy);
                 $container->setDefinition($permalinkStrategyId, $permalinkStrategies);
 
-                $taxon = Inflector::singularize($taxonomyName);
+                $taxon = (new EnglishInflector())->singularize($taxonomyName)[0];
 
                 $taxonomyDataProviderName = $type.'_'.$taxonomyName;
                 $taxonomyIndexGeneratorName = $type.'_'.$taxon.'_index';
