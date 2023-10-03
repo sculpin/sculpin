@@ -28,6 +28,7 @@ abstract class AbstractKernel extends Kernel
     protected $outputDir;
     protected $projectDir;
     protected $sourceDir;
+    protected string $rootDir;
 
     /**
      * {@inheritdoc}
