@@ -145,7 +145,7 @@ final class ContentCreateCommand extends AbstractCommand
             throw new \RuntimeException('Sculpin Application not found!');
         }
 
-        $rootDir  = \dirname($app->getKernel()->getRootDir());
+        $rootDir  = \dirname($app->getKernel()->getProjectDir());
         $manifest = [];
 
         // ensure the content type storage folder exists
