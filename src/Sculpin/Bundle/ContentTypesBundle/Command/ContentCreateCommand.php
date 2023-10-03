@@ -11,7 +11,6 @@
 
 namespace Sculpin\Bundle\ContentTypesBundle\Command;
 
-use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\String\Inflector\EnglishInflector;
 
 /**
  * Helper command to create a new content type.
@@ -88,7 +88,7 @@ final class ContentCreateCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluralType   = $input->getArgument('type');
-        $singularType = Inflector::singularize($pluralType);
+        $singularType = (new EnglishInflector())->singularize($pluralType)[0];
         $dryRun       = $input->getOption('dry-run');
         $taxonomies   = $input->getOption('taxonomy');
 
@@ -165,7 +165,7 @@ final class ContentCreateCommand extends AbstractCommand
         $manifest[$index] = $this->getViewTemplate($plural, $taxonomies);
 
         foreach ($taxonomies as $taxonomy) {
-            $singularTaxonomy = Inflector::singularize($taxonomy);
+            $singularTaxonomy = (new EnglishInflector())->singularize($taxonomy)[0];
             // content taxonomy index template
             $index            = $rootDir . '/source/' . $plural . '/' . $taxonomy . '.html';
             $manifest[$index] = $this->getTaxonomyIndexTemplate($plural, $taxonomy, $singularTaxonomy);
@@ -267,7 +267,7 @@ final class ContentCreateCommand extends AbstractCommand
 
             foreach ($taxonomies as $taxonomy) {
                 $capitalTaxonomy  = ucwords($taxonomy);
-                $singularTaxonomy = Inflector::singularize($taxonomy);
+                $singularTaxonomy = (new EnglishInflector())->singularize($taxonomy)[0];
                 $output .= <<<EOT
                     <div class="taxonomy">
                         <a href="{{site.url }}/{$plural}/{$taxonomy}">{$capitalTaxonomy}</a>:
