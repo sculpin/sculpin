@@ -4,13 +4,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sculpin_theme.root_dir">themes</parameter>
+        <parameter key="sculpin_theme.project_dir">themes</parameter>
         <parameter key="sculpin_theme.exclude_patterns" type="collection">
-            <parameter>%sculpin_theme.root_dir%/*/*/_views/**</parameter>
-            <parameter>%sculpin_theme.root_dir%/*/*/_layouts/**</parameter>
-            <parameter>%sculpin_theme.root_dir%/*/*/_includes/**</parameter>
-            <parameter>%sculpin_theme.root_dir%/*/*/_partials/**</parameter>
-            <parameter>%sculpin_theme.root_dir%/*/*/theme.yml</parameter>
+            <parameter>%sculpin_theme.project_dir%/*/*/_views/**</parameter>
+            <parameter>%sculpin_theme.project_dir%/*/*/_layouts/**</parameter>
+            <parameter>%sculpin_theme.project_dir%/*/*/_includes/**</parameter>
+            <parameter>%sculpin_theme.project_dir%/*/*/_partials/**</parameter>
+            <parameter>%sculpin_theme.project_dir%/*/*/theme.yml</parameter>
         </parameter>
     </parameters>
 
@@ -32,7 +32,7 @@
         <service id="sculpin_theme.theme_twig_extension" class="Sculpin\Bundle\ThemeBundle\ThemeTwigExtension">
             <argument type="service" id="sculpin_theme.theme_registry" />
             <argument>%sculpin.source_dir%</argument>
-            <argument>%sculpin_theme.root_dir%</argument>
+            <argument>%sculpin_theme.project_dir%</argument>
             <tag name="twig.extension" />
         </service>
 

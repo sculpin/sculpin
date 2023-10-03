@@ -12,7 +12,7 @@ class GenerateFromPostsTest extends FunctionalTestCase
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/blog_index.html', '/source/index.html');
         $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/index.html');
     }

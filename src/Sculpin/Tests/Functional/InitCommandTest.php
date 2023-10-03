@@ -28,7 +28,7 @@ class InitCommandTest extends FunctionalTestCase
         $projectDir = static::projectDir();
         $this->assertProjectEmpty($projectDir);
 
-        $this->executeSculpin('init');
+        $this->executeSculpin(['init']);
 
         $this->assertProjectInitialized($projectDir);
 
@@ -54,7 +54,7 @@ class InitCommandTest extends FunctionalTestCase
         $projectDir = static::projectDir();
         $this->assertProjectEmpty($projectDir);
 
-        $this->executeSculpin('init -t "My Custom Title" -s "Custom Subtitle"');
+        $this->executeSculpin(['init', '-t', 'My Custom Title', '-s', 'Custom Subtitle']);
 
         $this->assertProjectInitialized($projectDir);
 

@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -53,7 +53,7 @@ final class Application extends BaseApplication
 
         parent::__construct(
             'Sculpin',
-            $kernel->getName() . '/' . $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
+            $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
         );
 
         $this->getDefinition()->addOption(new InputOption(
@@ -186,7 +186,7 @@ final class Application extends BaseApplication
                 } catch (\Exception $e) {
                     $this->registrationErrors[] = $e;
                 } catch (\Throwable $e) {
-                    $this->registrationErrors[] = new FatalThrowableError($e);
+                    $this->registrationErrors[] = new ThrowingCasterException($e);
                 }
             }
         }
@@ -201,7 +201,7 @@ final class Application extends BaseApplication
         (new SymfonyStyle($input, $output))->warning('Some commands could not be registered:');
 
         foreach ($this->registrationErrors as $error) {
-            $this->doRenderException($error, $output);
+            $this->doRenderThrowable($error, $output);
         }
     }
 }

@@ -46,7 +46,7 @@ final class FilesystemWriter implements WriterInterface
     {
         $outputPath = $this->outputDir.'/'.$output->permalink()->relativeFilePath();
         if ($output->hasFileReference()) {
-            $this->filesystem->copy($output->file(), $outputPath, true);
+            $this->filesystem->copy($output->file()->getRealPath(), $outputPath, true);
         } else {
             $this->filesystem->mkdir(dirname($outputPath));
             $this->filesystem->dumpFile($outputPath, $output->formattedContent());

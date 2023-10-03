@@ -11,7 +11,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello_world/index.html');
     }
@@ -21,7 +21,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $crawler = $this->crawlGeneratedProjectFile('/hello_world/index.html');
 
@@ -33,7 +33,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello/world.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello/world/index.html');
     }
@@ -56,7 +56,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
         EOT
         );
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $crawler = $this->crawlGeneratedProjectFile('/my_page_with_layout/index.html');
 
@@ -97,7 +97,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
         $this->addProjectFile($pageFile, $pageContent);
 
         // start our async sculpin watcher/server
-        $process = $this->executeSculpinAsync('generate --watch');
+        $process = $this->executeSculpinAsync(['generate', '--watch']);
 
         sleep(1); // wait until our file exists
         $crawler = $this->crawlGeneratedProjectFile($pageGenerated);
@@ -171,7 +171,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world2');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello_world');
         $this->assertProjectHasGeneratedFile('/hello_world2');
@@ -197,7 +197,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world2');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $actualOutput = $this->executeOutput;
         $this->assertStringContainsString(
@@ -234,7 +234,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
         $this->addProjectFile('/source/_posts/.hello_world2.swp');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $actualOutput = $this->executeOutput;
         $this->assertStringNotContainsString('.DS_Store', $actualOutput);
