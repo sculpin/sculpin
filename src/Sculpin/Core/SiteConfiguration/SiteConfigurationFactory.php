@@ -25,16 +25,16 @@ final class SiteConfigurationFactory
     /**
      * @var string
      */
-    private $rootDir;
+    private $projectDir;
 
     /**
      * @var string
      */
     private $environment;
 
-    public function __construct(string $rootDir, string $environment)
+    public function __construct(string $projectDir, string $environment)
     {
-        $this->rootDir = $rootDir;
+        $this->projectDir = $projectDir;
         $this->environment = $environment;
     }
 
@@ -71,11 +71,11 @@ final class SiteConfigurationFactory
      */
     public function detectConfig(): ConfigurationInterface
     {
-        if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
+        if (file_exists($file = $this->projectDir.'/app/config/sculpin_site_'.$this->environment.'.yml')) {
             return $this->getConfigFile($file);
         }
 
-        if (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
+        if (file_exists($file = $this->projectDir.'/app/config/sculpin_site.yml')) {
             return $this->getConfigFile($file);
         }
 

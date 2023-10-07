@@ -28,7 +28,6 @@ abstract class AbstractKernel extends Kernel
     protected $outputDir;
     protected $projectDir;
     protected $sourceDir;
-    protected string $rootDir;
 
     /**
      * {@inheritdoc}
@@ -39,10 +38,6 @@ abstract class AbstractKernel extends Kernel
         $this->outputDir  = $overrides['outputDir']  ?? null;
         $this->sourceDir  = $overrides['sourceDir']  ?? null;
 
-        if (null !== $this->projectDir) {
-            $this->rootDir = $this->projectDir . '/app';
-        }
-
         parent::__construct($environment, $debug);
     }
 
@@ -51,10 +46,6 @@ abstract class AbstractKernel extends Kernel
      */
     protected function getKernelParameters(): array
     {
-        if (null === $this->projectDir) {
-            $this->projectDir = dirname($this->rootDir);
-        }
-
         return array_merge(parent::getKernelParameters(), [
             'sculpin.project_dir'         => $this->projectDir,
             'sculpin.output_dir_override' => $this->outputDir,
@@ -99,9 +90,9 @@ abstract class AbstractKernel extends Kernel
         // Load defaults.
         $loader->load(__DIR__.'/../Resources/config/kernel.yml');
 
-        if (file_exists($file = $this->rootDir.'/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
+        if (file_exists($file = $this->getProjectDir().'/app/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
             $loader->load($file);
-        } elseif (file_exists($file = $this->rootDir.'/config/sculpin_kernel.yml')) {
+        } elseif (file_exists($file = $this->getProjectDir().'/app/config/sculpin_kernel.yml')) {
             $loader->load($file);
         }
     }
@@ -129,8 +120,8 @@ abstract class AbstractKernel extends Kernel
         $container->addObjectResource($this);
         $this->prepareContainer($container);
 
-        if (file_exists($this->rootDir.'/config/sculpin_services.yml')) {
-            $loader = new YamlFileLoader($container, new FileLocator($this->rootDir.'/config'));
+        if (file_exists($this->getProjectDir().'/app/config/sculpin_services.yml')) {
+            $loader = new YamlFileLoader($container, new FileLocator($this->getProjectDir().'/app/config'));
             $loader->load('sculpin_services.yml');
         }
 
@@ -165,6 +156,16 @@ abstract class AbstractKernel extends Kernel
     public function getMissingSculpinBundles(): array
     {
         return $this->missingSculpinBundles;
+    }
+
+    /**
+     * Gets the application root dir (path of the project's composer file).
+     *
+     * @return string
+     */
+    public function getProjectDir(): ?string
+    {
+        return $this->projectDir;
     }
 
     /**
