@@ -72,6 +72,22 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->assertGeneratedFileHasContent($filePath, 'Testing JS /build/js/app.43dcc737.js');
     }
 
+    /** @test */
+    public function shouldGenerateUsingSiteVariables(): void
+    {
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/config/sculpin_site.yml', '/app/config/sculpin_site.yml', true);
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
+
+        $this->executeSculpin(['generate']);
+
+        $filePath = '/hello_world/index.html';
+        $msg      = "Expected project to have generated file at path $filePath.";
+
+        $this->assertProjectHasFile('/output_test' . $filePath, $msg);
+        $this->assertGeneratedFileHasContent($filePath, '<p>title: "Test Project"</p>');
+        $this->assertGeneratedFileHasContent($filePath, '<p>subtitle: "Test Project Subtitle"</p>');
+    }
+
     protected function configureForWebpack(): void
     {
         $this->writeToProjectFile(

@@ -168,10 +168,11 @@ class FunctionalTestCase extends TestCase
     /**
      * @param string $fixturePath
      * @param string $projectPath
+     * @param bool $overwriteNewerFiles
      */
-    protected function copyFixtureToProject(string $fixturePath, string $projectPath): void
+    protected function copyFixtureToProject(string $fixturePath, string $projectPath, bool $overwriteNewerFiles = false): void
     {
-        static::$fs->copy($fixturePath, static::projectDir() . $projectPath);
+        static::$fs->copy($fixturePath, static::projectDir() . $projectPath, $overwriteNewerFiles);
     }
 
     /**
