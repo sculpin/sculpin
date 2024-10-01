@@ -40,10 +40,10 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         FormatterManager $formatterManager,
         $dataProviderName,
         $dataSingularName = null,
-        ProxySourceCollection $collection = null,
-        FilterInterface $filter = null,
-        MapInterface $map = null,
-        ProxySourceItemFactoryInterface $factory = null
+        ?ProxySourceCollection $collection = null,
+        ?FilterInterface $filter = null,
+        ?MapInterface $map = null,
+        ?ProxySourceItemFactoryInterface $factory = null
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;

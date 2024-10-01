@@ -28,8 +28,8 @@ class AntPathFilter implements FilterInterface
 
     public function __construct(
         array $paths,
-        AntPathMatcher $antPathMatcher = null,
-        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+        ?AntPathMatcher $antPathMatcher = null,
+        ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         if (null === $antPathMatcher) {
             $antPathMatcher = new AntPathMatcher;

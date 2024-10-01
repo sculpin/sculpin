@@ -99,7 +99,7 @@ final class Sculpin
         $this->converterManager = $converterManager;
     }
 
-    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, IoInterface $io = null)
+    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null)
     {
         if (null === $io) {
             $io = new NullIo();
