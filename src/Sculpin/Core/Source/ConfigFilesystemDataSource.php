@@ -53,7 +53,7 @@ final class ConfigFilesystemDataSource implements DataSourceInterface
         string $sourceDir,
         ConfigurationInterface $siteConfiguration,
         SiteConfigurationFactory $siteConfigurationFactory,
-        AntPathMatcher $pathMatcher = null
+        ?AntPathMatcher $pathMatcher = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->siteConfiguration = $siteConfiguration;

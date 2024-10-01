@@ -74,9 +74,9 @@ final class FilesystemDataSource implements DataSourceInterface
         array $excludePaths,
         array $ignorePaths,
         array $rawPaths,
-        AntPathMatcher $matcher = null,
-        MimeTypeDetector $detector = null,
-        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+        ?AntPathMatcher $matcher = null,
+        ?MimeTypeDetector $detector = null,
+        ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->sourceDir = $sourceDir;
         $this->excludePaths = $excludePaths;

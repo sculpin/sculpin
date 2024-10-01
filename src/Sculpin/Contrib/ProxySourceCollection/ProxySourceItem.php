@@ -53,7 +53,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->data()->get('blocks');
     }
 
-    public function setBlocks(array $blocks = null)
+    public function setBlocks(?array $blocks = null)
     {
         $this->data()->set('blocks', $blocks ?: []);
     }
@@ -63,7 +63,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->previousItem;
     }
 
-    public function setPreviousItem(ProxySourceItem $item = null)
+    public function setPreviousItem(?ProxySourceItem $item = null)
     {
         $lastPreviousItem = $this->previousItem;
         $this->previousItem = $item;
@@ -86,7 +86,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->nextItem;
     }
 
-    public function setNextItem(ProxySourceItem $item = null)
+    public function setNextItem(?ProxySourceItem $item = null)
     {
         $lastNextItem = $this->nextItem;
         $this->nextItem = $item;
