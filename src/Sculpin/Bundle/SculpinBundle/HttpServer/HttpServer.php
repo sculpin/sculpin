@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
-use Dflydev\ApacheMimeTypes\PhpRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\StreamSelectLoop;
 use React\Http\Message\Response;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mime\MimeTypes;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -53,7 +53,7 @@ final class HttpServer
 
     public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
     {
-        $repository = new PhpRepository;
+        $mimeTypes = new MimeTypes();
 
         $this->debug  = $debug;
         $this->env    = $env;
@@ -67,7 +67,7 @@ final class HttpServer
         );
 
         $httpServer = new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
-            $repository,
+            $mimeTypes,
             $docroot,
             $output
         ) {
@@ -92,9 +92,7 @@ final class HttpServer
             $type = 'application/octet-stream';
 
             if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
-                if ($guessedType = $repository->findType($extension)) {
-                    $type = $guessedType;
-                }
+                $type = $mimeTypes->getMimeTypes($extension)[0] ?? $type;
             }
 
             HttpServer::logRequest($output, 200, $request);
