@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.0 - 2022-10-31
+
+### Added
+
+* [Add exit codes to Command classes](https://github.com/sculpin/sculpin/commit/e62af1e055044a5c294938d2380c9475049628c6)
+* [Add Sculpin::EVENT_AFTER_GENERATE](https://github.com/sculpin/sculpin/commit/23a74baef263de9cca8e35627b6e36b9ef12a712) (thanks @sunadarake!)
+* [Add .php-version and .phpunit.result.cache to gitignore](https://github.com/sculpin/sculpin/commit/a188f66c80439f1e3a4c14344bad24572644ad71) (thanks @sunadarake!)
+* [Add PHP attributes to suppress some PHP 8.1 deprecation notices](https://github.com/sculpin/sculpin/commit/44c4d402060d10018447177ae800ce17dc201609)
+
+### Removed
+
+* [Remove IntlExtension configuration - this removes several localized filters in twig](https://github.com/sculpin/sculpin/commit/3b4db353065a413be5783b5a1491d57ee92d3940)
+* [Remove twig/extensions dependency](https://github.com/sculpin/sculpin/commit/80f67a7139b4304c335ccfb00a89d21a1c214801)
+* [Remove unnecessary third constructor parameter to ConsoleIo](https://github.com/sculpin/sculpin/commit/5f9bbe471f08029c63a23913726a2c99b171024c)
+
+### Fixed
+
+* [Don't pass null to normalize in SourcePermalinkFactory::generatePermalinkPathname()](https://github.com/sculpin/sculpin/commit/0f67f3a711fc1ee2fa38e4b4cb6b93d0293f57e2)
+* [Only overwrite value in SourcePermalinkFactory::normalize if iconv() succeeds](https://github.com/sculpin/sculpin/commit/714081796589dbea065042e9dc302f95a9fded24) (thanks @friartuck6000!)
+* [Update composer and allow theme composer plugin config changes](https://github.com/sculpin/sculpin/commit/d04faae18751a2af3494daa9c7791f661a916f98)
+* [Override PhpMarkdownExtraParser's doExtraAttributes method to cast $attr to string](https://github.com/sculpin/sculpin/commit/5f705d845b2dc980ed91b79c49ccaa5f64cbdda0)
+
+Also, the primary branch has been renamed to `main`.
+
+## 3.1.1 - 2021-07-15
+
+### Fixed
+
+* [vdelau](https://github.com/sculpin/sculpin/commits?author=vdelau) fixed an issue in the bin/sculpin script to improve windows compatibility (Thanks!) [#463](https://github.com/sculpin/sculpin/pull/463)
+* [sunadarake](https://github.com/sunadarake) fixed a deprecated method in TreeBuilder (Thanks!) [#460](https://github.com/sculpin/sculpin/pull/460) 
+
+## 3.1.0 - 2020-12-01
+
+### Added
+
+* adds webpack encore helper class [#446](https://github.com/sculpin/sculpin/pull/446)
+
+### Changed
+
+* adds support for PHP 8.0, and drops support for PHP 7.2
+* [clue](https://github.com/sculpin/sculpin/commits?author=clue) updated React/HTTP to v1.0.0 (Thanks!)
+
 ## 3.0.3 - 2019-12-04
 
 ### Fixed
