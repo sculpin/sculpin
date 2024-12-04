@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.3.0 - 2024-12-??
+
+### Changed
+
+* [Replace Dflydev\Canal with League\MimeTypeDetection for MIME type detection because Canal is not maintained](https://github.com/sculpin/sculpin/commit/fc822d959ed42be8b581be3ffa444ddea1a28ad3) (thanks, @pronskiy!)
+* [Use Twig 3](https://github.com/sculpin/sculpin/commit/535c3cd2696cd88a6cd9d1a051ca17bc9ede3e97) (thanks, @saundefined!)
+* [Use Symfony 5.4](https://github.com/sculpin/sculpin/commit/0c83ea7ce51ed0563a80d6ba6525955b5f5361c0) (thanks, @saundefined!)
+* [Replace getRootDir with getProjectDir](https://github.com/sculpin/sculpin/commit/f47817e20d7b1ec20d63d8f1e84af1516292cb94) (thanks, @saundefined!)
+* [Update dflydev/dot-access-configuration](https://github.com/sculpin/sculpin/commit/b2cf6560d9912ae3bcb26ff619434ca5a4192e64) (thanks, @Pekhov14!)
+* [Use EnglishInflector instead Inflector](Use EnglishInflector instead Inflector) (thanks, @saundefined!)
+
+### Removed
+* [Remove dependency dflydev/apache-mime-types + add symfony/mime alternative](https://github.com/sculpin/sculpin/commit/8b4b8aa897fff056dbe64e32d057868fb19fb483) (thanks, @Pekhov14!)
+
+### Fixed
+* [Fixed syntax deprecations in string variable interpolation](https://github.com/sculpin/sculpin/commit/467ffd4d7d0e3b28c8b8234d7f29bb3c8caf6c44) (thanks, @pronskiy!)
+* [PHP 8.4 Updates to avoid implicit nulable parameter deprecation](https://github.com/sculpin/sculpin/commit/17f66eecedcda8ac59f685f960748b1a50dd87c3) (thanks, @Ayesh!)
+
 ## 3.2.0 - 2022-10-31
 
 ### Added
