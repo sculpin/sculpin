@@ -33,15 +33,15 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('view_paths')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->arrayNode('source_view_paths')
                     ->defaultValue(['_views', '_layouts', '_includes', '_partials'])
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->arrayNode('extensions')
                     ->defaultValue(['', 'twig', 'html', 'html.twig', 'twig.html'])
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->scalarNode('webpack_manifest')
                     ->info(

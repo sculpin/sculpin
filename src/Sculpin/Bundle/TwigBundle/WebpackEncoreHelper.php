@@ -9,13 +9,8 @@ use Twig\Extension\GlobalsInterface;
 
 class WebpackEncoreHelper extends AbstractExtension implements GlobalsInterface
 {
-    protected $sourceDir;
-    protected $manifest;
-
-    public function __construct(string $sourceDir, ?string $manifest)
+    public function __construct(protected string $sourceDir, protected ?string $manifest)
     {
-        $this->sourceDir = $sourceDir;
-        $this->manifest = $manifest;
     }
 
     public function getGlobals(): array

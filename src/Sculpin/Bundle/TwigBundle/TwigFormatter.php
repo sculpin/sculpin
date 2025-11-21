@@ -22,22 +22,10 @@ use Twig\TemplateWrapper;
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class TwigFormatter implements FormatterInterface
+final readonly class TwigFormatter implements FormatterInterface
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var ArrayLoader
-     */
-    private $arrayLoader;
-
-    public function __construct(Environment $twig, ArrayLoader $arrayLoader)
+    public function __construct(private Environment $twig, private ArrayLoader $arrayLoader)
     {
-        $this->twig = $twig;
-        $this->arrayLoader = $arrayLoader;
     }
 
     /**
@@ -100,7 +88,7 @@ final class TwigFormatter implements FormatterInterface
         // nothing to do
     }
 
-    private function massageTemplate(FormatContext $formatContext)
+    private function massageTemplate(FormatContext $formatContext): string
     {
         $template = $formatContext->template();
         if ($layout = $formatContext->data()->get('layout')) {
