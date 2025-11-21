@@ -35,7 +35,6 @@ class Environment extends \Twig\Environment
             }
 
             $templates = $me->getProperty('loadedTemplates');
-            $templates->setAccessible(true);
             $templates->setValue($this, []);
         } catch (\ReflectionException $e) {
         }
