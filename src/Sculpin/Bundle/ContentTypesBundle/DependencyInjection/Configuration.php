@@ -45,9 +45,7 @@ class Configuration implements ConfigurationInterface
                         // Default case is we want the user to specify just one
                         // path but we can allow for multiple if they want to.
                         ->ifString()
-                        ->then(function ($v) {
-                            return [$v];
-                        })
+                        ->then(fn($v) => [$v])
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()
@@ -61,16 +59,12 @@ class Configuration implements ConfigurationInterface
                         // Default case is we want the user to specify just one
                         // taxonomy but we can allow for multiple if they want to.
                         ->ifString()
-                        ->then(function ($v) {
-                            return [['name' => $v]];
-                        })
+                        ->then(fn($v) => [['name' => $v]])
                     ->end()
                     ->prototype('array')
                         ->beforeNormalization()
                             ->ifString()
-                            ->then(function ($v) {
-                                return ['name' => $v];
-                            })
+                            ->then(fn($v) => ['name' => $v])
                         ->end()
                         ->children()
                             ->scalarNode('name')->end()
