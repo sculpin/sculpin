@@ -27,33 +27,14 @@ use Michelf\Markdown;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
+final readonly class MarkdownConverter implements ConverterInterface, EventSubscriberInterface
 {
-    /**
-     * @var ParserInterface
-     */
-    private $markdown;
 
-    /**
-     * File name extensions that are handled as markdown.
-     *
-     * @var string[]
-     */
-    private $extensions = [];
-
-    /**
-     * Constructor.
-     *
-     * @param ParserInterface $markdown
-     * @param string[]        $extensions file name extensions that are handled as markdown
-     */
-    public function __construct(ParserInterface $markdown, array $extensions = [])
+    public function __construct(private ParserInterface $markdown, private array $extensions = [])
     {
-        $this->markdown = $markdown;
         if ($this->markdown instanceof Markdown) {
             $this->markdown->header_id_func = [$this, 'generateHeaderId'];
         }
-        $this->extensions = $extensions;
     }
 
     /**
@@ -81,7 +62,6 @@ final class MarkdownConverter implements ConverterInterface, EventSubscriberInte
      */
     public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
-        /** @var SourceInterface $source */
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
                 if (fnmatch("*.{$extension}", $source->filename())) {
