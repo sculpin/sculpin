@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^8.0 || ^7.4",
+        "php": "^8.3",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
@@ -28,7 +28,7 @@
         "netcarver/textile": "^4.1",
         "react/http": "^1.0",
         "sculpin/sculpin-theme-composer-plugin": "^1.0",
-        "symfony/config": "^v5.4",
+        "symfony/config": "^6.4.26",
         "symfony/console": "^v5.4",
         "symfony/dependency-injection": "^v5.4",
         "symfony/event-dispatcher": "^v5.4",
