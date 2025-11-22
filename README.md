@@ -2,7 +2,6 @@ Sculpin - PHP Static Site Generator
 ===================================
 
 [![License](https://poser.pugx.org/sculpin/sculpin/license.svg)](https://packagist.org/packages/sculpin/sculpin)
-[![Build Status](https://travis-ci.org/sculpin/sculpin.svg?branch=develop)](https://travis-ci.org/sculpin/sculpin)
 [![Total Downloads](https://poser.pugx.org/sculpin/sculpin/downloads.svg)](https://packagist.org/packages/sculpin/sculpin)
 
 Sculpin takes data sources such as text files (Markdown, Textile, etc.) and
