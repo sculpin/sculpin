@@ -15,20 +15,12 @@ namespace Sculpin\Contrib\ProxySourceCollection;
 
 use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
-use StableSort\StableSort;
 
 class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
-    /**
-     * @var ProxySourceItem[] $items
-     */
-    protected $items = [];
-    protected $sorter;
-
-    public function __construct(array $items = [], ?SorterInterface $sorter = null)
+    public function __construct(protected array $items = [], protected ?SorterInterface $sorter = null)
     {
-        $this->items = $items;
-        $this->sorter = $sorter ?: new DefaultSorter;
+        $this->sorter ??= new DefaultSorter;
     }
 
     #[\ReturnTypeWillChange]
@@ -95,7 +87,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         return count($this->items);
     }
 
-    public function init()
+    public function init(): void
     {
         $this->sort();
 
@@ -129,7 +121,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
      *
      * See: https://github.com/vanderlee/PHP-stable-sort-functions
      */
-    public function sort()
+    public function sort(): void
     {
         $index      = 0;
         $comparator = [$this->sorter, 'sort'];

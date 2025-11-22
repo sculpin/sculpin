@@ -52,12 +52,10 @@ class MetaSorter implements SorterInterface
         }
     }
 
-    public function sort(ProxySourceItem $a, ProxySourceItem $b)
+    public function sort(ProxySourceItem $a, ProxySourceItem $b): int
     {
-        if ($this->reversed) {
-            return strnatcmp($b[$this->key], $a[$this->key]);
-        }
-
-        return strnatcmp($a[$this->key], $b[$this->key]);
+        return $this->reversed
+            ? strnatcmp($b[$this->key], $a[$this->key])
+            : strnatcmp($a[$this->key], $b[$this->key]);
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
-use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\SourceSetEvent;
@@ -28,25 +27,15 @@ use Symfony\Component\String\Inflector\EnglishInflector;
 
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
-    private $formatterManager;
-    private $dataProviderName;
-    private $dataSingularName;
-    private $collection;
-    private $filter;
-    private $map;
-    private $factory;
-
     public function __construct(
-        FormatterManager $formatterManager,
-        $dataProviderName,
-        $dataSingularName = null,
-        ?ProxySourceCollection $collection = null,
-        ?FilterInterface $filter = null,
-        ?MapInterface $map = null,
-        ?ProxySourceItemFactoryInterface $factory = null
+        private FormatterManager $formatterManager,
+        private string $dataProviderName,
+        private ?string $dataSingularName = null,
+        private ?ProxySourceCollection $collection = null,
+        private ?FilterInterface $filter = null,
+        private ?MapInterface $map = null,
+        private ?ProxySourceItemFactoryInterface $factory = null
     ) {
-        $this->formatterManager = $formatterManager;
-        $this->dataProviderName = $dataProviderName;
         $this->dataSingularName = $dataSingularName ?: (new EnglishInflector())->singularize($dataProviderName)[0];
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
@@ -59,7 +48,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         return iterator_to_array($this->collection);
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Sculpin::EVENT_BEFORE_RUN => [
@@ -70,7 +59,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         ];
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             if ($source->isGenerated()) {
@@ -86,7 +75,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
 
             if ($this->filter->match($source)) {
                 // Skip hidden files.
-                if (0 === strpos($source->filename(), '.')) {
+                if (str_starts_with($source->filename(), '.')) {
                     $source->setShouldBeSkipped();
 
                     continue;
@@ -125,7 +114,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         $this->collection->init();
     }
 
-    public function beforeRunPost(SourceSetEvent $sourceSetEvent)
+    public function beforeRunPost(SourceSetEvent $sourceSetEvent): void
     {
         $anItemHasChanged = false;
         foreach ($this->collection as $item) {
@@ -148,7 +137,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
     }
 
-    public function afterConvert(ConvertEvent $convertEvent)
+    public function afterConvert(ConvertEvent $convertEvent): void
     {
         $sourceId = $convertEvent->source()->sourceId();
 
