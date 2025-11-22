@@ -8,6 +8,7 @@ class EventListenerExtensionTest extends FunctionalTestCase
 {
     protected const PROJECT_DIR = '/__EventListenerFixture__';
 
+    #[\Override]
     public function setUp(): void
     {
         $outputDir = $this->projectDir() . '/output_test';

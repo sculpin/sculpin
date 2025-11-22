@@ -9,8 +9,14 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/src',
     ])
-    ->withPhpSets(php82: true)
-    ->withPhpVersion(PhpVersion::PHP_82)
+    ->withSkip([
+        \Rector\Php81\Rector\Array_\FirstClassCallableRector::class => [
+            // The callable here is intended to be serialized, so must not be converted to Closure/FirstClassCallable
+            __DIR__ . '/src/Sculpin/Bundle/ContentTypesBundle/DependencyInjection/SculpinContentTypesExtension.php',
+        ],
+    ])
+    ->withPhpSets(php83: true)
+    ->withPhpVersion(PhpVersion::PHP_83)
     ->withPreparedSets(deadCode: true, codeQuality: true, symfonyCodeQuality: true)
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withTypeCoverageLevel(0);

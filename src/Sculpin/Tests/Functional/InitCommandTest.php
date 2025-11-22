@@ -15,6 +15,7 @@ class InitCommandTest extends FunctionalTestCase
     /** @var Finder */
     protected $finder;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->tearDownTestProject();

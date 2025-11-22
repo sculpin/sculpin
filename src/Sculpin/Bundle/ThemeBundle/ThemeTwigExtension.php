@@ -22,6 +22,7 @@ class ThemeTwigExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFunctions(): array
     {
         return [

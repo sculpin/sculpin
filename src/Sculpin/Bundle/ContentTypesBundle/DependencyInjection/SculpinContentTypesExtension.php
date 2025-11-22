@@ -249,9 +249,9 @@ class SculpinContentTypesExtension extends Extension
             foreach ($setup['taxonomies'] as $taxonomy) {
                 $taxonomyName = is_string($taxonomy) ? $taxonomy : $taxonomy['name'];
                 $permalinkStrategyId = $taxonomyName.'_permalink_strategy';
-                $permalinkStrategies = new Definition('Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection');
+                $permalinkStrategies = new Definition(PermalinkStrategyCollection::class);
                 $permalinkStrategies->setFactory([
-                    'Sculpin\Contrib\Taxonomy\PermalinkStrategyCollectionFactory', 'create'
+                    PermalinkStrategyCollectionFactory::class, 'create'
                 ]);
                 $permalinkStrategies->addArgument($taxonomy);
                 $container->setDefinition($permalinkStrategyId, $permalinkStrategies);

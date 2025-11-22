@@ -54,6 +54,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getKernelParameters(): array
     {
         return array_merge(parent::getKernelParameters(), [
@@ -110,6 +111,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function boot(): void
     {
         if (true === $this->booted) {
@@ -124,6 +126,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function buildContainer(): ContainerBuilder
     {
         $container = $this->getContainerBuilder();
@@ -143,6 +146,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function initializeContainer(): void
     {
         $container = $this->buildContainer();
@@ -169,6 +173,7 @@ abstract class AbstractKernel extends Kernel
      *
      * @return string
      */
+    #[\Override]
     public function getProjectDir(): ?string
     {
         return $this->projectDir;

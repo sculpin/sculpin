@@ -79,6 +79,7 @@ final class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
         if (!$output instanceof OutputInterface) {
@@ -96,6 +97,7 @@ final class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if (!$input->hasParameterOption('--safe')) {

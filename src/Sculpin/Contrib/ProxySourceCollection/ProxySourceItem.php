@@ -31,6 +31,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->data()->export();
     }
 
+    #[\Override]
     public function url(): string
     {
         return $this->permalink()->relativeUrlPath();
