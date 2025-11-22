@@ -47,7 +47,7 @@ class ServeCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
         $kernel = $this->getContainer()->get('kernel');

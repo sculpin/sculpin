@@ -313,7 +313,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         }
     }
 
-    private function buildArgumentsArray($serviceId, $className, array $tagAttributes = []): array
+    private function buildArgumentsArray($serviceId, ?string $className, array $tagAttributes = []): array
     {
         $arguments = [$serviceId];
         foreach ($tagAttributes as $tagAttribute) {
@@ -341,7 +341,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             $output->writeln(sprintf('<comment>Class</comment>            %s', $definition->getClass() ?: "-"));
 
             $tags = $definition->getTags();
-            if (count($tags)) {
+            if ($tags !== []) {
                 $output->writeln('<comment>Tags</comment>');
                 foreach ($tags as $tagName => $tagData) {
                     foreach ($tagData as $singleTagData) {
@@ -469,20 +469,20 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         foreach ($tags as $tag) {
             $serviceIds = $container->findTaggedServiceIds($tag);
 
-            foreach ($serviceIds as $serviceId => $attributes) {
+            foreach (array_keys($serviceIds) as $serviceId) {
                 $definition = $this->resolveServiceDefinition($serviceId);
                 if ($definition instanceof Definition && (!$showPrivate && !$definition->isPublic())) {
                     unset($serviceIds[$serviceId]);
                 }
             }
 
-            if (count($serviceIds) === 0) {
+            if ($serviceIds === []) {
                 continue;
             }
 
             $output->writeln($this->getHelper('formatter')->formatSection('tag', $tag));
 
-            foreach ($serviceIds as $serviceId => $attributes) {
+            foreach (array_keys($serviceIds) as $serviceId) {
                 $output->writeln($serviceId);
             }
 
