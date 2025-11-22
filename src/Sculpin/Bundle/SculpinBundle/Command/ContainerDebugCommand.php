@@ -242,12 +242,12 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             }
         }
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(fn($length) => "%-{$length}s ", $maxTags));
+        $format .= implode("", array_map(fn($length): string => "%-{$length}s ", $maxTags));
         $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
-        $format1 .= implode("", array_map(fn($length) => '%-'.($length + 19).'s ', $maxTags));
+        $format1 .= implode("", array_map(fn($length): string => '%-'.($length + 19).'s ', $maxTags));
         $format1 .= '%s';
 
         $tags = [];
@@ -342,7 +342,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                             '    - %-30s (%s)',
                             $tagName,
                             implode(', ', array_map(
-                                fn($key, $value) => sprintf('<info>%s</info>: %s', $key, $value),
+                                fn($key, $value): string => sprintf('<info>%s</info>: %s', $key, $value),
                                 array_keys($singleTagData),
                                 array_values($singleTagData)
                             ))

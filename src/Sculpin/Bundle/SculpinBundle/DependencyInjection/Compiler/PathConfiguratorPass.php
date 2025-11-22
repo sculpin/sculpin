@@ -65,7 +65,7 @@ class PathConfiguratorPass implements CompilerPassInterface
         $matcher = $this->matcher;
 
         return array_map(
-            fn($path) => $path . ($matcher->isPattern($path) ? '' : '/**'),
+            fn($path): string => $path . ($matcher->isPattern($path) ? '' : '/**'),
             $paths
         );
     }

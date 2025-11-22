@@ -57,7 +57,7 @@ class CompositeDataSource implements DataSourceInterface
             implode(
                 ',',
                 array_map(
-                    fn(DataSourceInterface $dataSource) => $dataSource->dataSourceId(),
+                    fn(DataSourceInterface $dataSource): string => $dataSource->dataSourceId(),
                     $this->dataSources
                 )
             );

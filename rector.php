@@ -19,4 +19,4 @@ return RectorConfig::configure()
     ->withPhpVersion(PhpVersion::PHP_83)
     ->withPreparedSets(deadCode: true, codeQuality: true, symfonyCodeQuality: true)
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
-    ->withTypeCoverageLevel(0);
+    ->withTypeCoverageLevel(10);

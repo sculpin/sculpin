@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\FileSource;
@@ -26,7 +27,7 @@ class FileSourceTest extends TestCase
         );
     }
 
-    public function makeTestDetector()
+    public function makeTestDetector(): MockObject
     {
         $detector = $this->createMock(FinfoMimeTypeDetector::class);
         $detector
@@ -37,7 +38,7 @@ class FileSourceTest extends TestCase
         return $detector;
     }
 
-    public function makeTestDatasource()
+    public function makeTestDatasource(): MockObject
     {
         $datasource = $this->createMock(DataSourceInterface::class);
 
@@ -52,7 +53,7 @@ class FileSourceTest extends TestCase
     /**
      * @dataProvider provideTestParseYaml
      */
-    public function testParseYaml($filename, $msg)
+    public function testParseYaml($filename, $msg): void
     {
         $expectedOutput = $this->getErrorMessage($filename, $msg);
         ob_end_flush();

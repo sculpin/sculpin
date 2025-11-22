@@ -39,7 +39,7 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     }
 
     /** @test */
-    public function shouldGenerateHtmlUsingALayout()
+    public function shouldGenerateHtmlUsingALayout(): void
     {
         $this->addProjectFile('/source/_layouts/my_layout.html.twig', <<<EOT
         <body>

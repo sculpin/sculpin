@@ -53,7 +53,7 @@ final class CustomMimeTypesRepositoryPass implements CompilerPassInterface
 
         // Prune empty extensions
         foreach ($data as $type => $extensions) {
-            $data[$type] = array_filter($extensions, fn($var) => (string) $var !== '');
+            $data[$type] = array_filter($extensions, fn($var): bool => (string) $var !== '');
         }
 
         $definition->addArgument($data);

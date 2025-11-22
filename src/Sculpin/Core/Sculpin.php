@@ -69,7 +69,7 @@ final readonly class Sculpin
 
         if ($updatedSources = array_filter(
             $sourceSet->updatedSources(),
-            fn(SourceInterface $source) => !$source->isGenerated()
+            fn(SourceInterface $source): bool => !$source->isGenerated()
         )) {
             $io->write('Detected new or updated files');
             $found = true;

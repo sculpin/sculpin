@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\CompositeDataSource;
 use Sculpin\Core\Source\SourceSet;
@@ -20,7 +21,7 @@ use Sculpin\Core\Source\DataSourceInterface;
 
 class CompositeDataSourceTest extends TestCase
 {
-    public function makeDataSource($dataSourceId)
+    public function makeDataSource($dataSourceId): MockObject
     {
         $dataSource = $this->createMock(DataSourceInterface::class);
 
@@ -32,7 +33,7 @@ class CompositeDataSourceTest extends TestCase
         return $dataSource;
     }
 
-    public function testAddDataSource()
+    public function testAddDataSource(): void
     {
         $ds000 = $this->makeDataSource('TestDataSource:000');
         $ds001 = $this->makeDataSource('TestDataSource:001');
@@ -54,7 +55,7 @@ class CompositeDataSourceTest extends TestCase
         ], $dataSource->dataSources());
     }
 
-    public function testDataSourceId()
+    public function testDataSourceId(): void
     {
         $ds000 = $this->makeDataSource('TestDataSource:000');
         $ds001 = $this->makeDataSource('TestDataSource:001');
@@ -67,7 +68,7 @@ class CompositeDataSourceTest extends TestCase
         $this->assertStringContainsString('TestDataSource:002', $dataSource->dataSourceId());
     }
 
-    public function testRefresh()
+    public function testRefresh(): void
     {
         $sourceSet = new SourceSet;
 

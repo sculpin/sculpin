@@ -31,7 +31,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldNotModifyAnExistingCalculatedDate()
+    public function itShouldNotModifyAnExistingCalculatedDate(): void
     {
         $source = $this->getSourceWithCalculatedDate($timestamp = 123456);
 
@@ -41,7 +41,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldSetTheCalculatedDateIfFound()
+    public function itShouldSetTheCalculatedDateIfFound(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-sculpin-is-great.markdown");
 
@@ -51,7 +51,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldIncludeTheTimeIfFound()
+    public function itShouldIncludeTheTimeIfFound(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-220212-sculpin-is-great.markdown");
 
@@ -61,7 +61,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldIgnoreTheTimeIfItsProbablyNotATime()
+    public function itShouldIgnoreTheTimeIfItsProbablyNotATime(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname(
             "2013-12-12-10-reasons-why-sculpin-is-great.markdown"

@@ -73,7 +73,7 @@ class SourceSet
      */
     public function updatedSources(): array
     {
-        return array_filter($this->sources, fn(SourceInterface $source) => $source->hasChanged());
+        return array_filter($this->sources, fn(SourceInterface $source): bool => $source->hasChanged());
     }
 
     /**
