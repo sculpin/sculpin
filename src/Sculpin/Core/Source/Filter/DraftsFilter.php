@@ -17,11 +17,8 @@ use Sculpin\Core\Source\SourceInterface;
 
 class DraftsFilter implements FilterInterface
 {
-    private $publishDrafts;
-
-    public function __construct($publishDrafts = false)
+    public function __construct(private bool $publishDrafts = false)
     {
-        $this->publishDrafts = $publishDrafts;
     }
 
     public function match(SourceInterface $source): bool

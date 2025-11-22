@@ -83,7 +83,7 @@ final readonly class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function reset()
+    public function reset(): void
     {
         // nothing to do
     }

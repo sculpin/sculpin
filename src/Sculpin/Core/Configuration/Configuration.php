@@ -25,49 +25,49 @@ class Configuration extends BaseConfiguration
      *
      * @var array
      */
-    private $excludes = [];
+    private array $excludes = [];
 
     /**
      * Ignore patterns
      *
      * @var array
      */
-    private $ignores = [];
+    private array $ignores = [];
 
     /**
      * Raw patterns
      *
      * @var array
      */
-    private $raws = [];
+    private array $raws = [];
 
     /**
      * Source directory
      *
      * @var string
      */
-    private $sourceDir;
+    private string $sourceDir;
 
     /**
      * Output directory
      *
      * @var string
      */
-    private $outputDir;
+    private string $outputDir;
 
     /**
      * Default permalink
      *
      * @var string
      */
-    private $permalink;
+    private string $permalink;
 
     /**
      * Default formatter
      *
      * @var string
      */
-    private $defaultFormatter;
+    private string $defaultFormatter;
 
     /**
      * Set excludes
@@ -96,7 +96,7 @@ class Configuration extends BaseConfiguration
      */
     public function addExclude(string $pattern): self
     {
-        if (substr($pattern, 0, 2)=='./') {
+        if (str_starts_with($pattern, './')) {
             $pattern = substr($pattern, 2);
         }
 
@@ -144,7 +144,7 @@ class Configuration extends BaseConfiguration
      */
     public function addIgnore(string $pattern): self
     {
-        if (substr($pattern, 0, 2)=='./') {
+        if (str_starts_with($pattern, './')) {
             $pattern = substr($pattern, 2);
         }
 
@@ -192,7 +192,7 @@ class Configuration extends BaseConfiguration
      */
     public function addRaw(string $pattern): self
     {
-        if (substr($pattern, 0, 2)=='./') {
+        if (str_starts_with($pattern, './')) {
             $pattern = substr($pattern, 2);
         }
         if (!in_array($pattern, $this->raws)) {

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Io;
 
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -26,33 +25,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ConsoleIo implements IoInterface
 {
     /**
-     * @var InputInterface
-     */
-    private $input;
-
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
      * The last message that has been output, to be able to overwrite it.
      *
      * @var string
      */
-    private $lastMessage;
+    private string $lastMessage;
 
     /**
      * Time in seconds with fractions when debugging has been enabled.
      *
      * @var float
      */
-    private $startTime;
+    private float $startTime;
 
-    public function __construct(InputInterface $input, OutputInterface $output)
+    public function __construct(private InputInterface $input, private OutputInterface $output)
     {
-        $this->input = $input;
-        $this->output = $output;
     }
 
     public function enableDebugging(float $startTime): void
@@ -103,9 +90,9 @@ final class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function write($messages, bool $newline = true)
+    public function write($messages, bool $newline = true): void
     {
-        if (null !== $this->startTime) {
+        if (isset($this->startTime)) {
             $messages = (array) $messages;
             $messages[0] = sprintf(
                 '[%.1fMB/%.2fs] %s',
@@ -121,7 +108,7 @@ final class ConsoleIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function overwrite($messages, bool $newline = true, ?int $size = null)
+    public function overwrite($messages, bool $newline = true, ?int $size = null): void
     {
         // messages can be an array, let's convert it to string anyway
         $messages = join($newline ? "\n" : '', (array) $messages);

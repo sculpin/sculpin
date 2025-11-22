@@ -24,34 +24,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class GeneratorManager
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var Configuration
-     */
-    protected $siteConfiguration;
-
-    /**
-     * @var DataProviderManager
-     */
-    protected $dataProviderManager;
-
-    /**
-     * @var array
-     */
-    protected $generators = [];
+    protected array $generators = [];
 
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        Configuration $siteConfiguration,
-        ?DataProviderManager $dataProviderManager = null
+        protected EventDispatcherInterface $eventDispatcher,
+        protected Configuration $siteConfiguration,
+        protected ?DataProviderManager $dataProviderManager = null
     ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->siteConfiguration = $siteConfiguration;
-        $this->dataProviderManager = $dataProviderManager;
     }
 
     public function registerGenerator($name, GeneratorInterface $generator): void

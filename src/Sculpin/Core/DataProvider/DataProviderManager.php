@@ -23,7 +23,7 @@ class DataProviderManager
      *
      * @var array
      */
-    protected $dataProviders = [];
+    protected array $dataProviders = [];
 
     public function registerDataProvider(string $name, DataProviderInterface $dataProvider): void
     {
@@ -47,12 +47,15 @@ class DataProviderManager
      */
     public function dataProvider(string $name): DataProviderInterface
     {
-        if (isset($this->dataProviders[$name])) {
-            return $this->dataProviders[$name];
+        if (!isset($this->dataProviders[$name])) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Requested data provider '%s' could not be found; does the content type exist, or provider not specified?",
+                    $name
+                )
+            );
         }
-        throw new \InvalidArgumentException(sprintf(
-            "Requested data provider '%s' could not be found; does the content type exist, or provider not specified?",
-            $name
-        ));
+
+        return $this->dataProviders[$name];
     }
 }

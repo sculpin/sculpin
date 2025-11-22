@@ -20,16 +20,8 @@ use Sculpin\Core\Source\SourceInterface;
  */
 class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
 {
-    /**
-     * Default permalink template for when the source does not specify a template.
-     *
-     * @var string
-     */
-    protected $defaultPermalink;
-
-    public function __construct(string $defaultPermalink)
+    public function __construct(protected string $defaultPermalink)
     {
-        $this->defaultPermalink = $defaultPermalink;
     }
 
     /**
@@ -40,14 +32,14 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         if ($source->canBeFormatted()) {
             $relativeFilePath = $this->generatePermalinkPathname($source);
             // TODO: Make this configurable... not all index files are named index.*
-            if (strpos(basename($relativeFilePath), 'index.') === false) {
+            if (!str_contains(basename($relativeFilePath), 'index.')) {
                 $relativeUrlPath = $relativeFilePath;
             } else {
                 $relativeUrlPath = dirname($relativeFilePath);
 
                 // Check for trailing slashes
                 $permalink = $this->getPermaLinkTemplate($source);
-                if (substr($permalink, -1, 1) == '/') {
+                if (str_ends_with($permalink, '/')) {
                     $relativeUrlPath .= '/';
                 }
             }
@@ -58,7 +50,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
             $relativeFilePath = $relativeUrlPath = $source->relativePathname();
         }
 
-        if (0 !== strpos($relativeUrlPath, '/')) {
+        if (!str_starts_with($relativeUrlPath, '/')) {
             $relativeUrlPath = '/'.$relativeUrlPath;
         }
 
@@ -68,7 +60,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         return new Permalink($relativeFilePath, $relativeUrlPath);
     }
 
-    protected function generatePermalinkPathname(SourceInterface $source)
+    protected function generatePermalinkPathname(SourceInterface $source): string
     {
         $pathname = $source->relativePathname();
         // Make sure that twig files end up as .html files.
@@ -86,19 +78,15 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                     return implode('/', array_merge($response, ['index.html']));
                 } else {
                     $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', $pathname);
-                    if (basename($pretty) == 'index') {
-                        return $pretty . '.html';
-                    } else {
-                        return $pretty . '/index.html';
-                    }
+                    return basename($pretty) == 'index' ? $pretty . '.html' : $pretty . '/index.html';
                 }
                 break;
             case 'date':
                 if ($response = $this->isDatePath($pathname)) {
-                    return implode('/', $response).'.html';
+                    return implode('/', $response) . '.html';
                 }
 
-                return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
+                return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname) . '.html';
             default:
                 [$year, $yr, $month, $mo, $day, $dy] = explode('-', date('Y-y-m-n-d-j', (int) $date));
                 $permalink = preg_replace('/:year/', $year, $permalink);
@@ -133,7 +121,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                     $folderTemp = $pathname;
 
                     // Strip the first folder if it's a type folder
-                    if ('_' === substr($pathname, 0, 1)) {
+                    if (str_starts_with($pathname, '_')) {
                         $folderTemp = substr($pathname, $folderPos+1);
                     }
 
@@ -149,13 +137,13 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
 
                 if (preg_match('#(^|[\\/])[^.]+$#', $permalink)
                     // Exclude .md and .twig for BC
-                    || substr($permalink, -3, 3) === '.md'
-                    || substr($permalink, -5, 5) === '.twig'
+                    || str_ends_with($permalink, '.md')
+                    || str_ends_with($permalink, '.twig')
                 ) {
                     $permalink = rtrim($permalink, '/') . '/';
                 }
 
-                if (substr($permalink, -1, 1) == '/') {
+                if (str_ends_with($permalink, '/')) {
                     $permalink .= 'index.html';
                 }
 

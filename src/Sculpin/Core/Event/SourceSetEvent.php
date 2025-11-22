@@ -21,14 +21,8 @@ use Sculpin\Core\Source\SourceSet;
  */
 final class SourceSetEvent extends Event
 {
-    /**
-     * @var SourceSet
-     */
-    private $sourceSet;
-
-    public function __construct(SourceSet $sourceSet)
+    public function __construct(private SourceSet $sourceSet)
     {
-        $this->sourceSet = $sourceSet;
     }
 
     /**

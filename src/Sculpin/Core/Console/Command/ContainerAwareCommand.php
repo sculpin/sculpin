@@ -23,10 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     /**
      * @return ContainerInterface
@@ -35,7 +32,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     protected function getContainer(): ContainerInterface
     {
-        if (null === $this->container) {
+        if (!isset($this->container)) {
             $app = $this->getApplication();
 
             if (!$app instanceof Application) {
@@ -51,11 +48,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     /**
      * Set Container.
      *
-     * @param ContainerInterface $container Container
+     * @param ContainerInterface|null $container Container
      *
      * @see ContainerAwareInterface::setContainer()
      */
-    public function setContainer(?ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }
