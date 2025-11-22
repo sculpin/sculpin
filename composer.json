@@ -47,7 +47,8 @@
         "symfony/css-selector": "^v5.4",
         "symfony/dom-crawler": "^v5.4",
         "symfony/process": "^v5.4",
-        "phpstan/phpstan": "^1.2"
+        "phpstan/phpstan": "^1.2",
+        "rector/rector": "^1.2"
     },
     "suggest": {
         "ext-iconv": "To convert non-UTF-8 strings to UTF-8.",
