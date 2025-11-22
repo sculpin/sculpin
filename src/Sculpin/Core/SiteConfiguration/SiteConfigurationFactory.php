@@ -20,9 +20,9 @@ use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class SiteConfigurationFactory
+final readonly class SiteConfigurationFactory
 {
-    public function __construct(private readonly string $projectDir, private readonly string $environment)
+    public function __construct(private string $projectDir, private string $environment)
     {
     }
 

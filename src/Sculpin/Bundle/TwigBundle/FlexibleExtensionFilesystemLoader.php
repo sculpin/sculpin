@@ -41,8 +41,8 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
         $mappedSourcePaths = array_map(fn($path) => $sourceDir . '/' . $path, $sourcePaths);
 
         $allPaths = array_merge(
-            array_filter($mappedSourcePaths, 'file_exists'),
-            array_filter($paths, 'file_exists')
+            array_filter($mappedSourcePaths, file_exists(...)),
+            array_filter($paths, file_exists(...))
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);

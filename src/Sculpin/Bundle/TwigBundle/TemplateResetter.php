@@ -20,9 +20,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class TemplateResetter implements EventSubscriberInterface
+final readonly class TemplateResetter implements EventSubscriberInterface
 {
-    public function __construct(private readonly Environment $twig)
+    public function __construct(private Environment $twig)
     {
     }
 

@@ -32,7 +32,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class Sculpin
+final readonly class Sculpin
 {
     public const string EVENT_BEFORE_RUN = 'sculpin.core.before_run';
     public const string EVENT_AFTER_RUN = 'sculpin.core.after_run';
@@ -46,12 +46,12 @@ final class Sculpin
     public const string EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     public function __construct(
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly SourcePermalinkFactoryInterface $permalinkFactory,
-        private readonly WriterInterface $writer,
-        private readonly GeneratorManager $generatorManager,
-        private readonly FormatterManager $formatterManager,
-        private readonly ConverterManager $converterManager
+        private EventDispatcherInterface $eventDispatcher,
+        private SourcePermalinkFactoryInterface $permalinkFactory,
+        private WriterInterface $writer,
+        private GeneratorManager $generatorManager,
+        private FormatterManager $formatterManager,
+        private ConverterManager $converterManager
     ) {
     }
 

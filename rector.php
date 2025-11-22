@@ -9,8 +9,8 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/src',
     ])
-    ->withPhpSets(php81: true)
-    ->withPhpVersion(PhpVersion::PHP_81)
+    ->withPhpSets(php82: true)
+    ->withPhpVersion(PhpVersion::PHP_82)
     ->withPreparedSets(deadCode: true, codeQuality: true, symfonyCodeQuality: true)
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withTypeCoverageLevel(0);
