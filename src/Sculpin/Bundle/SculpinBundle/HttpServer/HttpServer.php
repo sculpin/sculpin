@@ -37,6 +37,10 @@ final class HttpServer
         private bool $debug,
         private int $port = self::DEFAULT_PORT
     ) {
+        if ($this->port === 0) {
+            $this->port = self::DEFAULT_PORT;
+        }
+
         $socketServer = $this->startSocketServer();
         $httpServer = $this->getHttpServer($docroot, $output);
 
