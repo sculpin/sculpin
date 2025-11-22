@@ -1,0 +1,9 @@
+version: 2
+updates: 
+- package-ecosystes: "composer"
+  directory:
+  schedule:
+    interval: *daily
+target-branch: "development"
+  labels:
+- "project dependencies*
