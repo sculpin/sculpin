@@ -24,7 +24,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 final class FilesystemDataSource implements DataSourceInterface
 {
-    private string $sinceTime;
+    private string $sinceTime = '1970-01-01T00:00:00Z';
 
     /**
      * @param string[] $excludePaths Exclude paths
@@ -32,17 +32,16 @@ final class FilesystemDataSource implements DataSourceInterface
      * @param string[] $rawPaths     Raw paths
      */
     public function __construct(
-        private string $sourceDir,
-        private array $excludePaths,
-        private array $ignorePaths,
-        private array $rawPaths,
+        private readonly string $sourceDir,
+        private readonly array $excludePaths,
+        private readonly array $ignorePaths,
+        private readonly array $rawPaths,
         private ?AntPathMatcher $pathMatcher = null,
-        private ?MimeTypeDetector $detector = null,
+        private readonly ?MimeTypeDetector $detector = null,
         private ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
         $this->pathMatcher ??= new AntPathMatcher;
         $this->directorySeparatorNormalizer ??= new DirectorySeparatorNormalizer;
-        $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
     /**
@@ -90,6 +89,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -99,10 +99,12 @@ final class FilesystemDataSource implements DataSourceInterface
                     continue 2;
                 }
             }
+
             foreach ($this->excludePaths as $pattern) {
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -119,6 +121,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())

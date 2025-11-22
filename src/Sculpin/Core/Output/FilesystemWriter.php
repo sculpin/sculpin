@@ -21,7 +21,7 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class FilesystemWriter implements WriterInterface
 {
-    public function __construct(private Filesystem $filesystem, private string $outputDir)
+    public function __construct(private readonly Filesystem $filesystem, private string $outputDir)
     {
     }
 
@@ -53,8 +53,6 @@ final class FilesystemWriter implements WriterInterface
 
     /**
      * Retrieve the output directory
-     *
-     * @return string
      */
     public function getOutputDir(): string
     {

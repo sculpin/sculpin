@@ -18,14 +18,10 @@ namespace Sculpin\Core\Util;
  */
 final class DirectorySeparatorNormalizer
 {
-    /**
-     * @var string
-     */
-    private string $directorySeparator;
+    private string $directorySeparator = DIRECTORY_SEPARATOR;
 
-    public function __construct(private string $preferredDirectorySeparator = '/')
+    public function __construct(private readonly string $preferredDirectorySeparator = '/')
     {
-        $this->directorySeparator = DIRECTORY_SEPARATOR;
     }
 
     /**

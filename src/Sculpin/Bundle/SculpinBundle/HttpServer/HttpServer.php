@@ -31,10 +31,10 @@ final class HttpServer
     private StreamSelectLoop $loop;
 
     public function __construct(
-        private OutputInterface $output,
+        private readonly OutputInterface $output,
         string $docroot,
-        private string $env,
-        private bool $debug,
+        private readonly string $env,
+        private readonly bool $debug,
         private int $port = self::DEFAULT_PORT
     ) {
         if ($this->port === 0) {
@@ -124,7 +124,7 @@ final class HttpServer
         return new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
             $docroot,
             $output
-        ) {
+        ): Response {
             $mimeTypes = new MimeTypes();
             $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
 

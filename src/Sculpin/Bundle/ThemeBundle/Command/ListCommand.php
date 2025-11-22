@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ThemeBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,22 +48,19 @@ class ListCommand extends ContainerAwareCommand
         $themes = $themeRegistry->listThemes();
 
         foreach ($themes as $theme) {
-            if ($theme['name'] === $activeTheme['name']) {
-                $themeOutput = '<info>'.$theme['name'].'</info> *';
-            } else {
-                $themeOutput = $theme['name'];
-            }
+            $themeOutput = $theme['name'] === $activeTheme['name'] ? '<info>'.$theme['name'].'</info> *' : $theme['name'];
 
             if (isset($theme['parent'])) {
                 $themeOutput .= ' (child of '.$theme['parent'].')';
             }
 
-            if (preg_match('/^(.+?)-dev$/', $theme['name'], $matches)) {
+            if (preg_match('/^(.+?)-dev$/', (string) $theme['name'], $matches)) {
                 $themeOutput .= ' :: '.$matches[1].'';
             }
+
             $output->writeln($themeOutput);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

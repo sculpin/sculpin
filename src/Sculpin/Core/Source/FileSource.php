@@ -24,7 +24,7 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
 final class FileSource extends AbstractSource
 {
     public function __construct(
-        private MimeTypeDetector $detector,
+        private readonly MimeTypeDetector $detector,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
         bool $isRaw,
@@ -49,6 +49,7 @@ final class FileSource extends AbstractSource
      *
      * @param bool $hasChanged Has the file changed?
      */
+    #[\Override]
     protected function init(bool $hasChanged = false): void
     {
         parent::init($hasChanged);
@@ -109,13 +110,13 @@ final class FileSource extends AbstractSource
 
         if ($this->data->get('date')) {
             if (! is_numeric($this->data->get('date'))) {
-                $this->data->set('date', strtotime($this->data->get('date')));
+                $this->data->set('date', strtotime((string) $this->data->get('date')));
             }
 
             $this->data->set('calculated_date', $this->data->get('date'));
         }
 
-        if ($originalData) {
+        if ($originalData instanceof Data) {
             $this->data->import($originalData, false);
         }
     }

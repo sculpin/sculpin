@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sculpin\Tests\Functional;
 
-class GenerateCommandTest extends FunctionalTestCase
+final class GenerateCommandTest extends FunctionalTestCase
 {
-    public const CONFIG_FILE = DIRECTORY_SEPARATOR . 'app'
+    public const string CONFIG_FILE = DIRECTORY_SEPARATOR . 'app'
         . DIRECTORY_SEPARATOR . 'config'
         . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml';
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -27,7 +27,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->executeSculpin(['generate', '--output-dir', $outputDir]);
 
         $filePath = '/' . $outputDir . '/index.html';
-        $msg      = "Expected project to have generated file at path $filePath.";
+        $msg      = sprintf('Expected project to have generated file at path %s.', $filePath);
 
         $this->assertProjectHasFile($filePath, $msg);
     }
@@ -38,10 +38,10 @@ class GenerateCommandTest extends FunctionalTestCase
         $filePath  = '/output_test/index.html';
         $sourceDir = 'custom_source_dir';
 
-        $this->assertProjectLacksFile($filePath, "Expected project to NOT have generated file at path $filePath.");
+        $this->assertProjectLacksFile($filePath, sprintf('Expected project to NOT have generated file at path %s.', $filePath));
 
         // set up test scenario
-        static::$fs->rename(
+        self::$fs->rename(
             $this->projectDir() . '/source',
             $this->projectDir() . '/' . $sourceDir
         );
@@ -52,7 +52,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->executeSculpin(['generate', '--source-dir', $sourceDir]);
 
         // check that it worked
-        $this->assertProjectHasFile($filePath, "Expected project to have generated file at path $filePath.");
+        $this->assertProjectHasFile($filePath, sprintf('Expected project to have generated file at path %s.', $filePath));
     }
 
     /** @test */
@@ -65,7 +65,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->executeSculpin(['generate']);
 
         $filePath = '/test/index.html';
-        $msg      = "Expected project to have generated file at path $filePath.";
+        $msg      = sprintf('Expected project to have generated file at path %s.', $filePath);
 
         $this->assertProjectHasFile('/output_test' . $filePath, $msg);
         $this->assertGeneratedFileHasContent($filePath, 'Testing CSS /build/css/app.9141cd43.css');
@@ -81,14 +81,14 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->executeSculpin(['generate']);
 
         $filePath = '/hello_world/index.html';
-        $msg      = "Expected project to have generated file at path $filePath.";
+        $msg      = sprintf('Expected project to have generated file at path %s.', $filePath);
 
         $this->assertProjectHasFile('/output_test' . $filePath, $msg);
         $this->assertGeneratedFileHasContent($filePath, '<p>title: "Test Project"</p>');
         $this->assertGeneratedFileHasContent($filePath, '<p>subtitle: "Test Project Subtitle"</p>');
     }
 
-    protected function configureForWebpack(): void
+    private function configureForWebpack(): void
     {
         $this->writeToProjectFile(
             self::CONFIG_FILE,

@@ -25,9 +25,11 @@ use Symfony\Component\Filesystem\Filesystem;
 final class InitCommand extends AbstractCommand
 {
     public const int COMMAND_SUCCESS          = 0;
+
     public const int PROJECT_FOLDER_NOT_EMPTY = 101;
 
     public const string DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
+
     public const string DEFAULT_TITLE    = 'My Sculpin Site';
 
     /**
@@ -66,7 +68,7 @@ final class InitCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -93,14 +95,14 @@ final class InitCommand extends AbstractCommand
         }
 
         // 2. Create default Kernel
-        $this->createDefaultKernel($projectDir, $output);
+        $this->createDefaultKernel($projectDir);
 
         // 3. Create default Site config files
-        $this->createSiteKernelFile($projectDir, $output);
-        $this->createSiteConfigFile($projectDir, $title, $subTitle, $output);
+        $this->createSiteKernelFile($projectDir);
+        $this->createSiteConfigFile($projectDir, $title, $subTitle);
 
         // 4. Create source folder (with or without posts) and the very first basic entry in the source folder
-        $this->createSourceFolder($projectDir, $output);
+        $this->createSourceFolder($projectDir);
 
         $output->writeln('<info>Success!</info>');
         $output->writeln('Run "sculpin generate --watch --server" to see your static site in action.');
@@ -126,7 +128,7 @@ final class InitCommand extends AbstractCommand
         return true;
     }
 
-    private function createDefaultKernel(string $projectDir, OutputInterface $output): void
+    private function createDefaultKernel(string $projectDir): void
     {
         $contents = <<<EOT
         <?php
@@ -145,7 +147,7 @@ final class InitCommand extends AbstractCommand
         $this->createFile($projectDir . '/app/SculpinKernel.php', $contents);
     }
 
-    private function createSiteKernelFile(string $projectDir, OutputInterface $output): void
+    private function createSiteKernelFile(string $projectDir): void
     {
         $contents = <<<EOT
         sculpin_content_types:
@@ -159,12 +161,11 @@ final class InitCommand extends AbstractCommand
     private function createSiteConfigFile(
         string $projectDir,
         string $title,
-        string $subTitle,
-        OutputInterface $output
+        string $subTitle
     ): void {
         $contents = <<<EOT
-        title: "$title"
-        subtitle: "$subTitle"
+        title: "{$title}"
+        subtitle: "{$subTitle}"
         google_analytics_tracking_id: ''
         url: ''
 
@@ -172,7 +173,7 @@ final class InitCommand extends AbstractCommand
         $this->createFile($projectDir . '/app/config/sculpin_site.yml', $contents);
     }
 
-    private function createSourceFolder(string $projectDir, OutputInterface $output): void
+    private function createSourceFolder(string $projectDir): void
     {
         $fs = new Filesystem();
 

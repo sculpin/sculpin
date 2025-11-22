@@ -28,8 +28,8 @@ use Symfony\Component\String\Inflector\EnglishInflector;
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
     public function __construct(
-        private FormatterManager $formatterManager,
-        private string $dataProviderName,
+        private readonly FormatterManager $formatterManager,
+        private readonly string $dataProviderName,
         private ?string $dataSingularName = null,
         private ?ProxySourceCollection $collection = null,
         private ?FilterInterface $filter = null,
@@ -98,6 +98,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 $this->collection[$source->sourceId()] = $this->factory->createProxySourceItem($source);
             }
         }
+
         $foundAtLeastOne = false;
 
         foreach ($sourceSetEvent->allSources() as $source) {
@@ -108,7 +109,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         }
 
         if (!$foundAtLeastOne) {
-            echo 'Didn\'t find at least one of this type : ' . $this->dataProviderName . PHP_EOL;
+            echo "Didn't find at least one of this type : " . $this->dataProviderName . PHP_EOL;
         }
 
         $this->collection->init();
@@ -124,6 +125,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 break;
             }
         }
+
         if ($anItemHasChanged) {
             foreach ($sourceSetEvent->allSources() as $source) {
                 if ($source->data()->get('use') && in_array($this->dataProviderName, $source->data()->get('use'))) {
@@ -131,6 +133,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
                 }
             }
         }
+
         foreach ($this->collection as $item) {
             $item->data()->set('next_'.$this->dataSingularName, $item->nextItem());
             $item->data()->set('previous_'.$this->dataSingularName, $item->previousItem());

@@ -26,7 +26,7 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
     public function __construct(
         private readonly DataProviderManager $dataProviderManager,
         private readonly string $dataProviderName,
-        private string $taxonomyKey
+        private readonly string $taxonomyKey
     ) {
     }
 
@@ -51,10 +51,11 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
             if ($itemTaxons = $item->data()->get($this->taxonomyKey)) {
                 $normalizedItemTaxons = [];
                 foreach ((array) $itemTaxons as $itemTaxon) {
-                    $normalizedItemTaxon = trim($itemTaxon);
+                    $normalizedItemTaxon = trim((string) $itemTaxon);
                     $taxons[$normalizedItemTaxon][] = $item;
                     $normalizedItemTaxons[] = $normalizedItemTaxon;
                 }
+
                 $item->data()->set($this->taxonomyKey, $normalizedItemTaxons);
             }
         }

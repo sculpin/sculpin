@@ -22,50 +22,36 @@ class Configuration extends BaseConfiguration
 {
     /**
      * Exclusion patterns
-     *
-     * @var array
      */
     private array $excludes = [];
 
     /**
      * Ignore patterns
-     *
-     * @var array
      */
     private array $ignores = [];
 
     /**
      * Raw patterns
-     *
-     * @var array
      */
     private array $raws = [];
 
     /**
      * Source directory
-     *
-     * @var string
      */
     private string $sourceDir;
 
     /**
      * Output directory
-     *
-     * @var string
      */
     private string $outputDir;
 
     /**
      * Default permalink
-     *
-     * @var string
      */
     private string $permalink;
 
     /**
      * Default formatter
-     *
-     * @var string
      */
     private string $defaultFormatter;
 
@@ -75,8 +61,6 @@ class Configuration extends BaseConfiguration
      * NOTE: Does not clear existing values first.
      *
      * @param array $excludes Excludes.
-     *
-     * @return Configuration
      */
     public function setExcludes(array $excludes = []): self
     {
@@ -90,9 +74,7 @@ class Configuration extends BaseConfiguration
     /**
      * Add an exclude pattern
      *
-     * @param string $pattern
      *
-     * @return Configuration
      */
     public function addExclude(string $pattern): self
     {
@@ -109,8 +91,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Excludes
-     *
-     * @return array
      */
     public function excludes(): array
     {
@@ -123,8 +103,6 @@ class Configuration extends BaseConfiguration
      * NOTE: Does not clear existing values first.
      *
      * @param array $ignores Ignores.
-     *
-     * @return Configuration
      */
     public function setIgnores(array $ignores = []): self
     {
@@ -138,9 +116,7 @@ class Configuration extends BaseConfiguration
     /**
      * Add an ignore pattern
      *
-     * @param string $pattern
      *
-     * @return Configuration
      */
     public function addIgnore(string $pattern): self
     {
@@ -157,8 +133,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Ignores
-     *
-     * @return array
      */
     public function ignores(): array
     {
@@ -171,8 +145,6 @@ class Configuration extends BaseConfiguration
      * NOTE: Does not clear existing values first.
      *
      * @param array $raws Raws.
-     *
-     * @return Configuration
      */
     public function setRaws(array $raws = []): self
     {
@@ -186,15 +158,14 @@ class Configuration extends BaseConfiguration
     /**
      * Add a raw pattern
      *
-     * @param string $pattern
      *
-     * @return Configuration
      */
     public function addRaw(string $pattern): self
     {
         if (str_starts_with($pattern, './')) {
             $pattern = substr($pattern, 2);
         }
+
         if (!in_array($pattern, $this->raws)) {
             $this->raws[] = $pattern;
         }
@@ -204,8 +175,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Raws
-     *
-     * @return array
      */
     public function raws(): array
     {
@@ -216,8 +185,6 @@ class Configuration extends BaseConfiguration
      * Set source directory
      *
      * @param string $sourceDir Source directory
-     *
-     * @return Configuration
      */
     public function setSourceDir(string $sourceDir): self
     {
@@ -228,8 +195,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Source directory
-     *
-     * @return string
      */
     public function sourceDir(): string
     {
@@ -252,8 +217,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Output directory
-     *
-     * @return string
      */
     public function outputDir(): string
     {
@@ -276,8 +239,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Permalink
-     *
-     * @return string
      */
     public function permalink(): string
     {
@@ -288,8 +249,6 @@ class Configuration extends BaseConfiguration
      * Set default formatter
      *
      * @param string $defaultFormatter Default formatter
-     *
-     * @return Configuration
      */
     public function setDefaultFormatter(string $defaultFormatter): self
     {
@@ -300,8 +259,6 @@ class Configuration extends BaseConfiguration
 
     /**
      * Default formatter
-     *
-     * @return string
      */
     public function defaultFormatter(): string
     {

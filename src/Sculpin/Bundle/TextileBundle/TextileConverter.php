@@ -62,7 +62,7 @@ final readonly class TextileConverter implements ConverterInterface, EventSubscr
         /** @var SourceInterface $source */
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
-                if (fnmatch("*.{$extension}", $source->filename())) {
+                if (fnmatch('*.' . $extension, $source->filename())) {
                     $source->data()->append('converters', SculpinTextileBundle::CONVERTER_NAME);
                     break;
                 }

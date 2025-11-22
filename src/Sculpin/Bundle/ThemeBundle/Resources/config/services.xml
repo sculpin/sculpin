@@ -17,7 +17,6 @@
     <services>
 
         <service id="sculpin_theme.theme_registry" class="Sculpin\Bundle\ThemeBundle\ThemeRegistry" public="true">
-            <argument>null</argument>
             <argument>%sculpin_theme.directory%</argument>
             <argument>%sculpin_theme.theme%</argument>
             <tag name="sculpin.path_configurator" type="exclude" parameter="sculpin_theme.exclude_patterns" />

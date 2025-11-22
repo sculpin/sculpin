@@ -28,10 +28,8 @@ final class ConvertListener implements EventSubscriberInterface
 {
     /**
      * List of regular expressions needing placeholders
-     *
-     * @var array
      */
-    private static $addPlaceholderRe = [
+    private static array $addPlaceholderRe = [
         '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
         '/^({%\s+endblock\s+%})$/m',       // {% %} style code
         '/^({{.+?}})$/m',                  // {{ }} style code
@@ -39,15 +37,11 @@ final class ConvertListener implements EventSubscriberInterface
 
     /**
      * Placeholder text
-     *
-     * @var string
      */
     private static string $placeholder = "\n<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>\n";
 
     /**
      * Regex used to remove placeholder
-     *
-     * @var string
      */
     private static string $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // @codingStandardsIgnoreLine
 
@@ -70,12 +64,13 @@ final class ConvertListener implements EventSubscriberInterface
         if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
             $content = $convertEvent->source()->content();
             foreach (self::$addPlaceholderRe as $re) {
-                $content = preg_replace($re, self::$placeholder, $content);
+                $content = preg_replace($re, self::$placeholder, (string) $content);
             }
+
             $content = preg_replace(
                 '/{%\s+(\w+)\s+(\w+\++\w+)\s+%}(.*){%\s+end\1\s+%}/Us',
                 '<div data-$1="$2">$3</div>',
-                $content
+                (string) $content
             );
             $convertEvent->source()->setContent($content);
         }
@@ -88,11 +83,11 @@ final class ConvertListener implements EventSubscriberInterface
     {
         if ($convertEvent->isHandledBy(SculpinMarkdownBundle::CONVERTER_NAME, SculpinTwigBundle::FORMATTER_NAME)) {
             $content = $convertEvent->source()->content();
-            $content = preg_replace(self::$removePlaceholderRe, '', $content);
+            $content = preg_replace(self::$removePlaceholderRe, '', (string) $content);
             $content = preg_replace(
                 '/<div data-(\w+)="(\w+\++\w+)">(.*?)<\/div>/Us',
                 '{% $1 \'$2\' %}$3{% end$1 %}',
-                $content
+                (string) $content
             );
             $convertEvent->source()->setContent($content);
         }

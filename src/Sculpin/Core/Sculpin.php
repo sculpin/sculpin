@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Core;
 
-use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
@@ -33,21 +32,23 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class Sculpin
+final readonly class Sculpin
 {
     public const string EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+
     public const string EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
     public const string EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
 
     public const string EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+
     public const string EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
     public const string EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+
     public const string EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     public function __construct(
-        private Configuration $siteConfiguration,
         private EventDispatcherInterface $eventDispatcher,
         private SourcePermalinkFactoryInterface $permalinkFactory,
         private WriterInterface $writer,
@@ -59,9 +60,10 @@ final class Sculpin
 
     public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null): void
     {
-        if (null === $io) {
+        if (!$io instanceof IoInterface) {
             $io = new NullIo();
         }
+
         $found = false;
         $startTime = microtime(true);
 
@@ -71,13 +73,10 @@ final class Sculpin
 
         if ($updatedSources = array_filter(
             $sourceSet->updatedSources(),
-            fn(SourceInterface $source) => !$source->isGenerated()
+            fn(SourceInterface $source): bool => !$source->isGenerated()
         )) {
-            if (!$found) {
-                $io->write('Detected new or updated files');
-                $found = true;
-            }
-
+            $io->write('Detected new or updated files');
+            $found = true;
             $total = count($updatedSources);
 
             $io->write('Generating: ', false);
@@ -88,6 +87,7 @@ final class Sculpin
                 $this->generatorManager->generate($source, $sourceSet);
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
+
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
@@ -119,8 +119,10 @@ final class Sculpin
                 if ($source->canBeFormatted()) {
                     $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
                 }
+
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
+
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
@@ -142,8 +144,10 @@ final class Sculpin
                 } else {
                     $source->setFormattedContent($source->content());
                 }
+
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
+
             $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_FORMAT);
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }

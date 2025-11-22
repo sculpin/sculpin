@@ -122,6 +122,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             if (!$this->getContainer() instanceof Container) {
                 return Command::FAILURE;
             }
+
             $parameters = $this->getContainer()->getParameterBag()->all();
 
             // Sort parameters alphabetically
@@ -175,7 +176,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         $optionsCount = 0;
         foreach ($options as $option) {
             if ($input->getOption($option)) {
-                $optionsCount++;
+                ++$optionsCount;
             }
         }
 
@@ -193,7 +194,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
 
     private function outputServices(
         OutputInterface $output,
-        $serviceIds,
+        array $serviceIds,
         $showPrivate = false,
         $showTagAttributes = null
     ): void {
@@ -203,6 +204,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         } else {
             $label = '<comment>Public</comment> services';
         }
+
         if ($showTagAttributes) {
             $label .= ' with tag <info>'.$showTagAttributes.'</info>';
         }
@@ -227,37 +229,36 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                     foreach ($tags as $tag) {
                         foreach ($tag as $key => $value) {
                             if (!isset($maxTags[$key])) {
-                                $maxTags[$key] = strlen($key);
+                                $maxTags[$key] = strlen((string) $key);
                             }
-                            if (strlen($value) > $maxTags[$key]) {
-                                $maxTags[$key] = strlen($value);
+
+                            if (strlen((string) $value) > $maxTags[$key]) {
+                                $maxTags[$key] = strlen((string) $value);
                             }
                         }
                     }
                 }
             }
 
-            if (strlen($serviceId) > $maxName) {
-                $maxName = strlen($serviceId);
+            if (strlen((string) $serviceId) > $maxName) {
+                $maxName = strlen((string) $serviceId);
             }
         }
+
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(function ($length) {
-            return "%-{$length}s ";
-        }, $maxTags));
+        $format .= implode("", array_map(fn(int $length): string => sprintf('%%-%ds ', $length), $maxTags));
         $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
-        $format1 .= implode("", array_map(function ($length) {
-            return '%-'.($length + 19).'s ';
-        }, $maxTags));
+        $format1 .= implode("", array_map(fn(int $length): string => '%-'.($length + 19).'s ', $maxTags));
         $format1 .= '%s';
 
         $tags = [];
-        foreach ($maxTags as $tagName => $length) {
+        foreach (array_keys($maxTags) as $tagName) {
             $tags[] = '<comment>'.$tagName.'</comment>';
         }
+
         $output->writeln(vsprintf($format1, $this->buildArgumentsArray(
             '<comment>Service Id</comment>',
             '<comment>Class Name</comment>',
@@ -273,8 +274,9 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                     foreach ($definition->getTag($showTagAttributes) as $key => $tag) {
                         $tagValues = [];
                         foreach (array_keys($maxTags) as $tagName) {
-                            $tagValues[] = isset($tag[$tagName]) ? $tag[$tagName] : "";
+                            $tagValues[] = $tag[$tagName] ?? "";
                         }
+
                         if (0 === $key) {
                             $lines[] = $this->buildArgumentsArray(
                                 $serviceId,
@@ -317,6 +319,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
+
         $arguments[] = $className;
 
         return $arguments;
@@ -325,7 +328,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
     /**
      * Renders detailed service information about one service
      */
-    private function outputService(OutputInterface $output, string $serviceId)
+    private function outputService(OutputInterface $output, string $serviceId): void
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -346,7 +349,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                             '    - %-30s (%s)',
                             $tagName,
                             implode(', ', array_map(
-                                fn($key, $value) => sprintf('<info>%s</info>: %s', $key, $value),
+                                fn(string $key, $value): string => sprintf('<info>%s</info>: %s', $key, $value),
                                 array_keys($singleTagData),
                                 array_values($singleTagData)
                             ))
@@ -363,7 +366,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             $synthetic = $definition->isSynthetic() ? 'yes' : 'no';
             $output->writeln(sprintf('<comment>Synthetic</comment>        %s', $synthetic));
 
-            $file = $definition->getFile() ? $definition->getFile() : '-';
+            $file = $definition->getFile() ?: '-';
             $output->writeln(sprintf('<comment>Required File</comment>    %s', $file));
         } elseif ($definition instanceof Alias) {
             $alias = $definition;
@@ -372,7 +375,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             // edge case (but true for "service_container", all we have is the service itself
             $service = $definition;
             $output->writeln(sprintf('<comment>Service Id</comment>   %s', $serviceId));
-            $output->writeln(sprintf('<comment>Class</comment>        %s', get_class($service)));
+            $output->writeln(sprintf('<comment>Class</comment>        %s', $service::class));
         }
     }
 
@@ -386,7 +389,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
 
         // Determine max parameter & value length
         foreach ($parameters as $parameter => $value) {
-            $parameterWidth = strlen($parameter);
+            $parameterWidth = strlen((string) $parameter);
             if ($parameterWidth > $maxParameterWidth) {
                 $maxParameterWidth = $parameterWidth;
             }
@@ -441,14 +444,12 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         }
 
         // the service has been injected in some special way, just return the service class string
-        return get_class($container->get($serviceId));
+        return $container->get($serviceId)::class;
     }
 
     /**
      * Renders list of tagged services grouped by tag
      *
-     * @param OutputInterface $output
-     * @param bool $showPrivate
      *
      * @throws \Exception
      */
@@ -458,6 +459,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         if (! $container instanceof ContainerBuilder) {
             return;
         }
+
         $tags = $container->findTags();
         asort($tags);
 
@@ -469,10 +471,8 @@ final class ContainerDebugCommand extends ContainerAwareCommand
 
             foreach ($serviceIds as $serviceId => $attributes) {
                 $definition = $this->resolveServiceDefinition($serviceId);
-                if ($definition instanceof Definition) {
-                    if (!$showPrivate && !$definition->isPublic()) {
-                        unset($serviceIds[$serviceId]);
-                    }
+                if ($definition instanceof Definition && (!$showPrivate && !$definition->isPublic())) {
+                    unset($serviceIds[$serviceId]);
                 }
             }
 

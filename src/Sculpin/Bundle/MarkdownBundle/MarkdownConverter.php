@@ -18,7 +18,6 @@ use Sculpin\Core\Converter\ConverterInterface;
 use Sculpin\Core\Converter\ParserInterface;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Sculpin;
-use Sculpin\Core\Source\SourceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Michelf\Markdown;
 
@@ -33,7 +32,7 @@ final readonly class MarkdownConverter implements ConverterInterface, EventSubsc
     public function __construct(private ParserInterface $markdown, private array $extensions = [])
     {
         if ($this->markdown instanceof Markdown) {
-            $this->markdown->header_id_func = [$this, 'generateHeaderId'];
+            $this->markdown->header_id_func = $this->generateHeaderId(...);
         }
     }
 
@@ -64,7 +63,7 @@ final readonly class MarkdownConverter implements ConverterInterface, EventSubsc
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
-                if (fnmatch("*.{$extension}", $source->filename())) {
+                if (fnmatch('*.' . $extension, $source->filename())) {
                     $source->data()->append('converters', SculpinMarkdownBundle::CONVERTER_NAME);
                     break;
                 }

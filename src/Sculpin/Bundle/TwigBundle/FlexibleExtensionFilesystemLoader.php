@@ -25,10 +25,14 @@ use Twig\Source as TwigSource;
  */
 final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
 {
-    private FilesystemLoader $filesystemLoader;
+    private readonly FilesystemLoader $filesystemLoader;
+
     private array $cachedCacheKey = [];
+
     private array $cachedCacheKeyExtension = [];
+
     private array $cachedCacheKeyException = [];
+
     private array $extensions = [];
 
     /**
@@ -38,15 +42,15 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
      */
     public function __construct(string $sourceDir, array $sourcePaths, array $paths, array $extensions)
     {
-        $mappedSourcePaths = array_map(fn($path) => $sourceDir . '/' . $path, $sourcePaths);
+        $mappedSourcePaths = array_map(fn(string $path): string => $sourceDir . '/' . $path, $sourcePaths);
 
         $allPaths = array_merge(
-            array_filter($mappedSourcePaths, 'file_exists'),
-            array_filter($paths, 'file_exists')
+            array_filter($mappedSourcePaths, file_exists(...)),
+            array_filter($paths, file_exists(...))
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);
-        $this->extensions = array_map(fn($ext) => $ext ? '.' . $ext : $ext, $extensions);
+        $this->extensions = array_map(fn(string $ext): string => $ext !== '' && $ext !== '0' ? '.' . $ext : $ext, $extensions);
     }
 
     /**
@@ -82,7 +86,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
                 $this->cachedCacheKeyExtension[$name] = $extension;
 
                 return $this->cachedCacheKey[$name];
-            } catch (LoaderError $e) {
+            } catch (LoaderError) {
             }
         }
 
@@ -110,7 +114,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
     {
         try {
             $this->getCacheKey($name);
-        } catch (LoaderError $e) {
+        } catch (LoaderError) {
             return false;
         }
 

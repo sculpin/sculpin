@@ -18,7 +18,7 @@ use Dflydev\DotAccessConfiguration\Configuration as Data;
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class FormatContext
+final readonly class FormatContext
 {
     private Data $data;
 

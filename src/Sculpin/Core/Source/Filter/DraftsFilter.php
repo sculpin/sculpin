@@ -17,22 +17,19 @@ use Sculpin\Core\Source\SourceInterface;
 
 class DraftsFilter implements FilterInterface
 {
-    public function __construct(private bool $publishDrafts = false)
+    public function __construct(private readonly bool $publishDrafts = false)
     {
     }
 
     public function match(SourceInterface $source): bool
     {
-        if ($source->data()->get('draft')) {
-            if (!$this->publishDrafts) {
-                // If we are not configured to publish drafts we should
-                // inform the source that it should be skipped. This
-                // will ensure that it won't be touched by any other
-                // part of the system for this run.
-                $source->setShouldBeSkipped();
-
-                return false;
-            }
+        if ($source->data()->get('draft') && !$this->publishDrafts) {
+            // If we are not configured to publish drafts we should
+            // inform the source that it should be skipped. This
+            // will ensure that it won't be touched by any other
+            // part of the system for this run.
+            $source->setShouldBeSkipped();
+            return false;
         }
 
         return true;

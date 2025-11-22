@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Sculpin\Core\Formatter\FormatContext;
 use Sculpin\Core\Formatter\FormatterInterface;
 use Twig\Environment;
@@ -32,9 +35,9 @@ final readonly class TwigFormatter implements FormatterInterface
      * {@inheritdoc}
      *
      * @throws \Throwable
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function formatBlocks(FormatContext $formatContext): array
     {
@@ -45,9 +48,10 @@ final readonly class TwigFormatter implements FormatterInterface
         $data = $formatContext->data()->export();
         $template = $this->twig->load($formatContext->templateId());
 
-        if (!count($blockNames = $this->findAllBlocks($template, $data))) {
+        if (($blockNames = $this->findAllBlocks($template, $data)) === []) {
             return ['content' => $template->render($data)];
         }
+
         $blocks = [];
         foreach ($blockNames as $blockName) {
             $blocks[$blockName] = $template->renderBlock($blockName, $data);
@@ -64,9 +68,9 @@ final readonly class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function formatPage(FormatContext $formatContext): string
     {
@@ -97,9 +101,10 @@ final readonly class TwigFormatter implements FormatterInterface
             // NOT the intention of the source's author.
             $verbatim = preg_replace('/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '', $template);
 
-            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim, $matches)) {
+            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', (string) $verbatim, $matches)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
+
             $template = '{% extends "' . $layout . '" %}' . $template;
         }
 

@@ -26,7 +26,7 @@ class DraftsMap implements MapInterface
             } else {
                 if (!is_array($tags)) {
                     $tags = [];
-                    if ($tags) {
+                    if ($tags !== []) {
                         $tags = [$tags];
                     }
                 }
@@ -36,6 +36,7 @@ class DraftsMap implements MapInterface
                     $tags[] = 'drafts';
                 }
             }
+
             $source->data()->set('tags', $tags);
         }
     }

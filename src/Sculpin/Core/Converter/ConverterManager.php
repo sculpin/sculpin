@@ -29,8 +29,8 @@ final class ConverterManager
     private array $converters = [];
 
     public function __construct(
-        private EventDispatcherInterface $eventDispatcher,
-        private FormatterManager $formatterManager
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly FormatterManager $formatterManager
     ) {
         $this->registerConverter('null', new NullConverter);
     }
@@ -39,7 +39,6 @@ final class ConverterManager
      * Add a converter to the manager.
      *
      * @param string $name Name of the converter
-     * @param ConverterInterface $converter
      */
     public function registerConverter(string $name, ConverterInterface $converter): void
     {
@@ -50,8 +49,6 @@ final class ConverterManager
      * Converter
      *
      * @param string $name Name
-     *
-     * @return ConverterInterface
      */
     public function converter(string $name): ConverterInterface
     {

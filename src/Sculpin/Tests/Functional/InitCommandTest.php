@@ -8,14 +8,14 @@ use Sculpin\Bundle\SculpinBundle\Command\InitCommand;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class InitCommandTest extends FunctionalTestCase
+final class InitCommandTest extends FunctionalTestCase
 {
     protected const PROJECT_DIR = '/__BlankSculpinProject__';
 
-    /** @var Finder */
-    protected $finder;
+    private Finder $finder;
 
-    public function setUp(): void
+    #[\Override]
+    protected function setUp(): void
     {
         $this->tearDownTestProject();
         $this->addProjectDirectory('', $recursive = false);
@@ -25,7 +25,7 @@ class InitCommandTest extends FunctionalTestCase
     /** @test */
     public function shouldInitSpecifiedOutputDir(): void
     {
-        $projectDir = static::projectDir();
+        $projectDir = self::projectDir();
         $this->assertProjectEmpty($projectDir);
 
         $this->executeSculpin(['init']);
@@ -51,7 +51,7 @@ class InitCommandTest extends FunctionalTestCase
     /** @test */
     public function shouldInitWithSpecifiedParameters(): void
     {
-        $projectDir = static::projectDir();
+        $projectDir = self::projectDir();
         $this->assertProjectEmpty($projectDir);
 
         $this->executeSculpin(['init', '-t', 'My Custom Title', '-s', 'Custom Subtitle']);
@@ -74,7 +74,7 @@ class InitCommandTest extends FunctionalTestCase
         );
     }
 
-    protected function assertProjectEmpty($projectDir): void
+    private function assertProjectEmpty(string $projectDir): void
     {
         $files = $this->finder->in($projectDir);
         $this->assertSame(
@@ -84,7 +84,7 @@ class InitCommandTest extends FunctionalTestCase
         );
     }
 
-    protected function assertProjectInitialized($projectDir): void
+    private function assertProjectInitialized(string $projectDir): void
     {
         $files = $this->finder->in($projectDir);
 
@@ -108,7 +108,7 @@ class InitCommandTest extends FunctionalTestCase
         $this->assertSame($expected, $actual);
     }
 
-    protected function assertYamlFileEqualsArray(array $expected, string $file): void
+    private function assertYamlFileEqualsArray(array $expected, string $file): void
     {
         $this->assertSame($expected, Yaml::parseFile($file));
     }

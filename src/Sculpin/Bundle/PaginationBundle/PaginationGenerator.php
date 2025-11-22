@@ -42,13 +42,15 @@ final readonly class PaginationGenerator implements GeneratorInterface
         if (!isset($config['provider'])) {
             $config['provider'] = 'data.posts';
         }
-        if (preg_match('/^(data|page)\.(.+)$/', $config['provider'], $matches)) {
+
+        if (preg_match('/^(data|page)\.(.+)$/', (string) $config['provider'], $matches)) {
             switch ($matches[1]) {
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
-                    if (!count($data)) {
+                    if ($data === []) {
                         $data = [''];
                     }
+
                     break;
                 case 'page':
                     $data = $source->data()->get($matches[2]);
@@ -72,17 +74,17 @@ final readonly class PaginationGenerator implements GeneratorInterface
             }
 
             $slice[$k] = $v;
-            $totalItems++;
+            ++$totalItems;
         }
 
-        if (count($slice)) {
+        if ($slice !== []) {
             $slices[] = $slice;
         }
 
         $sources = [];
         $pageNumber = 0;
         foreach ($slices as $slice) {
-            $pageNumber++;
+            ++$pageNumber;
             $permalink = null;
             if ($pageNumber > 1) {
                 $permalink = $this->permalinkFactory->create($source)->relativeFilePath();
@@ -95,6 +97,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
                         $paginatedPage = $matches[1].'/';
                         $index = '';
                     }
+
                     $permalink = dirname($permalink).'/'.$paginatedPage.'page/'.$pageNumber.$index.'.'.$matches[2];
                 } else {
                     $permalink = dirname($permalink).'/'.$basename.'/page/'.$pageNumber.'.html';
@@ -121,10 +124,12 @@ final readonly class PaginationGenerator implements GeneratorInterface
             $sources[] = $generatedSource;
         }
 
-        for ($i = 0; $i < count($sources); $i++) {
+        $counter = count($sources);
+
+        for ($i = 0; $i < $counter; ++$i) {
             $generatedSource = $sources[$i];
             if (0 === $i) {
-                $generatedSource->data()->set('pagination.previous_page', null);
+                $generatedSource->data()->set('pagination.previous_page');
             } else {
                 $generatedSource->data()->set('pagination.previous_page', $sources[$i-1]);
             }
@@ -132,7 +137,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
             if ($i + 1 < count($sources)) {
                 $generatedSource->data()->set('pagination.next_page', $sources[$i+1]);
             } else {
-                $generatedSource->data()->set('pagination.next_page', null);
+                $generatedSource->data()->set('pagination.next_page');
             }
         }
 

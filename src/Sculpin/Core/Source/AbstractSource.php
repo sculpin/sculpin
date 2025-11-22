@@ -22,19 +22,33 @@ use Dflydev\DotAccessConfiguration\Configuration as Data;
 abstract class AbstractSource implements SourceInterface
 {
     protected string $sourceId;
+
     protected bool $isRaw;
+
     protected string $content;
+
     protected string $formattedContent;
+
     protected Data $data;
+
     protected bool $hasChanged;
+
     protected PermalinkInterface $permalink;
+
     protected \SplFileInfo $file;
+
     protected string $relativePathname;
+
     protected string $filename;
+
     protected bool $useFileReference = false;
+
     protected bool $canBeFormatted = false;
+
     protected bool $isGenerator = false;
+
     protected bool $isGenerated = false;
+
     protected bool $shouldBeSkipped = false;
 
     protected function init(bool $hasChanged = false): void
@@ -42,6 +56,7 @@ abstract class AbstractSource implements SourceInterface
         if ($hasChanged) {
             $this->hasChanged = $hasChanged;
         }
+
         $this->shouldBeSkipped = false;
     }
 

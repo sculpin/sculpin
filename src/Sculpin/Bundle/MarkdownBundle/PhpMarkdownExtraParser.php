@@ -15,6 +15,7 @@ class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function transform($content): string
     {
         return parent::transform($content);
@@ -25,7 +26,8 @@ class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
      *
      * @inheritDoc
      */
-    public function doExtraAttributes($tag_name, $attr, $defaultIdValue = null, $classes = []): string
+    #[\Override]
+    protected function doExtraAttributes($tag_name, $attr, $defaultIdValue = null, $classes = []): string
     {
         return parent::doExtraAttributes(
             $tag_name,

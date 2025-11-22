@@ -49,7 +49,6 @@
         </service>
 
         <service id="sculpin" class="Sculpin\Core\Sculpin" public="true">
-            <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
             <argument type="service" id="sculpin.writer" />

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is a part of Sculpin.
  *
@@ -8,7 +10,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Sculpin\Bundle\ContentTypesBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
@@ -57,7 +58,7 @@ final class ContentCreateCommand extends AbstractCommand
                     'dry-run',
                     'd',
                     InputOption::VALUE_NONE,
-                    'Don\'t generate boilerplate/placeholder/template files.'
+                    "Don't generate boilerplate/placeholder/template files."
                 ),
                 new InputOption(
                     'taxonomy',
@@ -109,7 +110,7 @@ final class ContentCreateCommand extends AbstractCommand
         if ($dryRun) {
             $output->writeln("Dry run. Skipping creation of these boilerplate files:");
 
-            foreach ($boilerplateManifest as $filename => $value) {
+            foreach (array_keys($boilerplateManifest) as $filename) {
                 $output->writeln("\t<info>" . $filename . '</info>');
             }
 
@@ -122,7 +123,7 @@ final class ContentCreateCommand extends AbstractCommand
         $fs = new Filesystem();
         foreach ($boilerplateManifest as $filename => $value) {
             // create directory and skip the rest of the loop
-            if ($value === static::DIRECTORY_FLAG) {
+            if ($value === self::DIRECTORY_FLAG) {
                 $fs->mkdir($filename);
                 continue;
             }
@@ -202,16 +203,14 @@ final class ContentCreateCommand extends AbstractCommand
                 enabled: true
                 permalink: {$type}/:title
         EOT;
-        if ($taxonomies) {
+        if ($taxonomies !== []) {
             $outputMessage .= "\n        taxonomies:\n";
             foreach ($taxonomies as $taxonomy) {
-                $outputMessage .= "            - {$taxonomy}\n";
+                $outputMessage .= sprintf('            - %s%s', $taxonomy, PHP_EOL);
             }
         }
 
-        $outputMessage .= "\n=================END OF YAML=================\n\n";
-
-        return $outputMessage;
+        return $outputMessage . "\n=================END OF YAML=================\n\n";
     }
 
     private function getIndexTemplate(string $plural, string $singular): string
@@ -221,16 +220,16 @@ final class ContentCreateCommand extends AbstractCommand
         return <<<EOT
         ---
         layout: default
-        title: $title
+        title: {$title}
         generator: pagination
         pagination:
-            provider: data.$plural
+            provider: data.{$plural}
             max_per_page: 10
-        use: [$plural]
+        use: [{$plural}]
         ---
         <ul>
-            {% for $singular in page.pagination.items %}
-                <li><a href="{{ $singular.url }}">{{ $singular.title }}</a></li>
+            {% for {$singular} in page.pagination.items %}
+                <li><a href="{{ {$singular}.url }}">{{ {$singular}.title }}</a></li>
             {% endfor %}
         </ul>
 
@@ -265,11 +264,11 @@ final class ContentCreateCommand extends AbstractCommand
           </section>
         EOT;
 
-        if ($taxonomies) {
+        if ($taxonomies !== []) {
             $output .= "\n" . '  <section class="taxonomies">' . "\n";
 
             foreach ($taxonomies as $taxonomy) {
-                $capitalTaxonomy  = ucwords($taxonomy);
+                $capitalTaxonomy  = ucwords((string) $taxonomy);
                 $singularTaxonomy = (new EnglishInflector())->singularize($taxonomy)[0];
                 $output .= <<<EOT
                     <div class="taxonomy">
@@ -286,15 +285,13 @@ final class ContentCreateCommand extends AbstractCommand
             $output .= "\n" . '  </section>' . "\n";
         }
 
-        $output .= <<<EOT
+        return $output . <<<EOT
           <footer>
             <p class="published_date">Published: {{page.date|date('F j, Y')}}</p>
           </footer>
         </article>
         {% endblock content_wrapper %}
         EOT;
-
-        return $output;
     }
 
     private function getTaxonomyIndexTemplate(
