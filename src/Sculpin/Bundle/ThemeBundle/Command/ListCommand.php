@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ThemeBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -60,6 +61,6 @@ class ListCommand extends ContainerAwareCommand
             $output->writeln($themeOutput);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

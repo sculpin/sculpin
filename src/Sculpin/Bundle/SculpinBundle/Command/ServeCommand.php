@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -61,6 +62,6 @@ class ServeCommand extends AbstractCommand
 
         $httpServer->run();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

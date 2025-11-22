@@ -27,5 +27,5 @@ return RectorConfig::configure()
         symfonyCodeQuality: true
     )
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
-    ->withComposerBased(twog: true)
+    ->withComposerBased(twig: true, phpunit: true, symfony: true)
     ;
