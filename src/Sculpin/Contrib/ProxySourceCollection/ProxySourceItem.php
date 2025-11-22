@@ -65,7 +65,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
 
     public function setPreviousItem(?ProxySourceItem $item = null): void
     {
-        $lastPreviousItem = $this->previousItem;
+        $lastPreviousItem = $this->previousItem ?? null;
         $this->previousItem = $item;
         if ($lastPreviousItem) {
             // We did have a item before...
@@ -88,7 +88,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
 
     public function setNextItem(?ProxySourceItem $item = null): void
     {
-        $lastNextItem = $this->nextItem;
+        $lastNextItem = $this->nextItem ?? null;
         $this->nextItem = $item;
         if ($lastNextItem) {
             // We did have a item before...

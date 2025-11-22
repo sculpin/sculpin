@@ -30,12 +30,16 @@ final class FileSource extends AbstractSource
         bool $isRaw,
         bool $hasChanged = false
     ) {
-        $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
+        $this->sourceId = 'FileSource:' . $dataSource->dataSourceId() . ':' . $file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
         $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
+
+        // Initialize empty states
+        $this->content ??= '';
+        $this->formattedContent ??= '';
 
         $this->init();
     }
