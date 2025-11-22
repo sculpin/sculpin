@@ -69,6 +69,7 @@ final class ContentCreateCommand extends AbstractCommand
             ]
         );
 
+        // phpcs:disable
         $this->setHelp(<<<EOT
             The <info>content:create</info> command helps you create a custom content type and the associated boilerplate/templates.
 
@@ -81,6 +82,7 @@ final class ContentCreateCommand extends AbstractCommand
 
             EOT
         );
+        // phpcs:enable
     }
 
     /**
@@ -302,6 +304,7 @@ final class ContentCreateCommand extends AbstractCommand
     ): string {
         $title = ucfirst($taxonomy);
 
+        // phpcs:disable
         return <<<EOT
         ---
         layout: default
@@ -316,6 +319,7 @@ final class ContentCreateCommand extends AbstractCommand
             {% endfor %}
         </ul>
         EOT;
+        // phpcs:enable
     }
 
     private function getTaxonomyViewTemplate(

@@ -50,7 +50,8 @@ class DataProviderManager
         if (!isset($this->dataProviders[$name])) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Requested data provider '%s' could not be found; does the content type exist, or provider not specified?",
+                    "Requested data provider '%s' could not be found; "
+                    . "does the content type exist, or provider not specified?",
                     $name
                 )
             );

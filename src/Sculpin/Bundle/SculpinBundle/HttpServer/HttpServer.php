@@ -30,8 +30,13 @@ final class HttpServer
 
     private StreamSelectLoop $loop;
 
-    public function __construct(private OutputInterface $output, string $docroot, private string $env, private bool $debug, private int $port = self::DEFAULT_PORT)
-    {
+    public function __construct(
+        private OutputInterface $output,
+        string $docroot,
+        private string $env,
+        private bool $debug,
+        private int $port = self::DEFAULT_PORT
+    ) {
         $socketServer = $this->startSocketServer();
         $httpServer = $this->getHttpServer($docroot, $output);
 

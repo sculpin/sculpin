@@ -53,7 +53,8 @@ class CompositeDataSource implements DataSourceInterface
      */
     public function dataSourceId(): string
     {
-        return 'CompositeDataSource(' . implode(
+        return 'CompositeDataSource(' .
+            implode(
                 ',',
                 array_map(
                     fn(DataSourceInterface $dataSource) => $dataSource->dataSourceId(),
