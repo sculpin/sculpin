@@ -20,9 +20,9 @@ use Dflydev\DotAccessConfiguration\Configuration as Data;
  */
 final class FormatContext
 {
-    private Data $data;
+    private readonly Data $data;
 
-    public function __construct(private string $templateId, private string $template, array $data)
+    public function __construct(private readonly string $templateId, private readonly string $template, array $data)
     {
         $this->data = new Data($data);
     }

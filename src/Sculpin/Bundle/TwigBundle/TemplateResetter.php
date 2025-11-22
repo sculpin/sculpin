@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final class TemplateResetter implements EventSubscriberInterface
 {
-    public function __construct(private Environment $twig)
+    public function __construct(private readonly Environment $twig)
     {
     }
 
@@ -44,7 +44,7 @@ final class TemplateResetter implements EventSubscriberInterface
     public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         $updated = $sourceSetEvent->updatedSources();
-        if ($updated) {
+        if ($updated !== []) {
             $this->twig->invalidateLoadedTemplates();
         }
     }

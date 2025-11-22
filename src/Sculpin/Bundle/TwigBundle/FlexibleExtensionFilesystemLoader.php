@@ -25,7 +25,7 @@ use Twig\Source as TwigSource;
  */
 final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
 {
-    private FilesystemLoader $filesystemLoader;
+    private readonly FilesystemLoader $filesystemLoader;
     private array $cachedCacheKey = [];
     private array $cachedCacheKeyExtension = [];
     private array $cachedCacheKeyException = [];
@@ -46,7 +46,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);
-        $this->extensions = array_map(fn($ext) => $ext ? '.' . $ext : $ext, $extensions);
+        $this->extensions = array_map(fn($ext) => $ext !== '' && $ext !== '0' ? '.' . $ext : $ext, $extensions);
     }
 
     /**
@@ -82,7 +82,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
                 $this->cachedCacheKeyExtension[$name] = $extension;
 
                 return $this->cachedCacheKey[$name];
-            } catch (LoaderError $e) {
+            } catch (LoaderError) {
             }
         }
 
@@ -110,7 +110,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
     {
         try {
             $this->getCacheKey($name);
-        } catch (LoaderError $e) {
+        } catch (LoaderError) {
             return false;
         }
 

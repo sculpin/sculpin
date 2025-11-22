@@ -17,15 +17,13 @@ class FileSourceTest extends TestCase
 
     public function makeTestSource($filename, $hasChanged = true)
     {
-        $source = new FileSource(
+        return new FileSource(
             $this->makeTestDetector(),
             $this->makeTestDatasource(),
             new SplFileInfo($filename, '../Fixtures', $filename),
             false,
             true
         );
-
-        return $source;
     }
 
     public function makeTestDetector()

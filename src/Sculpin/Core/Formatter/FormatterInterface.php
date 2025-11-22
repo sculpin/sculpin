@@ -25,8 +25,6 @@ interface FormatterInterface
 
     /**
      * Format an entire page
-     *
-     * @return string
      */
     public function formatPage(FormatContext $formatContext): string;
 

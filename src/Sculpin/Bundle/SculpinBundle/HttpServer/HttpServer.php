@@ -31,10 +31,10 @@ final class HttpServer
     private StreamSelectLoop $loop;
 
     public function __construct(
-        private OutputInterface $output,
+        private readonly OutputInterface $output,
         string $docroot,
-        private string $env,
-        private bool $debug,
+        private readonly string $env,
+        private readonly bool $debug,
         private int $port = self::DEFAULT_PORT
     ) {
         if ($this->port === 0) {

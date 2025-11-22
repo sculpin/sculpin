@@ -36,26 +36,19 @@ class MetaSorter implements SorterInterface
     }
     private function setReversed($direction)
     {
-        switch (strtolower($direction)) {
-            case 'asc':
-            case 'ascending':
-                $this->reversed = true;
-                break;
-            case 'desc':
-            case 'descending':
-                $this->reversed = false;
-                break;
-            default:
-                throw new \InvalidArgumentException(
-                    'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
-                );
-        }
+        $this->reversed = match (strtolower((string) $direction)) {
+            'asc', 'ascending' => true,
+            'desc', 'descending' => false,
+            default => throw new \InvalidArgumentException(
+                'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
+            ),
+        };
     }
 
     public function sort(ProxySourceItem $a, ProxySourceItem $b): int
     {
         return $this->reversed
-            ? strnatcmp($b[$this->key], $a[$this->key])
-            : strnatcmp($a[$this->key], $b[$this->key]);
+            ? strnatcmp((string) $b[$this->key], (string) $a[$this->key])
+            : strnatcmp((string) $a[$this->key], (string) $b[$this->key]);
     }
 }

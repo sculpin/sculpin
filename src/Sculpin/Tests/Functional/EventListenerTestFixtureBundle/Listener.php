@@ -8,11 +8,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Listener implements EventSubscriberInterface
 {
-    protected $outputDir;
-
-    public function __construct($outputDir)
+    public function __construct(protected $outputDir)
     {
-        $this->outputDir = $outputDir;
     }
 
     public static function getSubscribedEvents(): array

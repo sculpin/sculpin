@@ -42,11 +42,11 @@ final readonly class PaginationGenerator implements GeneratorInterface
         if (!isset($config['provider'])) {
             $config['provider'] = 'data.posts';
         }
-        if (preg_match('/^(data|page)\.(.+)$/', $config['provider'], $matches)) {
+        if (preg_match('/^(data|page)\.(.+)$/', (string) $config['provider'], $matches)) {
             switch ($matches[1]) {
                 case 'data':
                     $data = $this->dataProviderManager->dataProvider($matches[2])->provideData();
-                    if (!count($data)) {
+                    if ($data === []) {
                         $data = [''];
                     }
                     break;
@@ -75,7 +75,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
             $totalItems++;
         }
 
-        if (count($slice)) {
+        if ($slice !== []) {
             $slices[] = $slice;
         }
 
@@ -120,11 +120,12 @@ final readonly class PaginationGenerator implements GeneratorInterface
 
             $sources[] = $generatedSource;
         }
+        $counter = count($sources);
 
-        for ($i = 0; $i < count($sources); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $generatedSource = $sources[$i];
             if (0 === $i) {
-                $generatedSource->data()->set('pagination.previous_page', null);
+                $generatedSource->data()->set('pagination.previous_page');
             } else {
                 $generatedSource->data()->set('pagination.previous_page', $sources[$i-1]);
             }
@@ -132,7 +133,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
             if ($i + 1 < count($sources)) {
                 $generatedSource->data()->set('pagination.next_page', $sources[$i+1]);
             } else {
-                $generatedSource->data()->set('pagination.next_page', null);
+                $generatedSource->data()->set('pagination.next_page');
             }
         }
 

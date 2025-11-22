@@ -14,21 +14,9 @@ class ThemeTwigExtension extends AbstractExtension
      */
     private $theme;
 
-    /**
-     * @var string
-     */
-    private $sourceDirectory;
-
-    /**
-     * @var string
-     */
-    private $themeDirectory;
-
-    public function __construct(ThemeRegistry $themeRegistry, string $sourceDirectory, string $themeDirectory)
+    public function __construct(ThemeRegistry $themeRegistry, private readonly string $sourceDirectory, private readonly string $themeDirectory)
     {
         $this->theme = $themeRegistry->findActiveTheme();
-        $this->sourceDirectory = $sourceDirectory;
-        $this->themeDirectory = $themeDirectory;
     }
 
     /**
@@ -85,9 +73,7 @@ class ThemeTwigExtension extends AbstractExtension
     /**
      * Check to see if a given Theme resource exists anywhere on disk
      *
-     * @param string $resource
      *
-     * @return bool
      */
     public function themePathExists(string $resource): bool
     {
@@ -119,9 +105,7 @@ class ThemeTwigExtension extends AbstractExtension
      *
      * May end up returning an empty array.
      *
-     * @param string $resource
      *
-     * @return array
      */
     public function themePaths(string $resource): array
     {

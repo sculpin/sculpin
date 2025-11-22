@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ThemeBundle;
 
+use Twig\Source;
 use Sculpin\Bundle\TwigBundle\FlexibleExtensionFilesystemLoader;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\LoaderInterface;
@@ -35,7 +36,7 @@ class ThemeTwigLoader implements LoaderInterface
                 $paths = $this->findPaths($theme['parent'], $paths);
             }
 
-            if ($paths) {
+            if ($paths !== []) {
                 $loaders[] = new FlexibleExtensionFilesystemLoader('', [], $paths, $extensions);
             }
         }
@@ -57,7 +58,7 @@ class ThemeTwigLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSourceContext($name): \Twig\Source
+    public function getSourceContext($name): Source
     {
         return $this->chainLoader->getSourceContext($name);
     }

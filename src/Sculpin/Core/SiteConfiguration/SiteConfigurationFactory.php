@@ -22,16 +22,14 @@ use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
  */
 final class SiteConfigurationFactory
 {
-    public function __construct(private string $projectDir, private string $environment)
+    public function __construct(private readonly string $projectDir, private readonly string $environment)
     {
     }
 
     /**
      * Get an instance of the Configuration() class from the given file.
      *
-     * @param  string $configFile
      *
-     * @return ConfigurationInterface
      */
     private function getConfigFile(string $configFile): ConfigurationInterface
     {
@@ -42,8 +40,6 @@ final class SiteConfigurationFactory
 
     /**
      * Create Site Configuration
-     *
-     * @return ConfigurationInterface
      */
     public function create(): ConfigurationInterface
     {

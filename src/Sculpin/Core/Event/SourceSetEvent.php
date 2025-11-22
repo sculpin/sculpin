@@ -21,7 +21,7 @@ use Sculpin\Core\Source\SourceSet;
  */
 final class SourceSetEvent extends Event
 {
-    public function __construct(private SourceSet $sourceSet)
+    public function __construct(private readonly SourceSet $sourceSet)
     {
     }
 

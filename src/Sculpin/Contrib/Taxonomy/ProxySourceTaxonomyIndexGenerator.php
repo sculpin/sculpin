@@ -40,9 +40,9 @@ readonly class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
             );
 
             $permalink = $source->data()->get('permalink') ?: $source->relativePathname();
-            $basename = basename($permalink);
+            $basename = basename((string) $permalink);
 
-            $permalink = dirname($permalink);
+            $permalink = dirname((string) $permalink);
 
             $indexType = null;
 
@@ -61,10 +61,8 @@ readonly class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
                 $permalink = '/'.$permalink;
             }
 
-            if ($permalink) {
-                // not sure if this is ever going to happen?
-                $generatedSource->data()->set('permalink', $permalink);
-            }
+            // not sure if this is ever going to happen?
+            $generatedSource->data()->set('permalink', $permalink);
 
             $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
             $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);

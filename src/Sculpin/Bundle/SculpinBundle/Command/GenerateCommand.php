@@ -127,7 +127,7 @@ class GenerateCommand extends AbstractCommand
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo): void {
                     clearstatcache();
                     $sourceSet->reset();
 

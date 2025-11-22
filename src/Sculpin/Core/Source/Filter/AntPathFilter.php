@@ -19,7 +19,7 @@ use Sculpin\Core\Util\DirectorySeparatorNormalizer;
 
 class AntPathFilter implements FilterInterface
 {
-    private array $patterns;
+    private readonly array $patterns;
 
     public function __construct(
         array $paths,

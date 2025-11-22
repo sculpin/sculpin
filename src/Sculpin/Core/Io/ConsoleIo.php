@@ -26,19 +26,15 @@ final class ConsoleIo implements IoInterface
 {
     /**
      * The last message that has been output, to be able to overwrite it.
-     *
-     * @var string
      */
     private string $lastMessage;
 
     /**
      * Time in seconds with fractions when debugging has been enabled.
-     *
-     * @var float
      */
     private float $startTime;
 
-    public function __construct(private InputInterface $input, private OutputInterface $output)
+    public function __construct(private readonly InputInterface $input, private readonly OutputInterface $output)
     {
     }
 
@@ -102,7 +98,7 @@ final class ConsoleIo implements IoInterface
             );
         }
         $this->output->write($messages, $newline);
-        $this->lastMessage = join($newline ? "\n" : '', (array) $messages);
+        $this->lastMessage = implode($newline ? "\n" : '', (array) $messages);
     }
 
     /**
@@ -111,7 +107,7 @@ final class ConsoleIo implements IoInterface
     public function overwrite($messages, bool $newline = true, ?int $size = null): void
     {
         // messages can be an array, let's convert it to string anyway
-        $messages = join($newline ? "\n" : '', (array) $messages);
+        $messages = implode($newline ? "\n" : '', (array) $messages);
 
         // since overwrite is supposed to overwrite last message...
         if (!isset($size)) {

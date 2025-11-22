@@ -21,9 +21,6 @@ use Dflydev\DotAccessConfiguration\Configuration;
  */
 interface SourceInterface
 {
-    /**
-     * @return String
-     */
     public function sourceId(): string;
 
     /**
@@ -136,8 +133,6 @@ interface SourceInterface
      * Get the URL for this source.
      *
      * Convenience method based on the permalink of this source.
-     *
-     * @return string
      */
     public function url(): string;
 

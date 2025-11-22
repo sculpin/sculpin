@@ -109,7 +109,7 @@ final class ContentCreateCommand extends AbstractCommand
         if ($dryRun) {
             $output->writeln("Dry run. Skipping creation of these boilerplate files:");
 
-            foreach ($boilerplateManifest as $filename => $value) {
+            foreach (array_keys($boilerplateManifest) as $filename) {
                 $output->writeln("\t<info>" . $filename . '</info>');
             }
 
@@ -122,7 +122,7 @@ final class ContentCreateCommand extends AbstractCommand
         $fs = new Filesystem();
         foreach ($boilerplateManifest as $filename => $value) {
             // create directory and skip the rest of the loop
-            if ($value === static::DIRECTORY_FLAG) {
+            if ($value === self::DIRECTORY_FLAG) {
                 $fs->mkdir($filename);
                 continue;
             }
@@ -202,16 +202,14 @@ final class ContentCreateCommand extends AbstractCommand
                 enabled: true
                 permalink: {$type}/:title
         EOT;
-        if ($taxonomies) {
+        if ($taxonomies !== []) {
             $outputMessage .= "\n        taxonomies:\n";
             foreach ($taxonomies as $taxonomy) {
                 $outputMessage .= "            - {$taxonomy}\n";
             }
         }
 
-        $outputMessage .= "\n=================END OF YAML=================\n\n";
-
-        return $outputMessage;
+        return $outputMessage . "\n=================END OF YAML=================\n\n";
     }
 
     private function getIndexTemplate(string $plural, string $singular): string
@@ -265,11 +263,11 @@ final class ContentCreateCommand extends AbstractCommand
           </section>
         EOT;
 
-        if ($taxonomies) {
+        if ($taxonomies !== []) {
             $output .= "\n" . '  <section class="taxonomies">' . "\n";
 
             foreach ($taxonomies as $taxonomy) {
-                $capitalTaxonomy  = ucwords($taxonomy);
+                $capitalTaxonomy  = ucwords((string) $taxonomy);
                 $singularTaxonomy = (new EnglishInflector())->singularize($taxonomy)[0];
                 $output .= <<<EOT
                     <div class="taxonomy">
@@ -286,15 +284,13 @@ final class ContentCreateCommand extends AbstractCommand
             $output .= "\n" . '  </section>' . "\n";
         }
 
-        $output .= <<<EOT
+        return $output . <<<EOT
           <footer>
             <p class="published_date">Published: {{page.date|date('F j, Y')}}</p>
           </footer>
         </article>
         {% endblock content_wrapper %}
         EOT;
-
-        return $output;
     }
 
     private function getTaxonomyIndexTemplate(

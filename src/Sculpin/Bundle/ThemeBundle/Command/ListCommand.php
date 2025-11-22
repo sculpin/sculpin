@@ -47,17 +47,13 @@ class ListCommand extends ContainerAwareCommand
         $themes = $themeRegistry->listThemes();
 
         foreach ($themes as $theme) {
-            if ($theme['name'] === $activeTheme['name']) {
-                $themeOutput = '<info>'.$theme['name'].'</info> *';
-            } else {
-                $themeOutput = $theme['name'];
-            }
+            $themeOutput = $theme['name'] === $activeTheme['name'] ? '<info>'.$theme['name'].'</info> *' : $theme['name'];
 
             if (isset($theme['parent'])) {
                 $themeOutput .= ' (child of '.$theme['parent'].')';
             }
 
-            if (preg_match('/^(.+?)-dev$/', $theme['name'], $matches)) {
+            if (preg_match('/^(.+?)-dev$/', (string) $theme['name'], $matches)) {
                 $themeOutput .= ' :: '.$matches[1].'';
             }
             $output->writeln($themeOutput);

@@ -13,10 +13,27 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
+use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
+use Sculpin\Contrib\ProxySourceCollection\ProxySourceCollection;
+use Sculpin\Core\Source\Filter\AntPathFilter;
+use Sculpin\Core\Source\Filter\MetaFilter;
+use Sculpin\Core\Source\Filter\ChainFilter;
+use Sculpin\Core\Source\Filter\DraftsFilter;
+use Sculpin\Core\Source\Map\DefaultDataMap;
+use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
+use Sculpin\Core\Source\Map\DraftsMap;
+use Sculpin\Core\Source\Map\ChainMap;
+use Sculpin\Contrib\ProxySourceCollection\SimpleProxySourceItemFactory;
+use Sculpin\Contrib\ProxySourceCollection\ProxySourceCollectionDataProvider;
+use Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection;
+use Sculpin\Contrib\Taxonomy\PermalinkStrategyCollectionFactory;
+use Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider;
+use Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\String\Inflector\EnglishInflector;
@@ -34,11 +51,11 @@ class SculpinContentTypesExtension extends Extension
         $configuration = new Configuration;
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
         // So we can get all available types.
-        $container->setParameter(self::generateId('types'), array_keys($config));
+        $container->setParameter($this->generateId('types'), array_keys($config));
 
         foreach ($config as $type => $setup) {
             if (! $setup['enabled']) {
@@ -52,19 +69,19 @@ class SculpinContentTypesExtension extends Extension
             // How is the type detected?
             $detectionTypes = is_array($setup['type']) ? $setup['type'] : [$setup['type']];
 
-            $itemClassId = self::generateTypesId($type, 'item.class');
+            $itemClassId = $this->generateTypesId($type, 'item.class');
             if (! $container->hasParameter($itemClassId)) {
-                $container->setParameter($itemClassId, 'Sculpin\Contrib\ProxySourceCollection\ProxySourceItem');
+                $container->setParameter($itemClassId, ProxySourceItem::class);
             }
 
             //
             // Collection sorter
             //
 
-            $collectionSorterId = self::generateTypesId($type, 'collection.sorter');
+            $collectionSorterId = $this->generateTypesId($type, 'collection.sorter');
 
             if (! $container->hasDefinition($collectionSorterId)) {
-                $collectionSorter = new Definition('Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter');
+                $collectionSorter = new Definition(DefaultSorter::class);
                 $container->setDefinition($collectionSorterId, $collectionSorter);
             }
 
@@ -72,9 +89,9 @@ class SculpinContentTypesExtension extends Extension
             // Collection service
             //
 
-            $collectionId = self::generateTypesId($type, 'collection');
+            $collectionId = $this->generateTypesId($type, 'collection');
 
-            $collection = new Definition('Sculpin\Contrib\ProxySourceCollection\ProxySourceCollection');
+            $collection = new Definition(ProxySourceCollection::class);
             $collection->addArgument([]);
             $collection->addArgument(new Reference($collectionSorterId));
             $container->setDefinition($collectionId, $collection);
@@ -86,7 +103,7 @@ class SculpinContentTypesExtension extends Extension
             $orFilters = [];
 
             if (in_array('path', $detectionTypes)) {
-                if (0 == count($setup['path'])) {
+                if (0 === count($setup['path'])) {
                     $setup['path'] = ['_'.$type];
                 }
 
@@ -94,9 +111,9 @@ class SculpinContentTypesExtension extends Extension
                 // Path Filter
                 //
 
-                $pathFilterId = self::generateTypesId($type, 'path_filter');
+                $pathFilterId = $this->generateTypesId($type, 'path_filter');
 
-                $pathFilter = new Definition('Sculpin\Core\Source\Filter\AntPathFilter');
+                $pathFilter = new Definition(AntPathFilter::class);
                 $pathFilter->addArgument($setup['path']);
                 $pathFilter->addArgument(new Reference('sculpin.matcher'));
                 $container->setDefinition($pathFilterId, $pathFilter);
@@ -112,9 +129,9 @@ class SculpinContentTypesExtension extends Extension
                 $key = $setup['meta_key'] ?? 'type';
                 $value = $setup['meta'] ?? $singularName;
 
-                $metaFilterId = self::generateTypesId($type, 'meta_filter');
+                $metaFilterId = $this->generateTypesId($type, 'meta_filter');
 
-                $metaFilter = new Definition('Sculpin\Core\Source\Filter\MetaFilter');
+                $metaFilter = new Definition(MetaFilter::class);
                 $metaFilter->addArgument($key);
                 $metaFilter->addArgument($value);
                 $container->setDefinition($metaFilterId, $metaFilter);
@@ -122,13 +139,13 @@ class SculpinContentTypesExtension extends Extension
                 $orFilters[] = new Reference($metaFilterId);
             }
 
-            if (count($orFilters) > 0) {
+            if ($orFilters !== []) {
                 //
                 // "or" Filter
                 //
 
-                $orFilterId = self::generateTypesId($type, 'or_filter');
-                $orFilter = new Definition('Sculpin\Core\Source\Filter\ChainFilter');
+                $orFilterId = $this->generateTypesId($type, 'or_filter');
+                $orFilter = new Definition(ChainFilter::class);
                 $orFilter->addArgument($orFilters);
                 $orFilter->addArgument(true);
                 $container->setDefinition($orFilterId, $orFilter);
@@ -140,7 +157,7 @@ class SculpinContentTypesExtension extends Extension
             // Drafts Filter
             //
 
-            $draftsFilterId = self::generateTypesId($type, 'drafts_filter');
+            $draftsFilterId = $this->generateTypesId($type, 'drafts_filter');
 
             $publishDrafts = $setup['publish_drafts'];
 
@@ -148,7 +165,7 @@ class SculpinContentTypesExtension extends Extension
                 $publishDrafts = 'prod' !== $container->getParameter('kernel.environment');
             }
 
-            $draftsFilter = new Definition('Sculpin\Core\Source\Filter\DraftsFilter');
+            $draftsFilter = new Definition(DraftsFilter::class);
             $draftsFilter->addArgument($publishDrafts);
             $container->setDefinition($draftsFilterId, $draftsFilter);
 
@@ -158,9 +175,9 @@ class SculpinContentTypesExtension extends Extension
             // Filter
             //
 
-            $filterId = self::generateTypesId($type, 'filter');
+            $filterId = $this->generateTypesId($type, 'filter');
 
-            $filter = new Definition('Sculpin\Core\Source\Filter\ChainFilter');
+            $filter = new Definition(ChainFilter::class);
             $filter->addArgument($filters);
             $container->setDefinition($filterId, $filter);
 
@@ -168,56 +185,56 @@ class SculpinContentTypesExtension extends Extension
             // Default Data Map
             //
 
-            $defaultDataMapId = self::generateTypesId($type, 'default_data_map');
-            $defaultDataMap = new Definition('Sculpin\Core\Source\Map\DefaultDataMap');
+            $defaultDataMapId = $this->generateTypesId($type, 'default_data_map');
+            $defaultDataMap = new Definition(DefaultDataMap::class);
             $defaultDataMap->addArgument([
                 'layout' => $setup['layout'] ?? $singularName,
                 'permalink' => $setup['permalink'] ?? 'none',
             ]);
-            $defaultDataMap->addTag(self::generateTypesId($type, 'map'));
+            $defaultDataMap->addTag($this->generateTypesId($type, 'map'));
             $container->setDefinition($defaultDataMapId, $defaultDataMap);
 
             //
             // Calculated Date From Filename Map
             //
 
-            $calculatedDateFromFilenameMapId = self::generateTypesId($type, 'calculated_date_from_filename_map');
-            $calculatedDateFromFilenameMap = new Definition('Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap');
-            $calculatedDateFromFilenameMap->addTag(self::generateTypesId($type, 'map'));
+            $calculatedDateFromFilenameMapId = $this->generateTypesId($type, 'calculated_date_from_filename_map');
+            $calculatedDateFromFilenameMap = new Definition(CalculatedDateFromFilenameMap::class);
+            $calculatedDateFromFilenameMap->addTag($this->generateTypesId($type, 'map'));
             $container->setDefinition($calculatedDateFromFilenameMapId, $calculatedDateFromFilenameMap);
 
             //
             // Drafts Map
             //
 
-            $draftsMapId = self::generateTypesId($type, 'drafts_map');
-            $draftsMap = new Definition('Sculpin\Core\Source\Map\DraftsMap');
-            $draftsMap->addTag(self::generateTypesId($type, 'map'));
+            $draftsMapId = $this->generateTypesId($type, 'drafts_map');
+            $draftsMap = new Definition(DraftsMap::class);
+            $draftsMap->addTag($this->generateTypesId($type, 'map'));
             $container->setDefinition($draftsMapId, $draftsMap);
 
             //
             // Map
             //
 
-            $mapId = self::generateTypesId($type, 'map');
-            $map = new Definition('Sculpin\Core\Source\Map\ChainMap');
+            $mapId = $this->generateTypesId($type, 'map');
+            $map = new Definition(ChainMap::class);
             $container->setDefinition($mapId, $map);
 
             //
             // Item Factory
             //
 
-            $factoryId = self::generateTypesId($type, 'item_factory');
-            $factory = new Definition('Sculpin\Contrib\ProxySourceCollection\SimpleProxySourceItemFactory');
-            $factory->addArgument(self::generatePlaceholder($itemClassId));
+            $factoryId = $this->generateTypesId($type, 'item_factory');
+            $factory = new Definition(SimpleProxySourceItemFactory::class);
+            $factory->addArgument($this->generatePlaceholder($itemClassId));
             $container->setDefinition($factoryId, $factory);
 
             //
             // Data Provider
             //
 
-            $dataProviderId = self::generateTypesId($type, 'data_provider');
-            $dataProvider = new Definition('Sculpin\Contrib\ProxySourceCollection\ProxySourceCollectionDataProvider');
+            $dataProviderId = $this->generateTypesId($type, 'data_provider');
+            $dataProvider = new Definition(ProxySourceCollectionDataProvider::class);
             $dataProvider->addArgument(new Reference('sculpin.formatter_manager'));
             $dataProvider->addArgument($type);
             $dataProvider->addArgument($singularName);
@@ -246,8 +263,8 @@ class SculpinContentTypesExtension extends Extension
 
                 $reversedName = $taxon.'_'.$type;
 
-                $taxonomyDataProviderId = self::generateTypesId($type, $taxonomyName.'_data_provider');
-                $taxonomyDataProvider = new Definition('Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyDataProvider');
+                $taxonomyDataProviderId = $this->generateTypesId($type, $taxonomyName.'_data_provider');
+                $taxonomyDataProvider = new Definition(ProxySourceTaxonomyDataProvider::class);
                 $taxonomyDataProvider->addArgument(new Reference('sculpin.data_provider_manager'));
                 $taxonomyDataProvider->addArgument($type);
                 $taxonomyDataProvider->addArgument($taxonomyName);
@@ -255,8 +272,8 @@ class SculpinContentTypesExtension extends Extension
                 $taxonomyDataProvider->addTag('sculpin.data_provider', ['alias' => $taxonomyDataProviderName]);
                 $container->setDefinition($taxonomyDataProviderId, $taxonomyDataProvider->setPublic(true));
 
-                $taxonomyIndexGeneratorId = self::generateTypesId($type, $taxonomyName.'_index_generator');
-                $taxonomyIndexGenerator = new Definition('Sculpin\Contrib\Taxonomy\ProxySourceTaxonomyIndexGenerator');
+                $taxonomyIndexGeneratorId = $this->generateTypesId($type, $taxonomyName.'_index_generator');
+                $taxonomyIndexGenerator = new Definition(ProxySourceTaxonomyIndexGenerator::class);
                 $taxonomyIndexGenerator->addArgument(new Reference('sculpin.data_provider_manager'));
                 $taxonomyIndexGenerator->addArgument($taxonomyDataProviderName);
                 $taxonomyIndexGenerator->addArgument($taxon);
@@ -268,17 +285,17 @@ class SculpinContentTypesExtension extends Extension
         }
     }
 
-    private static function generatePlaceholder(string $value): string
+    private function generatePlaceholder(string $value): string
     {
         return '%'.$value.'%';
     }
 
-    private static function generateId(string $value): string
+    private function generateId(string $value): string
     {
         return implode('.', ['sculpin_content_types', $value]);
     }
 
-    private static function generateTypesId(string $type, string $value): string
+    private function generateTypesId(string $type, string $value): string
     {
         return implode('.', ['sculpin_content_types.types', $type, $value]);
     }

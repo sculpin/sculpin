@@ -28,8 +28,8 @@ use Symfony\Component\String\Inflector\EnglishInflector;
 class ProxySourceCollectionDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
     public function __construct(
-        private FormatterManager $formatterManager,
-        private string $dataProviderName,
+        private readonly FormatterManager $formatterManager,
+        private readonly string $dataProviderName,
         private ?string $dataSingularName = null,
         private ?ProxySourceCollection $collection = null,
         private ?FilterInterface $filter = null,

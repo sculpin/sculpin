@@ -81,7 +81,7 @@ final class Application extends BaseApplication
      */
     public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
-        if (null === $output) {
+        if (!$output instanceof OutputInterface) {
             $styles = [
                 'highlight' => new OutputFormatterStyle('red'),
                 'warning' => new OutputFormatterStyle('black', 'yellow'),
@@ -139,8 +139,6 @@ final class Application extends BaseApplication
 
     /**
      * Get Kernel
-     *
-     * @return KernelInterface
      */
     public function getKernel(): KernelInterface
     {

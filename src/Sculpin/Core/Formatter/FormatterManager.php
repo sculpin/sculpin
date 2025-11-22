@@ -45,12 +45,7 @@ class FormatterManager
         ]);
 
         if (isset($context['url'])) {
-            if ('/' === $context['url']) {
-                $relativeUrl = '.';
-            } else {
-                $relativeUrl = rtrim(str_repeat('../', substr_count($context['url'], '/')), '/');
-            }
-
+            $relativeUrl = '/' === $context['url'] ? '.' : rtrim(str_repeat('../', substr_count((string) $context['url'], '/')), '/');
             $baseContext->set('relative_root_url', $relativeUrl);
         }
 
@@ -96,9 +91,8 @@ class FormatterManager
         }
 
         $this->eventDispatcher->dispatch(new FormatEvent($formatContext), Sculpin::EVENT_BEFORE_FORMAT);
-        $response = $this->formatter($formatContext->formatter())->formatPage($formatContext);
 
-        return $response;
+        return $this->formatter($formatContext->formatter())->formatPage($formatContext);
     }
 
     public function formatSourcePage(SourceInterface $source): string
@@ -119,9 +113,8 @@ class FormatterManager
         }
 
         $this->eventDispatcher->dispatch(new FormatEvent($formatContext), Sculpin::EVENT_BEFORE_FORMAT);
-        $response = $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
 
-        return $response;
+        return $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
     }
 
     public function formatSourceBlocks(SourceInterface $source): array

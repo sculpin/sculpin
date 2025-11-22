@@ -18,8 +18,8 @@ use Sculpin\Core\Source\ProxySource;
 
 class ProxySourceItem extends ProxySource implements \ArrayAccess
 {
-    private ?ProxySourceItem $previousItem;
-    private ?ProxySourceItem $nextItem;
+    private ?ProxySourceItem $previousItem = null;
+    private ?ProxySourceItem $nextItem = null;
 
     public function id(): string
     {
@@ -67,7 +67,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     {
         $lastPreviousItem = $this->previousItem ?? null;
         $this->previousItem = $item;
-        if ($lastPreviousItem) {
+        if ($lastPreviousItem instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
             // We did have a item before...
             if (!$item || $item->id() !== $lastPreviousItem->id()) {
                 // But we no longer have a item or the item we
@@ -75,7 +75,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
                 // last one we had...
                 $this->reprocess();
             }
-        } elseif ($item) {
+        } elseif ($item instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
             // We didn't have a item before but we do now...
             $this->reprocess();
         }
@@ -90,7 +90,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     {
         $lastNextItem = $this->nextItem ?? null;
         $this->nextItem = $item;
-        if ($lastNextItem) {
+        if ($lastNextItem instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
             // We did have a item before...
             if (!$item || $item->id() !== $lastNextItem->id()) {
                 // But we no longer have a item or the item we
@@ -98,7 +98,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
                 // last one we had...
                 $this->reprocess();
             }
-        } elseif ($item) {
+        } elseif ($item instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
             // We didn't have a item before but we do now...
             $this->reprocess();
         }
@@ -119,13 +119,14 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
                 return call_user_func([$this, $offset, $value]);
             }
 
-            $setMethod = 'set'.ucfirst($offset);
+            $setMethod = 'set'.ucfirst((string) $offset);
             if (method_exists($this, $setMethod)) {
                 return call_user_func([$this, $setMethod, $value]);
             }
 
             $this->data()->set($offset, $value);
         }
+        return null;
     }
 
     #[\ReturnTypeWillChange]

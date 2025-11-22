@@ -26,8 +26,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     private ContainerInterface $container;
 
     /**
-     * @return ContainerInterface
-     *
      * @throws \RuntimeException    if the expected Sculpin Console Application instance could not be found
      */
     protected function getContainer(): ContainerInterface

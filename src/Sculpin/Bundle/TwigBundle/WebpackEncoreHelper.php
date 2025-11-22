@@ -17,7 +17,7 @@ class WebpackEncoreHelper extends AbstractExtension implements GlobalsInterface
     {
         $manifestContents = $this->getManifestContents();
 
-        if (!$manifestContents) {
+        if ($manifestContents === '' || $manifestContents === '0') {
             return [
                 'webpack_manifest' =>
                     [

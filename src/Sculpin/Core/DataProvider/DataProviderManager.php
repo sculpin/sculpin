@@ -20,8 +20,6 @@ class DataProviderManager
 {
     /**
      * Data providers
-     *
-     * @var array
      */
     protected array $dataProviders = [];
 

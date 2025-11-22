@@ -51,9 +51,7 @@ class GeneratorManager
             if (!$isGenerator) {
                 $source->setIsGenerator();
             }
-
             $generatorNames = (array) $generatorNames;
-
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
                     throw new \InvalidArgumentException(sprintf(
@@ -65,10 +63,8 @@ class GeneratorManager
 
                 $generators[] = $this->generators[$generatorName];
             }
-        } else {
-            if ($isGenerator) {
-                $source->setIsNotGenerator();
-            }
+        } elseif ($isGenerator) {
+            $source->setIsNotGenerator();
         }
 
         $targetSources = [$source];

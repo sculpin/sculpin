@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Core;
 
-use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
@@ -47,19 +46,18 @@ final class Sculpin
     public const string EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     public function __construct(
-        private Configuration $siteConfiguration,
-        private EventDispatcherInterface $eventDispatcher,
-        private SourcePermalinkFactoryInterface $permalinkFactory,
-        private WriterInterface $writer,
-        private GeneratorManager $generatorManager,
-        private FormatterManager $formatterManager,
-        private ConverterManager $converterManager
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly SourcePermalinkFactoryInterface $permalinkFactory,
+        private readonly WriterInterface $writer,
+        private readonly GeneratorManager $generatorManager,
+        private readonly FormatterManager $formatterManager,
+        private readonly ConverterManager $converterManager
     ) {
     }
 
     public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null): void
     {
-        if (null === $io) {
+        if (!$io instanceof IoInterface) {
             $io = new NullIo();
         }
         $found = false;
@@ -73,11 +71,8 @@ final class Sculpin
             $sourceSet->updatedSources(),
             fn(SourceInterface $source) => !$source->isGenerated()
         )) {
-            if (!$found) {
-                $io->write('Detected new or updated files');
-                $found = true;
-            }
-
+            $io->write('Detected new or updated files');
+            $found = true;
             $total = count($updatedSources);
 
             $io->write('Generating: ', false);

@@ -24,16 +24,15 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 final class ConfigFilesystemDataSource implements DataSourceInterface
 {
-    private string $sinceTime;
+    private string $sinceTime = '1970-01-01T00:00:00Z';
 
     public function __construct(
-        private string $sourceDir,
-        private ConfigurationInterface $siteConfiguration,
-        private SiteConfigurationFactory $siteConfigurationFactory,
+        private readonly string $sourceDir,
+        private readonly ConfigurationInterface $siteConfiguration,
+        private readonly SiteConfigurationFactory $siteConfigurationFactory,
         private ?AntPathMatcher $pathMatcher = null
     ) {
         $this->pathMatcher ??= new AntPathMatcher;
-        $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
     /**
