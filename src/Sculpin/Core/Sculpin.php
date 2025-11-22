@@ -35,71 +35,29 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class Sculpin
 {
-    public const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
-    public const EVENT_AFTER_RUN = 'sculpin.core.after_run';
+    public const string EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+    public const string EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
-    public const EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
+    public const string EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
 
-    public const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
-    public const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
+    public const string EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+    public const string EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
-    public const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
-    public const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
-
-    /**
-     * @var Configuration
-     */
-    private $siteConfiguration;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @var SourcePermalinkFactoryInterface
-     */
-    private $permalinkFactory;
-
-    /**
-     * @var WriterInterface
-     */
-    private $writer;
-
-    /**
-     * @var GeneratorManager
-     */
-    private $generatorManager;
-
-    /**
-     * @var FormatterManager
-     */
-    private $formatterManager;
-
-    /**
-     * @var ConverterManager
-     */
-    private $converterManager;
+    public const string EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+    public const string EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     public function __construct(
-        Configuration $siteConfiguration,
-        EventDispatcherInterface $eventDispatcher,
-        SourcePermalinkFactoryInterface $permalinkFactory,
-        WriterInterface $writer,
-        GeneratorManager $generatorManager,
-        FormatterManager $formatterManager,
-        ConverterManager $converterManager
+        private Configuration $siteConfiguration,
+        private EventDispatcherInterface $eventDispatcher,
+        private SourcePermalinkFactoryInterface $permalinkFactory,
+        private WriterInterface $writer,
+        private GeneratorManager $generatorManager,
+        private FormatterManager $formatterManager,
+        private ConverterManager $converterManager
     ) {
-        $this->siteConfiguration = $siteConfiguration;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->permalinkFactory = $permalinkFactory;
-        $this->writer = $writer;
-        $this->generatorManager = $generatorManager;
-        $this->formatterManager = $formatterManager;
-        $this->converterManager = $converterManager;
     }
 
-    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null)
+    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null): void
     {
         if (null === $io) {
             $io = new NullIo();
@@ -111,9 +69,10 @@ final class Sculpin
 
         $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_BEFORE_RUN);
 
-        if ($updatedSources = array_filter($sourceSet->updatedSources(), function (SourceInterface $source) {
-            return !$source->isGenerated();
-        })) {
+        if ($updatedSources = array_filter(
+            $sourceSet->updatedSources(),
+            fn(SourceInterface $source) => !$source->isGenerated()
+        )) {
             if (!$found) {
                 $io->write('Detected new or updated files');
                 $found = true;

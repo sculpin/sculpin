@@ -15,89 +15,29 @@ namespace Sculpin\Core\Source;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
 use Dflydev\DotAccessConfiguration\Configuration as Data;
-use Sculpin\Core\Source\SourceInterface;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
 abstract class AbstractSource implements SourceInterface
 {
-    /**
-     * @var string
-     */
-    protected $sourceId;
+    protected string $sourceId;
+    protected bool $isRaw;
+    protected string $content;
+    protected string $formattedContent;
+    protected Data $data;
+    protected bool $hasChanged;
+    protected PermalinkInterface $permalink;
+    protected \SplFileInfo $file;
+    protected string $relativePathname;
+    protected string $filename;
+    protected bool $useFileReference = false;
+    protected bool $canBeFormatted = false;
+    protected bool $isGenerator = false;
+    protected bool $isGenerated = false;
+    protected bool $shouldBeSkipped = false;
 
-    /**
-     * @var boolean
-     */
-    protected $isRaw;
-
-    /**
-     * @var string
-     */
-    protected $content;
-
-    /**
-     * @var string
-     */
-    protected $formattedContent;
-
-    /**
-     * @var Data
-     */
-    protected $data;
-
-    /**
-     * @var boolean
-     */
-    protected $hasChanged;
-
-    /**
-     * @var PermalinkInterface
-     */
-    protected $permalink;
-
-    /**
-     * @var \SplFileInfo
-     */
-    protected $file;
-
-    /**
-     * @var string
-     */
-    protected $relativePathname;
-
-    /**
-     * @var string
-     */
-    protected $filename;
-
-    /**
-     * @var boolean
-     */
-    protected $useFileReference = false;
-
-    /**
-     * @var boolean
-     */
-    protected $canBeFormatted = false;
-
-    /**
-     * @var boolean
-     */
-    protected $isGenerator = false;
-
-    /**
-     * @var boolean
-     */
-    protected $isGenerated = false;
-
-    /**
-     * @var boolean
-     */
-    protected $shouldBeSkipped = false;
-
-    protected function init(bool $hasChanged = false)
+    protected function init(bool $hasChanged = false): void
     {
         if ($hasChanged) {
             $this->hasChanged = $hasChanged;
@@ -200,7 +140,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setPermalink(PermalinkInterface $permalink)
+    public function setPermalink(PermalinkInterface $permalink): void
     {
         $this->permalink = $permalink;
     }
@@ -347,16 +287,16 @@ abstract class AbstractSource implements SourceInterface
     public function duplicate(string $newSourceId, array $options = []): SourceInterface
     {
         return new MemorySource(
-            $newSourceId,
-            new Data($this->data->exportRaw()),
-            isset($options['content']) ? $options['content'] : $this->content,
-            isset($options['formattedContent']) ? $options['formattedContent'] : $this->formattedContent,
-            isset($options['relativePathname']) ? $options['relativePathname'] : $this->relativePathname,
-            isset($options['filename']) ? $options['filename'] : $this->filename,
-            isset($options['file']) ? $options['file'] : $this->file,
-            isset($options['isRaw']) ? $options['isRaw'] : $this->isRaw,
-            isset($options['canBeFormatted']) ? $options['canBeFormatted'] : $this->canBeFormatted,
-            isset($options['hasChanged']) ? $options['hasChanged'] : $this->hasChanged
+            sourceId: $newSourceId,
+            data: new Data($this->data->exportRaw()),
+            content: $options['content'] ?? $this->content,
+            formattedContent: $options['formattedContent'] ?? $this->formattedContent,
+            relativePathname: $options['relativePathname'] ?? $this->relativePathname,
+            filename: $options['filename'] ?? $this->filename,
+            file: $options['file'] ?? $this->file,
+            isRaw: $options['isRaw'] ?? $this->isRaw,
+            canBeFormatted: $options['canBeFormatted'] ?? $this->canBeFormatted,
+            hasChanged: $options['hasChanged'] ?? $this->hasChanged
         );
     }
 }

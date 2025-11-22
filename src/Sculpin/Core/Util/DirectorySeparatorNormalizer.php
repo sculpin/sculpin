@@ -21,16 +21,10 @@ final class DirectorySeparatorNormalizer
     /**
      * @var string
      */
-    private $preferredDirectorySeparator;
+    private string $directorySeparator;
 
-    /**
-     * @var string
-     */
-    private $directorySeparator;
-
-    public function __construct(string $preferredDirectorySeparator = '/')
+    public function __construct(private string $preferredDirectorySeparator = '/')
     {
-        $this->preferredDirectorySeparator = $preferredDirectorySeparator;
         $this->directorySeparator = DIRECTORY_SEPARATOR;
     }
 
@@ -56,7 +50,7 @@ final class DirectorySeparatorNormalizer
         }
 
         if (null === $path) {
-            return $path;
+            return null;
         }
 
         return implode($this->preferredDirectorySeparator, explode($this->directorySeparator, $path));
