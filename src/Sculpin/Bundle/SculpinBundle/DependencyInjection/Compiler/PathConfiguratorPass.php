@@ -60,7 +60,7 @@ class PathConfiguratorPass implements CompilerPassInterface
         }
     }
 
-    protected function antify($paths)
+    protected function antify($paths): array
     {
         $matcher = $this->matcher;
 

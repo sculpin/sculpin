@@ -20,10 +20,7 @@ use Twig\Loader\LoaderInterface;
 
 class ThemeTwigLoader implements LoaderInterface
 {
-    /**
-     * @var ChainLoader
-     */
-    private $chainLoader;
+    private readonly ChainLoader $chainLoader;
 
     public function __construct(ThemeRegistry $themeRegistry, array $extensions)
     {

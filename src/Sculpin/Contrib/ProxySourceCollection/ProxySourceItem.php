@@ -137,7 +137,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     }
 
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (! method_exists($this, $offset)) {
             $data = $this->data();

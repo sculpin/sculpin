@@ -16,7 +16,7 @@ class FileSourceTest extends TestCase
      * mock analyzer for detectFromFilename, should return text/html
      */
 
-    public function makeTestSource($filename, $hasChanged = true)
+    public function makeTestSource($filename, $hasChanged = true): FileSource
     {
         return new FileSource(
             $this->makeTestDetector(),
@@ -53,7 +53,7 @@ class FileSourceTest extends TestCase
     /**
      * @dataProvider provideTestParseYaml
      */
-    public function testParseYaml($filename, $msg): void
+    public function testParseYaml(string $filename, string $msg): void
     {
         $expectedOutput = $this->getErrorMessage($filename, $msg);
         ob_end_flush();
@@ -65,7 +65,7 @@ class FileSourceTest extends TestCase
         $this->assertEquals($expectedOutput, $output);
     }
 
-    public function provideTestParseYaml()
+    public function provideTestParseYaml(): array
     {
         return [
             [__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''],
@@ -86,7 +86,7 @@ class FileSourceTest extends TestCase
         ];
     }
 
-    public function getErrorMessage($filename, $msg)
+    public function getErrorMessage(string $filename, ?string $msg): string
     {
         if ($msg == '') {
             return '';

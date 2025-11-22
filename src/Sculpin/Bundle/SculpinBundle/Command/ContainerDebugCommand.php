@@ -193,7 +193,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
 
     private function outputServices(
         OutputInterface $output,
-        $serviceIds,
+        array $serviceIds,
         $showPrivate = false,
         $showTagAttributes = null
     ): void {
@@ -242,12 +242,12 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             }
         }
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(fn($length): string => "%-{$length}s ", $maxTags));
+        $format .= implode("", array_map(fn(int $length): string => "%-{$length}s ", $maxTags));
         $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
-        $format1 .= implode("", array_map(fn($length): string => '%-'.($length + 19).'s ', $maxTags));
+        $format1 .= implode("", array_map(fn(int $length): string => '%-'.($length + 19).'s ', $maxTags));
         $format1 .= '%s';
 
         $tags = [];
@@ -321,7 +321,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
     /**
      * Renders detailed service information about one service
      */
-    private function outputService(OutputInterface $output, string $serviceId)
+    private function outputService(OutputInterface $output, string $serviceId): void
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
@@ -342,7 +342,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                             '    - %-30s (%s)',
                             $tagName,
                             implode(', ', array_map(
-                                fn($key, $value): string => sprintf('<info>%s</info>: %s', $key, $value),
+                                fn(string $key, $value): string => sprintf('<info>%s</info>: %s', $key, $value),
                                 array_keys($singleTagData),
                                 array_values($singleTagData)
                             ))

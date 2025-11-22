@@ -24,7 +24,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->items[] = $value;
@@ -40,7 +40,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
@@ -52,7 +52,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     #[\ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->items);
     }

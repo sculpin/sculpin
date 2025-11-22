@@ -19,7 +19,7 @@ class Listener implements EventSubscriberInterface
         ];
     }
 
-    public function createSuccessFile(SourceSetEvent $event, $eventName): void
+    public function createSuccessFile(SourceSetEvent $event, string $eventName): void
     {
         file_put_contents($this->outputDir . '/' . $eventName . '.event', $eventName);
     }

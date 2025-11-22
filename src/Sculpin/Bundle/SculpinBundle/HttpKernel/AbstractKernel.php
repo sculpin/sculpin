@@ -96,7 +96,7 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         // Load defaults.
         $loader->load(__DIR__.'/../Resources/config/kernel.yml');

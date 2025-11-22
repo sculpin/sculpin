@@ -28,10 +28,8 @@ final class ConvertListener implements EventSubscriberInterface
 {
     /**
      * List of regular expressions needing placeholders
-     *
-     * @var array
      */
-    private static $addPlaceholderRe = [
+    private static array $addPlaceholderRe = [
         '/^({%\s+block\s+(\w+).+?%})$/m',  // {% %} style code
         '/^({%\s+endblock\s+%})$/m',       // {% %} style code
         '/^({{.+?}})$/m',                  // {{ }} style code

@@ -18,7 +18,7 @@ use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 class MetaSorter implements SorterInterface
 {
     private $key;
-    private $reversed;
+    private bool $reversed;
 
     public function __construct($key = null, $direction = 'desc')
     {
@@ -26,7 +26,7 @@ class MetaSorter implements SorterInterface
         $this->setReversed($direction);
     }
 
-    private function setKey($key = null)
+    private function setKey($key = null): void
     {
         if (null === $key) {
             throw new \InvalidArgumentException('Key must be specified');
@@ -34,7 +34,7 @@ class MetaSorter implements SorterInterface
 
         $this->key = $key;
     }
-    private function setReversed($direction)
+    private function setReversed($direction): void
     {
         $this->reversed = match (strtolower((string) $direction)) {
             'asc', 'ascending' => true,

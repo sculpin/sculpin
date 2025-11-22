@@ -124,7 +124,7 @@ final class HttpServer
         return new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
             $docroot,
             $output
-        ) {
+        ): Response {
             $mimeTypes = new MimeTypes();
             $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
 

@@ -26,7 +26,7 @@ class SourcePermalinkFactoryTest extends TestCase
         $this->assertEquals($expectedPermalink, $permalink);
     }
 
-    public function provideCreateData()
+    public function provideCreateData(): array
     {
         return [
             'none setting for permalink' => [
@@ -196,7 +196,7 @@ class SourcePermalinkFactoryTest extends TestCase
         ];
     }
 
-    private function makeTestSource($relativePathname, array $configurationData = [])
+    private function makeTestSource(string $relativePathname, array $configurationData = []): MemorySource
     {
         $configuration = new Configuration($configurationData);
 

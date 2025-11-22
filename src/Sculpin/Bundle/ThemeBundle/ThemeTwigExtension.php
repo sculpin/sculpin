@@ -9,10 +9,7 @@ use Twig\TwigFunction;
 
 class ThemeTwigExtension extends AbstractExtension
 {
-    /**
-     * @var array|null
-     */
-    private $theme;
+    private ?array $theme;
 
     public function __construct(ThemeRegistry $themeRegistry, private readonly string $sourceDirectory, private readonly string $themeDirectory)
     {
