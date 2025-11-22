@@ -173,11 +173,9 @@ abstract class AbstractKernel extends Kernel
 
     /**
      * Gets the application root dir (path of the project's composer file).
-     *
-     * @return string
      */
     #[\Override]
-    public function getProjectDir(): ?string
+    public function getProjectDir(): string
     {
         return $this->projectDir;
     }

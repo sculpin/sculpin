@@ -33,7 +33,7 @@ final class DataSourcePass implements CompilerPassInterface
 
         $definition = $container->getDefinition('sculpin.data_source');
 
-        foreach ($container->findTaggedServiceIds('sculpin.data_source') as $id => $tagAttributes) {
+        foreach (array_keys($container->findTaggedServiceIds('sculpin.data_source')) as $id) {
             $definition->addMethodCall('addDataSource', [new Reference($id)]);
         }
     }
