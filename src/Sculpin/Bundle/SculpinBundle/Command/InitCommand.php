@@ -25,9 +25,11 @@ use Symfony\Component\Filesystem\Filesystem;
 final class InitCommand extends AbstractCommand
 {
     public const int COMMAND_SUCCESS          = 0;
+
     public const int PROJECT_FOLDER_NOT_EMPTY = 101;
 
     public const string DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
+
     public const string DEFAULT_TITLE    = 'My Sculpin Site';
 
     /**
@@ -162,8 +164,8 @@ final class InitCommand extends AbstractCommand
         string $subTitle
     ): void {
         $contents = <<<EOT
-        title: "$title"
-        subtitle: "$subTitle"
+        title: "{$title}"
+        subtitle: "{$subTitle}"
         google_analytics_tracking_id: ''
         url: ''
 

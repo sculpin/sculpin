@@ -131,8 +131,9 @@ final class Application extends BaseApplication
             $messages[] = '';
             $messages[] = '<comment>Missing Sculpin Bundles:</comment>';
             foreach ($missingBundles as $bundle) {
-                $messages[] = "  * <highlight>$bundle</highlight>";
+                $messages[] = sprintf('  * <highlight>%s</highlight>', $bundle);
             }
+
             $messages[] = '';
         }
 

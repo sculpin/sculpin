@@ -91,6 +91,7 @@ class FileSourceTest extends TestCase
         if ($msg == '') {
             return '';
         }
+
         return ' ! FileSource:FilesystemDataSource:test:' . $filename . ' ' . $msg . ' !' . PHP_EOL;
     }
 }

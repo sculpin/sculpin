@@ -165,6 +165,7 @@ class Configuration extends BaseConfiguration
         if (str_starts_with($pattern, './')) {
             $pattern = substr($pattern, 2);
         }
+
         if (!in_array($pattern, $this->raws)) {
             $this->raws[] = $pattern;
         }

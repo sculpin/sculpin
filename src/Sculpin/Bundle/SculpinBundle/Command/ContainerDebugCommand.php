@@ -122,6 +122,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             if (!$this->getContainer() instanceof Container) {
                 return Command::FAILURE;
             }
+
             $parameters = $this->getContainer()->getParameterBag()->all();
 
             // Sort parameters alphabetically
@@ -203,6 +204,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         } else {
             $label = '<comment>Public</comment> services';
         }
+
         if ($showTagAttributes) {
             $label .= ' with tag <info>'.$showTagAttributes.'</info>';
         }
@@ -229,6 +231,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                             if (!isset($maxTags[$key])) {
                                 $maxTags[$key] = strlen((string) $key);
                             }
+
                             if (strlen((string) $value) > $maxTags[$key]) {
                                 $maxTags[$key] = strlen((string) $value);
                             }
@@ -241,8 +244,9 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                 $maxName = strlen((string) $serviceId);
             }
         }
+
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(fn(int $length): string => "%-{$length}s ", $maxTags));
+        $format .= implode("", array_map(fn(int $length): string => sprintf('%%-%ds ', $length), $maxTags));
         $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
@@ -254,6 +258,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         foreach (array_keys($maxTags) as $tagName) {
             $tags[] = '<comment>'.$tagName.'</comment>';
         }
+
         $output->writeln(vsprintf($format1, $this->buildArgumentsArray(
             '<comment>Service Id</comment>',
             '<comment>Class Name</comment>',
@@ -271,6 +276,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                         foreach (array_keys($maxTags) as $tagName) {
                             $tagValues[] = $tag[$tagName] ?? "";
                         }
+
                         if (0 === $key) {
                             $lines[] = $this->buildArgumentsArray(
                                 $serviceId,
@@ -313,6 +319,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
+
         $arguments[] = $className;
 
         return $arguments;
@@ -452,6 +459,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         if (! $container instanceof ContainerBuilder) {
             return;
         }
+
         $tags = $container->findTags();
         asort($tags);
 

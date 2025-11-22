@@ -55,6 +55,7 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
                     $taxons[$normalizedItemTaxon][] = $item;
                     $normalizedItemTaxons[] = $normalizedItemTaxon;
                 }
+
                 $item->data()->set($this->taxonomyKey, $normalizedItemTaxons);
             }
         }

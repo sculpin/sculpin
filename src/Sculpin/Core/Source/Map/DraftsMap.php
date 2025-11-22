@@ -36,6 +36,7 @@ class DraftsMap implements MapInterface
                     $tags[] = 'drafts';
                 }
             }
+
             $source->data()->set('tags', $tags);
         }
     }

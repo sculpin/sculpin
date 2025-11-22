@@ -37,6 +37,7 @@ class SourceSet
             $this->sources[$source->sourceId()] = $source;
         }
     }
+
     /**
      * Whether this set contains the specified source.
      */
@@ -55,6 +56,7 @@ class SourceSet
         } else {
             $this->newSources[$source->sourceId()] = $source;
         }
+
         $this->sources[$source->sourceId()] = $source;
     }
 

@@ -48,6 +48,7 @@ final readonly class SiteConfigurationFactory
 
         return $config;
     }
+
     /**
      * Detect configuration file and create Site Configuration from it
      *

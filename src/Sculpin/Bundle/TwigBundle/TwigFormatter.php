@@ -51,6 +51,7 @@ final readonly class TwigFormatter implements FormatterInterface
         if (($blockNames = $this->findAllBlocks($template, $data)) === []) {
             return ['content' => $template->render($data)];
         }
+
         $blocks = [];
         foreach ($blockNames as $blockName) {
             $blocks[$blockName] = $template->renderBlock($blockName, $data);
@@ -103,6 +104,7 @@ final readonly class TwigFormatter implements FormatterInterface
             if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', (string) $verbatim, $matches)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
+
             $template = '{% extends "' . $layout . '" %}' . $template;
         }
 

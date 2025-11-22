@@ -66,6 +66,7 @@ final class ConvertListener implements EventSubscriberInterface
             foreach (self::$addPlaceholderRe as $re) {
                 $content = preg_replace($re, self::$placeholder, (string) $content);
             }
+
             $content = preg_replace(
                 '/{%\s+(\w+)\s+(\w+\++\w+)\s+%}(.*){%\s+end\1\s+%}/Us',
                 '<div data-$1="$2">$3</div>',

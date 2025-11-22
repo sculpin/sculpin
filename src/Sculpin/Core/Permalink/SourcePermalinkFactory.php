@@ -43,11 +43,13 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                     $relativeUrlPath .= '/';
                 }
             }
+
             if ($relativeUrlPath === '/.') {
                 $relativeUrlPath = '/';
             }
         } else {
-            $relativeFilePath = $relativeUrlPath = $source->relativePathname();
+            $relativeFilePath = $source->relativePathname();
+            $relativeUrlPath = $relativeFilePath;
         }
 
         if (!str_starts_with($relativeUrlPath, '/')) {
@@ -65,6 +67,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         $pathname = $source->relativePathname();
         // Make sure that twig files end up as .html files.
         $pathname = preg_replace('/(html\.)?twig$|twig\.html$/', 'html', $pathname);
+
         $date = $source->data()->get('calculated_date');
         $title = $source->data()->get('title');
         $slug = $source->data()->get('slug');
@@ -100,6 +103,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];
                 }
+
                 $permalink = preg_replace('/:filename/', (string) $filename, (string) $permalink);
                 $permalink = preg_replace('/:slug_filename/', (string) ($slug ?: $this->normalize((string)$filename)), (string) $permalink);
                 if (strrpos((string) $filename, DIRECTORY_SEPARATOR) !== false) {
@@ -107,6 +111,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 } else {
                     $basename = $filename;
                 }
+
                 $prettyBasename = false !== strrpos((string) $basename, '.')
                     ? substr((string) $basename, 0, strrpos((string) $basename, '.'))
                     : $basename;
@@ -132,6 +137,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                         $folder = substr((string) $folderTemp, 0, $lastFolderPos) . '/';
                     }
                 }
+
                 $permalink = preg_replace('/:folder/', $folder, (string) $permalink);
 
                 if (preg_match('#(^|[\\/])[^.]+$#', (string) $permalink)
@@ -205,6 +211,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $param = $converted;
             }
         }
+
         $param = preg_replace('/[^a-zA-Z0-9 -]/', '', $param);
         $param = strtolower((string) $param);
 

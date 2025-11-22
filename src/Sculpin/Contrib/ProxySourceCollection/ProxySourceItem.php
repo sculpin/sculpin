@@ -19,6 +19,7 @@ use Sculpin\Core\Source\ProxySource;
 class ProxySourceItem extends ProxySource implements \ArrayAccess
 {
     private ?ProxySourceItem $previousItem = null;
+
     private ?ProxySourceItem $nextItem = null;
 
     public function id(): string
@@ -127,6 +128,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
 
             $this->data()->set($offset, $value);
         }
+
         return null;
     }
 

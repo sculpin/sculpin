@@ -51,7 +51,7 @@ final class KernelFactory
             $customKernelClass = '\SculpinKernel';
 
             if (!class_exists($customKernelClass)) {
-                throw new \RuntimeException("Unable to find custom kernel class in file $customKernel");
+                throw new \RuntimeException('Unable to find custom kernel class in file ' . $customKernel);
             }
 
             return new $customKernelClass($env, $debug, $overrides);

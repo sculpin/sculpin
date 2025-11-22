@@ -21,6 +21,7 @@ final class PermalinkStrategyCollectionFactory
         if (is_string($taxonomy)) {
             return $collection;
         }
+
         foreach ($taxonomy['strategies'] ?? [] as $strategy) {
             $collection->push(new $strategy());
         }

@@ -51,6 +51,7 @@ class GeneratorManager
             if (!$isGenerator) {
                 $source->setIsGenerator();
             }
+
             $generatorNames = (array) $generatorNames;
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
@@ -77,6 +78,7 @@ class GeneratorManager
                     $newTargetSources[] = $generatedSource;
                 }
             }
+
             $targetSources = $newTargetSources;
         }
 

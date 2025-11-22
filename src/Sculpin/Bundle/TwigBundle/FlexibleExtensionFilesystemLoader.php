@@ -26,9 +26,13 @@ use Twig\Source as TwigSource;
 final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
 {
     private readonly FilesystemLoader $filesystemLoader;
+
     private array $cachedCacheKey = [];
+
     private array $cachedCacheKeyExtension = [];
+
     private array $cachedCacheKeyException = [];
+
     private array $extensions = [];
 
     /**

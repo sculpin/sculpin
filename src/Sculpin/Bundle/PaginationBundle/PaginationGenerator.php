@@ -42,6 +42,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
         if (!isset($config['provider'])) {
             $config['provider'] = 'data.posts';
         }
+
         if (preg_match('/^(data|page)\.(.+)$/', (string) $config['provider'], $matches)) {
             switch ($matches[1]) {
                 case 'data':
@@ -49,6 +50,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
                     if ($data === []) {
                         $data = [''];
                     }
+
                     break;
                 case 'page':
                     $data = $source->data()->get($matches[2]);
@@ -95,6 +97,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
                         $paginatedPage = $matches[1].'/';
                         $index = '';
                     }
+
                     $permalink = dirname($permalink).'/'.$paginatedPage.'page/'.$pageNumber.$index.'.'.$matches[2];
                 } else {
                     $permalink = dirname($permalink).'/'.$basename.'/page/'.$pageNumber.'.html';
@@ -120,6 +123,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
 
             $sources[] = $generatedSource;
         }
+
         $counter = count($sources);
 
         for ($i = 0; $i < $counter; $i++) {

@@ -100,6 +100,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
             if ($item) {
                 $item->setNextItem($currItem);
             }
+
             $currItem->setPreviousItem($item);
             $item = $currItem;
         }
@@ -130,6 +131,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         foreach ($this->items as &$item) {
             $item = [$index++, $item];
         }
+
         unset($item);
 
         uasort($this->items, function ($a, $b) use ($comparator) {
@@ -143,6 +145,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         foreach ($this->items as &$item) {
             $item = $item[1];
         }
+
         unset($item);
     }
 }

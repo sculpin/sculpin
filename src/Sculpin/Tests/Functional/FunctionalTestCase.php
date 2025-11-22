@@ -34,7 +34,7 @@ class FunctionalTestCase extends TestCase
         static::$fs = new Filesystem();
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -78,6 +78,7 @@ class FunctionalTestCase extends TestCase
     {
         $process = $this->executeSculpinAsync($command, false);
         $process->run();
+
         $this->executeOutput = $process->getOutput();
         $this->errorOutput = $process->getErrorOutput();
 
@@ -100,7 +101,7 @@ class FunctionalTestCase extends TestCase
     {
         $binPath    = __DIR__ . '/../../../../bin';
         $projectDir = static::projectDir();
-        $process    = new Process(["$binPath/sculpin", ...$command, "--project-dir", $projectDir, "--env", "test"]);
+        $process    = new Process([$binPath . '/sculpin', ...$command, "--project-dir", $projectDir, "--env", "test"]);
 
         if ($start) {
             $process->start($callback);
@@ -118,13 +119,13 @@ class FunctionalTestCase extends TestCase
         $projectDir = static::projectDir();
 
         if (!$recursive) {
-            static::$fs->mkdir("$projectDir/$path");
+            static::$fs->mkdir(sprintf('%s/%s', $projectDir, $path));
             return;
         }
 
-        $currPath = "$projectDir/";
+        $currPath = $projectDir . '/';
         foreach ($pathParts as $dir) {
-            $currPath .= "$dir/";
+            $currPath .= $dir . '/';
             if (!static::$fs->exists($currPath)) {
                 static::$fs->mkdir($currPath);
             }
@@ -168,14 +169,14 @@ class FunctionalTestCase extends TestCase
 
     protected function assertProjectHasFile(string $filePath, ?string $msg = null): void
     {
-        $msg = $msg ?: "Expected project to contain file at path $filePath.";
+        $msg = $msg ?: sprintf('Expected project to contain file at path %s.', $filePath);
 
         $this->assertTrue(static::$fs->exists(static::projectDir() . $filePath), $msg);
     }
 
     protected function assertProjectLacksFile(string $filePath, ?string $msg = null): void
     {
-        $msg = $msg ?: "Expected project to NOT contain file at path $filePath.";
+        $msg = $msg ?: sprintf('Expected project to NOT contain file at path %s.', $filePath);
 
         $this->assertFalse(static::$fs->exists(static::projectDir() . $filePath), $msg);
     }
@@ -184,7 +185,7 @@ class FunctionalTestCase extends TestCase
     {
         $outputDir = '/output_test';
 
-        $msg = $msg ?: "Expected project to have generated file at path $filePath.";
+        $msg = $msg ?: sprintf('Expected project to have generated file at path %s.', $filePath);
         $this->assertProjectHasFile($outputDir . $filePath, $msg);
     }
 
@@ -192,7 +193,7 @@ class FunctionalTestCase extends TestCase
     {
         $outputDir = '/output_test';
 
-        $msg        = $msg ?: "Expected generated file at path $filePath to have content '$expected'.";
+        $msg        = $msg ?: sprintf("Expected generated file at path %s to have content '%s'.", $filePath, $expected);
         $fullPath   = static::projectDir() . $outputDir . $filePath;
         $fileExists = static::$fs->exists($fullPath);
 
@@ -230,12 +231,12 @@ class FunctionalTestCase extends TestCase
     private function readFile(string $filePath): string
     {
         if (!static::$fs->exists($filePath)) {
-            throw new Exception("Unable to read file at path $filePath: file does not exist");
+            throw new Exception(sprintf('Unable to read file at path %s: file does not exist', $filePath));
         }
 
         $content = file_get_contents($filePath);
         if ($content === false) {
-            throw new Exception("Unable to read file at path $filePath: failed to read file.");
+            throw new Exception(sprintf('Unable to read file at path %s: failed to read file.', $filePath));
         }
 
         return $content;

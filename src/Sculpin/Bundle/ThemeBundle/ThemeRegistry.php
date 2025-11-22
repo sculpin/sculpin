@@ -43,6 +43,7 @@ class ThemeRegistry
             if (file_exists($directory.'/theme.yml')) {
                 $theme = array_merge((array) Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
             }
+
             $themes[$theme['name']] = $theme;
         }
 

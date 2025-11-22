@@ -35,14 +35,17 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 final readonly class Sculpin
 {
     public const string EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+
     public const string EVENT_AFTER_RUN = 'sculpin.core.after_run';
 
     public const string EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
 
     public const string EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+
     public const string EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
 
     public const string EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+
     public const string EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     public function __construct(
@@ -60,6 +63,7 @@ final readonly class Sculpin
         if (!$io instanceof IoInterface) {
             $io = new NullIo();
         }
+
         $found = false;
         $startTime = microtime(true);
 
@@ -83,6 +87,7 @@ final readonly class Sculpin
                 $this->generatorManager->generate($source, $sourceSet);
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
+
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
@@ -114,8 +119,10 @@ final readonly class Sculpin
                 if ($source->canBeFormatted()) {
                     $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
                 }
+
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
+
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }
 
@@ -137,8 +144,10 @@ final readonly class Sculpin
                 } else {
                     $source->setFormattedContent($source->content());
                 }
+
                 $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
             }
+
             $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_FORMAT);
             $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
         }

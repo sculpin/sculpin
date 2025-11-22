@@ -89,6 +89,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -98,10 +99,12 @@ final class FilesystemDataSource implements DataSourceInterface
                     continue 2;
                 }
             }
+
             foreach ($this->excludePaths as $pattern) {
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -118,6 +121,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())

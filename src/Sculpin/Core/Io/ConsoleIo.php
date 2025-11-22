@@ -97,6 +97,7 @@ final class ConsoleIo implements IoInterface
                 $messages[0]
             );
         }
+
         $this->output->write($messages, $newline);
         $this->lastMessage = implode($newline ? "\n" : '', (array) $messages);
     }
@@ -114,6 +115,7 @@ final class ConsoleIo implements IoInterface
             // removing possible formatting of lastMessage with strip_tags
             $size = strlen(strip_tags($this->lastMessage));
         }
+
         // ...let's fill its length with backspaces
         $this->write(str_repeat("\x08", $size), false);
 
@@ -131,6 +133,7 @@ final class ConsoleIo implements IoInterface
         if ($newline) {
             $this->write('');
         }
+
         $this->lastMessage = $messages;
     }
 }

@@ -35,8 +35,11 @@ use Symfony\Component\HttpKernel\Kernel;
 abstract class AbstractKernel extends Kernel
 {
     protected array $missingSculpinBundles = [];
+
     protected $outputDir;
+
     protected $projectDir;
+
     protected $sourceDir;
 
     /**

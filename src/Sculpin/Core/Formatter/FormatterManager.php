@@ -26,6 +26,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class FormatterManager
 {
     protected array $formatters = [];
+
     protected string $defaultFormatter;
 
     public function __construct(

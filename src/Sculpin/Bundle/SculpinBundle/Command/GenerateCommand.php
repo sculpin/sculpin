@@ -229,6 +229,7 @@ class GenerateCommand extends AbstractCommand
         foreach ($messages as $message) {
             $io->write($message);
         }
+
         $io->write('');
     }
 }

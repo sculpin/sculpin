@@ -56,6 +56,7 @@ class ListCommand extends ContainerAwareCommand
             if (preg_match('/^(.+?)-dev$/', (string) $theme['name'], $matches)) {
                 $themeOutput .= ' :: '.$matches[1].'';
             }
+
             $output->writeln($themeOutput);
         }
 

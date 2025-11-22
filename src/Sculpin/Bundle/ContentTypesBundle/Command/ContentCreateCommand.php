@@ -57,7 +57,7 @@ final class ContentCreateCommand extends AbstractCommand
                     'dry-run',
                     'd',
                     InputOption::VALUE_NONE,
-                    'Don\'t generate boilerplate/placeholder/template files.'
+                    "Don't generate boilerplate/placeholder/template files."
                 ),
                 new InputOption(
                     'taxonomy',
@@ -205,7 +205,7 @@ final class ContentCreateCommand extends AbstractCommand
         if ($taxonomies !== []) {
             $outputMessage .= "\n        taxonomies:\n";
             foreach ($taxonomies as $taxonomy) {
-                $outputMessage .= "            - {$taxonomy}\n";
+                $outputMessage .= sprintf('            - %s%s', $taxonomy, PHP_EOL);
             }
         }
 
@@ -219,16 +219,16 @@ final class ContentCreateCommand extends AbstractCommand
         return <<<EOT
         ---
         layout: default
-        title: $title
+        title: {$title}
         generator: pagination
         pagination:
-            provider: data.$plural
+            provider: data.{$plural}
             max_per_page: 10
-        use: [$plural]
+        use: [{$plural}]
         ---
         <ul>
-            {% for $singular in page.pagination.items %}
-                <li><a href="{{ $singular.url }}">{{ $singular.title }}</a></li>
+            {% for {$singular} in page.pagination.items %}
+                <li><a href="{{ {$singular}.url }}">{{ {$singular}.title }}</a></li>
             {% endfor %}
         </ul>
 

@@ -63,7 +63,7 @@ final readonly class MarkdownConverter implements ConverterInterface, EventSubsc
     {
         foreach ($sourceSetEvent->updatedSources() as $source) {
             foreach ($this->extensions as $extension) {
-                if (fnmatch("*.{$extension}", $source->filename())) {
+                if (fnmatch('*.' . $extension, $source->filename())) {
                     $source->data()->append('converters', SculpinMarkdownBundle::CONVERTER_NAME);
                     break;
                 }

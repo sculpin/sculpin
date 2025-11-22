@@ -34,6 +34,7 @@ class ChainFilter implements FilterInterface
                     // return true at this point since at least one matched!
                     return true;
                 }
+
                 $matched = true;
             } elseif (! $this->or) {
                 // If we would not have accepted any filter ("and") we can
