@@ -177,7 +177,7 @@ abstract class AbstractKernel extends Kernel
      * @return string
      */
     #[\Override]
-    public function getProjectDir(): ?string
+    public function getProjectDir(): string
     {
         return $this->projectDir;
     }
