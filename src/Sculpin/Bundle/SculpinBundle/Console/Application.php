@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
 use Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel;
-use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -34,19 +33,12 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class Application extends BaseApplication
 {
     /**
-     * @var KernelInterface
-     */
-    private $kernel;
-
-    /**
      * @var \Throwable[]
      */
-    private $registrationErrors = [];
+    private array $registrationErrors = [];
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(private readonly KernelInterface $kernel)
     {
-        $this->kernel = $kernel;
-
         if (function_exists('date_default_timezone_set') && function_exists('date_default_timezone_get')) {
             date_default_timezone_set(@date_default_timezone_get());
         }

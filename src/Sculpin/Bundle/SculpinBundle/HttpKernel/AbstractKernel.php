@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class AbstractKernel extends Kernel
 {
-    protected $missingSculpinBundles = [];
+    protected array $missingSculpinBundles = [];
     protected $outputDir;
     protected $projectDir;
     protected $sourceDir;
@@ -125,9 +125,7 @@ abstract class AbstractKernel extends Kernel
             $loader->load('sculpin_services.yml');
         }
 
-        if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
-            $container->merge($cont);
-        }
+        $this->registerContainerConfiguration($this->getContainerLoader($container));
 
         return $container;
     }
