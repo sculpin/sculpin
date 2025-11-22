@@ -17,5 +17,15 @@ return RectorConfig::configure()
     ])
     ->withPhpSets(php83: true)
     ->withPhpVersion(PhpVersion::PHP_83)
-    ->withPreparedSets(deadCode: true, codeQuality: true, codingStyle: true, typeDeclarations: true, symfonyCodeQuality: true)
-    ->withImportNames(importShortClasses: false, removeUnusedImports: true);
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        codingStyle: true,
+        typeDeclarations: true,
+        privatization: true,
+        rectorPreset: true,
+        symfonyCodeQuality: true
+    )
+    ->withImportNames(importShortClasses: false, removeUnusedImports: true)
+    ->withComposerBased(twog: true)
+    ;

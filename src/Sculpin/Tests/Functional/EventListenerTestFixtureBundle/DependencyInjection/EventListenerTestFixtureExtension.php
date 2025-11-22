@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sculpin\Tests\Functional\EventListenerTestFixtureBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;

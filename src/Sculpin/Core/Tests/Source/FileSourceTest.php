@@ -10,7 +10,7 @@ use Sculpin\Core\Source\FileSource;
 use Symfony\Component\Finder\SplFileInfo;
 use Sculpin\Core\Source\DataSourceInterface;
 
-class FileSourceTest extends TestCase
+final class FileSourceTest extends TestCase
 {
     /*
      * mock analyzer for detectFromFilename, should return text/html

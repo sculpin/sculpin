@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sculpin\Tests\Functional;
 
-class GenerateCommandTest extends FunctionalTestCase
+final class GenerateCommandTest extends FunctionalTestCase
 {
-    public const CONFIG_FILE = DIRECTORY_SEPARATOR . 'app'
+    public const string CONFIG_FILE = DIRECTORY_SEPARATOR . 'app'
         . DIRECTORY_SEPARATOR . 'config'
         . DIRECTORY_SEPARATOR . 'sculpin_kernel.yml';
 
@@ -41,7 +41,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->assertProjectLacksFile($filePath, sprintf('Expected project to NOT have generated file at path %s.', $filePath));
 
         // set up test scenario
-        static::$fs->rename(
+        self::$fs->rename(
             $this->projectDir() . '/source',
             $this->projectDir() . '/' . $sourceDir
         );
@@ -88,7 +88,7 @@ class GenerateCommandTest extends FunctionalTestCase
         $this->assertGeneratedFileHasContent($filePath, '<p>subtitle: "Test Project Subtitle"</p>');
     }
 
-    protected function configureForWebpack(): void
+    private function configureForWebpack(): void
     {
         $this->writeToProjectFile(
             self::CONFIG_FILE,

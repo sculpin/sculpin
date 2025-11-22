@@ -16,7 +16,7 @@ namespace Sculpin\Core\Tests\Formatter;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Formatter\FormatContext;
 
-class FormatContextTest extends TestCase
+final class FormatContextTest extends TestCase
 {
     public function test(): void
     {

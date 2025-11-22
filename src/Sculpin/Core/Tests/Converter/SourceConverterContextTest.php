@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Converter\SourceConverterContext;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourceConverterContextTest extends TestCase
+final class SourceConverterContextTest extends TestCase
 {
     public function testContent(): void
     {

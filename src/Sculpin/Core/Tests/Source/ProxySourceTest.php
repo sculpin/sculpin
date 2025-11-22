@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\ProxySource;
 use Sculpin\Core\Source\SourceInterface;
 
-class ProxySourceTest extends TestCase
+final class ProxySourceTest extends TestCase
 {
     public function testSetFormattedContent(): void
     {

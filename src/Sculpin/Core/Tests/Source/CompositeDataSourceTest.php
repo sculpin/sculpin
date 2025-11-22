@@ -19,7 +19,7 @@ use Sculpin\Core\Source\CompositeDataSource;
 use Sculpin\Core\Source\SourceSet;
 use Sculpin\Core\Source\DataSourceInterface;
 
-class CompositeDataSourceTest extends TestCase
+final class CompositeDataSourceTest extends TestCase
 {
     public function makeDataSource($dataSourceId): MockObject
     {

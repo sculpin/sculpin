@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Sculpin\Tests\Functional;
 
-class EventListenerExtensionTest extends FunctionalTestCase
+final class EventListenerExtensionTest extends FunctionalTestCase
 {
     protected const PROJECT_DIR = '/__EventListenerFixture__';
 
     #[\Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         $outputDir = $this->projectDir() . '/output_test';
-        if (static::$fs->exists($outputDir)) {
-            static::$fs->remove($outputDir);
+        if (self::$fs->exists($outputDir)) {
+            self::$fs->remove($outputDir);
         }
     }
 

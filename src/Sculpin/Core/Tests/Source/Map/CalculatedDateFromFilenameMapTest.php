@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
 use Sculpin\Core\Source\MemorySource;
 
-class CalculatedDateFromFilenameMapTest extends TestCase
+final class CalculatedDateFromFilenameMapTest extends TestCase
 {
     private CalculatedDateFromFilenameMap $map;
 
@@ -69,7 +69,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
         $this->assertEquals(strtotime("2013-12-12"), $source->data()->get('calculated_date'));
     }
 
-    protected function getSourceWithCalculatedDate($timestamp): MemorySource
+    private function getSourceWithCalculatedDate(int $timestamp): MemorySource
     {
         return new MemorySource(
             uniqid(),
@@ -85,7 +85,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
         );
     }
 
-    protected function getSourceWithoutCalculatedDateAndPathname($path): MemorySource
+    private function getSourceWithoutCalculatedDateAndPathname(string $path): MemorySource
     {
         return new MemorySource(
             uniqid(),

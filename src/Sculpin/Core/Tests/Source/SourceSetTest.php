@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\SourceSet;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourceSetTest extends TestCase
+final class SourceSetTest extends TestCase
 {
     public function makeTestSource($sourceId, $hasChanged = true): MockObject
     {

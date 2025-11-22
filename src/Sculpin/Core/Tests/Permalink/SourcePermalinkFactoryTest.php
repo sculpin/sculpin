@@ -11,7 +11,7 @@ use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\MemorySource;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourcePermalinkFactoryTest extends TestCase
+final class SourcePermalinkFactoryTest extends TestCase
 {
     /**
      * @test

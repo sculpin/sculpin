@@ -74,7 +74,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
             }
 
             $slice[$k] = $v;
-            $totalItems++;
+            ++$totalItems;
         }
 
         if ($slice !== []) {
@@ -84,7 +84,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
         $sources = [];
         $pageNumber = 0;
         foreach ($slices as $slice) {
-            $pageNumber++;
+            ++$pageNumber;
             $permalink = null;
             if ($pageNumber > 1) {
                 $permalink = $this->permalinkFactory->create($source)->relativeFilePath();
@@ -126,7 +126,7 @@ final readonly class PaginationGenerator implements GeneratorInterface
 
         $counter = count($sources);
 
-        for ($i = 0; $i < $counter; $i++) {
+        for ($i = 0; $i < $counter; ++$i) {
             $generatedSource = $sources[$i];
             if (0 === $i) {
                 $generatedSource->data()->set('pagination.previous_page');

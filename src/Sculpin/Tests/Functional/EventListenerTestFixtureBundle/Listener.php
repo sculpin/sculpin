@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sculpin\Tests\Functional\EventListenerTestFixtureBundle;
 
 use Sculpin\Core\Event\SourceSetEvent;
