@@ -15,10 +15,7 @@ namespace Sculpin\Contrib\Taxonomy;
 
 final class PermalinkStrategyCollectionFactory
 {
-    /**
-     * @param string|array $taxonomy
-     */
-    public static function create($taxonomy): PermalinkStrategyCollection
+    public static function create(array|string $taxonomy): PermalinkStrategyCollection
     {
         $collection = new PermalinkStrategyCollection();
         if (is_string($taxonomy)) {

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -111,15 +112,15 @@ final class ContainerDebugCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      *
-     * @throws \LogicException
+     * @throws \LogicException|\Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->validateInput($input);
 
         if ($input->getOption('parameters')) {
             if (!$this->getContainer() instanceof Container) {
-                return 1;
+                return Command::FAILURE;
             }
             $parameters = $this->getContainer()->getParameterBag()->all();
 
@@ -128,20 +129,20 @@ final class ContainerDebugCommand extends ContainerAwareCommand
 
             $this->outputParameters($output, $parameters);
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $parameter = $input->getOption('parameter');
         if (null !== $parameter) {
             $output->write($this->formatParameter($this->getContainer()->getParameter($parameter)));
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         if ($input->getOption('tags')) {
             $this->outputTags($output, $input->getOption('show-private'));
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $tag = $input->getOption('tag');
@@ -164,10 +165,10 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             $this->outputServices($output, $serviceIds, $input->getOption('show-private'), $tag);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
-    private function validateInput(InputInterface $input)
+    private function validateInput(InputInterface $input): void
     {
         $options = ['tags', 'tag', 'parameters', 'parameter'];
 
@@ -303,7 +304,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                 $service = $definition;
                 $output->writeln(vsprintf($format, $this->buildArgumentsArray(
                     $serviceId,
-                    get_class($service),
+                    $service,
                     count($maxTags) ? array_fill(0, count($maxTags), "") : []
                 )));
             }
@@ -345,9 +346,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                             '    - %-30s (%s)',
                             $tagName,
                             implode(', ', array_map(
-                                function ($key, $value) {
-                                    return sprintf('<info>%s</info>: %s', $key, $value);
-                                },
+                                fn($key, $value) => sprintf('<info>%s</info>: %s', $key, $value),
                                 array_keys($singleTagData),
                                 array_values($singleTagData)
                             ))
@@ -424,10 +423,10 @@ final class ContainerDebugCommand extends ContainerAwareCommand
      *
      * @param string $serviceId The service id to resolve
      *
-     * @return Definition|Alias
+     * @return Definition|Alias|null
      * @throws \Exception
      */
-    private function resolveServiceDefinition($serviceId)
+    private function resolveServiceDefinition(string $serviceId): Definition|Alias|string
     {
         $container = $this->getContainer();
         if ($container instanceof ContainerBuilder) {
@@ -441,8 +440,8 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             }
         }
 
-        // the service has been injected in some special way, just return the service
-        return $container->get($serviceId);
+        // the service has been injected in some special way, just return the service class string
+        return get_class($container->get($serviceId));
     }
 
     /**
@@ -473,7 +472,6 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                 if ($definition instanceof Definition) {
                     if (!$showPrivate && !$definition->isPublic()) {
                         unset($serviceIds[$serviceId]);
-                        continue;
                     }
                 }
             }
@@ -492,7 +490,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         }
     }
 
-    private function formatParameter($value)
+    private function formatParameter($value): false|string
     {
         if (is_bool($value) || is_array($value) || (null === $value)) {
             return json_encode($value);

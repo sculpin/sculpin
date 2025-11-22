@@ -26,36 +26,20 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class ConverterManager
 {
-    /**
-     * Event Dispatcher
-     *
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private array $converters = [];
 
-    /**
-     * Used to know the default formatter name.
-     *
-     * @var FormatterManager
-     */
-    private $formatterManager;
-
-    /**
-     * @var ConverterInterface[]
-     */
-    private $converters = [];
-
-    public function __construct(EventDispatcherInterface $eventDispatcher, FormatterManager $formatterManager)
-    {
-        $this->formatterManager = $formatterManager;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        private EventDispatcherInterface $eventDispatcher,
+        private FormatterManager $formatterManager
+    ) {
         $this->registerConverter('null', new NullConverter);
     }
 
     /**
      * Add a converter to the manager.
      *
-     * @param string             $name      Name of the converter
+     * @param string $name Name of the converter
+     * @param ConverterInterface $converter
      */
     public function registerConverter(string $name, ConverterInterface $converter): void
     {

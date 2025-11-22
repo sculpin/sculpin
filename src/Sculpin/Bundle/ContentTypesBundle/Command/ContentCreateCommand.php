@@ -13,6 +13,7 @@ namespace Sculpin\Bundle\ContentTypesBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,7 +29,7 @@ use Symfony\Component\String\Inflector\EnglishInflector;
  */
 final class ContentCreateCommand extends AbstractCommand
 {
-    private const DIRECTORY_FLAG = '_directory_';
+    private const string DIRECTORY_FLAG = '_directory_';
 
     /**
      * {@inheritdoc}
@@ -68,6 +69,7 @@ final class ContentCreateCommand extends AbstractCommand
             ]
         );
 
+        // phpcs:disable
         $this->setHelp(<<<EOT
             The <info>content:create</info> command helps you create a custom content type and the associated boilerplate/templates.
 
@@ -80,12 +82,13 @@ final class ContentCreateCommand extends AbstractCommand
 
             EOT
         );
+        // phpcs:enable
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pluralType   = $input->getArgument('type');
         $singularType = (new EnglishInflector())->singularize($pluralType)[0];
@@ -112,7 +115,7 @@ final class ContentCreateCommand extends AbstractCommand
 
             $output->writeln("\nRemember to add the content type definition (displayed above) to sculpin_kernel.yml!");
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $output->writeln('Generating boilerplate for ' . $pluralType);
@@ -135,7 +138,7 @@ final class ContentCreateCommand extends AbstractCommand
 
         $output->writeln("\nRemember to add the content type definition (displayed above) to sculpin_kernel.yml!");
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function generateBoilerplateManifest(string $plural, string $singular, array $taxonomies = []): array
@@ -150,7 +153,7 @@ final class ContentCreateCommand extends AbstractCommand
 
         // ensure the content type storage folder exists
         $storageFolder            = $rootDir . '/source/_' . $plural;
-        $manifest[$storageFolder] = static::DIRECTORY_FLAG;
+        $manifest[$storageFolder] = self::DIRECTORY_FLAG;
 
         // content type index template
         $index            = $rootDir . '/source/' . $plural . '.html';
@@ -158,7 +161,7 @@ final class ContentCreateCommand extends AbstractCommand
 
         // ensure the views folder exists
         $storageFolder            = $rootDir . '/source/_views';
-        $manifest[$storageFolder] = static::DIRECTORY_FLAG;
+        $manifest[$storageFolder] = self::DIRECTORY_FLAG;
 
         // content type view template
         $index            = $rootDir . '/source/_views/' . $singular . '.html';
@@ -172,7 +175,7 @@ final class ContentCreateCommand extends AbstractCommand
 
             // content taxonomy directory
             $storageFolder            = $rootDir . '/source/' . $plural . '/' . $taxonomy;
-            $manifest[$storageFolder] = static::DIRECTORY_FLAG;
+            $manifest[$storageFolder] = self::DIRECTORY_FLAG;
 
             // content taxonomy view template(s)
             $index            = $rootDir . '/source/' . $plural . '/' . $taxonomy . '/' . $singularTaxonomy . '.html';
@@ -211,7 +214,7 @@ final class ContentCreateCommand extends AbstractCommand
         return $outputMessage;
     }
 
-    private function getIndexTemplate(string $plural, string $singular)
+    private function getIndexTemplate(string $plural, string $singular): string
     {
         $title = ucfirst($plural);
 
@@ -301,6 +304,7 @@ final class ContentCreateCommand extends AbstractCommand
     ): string {
         $title = ucfirst($taxonomy);
 
+        // phpcs:disable
         return <<<EOT
         ---
         layout: default
@@ -315,6 +319,7 @@ final class ContentCreateCommand extends AbstractCommand
             {% endfor %}
         </ul>
         EOT;
+        // phpcs:enable
     }
 
     private function getTaxonomyViewTemplate(

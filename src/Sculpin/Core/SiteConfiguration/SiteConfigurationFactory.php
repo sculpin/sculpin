@@ -22,20 +22,8 @@ use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
  */
 final class SiteConfigurationFactory
 {
-    /**
-     * @var string
-     */
-    private $projectDir;
-
-    /**
-     * @var string
-     */
-    private $environment;
-
-    public function __construct(string $projectDir, string $environment)
+    public function __construct(private string $projectDir, private string $environment)
     {
-        $this->projectDir = $projectDir;
-        $this->environment = $environment;
     }
 
     /**
@@ -71,11 +59,11 @@ final class SiteConfigurationFactory
      */
     public function detectConfig(): ConfigurationInterface
     {
-        if (file_exists($file = $this->projectDir.'/app/config/sculpin_site_'.$this->environment.'.yml')) {
+        if (file_exists($file = $this->projectDir . '/app/config/sculpin_site_' . $this->environment . '.yml')) {
             return $this->getConfigFile($file);
         }
 
-        if (file_exists($file = $this->projectDir.'/app/config/sculpin_site.yml')) {
+        if (file_exists($file = $this->projectDir . '/app/config/sculpin_site.yml')) {
             return $this->getConfigFile($file);
         }
 

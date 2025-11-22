@@ -24,27 +24,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class TextileConverter implements ConverterInterface, EventSubscriberInterface
+final readonly class TextileConverter implements ConverterInterface, EventSubscriberInterface
 {
-    /**
-     * @var Parser
-     */
-    private $textileParser;
-
-    /**
-     * File name extensions that are handled as textile.
-     *
-     * @var string[]
-     */
-    private $extensions = [];
 
     /**
      * @param string[] $extensions file name extensions that are handled as markdown
      */
-    public function __construct(Parser $parser, array $extensions = [])
+    public function __construct(private Parser $textileParser, private array $extensions = [])
     {
-        $this->textileParser = $parser;
-        $this->extensions = $extensions;
     }
 
     /**

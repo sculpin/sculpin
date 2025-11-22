@@ -23,33 +23,13 @@ use Sculpin\Core\Permalink\SourcePermalinkFactory;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class PaginationGenerator implements GeneratorInterface
+final readonly class PaginationGenerator implements GeneratorInterface
 {
-    /**
-     * @var DataProviderManager
-     */
-    private $dataProviderManager;
-
-    /**
-     * @var SourcePermalinkFactory
-     */
-    private $permalinkFactory;
-
-    /**
-     * Max per page (default)
-     *
-     * @var int
-     */
-    private $maxPerPage;
-
     public function __construct(
-        DataProviderManager $dataProviderManager,
-        SourcePermalinkFactory $permalinkFactory,
-        int $maxPerPage
+        private DataProviderManager $dataProviderManager,
+        private SourcePermalinkFactory $permalinkFactory,
+        private int $maxPerPage
     ) {
-        $this->dataProviderManager = $dataProviderManager;
-        $this->permalinkFactory = $permalinkFactory;
-        $this->maxPerPage = $maxPerPage;
     }
 
     /**
@@ -80,7 +60,7 @@ final class PaginationGenerator implements GeneratorInterface
             return [];
         }
 
-        $maxPerPage = isset($config['max_per_page']) ? $config['max_per_page'] : $this->maxPerPage;
+        $maxPerPage = $config['max_per_page'] ?? $this->maxPerPage;
 
         $slices = [];
         $slice = [];
@@ -120,7 +100,7 @@ final class PaginationGenerator implements GeneratorInterface
                     $permalink = dirname($permalink).'/'.$basename.'/page/'.$pageNumber.'.html';
                 }
 
-                if (0 === strpos($permalink, './')) {
+                if (str_starts_with($permalink, './')) {
                     $permalink = substr($permalink, 2);
                 }
             }

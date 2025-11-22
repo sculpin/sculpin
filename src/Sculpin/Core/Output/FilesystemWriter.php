@@ -21,20 +21,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class FilesystemWriter implements WriterInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var string
-     */
-    private $outputDir;
-
-    public function __construct(Filesystem $filesystem, string $outputDir)
+    public function __construct(private Filesystem $filesystem, private string $outputDir)
     {
-        $this->filesystem = $filesystem;
-        $this->outputDir  = $outputDir;
     }
 
     /**

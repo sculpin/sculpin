@@ -18,15 +18,15 @@ use Sculpin\Core\Source\ProxySource;
 
 class ProxySourceItem extends ProxySource implements \ArrayAccess
 {
-    private $previousItem;
-    private $nextItem;
+    private ?ProxySourceItem $previousItem;
+    private ?ProxySourceItem $nextItem;
 
-    public function id()
+    public function id(): string
     {
         return $this->sourceId();
     }
 
-    public function meta()
+    public function meta(): array
     {
         return $this->data()->export();
     }
@@ -53,19 +53,19 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->data()->get('blocks');
     }
 
-    public function setBlocks(?array $blocks = null)
+    public function setBlocks(?array $blocks = null): void
     {
         $this->data()->set('blocks', $blocks ?: []);
     }
 
-    public function previousItem()
+    public function previousItem(): ?ProxySourceItem
     {
         return $this->previousItem;
     }
 
-    public function setPreviousItem(?ProxySourceItem $item = null)
+    public function setPreviousItem(?ProxySourceItem $item = null): void
     {
-        $lastPreviousItem = $this->previousItem;
+        $lastPreviousItem = $this->previousItem ?? null;
         $this->previousItem = $item;
         if ($lastPreviousItem) {
             // We did have a item before...
@@ -81,14 +81,14 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
-    public function nextItem()
+    public function nextItem(): ?ProxySourceItem
     {
         return $this->nextItem;
     }
 
-    public function setNextItem(?ProxySourceItem $item = null)
+    public function setNextItem(?ProxySourceItem $item = null): void
     {
-        $lastNextItem = $this->nextItem;
+        $lastNextItem = $this->nextItem ?? null;
         $this->nextItem = $item;
         if ($lastNextItem) {
             // We did have a item before...
@@ -104,7 +104,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
-    public function reprocess()
+    public function reprocess(): void
     {
         $this->setHasChanged();
     }

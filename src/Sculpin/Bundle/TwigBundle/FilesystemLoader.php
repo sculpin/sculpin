@@ -16,7 +16,7 @@ namespace Sculpin\Bundle\TwigBundle;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 
 /**
- * I twig loader that uses the file modification timestamp in the cache key.
+ * A twig loader that uses the file modification timestamp in the cache key.
  *
  * @method getSourceContext(string $name) \Twig\Source
  *
@@ -31,6 +31,6 @@ class FilesystemLoader extends TwigFilesystemLoader
     {
         $filename = $this->findTemplate($name);
 
-        return filemtime($filename).':'.$filename;
+        return filemtime($filename) . ':' . $filename;
     }
 }

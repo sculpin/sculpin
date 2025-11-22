@@ -20,6 +20,7 @@ use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -37,10 +38,7 @@ use Twig\Error\SyntaxError;
  */
 class GenerateCommand extends AbstractCommand
 {
-    /**
-     * @var bool
-     */
-    protected $throwExceptions;
+    protected bool $throwExceptions;
 
     /**
      * {@inheritdoc}
@@ -86,7 +84,7 @@ class GenerateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -151,7 +149,7 @@ class GenerateCommand extends AbstractCommand
             } while ($watch);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -191,11 +189,12 @@ class GenerateCommand extends AbstractCommand
         DataSourceInterface $dataSource,
         SourceSet $sourceSet,
         IoInterface $io
-    ) {
+    ): void {
         $messages = [];
-        $errPrint = function (\Throwable $e) {
-            return $e->getMessage().PHP_EOL.' at '.str_replace(getcwd().DIRECTORY_SEPARATOR, '', $e->getFile());
-        };
+        $errPrint = fn(\Throwable $e) => $e->getMessage()
+            . PHP_EOL
+            . ' at '
+            . str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $e->getFile());
 
         try {
             $sculpin->run($dataSource, $sourceSet, $io);

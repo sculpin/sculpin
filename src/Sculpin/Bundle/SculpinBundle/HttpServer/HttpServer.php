@@ -26,79 +26,19 @@ use Symfony\Component\Mime\MimeTypes;
  */
 final class HttpServer
 {
-    /**
-     * @var bool
-     */
-    private $debug;
+    public const int DEFAULT_PORT = 8000;
 
-    /**
-     * @var string
-     */
-    private $env;
+    private StreamSelectLoop $loop;
 
-    /**
-     * @var StreamSelectLoop
-     */
-    private $loop;
-
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var int
-     */
-    private $port;
-
-    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
-    {
-        $mimeTypes = new MimeTypes();
-
-        $this->debug  = $debug;
-        $this->env    = $env;
-        $this->output = $output;
-        $this->port   = $port ?: 8000;
-
-        $this->loop   = new StreamSelectLoop;
-        $socketServer = new ReactSocketServer(
-            sprintf('0.0.0.0:%d', $this->port),
-            $this->loop
-        );
-
-        $httpServer = new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
-            $mimeTypes,
-            $docroot,
-            $output
-        ) {
-            $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
-
-            if (is_dir($path)) {
-                $path = rtrim($path, '/') . '/index.html';
-            }
-
-            if (!file_exists($path)) {
-                HttpServer::logRequest($output, 404, $request);
-
-                $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
-                    . '<p>'
-                    . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
-                    . 'could not find the requested resource.'
-                    . '</p>';
-
-                return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
-            }
-
-            $type = 'application/octet-stream';
-
-            if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
-                $type = $mimeTypes->getMimeTypes($extension)[0] ?? $type;
-            }
-
-            HttpServer::logRequest($output, 200, $request);
-
-            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
-        });
+    public function __construct(
+        private OutputInterface $output,
+        string $docroot,
+        private string $env,
+        private bool $debug,
+        private int $port = self::DEFAULT_PORT
+    ) {
+        $socketServer = $this->startSocketServer();
+        $httpServer = $this->getHttpServer($docroot, $output);
 
         $httpServer->listen($socketServer);
     }
@@ -163,5 +103,52 @@ final class HttpServer
                 $wrapClose
             )
         );
+    }
+
+    private function startSocketServer(): ReactSocketServer
+    {
+        $this->loop = new StreamSelectLoop;
+
+        return new ReactSocketServer(
+            sprintf('0.0.0.0:%d', $this->port),
+            $this->loop
+        );
+    }
+
+    private function getHttpServer(string $docroot, OutputInterface $output): ReactHttpServer
+    {
+        return new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
+            $docroot,
+            $output
+        ) {
+            $mimeTypes = new MimeTypes();
+            $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
+
+            if (is_dir($path)) {
+                $path = rtrim($path, '/') . '/index.html';
+            }
+
+            if (!file_exists($path)) {
+                HttpServer::logRequest($output, 404, $request);
+
+                $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
+                    . '<p>'
+                    . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                    . 'could not find the requested resource.'
+                    . '</p>';
+
+                return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
+            }
+
+            $type = 'application/octet-stream';
+
+            if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
+                $type = $mimeTypes->getMimeTypes($extension)[0] ?? $type;
+            }
+
+            HttpServer::logRequest($output, 200, $request);
+
+            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
+        });
     }
 }

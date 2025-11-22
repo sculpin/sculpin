@@ -15,7 +15,7 @@ namespace Sculpin\Contrib\Taxonomy\PermalinkStrategy;
 
 class ToyRocketStrategy implements PermalinkStrategyInterface
 {
-    public function process($str)
+    public function process(string $str): string
     {
         return '∙∙∙∙∙·▫▫ᵒᴼᵒ▫ₒₒ▫ᵒᴼᵒ▫ₒₒ▫ᵒᴼᵒ☼)==' . $str . '==>';
     }

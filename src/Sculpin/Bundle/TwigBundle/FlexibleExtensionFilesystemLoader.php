@@ -25,29 +25,11 @@ use Twig\Source as TwigSource;
  */
 final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventSubscriberInterface
 {
-    /**
-     * @var FilesystemLoader
-     */
-    private $filesystemLoader;
-
-    /**
-     * @var string[]
-     */
-    private $cachedCacheKey = [];
-
-    /**
-     * @var string[]
-     */
-    private $cachedCacheKeyExtension = [];
-
-    /**
-     * @var \Throwable[]
-     */
-    private $cachedCacheKeyException = [];
-    /**
-     * @var string[]
-     */
-    private $extensions = [];
+    private FilesystemLoader $filesystemLoader;
+    private array $cachedCacheKey = [];
+    private array $cachedCacheKeyExtension = [];
+    private array $cachedCacheKeyException = [];
+    private array $extensions = [];
 
     /**
      * @param string[] $sourcePaths
@@ -56,9 +38,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
      */
     public function __construct(string $sourceDir, array $sourcePaths, array $paths, array $extensions)
     {
-        $mappedSourcePaths = array_map(function ($path) use ($sourceDir) {
-            return $sourceDir.'/'.$path;
-        }, $sourcePaths);
+        $mappedSourcePaths = array_map(fn($path) => $sourceDir . '/' . $path, $sourcePaths);
 
         $allPaths = array_merge(
             array_filter($mappedSourcePaths, 'file_exists'),
@@ -66,9 +46,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);
-        $this->extensions = array_map(function ($ext) {
-            return $ext?'.'.$ext:$ext;
-        }, $extensions);
+        $this->extensions = array_map(fn($ext) => $ext ? '.' . $ext : $ext, $extensions);
     }
 
     /**
@@ -80,7 +58,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
 
         $extension = $this->cachedCacheKeyExtension[$name];
 
-        return $this->filesystemLoader->getSourceContext($name.$extension);
+        return $this->filesystemLoader->getSourceContext($name . $extension);
     }
 
     /**
@@ -91,7 +69,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
         if (isset($this->cachedCacheKey[$name])) {
             $extension = $this->cachedCacheKeyExtension[$name];
 
-            return $this->cachedCacheKey[$name] = $this->filesystemLoader->getCacheKey($name.$extension);
+            return $this->cachedCacheKey[$name] = $this->filesystemLoader->getCacheKey($name . $extension);
         }
 
         if (isset($this->cachedCacheKeyException[$name])) {
@@ -100,7 +78,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
 
         foreach ($this->extensions as $extension) {
             try {
-                $this->cachedCacheKey[$name] = $this->filesystemLoader->getCacheKey($name.$extension);
+                $this->cachedCacheKey[$name] = $this->filesystemLoader->getCacheKey($name . $extension);
                 $this->cachedCacheKeyExtension[$name] = $extension;
 
                 return $this->cachedCacheKey[$name];
@@ -122,7 +100,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
 
         $extension = $this->cachedCacheKeyExtension[$name];
 
-        return $this->filesystemLoader->isFresh($name.$extension, $time);
+        return $this->filesystemLoader->isFresh($name . $extension, $time);
     }
 
     /**
@@ -138,7 +116,7 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
 
         $extension = $this->cachedCacheKeyExtension[$name];
 
-        return $this->filesystemLoader->exists($name.$extension);
+        return $this->filesystemLoader->exists($name . $extension);
     }
 
     /**

@@ -25,39 +25,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class FormatterManager
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var Configuration
-     */
-    protected $siteConfiguration;
-
-    /**
-     * @var DataProviderManager
-     */
-    protected $dataProviderManager;
-
-    /**
-     * @var array
-     */
-    protected $formatters = [];
-
-    /**
-     * @var string
-     */
-    protected $defaultFormatter;
+    protected array $formatters = [];
+    protected string $defaultFormatter;
 
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        Configuration $siteConfiguration,
-        ?DataProviderManager $dataProviderManager = null
+        protected EventDispatcherInterface $eventDispatcher,
+        protected Configuration $siteConfiguration,
+        protected ?DataProviderManager $dataProviderManager = null
     ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->siteConfiguration = $siteConfiguration;
-        $this->dataProviderManager = $dataProviderManager;
     }
 
     protected function buildBaseFormatContext(array $context): Configuration
@@ -104,10 +79,7 @@ class FormatterManager
     public function registerFormatter(string $name, FormatterInterface $formatter): void
     {
         $this->formatters[$name] = $formatter;
-
-        if (null === $this->defaultFormatter) {
-            $this->defaultFormatter = $name;
-        }
+        $this->defaultFormatter ??= $name;
     }
 
     public function formatter(string $name): FormatterInterface
@@ -173,7 +145,7 @@ class FormatterManager
      * Manager via constructor injection as some data providers might also rely
      * on formatter. Hurray for circular dependencies. :(
      *
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
+     * @param DataProviderManager|null $dataProviderManager Data Provider Manager
      */
     public function setDataProviderManager(?DataProviderManager $dataProviderManager = null): void
     {

@@ -61,7 +61,7 @@ class ThemeRegistry
         $themes = $this->listThemes();
 
         foreach ([$this->activeTheme.'-dev', $this->activeTheme] as $activeTheme) {
-            if (! isset($themes[$activeTheme])) {
+            if (!isset($activeTheme, $themes[$activeTheme])) {
                 continue;
             }
 

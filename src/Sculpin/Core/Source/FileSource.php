@@ -23,25 +23,23 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
  */
 final class FileSource extends AbstractSource
 {
-    /**
-     * @var MimeTypeDetector
-     */
-    private $detector;
-
     public function __construct(
-        MimeTypeDetector $detector,
+        private MimeTypeDetector $detector,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
         bool $isRaw,
         bool $hasChanged = false
     ) {
-        $this->detector = $detector;
-        $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
+        $this->sourceId = 'FileSource:' . $dataSource->dataSourceId() . ':' . $file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
         $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
+
+        // Initialize empty states
+        $this->content ??= '';
+        $this->formattedContent ??= '';
 
         $this->init();
     }
@@ -55,7 +53,7 @@ final class FileSource extends AbstractSource
     {
         parent::init($hasChanged);
 
-        $originalData = $this->data;
+        $originalData = $this->data ?? null;
 
         if ($this->isRaw) {
             $this->useFileReference = true;

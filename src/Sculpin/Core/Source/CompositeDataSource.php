@@ -21,7 +21,7 @@ class CompositeDataSource implements DataSourceInterface
     /**
      * @var DataSourceInterface[]
      */
-    private $dataSources = [];
+    private array $dataSources = [];
 
     /**
      * @param DataSourceInterface[] $dataSources
@@ -53,9 +53,14 @@ class CompositeDataSource implements DataSourceInterface
      */
     public function dataSourceId(): string
     {
-        return 'CompositeDataSource('.implode(',', array_map(function (DataSourceInterface $dataSource) {
-            return $dataSource->dataSourceId();
-        }, $this->dataSources));
+        return 'CompositeDataSource(' .
+            implode(
+                ',',
+                array_map(
+                    fn(DataSourceInterface $dataSource) => $dataSource->dataSourceId(),
+                    $this->dataSources
+                )
+            );
     }
 
     /**

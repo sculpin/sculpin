@@ -15,5 +15,5 @@ namespace Sculpin\Contrib\Taxonomy\PermalinkStrategy;
 
 interface PermalinkStrategyInterface
 {
-    public function process($str);
+    public function process(string $str): string;
 }

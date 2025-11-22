@@ -42,14 +42,14 @@ final class ConvertListener implements EventSubscriberInterface
      *
      * @var string
      */
-    private static $placeholder = "\n<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>\n";
+    private static string $placeholder = "\n<div><!-- sculpin-hidden -->$1<!-- /sculpin-hidden --></div>\n";
 
     /**
      * Regex used to remove placeholder
      *
      * @var string
      */
-    private static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // @codingStandardsIgnoreLine
+    private static string $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // @codingStandardsIgnoreLine
 
     /**
      * {@inheritdoc}

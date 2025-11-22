@@ -24,11 +24,11 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class InitCommand extends AbstractCommand
 {
-    public const COMMAND_SUCCESS          = 0;
-    public const PROJECT_FOLDER_NOT_EMPTY = 101;
+    public const int COMMAND_SUCCESS          = 0;
+    public const int PROJECT_FOLDER_NOT_EMPTY = 101;
 
-    public const DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
-    public const DEFAULT_TITLE    = 'My Sculpin Site';
+    public const string DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
+    public const string DEFAULT_TITLE    = 'My Sculpin Site';
 
     /**
      * {@inheritdoc}
@@ -126,7 +126,7 @@ final class InitCommand extends AbstractCommand
         return true;
     }
 
-    private function createDefaultKernel(string $projectDir, OutputInterface $output): bool
+    private function createDefaultKernel(string $projectDir, OutputInterface $output): void
     {
         $contents = <<<EOT
         <?php
@@ -143,11 +143,9 @@ final class InitCommand extends AbstractCommand
 
         EOT;
         $this->createFile($projectDir . '/app/SculpinKernel.php', $contents);
-
-        return true;
     }
 
-    private function createSiteKernelFile(string $projectDir, OutputInterface $output): bool
+    private function createSiteKernelFile(string $projectDir, OutputInterface $output): void
     {
         $contents = <<<EOT
         sculpin_content_types:
@@ -156,8 +154,6 @@ final class InitCommand extends AbstractCommand
 
         EOT;
         $this->createFile($projectDir . '/app/config/sculpin_kernel.yml', $contents);
-
-        return true;
     }
 
     private function createSiteConfigFile(
@@ -165,7 +161,7 @@ final class InitCommand extends AbstractCommand
         string $title,
         string $subTitle,
         OutputInterface $output
-    ): bool {
+    ): void {
         $contents = <<<EOT
         title: "$title"
         subtitle: "$subTitle"
@@ -174,11 +170,9 @@ final class InitCommand extends AbstractCommand
 
         EOT;
         $this->createFile($projectDir . '/app/config/sculpin_site.yml', $contents);
-
-        return true;
     }
 
-    private function createSourceFolder(string $projectDir, OutputInterface $output): bool
+    private function createSourceFolder(string $projectDir, OutputInterface $output): void
     {
         $fs = new Filesystem();
 
@@ -206,8 +200,6 @@ final class InitCommand extends AbstractCommand
 
             EOT
         );
-
-        return true;
     }
 
     private function createFile(string $path, string $contents): void

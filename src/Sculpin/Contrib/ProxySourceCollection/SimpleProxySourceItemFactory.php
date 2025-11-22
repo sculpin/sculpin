@@ -17,7 +17,7 @@ use Sculpin\Core\Source\SourceInterface;
 
 class SimpleProxySourceItemFactory implements ProxySourceItemFactoryInterface
 {
-    private $reflectionClass;
+    private \ReflectionClass $reflectionClass;
 
     public function __construct($class = null)
     {
@@ -26,7 +26,7 @@ class SimpleProxySourceItemFactory implements ProxySourceItemFactoryInterface
         );
     }
 
-    public function createProxySourceItem(SourceInterface $source)
+    public function createProxySourceItem(SourceInterface $source): object
     {
         return $this->reflectionClass->newInstance($source);
     }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\ContentTypesBundle\DependencyInjection;
 
-use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -30,7 +29,7 @@ class SculpinContentTypesExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration;
         $config = $this->processConfiguration($configuration, $configs);
@@ -47,7 +46,7 @@ class SculpinContentTypesExtension extends Extension
                 continue;
             }
 
-            // What should use use for the singular name?
+            // What should be used for the singular name?
             $singularName = $setup['singular_name'] ?? (new EnglishInflector())->singularize($type)[0];
 
             // How is the type detected?
@@ -110,8 +109,8 @@ class SculpinContentTypesExtension extends Extension
                 // Meta Filter
                 //
 
-                $key = isset($setup['meta_key']) ? $setup['meta_key'] : 'type';
-                $value = isset($setup['meta']) ? $setup['meta'] : $singularName;
+                $key = $setup['meta_key'] ?? 'type';
+                $value = $setup['meta'] ?? $singularName;
 
                 $metaFilterId = self::generateTypesId($type, 'meta_filter');
 
@@ -172,8 +171,8 @@ class SculpinContentTypesExtension extends Extension
             $defaultDataMapId = self::generateTypesId($type, 'default_data_map');
             $defaultDataMap = new Definition('Sculpin\Core\Source\Map\DefaultDataMap');
             $defaultDataMap->addArgument([
-                'layout' => isset($setup['layout']) ? $setup['layout'] : $singularName,
-                'permalink' => isset($setup['permalink']) ? $setup['permalink'] : 'none',
+                'layout' => $setup['layout'] ?? $singularName,
+                'permalink' => $setup['permalink'] ?? 'none',
             ]);
             $defaultDataMap->addTag(self::generateTypesId($type, 'map'));
             $container->setDefinition($defaultDataMapId, $defaultDataMap);
@@ -279,7 +278,7 @@ class SculpinContentTypesExtension extends Extension
         return implode('.', ['sculpin_content_types', $value]);
     }
 
-    private static function generateTypesId(string $type, string $value)
+    private static function generateTypesId(string $type, string $value): string
     {
         return implode('.', ['sculpin_content_types.types', $type, $value]);
     }

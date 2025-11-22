@@ -21,14 +21,8 @@ use Sculpin\Core\Permalink\PermalinkInterface;
  */
 class ProxySource implements SourceInterface
 {
-    /**
-     * @var SourceInterface
-     */
-    protected $source;
-
-    public function __construct(SourceInterface $source)
+    public function __construct(protected SourceInterface $source)
     {
-        $this->source = $source;
     }
 
     /**

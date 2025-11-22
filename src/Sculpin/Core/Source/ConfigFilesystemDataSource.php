@@ -24,41 +24,15 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 final class ConfigFilesystemDataSource implements DataSourceInterface
 {
-    /**
-     * @var string
-     */
-    private $sourceDir;
-
-    /**
-     * @var ConfigurationInterface
-     */
-    private $siteConfiguration;
-
-    /**
-     * @var SiteConfigurationFactory
-     */
-    private $siteConfigurationFactory;
-
-    /**
-     * @var AntPathMatcher
-     */
-    private $pathMatcher;
-
-    /**
-     * @var string
-     */
-    private $sinceTime;
+    private string $sinceTime;
 
     public function __construct(
-        string $sourceDir,
-        ConfigurationInterface $siteConfiguration,
-        SiteConfigurationFactory $siteConfigurationFactory,
-        ?AntPathMatcher $pathMatcher = null
+        private string $sourceDir,
+        private ConfigurationInterface $siteConfiguration,
+        private SiteConfigurationFactory $siteConfigurationFactory,
+        private ?AntPathMatcher $pathMatcher = null
     ) {
-        $this->sourceDir = $sourceDir;
-        $this->siteConfiguration = $siteConfiguration;
-        $this->siteConfigurationFactory = $siteConfigurationFactory;
-        $this->pathMatcher = $pathMatcher ?: new AntPathMatcher;
+        $this->pathMatcher ??= new AntPathMatcher;
         $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
@@ -69,7 +43,7 @@ final class ConfigFilesystemDataSource implements DataSourceInterface
     {
         // This is not really needed since we are not going to
         // ever create actual sources.
-        return 'ConfigFilesystemDataSource:'.$this->sourceDir;
+        return 'ConfigFilesystemDataSource:' . $this->sourceDir;
     }
 
     /**
@@ -91,7 +65,7 @@ final class ConfigFilesystemDataSource implements DataSourceInterface
         $files = Finder::create()
             ->files()
             ->name('sculpin_site*.yml')
-            ->date('>='.$sinceTimeLast)
+            ->date('>=' . $sinceTimeLast)
             ->in($this->sourceDir);
 
         $sinceTimeLastSeconds = strtotime($sinceTimeLast);

@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 final class SculpinTwigBundle extends Bundle
 {
-    public const FORMATTER_NAME = 'twig';
+    public const string FORMATTER_NAME = 'twig';
 
     /**
      * {@inheritdoc}

@@ -25,7 +25,7 @@ class PhpMarkdownExtraParser extends MarkdownExtra implements ParserInterface
      *
      * @inheritDoc
      */
-    public function doExtraAttributes($tag_name, $attr, $defaultIdValue = null, $classes = [])
+    public function doExtraAttributes($tag_name, $attr, $defaultIdValue = null, $classes = []): string
     {
         return parent::doExtraAttributes(
             $tag_name,
