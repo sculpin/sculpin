@@ -56,10 +56,18 @@ class FunctionalTestCase extends TestCase
             $this->addProjectFile($file);
         }
 
-        $this->writeToProjectFile('/source/_layouts/default.html.twig', '{% block content %}{% endblock content %}');
+        $this->writeToProjectFile('/source/_layouts/default.html.twig', '{% block content_wrapper %}{% block content %}{% endblock content %}{% endblock content_wrapper %}');
         $this->writeToProjectFile(
             '/source/_layouts/raw.html.twig',
             '{% extends "default" %}{% block content %}{% endblock content %}'
+        );
+        $this->writeToProjectFile(
+            '/source/_layouts/post.html.twig',
+            '{% extends "default" %}{% block content_wrapper %}{{ page.blocks.content|raw }}'
+            . '{% if page.tags %}tags: [{% for tag in page.tags %}'
+            . '{{ tag }}{% if not loop.last %}, {%endif%}'
+            . '{% endfor %}]{% endif %}'
+            . '{% endblock content_wrapper %}'
         );
     }
 
