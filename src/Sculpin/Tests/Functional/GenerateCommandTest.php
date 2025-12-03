@@ -21,7 +21,7 @@ final class GenerateCommandTest extends FunctionalTestCase
     public function shouldGenerateInSpecifiedOutputDir(): void
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/blog_index.html', '/source/index.html');
-        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->addProjectDirectory('/source/_posts');
 
         $outputDir = 'custom_test_dir';
         $this->executeSculpin(['generate', '--output-dir', $outputDir]);
@@ -38,21 +38,30 @@ final class GenerateCommandTest extends FunctionalTestCase
         $filePath  = '/output_test/index.html';
         $sourceDir = 'custom_source_dir';
 
-        $this->assertProjectLacksFile($filePath, sprintf('Expected project to NOT have generated file at path %s.', $filePath));
+        $this->assertProjectLacksFile(
+            $filePath,
+            sprintf('Expected project to NOT have generated file at path %s.', $filePath)
+        );
 
         // set up test scenario
         self::$fs->rename(
             $this->projectDir() . '/source',
             $this->projectDir() . '/' . $sourceDir
         );
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/blog_index.html', '/'. $sourceDir .'/index.html');
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/blog_index.html',
+            '/' . $sourceDir . '/index.html'
+        );
         $this->addProjectDirectory('/' . $sourceDir . '/_posts');
 
         // generate the site
         $this->executeSculpin(['generate', '--source-dir', $sourceDir]);
 
         // check that it worked
-        $this->assertProjectHasFile($filePath, sprintf('Expected project to have generated file at path %s.', $filePath));
+        $this->assertProjectHasFile(
+            $filePath,
+            sprintf('Expected project to have generated file at path %s.', $filePath)
+        );
     }
 
     /** @test */
