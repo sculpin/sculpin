@@ -27,6 +27,7 @@ return RectorConfig::configure()
         codingStyle: true,
         typeDeclarations: true,
         privatization: true,
+        instanceOf: true,
         earlyReturn: true,
         rectorPreset: true,
         symfonyCodeQuality: true,

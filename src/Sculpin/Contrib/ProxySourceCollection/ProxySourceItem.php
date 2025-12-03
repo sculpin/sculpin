@@ -69,16 +69,16 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     {
         $lastPreviousItem = $this->previousItem ?? null;
         $this->previousItem = $item;
-        if ($lastPreviousItem instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
-            // We did have a item before...
-            if (!$item || $item->id() !== $lastPreviousItem->id()) {
+        if ($lastPreviousItem instanceof ProxySourceItem) {
+            // We did have an item before...
+            if (!$item instanceof ProxySourceItem || $item->id() !== $lastPreviousItem->id()) {
                 // But we no longer have a item or the item we
                 // were given does not have the same ID as the
                 // last one we had...
                 $this->reprocess();
             }
-        } elseif ($item instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
-            // We didn't have a item before but we do now...
+        } elseif ($item instanceof ProxySourceItem) {
+            // We didn't have an item before, but we do now...
             $this->reprocess();
         }
     }
@@ -92,16 +92,16 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     {
         $lastNextItem = $this->nextItem ?? null;
         $this->nextItem = $item;
-        if ($lastNextItem instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
+        if ($lastNextItem instanceof ProxySourceItem) {
             // We did have a item before...
-            if (!$item || $item->id() !== $lastNextItem->id()) {
+            if (!$item instanceof ProxySourceItem || $item->id() !== $lastNextItem->id()) {
                 // But we no longer have a item or the item we
                 // were given does not have the same ID as the
                 // last one we had...
                 $this->reprocess();
             }
-        } elseif ($item instanceof \Sculpin\Contrib\ProxySourceCollection\ProxySourceItem) {
-            // We didn't have a item before but we do now...
+        } elseif ($item instanceof ProxySourceItem) {
+            // We didn't have a item before, but we do now...
             $this->reprocess();
         }
     }
