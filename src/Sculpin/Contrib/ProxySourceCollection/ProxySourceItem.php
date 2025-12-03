@@ -116,18 +116,18 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     {
         if (is_null($offset)) {
             throw new \InvalidArgumentException('Proxy source items cannot have values pushed onto them');
-        } else {
-            if (method_exists($this, $offset)) {
-                return call_user_func([$this, $offset, $value]);
-            }
-
-            $setMethod = 'set'.ucfirst((string) $offset);
-            if (method_exists($this, $setMethod)) {
-                return call_user_func([$this, $setMethod, $value]);
-            }
-
-            $this->data()->set($offset, $value);
         }
+
+        if (method_exists($this, $offset)) {
+            return call_user_func([$this, $offset, $value]);
+        }
+
+        $setMethod = 'set'.ucfirst((string) $offset);
+        if (method_exists($this, $setMethod)) {
+            return call_user_func([$this, $setMethod, $value]);
+        }
+
+        $this->data()->set($offset, $value);
 
         return null;
     }

@@ -79,10 +79,10 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
             case 'pretty':
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', array_merge($response, ['index.html']));
-                } else {
-                    $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', (string) $pathname);
-                    return basename((string) $pretty) === 'index' ? $pretty . '.html' : $pretty . '/index.html';
                 }
+
+                $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', (string) $pathname);
+                return basename((string) $pretty) === 'index' ? $pretty . '.html' : $pretty . '/index.html';
             case 'date':
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', $response) . '.html';
@@ -168,7 +168,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         $permalink = $source->data()->get('permalink');
 
         if (!$permalink) {
-            $permalink = $this->defaultPermalink;
+            return $this->defaultPermalink;
         }
 
         return $permalink;

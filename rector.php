@@ -21,15 +21,16 @@ return RectorConfig::configure()
         CommandConfigureToAttributeRector::class,
     ])
     ->withPhpSets(php83: true)
-    ->withPhpVersion(PhpVersion::PHP_83)
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
         codingStyle: true,
         typeDeclarations: true,
         privatization: true,
+        earlyReturn: true,
         rectorPreset: true,
-        symfonyCodeQuality: true
+        symfonyCodeQuality: true,
+        symfonyConfigs: true,
     )
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withComposerBased(twig: true, phpunit: true, symfony: true)

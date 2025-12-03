@@ -153,7 +153,11 @@ final readonly class Sculpin
         }
 
         foreach ($sourceSet->updatedSources() as $source) {
-            if ($source->isGenerator() || $source->shouldBeSkipped()) {
+            if ($source->isGenerator()) {
+                continue;
+            }
+
+            if ($source->shouldBeSkipped()) {
                 continue;
             }
 
