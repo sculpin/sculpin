@@ -19,25 +19,26 @@ class DraftsMap implements MapInterface
 {
     public function process(SourceInterface $source): void
     {
-        if ($source->data()->get('draft')) {
-            $tags = $source->data()->get('tags');
-            if (null === $tags) {
-                $tags = ['drafts'];
-            } else {
-                if (!is_array($tags)) {
-                    $tags = [];
-                    if ($tags !== []) {
-                        $tags = [$tags];
-                    }
-                }
-
-                if (! in_array('drafts', $tags)) {
-                    // only add drafts if it isn't already in tags.
-                    $tags[] = 'drafts';
-                }
-            }
-
-            $source->data()->set('tags', $tags);
+        if (!$source->data()->get('draft')) {
+            return;
         }
+
+        $tags = $source->data()->get('tags') ?? [];
+
+        // Convert string-only tag into a single-element array
+        if (is_string($tags)) {
+            $tags = [$tags];
+        }
+
+        if (!is_array($tags)) {
+            $tags = [];
+        }
+
+        // Only add drafts if not already present in $tags
+        if (!\in_array('drafts', $tags)) {
+            $tags[] = 'drafts';
+        }
+
+        $source->data()->set('tags', $tags);
     }
 }

@@ -183,7 +183,7 @@ final class GenerateFromMarkdownTest extends FunctionalTestCase
     /** @test */
     public function shouldSkipContentTypeFilesWithNoExtension(): void
     {
-        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->addProjectDirectory('/source/_posts');
         $this->writeToProjectFile(
             '/app/config/sculpin_kernel.yml',
             <<<EOT
@@ -220,7 +220,7 @@ final class GenerateFromMarkdownTest extends FunctionalTestCase
     /** @test */
     public function shouldSkipHiddenFilesSilently(): void
     {
-        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->addProjectDirectory('/source/_posts');
         $this->writeToProjectFile(
             '/app/config/sculpin_kernel.yml',
             <<<EOT
