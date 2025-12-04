@@ -18,6 +18,7 @@ namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -211,7 +212,9 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             $label .= ' with tag <info>'.$showTagAttributes.'</info>';
         }
 
-        $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
+        /** @var FormatterHelper $formatter */
+        $formatter = $this->getHelper('formatter');
+        $output->writeln($formatter->formatSection('container', $label));
 
         // loop through to get space needed and filter private services
         $maxName = 4;
@@ -335,7 +338,9 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         $definition = $this->resolveServiceDefinition($serviceId);
 
         $label = sprintf('Information for service <info>%s</info>', $serviceId);
-        $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
+        /** @var FormatterHelper $formatter */
+        $formatter = $this->getHelper('formatter');
+        $output->writeln($formatter->formatSection('container', $label));
         $output->writeln('');
 
         if ($definition instanceof Definition) {
@@ -377,15 +382,17 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             // edge case (but true for "service_container", all we have is the service itself
             $service = $definition;
             $output->writeln(sprintf('<comment>Service Id</comment>   %s', $serviceId));
-            $output->writeln(sprintf('<comment>Class</comment>        %s', $service::class));
+            $output->writeln(sprintf('<comment>Class</comment>        %s', get_class($service)));
         }
     }
 
     private function outputParameters(OutputInterface $output, array $parameters): void
     {
-        $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
+        /** @var FormatterHelper $formatter */
+        $formatter = $this->getHelper('formatter');
+        $output->writeln($formatter->formatSection('container', 'List of parameters'));
 
-        $maxTerminalWidth   = (int) (getenv('COLUMNS') ?? 80);
+        $maxTerminalWidth   = (int) (getenv('COLUMNS') ?: 80);
         $maxParameterWidth  = 0;
         $maxValueWidth      = 0;
 
@@ -428,7 +435,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
      *
      * @param string $serviceId The service id to resolve
      *
-     * @return Definition|Alias|null
+     * @return Definition|Alias|string
      * @throws \Exception
      */
     private function resolveServiceDefinition(string $serviceId): Definition|Alias|string
@@ -466,7 +473,9 @@ final class ContainerDebugCommand extends ContainerAwareCommand
         asort($tags);
 
         $label = 'Tagged services';
-        $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
+        /** @var FormatterHelper $formatterHelper */
+        $formatterHelper = $this->getHelper('formatter');
+        $output->writeln($formatterHelper->formatSection('container', $label));
 
         foreach ($tags as $tag) {
             $serviceIds = $container->findTaggedServiceIds($tag);
@@ -482,7 +491,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                 continue;
             }
 
-            $output->writeln($this->getHelper('formatter')->formatSection('tag', $tag));
+            $output->writeln($formatterHelper->formatSection('tag', $tag));
 
             foreach (array_keys($serviceIds) as $serviceId) {
                 $output->writeln($serviceId);
