@@ -81,11 +81,14 @@
         "check": [
             "@cs-check",
             "@phpstan",
+            "@rector",
             "@test"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "phpstan": "phpstan analyse -l 4 src/",
+        "rector": "rector -n",
+        "rector-apply": "rector",
         "test": "phpunit --colors=always",
         "test-coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-clover clover.xml --coverage-text --colors=always"
     },

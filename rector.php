@@ -6,7 +6,6 @@ use Rector\CodeQuality\Rector\Expression\TernaryFalseExpressionToIfRector;
 use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
-use Rector\ValueObject\PhpVersion;
 
 return RectorConfig::configure()
     ->withPaths([
