@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Sculpin\Core\Source;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
-use Dflydev\DotAccessConfiguration\Configuration as Data;
+use Dflydev\DotAccessConfiguration\ConfigurationInterface as Data;
+use Dflydev\DotAccessConfiguration\Configuration as ConfigData;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -303,7 +304,7 @@ abstract class AbstractSource implements SourceInterface
     {
         return new MemorySource(
             sourceId: $newSourceId,
-            data: new Data($this->data->exportRaw()),
+            data: new ConfigData($this->data->exportRaw()),
             content: $options['content'] ?? $this->content,
             formattedContent: $options['formattedContent'] ?? $this->formattedContent,
             relativePathname: $options['relativePathname'] ?? $this->relativePathname,

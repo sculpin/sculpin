@@ -52,7 +52,7 @@ final readonly class SiteConfigurationFactory
     /**
      * Detect configuration file and create Site Configuration from it
      *
-     * @return Configuration
+     * @return ConfigurationInterface
      */
     public function detectConfig(): ConfigurationInterface
     {
