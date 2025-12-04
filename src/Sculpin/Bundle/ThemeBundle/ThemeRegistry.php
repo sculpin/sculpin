@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\ThemeBundle;
 
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
 
 class ThemeRegistry
@@ -36,7 +37,7 @@ class ThemeRegistry
 
         $themes = [];
 
-        /** @var \SplFileInfo $directory */
+        /** @var SplFileInfo $directory */
         foreach ($directories as $directory) {
             $name = basename(dirname($directory->getRealPath())).'/'.basename($directory->getRealPath());
             $theme = ['name' => $name, 'path' => $directory];

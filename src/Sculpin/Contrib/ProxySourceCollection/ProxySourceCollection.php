@@ -13,17 +13,21 @@ declare(strict_types=1);
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use ReturnTypeWillChange;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
 
-class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
+class ProxySourceCollection implements ArrayAccess, Iterator, Countable
 {
     public function __construct(protected array $items = [], protected ?SorterInterface $sorter = null)
     {
         $this->sorter ??= new DefaultSorter;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
@@ -33,56 +37,56 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         }
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    #[ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
         return isset($this->items[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->items[$offset] ?? null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind(): void
     {
         reset($this->items);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return current($this->items);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->items);
     }
 
-    #[\ReturnTypeWillChange]
-    public function next()
+    #[ReturnTypeWillChange]
+    public function next(): void
     {
-        return next($this->items);
+        next($this->items);
     }
 
-    #[\ReturnTypeWillChange]
-    public function valid()
+    #[ReturnTypeWillChange]
+    public function valid(): bool
     {
         return $this->current() !== false;
     }
 
-    #[\ReturnTypeWillChange]
-    public function count()
+    #[ReturnTypeWillChange]
+    public function count(): int
     {
         return count($this->items);
     }
@@ -92,7 +96,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         $this->sort();
 
         /**
-         * @var $item ProxySourceItem|null
+         * @var ProxySourceItem|null $item
          */
         $item = null;
 
@@ -106,7 +110,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         }
 
         if ($item) {
-            $item->setNextItem(null);
+            $item->setNextItem();
         }
     }
 

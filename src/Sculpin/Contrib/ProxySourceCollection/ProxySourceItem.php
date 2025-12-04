@@ -13,13 +13,16 @@ declare(strict_types=1);
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ArrayAccess;
 use Dflydev\DotAccessData\DataInterface;
+use InvalidArgumentException;
+use Override;
+use ReturnTypeWillChange;
 use Sculpin\Core\Source\ProxySource;
 
-class ProxySourceItem extends ProxySource implements \ArrayAccess
+class ProxySourceItem extends ProxySource implements ArrayAccess
 {
     private ?ProxySourceItem $previousItem = null;
-
     private ?ProxySourceItem $nextItem = null;
 
     public function id(): string
@@ -32,7 +35,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         return $this->data()->export();
     }
 
-    #[\Override]
+    #[Override]
     public function url(): string
     {
         return $this->permalink()->relativeUrlPath();
@@ -40,9 +43,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
 
     public function date()
     {
-        $calculatedDate = $this->data()->get('calculated_date');
-
-        return $calculatedDate ?: $this->data()->get('date');
+        return $this->data()->get('calculated_date') ?: $this->data()->get('date');
     }
 
     public function title()
@@ -72,7 +73,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         if ($lastPreviousItem instanceof ProxySourceItem) {
             // We did have an item before...
             if (!$item instanceof ProxySourceItem || $item->id() !== $lastPreviousItem->id()) {
-                // But we no longer have a item or the item we
+                // But we no longer have an item or the item we
                 // were given does not have the same ID as the
                 // last one we had...
                 $this->reprocess();
@@ -92,16 +93,17 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
     {
         $lastNextItem = $this->nextItem ?? null;
         $this->nextItem = $item;
+
         if ($lastNextItem instanceof ProxySourceItem) {
-            // We did have a item before...
+            // We did have an item before...
             if (!$item instanceof ProxySourceItem || $item->id() !== $lastNextItem->id()) {
-                // But we no longer have a item or the item we
+                // But we no longer have an item or the item we
                 // were given does not have the same ID as the
                 // last one we had...
                 $this->reprocess();
             }
         } elseif ($item instanceof ProxySourceItem) {
-            // We didn't have a item before, but we do now...
+            // We didn't have an item before, but we do now...
             $this->reprocess();
         }
     }
@@ -111,34 +113,32 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         $this->setHasChanged();
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    #[ReturnTypeWillChange]
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
-            throw new \InvalidArgumentException('Proxy source items cannot have values pushed onto them');
+            throw new InvalidArgumentException('Proxy source items cannot have values pushed onto them');
         }
 
         if (method_exists($this, $offset)) {
-            return call_user_func([$this, $offset, $value]);
+            call_user_func([$this, $offset, $value]);
         }
 
         $setMethod = 'set'.ucfirst((string) $offset);
         if (method_exists($this, $setMethod)) {
-            return call_user_func([$this, $setMethod, $value]);
+            call_user_func([$this, $setMethod, $value]);
         }
 
         $this->data()->set($offset, $value);
-
-        return null;
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    #[ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
         return ! method_exists($this, $offset) && null !== $this->data()->get($offset);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         if (! method_exists($this, $offset)) {
@@ -149,7 +149,7 @@ class ProxySourceItem extends ProxySource implements \ArrayAccess
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (method_exists($this, $offset)) {
