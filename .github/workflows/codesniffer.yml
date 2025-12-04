@@ -7,5 +7,10 @@ jobs:
             - uses: actions/checkout@v2
             - name: Composer dependencies
               run: composer install
-            - name: PHPCS check
-              uses: chekalsky/phpcs-action@v1
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: '8.1'
+                tools: cs2pr, phpcs
+            - name: run phpcs
+              run: phpcs -q --report=checkstyle src | cs2pr
