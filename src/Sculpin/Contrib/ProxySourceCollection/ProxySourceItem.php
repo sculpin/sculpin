@@ -121,12 +121,12 @@ class ProxySourceItem extends ProxySource implements ArrayAccess
         }
 
         if (method_exists($this, $offset)) {
-            call_user_func([$this, $offset, $value]);
+            call_user_func([$this, $offset], $value);
         }
 
         $setMethod = 'set'.ucfirst((string) $offset);
         if (method_exists($this, $setMethod)) {
-            call_user_func([$this, $setMethod, $value]);
+            call_user_func([$this, $setMethod], $value);
         }
 
         $this->data()->set($offset, $value);
