@@ -21,6 +21,9 @@ return RectorConfig::configure()
         CommandConfigureToAttributeRector::class,
         NewlineAfterStatementRector::class,
     ])
+    ->withSkipPath('src/Sculpin/Tests/Functional/__BlankSculpinProject__')
+    ->withSkipPath('src/Sculpin/Tests/Functional/__SculpinTestProject__')
+    ->withSkipPath('src/Sculpin/Tests/Functional/__EventListenerFixture__')
     ->withPhpSets(php83: true)
     ->withPreparedSets(
         deadCode: true,
@@ -36,4 +39,5 @@ return RectorConfig::configure()
     )
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withComposerBased(twig: true, phpunit: true, symfony: true)
+    ->withFluentCallNewLine()
     ;
