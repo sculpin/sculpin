@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Expression\TernaryFalseExpressionToIfRector;
+use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
@@ -18,6 +19,7 @@ return RectorConfig::configure()
         ],
         TernaryFalseExpressionToIfRector::class,
         CommandConfigureToAttributeRector::class,
+        NewlineAfterStatementRector::class,
     ])
     ->withPhpSets(php83: true)
     ->withPreparedSets(

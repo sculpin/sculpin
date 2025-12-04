@@ -62,7 +62,7 @@ final class FileSource extends AbstractSource
         } else {
             $internetMediaType = $this->detector->detectMimeType(
                 $this->file->getRealPath(),
-                $this->file->getContents()
+                $this->file->getContents() // @phpstan-ignore method.notFound
             );
 
             if ($internetMediaType &&
@@ -77,6 +77,7 @@ final class FileSource extends AbstractSource
                 // Additionally, any text file is a candidate for formatting.
                 $this->canBeFormatted = true;
 
+                // @phpstan-ignore method.notFound
                 $content = $this->file->getContents();
 
                 if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {

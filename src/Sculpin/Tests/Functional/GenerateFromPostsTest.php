@@ -62,9 +62,6 @@ final class GenerateFromPostsTest extends FunctionalTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     private function prepareTagsSupport(): void
     {
         $this->addProjectDirectory('/source/blog/tags');

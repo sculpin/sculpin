@@ -382,7 +382,7 @@ final class ContainerDebugCommand extends ContainerAwareCommand
             // edge case (but true for "service_container", all we have is the service itself
             $service = $definition;
             $output->writeln(sprintf('<comment>Service Id</comment>   %s', $serviceId));
-            $output->writeln(sprintf('<comment>Class</comment>        %s', get_class($service)));
+            $output->writeln(sprintf('<comment>Class</comment>        %s', $service));
         }
     }
 
@@ -435,7 +435,6 @@ final class ContainerDebugCommand extends ContainerAwareCommand
      *
      * @param string $serviceId The service id to resolve
      *
-     * @return Definition|Alias|string
      * @throws \Exception
      */
     private function resolveServiceDefinition(string $serviceId): Definition|Alias|string

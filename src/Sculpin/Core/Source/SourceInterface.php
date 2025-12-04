@@ -15,7 +15,6 @@ namespace Sculpin\Core\Source;
 
 use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Sculpin\Core\Permalink\PermalinkInterface;
-use Dflydev\DotAccessConfiguration\Configuration;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>

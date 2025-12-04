@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $rootNode
             ->children()
                 ->scalarNode('theme')->defaultNull()->end()

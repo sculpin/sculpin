@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $contentTypeNode = $rootNode
             ->useAttributeAsKey('name')
             ->prototype('array')

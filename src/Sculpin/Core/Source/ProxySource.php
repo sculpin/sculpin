@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
-use Dflydev\DotAccessConfiguration\Configuration;
 use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Sculpin\Core\Permalink\PermalinkInterface;
 
