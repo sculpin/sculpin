@@ -27,7 +27,10 @@ final class GenerateFromPostsTest extends FunctionalTestCase
 
         // Add some initial posts
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world_draft_tagged.md', '/source/_posts/tagged_world.md');
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world_draft_tagged.md',
+            '/source/_posts/tagged_world.md'
+        );
 
         $this->executeSculpin(['generate']);
 
@@ -86,7 +89,9 @@ final class GenerateFromPostsTest extends FunctionalTestCase
             <ul>
             {% for tag,posts in data.posts_tags %}
             <li>
-                <a href="{{ site.url }}/blog/tags/{{ tag }}">{{ tag|capitalize }}<span>{{ posts|length}} posts</span></a>
+                <a href="{{ site.url }}/blog/tags/{{ tag }}">
+                {{ tag|capitalize }}<span>{{ posts|length}} posts</span>
+                </a>
             </li>
             {% endfor %}
             </ul>
