@@ -11,8 +11,11 @@ class ThemeTwigExtension extends AbstractExtension
 {
     private ?array $theme;
 
-    public function __construct(ThemeRegistry $themeRegistry, private readonly string $sourceDirectory, private readonly string $themeDirectory)
-    {
+    public function __construct(
+        ThemeRegistry $themeRegistry,
+        private readonly string $sourceDirectory,
+        private readonly string $themeDirectory
+    ) {
         $this->theme = $themeRegistry->findActiveTheme();
     }
 

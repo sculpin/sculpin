@@ -50,7 +50,10 @@ final class FlexibleExtensionFilesystemLoader implements LoaderInterface, EventS
         );
 
         $this->filesystemLoader = new FilesystemLoader($allPaths);
-        $this->extensions = array_map(fn(string $ext): string => $ext !== '' && $ext !== '0' ? '.' . $ext : $ext, $extensions);
+        $this->extensions = array_map(
+            fn(string $ext): string => $ext !== '' && $ext !== '0' ? '.' . $ext : $ext,
+            $extensions
+        );
     }
 
     /**

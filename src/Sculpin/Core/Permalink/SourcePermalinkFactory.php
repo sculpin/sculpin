@@ -98,16 +98,27 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
                 $permalink = preg_replace('/:day/', $day, (string) $permalink);
                 $permalink = preg_replace('/:dy/', $dy, (string) $permalink);
                 $permalink = preg_replace('/:title/', $this->normalize((string)$title), (string) $permalink);
-                $permalink = preg_replace('/:slug_title/', (string) ($slug ?: $this->normalize((string)$title)), (string) $permalink);
+                $permalink = preg_replace(
+                    '/:slug_title/',
+                    (string)($slug ?: $this->normalize((string)$title)),
+                    (string)$permalink
+                );
                 $filename = $pathname;
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];
                 }
 
                 $permalink = preg_replace('/:filename/', (string) $filename, (string) $permalink);
-                $permalink = preg_replace('/:slug_filename/', (string) ($slug ?: $this->normalize((string)$filename)), (string) $permalink);
-                if (strrpos((string) $filename, DIRECTORY_SEPARATOR) !== false) {
-                    $basename = substr((string) $filename, strrpos((string) $filename, DIRECTORY_SEPARATOR)+1);
+                $permalink = preg_replace(
+                    '/:slug_filename/',
+                    (string)($slug ?: $this->normalize((string)$filename)),
+                    (string)$permalink
+                );
+                if (strrpos((string)$filename, DIRECTORY_SEPARATOR) !== false) {
+                    $basename = substr(
+                        (string)$filename,
+                        strrpos((string)$filename, DIRECTORY_SEPARATOR) + 1
+                    );
                 } else {
                     $basename = $filename;
                 }

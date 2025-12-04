@@ -46,7 +46,9 @@ class FormatterManager
         ]);
 
         if (isset($context['url'])) {
-            $relativeUrl = '/' === $context['url'] ? '.' : rtrim(str_repeat('../', substr_count((string) $context['url'], '/')), '/');
+            $relativeUrl = '/' === $context['url']
+                ? '.'
+                : rtrim(str_repeat('../', substr_count((string)$context['url'], '/')), '/');
             $baseContext->set('relative_root_url', $relativeUrl);
         }
 
