@@ -200,7 +200,7 @@ final class HttpServer
 
             HttpServer::logRequest($output, 200, $request);
 
-            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
+            return new Response(200, ['Content-Type' => $type], $fetcher->fetchData($path));
         });
     }
 }
