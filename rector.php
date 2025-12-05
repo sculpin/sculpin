@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Expression\TernaryFalseExpressionToIfRector;
+use Rector\CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
@@ -20,6 +21,7 @@ return RectorConfig::configure()
         TernaryFalseExpressionToIfRector::class,
         CommandConfigureToAttributeRector::class,
         NewlineAfterStatementRector::class,
+        NewlineBetweenClassLikeStmtsRector::class,
     ])
     ->withSkipPath('src/Sculpin/Tests/Functional/__BlankSculpinProject__')
     ->withSkipPath('src/Sculpin/Tests/Functional/__SculpinTestProject__')

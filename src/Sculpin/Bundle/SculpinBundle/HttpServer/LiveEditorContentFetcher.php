@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Sculpin\Core\Source\SourceSet;
 
 class LiveEditorContentFetcher implements ContentFetcher
 {
-    protected $pathMap;
-    protected $docroot;
-    protected $sourceDir;
+    protected array $pathMap;
+    protected string $docroot;
+    protected string $sourceDir;
 
     public function __construct(SourceSet $set, string $docroot, string $sourceDir)
     {
@@ -66,18 +68,18 @@ class LiveEditorContentFetcher implements ContentFetcher
         // modify the body content to activate the live editor
         return $body . <<<EOF
         <script>
-          var SCULPIN_EDITOR_METADATA = $json;
+          var SCULPIN_EDITOR_METADATA = {$json};
         </script>
         <script src="/_SCULPIN_/editor.js" type="text/javascript"></script>
-EOF;
+        EOF;
     }
 
-    public function editorJs()
+    public function editorJs(): string
     {
-        return file_get_contents(__DIR__ . '/../Resources/js/editor.js');
+        return file_get_contents(__DIR__ . '/../Resources/js/editor.js') ?: '';
     }
 
-    public function diskPathExists($path): bool
+    public function diskPathExists(string $path): bool
     {
         $fullPath = $this->docroot . $path;
 
@@ -88,7 +90,7 @@ EOF;
         return file_exists($this->pathMap[$fullPath]);
     }
 
-    public function save($path, $content): void
+    public function save(string $path, string $content): void
     {
         if (!$this->diskPathExists($path)) {
             return;
@@ -97,12 +99,12 @@ EOF;
         file_put_contents($this->pathMap[$this->docroot . $path], $content);
     }
 
-    public function hash($path): ?string
+    public function hash(string $path): ?string
     {
         if (!$this->diskPathExists($path)) {
             return null;
         }
 
-        return md5_file($this->docroot . $path);
+        return md5_file($this->docroot . $path) ?: null;
     }
 }

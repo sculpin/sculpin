@@ -150,19 +150,25 @@ class GenerateCommand extends AbstractCommand
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
-                    clearstatcache();
-                    $sourceSet->reset();
-                    $fetcher->buildPathMap($sourceSet);
+                $httpServer->addPeriodicTimer(
+                    1,
+                    function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
+                        clearstatcache();
+                        $sourceSet->reset();
+                        $fetcher->buildPathMap($sourceSet);
 
-                    $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
-                });
+                        $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
+                    }
+                );
             }
 
             $httpServer->run();
         } else {
             if ($input->getOption('editor')) {
-                throw new \InvalidArgumentException('Experimental Live Editor is only available in Server mode (generate --watch --server --editor)');
+                throw new \InvalidArgumentException(
+                    'Experimental Live Editor is only available in Server mode'
+                    . ' (generate --watch --server --editor)'
+                );
             }
 
             $this->throwExceptions = !$watch;
