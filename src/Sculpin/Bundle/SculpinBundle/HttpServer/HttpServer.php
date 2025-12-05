@@ -136,11 +136,11 @@ final class HttpServer
             }
 
             if ($fetcher instanceof LiveEditorContentFetcher) {
-                if ($path === '_SCULPIN_/editor.js') {
+                if (str_ends_with($path, '_SCULPIN_/editor.js')) {
                     return new Response(200, ['Content-Type' => 'text/javascript'], $fetcher->editorJs());
                 }
 
-                if ($path === '_SCULPIN_/hash' && $request->getMethod() === 'GET') {
+                if (str_ends_with($path, '_SCULPIN_/hash') && $request->getMethod() === 'GET') {
                     $params = $request->getQueryParams();
                     if (!$fetcher->diskPathExists($params['url'])) {
                         return new Response(
@@ -155,7 +155,7 @@ final class HttpServer
                     return new Response(200, ['Content-Type' => 'application/json'], json_encode(['hash' => $hash]));
                 }
 
-                if ($path === '_SCULPIN_/update'
+                if (str_ends_with($path, '_SCULPIN_/update')
                     && $request->getMethod() === 'PUT'
                 ) {
                     $edit = json_decode($request->getBody()->getContents(), true);
