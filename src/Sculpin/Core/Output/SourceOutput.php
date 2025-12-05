@@ -21,14 +21,8 @@ use Sculpin\Core\Source\SourceInterface;
  */
 class SourceOutput implements OutputInterface
 {
-    /**
-     * @var SourceInterface
-     */
-    protected $source;
-
-    public function __construct(SourceInterface $source)
+    public function __construct(protected SourceInterface $source)
     {
-        $this->source = $source;
     }
 
     /**

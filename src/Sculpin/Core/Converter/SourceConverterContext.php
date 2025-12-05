@@ -22,14 +22,9 @@ use Sculpin\Core\Source\SourceInterface;
  */
 class SourceConverterContext implements ConverterContextInterface
 {
-    /**
-     * @var SourceInterface
-     */
-    private $source;
 
-    public function __construct(SourceInterface $source)
+    public function __construct(private readonly SourceInterface $source)
     {
-        $this->source = $source;
     }
 
     /**

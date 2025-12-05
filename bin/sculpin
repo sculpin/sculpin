@@ -19,4 +19,4 @@ if (
     exit(1);
 }
 
-include 'sculpin.php';
+include __DIR__ . '/sculpin.php';

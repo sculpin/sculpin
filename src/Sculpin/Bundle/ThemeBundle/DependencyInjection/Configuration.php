@@ -26,14 +26,15 @@ class Configuration implements ConfigurationInterface
     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder;
+        $treeBuilder = new TreeBuilder('sculpin_theme');
 
-        $rootNode = $treeBuilder->root('sculpin_theme');
+        $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $rootNode
             ->children()
                 ->scalarNode('theme')->defaultNull()->end()
-                ->scalarNode('directory')->defaultValue('%sculpin.source_dir%/%sculpin_theme.root_dir%')->end()
+                ->scalarNode('directory')->defaultValue('%sculpin.source_dir%/%sculpin_theme.project_dir%')->end()
             ->end();
 
         return $treeBuilder;

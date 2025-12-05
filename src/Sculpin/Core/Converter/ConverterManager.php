@@ -26,36 +26,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class ConverterManager
 {
-    /**
-     * Event Dispatcher
-     *
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private array $converters = [];
 
-    /**
-     * Used to know the default formatter name.
-     *
-     * @var FormatterManager
-     */
-    private $formatterManager;
-
-    /**
-     * @var ConverterInterface[]
-     */
-    private $converters = [];
-
-    public function __construct(EventDispatcherInterface $eventDispatcher, FormatterManager $formatterManager)
-    {
-        $this->formatterManager = $formatterManager;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly FormatterManager $formatterManager
+    ) {
         $this->registerConverter('null', new NullConverter);
     }
 
     /**
      * Add a converter to the manager.
      *
-     * @param string             $name      Name of the converter
+     * @param string $name Name of the converter
      */
     public function registerConverter(string $name, ConverterInterface $converter): void
     {
@@ -66,8 +49,6 @@ final class ConverterManager
      * Converter
      *
      * @param string $name Name
-     *
-     * @return ConverterInterface
      */
     public function converter(string $name): ConverterInterface
     {
@@ -88,13 +69,13 @@ final class ConverterManager
 
         foreach ($converters as $converter) {
             $this->eventDispatcher->dispatch(
-                Sculpin::EVENT_BEFORE_CONVERT,
-                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter())
+                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter()),
+                Sculpin::EVENT_BEFORE_CONVERT
             );
             $this->converter($converter)->convert(new SourceConverterContext($source));
             $this->eventDispatcher->dispatch(
-                Sculpin::EVENT_AFTER_CONVERT,
-                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter())
+                new ConvertEvent($source, $converter, $this->formatterManager->defaultFormatter()),
+                Sculpin::EVENT_AFTER_CONVERT
             );
         }
     }

@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -74,36 +76,36 @@ final class ContainerDebugCommand extends ContainerAwareCommand
                 )
             ])
             ->setDescription('Displays current services for an application')
-            ->setHelp(<<<EOF
-The <info>%command.name%</info> command displays all configured <comment>public</comment> services:
+            ->setHelp(<<<EOT
+            The <info>%command.name%</info> command displays all configured <comment>public</comment> services:
 
-  <info>php %command.full_name%</info>
+              <info>php %command.full_name%</info>
 
-To get specific information about a service, specify its name:
+            To get specific information about a service, specify its name:
 
-  <info>php %command.full_name% validator</info>
+              <info>php %command.full_name% validator</info>
 
-By default, private services are hidden. You can display all services by
-using the --show-private flag:
+            By default, private services are hidden. You can display all services by
+            using the --show-private flag:
 
-  <info>php %command.full_name% --show-private</info>
+              <info>php %command.full_name% --show-private</info>
 
-Use the --tags option to display tagged <comment>public</comment> services grouped by tag:
+            Use the --tags option to display tagged <comment>public</comment> services grouped by tag:
 
-  <info>php %command.full_name% --tags</info>
+              <info>php %command.full_name% --tags</info>
 
-Find all services with a specific tag by specifying the tag name with the --tag option:
+            Find all services with a specific tag by specifying the tag name with the --tag option:
 
-  <info>php %command.full_name% --tag=form.type</info>
+              <info>php %command.full_name% --tag=form.type</info>
 
-Use the --parameters option to display all parameters:
+            Use the --parameters option to display all parameters:
 
-  <info>php %command.full_name% --parameters</info>
+              <info>php %command.full_name% --parameters</info>
 
-Display a specific parameter by specifying his name with the --parameter option:
+            Display a specific parameter by specifying his name with the --parameter option:
 
-  <info>php %command.full_name% --parameter=kernel.debug</info>
-EOF
+              <info>php %command.full_name% --parameter=kernel.debug</info>
+            EOT
             )
         ;
     }
@@ -111,16 +113,17 @@ EOF
     /**
      * {@inheritdoc}
      *
-     * @throws \LogicException
+     * @throws \LogicException|\Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->validateInput($input);
 
         if ($input->getOption('parameters')) {
             if (!$this->getContainer() instanceof Container) {
-                return;
+                return Command::FAILURE;
             }
+
             $parameters = $this->getContainer()->getParameterBag()->all();
 
             // Sort parameters alphabetically
@@ -128,20 +131,20 @@ EOF
 
             $this->outputParameters($output, $parameters);
 
-            return;
+            return Command::SUCCESS;
         }
 
         $parameter = $input->getOption('parameter');
         if (null !== $parameter) {
             $output->write($this->formatParameter($this->getContainer()->getParameter($parameter)));
 
-            return;
+            return Command::SUCCESS;
         }
 
         if ($input->getOption('tags')) {
             $this->outputTags($output, $input->getOption('show-private'));
 
-            return;
+            return Command::SUCCESS;
         }
 
         $tag = $input->getOption('tag');
@@ -163,16 +166,18 @@ EOF
         } else {
             $this->outputServices($output, $serviceIds, $input->getOption('show-private'), $tag);
         }
+
+        return Command::SUCCESS;
     }
 
-    private function validateInput(InputInterface $input)
+    private function validateInput(InputInterface $input): void
     {
         $options = ['tags', 'tag', 'parameters', 'parameter'];
 
         $optionsCount = 0;
         foreach ($options as $option) {
             if ($input->getOption($option)) {
-                $optionsCount++;
+                ++$optionsCount;
             }
         }
 
@@ -181,7 +186,9 @@ EOF
             throw new \InvalidArgumentException(
                 'The options tags, tag, parameters & parameter can not be combined with the service name argument.'
             );
-        } elseif ((null === $name) && $optionsCount > 1) {
+        }
+
+        if ((null === $name) && $optionsCount > 1) {
             throw new \InvalidArgumentException(
                 'The options tags, tag, parameters & parameter can not be combined together.'
             );
@@ -190,7 +197,7 @@ EOF
 
     private function outputServices(
         OutputInterface $output,
-        $serviceIds,
+        array $serviceIds,
         $showPrivate = false,
         $showTagAttributes = null
     ): void {
@@ -200,11 +207,14 @@ EOF
         } else {
             $label = '<comment>Public</comment> services';
         }
+
         if ($showTagAttributes) {
             $label .= ' with tag <info>'.$showTagAttributes.'</info>';
         }
 
-        $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
+        /** @var FormatterHelper $formatter */
+        $formatter = $this->getHelper('formatter');
+        $output->writeln($formatter->formatSection('container', $label));
 
         // loop through to get space needed and filter private services
         $maxName = 4;
@@ -224,37 +234,36 @@ EOF
                     foreach ($tags as $tag) {
                         foreach ($tag as $key => $value) {
                             if (!isset($maxTags[$key])) {
-                                $maxTags[$key] = strlen($key);
+                                $maxTags[$key] = strlen((string) $key);
                             }
-                            if (strlen($value) > $maxTags[$key]) {
-                                $maxTags[$key] = strlen($value);
+
+                            if (strlen((string) $value) > $maxTags[$key]) {
+                                $maxTags[$key] = strlen((string) $value);
                             }
                         }
                     }
                 }
             }
 
-            if (strlen($serviceId) > $maxName) {
-                $maxName = strlen($serviceId);
+            if (strlen((string) $serviceId) > $maxName) {
+                $maxName = strlen((string) $serviceId);
             }
         }
+
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(function ($length) {
-            return "%-{$length}s ";
-        }, $maxTags));
+        $format .= implode("", array_map(fn(int $length): string => sprintf('%%-%ds ', $length), $maxTags));
         $format .=  '%s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
-        $format1 .= implode("", array_map(function ($length) {
-            return '%-'.($length + 19).'s ';
-        }, $maxTags));
+        $format1 .= implode("", array_map(fn(int $length): string => '%-'.($length + 19).'s ', $maxTags));
         $format1 .= '%s';
 
         $tags = [];
-        foreach ($maxTags as $tagName => $length) {
+        foreach (array_keys($maxTags) as $tagName) {
             $tags[] = '<comment>'.$tagName.'</comment>';
         }
+
         $output->writeln(vsprintf($format1, $this->buildArgumentsArray(
             '<comment>Service Id</comment>',
             '<comment>Class Name</comment>',
@@ -270,8 +279,9 @@ EOF
                     foreach ($definition->getTag($showTagAttributes) as $key => $tag) {
                         $tagValues = [];
                         foreach (array_keys($maxTags) as $tagName) {
-                            $tagValues[] = isset($tag[$tagName]) ? $tag[$tagName] : "";
+                            $tagValues[] = $tag[$tagName] ?? "";
                         }
+
                         if (0 === $key) {
                             $lines[] = $this->buildArgumentsArray(
                                 $serviceId,
@@ -301,19 +311,20 @@ EOF
                 $service = $definition;
                 $output->writeln(vsprintf($format, $this->buildArgumentsArray(
                     $serviceId,
-                    get_class($service),
+                    $service,
                     count($maxTags) ? array_fill(0, count($maxTags), "") : []
                 )));
             }
         }
     }
 
-    private function buildArgumentsArray($serviceId, $className, array $tagAttributes = []): array
+    private function buildArgumentsArray($serviceId, ?string $className, array $tagAttributes = []): array
     {
         $arguments = [$serviceId];
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
+
         $arguments[] = $className;
 
         return $arguments;
@@ -322,12 +333,14 @@ EOF
     /**
      * Renders detailed service information about one service
      */
-    private function outputService(OutputInterface $output, string $serviceId)
+    private function outputService(OutputInterface $output, string $serviceId): void
     {
         $definition = $this->resolveServiceDefinition($serviceId);
 
         $label = sprintf('Information for service <info>%s</info>', $serviceId);
-        $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
+        /** @var FormatterHelper $formatter */
+        $formatter = $this->getHelper('formatter');
+        $output->writeln($formatter->formatSection('container', $label));
         $output->writeln('');
 
         if ($definition instanceof Definition) {
@@ -335,7 +348,7 @@ EOF
             $output->writeln(sprintf('<comment>Class</comment>            %s', $definition->getClass() ?: "-"));
 
             $tags = $definition->getTags();
-            if (count($tags)) {
+            if ($tags !== []) {
                 $output->writeln('<comment>Tags</comment>');
                 foreach ($tags as $tagName => $tagData) {
                     foreach ($tagData as $singleTagData) {
@@ -343,9 +356,7 @@ EOF
                             '    - %-30s (%s)',
                             $tagName,
                             implode(', ', array_map(
-                                function ($key, $value) {
-                                    return sprintf('<info>%s</info>: %s', $key, $value);
-                                },
+                                fn(string $key, $value): string => sprintf('<info>%s</info>: %s', $key, $value),
                                 array_keys($singleTagData),
                                 array_values($singleTagData)
                             ))
@@ -362,7 +373,7 @@ EOF
             $synthetic = $definition->isSynthetic() ? 'yes' : 'no';
             $output->writeln(sprintf('<comment>Synthetic</comment>        %s', $synthetic));
 
-            $file = $definition->getFile() ? $definition->getFile() : '-';
+            $file = $definition->getFile() ?: '-';
             $output->writeln(sprintf('<comment>Required File</comment>    %s', $file));
         } elseif ($definition instanceof Alias) {
             $alias = $definition;
@@ -371,21 +382,23 @@ EOF
             // edge case (but true for "service_container", all we have is the service itself
             $service = $definition;
             $output->writeln(sprintf('<comment>Service Id</comment>   %s', $serviceId));
-            $output->writeln(sprintf('<comment>Class</comment>        %s', get_class($service)));
+            $output->writeln(sprintf('<comment>Class</comment>        %s', $service));
         }
     }
 
     private function outputParameters(OutputInterface $output, array $parameters): void
     {
-        $output->writeln($this->getHelper('formatter')->formatSection('container', 'List of parameters'));
+        /** @var FormatterHelper $formatter */
+        $formatter = $this->getHelper('formatter');
+        $output->writeln($formatter->formatSection('container', 'List of parameters'));
 
-        $maxTerminalWidth   = (int) (getenv('COLUMNS') ?? 80);
+        $maxTerminalWidth   = (int) (getenv('COLUMNS') ?: 80);
         $maxParameterWidth  = 0;
         $maxValueWidth      = 0;
 
         // Determine max parameter & value length
         foreach ($parameters as $parameter => $value) {
-            $parameterWidth = strlen($parameter);
+            $parameterWidth = strlen((string) $parameter);
             if ($parameterWidth > $maxParameterWidth) {
                 $maxParameterWidth = $parameterWidth;
             }
@@ -422,10 +435,9 @@ EOF
      *
      * @param string $serviceId The service id to resolve
      *
-     * @return Definition|Alias
      * @throws \Exception
      */
-    private function resolveServiceDefinition($serviceId)
+    private function resolveServiceDefinition(string $serviceId): Definition|Alias|string
     {
         $container = $this->getContainer();
         if ($container instanceof ContainerBuilder) {
@@ -439,15 +451,13 @@ EOF
             }
         }
 
-        // the service has been injected in some special way, just return the service
-        return $container->get($serviceId);
+        // the service has been injected in some special way, just return the service class string
+        return $container->get($serviceId)::class;
     }
 
     /**
      * Renders list of tagged services grouped by tag
      *
-     * @param OutputInterface $output
-     * @param bool $showPrivate
      *
      * @throws \Exception
      */
@@ -457,32 +467,32 @@ EOF
         if (! $container instanceof ContainerBuilder) {
             return;
         }
+
         $tags = $container->findTags();
         asort($tags);
 
         $label = 'Tagged services';
-        $output->writeln($this->getHelper('formatter')->formatSection('container', $label));
+        /** @var FormatterHelper $formatterHelper */
+        $formatterHelper = $this->getHelper('formatter');
+        $output->writeln($formatterHelper->formatSection('container', $label));
 
         foreach ($tags as $tag) {
             $serviceIds = $container->findTaggedServiceIds($tag);
 
-            foreach ($serviceIds as $serviceId => $attributes) {
+            foreach (array_keys($serviceIds) as $serviceId) {
                 $definition = $this->resolveServiceDefinition($serviceId);
-                if ($definition instanceof Definition) {
-                    if (!$showPrivate && !$definition->isPublic()) {
-                        unset($serviceIds[$serviceId]);
-                        continue;
-                    }
+                if ($definition instanceof Definition && (!$showPrivate && !$definition->isPublic())) {
+                    unset($serviceIds[$serviceId]);
                 }
             }
 
-            if (count($serviceIds) === 0) {
+            if ($serviceIds === []) {
                 continue;
             }
 
-            $output->writeln($this->getHelper('formatter')->formatSection('tag', $tag));
+            $output->writeln($formatterHelper->formatSection('tag', $tag));
 
-            foreach ($serviceIds as $serviceId => $attributes) {
+            foreach (array_keys($serviceIds) as $serviceId) {
                 $output->writeln($serviceId);
             }
 
@@ -490,7 +500,7 @@ EOF
         }
     }
 
-    private function formatParameter($value)
+    private function formatParameter($value): false|string
     {
         if (is_bool($value) || is_array($value) || (null === $value)) {
             return json_encode($value);

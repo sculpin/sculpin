@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Sculpin\Tests\Functional;
 
-class GenerateFromMarkdownTest extends FunctionalTestCase
+final class GenerateFromMarkdownTest extends FunctionalTestCase
 {
     /** @test */
     public function shouldGenerateAnHtmlFileFromMarkdown(): void
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello_world/index.html');
     }
@@ -21,11 +21,11 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $crawler = $this->crawlGeneratedProjectFile('/hello_world/index.html');
 
-        $this->assertContains('Hello World', $crawler->filter('h1')->text());
+        $this->assertStringContainsString('Hello World', $crawler->filter('h1')->text());
     }
 
     /** @test */
@@ -33,30 +33,30 @@ class GenerateFromMarkdownTest extends FunctionalTestCase
     {
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello/world.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello/world/index.html');
     }
 
     /** @test */
-    public function shouldGenerateHtmlUsingALayout()
+    public function shouldGenerateHtmlUsingALayout(): void
     {
         $this->addProjectFile('/source/_layouts/my_layout.html.twig', <<<EOT
-<body>
-	<div class="page-content">{% block content %}{% endblock content %}</div>
-</body>
-EOT
+        <body>
+            <div class="page-content">{% block content %}{% endblock content %}</div>
+        </body>
+        EOT
         );
 
         $this->addProjectFile('/source/my_page_with_layout.md', <<<EOT
----
-layout: my_layout.html.twig
----
-Hello World
-EOT
+        ---
+        layout: my_layout.html.twig
+        ---
+        Hello World
+        EOT
         );
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $crawler = $this->crawlGeneratedProjectFile('/my_page_with_layout/index.html');
 
@@ -66,7 +66,7 @@ EOT
             $pageContentEl->count(),
             "Expected generated file to have a single .page-content element."
         );
-        $this->assertContains('Hello World', $pageContentEl->text());
+        $this->assertStringContainsString('Hello World', $pageContentEl->text());
     }
 
     /** @test */
@@ -80,24 +80,24 @@ EOT
         $expectedContent = 'Hello World';
 
         $layoutContent = <<<EOT
-<body>
-    <h1 class="header">{$expectedHeader}</h1>
-	<div class="page-content">{% block content %}{% endblock content %}</div>
-</body>
-EOT;
+        <body>
+            <h1 class="header">{$expectedHeader}</h1>
+            <div class="page-content">{% block content %}{% endblock content %}</div>
+        </body>
+        EOT;
 
         $pageContent = <<<EOT
----
-layout: my_layout.html.twig
----
-{$expectedContent}
-EOT;
+        ---
+        layout: my_layout.html.twig
+        ---
+        {$expectedContent}
+        EOT;
 
         $this->addProjectFile($layoutFile, $layoutContent);
         $this->addProjectFile($pageFile, $pageContent);
 
         // start our async sculpin watcher/server
-        $process = $this->executeSculpinAsync('generate --watch');
+        $process = $this->executeSculpinAsync(['generate', '--watch']);
 
         sleep(1); // wait until our file exists
         $crawler = $this->crawlGeneratedProjectFile($pageGenerated);
@@ -116,8 +116,8 @@ EOT;
             "Expected generated file to have a single .header element."
         );
 
-        $this->assertContains($expectedHeader, $pageHeaderEl->text());
-        $this->assertContains($expectedContent, $pageContentEl->text());
+        $this->assertStringContainsString($expectedHeader, $pageHeaderEl->text());
+        $this->assertStringContainsString($expectedContent, $pageContentEl->text());
 
         // update the content
         $originalHeader  = $expectedHeader;
@@ -142,7 +142,7 @@ EOT;
             "Expected generated file to have a single .page-content element."
         );
 
-        $this->assertContains($expectedContent, $pageContentEl->text());
+        $this->assertStringContainsString($expectedContent, $pageContentEl->text());
 
         // test that layouts/views refresh properly
         $this->addProjectFile($layoutFile, $layoutContent);
@@ -157,7 +157,10 @@ EOT;
             "Expected generated file to have a single .header element."
         );
 
-        $this->assertContains($expectedHeader, $pageHeaderEl->text()); // I don't get it. This should be failing.
+        $this->assertStringContainsString(
+            $expectedHeader,
+            $pageHeaderEl->text()
+        );
 
         $process->stop(0);
     }
@@ -168,7 +171,7 @@ EOT;
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/hello_world2');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello_world');
         $this->assertProjectHasGeneratedFile('/hello_world2');
@@ -180,26 +183,29 @@ EOT;
     /** @test */
     public function shouldSkipContentTypeFilesWithNoExtension(): void
     {
-        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->addProjectDirectory('/source/_posts');
         $this->writeToProjectFile(
             '/app/config/sculpin_kernel.yml',
-            <<<EOF
-sculpin_content_types:
-  posts:
-    permalink: blog/:basename
-EOF
+            <<<EOT
+            sculpin_content_types:
+              posts:
+                permalink: blog/:basename
+            EOT
         );
 
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world2');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
-        $actualOutput = implode("\n", $this->executeOutput);
-        $this->assertContains('Skipping empty or unknown file: _posts/hello_world' . PHP_EOL, $actualOutput);
-        $this->assertContains('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
-        $this->assertNotContains('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
+        $actualOutput = $this->executeOutput;
+        $this->assertStringContainsString(
+            'Skipping empty or unknown file: _posts/hello_world' . PHP_EOL,
+            $actualOutput
+        );
+        $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
+        $this->assertStringNotContainsString('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/hello_world');
         $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
@@ -214,26 +220,26 @@ EOF
     /** @test */
     public function shouldSkipHiddenFilesSilently(): void
     {
-        $this->addProjectDirectory(__DIR__ . '/Fixture/source/_posts');
+        $this->addProjectDirectory('/source/_posts');
         $this->writeToProjectFile(
             '/app/config/sculpin_kernel.yml',
-            <<<EOF
-sculpin_content_types:
-  posts:
-    permalink: blog/:basename
-EOF
+            <<<EOT
+            sculpin_content_types:
+              posts:
+                permalink: blog/:basename
+            EOT
         );
 
         $this->addProjectFile('/source/_posts/.DS_Store');
         $this->addProjectFile('/source/_posts/.hello_world2.swp');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.md', '/source/_posts/hello_world3.md');
 
-        $this->executeSculpin('generate');
+        $this->executeSculpin(['generate']);
 
-        $actualOutput = implode("\n", $this->executeOutput);
-        $this->assertNotContains('.DS_Store', $actualOutput);
-        $this->assertNotContains('.hello_world2.swp', $actualOutput);
-        $this->assertNotContains('Skipping empty or unknown file:', $actualOutput);
+        $actualOutput = $this->executeOutput;
+        $this->assertStringNotContainsString('.DS_Store', $actualOutput);
+        $this->assertStringNotContainsString('.hello_world2.swp', $actualOutput);
+        $this->assertStringNotContainsString('Skipping empty or unknown file:', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/.DS_Store');
         $this->assertProjectLacksFile('/output_test/_posts/.hello_world2.swp');

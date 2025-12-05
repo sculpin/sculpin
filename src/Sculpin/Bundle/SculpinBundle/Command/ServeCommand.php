@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
+use Symfony\Component\Console\Command\Command;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,16 +39,16 @@ class ServeCommand extends AbstractCommand
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
             ])
             ->setHelp(<<<EOT
-The <info>serve</info> command serves a site.
+            The <info>serve</info> command serves a site.
 
-EOT
+            EOT
             )->setAliases(['server']);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
         $kernel = $this->getContainer()->get('kernel');
@@ -62,5 +63,7 @@ EOT
         );
 
         $httpServer->run();
+
+        return Command::SUCCESS;
     }
 }

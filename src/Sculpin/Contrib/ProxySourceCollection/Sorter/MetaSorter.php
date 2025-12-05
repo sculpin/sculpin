@@ -18,7 +18,8 @@ use Sculpin\Contrib\ProxySourceCollection\ProxySourceItem;
 class MetaSorter implements SorterInterface
 {
     private $key;
-    private $reversed;
+
+    private bool $reversed;
 
     public function __construct($key = null, $direction = 'desc')
     {
@@ -26,7 +27,7 @@ class MetaSorter implements SorterInterface
         $this->setReversed($direction);
     }
 
-    private function setKey($key = null)
+    private function setKey($key = null): void
     {
         if (null === $key) {
             throw new \InvalidArgumentException('Key must be specified');
@@ -34,30 +35,22 @@ class MetaSorter implements SorterInterface
 
         $this->key = $key;
     }
-    private function setReversed($direction)
+
+    private function setReversed($direction): void
     {
-        switch (strtolower($direction)) {
-            case 'asc':
-            case 'ascending':
-                $this->reversed = true;
-                break;
-            case 'desc':
-            case 'descending':
-                $this->reversed = false;
-                break;
-            default:
-                throw new \InvalidArgumentException(
-                    'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
-                );
-        }
+        $this->reversed = match (strtolower((string) $direction)) {
+            'asc', 'ascending' => true,
+            'desc', 'descending' => false,
+            default => throw new \InvalidArgumentException(
+                'Invalid value passed for direction, must be one of: asc, ascending, desc, descending'
+            ),
+        };
     }
 
-    public function sort(ProxySourceItem $a, ProxySourceItem $b)
+    public function sort(ProxySourceItem $a, ProxySourceItem $b): int
     {
-        if ($this->reversed) {
-            return strnatcmp($b[$this->key], $a[$this->key]);
-        }
-
-        return strnatcmp($a[$this->key], $b[$this->key]);
+        return $this->reversed
+            ? strnatcmp((string) $b[$this->key], (string) $a[$this->key])
+            : strnatcmp((string) $a[$this->key], (string) $b[$this->key]);
     }
 }

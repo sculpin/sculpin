@@ -22,6 +22,7 @@ use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,10 +40,7 @@ use Twig\Error\SyntaxError;
  */
 class GenerateCommand extends AbstractCommand
 {
-    /**
-     * @var bool
-     */
-    protected $throwExceptions;
+    protected bool $throwExceptions;
 
     /**
      * {@inheritdoc}
@@ -79,16 +77,16 @@ class GenerateCommand extends AbstractCommand
                 new InputOption('source-dir', null, InputOption::VALUE_REQUIRED, 'Source Directory'),
             ])
             ->setHelp(<<<EOT
-The <info>generate</info> command generates a site.
+            The <info>generate</info> command generates a site.
 
-EOT
+            EOT
             );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -113,7 +111,7 @@ EOT
             $config->set('url', $url);
         }
 
-        $consoleIo = new ConsoleIo($input, $output, $this->getApplication()->getHelperSet());
+        $consoleIo = new ConsoleIo($input, $output);
 
         if ($input->getOption('server')) {
             $this->throwExceptions = false;
@@ -138,16 +136,13 @@ EOT
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(
-                    1,
-                    function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo) {
-                        clearstatcache();
-                        $sourceSet->reset();
-                        $fetcher->buildPathMap($sourceSet);
+                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
+                    clearstatcache();
+                    $sourceSet->reset();
+                    $fetcher->buildPathMap($sourceSet);
 
-                        $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
-                    }
-                );
+                    $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
+                });
             }
 
             $httpServer->run();
@@ -163,6 +158,8 @@ EOT
                 }
             } while ($watch);
         }
+
+        return Command::SUCCESS;
     }
 
     /**
@@ -202,11 +199,12 @@ EOT
         DataSourceInterface $dataSource,
         SourceSet $sourceSet,
         IoInterface $io
-    ) {
+    ): void {
         $messages = [];
-        $errPrint = function (\Throwable $e) {
-            return $e->getMessage().PHP_EOL.' at '.str_replace(getcwd().DIRECTORY_SEPARATOR, '', $e->getFile());
-        };
+        $errPrint = fn(\Throwable $e) => $e->getMessage()
+            . PHP_EOL
+            . ' at '
+            . str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $e->getFile());
 
         try {
             $sculpin->run($dataSource, $sourceSet, $io);
@@ -241,6 +239,7 @@ EOT
         foreach ($messages as $message) {
             $io->write($message);
         }
+
         $io->write('');
     }
 }

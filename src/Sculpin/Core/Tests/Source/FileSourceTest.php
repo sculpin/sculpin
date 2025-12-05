@@ -3,75 +3,42 @@
 declare(strict_types=1);
 namespace Sculpin\Core\Tests\Source;
 
-use Dflydev\Canal\Analyzer\Analyzer;
+use PHPUnit\Framework\MockObject\MockObject;
+use League\MimeTypeDetection\FinfoMimeTypeDetector;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\FileSource;
 use Symfony\Component\Finder\SplFileInfo;
-use Dflydev\Canal\InternetMediaType\InternetMediaTypeInterface;
-use Dflydev\Canal\InternetMediaType\InternetMediaTypeFactory;
 use Sculpin\Core\Source\DataSourceInterface;
 
-class FileSourceTest extends TestCase
+final class FileSourceTest extends TestCase
 {
     /*
      * mock analyzer for detectFromFilename, should return text/html
      */
 
-    public function makeTestSource($filename, $hasChanged = true)
+    public function makeTestSource($filename, $hasChanged = true): FileSource
     {
-        $source = new FileSource(
-            $this->makeTestAnalyzer(),
+        return new FileSource(
+            $this->makeTestDetector(),
             $this->makeTestDatasource(),
             new SplFileInfo($filename, '../Fixtures', $filename),
             false,
             true
         );
-
-        return $source;
     }
 
-    public function makeTestAnalyzer()
+    public function makeTestDetector(): MockObject
     {
-        $analyzer = $this->createMock(Analyzer::class);
-
-        $analyzer
+        $detector = $this->createMock(FinfoMimeTypeDetector::class);
+        $detector
             ->expects($this->any())
-            ->method('getInternetMediaTypeFactory')
-            ->will($this->returnValue($this->makeTestInternetMediaFactory()));
+            ->method('detectMimeType')
+            ->will($this->returnValue('text/yml'));
 
-        $analyzer
-            ->expects($this->any())
-            ->method('detectFromFilename')
-            ->will($this->returnValue($this->makeTestInternetMediaType()));
-
-        return $analyzer;
+        return $detector;
     }
 
-    public function makeTestInternetMediaType()
-    {
-        $type = $this->createMock(InternetMediaTypeInterface::class);
-
-        $type
-            ->expects($this->any())
-            ->method('getType')
-            ->will($this->returnValue('text'));
-
-        return $type;
-    }
-
-    public function makeTestInternetMediaFactory()
-    {
-        $factory = $this->createMock(InternetMediaTypeFactory::class);
-
-        $factory
-            ->expects($this->any())
-            ->method('createApplicationXml')
-            ->will($this->returnValue('html/yml'));
-
-        return $factory;
-    }
-
-    public function makeTestDatasource()
+    public function makeTestDatasource(): MockObject
     {
         $datasource = $this->createMock(DataSourceInterface::class);
 
@@ -86,7 +53,7 @@ class FileSourceTest extends TestCase
     /**
      * @dataProvider provideTestParseYaml
      */
-    public function testParseYaml($filename, $msg)
+    public function testParseYaml(string $filename, string $msg): void
     {
         $expectedOutput = $this->getErrorMessage($filename, $msg);
         ob_end_flush();
@@ -98,7 +65,7 @@ class FileSourceTest extends TestCase
         $this->assertEquals($expectedOutput, $output);
     }
 
-    public function provideTestParseYaml()
+    public function provideTestParseYaml(): array
     {
         return [
             [__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''],
@@ -119,11 +86,12 @@ class FileSourceTest extends TestCase
         ];
     }
 
-    public function getErrorMessage($filename, $msg)
+    public function getErrorMessage(string $filename, ?string $msg): string
     {
         if ($msg == '') {
             return '';
         }
+
         return ' ! FileSource:FilesystemDataSource:test:' . $filename . ' ' . $msg . ' !' . PHP_EOL;
     }
 }

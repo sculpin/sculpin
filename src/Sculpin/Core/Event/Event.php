@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Event;
 
-use Symfony\Component\EventDispatcher\Event as BaseEvent;
+use Symfony\Component\EventDispatcher\GenericEvent as BaseEvent;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>

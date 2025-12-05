@@ -26,10 +26,11 @@ class Configuration implements ConfigurationInterface
     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('sculpin_content_types');
 
-        $rootNode = $treeBuilder->root('sculpin_content_types');
+        $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $contentTypeNode = $rootNode
             ->useAttributeAsKey('name')
             ->prototype('array')
@@ -45,9 +46,7 @@ class Configuration implements ConfigurationInterface
                         // Default case is we want the user to specify just one
                         // path but we can allow for multiple if they want to.
                         ->ifString()
-                        ->then(function ($v) {
-                            return [$v];
-                        })
+                        ->then(fn($v): array => [$v])
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()
@@ -61,16 +60,12 @@ class Configuration implements ConfigurationInterface
                         // Default case is we want the user to specify just one
                         // taxonomy but we can allow for multiple if they want to.
                         ->ifString()
-                        ->then(function ($v) {
-                            return [['name' => $v]];
-                        })
+                        ->then(fn($v): array => [['name' => $v]])
                     ->end()
                     ->prototype('array')
                         ->beforeNormalization()
                             ->ifString()
-                            ->then(function ($v) {
-                                return ['name' => $v];
-                            })
+                            ->then(fn($v): array => ['name' => $v])
                         ->end()
                         ->children()
                             ->scalarNode('name')->end()

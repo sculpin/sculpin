@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Console;
 
-use Sculpin\Core\Sculpin;
+use Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -33,26 +33,19 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class Application extends BaseApplication
 {
     /**
-     * @var KernelInterface
-     */
-    private $kernel;
-
-    /**
      * @var \Throwable[]
      */
-    private $registrationErrors = [];
+    private array $registrationErrors = [];
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(private readonly KernelInterface $kernel)
     {
-        $this->kernel = $kernel;
-
         if (function_exists('date_default_timezone_set') && function_exists('date_default_timezone_get')) {
             date_default_timezone_set(@date_default_timezone_get());
         }
 
         parent::__construct(
             'Sculpin',
-            $kernel->getName() . '/' . $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
+            $kernel->getEnvironment() . ($kernel->isDebug() ? '/debug' : '')
         );
 
         $this->getDefinition()->addOption(new InputOption(
@@ -86,9 +79,10 @@ final class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null): int
+    #[\Override]
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
-        if (null === $output) {
+        if (!$output instanceof OutputInterface) {
             $styles = [
                 'highlight' => new OutputFormatterStyle('red'),
                 'warning' => new OutputFormatterStyle('black', 'yellow'),
@@ -103,6 +97,7 @@ final class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if (!$input->hasParameterOption('--safe')) {
@@ -125,6 +120,10 @@ final class Application extends BaseApplication
 
     public function getMissingSculpinBundlesMessages(): array
     {
+        if (!$this->kernel instanceof AbstractKernel) {
+            return [];
+        }
+
         $messages = [];
 
         // Display missing bundle to user.
@@ -132,8 +131,9 @@ final class Application extends BaseApplication
             $messages[] = '';
             $messages[] = '<comment>Missing Sculpin Bundles:</comment>';
             foreach ($missingBundles as $bundle) {
-                $messages[] = "  * <highlight>$bundle</highlight>";
+                $messages[] = sprintf('  * <highlight>%s</highlight>', $bundle);
             }
+
             $messages[] = '';
         }
 
@@ -142,8 +142,6 @@ final class Application extends BaseApplication
 
     /**
      * Get Kernel
-     *
-     * @return KernelInterface
      */
     public function getKernel(): KernelInterface
     {
@@ -181,7 +179,7 @@ final class Application extends BaseApplication
                 } catch (\Exception $e) {
                     $this->registrationErrors[] = $e;
                 } catch (\Throwable $e) {
-                    $this->registrationErrors[] = new FatalThrowableError($e);
+                    $this->registrationErrors[] = new ThrowingCasterException($e);
                 }
             }
         }
@@ -196,7 +194,7 @@ final class Application extends BaseApplication
         (new SymfonyStyle($input, $output))->warning('Some commands could not be registered:');
 
         foreach ($this->registrationErrors as $error) {
-            $this->doRenderException($error, $output);
+            $this->doRenderThrowable($error, $output);
         }
     }
 }

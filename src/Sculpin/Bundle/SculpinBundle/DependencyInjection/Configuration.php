@@ -26,22 +26,23 @@ final class Configuration implements ConfigurationInterface
     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder;
+        $treeBuilder = new TreeBuilder('sculpin');
 
-        $rootNode = $treeBuilder->root('sculpin');
+        $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $rootNode
             ->children()
                 ->scalarNode('source_dir')->defaultValue('%sculpin.project_dir%/source')->end()
                 ->scalarNode('output_dir')->defaultValue('%sculpin.project_dir%/output_%kernel.environment%')->end()
                 ->arrayNode('exclude')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->arrayNode('ignore')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->arrayNode('raw')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->scalarNode('permalink')->defaultValue('pretty')->end()
             ->end();

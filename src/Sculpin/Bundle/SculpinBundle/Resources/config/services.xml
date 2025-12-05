@@ -8,7 +8,7 @@
         <service id="sculpin.matcher" class="dflydev\util\antPathMatcher\AntPathMatcher" />
 
         <service id="sculpin.site_configuration_factory" class="Sculpin\Core\SiteConfiguration\SiteConfigurationFactory">
-            <argument>%kernel.root_dir%</argument>
+            <argument>%kernel.project_dir%</argument>
             <argument>%kernel.environment%</argument>
         </service>
 
@@ -49,7 +49,6 @@
         </service>
 
         <service id="sculpin" class="Sculpin\Core\Sculpin" public="true">
-            <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
             <argument type="service" id="sculpin.writer" />
@@ -62,17 +61,10 @@
             <argument type="service" id="sculpin.custom_mime_types_repository" />
         </service>
 
-        <service id="sculpin.canal.default_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector" />
-
-        <service id="sculpin.canal.detector" class="Dflydev\Canal\Detector\CompositeDetector">
-            <argument type="collection">
-                <argument type="service" id="sculpin.canal.custom_detector" />
-                <argument type="service" id="sculpin.canal.default_detector" />
-            </argument>
-        </service>
-
-        <service id="sculpin.canal.analyzer" class="Dflydev\Canal\Analyzer\Analyzer">
-            <argument type="service" id="sculpin.canal.detector" />
+        <service id="sculpin.mime.detector" class="League\MimeTypeDetection\FinfoMimeTypeDetector">
+            <argument></argument>
+            <argument>NULL</argument>
+            <argument>200</argument>
         </service>
 
         <service id="sculpin.default_filesystem_data_source" class="Sculpin\Core\Source\FilesystemDataSource">
@@ -81,12 +73,12 @@
             <argument>%sculpin.ignore%</argument>
             <argument>%sculpin.raw%</argument>
             <argument type="service" id="sculpin.matcher" />
-            <argument type="service" id="sculpin.canal.analyzer" />
+            <argument type="service" id="sculpin.mime.detector" />
             <tag name="sculpin.data_source" />
         </service>
 
         <service id="sculpin.default_config_filesystem_data_source" class="Sculpin\Core\Source\ConfigFilesystemDataSource">
-            <argument>%kernel.root_dir%/config</argument>
+            <argument>%kernel.project_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
             <argument type="service" id="sculpin.matcher" />

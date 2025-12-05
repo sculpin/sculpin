@@ -24,34 +24,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class GeneratorManager
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var Configuration
-     */
-    protected $siteConfiguration;
-
-    /**
-     * @var DataProviderManager
-     */
-    protected $dataProviderManager;
-
-    /**
-     * @var array
-     */
-    protected $generators = [];
+    protected array $generators = [];
 
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        Configuration $siteConfiguration,
-        DataProviderManager $dataProviderManager = null
+        protected EventDispatcherInterface $eventDispatcher,
+        protected Configuration $siteConfiguration,
+        protected ?DataProviderManager $dataProviderManager = null
     ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->siteConfiguration = $siteConfiguration;
-        $this->dataProviderManager = $dataProviderManager;
     }
 
     public function registerGenerator($name, GeneratorInterface $generator): void
@@ -74,7 +53,6 @@ class GeneratorManager
             }
 
             $generatorNames = (array) $generatorNames;
-
             foreach ($generatorNames as $generatorName) {
                 if (!isset($this->generators[$generatorName])) {
                     throw new \InvalidArgumentException(sprintf(
@@ -86,10 +64,8 @@ class GeneratorManager
 
                 $generators[] = $this->generators[$generatorName];
             }
-        } else {
-            if ($isGenerator) {
-                $source->setIsNotGenerator();
-            }
+        } elseif ($isGenerator) {
+            $source->setIsNotGenerator();
         }
 
         $targetSources = [$source];
@@ -102,6 +78,7 @@ class GeneratorManager
                     $newTargetSources[] = $generatedSource;
                 }
             }
+
             $targetSources = $newTargetSources;
         }
 
@@ -117,7 +94,7 @@ class GeneratorManager
      * Manager via constructor injection as some data providers might also rely
      * on formatter. Hurray for circular dependencies. :(
      */
-    public function setDataProviderManager(DataProviderManager $dataProviderManager = null): void
+    public function setDataProviderManager(?DataProviderManager $dataProviderManager = null): void
     {
         $this->dataProviderManager = $dataProviderManager;
     }

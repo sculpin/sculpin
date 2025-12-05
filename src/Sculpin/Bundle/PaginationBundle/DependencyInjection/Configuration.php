@@ -26,10 +26,11 @@ class Configuration implements ConfigurationInterface
     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder;
+        $treeBuilder = new TreeBuilder('sculpin_pagination');
 
-        $rootNode = $treeBuilder->root('sculpin_pagination');
+        $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $rootNode
             ->children()
                 ->scalarNode('max_per_page')->defaultValue('10')->end()

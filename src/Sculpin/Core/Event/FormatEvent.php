@@ -20,14 +20,8 @@ use Sculpin\Core\Formatter\FormatContext;
  */
 class FormatEvent extends Event
 {
-    /**
-     * @var FormatContext
-     */
-    protected $formatContext;
-
-    public function __construct(FormatContext $formatContext)
+    public function __construct(protected FormatContext $formatContext)
     {
-        $this->formatContext = $formatContext;
     }
 
     public function formatContext(): FormatContext

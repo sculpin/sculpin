@@ -20,16 +20,8 @@ use Sculpin\Core\Source\SourceInterface;
  */
 class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
 {
-    /**
-     * Default permalink template for when the source does not specify a template.
-     *
-     * @var string
-     */
-    protected $defaultPermalink;
-
-    public function __construct(string $defaultPermalink)
+    public function __construct(protected string $defaultPermalink)
     {
-        $this->defaultPermalink = $defaultPermalink;
     }
 
     /**
@@ -40,25 +32,27 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         if ($source->canBeFormatted()) {
             $relativeFilePath = $this->generatePermalinkPathname($source);
             // TODO: Make this configurable... not all index files are named index.*
-            if (strpos(basename($relativeFilePath), 'index.') === false) {
+            if (!str_contains(basename($relativeFilePath), 'index.')) {
                 $relativeUrlPath = $relativeFilePath;
             } else {
                 $relativeUrlPath = dirname($relativeFilePath);
 
                 // Check for trailing slashes
                 $permalink = $this->getPermaLinkTemplate($source);
-                if (substr($permalink, -1, 1) == '/') {
+                if (str_ends_with($permalink, '/')) {
                     $relativeUrlPath .= '/';
                 }
             }
-            if ($relativeUrlPath == '/.') {
+
+            if ($relativeUrlPath === '/.') {
                 $relativeUrlPath = '/';
             }
         } else {
-            $relativeFilePath = $relativeUrlPath = $source->relativePathname();
+            $relativeFilePath = $source->relativePathname();
+            $relativeUrlPath = $relativeFilePath;
         }
 
-        if (0 !== strpos($relativeUrlPath, '/')) {
+        if (!str_starts_with($relativeUrlPath, '/')) {
             $relativeUrlPath = '/'.$relativeUrlPath;
         }
 
@@ -68,11 +62,12 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         return new Permalink($relativeFilePath, $relativeUrlPath);
     }
 
-    protected function generatePermalinkPathname(SourceInterface $source)
+    protected function generatePermalinkPathname(SourceInterface $source): string
     {
         $pathname = $source->relativePathname();
         // Make sure that twig files end up as .html files.
         $pathname = preg_replace('/(html\.)?twig$|twig\.html$/', 'html', $pathname);
+
         $date = $source->data()->get('calculated_date');
         $title = $source->data()->get('title');
         $slug = $source->data()->get('slug');
@@ -81,88 +76,94 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         switch ($permalink) {
             case 'none':
                 return $pathname;
-                break;
             case 'pretty':
                 if ($response = $this->isDatePath($pathname)) {
                     return implode('/', array_merge($response, ['index.html']));
-                } else {
-                    $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', $pathname);
-                    if (basename($pretty) == 'index') {
-                        return $pretty . '.html';
-                    } else {
-                        return $pretty . '/index.html';
-                    }
-                }
-                break;
-            case 'date':
-                if ($response = $this->isDatePath($pathname)) {
-                    return implode('/', $response).'.html';
                 }
 
-                return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', $pathname).'.html';
-                break;
+                $pretty = preg_replace('/(\.[^\.\/]+|\.[^\.\/]+\.[^\.\/]+)$/', '', (string) $pathname);
+                return basename((string) $pretty) === 'index' ? $pretty . '.html' : $pretty . '/index.html';
+            case 'date':
+                if ($response = $this->isDatePath($pathname)) {
+                    return implode('/', $response) . '.html';
+                }
+
+                return preg_replace('/(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', '', (string) $pathname) . '.html';
             default:
                 [$year, $yr, $month, $mo, $day, $dy] = explode('-', date('Y-y-m-n-d-j', (int) $date));
                 $permalink = preg_replace('/:year/', $year, $permalink);
-                $permalink = preg_replace('/:yr/', $yr, $permalink);
-                $permalink = preg_replace('/:month/', $month, $permalink);
-                $permalink = preg_replace('/:mo/', $mo, $permalink);
-                $permalink = preg_replace('/:day/', $day, $permalink);
-                $permalink = preg_replace('/:dy/', $dy, $permalink);
-                $permalink = preg_replace('/:title/', $this->normalize($title), $permalink);
-                $permalink = preg_replace('/:slug_title/', $slug ?: $this->normalize($title), $permalink);
+                $permalink = preg_replace('/:yr/', $yr, (string) $permalink);
+                $permalink = preg_replace('/:month/', $month, (string) $permalink);
+                $permalink = preg_replace('/:mo/', $mo, (string) $permalink);
+                $permalink = preg_replace('/:day/', $day, (string) $permalink);
+                $permalink = preg_replace('/:dy/', $dy, (string) $permalink);
+                $permalink = preg_replace('/:title/', $this->normalize((string)$title), (string) $permalink);
+                $permalink = preg_replace(
+                    '/:slug_title/',
+                    (string)($slug ?: $this->normalize((string)$title)),
+                    (string)$permalink
+                );
                 $filename = $pathname;
                 if ($isDatePath = $this->isDatePath($pathname)) {
                     $filename = $isDatePath[3];
                 }
-                $permalink = preg_replace('/:filename/', $filename, $permalink);
-                $permalink = preg_replace('/:slug_filename/', $slug ?: $this->normalize($filename), $permalink);
-                if (strrpos($filename, DIRECTORY_SEPARATOR) !== false) {
-                    $basename = substr($filename, strrpos($filename, DIRECTORY_SEPARATOR)+1);
+
+                $permalink = preg_replace('/:filename/', (string) $filename, (string) $permalink);
+                $permalink = preg_replace(
+                    '/:slug_filename/',
+                    (string)($slug ?: $this->normalize((string)$filename)),
+                    (string)$permalink
+                );
+                if (strrpos((string)$filename, DIRECTORY_SEPARATOR) !== false) {
+                    $basename = substr(
+                        (string)$filename,
+                        strrpos((string)$filename, DIRECTORY_SEPARATOR) + 1
+                    );
                 } else {
                     $basename = $filename;
                 }
-                $prettyBasename = false !== strrpos($basename, '.')
-                    ? substr($basename, 0, strrpos($basename, '.'))
+
+                $prettyBasename = false !== strrpos((string) $basename, '.')
+                    ? substr((string) $basename, 0, strrpos((string) $basename, '.'))
                     : $basename;
-                $permalink = preg_replace('/:basename_real/', $basename, $permalink);
-                $permalink = preg_replace('/:basename/', $prettyBasename, $permalink);
+                $permalink = preg_replace('/:basename_real/', (string) $basename, (string) $permalink);
+                $permalink = preg_replace('/:basename/', (string) $prettyBasename, (string) $permalink);
 
                 $folder = '';
                 // Find FIRST position here
-                $folderPos = strpos($pathname, DIRECTORY_SEPARATOR);
+                $folderPos = strpos((string) $pathname, DIRECTORY_SEPARATOR);
                 if ($folderPos !== false) {
                     $folderTemp = $pathname;
 
                     // Strip the first folder if it's a type folder
-                    if ('_' === substr($pathname, 0, 1)) {
-                        $folderTemp = substr($pathname, $folderPos+1);
+                    if (str_starts_with((string) $pathname, '_')) {
+                        $folderTemp = substr((string) $pathname, $folderPos+1);
                     }
 
                     // Now check for actual subfolders we are interested in here
                     // Find LAST position here
-                    $lastFolderPos = strrpos($folderTemp, DIRECTORY_SEPARATOR);
+                    $lastFolderPos = strrpos((string) $folderTemp, DIRECTORY_SEPARATOR);
 
                     if ($lastFolderPos !== false) {
-                        $folder = substr($folderTemp, 0, $lastFolderPos) . '/';
+                        $folder = substr((string) $folderTemp, 0, $lastFolderPos) . '/';
                     }
                 }
-                $permalink = preg_replace('/:folder/', $folder, $permalink);
 
-                if (preg_match('#(^|[\\/])[^.]+$#', $permalink)
+                $permalink = preg_replace('/:folder/', $folder, (string) $permalink);
+
+                if (preg_match('#(^|[\\/])[^.]+$#', (string) $permalink)
                     // Exclude .md and .twig for BC
-                    || substr($permalink, -3, 3) === '.md'
-                    || substr($permalink, -5, 5) === '.twig'
+                    || str_ends_with((string) $permalink, '.md')
+                    || str_ends_with((string) $permalink, '.twig')
                 ) {
-                    $permalink = rtrim($permalink, '/') . '/';
+                    $permalink = rtrim((string) $permalink, '/') . '/';
                 }
 
-                if (substr($permalink, -1, 1) == '/') {
+                if (str_ends_with((string) $permalink, '/')) {
                     $permalink .= 'index.html';
                 }
 
                 return $permalink;
-                break;
         }
     }
 
@@ -178,7 +179,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
         $permalink = $source->data()->get('permalink');
 
         if (!$permalink) {
-            $permalink = $this->defaultPermalink;
+            return $this->defaultPermalink;
         }
 
         return $permalink;
@@ -187,9 +188,7 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
     /**
      * Does the specified path represent a date?
      *
-     * @param string $path
      *
-     * @return mixed
      */
     private function isDatePath(string $path): ?array
     {
@@ -211,19 +210,22 @@ class SourcePermalinkFactory implements SourcePermalinkFactoryInterface
      *
      * @param string $param Parameter to normalize
      * @param string $space What to use as space separator
-     *
-     * @return string
      */
     private function normalize(string $param, string $space = '-'): string
     {
         $param = trim($param);
         if (function_exists('iconv')) {
-            $param = @iconv('utf-8', 'us-ascii//TRANSLIT', $param);
+            // Try to transliterate accented characters
+            $converted = @iconv('utf-8', 'us-ascii//TRANSLIT', $param);
+            // Only overwrite $param if conversion was successful
+            if ($converted !== false) {
+                $param = $converted;
+            }
         }
-        $param = preg_replace('/[^a-zA-Z0-9 -]/', '', $param);
-        $param = strtolower($param);
-        $param = preg_replace('/[\s-]+/', $space, $param);
 
-        return $param;
+        $param = preg_replace('/[^a-zA-Z0-9 -]/', '', $param);
+        $param = strtolower((string) $param);
+
+        return preg_replace('/[\s-]+/', $space, $param);
     }
 }

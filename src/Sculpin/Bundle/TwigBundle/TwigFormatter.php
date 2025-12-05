@@ -13,40 +13,31 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\TwigBundle;
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Sculpin\Core\Formatter\FormatContext;
 use Sculpin\Core\Formatter\FormatterInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
-use Twig\Template;
+use Twig\TemplateWrapper;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class TwigFormatter implements FormatterInterface
+final readonly class TwigFormatter implements FormatterInterface
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var ArrayLoader
-     */
-    private $arrayLoader;
-
-    public function __construct(Environment $twig, ArrayLoader $arrayLoader)
+    public function __construct(private Environment $twig, private ArrayLoader $arrayLoader)
     {
-        $this->twig = $twig;
-        $this->arrayLoader = $arrayLoader;
     }
 
     /**
      * {@inheritdoc}
      *
      * @throws \Throwable
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function formatBlocks(FormatContext $formatContext): array
     {
@@ -55,11 +46,12 @@ final class TwigFormatter implements FormatterInterface
             $this->massageTemplate($formatContext)
         );
         $data = $formatContext->data()->export();
-        $template = $this->twig->loadTemplate($formatContext->templateId());
+        $template = $this->twig->load($formatContext->templateId());
 
-        if (!count($blockNames = $this->findAllBlocks($template, $data))) {
+        if (($blockNames = $this->findAllBlocks($template, $data)) === []) {
             return ['content' => $template->render($data)];
         }
+
         $blocks = [];
         foreach ($blockNames as $blockName) {
             $blocks[$blockName] = $template->renderBlock($blockName, $data);
@@ -68,7 +60,7 @@ final class TwigFormatter implements FormatterInterface
         return $blocks;
     }
 
-    public function findAllBlocks(Template $template, array $context): array
+    public function findAllBlocks(TemplateWrapper $template, array $context): array
     {
         return $template->getBlockNames($context);
     }
@@ -76,9 +68,9 @@ final class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function formatPage(FormatContext $formatContext): string
     {
@@ -95,12 +87,12 @@ final class TwigFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function reset()
+    public function reset(): void
     {
         // nothing to do
     }
 
-    private function massageTemplate(FormatContext $formatContext)
+    private function massageTemplate(FormatContext $formatContext): string
     {
         $template = $formatContext->template();
         if ($layout = $formatContext->data()->get('layout')) {
@@ -109,9 +101,10 @@ final class TwigFormatter implements FormatterInterface
             // NOT the intention of the source's author.
             $verbatim = preg_replace('/{%\s+verbatim\s+%}(.*?){%\s+endverbatim\s+%}/si', '', $template);
 
-            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', $verbatim, $matches)) {
+            if (!preg_match_all('/{%\s+block\s+(\w+)\s+%}(.*?){%\s+endblock\s+%}/si', (string) $verbatim, $matches)) {
                 $template = '{% block content %}'.$template.'{% endblock %}';
             }
+
             $template = '{% extends "' . $layout . '" %}' . $template;
         }
 

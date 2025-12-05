@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Source;
 
-use Dflydev\Canal\Analyzer\Analyzer;
+use League\MimeTypeDetection\MimeTypeDetector;
 use Symfony\Component\Finder\Finder;
 use dflydev\util\antPathMatcher\AntPathMatcher;
 use Sculpin\Core\Util\DirectorySeparatorNormalizer;
@@ -24,45 +24,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 final class FilesystemDataSource implements DataSourceInterface
 {
-    /**
-     * @var string
-     */
-    private $sourceDir;
-
-    /**
-     * @var string[]
-     */
-    private $excludePaths;
-
-    /**
-     * @var string[]
-     */
-    private $ignorePaths;
-
-    /**
-     * @var string[]
-     */
-    private $rawPaths;
-
-    /**
-     * @var AntPathMatcher
-     */
-    private $pathMatcher;
-
-    /**
-     * @var Analyzer
-     */
-    private $analyzer;
-
-    /**
-     * @var DirectorySeparatorNormalizer
-     */
-    private $directorySeparatorNormalizer;
-
-    /**
-     * @var string
-     */
-    private $sinceTime;
+    private string $sinceTime = '1970-01-01T00:00:00Z';
 
     /**
      * @param string[] $excludePaths Exclude paths
@@ -70,22 +32,16 @@ final class FilesystemDataSource implements DataSourceInterface
      * @param string[] $rawPaths     Raw paths
      */
     public function __construct(
-        string $sourceDir,
-        array $excludePaths,
-        array $ignorePaths,
-        array $rawPaths,
-        AntPathMatcher $matcher = null,
-        Analyzer $analyzer = null,
-        DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
+        private readonly string $sourceDir,
+        private readonly array $excludePaths,
+        private readonly array $ignorePaths,
+        private readonly array $rawPaths,
+        private ?AntPathMatcher $pathMatcher = null,
+        private readonly ?MimeTypeDetector $detector = null,
+        private ?DirectorySeparatorNormalizer $directorySeparatorNormalizer = null
     ) {
-        $this->sourceDir = $sourceDir;
-        $this->excludePaths = $excludePaths;
-        $this->ignorePaths = $ignorePaths;
-        $this->rawPaths = $rawPaths;
-        $this->pathMatcher = $matcher ?: new AntPathMatcher;
-        $this->analyzer = $analyzer;
-        $this->directorySeparatorNormalizer = $directorySeparatorNormalizer ?: new DirectorySeparatorNormalizer;
-        $this->sinceTime = '1970-01-01T00:00:00Z';
+        $this->pathMatcher ??= new AntPathMatcher;
+        $this->directorySeparatorNormalizer ??= new DirectorySeparatorNormalizer;
     }
 
     /**
@@ -93,7 +49,7 @@ final class FilesystemDataSource implements DataSourceInterface
      */
     public function dataSourceId(): string
     {
-        return 'FilesystemDataSource:'.$this->sourceDir;
+        return 'FilesystemDataSource:' . $this->sourceDir;
     }
 
     /**
@@ -112,7 +68,7 @@ final class FilesystemDataSource implements DataSourceInterface
             ->files()
             ->ignoreVCS(true)
             ->ignoreDotFiles(false)
-            ->date('>='.$sinceTimeLast)
+            ->date('>=' . $sinceTimeLast)
             ->followLinks()
             ->in($this->sourceDir);
 
@@ -133,6 +89,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -142,10 +99,12 @@ final class FilesystemDataSource implements DataSourceInterface
                     continue 2;
                 }
             }
+
             foreach ($this->excludePaths as $pattern) {
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -162,6 +121,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 if (!$this->pathMatcher->isPattern($pattern)) {
                     continue;
                 }
+
                 if ($this->pathMatcher->match(
                     $pattern,
                     $this->directorySeparatorNormalizer->normalize($file->getRelativePathname())
@@ -172,7 +132,7 @@ final class FilesystemDataSource implements DataSourceInterface
                 }
             }
 
-            $source = new FileSource($this->analyzer, $this, $file, $isRaw, true);
+            $source = new FileSource($this->detector, $this, $file, $isRaw, true);
             $sourceSet->mergeSource($source);
         }
 

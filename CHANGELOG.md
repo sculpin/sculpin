@@ -5,6 +5,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.3.0 - 2024-12-??
+
+### Changed
+
+* [Replace Dflydev\Canal with League\MimeTypeDetection for MIME type detection because Canal is not maintained](https://github.com/sculpin/sculpin/commit/fc822d959ed42be8b581be3ffa444ddea1a28ad3) (thanks, @pronskiy!)
+* [Use Twig 3](https://github.com/sculpin/sculpin/commit/535c3cd2696cd88a6cd9d1a051ca17bc9ede3e97) (thanks, @saundefined!)
+* [Use Symfony 5.4](https://github.com/sculpin/sculpin/commit/0c83ea7ce51ed0563a80d6ba6525955b5f5361c0) (thanks, @saundefined!)
+* [Replace getRootDir with getProjectDir](https://github.com/sculpin/sculpin/commit/f47817e20d7b1ec20d63d8f1e84af1516292cb94) (thanks, @saundefined!)
+* [Update dflydev/dot-access-configuration](https://github.com/sculpin/sculpin/commit/b2cf6560d9912ae3bcb26ff619434ca5a4192e64) (thanks, @Pekhov14!)
+* [Use EnglishInflector instead Inflector](Use EnglishInflector instead Inflector) (thanks, @saundefined!)
+
+### Removed
+* [Remove dependency dflydev/apache-mime-types + add symfony/mime alternative](https://github.com/sculpin/sculpin/commit/8b4b8aa897fff056dbe64e32d057868fb19fb483) (thanks, @Pekhov14!)
+
+### Fixed
+* [Fixed syntax deprecations in string variable interpolation](https://github.com/sculpin/sculpin/commit/467ffd4d7d0e3b28c8b8234d7f29bb3c8caf6c44) (thanks, @pronskiy!)
+* [PHP 8.4 Updates to avoid implicit nulable parameter deprecation](https://github.com/sculpin/sculpin/commit/17f66eecedcda8ac59f685f960748b1a50dd87c3) (thanks, @Ayesh!)
+
+## 3.2.0 - 2022-10-31
+
+### Added
+
+* [Add exit codes to Command classes](https://github.com/sculpin/sculpin/commit/e62af1e055044a5c294938d2380c9475049628c6)
+* [Add Sculpin::EVENT_AFTER_GENERATE](https://github.com/sculpin/sculpin/commit/23a74baef263de9cca8e35627b6e36b9ef12a712) (thanks @sunadarake!)
+* [Add .php-version and .phpunit.result.cache to gitignore](https://github.com/sculpin/sculpin/commit/a188f66c80439f1e3a4c14344bad24572644ad71) (thanks @sunadarake!)
+* [Add PHP attributes to suppress some PHP 8.1 deprecation notices](https://github.com/sculpin/sculpin/commit/44c4d402060d10018447177ae800ce17dc201609)
+
+### Removed
+
+* [Remove IntlExtension configuration - this removes several localized filters in twig](https://github.com/sculpin/sculpin/commit/3b4db353065a413be5783b5a1491d57ee92d3940)
+* [Remove twig/extensions dependency](https://github.com/sculpin/sculpin/commit/80f67a7139b4304c335ccfb00a89d21a1c214801)
+* [Remove unnecessary third constructor parameter to ConsoleIo](https://github.com/sculpin/sculpin/commit/5f9bbe471f08029c63a23913726a2c99b171024c)
+
+### Fixed
+
+* [Don't pass null to normalize in SourcePermalinkFactory::generatePermalinkPathname()](https://github.com/sculpin/sculpin/commit/0f67f3a711fc1ee2fa38e4b4cb6b93d0293f57e2)
+* [Only overwrite value in SourcePermalinkFactory::normalize if iconv() succeeds](https://github.com/sculpin/sculpin/commit/714081796589dbea065042e9dc302f95a9fded24) (thanks @friartuck6000!)
+* [Update composer and allow theme composer plugin config changes](https://github.com/sculpin/sculpin/commit/d04faae18751a2af3494daa9c7791f661a916f98)
+* [Override PhpMarkdownExtraParser's doExtraAttributes method to cast $attr to string](https://github.com/sculpin/sculpin/commit/5f705d845b2dc980ed91b79c49ccaa5f64cbdda0)
+
+Also, the primary branch has been renamed to `main`.
+
+## 3.1.1 - 2021-07-15
+
+### Fixed
+
+* [vdelau](https://github.com/sculpin/sculpin/commits?author=vdelau) fixed an issue in the bin/sculpin script to improve windows compatibility (Thanks!) [#463](https://github.com/sculpin/sculpin/pull/463)
+* [sunadarake](https://github.com/sunadarake) fixed a deprecated method in TreeBuilder (Thanks!) [#460](https://github.com/sculpin/sculpin/pull/460) 
+
+## 3.1.0 - 2020-12-01
+
+### Added
+
+* adds webpack encore helper class [#446](https://github.com/sculpin/sculpin/pull/446)
+
+### Changed
+
+* adds support for PHP 8.0, and drops support for PHP 7.2
+* [clue](https://github.com/sculpin/sculpin/commits?author=clue) updated React/HTTP to v1.0.0 (Thanks!)
+
 ## 3.0.3 - 2019-12-04
 
 ### Fixed

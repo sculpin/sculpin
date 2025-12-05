@@ -26,14 +26,15 @@ class Configuration implements ConfigurationInterface
     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder;
+        $treeBuilder = new TreeBuilder('sculpin_posts');
 
-        $rootNode = $treeBuilder->root('sculpin_posts');
+        $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore method.notFound
         $rootNode
             ->children()
                 ->arrayNode('paths')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
                 ->booleanNode('publish_drafts')->end()
                 ->scalarNode('permalink')->end()

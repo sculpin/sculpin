@@ -13,25 +13,22 @@ declare(strict_types=1);
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use ReturnTypeWillChange;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\DefaultSorter;
 use Sculpin\Contrib\ProxySourceCollection\Sorter\SorterInterface;
-use StableSort\StableSort;
 
-class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
+class ProxySourceCollection implements ArrayAccess, Iterator, Countable
 {
-    /**
-     * @var $items ProxySourceItem[]
-     */
-    protected $items = [];
-    protected $sorter;
-
-    public function __construct(array $items = [], SorterInterface $sorter = null)
+    public function __construct(protected array $items = [], protected ?SorterInterface $sorter = null)
     {
-        $this->items = $items;
-        $this->sorter = $sorter ?: new DefaultSorter;
+        $this->sorter ??= new DefaultSorter;
     }
 
-    public function offsetSet($offset, $value)
+    #[ReturnTypeWillChange]
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->items[] = $value;
@@ -40,57 +37,66 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         }
     }
 
-    public function offsetExists($offset)
+    #[ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
         return isset($this->items[$offset]);
     }
 
-    public function offsetUnset($offset)
+    #[ReturnTypeWillChange]
+    public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
 
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return isset($this->items[$offset]) ? $this->items[$offset] : null;
+        return $this->items[$offset] ?? null;
     }
 
-    public function rewind()
+    #[ReturnTypeWillChange]
+    public function rewind(): void
     {
         reset($this->items);
     }
 
+    #[ReturnTypeWillChange]
     public function current()
     {
         return current($this->items);
     }
 
+    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->items);
     }
 
-    public function next()
+    #[ReturnTypeWillChange]
+    public function next(): void
     {
-        return next($this->items);
+        next($this->items);
     }
 
-    public function valid()
+    #[ReturnTypeWillChange]
+    public function valid(): bool
     {
         return $this->current() !== false;
     }
 
-    public function count()
+    #[ReturnTypeWillChange]
+    public function count(): int
     {
         return count($this->items);
     }
 
-    public function init()
+    public function init(): void
     {
         $this->sort();
 
         /**
-         * @var $item ProxySourceItem|null
+         * @var ProxySourceItem|null $item
          */
         $item = null;
 
@@ -98,12 +104,13 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
             if ($item) {
                 $item->setNextItem($currItem);
             }
+
             $currItem->setPreviousItem($item);
             $item = $currItem;
         }
 
         if ($item) {
-            $item->setNextItem(null);
+            $item->setNextItem();
         }
     }
 
@@ -119,7 +126,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
      *
      * See: https://github.com/vanderlee/PHP-stable-sort-functions
      */
-    public function sort()
+    public function sort(): void
     {
         $index      = 0;
         $comparator = [$this->sorter, 'sort'];
@@ -128,6 +135,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         foreach ($this->items as &$item) {
             $item = [$index++, $item];
         }
+
         unset($item);
 
         uasort($this->items, function ($a, $b) use ($comparator) {
@@ -141,6 +149,7 @@ class ProxySourceCollection implements \ArrayAccess, \Iterator, \Countable
         foreach ($this->items as &$item) {
             $item = $item[1];
         }
+
         unset($item);
     }
 }

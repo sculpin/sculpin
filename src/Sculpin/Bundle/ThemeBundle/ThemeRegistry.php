@@ -14,19 +14,13 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\ThemeBundle;
 
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
 
 class ThemeRegistry
 {
-    private $finderFactory;
-    private $directory;
-    private $activeTheme;
-
-    public function __construct($finderFactory, string $directory, ?string $activeTheme = null)
+    public function __construct(private readonly string $directory, private readonly ?string $activeTheme = null)
     {
-        $this->finderFactory = $finderFactory;
-        $this->directory = $directory;
-        $this->activeTheme = $activeTheme;
     }
 
     public function listThemes(): array
@@ -43,13 +37,14 @@ class ThemeRegistry
 
         $themes = [];
 
-        /** @var \SplFileInfo $directory */
+        /** @var SplFileInfo $directory */
         foreach ($directories as $directory) {
             $name = basename(dirname($directory->getRealPath())).'/'.basename($directory->getRealPath());
             $theme = ['name' => $name, 'path' => $directory];
             if (file_exists($directory.'/theme.yml')) {
                 $theme = array_merge((array) Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
             }
+
             $themes[$theme['name']] = $theme;
         }
 
@@ -61,7 +56,7 @@ class ThemeRegistry
         $themes = $this->listThemes();
 
         foreach ([$this->activeTheme.'-dev', $this->activeTheme] as $activeTheme) {
-            if (! isset($themes[$activeTheme])) {
+            if (!isset($activeTheme, $themes[$activeTheme])) {
                 continue;
             }
 

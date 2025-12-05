@@ -21,20 +21,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class FilesystemWriter implements WriterInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var string
-     */
-    private $outputDir;
-
-    public function __construct(Filesystem $filesystem, string $outputDir)
+    public function __construct(private readonly Filesystem $filesystem, private string $outputDir)
     {
-        $this->filesystem = $filesystem;
-        $this->outputDir  = $outputDir;
     }
 
     /**
@@ -46,7 +34,7 @@ final class FilesystemWriter implements WriterInterface
     {
         $outputPath = $this->outputDir.'/'.$output->permalink()->relativeFilePath();
         if ($output->hasFileReference()) {
-            $this->filesystem->copy($output->file(), $outputPath, true);
+            $this->filesystem->copy($output->file()->getRealPath(), $outputPath, true);
         } else {
             $this->filesystem->mkdir(dirname($outputPath));
             $this->filesystem->dumpFile($outputPath, $output->formattedContent());
@@ -65,8 +53,6 @@ final class FilesystemWriter implements WriterInterface
 
     /**
      * Retrieve the output directory
-     *
-     * @return string
      */
     public function getOutputDir(): string
     {

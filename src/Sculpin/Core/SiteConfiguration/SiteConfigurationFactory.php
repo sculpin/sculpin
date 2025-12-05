@@ -20,30 +20,16 @@ use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class SiteConfigurationFactory
+final readonly class SiteConfigurationFactory
 {
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
-     * @var string
-     */
-    private $environment;
-
-    public function __construct(string $rootDir, string $environment)
+    public function __construct(private string $projectDir, private string $environment)
     {
-        $this->rootDir = $rootDir;
-        $this->environment = $environment;
     }
 
     /**
      * Get an instance of the Configuration() class from the given file.
      *
-     * @param  string $configFile
      *
-     * @return ConfigurationInterface
      */
     private function getConfigFile(string $configFile): ConfigurationInterface
     {
@@ -54,8 +40,6 @@ final class SiteConfigurationFactory
 
     /**
      * Create Site Configuration
-     *
-     * @return ConfigurationInterface
      */
     public function create(): ConfigurationInterface
     {
@@ -64,18 +48,17 @@ final class SiteConfigurationFactory
 
         return $config;
     }
+
     /**
      * Detect configuration file and create Site Configuration from it
-     *
-     * @return Configuration
      */
     public function detectConfig(): ConfigurationInterface
     {
-        if (file_exists($file = $this->rootDir.'/config/sculpin_site_'.$this->environment.'.yml')) {
+        if (file_exists($file = $this->projectDir . '/app/config/sculpin_site_' . $this->environment . '.yml')) {
             return $this->getConfigFile($file);
         }
 
-        if (file_exists($file = $this->rootDir.'/config/sculpin_site.yml')) {
+        if (file_exists($file = $this->projectDir . '/app/config/sculpin_site.yml')) {
             return $this->getConfigFile($file);
         }
 

@@ -24,11 +24,13 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class InitCommand extends AbstractCommand
 {
-    public const COMMAND_SUCCESS          = 0;
-    public const PROJECT_FOLDER_NOT_EMPTY = 101;
+    public const int COMMAND_SUCCESS          = 0;
 
-    public const DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
-    public const DEFAULT_TITLE    = 'My Sculpin Site';
+    public const int PROJECT_FOLDER_NOT_EMPTY = 101;
+
+    public const string DEFAULT_SUBTITLE = 'A Static Site Powered By Sculpin';
+
+    public const string DEFAULT_TITLE    = 'My Sculpin Site';
 
     /**
      * {@inheritdoc}
@@ -57,16 +59,16 @@ final class InitCommand extends AbstractCommand
                 ),
             ])
             ->setHelp(<<<EOT
-The <info>init</info> command initializes a default site configuration.
+            The <info>init</info> command initializes a default site configuration.
 
-EOT
+            EOT
             );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -93,14 +95,14 @@ EOT
         }
 
         // 2. Create default Kernel
-        $this->createDefaultKernel($projectDir, $output);
+        $this->createDefaultKernel($projectDir);
 
         // 3. Create default Site config files
-        $this->createSiteKernelFile($projectDir, $output);
-        $this->createSiteConfigFile($projectDir, $title, $subTitle, $output);
+        $this->createSiteKernelFile($projectDir);
+        $this->createSiteConfigFile($projectDir, $title, $subTitle);
 
         // 4. Create source folder (with or without posts) and the very first basic entry in the source folder
-        $this->createSourceFolder($projectDir, $output);
+        $this->createSourceFolder($projectDir);
 
         $output->writeln('<info>Success!</info>');
         $output->writeln('Run "sculpin generate --watch --server" to see your static site in action.');
@@ -126,88 +128,79 @@ EOT
         return true;
     }
 
-    private function createDefaultKernel(string $projectDir, OutputInterface $output): bool
+    private function createDefaultKernel(string $projectDir): void
     {
-        $contents = <<<EOF
-<?php
+        $contents = <<<EOT
+        <?php
 
-class SculpinKernel extends \Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel
-{
-    protected function getAdditionalSculpinBundles(): array
-    {
-        return [
-//            'App\\Bundle\\ExampleBundle\\AppExampleBundle'
-        ];
-    }
-}
+        class SculpinKernel extends \Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel
+        {
+            protected function getAdditionalSculpinBundles(): array
+            {
+                return [
+        //            'App\\Bundle\\ExampleBundle\\AppExampleBundle'
+                ];
+            }
+        }
 
-EOF;
+        EOT;
         $this->createFile($projectDir . '/app/SculpinKernel.php', $contents);
-
-        return true;
     }
 
-    private function createSiteKernelFile(string $projectDir, OutputInterface $output): bool
+    private function createSiteKernelFile(string $projectDir): void
     {
-        $contents = <<<EOF
-sculpin_content_types:
-    posts:
-      enabled: false
+        $contents = <<<EOT
+        sculpin_content_types:
+            posts:
+              enabled: false
 
-EOF;
+        EOT;
         $this->createFile($projectDir . '/app/config/sculpin_kernel.yml', $contents);
-
-        return true;
     }
 
     private function createSiteConfigFile(
         string $projectDir,
         string $title,
-        string $subTitle,
-        OutputInterface $output
-    ): bool {
-        $contents = <<<EOF
-title: "$title"
-subtitle: "$subTitle"
-google_analytics_tracking_id: ''
-url: ''
+        string $subTitle
+    ): void {
+        $contents = <<<EOT
+        title: "{$title}"
+        subtitle: "{$subTitle}"
+        google_analytics_tracking_id: ''
+        url: ''
 
-EOF;
+        EOT;
         $this->createFile($projectDir . '/app/config/sculpin_site.yml', $contents);
-
-        return true;
     }
 
-    private function createSourceFolder(string $projectDir, OutputInterface $output): bool
+    private function createSourceFolder(string $projectDir): void
     {
         $fs = new Filesystem();
 
         $fs->dumpFile(
             $projectDir . '/source/index.md',
-            <<<EOF
----
-layout: default
----
+            <<<EOT
+            ---
+            layout: default
+            ---
 
-<h1>Welcome to {{site.title}}</h1>
+            <h1>Welcome to {{site.title}}</h1>
 
-EOF
+            EOT
         );
 
         $fs->dumpFile(
             $projectDir . '/source/_views/default.html',
-            <<<EOF
-<html>
-<head><title>{{site.title}}</title></head>
-<body>
-{% block content_wrapper %}{% block content '' %}{% endblock content_wrapper %}
-</body>
-</html>
+            <<<EOT
+            <html>
+            <head><title>{{site.title}}</title></head>
+            <body>
+            {% block content_wrapper %}{% block content '' %}{% endblock content_wrapper %}
+            </body>
+            </html>
 
-EOF
+            EOT
         );
-
-        return true;
     }
 
     private function createFile(string $path, string $contents): void

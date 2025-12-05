@@ -18,20 +18,8 @@ namespace Sculpin\Core\Permalink;
  */
 class Permalink implements PermalinkInterface
 {
-    /**
-     * @var string
-     */
-    private $relativeFilePath;
-
-    /**
-     * @var string
-     */
-    private $relativeUrlPath;
-
-    public function __construct(string $relativeFilePath, string $relativeUrlPath)
+    public function __construct(private readonly string $relativeFilePath, private readonly string $relativeUrlPath)
     {
-        $this->relativeFilePath = $relativeFilePath;
-        $this->relativeUrlPath = $relativeUrlPath;
     }
 
     /**
