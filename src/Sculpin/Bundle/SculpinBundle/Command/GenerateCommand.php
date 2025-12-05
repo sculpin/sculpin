@@ -71,6 +71,12 @@ class GenerateCommand extends AbstractCommand
                     InputOption::VALUE_NONE,
                     'Start an HTTP server to host your generated site'
                 ),
+                new InputOption(
+                    'editor',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Enable the experimental Live Editor <comment>(CAUTION: EXPERIMENTAL)</comment>'
+                ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
@@ -78,6 +84,10 @@ class GenerateCommand extends AbstractCommand
             ])
             ->setHelp(<<<EOT
             The <info>generate</info> command generates a site.
+
+            The command can also watch your sources for any changes,
+            and can serve your site locally to your browser, by using
+            the <info>generate --watch --server</info> parameters.
 
             EOT
             );
@@ -118,11 +128,15 @@ class GenerateCommand extends AbstractCommand
             $output->isDebug();
             $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
 
-            $fetcher = new LiveEditorContentFetcher(
-                $sourceSet,
-                $docroot,
-                $this->getContainer()->getParameter('sculpin.source_dir')
-            );
+            if ($input->getOption('editor')) {
+                $fetcher = new LiveEditorContentFetcher(
+                    $sourceSet,
+                    $docroot,
+                    $this->getContainer()->getParameter('sculpin.source_dir')
+                );
+            } else {
+                $fetcher = new DefaultContentFetcher();
+            }
 
             $kernel = $this->getContainer()->get('kernel');
 
@@ -147,6 +161,10 @@ class GenerateCommand extends AbstractCommand
 
             $httpServer->run();
         } else {
+            if ($input->getOption('editor')) {
+                throw new \InvalidArgumentException('Experimental Live Editor is only available in Server mode (generate --watch --server --editor)');
+            }
+
             $this->throwExceptions = !$watch;
             do {
                 $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
