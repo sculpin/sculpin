@@ -32,6 +32,7 @@ final class HttpServer
 
     public function __construct(
         private readonly OutputInterface $output,
+        private readonly ContentFetcher $fetcher,
         string $docroot,
         private readonly string $env,
         private readonly bool $debug,
@@ -121,15 +122,62 @@ final class HttpServer
 
     private function getHttpServer(string $docroot, OutputInterface $output): ReactHttpServer
     {
+        $fetcher = $this->fetcher;
         return new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
             $docroot,
-            $output
+            $output,
+            $fetcher,
         ): Response {
             $mimeTypes = new MimeTypes();
             $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
 
             if (is_dir($path)) {
                 $path = rtrim($path, '/') . '/index.html';
+            }
+
+            if ($fetcher instanceof LiveEditorContentFetcher) {
+                if (str_ends_with($path, '_SCULPIN_/editor.js')) {
+                    return new Response(200, ['Content-Type' => 'text/javascript'], $fetcher->editorJs());
+                }
+
+                if (str_ends_with($path, '_SCULPIN_/hash') && $request->getMethod() === 'GET') {
+                    $params = $request->getQueryParams();
+                    if (!$fetcher->diskPathExists($params['url'])) {
+                        return new Response(
+                            400, // While this might look like a "404" case, the requested URL technically does exist.
+                            ['Content-Type' => 'application/json'],
+                            json_encode(['error' => 'Not Found'])
+                        );
+                    }
+
+                    $hash = $fetcher->hash($params['url']);
+
+                    return new Response(200, ['Content-Type' => 'application/json'], json_encode(['hash' => $hash]));
+                }
+
+                if (str_ends_with($path, '_SCULPIN_/update')
+                    && $request->getMethod() === 'PUT'
+                ) {
+                    $edit = json_decode($request->getBody()->getContents(), true);
+
+                    if (!$fetcher->diskPathExists($edit['url'])) {
+                        HttpServer::logRequest($output, 404, $request);
+
+                        $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
+                            . '<p>'
+                            . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                            . 'could not update the requested resource.'
+                            . '</p>';
+
+                        return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
+                    }
+
+                    $fetcher->save($edit['url'], $edit['content']);
+
+                    HttpServer::logRequest($output, 307, $request);
+
+                    return new Response(307, ['Location' => $edit['path']]);
+                }
             }
 
             if (!file_exists($path)) {
@@ -152,7 +200,7 @@ final class HttpServer
 
             HttpServer::logRequest($output, 200, $request);
 
-            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
+            return new Response(200, ['Content-Type' => $type], $fetcher->fetchData($path));
         });
     }
 }

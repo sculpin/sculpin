@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
 use Symfony\Component\Console\Command\Command;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,6 +55,7 @@ class ServeCommand extends AbstractCommand
 
         $httpServer = new HttpServer(
             $output,
+            new DefaultContentFetcher(),
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),

@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\Console\Application;
+use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Bundle\SculpinBundle\HttpServer\LiveEditorContentFetcher;
 use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Sculpin;
@@ -69,6 +71,12 @@ class GenerateCommand extends AbstractCommand
                     InputOption::VALUE_NONE,
                     'Start an HTTP server to host your generated site'
                 ),
+                new InputOption(
+                    'editor',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Enable the experimental Live Editor <comment>(CAUTION: EXPERIMENTAL)</comment>'
+                ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
@@ -76,6 +84,10 @@ class GenerateCommand extends AbstractCommand
             ])
             ->setHelp(<<<EOT
             The <info>generate</info> command generates a site.
+
+            The command can also watch your sources for any changes,
+            and can serve your site locally to your browser, by using
+            the <info>generate --watch --server</info> parameters.
 
             EOT
             );
@@ -116,10 +128,21 @@ class GenerateCommand extends AbstractCommand
             $output->isDebug();
             $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
 
+            if ($input->getOption('editor')) {
+                $fetcher = new LiveEditorContentFetcher(
+                    $sourceSet,
+                    $docroot,
+                    $this->getContainer()->getParameter('sculpin.source_dir')
+                );
+            } else {
+                $fetcher = new DefaultContentFetcher();
+            }
+
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
                 $output,
+                $fetcher,
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
@@ -127,16 +150,27 @@ class GenerateCommand extends AbstractCommand
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo): void {
-                    clearstatcache();
-                    $sourceSet->reset();
+                $httpServer->addPeriodicTimer(
+                    1,
+                    function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
+                        clearstatcache();
+                        $sourceSet->reset();
+                        $fetcher->buildPathMap($sourceSet);
 
-                    $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
-                });
+                        $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
+                    }
+                );
             }
 
             $httpServer->run();
         } else {
+            if ($input->getOption('editor')) {
+                throw new \InvalidArgumentException(
+                    'Experimental Live Editor is only available in Server mode'
+                    . ' (generate --watch --server --editor)'
+                );
+            }
+
             $this->throwExceptions = !$watch;
             do {
                 $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
