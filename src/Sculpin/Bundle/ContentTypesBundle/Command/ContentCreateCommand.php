@@ -69,14 +69,15 @@ final class ContentCreateCommand extends AbstractCommand
         );
 
         $this->setHelp(<<<EOT
-            The <info>content:create</info> command helps you create a custom content type and the associated boilerplate/templates.
+            The <info>content:create</info> command helps you create a custom content type and the associated
+                  boilerplate/templates.
 
             Example:
 
                   vendor/bin/sculpin content:create docs -t product -t year
 
-            NOTE: This command does not automatically modify the <info>app/config/sculpin_kernel.yml</info> file. You will have to
-                  add the suggested changes yourself.
+            NOTE: This command does not automatically modify the <info>app/config/sculpin_kernel.yml</info> file. You
+                  will have to add the suggested changes yourself.
 
             EOT
         );
@@ -310,7 +311,9 @@ final class ContentCreateCommand extends AbstractCommand
         <ul>
             {% for {$singularTaxonomy},{$plural} in data.{$plural}_{$taxonomy} %}
                 <li>
-                    <a href="/{$plural}/{$taxonomy}/{{ {$singularTaxonomy}|url_encode(true) }}">{{ {$singularTaxonomy} }}</a>
+                    <a href="/{$plural}/{$taxonomy}/{{ {$singularTaxonomy}|url_encode(true) }}">
+                        {{ {$singularTaxonomy} }}
+                    </a>
                 </li>
             {% endfor %}
         </ul>
