@@ -38,7 +38,7 @@
         "symfony/yaml": "^v6.4",
         "symfony/mime": "^v6.4",
         "twig/twig": "^3.0",
-        "webignition/internet-media-type": "^0.4.8"
+        "webignition/internet-media-type": "^4.1"
     },
     "require-dev": {
         "phpdocumentor/reflection-docblock": "^5.2",

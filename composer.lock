@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7adab4877f53c015269510f97dbfa7c",
+    "content-hash": "e95c32856d7526600012f938b7e9d5f5",
     "packages": [
         {
             "name": "dflydev/ant-path-matcher",
@@ -3423,83 +3423,37 @@
             "time": "2026-07-03T20:44:34+00:00"
         },
         {
-            "name": "webignition/disallowed-character-terminated-string",
-            "version": "2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webignition/disallowed-character-terminated-string.git",
-                "reference": "1c35b8bacbb2e76837c0aa8538dc2468a1f10e6e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webignition/disallowed-character-terminated-string/zipball/1c35b8bacbb2e76837c0aa8538dc2468a1f10e6e",
-                "reference": "1c35b8bacbb2e76837c0aa8538dc2468a1f10e6e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^0.12.3",
-                "phpunit/phpunit": "~8.0",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "webignition\\DisallowedCharacterTerminatedString\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jon Cram",
-                    "email": "webignition@gmail.com"
-                }
-            ],
-            "description": "A string terminated by one or more disallowed characters",
-            "homepage": "https://github.com/webignition/disallowed-character-terminated-string",
-            "keywords": [
-                "string",
-                "terminated"
-            ],
-            "support": {
-                "issues": "https://github.com/webignition/disallowed-character-terminated-string/issues",
-                "source": "https://github.com/webignition/disallowed-character-terminated-string/tree/master"
-            },
-            "time": "2019-12-20T15:52:44+00:00"
-        },
-        {
             "name": "webignition/internet-media-type",
-            "version": "0.4.8",
+            "version": "4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/internet-media-type.git",
-                "reference": "1a5bbe38033b00b23acd5e1dd10489bb07eed77c"
+                "reference": "bcb4918f04590ff5e18ef70e8e34583685e9447e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/internet-media-type/zipball/1a5bbe38033b00b23acd5e1dd10489bb07eed77c",
-                "reference": "1a5bbe38033b00b23acd5e1dd10489bb07eed77c",
+                "url": "https://api.github.com/repos/webignition/internet-media-type/zipball/bcb4918f04590ff5e18ef70e8e34583685e9447e",
+                "reference": "bcb4918f04590ff5e18ef70e8e34583685e9447e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0",
-                "webignition/quoted-string": ">=0.2.1,<1.0",
-                "webignition/string-parser": ">=0.2.3,<1.0"
+                "php": ">=8",
+                "webignition/internet-media-type-interface": "^1.0",
+                "webignition/quoted-string": "^3.0",
+                "webignition/string-parser": "^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.0",
-                "squizlabs/php_codesniffer": "3.*"
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^0.12.99",
+                "phpstan/phpstan-phpunit": "^0.12.22",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "webignition\\InternetMediaType\\": "src/",
-                    "webignition\\Tests\\InternetMediaType\\": "tests/"
+                    "webignition\\InternetMediaType\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3523,31 +3477,86 @@
             ],
             "support": {
                 "issues": "https://github.com/webignition/internet-media-type/issues",
-                "source": "https://github.com/webignition/internet-media-type/tree/master"
+                "source": "https://github.com/webignition/internet-media-type/tree/4.1"
             },
-            "time": "2018-03-12T14:54:00+00:00"
+            "time": "2021-10-15T16:07:26+00:00"
         },
         {
-            "name": "webignition/quoted-string",
-            "version": "0.2.1",
+            "name": "webignition/internet-media-type-interface",
+            "version": "1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webignition/quoted-string.git",
-                "reference": "88b36b7be067796683ab3668e175322842dd5313"
+                "url": "https://github.com/webignition/internet-media-type-interface.git",
+                "reference": "0025d1539288442b76c0df5689cbce7929fd17a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/quoted-string/zipball/88b36b7be067796683ab3668e175322842dd5313",
-                "reference": "88b36b7be067796683ab3668e175322842dd5313",
+                "url": "https://api.github.com/repos/webignition/internet-media-type-interface/zipball/0025d1539288442b76c0df5689cbce7929fd17a7",
+                "reference": "0025d1539288442b76c0df5689cbce7929fd17a7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0",
-                "webignition/string-parser": ">=0.2.3,<1"
+                "php": ">=7.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "3.*"
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "phpstan/phpstan": "^0.12.99",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "webignition\\InternetMediaTypeInterface\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jon Cram",
+                    "email": "jon@webignition.net"
+                }
+            ],
+            "description": "PHP interfaces for a model of an http://en.wikipedia.org/wiki/Internet_media_type",
+            "homepage": "https://github.com/webignition/internet-media-type-interface",
+            "keywords": [
+                "content type",
+                "content-type",
+                "internet media type",
+                "media type",
+                "media-type"
+            ],
+            "support": {
+                "issues": "https://github.com/webignition/internet-media-type-interface/issues",
+                "source": "https://github.com/webignition/internet-media-type-interface/tree/1.0"
+            },
+            "time": "2021-10-15T15:27:08+00:00"
+        },
+        {
+            "name": "webignition/quoted-string",
+            "version": "3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webignition/quoted-string.git",
+                "reference": "00487e149d2bf26189dd4e75ac5ff03a788f55f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webignition/quoted-string/zipball/00487e149d2bf26189dd4e75ac5ff03a788f55f5",
+                "reference": "00487e149d2bf26189dd4e75ac5ff03a788f55f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8",
+                "webignition/string-parser": ">=3,<4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "phpstan/phpstan": "^0.12.99",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
             "autoload": {
@@ -3563,7 +3572,7 @@
             "authors": [
                 {
                     "name": "Jon Cram",
-                    "email": "jon@webignition.net"
+                    "email": "webignition@gmail.com"
                 }
             ],
             "description": "A parser for string values that are encapsulated in double quotes (ASCII 34)",
@@ -3574,37 +3583,37 @@
             ],
             "support": {
                 "issues": "https://github.com/webignition/quoted-string/issues",
-                "source": "https://github.com/webignition/quoted-string/tree/master"
+                "source": "https://github.com/webignition/quoted-string/tree/3.0"
             },
-            "time": "2017-05-11T11:41:31+00:00"
+            "time": "2021-10-14T11:06:26+00:00"
         },
         {
             "name": "webignition/string-parser",
-            "version": "0.2.3",
+            "version": "3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/string-parser.git",
-                "reference": "8591e28c05bd250bcc67b8001f3588995b9ef74b"
+                "reference": "85c0e035335122fa6388abbf9db564864d7e00b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/string-parser/zipball/8591e28c05bd250bcc67b8001f3588995b9ef74b",
-                "reference": "8591e28c05bd250bcc67b8001f3588995b9ef74b",
+                "url": "https://api.github.com/repos/webignition/string-parser/zipball/85c0e035335122fa6388abbf9db564864d7e00b6",
+                "reference": "85c0e035335122fa6388abbf9db564864d7e00b6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
-                "webignition/disallowed-character-terminated-string": ">=1.0"
+                "php": ">=8"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "3.*"
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "phpstan/phpstan": "^0.12.99",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "webignition\\StringParser\\": "src/",
-                    "webignition\\Tests\\StringParser\\": "tests/"
+                    "webignition\\StringParser\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3625,9 +3634,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webignition/string-parser/issues",
-                "source": "https://github.com/webignition/string-parser/tree/master"
+                "source": "https://github.com/webignition/string-parser/tree/3.0"
             },
-            "time": "2017-05-11T10:04:12+00:00"
+            "time": "2021-10-14T10:17:23+00:00"
         }
     ],
     "packages-dev": [
