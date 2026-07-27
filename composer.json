@@ -24,7 +24,7 @@
         "dflydev/dot-access-configuration": "^2.0.0",
         "doctrine/inflector": "^1.3",
         "league/mime-type-detection": "^1.13.0",
-        "michelf/php-markdown": "^1.9",
+        "michelf/php-markdown": "^2.0",
         "netcarver/textile": "^4.1",
         "react/http": "^1.0",
         "sculpin/sculpin-theme-composer-plugin": "^1.0",
