@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use React\EventLoop\Loop;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Sculpin\Core\Io\ConsoleIo;
@@ -129,7 +130,7 @@ class GenerateCommand extends AbstractCommand
             );
 
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                Loop::addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
                     clearstatcache();
                     $sourceSet->reset();
 

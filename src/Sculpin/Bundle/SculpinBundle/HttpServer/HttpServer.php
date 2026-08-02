@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Psr\Http\Message\ServerRequestInterface;
-use React\EventLoop\StreamSelectLoop;
+use React\EventLoop\Loop;
 use React\Http\Message\Response;
-use React\Http\Server as ReactHttpServer;
-use React\Socket\Server as ReactSocketServer;
+use React\Http\HttpServer as ReactHttpServer;
+use React\Socket\SocketServer as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mime\MimeTypes;
 
@@ -26,30 +26,13 @@ use Symfony\Component\Mime\MimeTypes;
  */
 final class HttpServer
 {
-    /**
-     * @var bool
-     */
-    private $debug;
+    private bool $debug;
 
-    /**
-     * @var string
-     */
-    private $env;
+    private string $env;
 
-    /**
-     * @var StreamSelectLoop
-     */
-    private $loop;
+    private OutputInterface $output;
 
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var int
-     */
-    private $port;
+    private int $port;
 
     public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
     {
@@ -60,13 +43,11 @@ final class HttpServer
         $this->output = $output;
         $this->port   = $port ?: 8000;
 
-        $this->loop   = new StreamSelectLoop;
         $socketServer = new ReactSocketServer(
             sprintf('0.0.0.0:%d', $this->port),
-            $this->loop
         );
 
-        $httpServer = new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
+        $httpServer = new ReactHttpServer(function (ServerRequestInterface $request) use (
             $mimeTypes,
             $docroot,
             $output
@@ -104,17 +85,6 @@ final class HttpServer
     }
 
     /**
-     * Add a periodic timer
-     *
-     * @param int      $interval Interval
-     * @param callable $callback Callback
-     */
-    public function addPeriodicTimer(int $interval, callable $callback): void
-    {
-        $this->loop->addPeriodicTimer($interval, $callback);
-    }
-
-    /**
      * Run server
      */
     public function run(): void
@@ -131,7 +101,7 @@ final class HttpServer
         ));
         $this->output->writeln('Quit the server with CONTROL-C.');
 
-        $this->loop->run();
+        Loop::run();
     }
 
     /**
