@@ -20,5 +20,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SculpinMarkdownBundle extends Bundle
 {
-    public const CONVERTER_NAME = 'markdown';
+    public const string CONVERTER_NAME = 'markdown';
 }

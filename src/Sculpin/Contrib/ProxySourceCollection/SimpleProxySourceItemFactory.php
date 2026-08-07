@@ -17,16 +17,16 @@ use Sculpin\Core\Source\SourceInterface;
 
 class SimpleProxySourceItemFactory implements ProxySourceItemFactoryInterface
 {
-    private $reflectionClass;
+    private readonly \ReflectionClass $reflectionClass;
 
     public function __construct($class = null)
     {
         $this->reflectionClass = new \ReflectionClass(
-            $class ?: 'Sculpin\Contrib\ProxySourceCollection\ProxySourceItem'
+            $class ?: ProxySourceItem::class
         );
     }
 
-    public function createProxySourceItem(SourceInterface $source)
+    public function createProxySourceItem(SourceInterface $source): object
     {
         return $this->reflectionClass->newInstance($source);
     }

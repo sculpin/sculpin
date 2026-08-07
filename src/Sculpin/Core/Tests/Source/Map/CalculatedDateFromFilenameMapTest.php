@@ -18,12 +18,9 @@ use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\Map\CalculatedDateFromFilenameMap;
 use Sculpin\Core\Source\MemorySource;
 
-class CalculatedDateFromFilenameMapTest extends TestCase
+final class CalculatedDateFromFilenameMapTest extends TestCase
 {
-    /**
-     * @var CalculatedDateFromFilenameMap
-     */
-    private $map;
+    private CalculatedDateFromFilenameMap $map;
 
     protected function setUp(): void
     {
@@ -31,7 +28,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldNotModifyAnExistingCalculatedDate()
+    public function itShouldNotModifyAnExistingCalculatedDate(): void
     {
         $source = $this->getSourceWithCalculatedDate($timestamp = 123456);
 
@@ -41,7 +38,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldSetTheCalculatedDateIfFound()
+    public function itShouldSetTheCalculatedDateIfFound(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-sculpin-is-great.markdown");
 
@@ -51,7 +48,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldIncludeTheTimeIfFound()
+    public function itShouldIncludeTheTimeIfFound(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname("2013-12-12-220212-sculpin-is-great.markdown");
 
@@ -61,7 +58,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
     }
 
     /** @test */
-    public function itShouldIgnoreTheTimeIfItsProbablyNotATime()
+    public function itShouldIgnoreTheTimeIfItsProbablyNotATime(): void
     {
         $source = $this->getSourceWithoutCalculatedDateAndPathname(
             "2013-12-12-10-reasons-why-sculpin-is-great.markdown"
@@ -72,7 +69,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
         $this->assertEquals(strtotime("2013-12-12"), $source->data()->get('calculated_date'));
     }
 
-    protected function getSourceWithCalculatedDate($timestamp)
+    private function getSourceWithCalculatedDate(int $timestamp): MemorySource
     {
         return new MemorySource(
             uniqid(),
@@ -88,7 +85,7 @@ class CalculatedDateFromFilenameMapTest extends TestCase
         );
     }
 
-    protected function getSourceWithoutCalculatedDateAndPathname($path)
+    private function getSourceWithoutCalculatedDateAndPathname(string $path): MemorySource
     {
         return new MemorySource(
             uniqid(),

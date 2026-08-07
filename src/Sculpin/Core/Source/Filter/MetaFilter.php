@@ -17,13 +17,8 @@ use Sculpin\Core\Source\SourceInterface;
 
 class MetaFilter implements FilterInterface
 {
-    private $key;
-    private $value;
-
-    public function __construct($key, $value)
+    public function __construct(private $key, private $value)
     {
-        $this->key = $key;
-        $this->value = $value;
     }
 
     public function match(SourceInterface $source): bool

@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <ruleset name="Sculpin">
- <description>PSR-2 based coding standard.</description>
- <arg name="encoding" value="utf-8"/>
- <arg name="colors"/>
- <arg value="p"/>
+    <description>PSR-2 based coding standard.</description>
+    <arg name="encoding" value="utf-8"/>
+    <arg name="colors"/>
+    <arg value="p"/>
 
- <file>./src/</file>
+    <file>./src/</file>
 
- <exclude-pattern>*/__BlankSculpinProject__/*</exclude-pattern>
- <exclude-pattern>*/__EventListenerFixture__/*</exclude-pattern>
+    <exclude-pattern>*/__BlankSculpinProject__/*</exclude-pattern>
+    <exclude-pattern>*/__EventListenerFixture__/*</exclude-pattern>
+    <exclude-pattern>*/__ComplexProviderLifecycleFixture__/*</exclude-pattern>
 
- <rule ref="PSR2"/>
- <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="PSR2"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>./src/Sculpin/Tests/*</exclude-pattern>
+    </rule>
 </ruleset>

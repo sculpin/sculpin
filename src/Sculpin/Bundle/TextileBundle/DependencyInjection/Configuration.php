@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('parser_class')->defaultValue(Parser::class)->end()
                 ->arrayNode('extensions')
                     ->defaultValue(['textile'])
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                 ->end()
             ->end();
 

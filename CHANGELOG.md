@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.0-alpha2 - 2026-07-24
+
+### Added
+
+* New `sculpin run` command, an alias for `sculpin generate --watch --server --editor` ([#525](https://github.com/sculpin/sculpin/pull/525))
+
+### Changed
+
+* Updates to the In-Browser Editor ([#516](https://github.com/sculpin/sculpin/pull/516), [#530](https://github.com/sculpin/sculpin/pull/530))
+* Updates to the `sculpin init` command ([#517](https://github.com/sculpin/sculpin/pull/517))
+
+### Fixed
+
+* Issue with Textile file support and additional cleanups. Also includes some weird git merging hijinks to include `main`. ([#531](https://github.com/sculpin/sculpin/pull/531), [#524](https://github.com/sculpin/sculpin/pull/524))
+* (Confirmed Fixed) Added test case to verify fix for common-prefix confusion in content types ([#475](https://github.com/sculpin/sculpin/issues/475)) 
+
+## 4.0.0-alpha1 - 2026-07-06
+
+### Added
+
+* Sculpin In-Browser Editor ([#443](https://github.com/sculpin/sculpin/pull/443))
+* Enable building Sculpin Phar files & static Sculpin binaries ([#507](https://github.com/sculpin/sculpin/pull/507))
+* Dev Dependency: PHP Rector ([#498](https://github.com/sculpin/sculpin/pull/498)) (thanks, @Pekhov14!)
+
+### Changed
+
+* Minimum PHP version is now PHP 8.5 ([#512](https://github.com/sculpin/sculpin/pull/512), [#496](https://github.com/sculpin/sculpin/pull/496), [#499](https://github.com/sculpin/sculpin/pull/499))
+
+### Fixed
+
+* Fixed a small bug in Drafts Mode handling ([#500](https://github.com/sculpin/sculpin/pull/500))
+* Fix for SplObjectStorage deprecation notice ([#509](https://github.com/sculpin/sculpin/pull/509))
+* Fix for nondeterministic File Source sort ordering ([#511](https://github.com/sculpin/sculpin/pull/511))
+
 ## 3.3.1 - 2026-07-24
 
 ### Fixed

@@ -24,7 +24,7 @@ final class CustomMimeTypesRepositoryPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->hasDefinition('sculpin.custom_mime_types_repository')) {
             return;
@@ -51,10 +51,9 @@ final class CustomMimeTypesRepositoryPass implements CompilerPassInterface
             }
         }
 
+        // Prune empty extensions
         foreach ($data as $type => $extensions) {
-            $data[$type] = array_filter($extensions, function ($var) {
-                return strlen($var) > 0;
-            });
+            $data[$type] = array_filter($extensions, fn($var): bool => (string) $var !== '');
         }
 
         $definition->addArgument($data);

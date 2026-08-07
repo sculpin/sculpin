@@ -15,12 +15,15 @@ namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use React\EventLoop\Loop;
 use Sculpin\Bundle\SculpinBundle\Console\Application;
+use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Bundle\EditorBundle\InBrowserEditorContentFetcher;
 use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Io\IoInterface;
 use Sculpin\Core\Sculpin;
 use Sculpin\Core\Source\DataSourceInterface;
 use Sculpin\Core\Source\SourceSet;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,10 +41,7 @@ use Twig\Error\SyntaxError;
  */
 class GenerateCommand extends AbstractCommand
 {
-    /**
-     * @var bool
-     */
-    protected $throwExceptions;
+    protected bool $throwExceptions;
 
     /**
      * {@inheritdoc}
@@ -72,6 +72,12 @@ class GenerateCommand extends AbstractCommand
                     InputOption::VALUE_NONE,
                     'Start an HTTP server to host your generated site'
                 ),
+                new InputOption(
+                    'editor',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Enable the In-Browser Development Editor <comment>(CAUTION: EXPERIMENTAL)</comment>'
+                ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
@@ -80,6 +86,10 @@ class GenerateCommand extends AbstractCommand
             ->setHelp(<<<EOT
             The <info>generate</info> command generates a site.
 
+            The command can also watch your sources for any changes,
+            and can serve your site locally to your browser, by using
+            the <info>generate --watch --server</info> parameters.
+
             EOT
             );
     }
@@ -87,7 +97,7 @@ class GenerateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
         if ($application instanceof Application) {
@@ -119,10 +129,22 @@ class GenerateCommand extends AbstractCommand
             $output->isDebug();
             $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
 
+            if ($input->getOption('editor')) {
+                $fetcher = new InBrowserEditorContentFetcher(
+                    $sourceSet,
+                    $docroot,
+                    $this->getContainer()->getParameter('sculpin.source_dir'),
+                    $this->getContainer()->get('sculpin.mime.detector')
+                );
+            } else {
+                $fetcher = new DefaultContentFetcher();
+            }
+
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
                 $output,
+                $fetcher,
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
@@ -130,16 +152,24 @@ class GenerateCommand extends AbstractCommand
             );
 
             if ($watch) {
-                Loop::addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                Loop::addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
                     clearstatcache();
                     $sourceSet->reset();
-
+                    $fetcher->buildPathMap($sourceSet);
                     $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
-                });
+                    }
+                );
             }
 
             $httpServer->run();
         } else {
+            if ($input->getOption('editor')) {
+                throw new \InvalidArgumentException(
+                    'Experimental Live Editor is only available in Server mode'
+                    . ' (generate --watch --server --editor)'
+                );
+            }
+
             $this->throwExceptions = !$watch;
             do {
                 $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
@@ -152,7 +182,7 @@ class GenerateCommand extends AbstractCommand
             } while ($watch);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -192,11 +222,12 @@ class GenerateCommand extends AbstractCommand
         DataSourceInterface $dataSource,
         SourceSet $sourceSet,
         IoInterface $io
-    ) {
+    ): void {
         $messages = [];
-        $errPrint = function (\Throwable $e) {
-            return $e->getMessage().PHP_EOL.' at '.str_replace(getcwd().DIRECTORY_SEPARATOR, '', $e->getFile());
-        };
+        $errPrint = fn(\Throwable $e) => $e->getMessage()
+            . PHP_EOL
+            . ' at '
+            . str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $e->getFile());
 
         try {
             $sculpin->run($dataSource, $sourceSet, $io);
@@ -231,6 +262,7 @@ class GenerateCommand extends AbstractCommand
         foreach ($messages as $message) {
             $io->write($message);
         }
+
         $io->write('');
     }
 }

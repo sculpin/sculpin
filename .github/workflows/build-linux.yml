@@ -1,0 +1,60 @@
+name: Build Linux Binary
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - arch: x86_64
+            target: ''
+            platform: linux/amd64
+          - arch: aarch64
+            target: aarch64-linux-musl
+            platform: linux/arm64
+          - arch: armv7l
+            target: arm-linux-musleabihf
+            platform: linux/arm/v7
+            # php_micro_fileinfo.c omits `typedef Elf32_Shdr Elf_Shdr` in arm32
+            compiler_extra: -DElf_Shdr=Elf32_Shdr
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build with Docker
+        run: |
+          docker buildx build --load --platform linux/amd64 \
+            --build-arg SPC_TARGET=${{ matrix.target }} \
+            --build-arg ARCH=${{ matrix.arch }} \
+            --build-arg SPC_COMPILER_EXTRA='${{ matrix.compiler_extra }}' \
+            -t sculpin-build:${{ matrix.arch }} -f Dockerfile .
+          docker create --name temp-container sculpin-build:${{ matrix.arch }}
+          docker cp temp-container:/app/sculpin-linux-${{ matrix.arch }} .
+          docker rm temp-container
+          mkdir -p build
+          mv sculpin-linux-${{ matrix.arch }} build/
+
+      - name: Verify binary runs on ${{ matrix.platform }}
+        run: |
+          docker run --rm --platform ${{ matrix.platform }} \
+            -v "$PWD/build:/b" alpine:3.21 \
+            /b/sculpin-linux-${{ matrix.arch }} --version
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sculpin-bin-linux-${{ matrix.arch }}
+          path: build/sculpin-linux-${{ matrix.arch }}
+          retention-days: 30

@@ -1,0 +1,9 @@
+sculpin_content_types:
+    jacksons:
+        taxonomies:
+            - categories
+            - tags
+    posts:
+      enabled: false
+    clades:
+      singular_name: clade

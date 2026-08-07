@@ -1,0 +1,32 @@
+<div class="jackson" id="e-{{ jackson.categories|join('.') }}-{{ jackson.tags|join('.') }}-{{ jackson.date }}">
+
+    {% if jackson.commonname != "" %}
+    <div class="row">
+        <div class="box left"><div class="label">Common Name</div></div>
+        <div class="box right"><div class="value">{{ jackson.commonname }}</div></div>
+    </div>
+    {% endif %}
+
+    {% if jackson.name != "" %}
+    <div class="row">
+        <div class="box left"><div class="label">Name</div></div>
+        <div class="box right"><div class="value">{{ jackson.name }}</div></div>
+    </div>
+    {% endif %}
+
+    {% if jackson.project != "" %}
+    <div class="row">
+        <div class="box left"><div class="label">Project</div></div>
+        <div class="box right"><div class="value">{{ jackson.project }}</div></div>
+    </div>
+    {% endif %}
+
+    {% if jackson.blocks.content|default("") != "" %}
+    <div class="row">
+        <div class="description">
+            {{ jackson.blocks.content|raw }}
+        </div>
+    </div>
+    {% endif %}
+
+</div>

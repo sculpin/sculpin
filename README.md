@@ -93,3 +93,10 @@ the following list:
  * [Jekyll](https://jekyllrb.com/) &mdash; Ruby
  * [Hugo](https://gohugo.io/) &mdash; Go-based static site generator
  * [GatsbyJS](https://www.gatsbyjs.org/) &mdash; JS-based static site generator and JAMstack orchestration tool
+
+### Building a sculpin binary
+
+```bash
+docker build -t sculpin .
+docker run --rm -v $(pwd):/out sculpin cp /app/sculpin-linux-$(uname -m) /out
+```

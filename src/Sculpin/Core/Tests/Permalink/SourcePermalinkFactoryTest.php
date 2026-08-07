@@ -11,16 +11,13 @@ use Sculpin\Core\Permalink\SourcePermalinkFactory;
 use Sculpin\Core\Source\MemorySource;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourcePermalinkFactoryTest extends TestCase
+final class SourcePermalinkFactoryTest extends TestCase
 {
     /**
      * @test
      * @dataProvider provideCreateData
-     * @param string $defaultPermalink
-     * @param SourceInterface $source
-     * @param Permalink $expectedPermalink
      */
-    public function testCreate(string $defaultPermalink, SourceInterface $source, Permalink $expectedPermalink)
+    public function testCreate(string $defaultPermalink, SourceInterface $source, Permalink $expectedPermalink): void
     {
         $sourcePermalinkFactory = new SourcePermalinkFactory($defaultPermalink);
 
@@ -29,12 +26,12 @@ class SourcePermalinkFactoryTest extends TestCase
         $this->assertEquals($expectedPermalink, $permalink);
     }
 
-    public function provideCreateData()
+    public function provideCreateData(): array
     {
         return [
             'none setting for permalink' => [
                 'none',
-                static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
+                $this->makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
                     '_posts/2015-01-12-from-buttercup-protects-to-broadway.md',
                     '/_posts/2015-01-12-from-buttercup-protects-to-broadway.md'
@@ -43,7 +40,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'pretty permalink page' => [
                 'pretty',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about/index.html',
                     '/about'
@@ -52,7 +49,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'basename with html ending' => [
                 ':basename.html',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.html',
                     '/about.html'
@@ -61,7 +58,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'pretty permalink post' => [
                 'pretty',
-                static::makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
+                $this->makeTestSource('_posts/2015-01-12-from-buttercup-protects-to-broadway.md'),
                 new Permalink(
                     '2015/01/12/from-buttercup-protects-to-broadway/index.html',
                     '/2015/01/12/from-buttercup-protects-to-broadway'
@@ -70,7 +67,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Permalink with windows path' => [
                 ':basename.html',
-                static::makeTestSource('some\windows\path.md'),
+                $this->makeTestSource('some\windows\path.md'),
                 new Permalink(
                     'some\windows\path.html',
                     '/some/windows/path.html'
@@ -79,7 +76,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             [
                 'blog/:year/:month/:day/:slug_title',
-                static::makeTestSource('about.md', [
+                $this->makeTestSource('about.md', [
                     'slug' => 'some/about-me',
                     'calculated_date' => mktime(0, 0, 0, 1, 12, 2005)
                 ]),
@@ -91,7 +88,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             [
                 ':basename.html/',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.html/index.html',
                     '/about.html/'
@@ -100,7 +97,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             [
                 ':filename.html',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.md.html',
                     '/about.md.html'
@@ -109,7 +106,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             [
                 ':filename.html/',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.md.html/index.html',
                     '/about.md.html/'
@@ -118,7 +115,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             [
                 ':filename',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.md/index.html',
                     '/about.md'
@@ -127,7 +124,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             [
                 ':filename/',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.md/index.html',
                     '/about.md/'
@@ -136,7 +133,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Permalink for .xml' => [
                 ':filename',
-                static::makeTestSource('about.xml'),
+                $this->makeTestSource('about.xml'),
                 new Permalink(
                     'about.xml',
                     '/about.xml'
@@ -145,7 +142,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Permalink for .json' => [
                 ':filename',
-                static::makeTestSource('about.json'),
+                $this->makeTestSource('about.json'),
                 new Permalink(
                     'about.json',
                     '/about.json'
@@ -154,7 +151,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Permalink with trailing slash' => [
                 ':basename/',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about/index.html',
                     '/about/'
@@ -163,7 +160,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Folder with basename, no type' => [
                 ':folder:basename.html',
-                static::makeTestSource('site/about.md'),
+                $this->makeTestSource('site/about.md'),
                 new Permalink(
                     'site/about.html',
                     '/site/about.html'
@@ -172,7 +169,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Folder with basename, no folder, no type' => [
                 ':folder:basename.html',
-                static::makeTestSource('about.md'),
+                $this->makeTestSource('about.md'),
                 new Permalink(
                     'about.html',
                     '/about.html'
@@ -181,7 +178,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Folder with basename, with type, no folder' => [
                 'posts/:folder:basename.html',
-                static::makeTestSource('_posts/somepost.md'),
+                $this->makeTestSource('_posts/somepost.md'),
                 new Permalink(
                     'posts/somepost.html',
                     '/posts/somepost.html'
@@ -190,7 +187,7 @@ class SourcePermalinkFactoryTest extends TestCase
 
             'Folder with basename, with type' => [
                 'posts/:folder:basename.html',
-                static::makeTestSource('_posts/somefolder/somepost.md'),
+                $this->makeTestSource('_posts/somefolder/somepost.md'),
                 new Permalink(
                     'posts/somefolder/somepost.html',
                     '/posts/somefolder/somepost.html'
@@ -199,7 +196,7 @@ class SourcePermalinkFactoryTest extends TestCase
         ];
     }
 
-    private static function makeTestSource($relativePathname, array $configurationData = [])
+    private function makeTestSource(string $relativePathname, array $configurationData = []): MemorySource
     {
         $configuration = new Configuration($configurationData);
 

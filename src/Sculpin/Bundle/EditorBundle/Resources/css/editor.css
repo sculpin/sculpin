@@ -1,0 +1,153 @@
+#SCULPIN_EDITOR_BAR {
+    background-color: #000;
+    border-top: 4px dashed #ff5d00;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    filter: drop-shadow(rgb(128 128 128 / 0.76) 0px -3px 2px);
+
+    .right {
+        text-align: right;
+    }
+
+    .padr {
+        padding-right: 6px;
+    }
+
+    > div {
+        flex-grow: 1;
+        color: white;
+        font-family: sans-serif;
+        font-size: 1.1em;
+        align-content: center;
+    }
+    > div.gap {
+        flex-grow: 3;
+    }
+
+    > div > strong {
+        display: inline-block;
+        padding-top: 3px;
+        padding-right: 8px;
+        font-weight: bolder;
+        font-size: x-large;
+    }
+
+    > div > span {
+        display: inline-block;
+        padding-top: 6px;
+        color: white;
+        font-family: sans-serif;
+    }
+
+    a,
+    a:visited,
+    > div > button {
+        color: #ffffff;
+        border: 0;
+        font-weight: bolder;
+        text-decoration: underline;
+        display: inline-block;
+        padding: 12px 8px;
+        margin-right: 5px;
+    }
+
+    a:hover,
+    > div > button:hover {
+        background-color: #B1C4CB;
+        text-decoration: none;
+    }
+
+    a > svg {
+        color: white;
+        fill: white;
+        margin-right: 5px;
+        vertical-align: bottom;
+    }
+}
+
+#SCULPIN_EDIT_PANEL {
+    background-color: #000;
+    border-top: 4px dashed #ff5d00;
+    padding: 12px;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    left: 0;
+    right: 0;
+
+    .right {
+        text-align: right;
+    }
+
+    > div.top-controls {
+        display: flex;
+        flex-wrap: nowrap;
+
+        > div > h3 {
+            display: inline-block;
+            margin: 0 8px 0 0;
+        }
+        > div.gap {
+            flex-grow: 3;
+        }
+        > div {
+            padding-bottom: 8px;
+            flex-grow: 1;
+            flex-wrap: nowrap;
+            color: white;
+            font-family: sans-serif;
+            font-size: 1.1em;
+            align-content: center;
+
+            > form {
+                display: inline;
+            }
+
+            > form > select {
+                border: 0;
+                background-color: #333;
+                color: #fff;
+                padding: 5px;
+                font-weight: bold;
+                font-size: medium;
+            }
+        }
+    }
+
+
+    h3 {
+        color: white;
+        font-family: sans-serif;
+    }
+
+    textarea {
+        width: 100%;
+        font-size: 1.02em;
+        font-family: 'Roboto Mono', monospace;
+        padding-bottom: 12px;
+        height: 70%;
+    }
+
+    div.controls {
+        margin-top: 8px;
+    }
+
+    div.controls > button {
+        color: #ffffff;
+        background-color: #9f480c;
+        border: 0;
+        padding: 10px;
+        margin-top: 10px;
+        font-weight: bolder;
+    }
+
+    div.controls > button#SCULPIN_SAVE_CHANGES {
+        background-color: #9f1770;
+        margin-right: 12px;
+    }
+}

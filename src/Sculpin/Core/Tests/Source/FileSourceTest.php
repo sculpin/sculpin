@@ -3,32 +3,31 @@
 declare(strict_types=1);
 namespace Sculpin\Core\Tests\Source;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\FileSource;
 use Symfony\Component\Finder\SplFileInfo;
 use Sculpin\Core\Source\DataSourceInterface;
 
-class FileSourceTest extends TestCase
+final class FileSourceTest extends TestCase
 {
     /*
      * mock analyzer for detectFromFilename, should return text/html
      */
 
-    public function makeTestSource($filename, $hasChanged = true)
+    public function makeTestSource($filename, $hasChanged = true): FileSource
     {
-        $source = new FileSource(
+        return new FileSource(
             $this->makeTestDetector(),
             $this->makeTestDatasource(),
             new SplFileInfo($filename, '../Fixtures', $filename),
             false,
             true
         );
-
-        return $source;
     }
 
-    public function makeTestDetector()
+    public function makeTestDetector(): MockObject
     {
         $detector = $this->createMock(FinfoMimeTypeDetector::class);
         $detector
@@ -39,7 +38,7 @@ class FileSourceTest extends TestCase
         return $detector;
     }
 
-    public function makeTestDatasource()
+    public function makeTestDatasource(): MockObject
     {
         $datasource = $this->createMock(DataSourceInterface::class);
 
@@ -54,7 +53,7 @@ class FileSourceTest extends TestCase
     /**
      * @dataProvider provideTestParseYaml
      */
-    public function testParseYaml($filename, $msg)
+    public function testParseYaml(string $filename, string $msg): void
     {
         $expectedOutput = $this->getErrorMessage($filename, $msg);
         ob_end_flush();
@@ -66,7 +65,7 @@ class FileSourceTest extends TestCase
         $this->assertEquals($expectedOutput, $output);
     }
 
-    public function provideTestParseYaml()
+    public function provideTestParseYaml(): array
     {
         return [
             [__DIR__ . '/../Fixtures/valid/no-end-frontmatter.yml', ''],
@@ -87,11 +86,12 @@ class FileSourceTest extends TestCase
         ];
     }
 
-    public function getErrorMessage($filename, $msg)
+    public function getErrorMessage(string $filename, ?string $msg): string
     {
         if ($msg == '') {
             return '';
         }
+
         return ' ! FileSource:FilesystemDataSource:test:' . $filename . ' ' . $msg . ' !' . PHP_EOL;
     }
 }

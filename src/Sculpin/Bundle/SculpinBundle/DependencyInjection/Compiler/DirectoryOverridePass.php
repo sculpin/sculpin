@@ -24,9 +24,9 @@ class DirectoryOverridePass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (true === $container->hasParameter('sculpin.source_dir_override')) {
+        if ($container->hasParameter('sculpin.source_dir_override')) {
             $override = $container->getParameter('sculpin.source_dir_override');
 
             if ($override) {
@@ -37,7 +37,7 @@ class DirectoryOverridePass implements CompilerPassInterface
             }
         }
 
-        if (true === $container->hasParameter('sculpin.output_dir_override')) {
+        if ($container->hasParameter('sculpin.output_dir_override')) {
             $override = $container->getParameter('sculpin.output_dir_override');
 
             if ($override) {

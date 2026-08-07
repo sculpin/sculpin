@@ -20,8 +20,6 @@ interface DataProviderInterface
 {
     /**
      * Provide data.
-     *
-     * @return array
      */
     public function provideData(): array;
 }

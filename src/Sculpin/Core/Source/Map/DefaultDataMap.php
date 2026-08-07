@@ -17,11 +17,8 @@ use Sculpin\Core\Source\SourceInterface;
 
 class DefaultDataMap implements MapInterface
 {
-    private $defaults;
-
-    public function __construct(array $defaults = [])
+    public function __construct(private readonly array $defaults = [])
     {
-        $this->defaults = $defaults;
     }
 
     public function process(SourceInterface $source): void

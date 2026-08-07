@@ -49,7 +49,6 @@
         </service>
 
         <service id="sculpin" class="Sculpin\Core\Sculpin" public="true">
-            <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.source_permalink_factory" />
             <argument type="service" id="sculpin.writer" />
@@ -62,7 +61,7 @@
             <argument type="service" id="sculpin.custom_mime_types_repository" />
         </service>
 
-        <service id="sculpin.mime.detector" class="League\MimeTypeDetection\FinfoMimeTypeDetector">
+        <service id="sculpin.mime.detector" class="League\MimeTypeDetection\FinfoMimeTypeDetector" public="true">
             <argument/>
             <argument type="service" id="sculpin.mime.detector_overrides" />
             <argument>200</argument>
@@ -114,6 +113,11 @@
 
         <service id="Sculpin\Bundle\SculpinBundle\Command\InitCommand"
                  class="Sculpin\Bundle\SculpinBundle\Command\InitCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Sculpin\Bundle\SculpinBundle\Command\RunCommand"
+                 class="Sculpin\Bundle\SculpinBundle\Command\RunCommand">
             <tag name="console.command"/>
         </service>
 

@@ -48,7 +48,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 $input = new ArgvInput;
 
 if ($projectDir = $input->getParameterOption('--project-dir')) {
-    if (false !== strpos($projectDir, '~') && function_exists('posix_getuid')) {
+    if (str_contains($projectDir, '~') && function_exists('posix_getuid')) {
         $info = posix_getpwuid(posix_getuid());
         $projectDir = str_replace('~', $info['dir'], $projectDir);
     }

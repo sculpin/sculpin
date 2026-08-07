@@ -17,26 +17,15 @@ use Sculpin\Core\DataProvider\DataProviderManager;
 use Sculpin\Core\Generator\GeneratorInterface;
 use Sculpin\Core\Source\SourceInterface;
 
-class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
+readonly class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
 {
-    private $dataProviderManager;
-    private $dataProviderName;
-    private $injectedTaxonKey;
-    private $injectedTaxonItemsKey;
-    private $permalinkStrategyCollection;
-
     public function __construct(
-        DataProviderManager $dataProviderManager,
-        $dataProviderName,
-        $injectedTaxonKey,
-        $injectedTaxonItemsKey,
-        PermalinkStrategyCollection $permalinkStrategyCollection
+        private DataProviderManager $dataProviderManager,
+        private string $dataProviderName, // post_tags
+        private string $injectedTaxonKey, // tag
+        private string $injectedTaxonItemsKey, // tagged_posts
+        private PermalinkStrategyCollection $permalinkStrategyCollection
     ) {
-        $this->dataProviderManager = $dataProviderManager;
-        $this->dataProviderName = $dataProviderName; // post_tags
-        $this->injectedTaxonKey = $injectedTaxonKey; // tag
-        $this->injectedTaxonItemsKey = $injectedTaxonItemsKey; // tagged_posts
-        $this->permalinkStrategyCollection = $permalinkStrategyCollection;
     }
 
     public function generate(SourceInterface $source): array
@@ -47,13 +36,13 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
         $generatedSources = [];
         foreach ($taxons as $taxon => $items) {
             $generatedSource = $source->duplicate(
-                $source->sourceId().':'.$this->injectedTaxonKey.'='.$taxon
+                $source->sourceId() . ':' . $this->injectedTaxonKey . '=' . $taxon
             );
 
             $permalink = $source->data()->get('permalink') ?: $source->relativePathname();
-            $basename = basename($permalink);
+            $basename = basename((string) $permalink);
 
-            $permalink = dirname($permalink);
+            $permalink = dirname((string) $permalink);
 
             $indexType = null;
 
@@ -62,22 +51,18 @@ class ProxySourceTaxonomyIndexGenerator implements GeneratorInterface
                 $indexType = $matches[2];
                 $suffix = in_array($indexType, ['xml', 'rss', 'json']) ? '.'.$indexType : '/';
                 $permalink = $permalink.'/'.$urlTaxon.$suffix;
-            } else {
-                // not sure what case this is?
             }
 
-            if (0 === strpos($permalink, './')) {
+            if (str_starts_with($permalink, './')) {
                 $permalink = substr($permalink, 2);
             }
 
-            if (0 !== strpos($permalink, '/')) {
+            if (!str_starts_with($permalink, '/')) {
                 $permalink = '/'.$permalink;
             }
 
-            if ($permalink) {
-                // not sure if this is ever going to happen?
-                $generatedSource->data()->set('permalink', $permalink);
-            }
+            // not sure if this is ever going to happen?
+            $generatedSource->data()->set('permalink', $permalink);
 
             $generatedSource->data()->set($this->injectedTaxonKey, $taxon);
             $generatedSource->data()->set($this->injectedTaxonItemsKey, $items);

@@ -23,25 +23,23 @@ use Dflydev\DotAccessConfiguration\YamlConfigurationBuilder as YamlDataBuilder;
  */
 final class FileSource extends AbstractSource
 {
-    /**
-     * @var MimeTypeDetector
-     */
-    private $detector;
-
     public function __construct(
-        MimeTypeDetector $detector,
+        private readonly MimeTypeDetector $detector,
         DataSourceInterface $dataSource,
         SplFileInfo $file,
         bool $isRaw,
         bool $hasChanged = false
     ) {
-        $this->detector = $detector;
-        $this->sourceId = 'FileSource:'.$dataSource->dataSourceId().':'.$file->getRelativePathname();
+        $this->sourceId = 'FileSource:' . $dataSource->dataSourceId() . ':' . $file->getRelativePathname();
         $this->relativePathname = $file->getRelativePathname();
         $this->filename = $file->getFilename();
         $this->file = $file;
         $this->isRaw = $isRaw;
         $this->hasChanged = $hasChanged;
+
+        // Initialize empty states
+        $this->content ??= '';
+        $this->formattedContent ??= '';
 
         $this->init();
     }
@@ -51,11 +49,12 @@ final class FileSource extends AbstractSource
      *
      * @param bool $hasChanged Has the file changed?
      */
+    #[\Override]
     protected function init(bool $hasChanged = false): void
     {
         parent::init($hasChanged);
 
-        $originalData = $this->data;
+        $originalData = $this->data ?? null;
 
         if ($this->isRaw) {
             $this->useFileReference = true;
@@ -63,7 +62,7 @@ final class FileSource extends AbstractSource
         } else {
             $internetMediaType = $this->detector->detectMimeType(
                 $this->file->getRealPath(),
-                $this->file->getContents()
+                $this->file->getContents() // @phpstan-ignore method.notFound
             );
 
             if ($internetMediaType &&
@@ -78,6 +77,7 @@ final class FileSource extends AbstractSource
                 // Additionally, any text file is a candidate for formatting.
                 $this->canBeFormatted = true;
 
+                // @phpstan-ignore method.notFound
                 $content = $this->file->getContents();
 
                 if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $content, $matches)) {
@@ -111,13 +111,13 @@ final class FileSource extends AbstractSource
 
         if ($this->data->get('date')) {
             if (! is_numeric($this->data->get('date'))) {
-                $this->data->set('date', strtotime($this->data->get('date')));
+                $this->data->set('date', strtotime((string) $this->data->get('date')));
             }
 
             $this->data->set('calculated_date', $this->data->get('date'));
         }
 
-        if ($originalData) {
+        if ($originalData instanceof Data) {
             $this->data->import($originalData, false);
         }
     }

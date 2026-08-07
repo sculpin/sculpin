@@ -24,16 +24,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class PathConfiguratorPass implements CompilerPassInterface
 {
-    /**
-     * Matcher
-     *
-     * @var AntPathMatcher
-     */
-    protected $matcher;
+    protected AntPathMatcher $matcher;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->matcher = new AntPathMatcher;
@@ -42,11 +34,11 @@ class PathConfiguratorPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('sculpin.path_configurator') as $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $typeParameter = 'sculpin.'.$attributes['type'];
+                $typeParameter = 'sculpin.' . $attributes['type'];
                 $parameter = $attributes['parameter'];
 
                 if ($container->hasParameter($parameter)) {
@@ -68,18 +60,12 @@ class PathConfiguratorPass implements CompilerPassInterface
         }
     }
 
-    protected function antify($paths)
+    protected function antify($paths): array
     {
         $matcher = $this->matcher;
 
         return array_map(
-            function ($path) use ($matcher) {
-                if ($matcher->isPattern($path)) {
-                    return $path;
-                }
-
-                return $path.'/**';
-            },
+            fn($path): string => $path . ($matcher->isPattern($path) ? '' : '/**'),
             $paths
         );
     }

@@ -58,7 +58,7 @@ interface IoInterface
      *
      * @param string|array $messages The message as an array of lines or a single string
      * @param bool         $newline  Whether to add a newline or not
-     * @param integer      $size     The size to overwrite (defaults to the whole last line)
+     * @param ?integer     $size     The size to overwrite (defaults to the whole last line)
      */
-    public function overwrite($messages, bool $newline = true, ?int $size = null);
+    public function overwrite(string|array $messages, bool $newline = true, ?int $size = null);
 }

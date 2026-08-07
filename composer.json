@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.5",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
@@ -29,15 +29,15 @@
         "react/event-loop": "^1.6.0",
         "react/http": "^1.11.0",
         "sculpin/sculpin-theme-composer-plugin": "^1.0",
-        "symfony/config": "^v6.4",
-        "symfony/console": "^v6.4",
-        "symfony/dependency-injection": "^v6.4",
-        "symfony/event-dispatcher": "^v6.4",
-        "symfony/filesystem": "^v6.4",
-        "symfony/finder": "^v6.4",
-        "symfony/http-kernel": "^v6.4",
-        "symfony/yaml": "^v6.4",
-        "symfony/mime": "^v6.4",
+        "symfony/config": "^7.0",
+        "symfony/console": "^7.0",
+        "symfony/dependency-injection": "^7.0",
+        "symfony/event-dispatcher": "^7.0",
+        "symfony/filesystem": "^7.0",
+        "symfony/finder": "^7.0",
+        "symfony/http-kernel": "^7.0",
+        "symfony/yaml": "^7.0",
+        "symfony/mime": "^7.0",
         "twig/twig": "^3.0",
         "webignition/internet-media-type": "^0.4.8"
     },
@@ -45,10 +45,11 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpunit/phpunit": "^9.4",
         "squizlabs/php_codesniffer": "^3.3",
-        "symfony/css-selector": "^v6.4",
-        "symfony/dom-crawler": "^v6.4",
-        "symfony/process": "^v6.4",
-        "phpstan/phpstan": "^1.2"
+        "symfony/css-selector": "^7.0",
+        "symfony/dom-crawler": "^7.0",
+        "symfony/process": "^7.0",
+        "phpstan/phpstan": "^2.2",
+        "rector/rector": "^2.2.8"
     },
     "suggest": {
         "ext-iconv": "To convert non-UTF-8 strings to UTF-8.",
@@ -81,13 +82,35 @@
         "check": [
             "@cs-check",
             "@phpstan",
+            "@rector",
             "@test"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "phpstan": "phpstan analyse -c phpstan.neon src/",
+        "rector": "rector -n",
+        "rector-apply": "rector",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-clover clover.xml --coverage-text --colors=always"
+        "test-coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-clover clover.xml --coverage-text --colors=always",
+        "build:from-git": [
+            "Composer\\Config::disableProcessTimeout",
+            "echo building ...",
+            "[ ! -d build ] && mkdir build || true",
+            "git archive HEAD | tar -x -C build",
+            "cd build && rm -Rf tests/ && composer install --ignore-platform-reqs --no-dev -a"
+        ],
+        "build:phar": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build:from-git",
+            "cd build && box compile"
+        ],
+        "build": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build:phar",
+            "echo packaging binary ...",
+            "cd build && spc craft && spc micro:combine bin/sculpin.phar --output=sculpin.bin"
+        ]
+
     },
     "config": {
         "allow-plugins": {
