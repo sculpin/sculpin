@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fce83723f1a6a5b277d9c4a4335e02d0",
+    "content-hash": "bc8f9e7d0dda5cf7965fd714bdbc7a45",
     "packages": [
         {
             "name": "dflydev/ant-path-matcher",
@@ -3436,20 +3436,20 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.28.0",
+            "version": "v4.0.0-alpha1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "597c12ed286fb9d1701a36684ce6e0cbe28ebc8b"
+                "reference": "6931c9256aa2c635338d821b623cff226402dbd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/597c12ed286fb9d1701a36684ce6e0cbe28ebc8b",
-                "reference": "597c12ed286fb9d1701a36684ce6e0cbe28ebc8b",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6931c9256aa2c635338d821b623cff226402dbd7",
+                "reference": "6931c9256aa2c635338d821b623cff226402dbd7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1.0",
+                "php": ">=8.2",
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-mbstring": "^1.3"
@@ -3457,17 +3457,11 @@
             "require-dev": {
                 "php-cs-fixer/shim": "^3.0@stable",
                 "phpstan/phpstan": "^2.0@stable",
-                "psr/container": "^1.0|^2.0",
-                "symfony/phpunit-bridge": "^5.4.9|^6.4|^7.0"
+                "phpunit/phpunit": "^11.4@stable",
+                "psr/container": "^1.0|^2.0"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "src/Resources/core.php",
-                    "src/Resources/debug.php",
-                    "src/Resources/escaper.php",
-                    "src/Resources/string_loader.php"
-                ],
                 "psr-4": {
                     "Twig\\": "src/"
                 }
@@ -3500,7 +3494,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.28.0"
+                "source": "https://github.com/twigphp/Twig/tree/v4.0.0-alpha1"
             },
             "funding": [
                 {
@@ -3512,7 +3506,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-03T20:44:34+00:00"
+            "time": "2026-05-17T08:02:02+00:00"
         },
         {
             "name": "webignition/disallowed-character-terminated-string",
@@ -3724,78 +3718,6 @@
     ],
     "packages-dev": [
         {
-            "name": "crazywhalecc/static-php-cli",
-            "version": "v3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/crazywhalecc/static-php-cli.git",
-                "reference": "171201f5b25e5d53901e357c70179100c27be6f1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/crazywhalecc/static-php-cli/zipball/171201f5b25e5d53901e357c70179100c27be6f1",
-                "reference": "171201f5b25e5d53901e357c70179100c27be6f1",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "ext-zlib": "*",
-                "php": ">=8.4",
-                "php-di/php-di": "^7.1",
-                "symfony/console": "^5.4 || ^6 || ^7",
-                "symfony/yaml": "^7.2",
-                "zhamao/logger": "^1.1.4"
-            },
-            "require-dev": {
-                "captainhook/captainhook-phar": "^5.23",
-                "captainhook/hook-installer": "^1.0",
-                "friendsofphp/php-cs-fixer": "^3.60",
-                "humbug/box": "^4.5.0 || ^4.6.0",
-                "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^10.3 || ^9.5"
-            },
-            "suggest": {
-                "ext-yaml": "Speeds up YAML config file parsing"
-            },
-            "default-branch": true,
-            "bin": [
-                "bin/spc"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/globals/defines.php",
-                    "src/globals/functions.php"
-                ],
-                "psr-4": {
-                    "Package\\": "src/Package",
-                    "StaticPHP\\": "src/StaticPHP"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "jerry",
-                    "email": "admin@zhamao.me"
-                }
-            ],
-            "description": "Build single static PHP binary, with PHP project together, with popular extensions included.",
-            "support": {
-                "issues": "https://github.com/crazywhalecc/static-php-cli/issues",
-                "source": "https://github.com/crazywhalecc/static-php-cli/tree/v3"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/crazywhalecc/crazywhalecc/blob/master/FUNDING.md",
-                    "type": "other"
-                }
-            ],
-            "time": "2026-07-21T11:04:31+00:00"
-        },
-        {
             "name": "doctrine/deprecations",
             "version": "1.1.6",
             "source": {
@@ -3911,67 +3833,6 @@
                 }
             ],
             "time": "2026-01-05T06:47:08+00:00"
-        },
-        {
-            "name": "laravel/serializable-closure",
-            "version": "v2.0.15",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "dccd8bcb851bb03fcc005df650b708b57cc52661"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/dccd8bcb851bb03fcc005df650b708b57cc52661",
-                "reference": "dccd8bcb851bb03fcc005df650b708b57cc52661",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "nesbot/carbon": "^2.67|^3.0",
-                "pestphp/pest": "^2.36|^3.0|^4.0",
-                "phpstan/phpstan": "^2.0",
-                "symfony/var-dumper": "^6.2.0|^7.0.0|^8.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\SerializableClosure\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                },
-                {
-                    "name": "Nuno Maduro",
-                    "email": "nuno@laravel.com"
-                }
-            ],
-            "description": "Laravel Serializable Closure provides an easy and secure way to serialize closures in PHP.",
-            "keywords": [
-                "closure",
-                "laravel",
-                "serializable"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/serializable-closure/issues",
-                "source": "https://github.com/laravel/serializable-closure"
-            },
-            "time": "2026-07-21T16:49:22+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -4274,134 +4135,6 @@
                 "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
             "time": "2022-02-21T01:04:05+00:00"
-        },
-        {
-            "name": "php-di/invoker",
-            "version": "2.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-DI/Invoker.git",
-                "reference": "3c1ddfdef181431fbc4be83378f6d036d59e81e1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/3c1ddfdef181431fbc4be83378f6d036d59e81e1",
-                "reference": "3c1ddfdef181431fbc4be83378f6d036d59e81e1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.3",
-                "psr/container": "^1.0|^2.0"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "mnapoli/hard-mode": "~0.3.0",
-                "phpunit/phpunit": "^9.0 || ^10 || ^11 || ^12"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Invoker\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Generic and extensible callable invoker",
-            "homepage": "https://github.com/PHP-DI/Invoker",
-            "keywords": [
-                "callable",
-                "dependency",
-                "dependency-injection",
-                "injection",
-                "invoke",
-                "invoker"
-            ],
-            "support": {
-                "issues": "https://github.com/PHP-DI/Invoker/issues",
-                "source": "https://github.com/PHP-DI/Invoker/tree/2.3.7"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/mnapoli",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-08-30T10:22:22+00:00"
-        },
-        {
-            "name": "php-di/php-di",
-            "version": "7.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "f88054cc052e40dbe7b383c8817c19442d480352"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/f88054cc052e40dbe7b383c8817c19442d480352",
-                "reference": "f88054cc052e40dbe7b383c8817c19442d480352",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/serializable-closure": "^1.0 || ^2.0",
-                "php": ">=8.0",
-                "php-di/invoker": "^2.0",
-                "psr/container": "^1.1 || ^2.0"
-            },
-            "provide": {
-                "psr/container-implementation": "^1.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3",
-                "friendsofphp/proxy-manager-lts": "^1",
-                "mnapoli/phpunit-easymock": "^1.3",
-                "phpunit/phpunit": "^9.6 || ^10 || ^11",
-                "vimeo/psalm": "^5|^6"
-            },
-            "suggest": {
-                "friendsofphp/proxy-manager-lts": "Install it if you want to use lazy injection (version ^1)"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
-                "psr-4": {
-                    "DI\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The dependency injection container for humans",
-            "homepage": "https://php-di.org/",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interop",
-                "dependency injection",
-                "di",
-                "ioc",
-                "psr11"
-            ],
-            "support": {
-                "issues": "https://github.com/PHP-DI/PHP-DI/issues",
-                "source": "https://github.com/PHP-DI/PHP-DI/tree/7.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/mnapoli",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/php-di/php-di",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-08-16T11:10:48+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -6574,81 +6307,12 @@
                 "source": "https://github.com/webmozarts/assert/tree/2.4.1"
             },
             "time": "2026-06-15T15:31:57+00:00"
-        },
-        {
-            "name": "zhamao/logger",
-            "version": "1.1.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zhamao-robot/zhamao-logger.git",
-                "reference": "30bee20a0af2fdde271f6e103e7497fdc9f6d62b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zhamao-robot/zhamao-logger/zipball/30bee20a0af2fdde271f6e103e7497fdc9f6d62b",
-                "reference": "30bee20a0af2fdde271f6e103e7497fdc9f6d62b",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^7.3 || ^7.4 || ^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4 || ^8.5",
-                "psr/log": "^1 || ^2 || ^3",
-                "symfony/polyfill-mbstring": "^1.0"
-            },
-            "require-dev": {
-                "brainmaestro/composer-git-hooks": "^2.8",
-                "friendsofphp/php-cs-fixer": "^3.64",
-                "phpstan/phpstan": "^1.12",
-                "phpunit/phpunit": "^9.0",
-                "roave/security-advisories": "dev-latest"
-            },
-            "suggest": {
-                "ext-mbstring": "Use C/C++ extension instead of polyfill will be more efficient"
-            },
-            "type": "library",
-            "extra": {
-                "hooks": {
-                    "pre-push": [
-                        "composer cs-fix -- --dry-run --diff",
-                        "composer analyse"
-                    ],
-                    "post-merge": "composer install",
-                    "pre-commit": [
-                        "echo committing as $(git config user.name)",
-                        "composer cs-fix -- --diff"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "ZM\\Logger\\": "src/ZM/Logger"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "jerry",
-                    "email": "github@cwcc.me"
-                },
-                {
-                    "name": "sunxyw",
-                    "email": "dev@sunxyw.xyz"
-                }
-            ],
-            "description": "Another Colorful Console Logger for CLI Applications",
-            "support": {
-                "issues": "https://github.com/zhamao-robot/zhamao-logger/issues",
-                "source": "https://github.com/zhamao-robot/zhamao-logger/tree/1.1.9"
-            },
-            "time": "2026-06-17T06:59:32+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "crazywhalecc/static-php-cli": 20
+        "twig/twig": 15
     },
     "prefer-stable": false,
     "prefer-lowest": false,

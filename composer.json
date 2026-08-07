@@ -37,7 +37,7 @@
         "symfony/http-kernel": "^7.0",
         "symfony/yaml": "^7.0",
         "symfony/mime": "^7.0",
-        "twig/twig": "^3.0",
+        "twig/twig": "4.0.0-alpha1",
         "webignition/internet-media-type": "^0.4.8"
     },
     "require-dev": {
