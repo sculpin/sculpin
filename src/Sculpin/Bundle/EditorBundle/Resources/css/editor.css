@@ -150,4 +150,29 @@
         background-color: #9f1770;
         margin-right: 12px;
     }
+
+    a,
+    a:visited,
+    > div > button {
+        color: #ffffff;
+        border: 0;
+        font-weight: bolder;
+        text-decoration: underline;
+        display: inline-block;
+        padding: 12px 8px;
+        margin-right: 5px;
+    }
+
+    a:hover,
+    > div > button:hover {
+        background-color: #B1C4CB;
+        text-decoration: none;
+    }
+
+    a > svg {
+        color: white;
+        fill: white;
+        margin-right: 5px;
+        vertical-align: bottom;
+    }
 }
