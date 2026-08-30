@@ -85,6 +85,7 @@ class InBrowserEditorContentFetcher implements ContentFetcher
                 ),
             strstr($path, '/_SCULPIN_/metadata') && $requestMethod === 'GET' => $this->getMetadataResponse($url, $source),
             str_ends_with($path, '_SCULPIN_/update') && $requestMethod === 'PUT' => $this->applyUpdate($request, $output),
+            str_ends_with($path, '_SCULPIN_/create') && $requestMethod === 'PUT' => $this->createFile($request, $output),
             default => null,
         };
     }
@@ -428,5 +429,98 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         $output->writeln(sprintf('Updated: %s', $edit['diskPath']));
 
         return new Response(307, ['Location' => $edit['path']]);
+    }
+
+    /**
+     * Creates the requested file if criteria are met, such as the file not
+     * already existing.
+     *
+     * @param ServerRequestInterface $request
+     * @param OutputInterface $output
+     * @return Response
+     */
+    public function createFile(ServerRequestInterface $request, OutputInterface $output): Response
+    {
+        $edit = json_decode($request->getBody()->getContents(), true);
+
+        $newFileName = ltrim(trim($edit['fileName'] ?? ''), '/\\');
+        $newFilePath = $this->sourceDir . $newFileName;
+
+        if (file_exists($newFilePath)) {
+            // error
+            throw new \Exception('file path exists!');
+        }
+
+        $touchResult = touch($newFilePath);
+        if (!$touchResult) {
+            throw new \Exception('bad touch!');
+        }
+
+        $newFilePath = realpath($newFilePath);
+
+        $output->writeln(
+            sprintf(
+                "Received NewFilePath of %s (new file name: %s, sourcedir: %s, realpath input was: %s",
+                $newFilePath === false ? 'FALSE!!!' : $newFilePath,
+                $newFileName,
+                $this->sourceDir,
+                $this->sourceDir . $newFileName,
+            )
+        );
+
+        if (empty($newFileName) || !str_starts_with($newFilePath, $this->sourceDir)) {
+            HttpServer::logRequest($output, 400, $request);
+            $output->writeln(
+                sprintf(
+                    "Rejected NewFilePath of %s (new file name: %s, sourcedir: %s",
+                    $newFilePath,
+                    $newFileName,
+                    $this->sourceDir
+                )
+            );
+
+            $forbiddenMessage = '<h1>400</h1><h2>Bad Request</h2>'
+                . '<p>'
+                . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                . 'could not create the requested resource.'
+                . '</p>';
+
+            return new Response(403, ['Content-Type' => 'text/html'], $forbiddenMessage);
+            // throw new \Exception("Detected a bad filename! " . $newFileName);
+        }
+
+        if ($this->sourceExists($newFileName) || filesize($newFilePath) > 0) {
+            HttpServer::logRequest($output, 403, $request);
+
+            $forbiddenMessage = '<h1>403</h1><h2>Forbidden</h2>'
+                . '<p>'
+                . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                . 'could not update the requested resource.'
+                . '</p>';
+
+            return new Response(403, ['Content-Type' => 'text/html'], $forbiddenMessage);
+        }
+
+        $defaultContent = <<<EOT
+        ---
+        layout: default
+        ---
+        ## My New Page
+
+        Hello and welcome to a new page on my website!
+        EOT;
+
+        file_put_contents($newFilePath, $defaultContent);
+
+        HttpServer::logRequest($output, 307, $request);
+        $output->writeln(sprintf('Created: %s', $newFileName));
+
+        // This is a least-effort guess that does not factor in Content Types/Generators/Pagination
+        $redirectLocation = explode('.', $newFileName)[0];
+        if (str_starts_with($redirectLocation, '_')) {
+            return new Response(307, ['Location' => '/']);
+        }
+
+        return new Response(307, ['Location' => $redirectLocation]);
     }
 }
