@@ -13,11 +13,21 @@ use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Provides the routes, logic, and resources for the In-browser Editor interface
+ */
 class InBrowserEditorContentFetcher implements ContentFetcher
 {
+    /** @var array A list of rendered output URLs, pointing to their Source file's full path */
     protected array $pathMap;
+
+    /** @var array A list of all source files and their info */
     protected array $sourceMap;
+
+    /** @var string Location of the rendered output files */
     protected string $docroot;
+
+    /** @var string Location of the user's website source files */
     protected string $sourceDir;
 
     public function __construct(
@@ -33,6 +43,18 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         $this->buildSourceMap();
     }
 
+    /**
+     * Checks incoming HTTP Requests for specific URL prefixes to activate the Editor logic
+     *
+     * Enables loading JS and CSS for the editor, fetching hash info and metadata for files,
+     * and updating/creating files in the Source Dir.
+     *
+     * @param string $path
+     * @param ServerRequestInterface $request
+     * @param OutputInterface $output
+     * @return Response|null
+     * @throws \Exception
+     */
     public function handleRequest(
         string $path,
         ServerRequestInterface $request,
@@ -67,6 +89,16 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         };
     }
 
+    /**
+     * Builds the data structure that maps generated files (URLs) to their
+     * corresponding file in the Source Directory.
+     *
+     * For generated files, such as Tags or Categories or Pagination, multiple
+     * paths may map to the same Source file - the template for that type of page.
+     *
+     * @param SourceSet $set
+     * @return void
+     */
     public function buildPathMap(SourceSet $set): void
     {
         $pathMap = [];
@@ -103,6 +135,13 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         }
     }
 
+    /**
+     * Performs the ContentFetcher "fetchData" operation, returning the
+     * HTML for the content being rendered.
+     *
+     * @param string $path
+     * @return string|null
+     */
     public function fetchData(string $path): ?string
     {
         $body = file_get_contents($path);
@@ -111,6 +150,16 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         return $body ? $this->process($relativePath, $body) : null;
     }
 
+    /**
+     * Intercepts the content being rendered in order to update its HTML
+     * to display the In-Browser Editor.
+     *
+     * Skips unrecognized paths, non-HTML files, etc.
+     *
+     * @param string $path
+     * @param string $body
+     * @return string
+     */
     protected function process(string $path, string $body): string
     {
         // if we don't know the disk location for edits, exit early
@@ -158,11 +207,23 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         );
     }
 
+    /**
+     * Fetch the raw editor JS
+     *
+     * @return string
+     */
     public function editorJs(): string
     {
         return file_get_contents(__DIR__ . '/Resources/js/editor.js') ?: '';
     }
 
+    /**
+     * Check if the provided path exists in the PathMap - and, if it does,
+     * check if its corresponding Source file exists on disk.
+     *
+     * @param string $path
+     * @return bool
+     */
     public function diskPathExists(string $path): bool
     {
         if (!isset($this->pathMap[$path])) {
@@ -172,6 +233,14 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         return file_exists($this->pathMap[$path]);
     }
 
+    /**
+     * Check if the provided Source path exists in the Source Map,
+     * and if it does, check if the corresponding rendered output
+     * file exists under the docroot.
+     *
+     * @param string $sourcePath
+     * @return bool
+     */
     public function sourceExists(string $sourcePath): bool
     {
         if (!isset($this->sourceMap[$sourcePath])) {
@@ -183,6 +252,13 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         return file_exists($fullPath);
     }
 
+    /**
+     * Write provided bytes to a file in the Source dir.
+     *
+     * @param string $sourcePath
+     * @param string $content
+     * @return void
+     */
     public function save(string $sourcePath, string $content): void
     {
         if (!$this->sourceExists($sourcePath)) {
@@ -192,6 +268,12 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         file_put_contents($this->sourceDir . $this->sourceMap[$sourcePath]['pathname'], $content);
     }
 
+    /**
+     * Retrieve an MD5Hash of the requested rendered output file.
+     *
+     * @param string $path
+     * @return string|null
+     */
     public function hash(string $path): ?string
     {
         if (!$this->diskPathExists($path)) {
@@ -201,11 +283,33 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         return md5_file($this->docroot . $path) ?: null;
     }
 
+    /**
+     * Fetch the raw editor CSS
+     *
+     * @return string
+     */
     public function editorCss(): string
     {
         return file_get_contents(__DIR__ . '/Resources/css/editor.css') ?: '';
     }
 
+    /**
+     * Fetch metadata for the provided Path or Source value.
+     *
+     * Metadata includes: url, pathMap key, sourceMap key.
+     *
+     * If the full disk path exists, then the metadata will
+     * also include: diskPath, content, contentHashSource,
+     *               contentHashGenerated.
+     *
+     * Content Hash Generated may be "unknown" if the file
+     * does not exist; but really, the whole request should
+     * have skipped past that in such a scenario.
+     *
+     * @param string $path
+     * @param string $source
+     * @return array
+     */
     public function getMetadata(string $path = '', string $source = ''): array
     {
         $url = $path ? $this->pathMap[$path] ?? $source : $source;
@@ -247,6 +351,8 @@ class InBrowserEditorContentFetcher implements ContentFetcher
     }
 
     /**
+     * Returns a Response containing requested Metadata.
+     *
      * @param string $url
      * @param string $source
      * @return Response
@@ -269,6 +375,8 @@ class InBrowserEditorContentFetcher implements ContentFetcher
     }
 
     /**
+     * Writes incoming changes to an existing file.
+     *
      * @param ServerRequestInterface $request
      * @param OutputInterface $output
      * @return Response
