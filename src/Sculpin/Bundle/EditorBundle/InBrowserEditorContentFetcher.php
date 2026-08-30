@@ -36,8 +36,8 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         string $sourceDir,
         protected readonly MimeTypeDetector $detector,
     ) {
-        $this->docroot   = rtrim($docroot, '/') . '/';
-        $this->sourceDir = rtrim($sourceDir, '/') . '/';
+        $this->docroot   = realpath($docroot) . DIRECTORY_SEPARATOR;
+        $this->sourceDir = realpath($sourceDir) . DIRECTORY_SEPARATOR;
 
         $this->buildPathMap($set);
         $this->buildSourceMap();
