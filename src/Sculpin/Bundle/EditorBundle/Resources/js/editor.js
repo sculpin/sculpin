@@ -25,6 +25,12 @@ var SculpinEditor = {
             '<path d="M11.0055 2C9.61949 1.99999 8.51721 1.99999 7.62839 2.0738C6.71811 2.14939 5.94253 2.30755 5.23415 2.67552C4.1383 3.24478 3.24477 4.1383 2.67552 5.23416C2.30755 5.94253 2.14939 6.71811 2.0738 7.6284C1.99999 8.51721 1.99999 9.61949 2 11.0055V12.9945C1.99999 14.3805 1.99999 15.4828 2.0738 16.3716C2.14939 17.2819 2.30755 18.0575 2.67552 18.7659C3.24477 19.8617 4.1383 20.7552 5.23415 21.3245C5.94253 21.6925 6.71811 21.8506 7.62839 21.9262C8.5172 22 9.61946 22 11.0054 22H13.0438C14.4068 22 15.4909 22 16.3654 21.9286C17.261 21.8554 18.0247 21.7023 18.7239 21.346C19.8529 20.7708 20.7708 19.8529 21.346 18.7239C21.7023 18.0247 21.8554 17.261 21.9286 16.3654C22 15.4909 22 14.4069 22 13.0439V13C22 12.4477 21.5523 12 21 12C20.4477 12 20 12.4477 20 13C20 14.4166 19.9992 15.419 19.9352 16.2026C19.8721 16.9745 19.7527 17.4457 19.564 17.816C19.1805 18.5686 18.5686 19.1805 17.816 19.564C17.4457 19.7527 16.9745 19.8721 16.2026 19.9352C15.419 19.9992 14.4166 20 13 20H11.05C9.60949 20 8.59025 19.9992 7.79391 19.9331C7.00955 19.8679 6.53142 19.7446 6.1561 19.5497C5.42553 19.1702 4.82985 18.5745 4.45035 17.8439C4.25538 17.4686 4.13208 16.9905 4.06694 16.2061C4.0008 15.4097 4 14.3905 4 12.95V11.05C4 9.60949 4.0008 8.59026 4.06694 7.79392C4.13208 7.00955 4.25538 6.53142 4.45035 6.15611C4.82985 5.42553 5.42553 4.82985 6.1561 4.45035C6.53142 4.25539 7.00955 4.13208 7.79391 4.06694C8.59025 4.00081 9.60949 4 11.05 4H12C12.5523 4 13 3.55229 13 3C13 2.44772 12.5523 2 12 2L11.0055 2Z" fill="currentColor"/>\n' +
             '</svg>' +
             'Edit This Page</a>' +
+            '<a href="#add" id="SCULPIN_ADD_BUTTON">' +
+            '<svg width="25px" height="25px" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">\n' +
+            '<path d="M13 8C13 7.44772 12.5523 7 12 7C11.4477 7 11 7.44772 11 8V11H8C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13H11V16C11 16.5523 11.4477 17 12 17C12.5523 17 13 16.5523 13 16V13H16C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11H13V8Z" fill="currentColor"/>\n' +
+            '<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z" fill="currentColor"/>\n' +
+            '</svg>' +
+            'Add File ...</a>' +
             '<a href="https://sculpin.io/documentation/sources">' +
             '<svg width="25px" height="25px" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">\n' +
             '<path d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z" fill="currentColor"/>\n' +
@@ -63,6 +69,12 @@ var SculpinEditor = {
                 (item, i) => '<option value="' + item[0] + '"' + (item[0] === SCULPIN_EDITOR_METADATA.diskPath ? ' SELECTED' : '') + '>' + item[0] + '</option>'
             ).join('') +
             '</select></form>' +
+            '<a href="#add" id="SCULPIN_EDIT_ADD_BUTTON">' +
+            '<svg width="25px" height="25px" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">\n' +
+            '<path d="M13 8C13 7.44772 12.5523 7 12 7C11.4477 7 11 7.44772 11 8V11H8C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13H11V16C11 16.5523 11.4477 17 12 17C12.5523 17 13 16.5523 13 16V13H16C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11H13V8Z" fill="currentColor"/>\n' +
+            '<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z" fill="currentColor"/>\n' +
+            '</svg>' +
+            'Add File ...</a>' +
             '</div>' +
             '<div class="gap"></div>' +
             '<div class="right"><strong>Sculpin</strong> <em>In-Browser Editor</em></div> ' +
@@ -108,6 +120,7 @@ var SculpinEditor = {
     registerListeners: function () {
         console.log('Registering Edit Bar Listeners');
         let editButton = document.getElementById("SCULPIN_EDIT_BUTTON");
+        let addButton = document.getElementById("SCULPIN_ADD_BUTTON");
 
         editButton && editButton.addEventListener('click', function () {
             console.log('Clicked Edit');
@@ -122,6 +135,14 @@ var SculpinEditor = {
                 editor.style.visibility = 'visible';
             }
         });
+
+        addButton && addButton.addEventListener('click', function () {
+            console.log('Clicked Add');
+            SculpinEditor.renderAddModal();
+
+            let addModal = document.getElementById('add-file-modal')
+            addModal.showModal();
+        });
     },
 
     registerEditorListeners: function () {
@@ -129,6 +150,7 @@ var SculpinEditor = {
         let saveButton = document.getElementById("SCULPIN_SAVE_CHANGES");
         let cancelButton = document.getElementById("SCULPIN_CANCEL_CHANGES");
         let fileSelectorForm = document.getElementById('SCULPIN_FILE_SELECTOR');
+        let addButton = document.getElementById("SCULPIN_EDIT_ADD_BUTTON");
 
         saveButton && saveButton.addEventListener('click', function () {
             console.log('Clicked Save');
@@ -140,7 +162,14 @@ var SculpinEditor = {
             SculpinEditor.switchFile(e);
         });
 
-        // @todo Cancel button re-registration is not working
+        addButton && addButton.addEventListener('click', function () {
+            console.log('Clicked Add on the Edit Panel');
+            SculpinEditor.renderAddModal();
+
+            let addModal = document.getElementById('add-file-modal')
+            addModal.showModal();
+        });
+
         cancelButton && cancelButton.addEventListener('click', function () {
             console.log('Clicked Cancel');
 
@@ -374,6 +403,7 @@ var SculpinEditor = {
             })
             .catch(err => console.log('Exception while updating metadata', err));
     },
+
     refreshEditor: () => {
         console.log('Refreshing the Editor Contents & Metadata');
         let editBox = document.getElementById('SCULPIN_EDIT_TEXTAREA');
