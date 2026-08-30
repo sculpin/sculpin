@@ -78,6 +78,33 @@ var SculpinEditor = {
         this.registerEditorListeners();
     },
 
+    renderAddModal: function () {
+        console.log('Drawing Add File Modal');
+
+        // Check if modal has already been drawn
+        let addModal = document.getElementById('SCULPIN_ADD_MODAL');
+        if (addModal) {
+            this.registerAddModalListeners();
+            return;
+        }
+
+        // load editor box with content
+        let body = document.getElementsByTagName('body')[0];
+        body.innerHTML += '<div id="SCULPIN_ADD_MODAL">' +
+            '<dialog id="add-file-modal">\n' +
+            '  <p>Create a file in your Sculpin <strong>"source/"</strong> folder.</p>\n' +
+            '<form>' +
+            '  <input type="text" name="filename" placeholder="_posts/second-post.md"/>' +
+            '  <div>' +
+            '  </div>' +
+            '</form>' +
+            '    <button commandfor="add-file-modal" command="close" name="create">Add</button>\n' +
+            '</dialog>' +
+            '</div>';
+
+        this.registerAddModalListeners();
+    },
+
     registerListeners: function () {
         console.log('Registering Edit Bar Listeners');
         let editButton = document.getElementById("SCULPIN_EDIT_BUTTON");
@@ -123,6 +150,22 @@ var SculpinEditor = {
 
             SculpinEditor.renderBar();
         });
+    },
+
+    registerAddModalListeners: function () {
+        console.log('Registering Add-Modal Listeners');
+        let createButton = document.querySelector("#SCULPIN_ADD_MODAL button[name=create]");
+
+        // Add Button
+        // @todo should also work with pressing enter key!
+        createButton && createButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            console.log('Clicked Create');
+            SculpinEditor.addFile();
+        });
+
+        // Cancel Button
+        // Other dismissal behaviours (i.e., clicking outside the modal or pressing escape)
     },
 
     saveChanges: function () {
