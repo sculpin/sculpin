@@ -210,6 +210,50 @@ var SculpinEditor = {
         });
     },
 
+    addFile: function () {
+        var fileName = document.querySelector('#SCULPIN_ADD_MODAL > #add-file-modal > form > input[name=filename]').value;
+
+        // Get the filename
+        console.log('creating file ...', fileName, SCULPIN_EDITOR_METADATA.diskPath, SCULPIN_EDITOR_METADATA.url);
+        // Ensure that the filename doesn't already exist
+        var existingFile = SCULPIN_EDITOR_METADATA.sourceMap[fileName];
+        console.log('existing file check', existingFile);
+
+        if (undefined !== existingFile) {
+            alert("File " + fileName + " already exists in your site's source/ folder!");
+            // @todo come up with a nicer failure-handler than this ...
+            document.location.reload();
+            return;
+        }
+
+        // PUT content to the appropriate spot
+        // this logic is temporary. Would be nice to use local storage to make sure that nothing gets lost if
+        // user navs away.
+        // var requestBody = ;
+        fetch('/_SCULPIN_/create', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'fileName': fileName
+            })
+        }).then(response => {
+            if (response.ok) {
+                SculpinEditor.watchForNewFile(fileName);
+
+                return;
+            }
+
+            throw Error(response.statusText);
+        }).catch(err => {
+            console.log('Update failed: ' + err.message);
+
+            // @todo come up with a nicer failure-handler than this ...
+            document.location.reload();
+        });
+    },
+
     // Watches the hash every 500ms for 10 attempts, then gives up and reloads
     watchForChanges: function (url, oldHash) {
         let hashwatcherId;
@@ -248,6 +292,49 @@ var SculpinEditor = {
                 // check that hash has changed from oldHash
                 // if so, reload the current page
                 if (data.hash !== oldHash) {
+                    document.location.reload();
+                }
+            })
+        }, 500);
+    },
+
+    // Watches the file every 500ms for 10 attempts, then gives up and reloads
+    watchForNewFile: function (file) {
+        let filewatcherId;
+        let filewatcherCounter = 0;
+
+        filewatcherId = setInterval(() => {
+            if (file.length === 0) {
+                // The edited content does not correspond to a specific URL
+                // Wait a few seconds and then trigger a regular reload
+                clearInterval(filewatcherId);
+                setTimeout(() => document.location.reload(), 3000);
+                return;
+            }
+
+            // @todo maybe update the document.location if the `file` is not blank & doesn't
+            //       match (or isn't contained in) document.location
+            if (filewatcherCounter++ > 10) {
+                console.log('Giving up on checking the hash; reloading current location');
+                clearInterval(filewatcherId);
+                document.location.reload();
+            }
+
+            fetch('/_SCULPIN_/hash?file=' + file + '&exists=true', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // fetch that body
+                    return response.json();
+                }
+            }).then(data => {
+                console.log('Expected File to Exist: ' + file, data);
+
+                // check if the response confirms the file exists
+                if (data.exists === true) {
                     document.location.reload();
                 }
             })
