@@ -133,6 +133,31 @@ class InBrowserEditorContentFetcher implements ContentFetcher
                 'ext' => mb_strtolower($file->getExtension()),
             ];
         }
+
+        // Sort the list of source files by a specific algorithm:
+        // - Leading-Underscores (_posts, _partials, _includes, etc) go last
+        // - Deeper paths go second-to-last (subfolders)
+        // - Otherwise, regular string comparison rules apply
+        uksort($this->sourceMap, function (string $a, string $b) {
+            $aStartsWithUnderscore = str_starts_with($a, '_');
+            $aDepth = substr_count($a, DIRECTORY_SEPARATOR);
+            $bStartsWithUnderscore = str_starts_with($b, '_');
+            $bDepth = substr_count($b, DIRECTORY_SEPARATOR);
+
+            if ($aStartsWithUnderscore && $bStartsWithUnderscore) {
+                return $b <=> $a;
+            } else if ($aStartsWithUnderscore) {
+                return 1;
+            } else if ($bStartsWithUnderscore) {
+                return -1;
+            }
+
+            if (0 === ($return = $aDepth <=> $bDepth)) {
+                return $return;
+            }
+
+            return $a <=> $b;
+        });
     }
 
     /**
