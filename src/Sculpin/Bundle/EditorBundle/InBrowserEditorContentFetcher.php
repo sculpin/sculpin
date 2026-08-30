@@ -108,7 +108,13 @@ class InBrowserEditorContentFetcher implements ContentFetcher
         foreach ($sources as $source) {
             $relativePath      = ltrim($source->permalink()->relativeFilePath(), '/\\');
             $pathKey           = $relativePath;
-            $pathMap[$pathKey] = $source->file()->getPathname();
+
+            $realPath = $source->file()->getRealPath();
+            if (!str_starts_with($realPath, $this->sourceDir)) {
+                continue;
+            }
+
+            $pathMap[$pathKey] = substr($realPath, strlen($this->sourceDir));
         }
 
         $this->pathMap = $pathMap;
@@ -256,7 +262,7 @@ class InBrowserEditorContentFetcher implements ContentFetcher
             return false;
         }
 
-        return file_exists($this->pathMap[$path]);
+        return file_exists($this->sourceDir . $this->pathMap[$path]);
     }
 
     /**
@@ -280,6 +286,8 @@ class InBrowserEditorContentFetcher implements ContentFetcher
 
     /**
      * Write provided bytes to a file in the Source dir.
+     *
+     * Does not create new files! Only writes to existing files.
      *
      * @param string $sourcePath
      * @param string $content
