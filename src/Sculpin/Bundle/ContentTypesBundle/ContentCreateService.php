@@ -38,7 +38,8 @@ class ContentCreateService
         $manifest[$index] = $this->getViewTemplate($plural, $taxonomies);
 
         foreach ($taxonomies as $taxonomy) {
-            $singularTaxonomy = new EnglishInflector()->singularize($taxonomy)[0];
+            $singularTaxonomy = array_last(new EnglishInflector()->singularize($taxonomy));
+
             // content taxonomy index template
             $index            = $rootDir . '/source/' . $plural . '/' . $taxonomy . '.html';
             $manifest[$index] = $this->getTaxonomyIndexTemplate($plural, $taxonomy, $singularTaxonomy);
@@ -156,7 +157,7 @@ class ContentCreateService
 
             foreach ($taxonomies as $taxonomy) {
                 $capitalTaxonomy  = ucwords((string) $taxonomy);
-                $singularTaxonomy = new EnglishInflector()->singularize($taxonomy)[0];
+                $singularTaxonomy = array_last(new EnglishInflector()->singularize($taxonomy));
                 $output .= <<<EOT
                     <div class="taxonomy">
                         <a href="{{site.url }}/{$plural}/{$taxonomy}">{$capitalTaxonomy}</a>:

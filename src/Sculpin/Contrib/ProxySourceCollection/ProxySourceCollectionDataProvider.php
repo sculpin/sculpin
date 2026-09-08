@@ -36,7 +36,7 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
         private ?MapInterface $map = null,
         private ?ProxySourceItemFactoryInterface $factory = null
     ) {
-        $this->dataSingularName = $dataSingularName ?: (new EnglishInflector())->singularize($dataProviderName)[0];
+        $this->dataSingularName = $dataSingularName ?: array_last(new EnglishInflector()->singularize($dataProviderName));
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
         $this->map = $map ?: new NullMap;
