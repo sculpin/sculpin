@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Contrib\ProxySourceCollection;
 
-use Doctrine\Common\Inflector\Inflector;
 use Sculpin\Core\DataProvider\DataProviderInterface;
 use Sculpin\Core\Event\ConvertEvent;
 use Sculpin\Core\Event\SourceSetEvent;
@@ -47,7 +46,8 @@ class ProxySourceCollectionDataProvider implements DataProviderInterface, EventS
     ) {
         $this->formatterManager = $formatterManager;
         $this->dataProviderName = $dataProviderName;
-        $this->dataSingularName = $dataSingularName ?: (new EnglishInflector())->singularize($dataProviderName)[0];
+        $singularNames = (new EnglishInflector())->singularize($dataProviderName);
+        $this->dataSingularName = $dataSingularName ?: end($singularNames);
         $this->collection = $collection ?: new ProxySourceCollection;
         $this->filter = $filter ?: new NullFilter;
         $this->map = $map ?: new NullMap;

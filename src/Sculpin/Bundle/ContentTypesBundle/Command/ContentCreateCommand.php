@@ -89,7 +89,8 @@ final class ContentCreateCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluralType   = $input->getArgument('type');
-        $singularType = (new EnglishInflector())->singularize($pluralType)[0];
+        $singularNames = (new EnglishInflector())->singularize($pluralType);
+        $singularType = end($singularNames);
         $dryRun       = $input->getOption('dry-run');
         $taxonomies   = $input->getOption('taxonomy');
 
