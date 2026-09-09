@@ -50,6 +50,15 @@ class SourcePermalinkFactoryTest extends TestCase
                 ),
             ],
 
+            'pretty permalink page for .html.twig' => [
+                'pretty',
+                $this->makeTestSource('about.html.twig'),
+                new Permalink(
+                    'about/index.html',
+                    '/about'
+                ),
+            ],
+
             'basename with html ending' => [
                 ':basename.html',
                 static::makeTestSource('about.md'),
