@@ -61,8 +61,14 @@ class InBrowserEditorContentFetcher implements ContentFetcher
                     ['Content-Type' => 'application/json'],
                     json_encode(['error' => 'Not Found-ish'])
                 ),
-            strstr($path, '/_SCULPIN_/metadata') && $requestMethod === 'GET' => $this->getMetadataResponse($url, $source),
-            str_ends_with($path, '_SCULPIN_/update') && $requestMethod === 'PUT' => $this->applyUpdate($request, $output),
+            strstr($path, '/_SCULPIN_/metadata') && $requestMethod === 'GET' => $this->getMetadataResponse(
+                $url,
+                $source
+            ),
+            str_ends_with($path, '_SCULPIN_/update') && $requestMethod === 'PUT' => $this->applyUpdate(
+                $request,
+                $output
+            ),
             default => null,
         };
     }
