@@ -76,6 +76,7 @@
             <argument type="service" id="sculpin.mime.detector_ext2mime"/>
             <argument type="collection">
                 <argument key="textile">text/plain</argument>
+                <argument key="twig">text/twig</argument>
             </argument>
 
         </service>
