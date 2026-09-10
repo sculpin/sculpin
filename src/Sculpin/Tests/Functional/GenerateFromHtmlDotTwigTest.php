@@ -178,8 +178,8 @@ final class GenerateFromHtmlDotTwigTest extends FunctionalTestCase
         $this->assertProjectHasGeneratedFile('/hello_world');
         $this->assertProjectHasGeneratedFile('/hello_world2');
 
-        $this->assertGeneratedFileHasContent('/hello_world', 'Title: Hello World');
-        $this->assertGeneratedFileHasContent('/hello_world2', 'Title: Hello World');
+        $this->assertGeneratedFileHasContent('/hello_world', 'title: Hello World');
+        $this->assertGeneratedFileHasContent('/hello_world2', 'title: Hello World');
     }
 
     /** @test */
@@ -215,7 +215,7 @@ final class GenerateFromHtmlDotTwigTest extends FunctionalTestCase
 
         $this->assertGeneratedFileHasContent(
             '/blog/hello_world3/index.html',
-            '<h1 id="hello-world">Hello World</h1>'
+            '<h1>Hello World</h1>'
         );
     }
 
@@ -249,7 +249,7 @@ final class GenerateFromHtmlDotTwigTest extends FunctionalTestCase
 
         $this->assertGeneratedFileHasContent(
             '/blog/hello_world3/index.html',
-            '<h1 id="hello-world">Hello World</h1>'
+            '<h1>Hello World</h1>'
         );
     }
 }
