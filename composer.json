@@ -43,7 +43,7 @@
     "require-dev": {
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpunit/phpunit": "^9.4",
-        "squizlabs/php_codesniffer": "^3.3",
+        "squizlabs/php_codesniffer": "^4.0",
         "symfony/css-selector": "^v6.4",
         "symfony/dom-crawler": "^v6.4",
         "symfony/process": "^v6.4",

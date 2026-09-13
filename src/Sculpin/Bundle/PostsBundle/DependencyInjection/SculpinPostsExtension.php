@@ -32,7 +32,7 @@ class SculpinPostsExtension extends Extension
 
         if (count($config['paths']) > 0 || count($config) > 1) {
             throw new InvalidConfigurationException(
-                // @codingStandardsIgnoreLine
+                // phpcs:ignore Generic.Files.LineLength.TooLong
                 "Posts are now configured in the 'sculpin_content_types' section of sculpin_kernel.yml, please see documentation on configuring content types"
             );
         }
