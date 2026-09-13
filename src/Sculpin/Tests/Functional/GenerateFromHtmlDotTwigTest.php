@@ -195,9 +195,18 @@ final class GenerateFromHtmlDotTwigTest extends FunctionalTestCase
             EOT
         );
 
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/_posts/hello_world');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/_posts/hello_world2');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/_posts/hello_world3.html.twig');
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world'
+        );
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world2'
+        );
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world3.html.twig'
+        );
 
         $this->executeSculpin(['generate']);
 
@@ -234,7 +243,10 @@ final class GenerateFromHtmlDotTwigTest extends FunctionalTestCase
 
         $this->addProjectFile('/source/_posts/.DS_Store');
         $this->addProjectFile('/source/_posts/.hello_world2.swp');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/_posts/hello_world3.html.twig');
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world3.html.twig'
+        );
 
         $this->executeSculpin(['generate']);
 
