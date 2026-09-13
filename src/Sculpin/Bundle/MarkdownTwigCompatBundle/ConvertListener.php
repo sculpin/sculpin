@@ -49,7 +49,7 @@ final class ConvertListener implements EventSubscriberInterface
      *
      * @var string
      */
-    private static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // @codingStandardsIgnoreLine
+    private static $removePlaceholderRe = "/(\n?<div><!-- sculpin-hidden -->|<!-- \/sculpin-hidden --><\/div>\n|\n?&lt;div&gt;&lt;!-- sculpin-hidden --&gt;|&lt;!-- \/sculpin-hidden --&gt;&lt;\/div&gt;\n)/m"; // phpcs:ignore Generic.Files.LineLength.TooLong
 
     /**
      * {@inheritdoc}
