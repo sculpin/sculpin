@@ -1,0 +1,121 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:useAttributeAsKey\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/ContentTypesBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/MarkdownBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/PaginationBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/PostsBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Helper\\\\HelperInterface\\:\\:formatSection\\(\\)\\.$#"
+			count: 5
+			path: src/Sculpin/Bundle/SculpinBundle/Command/ContainerDebugCommand.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/SculpinBundle/Command/ContainerDebugCommand.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/SculpinBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Result of method Sculpin\\\\Bundle\\\\SculpinBundle\\\\HttpKernel\\\\AbstractKernel\\:\\:registerContainerConfiguration\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/SculpinBundle/HttpKernel/AbstractKernel.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/SculpinBundle/HttpKernel/AbstractKernel.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/TextileBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/ThemeBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Property Sculpin\\\\Bundle\\\\ThemeBundle\\\\ThemeRegistry\\:\\:\\$finderFactory is never read, only written\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/ThemeBundle/ThemeRegistry.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Sculpin/Bundle/TwigBundle/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method Sculpin\\\\Contrib\\\\ProxySourceCollection\\\\ProxySourceCollection\\:\\:next\\(\\) with return type void returns Sculpin\\\\Contrib\\\\ProxySourceCollection\\\\ProxySourceItem\\|false but should not return anything\\.$#"
+			count: 1
+			path: src/Sculpin/Contrib/ProxySourceCollection/ProxySourceCollection.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$item ProxySourceItem\\|null\\)\\: Unexpected token \"\\$item\", expected type at offset 20$#"
+			count: 1
+			path: src/Sculpin/Contrib/ProxySourceCollection/ProxySourceCollection.php
+
+		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\|null\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Permalink/SourcePermalinkFactory.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Permalink/SourcePermalinkFactory.php
+
+		-
+			message: "#^Negated boolean expression is always true\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Sculpin.php
+
+		-
+			message: "#^Property Sculpin\\\\Core\\\\Sculpin\\:\\:\\$siteConfiguration is never read, only written\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Sculpin.php
+
+		-
+			message: "#^Method Sculpin\\\\Core\\\\SiteConfiguration\\\\SiteConfigurationFactory\\:\\:detectConfig\\(\\) should return Dflydev\\\\DotAccessConfiguration\\\\Configuration but returns Dflydev\\\\DotAccessConfiguration\\\\ConfigurationInterface\\.$#"
+			count: 2
+			path: src/Sculpin/Core/SiteConfiguration/SiteConfigurationFactory.php
+
+		-
+			message: "#^Property Sculpin\\\\Core\\\\Source\\\\ConfigFilesystemDataSource\\:\\:\\$pathMatcher is never read, only written\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Source/ConfigFilesystemDataSource.php
+
+		-
+			message: "#^Call to an undefined method SplFileInfo\\:\\:getContents\\(\\)\\.$#"
+			count: 2
+			path: src/Sculpin/Core/Source/FileSource.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Source/FileSource.php
+
+		-
+			message: "#^Property Sculpin\\\\Core\\\\Source\\\\AbstractSource\\:\\:\\$data \\(Dflydev\\\\DotAccessConfiguration\\\\Configuration\\) does not accept Dflydev\\\\DotAccessConfiguration\\\\ConfigurationInterface\\.$#"
+			count: 1
+			path: src/Sculpin/Core/Source/FileSource.php
