@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.0-alpha3 - TBD
+
+### Added
+
+* [Add `use` option to content type configuration](https://github.com/sculpin/sculpin/pull/547) (thanks, @opdavies!)
+* [add spc workflow to build linux binaries](https://github.com/sculpin/sculpin/pull/537) (thanks, @henderkes!)
+
+### Changed
+
+* [Modernize ReactPHP](https://github.com/sculpin/sculpin/pull/538) (thanks, @WyriHaximus!)
+
+### Fixed
+
+* [Fix for Bug 541: .twig extensions in filesource](https://github.com/sculpin/sculpin/pull/545)
+* [Fix for #540, content type pluralization/singularization](https://github.com/sculpin/sculpin/pull/543)
+* 
+
 ## 4.0.0-alpha2 - 2026-07-24
 
 ### Added
