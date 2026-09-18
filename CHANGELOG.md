@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.3.2 - TBD
+
+### Fixed
+
+* [Fix for Bug 541: .twig extensions in filesource are not processed](https://github.com/sculpin/sculpin/pull/545)
+* [PR #550 - Backport fix for Bug 540 / PR 543: Inaccurate content type pluralization/singularization](https://github.com/sculpin/sculpin/pull/550)
+
 ## 3.3.1 - 2026-07-24
 
 ### Fixed
