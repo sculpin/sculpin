@@ -148,7 +148,7 @@ class GenerateCommand extends AbstractCommand
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
-                (int) $input->getOption('port')
+                (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
             );
 
             if ($watch) {
