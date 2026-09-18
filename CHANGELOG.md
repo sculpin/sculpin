@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 * [Fix for Bug 541: .twig extensions in filesource are not processed](https://github.com/sculpin/sculpin/pull/545)
-* [Backport fix for Bug 540 / PR 543: Inaccurate content type pluralization/singularization](https://github.com/sculpin/sculpin/pull/543)
+* [PR #550 - Backport fix for Bug 540 / PR 543: Inaccurate content type pluralization/singularization](https://github.com/sculpin/sculpin/pull/550)
 
 ## 3.3.1 - 2026-07-24
 
