@@ -185,12 +185,18 @@ class SculpinContentTypesExtension extends Extension
             // Default Data Map
             //
 
-            $defaultDataMapId = $this->generateTypesId($type, 'default_data_map');
-            $defaultDataMap = new Definition(DefaultDataMap::class);
-            $defaultDataMap->addArgument([
+            $defaultData = [
                 'layout' => $setup['layout'] ?? $singularName,
                 'permalink' => $setup['permalink'] ?? 'none',
-            ]);
+            ];
+
+            if (!empty($setup['use'])) {
+                $defaultData['use'] = $setup['use'];
+            }
+
+            $defaultDataMapId = $this->generateTypesId($type, 'default_data_map');
+            $defaultDataMap = new Definition(DefaultDataMap::class);
+            $defaultDataMap->addArgument($defaultData);
             $defaultDataMap->addTag($this->generateTypesId($type, 'map'));
             $container->setDefinition($defaultDataMapId, $defaultDataMap);
 
