@@ -63,7 +63,7 @@ jobs:
         run: |
             docker run --rm --platform ${{ matrix.platform }} \
               -v "$PWD:/app" php:8.5-cli \
-              /bin/sh -c "apt-get update && apt-get install -y curl \
+              /bin/sh -c "apt-get update && apt-get install -y curl zip \
               && (curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer) \
               && cd /app && composer install \
               && SCULPIN_TEST_BIN=/app/build/sculpin-linux-${{ matrix.arch }} vendor/bin/phpunit src/Sculpin/Tests/Functional/GenerateCommandTest.php"
