@@ -59,7 +59,7 @@ class ServeCommand extends AbstractCommand
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
-            (int) $input->getOption('port')
+            (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
         );
 
         $httpServer->run();

@@ -6,12 +6,12 @@ namespace Functional;
 
 use Sculpin\Tests\Functional\FunctionalTestCase;
 
-class GenerateFromTextileTest extends FunctionalTestCase
+final class GenerateFromHtmlDotTwigTest extends FunctionalTestCase
 {
     /** @test */
-    public function shouldGenerateAnHtmlFileFromTextile(): void
+    public function shouldGenerateAnHtmlFileFromHtmlDotTwig(): void
     {
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/hello_world.textile');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/hello_world.html.twig');
 
         $this->executeSculpin(['generate']);
 
@@ -19,21 +19,21 @@ class GenerateFromTextileTest extends FunctionalTestCase
     }
 
     /** @test */
-    public function shouldGenerateHtmlContentFromTextile(): void
+    public function shouldGenerateHtmlContentFromMarkdown(): void
     {
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/hello_world.textile');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/hello_world.html.twig');
 
         $this->executeSculpin(['generate']);
 
         $crawler = $this->crawlGeneratedProjectFile('/hello_world/index.html');
 
-        $this->assertStringContainsString('Aenean id lacinia tellus.', $crawler->filter('h3')->text());
+        $this->assertStringContainsString('Hello World', $crawler->filter('h1')->text());
     }
 
     /** @test */
     public function shouldGenerateIntoNestedDirectories(): void
     {
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/hello/world.textile');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/hello/world.html.twig');
 
         $this->executeSculpin(['generate']);
 
@@ -41,20 +41,16 @@ class GenerateFromTextileTest extends FunctionalTestCase
     }
 
     /** @test */
-    public function shouldGenerateHtmlUsingALayout()
+    public function shouldGenerateHtmlUsingALayout(): void
     {
-        $this->addProjectFile(
-            '/source/_layouts/my_layout.html.twig',
-            <<<EOT
+        $this->addProjectFile('/source/_layouts/my_layout.html.twig', <<<EOT
         <body>
             <div class="page-content">{% block content %}{% endblock content %}</div>
         </body>
         EOT
         );
 
-        $this->addProjectFile(
-            '/source/my_page_with_layout.textile',
-            <<<EOT
+        $this->addProjectFile('/source/my_page_with_layout.html.twig', <<<EOT
         ---
         layout: my_layout.html.twig
         ---
@@ -78,11 +74,11 @@ class GenerateFromTextileTest extends FunctionalTestCase
     /** @test */
     public function shouldRefreshGeneratedHtmlAfterFilesystemChange(): void
     {
-        $layoutFile = '/source/_layouts/my_layout.html.twig';
-        $pageFile = '/source/my_page_with_layout.textile';
+        $layoutFile    = '/source/_layouts/my_layout.html.twig';
+        $pageFile      = '/source/my_page_with_layout.html.twig';
         $pageGenerated = '/my_page_with_layout/index.html';
 
-        $expectedHeader = 'ORIGINAL_HEADER';
+        $expectedHeader  = 'ORIGINAL_HEADER';
         $expectedContent = 'Hello World';
 
         $layoutContent = <<<EOT
@@ -126,14 +122,14 @@ class GenerateFromTextileTest extends FunctionalTestCase
         $this->assertStringContainsString($expectedContent, $pageContentEl->text());
 
         // update the content
-        $originalHeader = $expectedHeader;
+        $originalHeader  = $expectedHeader;
         $originalContent = $expectedContent;
 
-        $expectedHeader = 'FRESH HEADER';
+        $expectedHeader  = 'FRESH HEADER';
         $expectedContent = 'HELLO WORLD!';
 
         $layoutContent = str_replace($originalHeader, $expectedHeader, $layoutContent);
-        $pageContent = str_replace($originalContent, $expectedContent, $pageContent);
+        $pageContent   = str_replace($originalContent, $expectedContent, $pageContent);
 
         // test that page content refreshes properly
         $this->addProjectFile($pageFile, $pageContent);
@@ -174,16 +170,16 @@ class GenerateFromTextileTest extends FunctionalTestCase
     /** @test */
     public function shouldPassThruFilesWithNoExtension(): void
     {
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/hello_world');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/hello_world2');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/hello_world');
+        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.html.twig', '/source/hello_world2');
 
         $this->executeSculpin(['generate']);
 
         $this->assertProjectHasGeneratedFile('/hello_world');
         $this->assertProjectHasGeneratedFile('/hello_world2');
 
-        $this->assertGeneratedFileHasContent('/hello_world', 'h3. Aenean id lacinia tellus.');
-        $this->assertGeneratedFileHasContent('/hello_world2', 'h3. Aenean id lacinia tellus.');
+        $this->assertGeneratedFileHasContent('/hello_world', 'title: Hello World');
+        $this->assertGeneratedFileHasContent('/hello_world2', 'title: Hello World');
     }
 
     /** @test */
@@ -199,11 +195,17 @@ class GenerateFromTextileTest extends FunctionalTestCase
             EOT
         );
 
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/_posts/hello_world');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/_posts/hello_world2');
         $this->copyFixtureToProject(
-            __DIR__ . '/Fixture/source/hello_world.textile',
-            '/source/_posts/hello_world3.textile'
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world'
+        );
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world2'
+        );
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world3.html.twig'
         );
 
         $this->executeSculpin(['generate']);
@@ -214,10 +216,7 @@ class GenerateFromTextileTest extends FunctionalTestCase
             $actualOutput
         );
         $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
-        $this->assertStringNotContainsString(
-            'Skipping empty or unknown file: _posts/hello_world3.textile',
-            $actualOutput
-        );
+        $this->assertStringNotContainsString('Skipping empty or unknown file: _posts/hello_world3.md', $actualOutput);
 
         $this->assertProjectLacksFile('/output_test/_posts/hello_world');
         $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
@@ -225,7 +224,7 @@ class GenerateFromTextileTest extends FunctionalTestCase
 
         $this->assertGeneratedFileHasContent(
             '/blog/hello_world3/index.html',
-            '<h3>Aenean id lacinia tellus.</h3>'
+            '<h1>Hello World</h1>'
         );
     }
 
@@ -245,8 +244,8 @@ class GenerateFromTextileTest extends FunctionalTestCase
         $this->addProjectFile('/source/_posts/.DS_Store');
         $this->addProjectFile('/source/_posts/.hello_world2.swp');
         $this->copyFixtureToProject(
-            __DIR__ . '/Fixture/source/hello_world.textile',
-            '/source/_posts/hello_world3.textile'
+            __DIR__ . '/Fixture/source/hello_world.html.twig',
+            '/source/_posts/hello_world3.html.twig'
         );
 
         $this->executeSculpin(['generate']);
@@ -262,7 +261,7 @@ class GenerateFromTextileTest extends FunctionalTestCase
 
         $this->assertGeneratedFileHasContent(
             '/blog/hello_world3/index.html',
-            '<h3>Aenean id lacinia tellus.</h3>'
+            '<h1>Hello World</h1>'
         );
     }
 }

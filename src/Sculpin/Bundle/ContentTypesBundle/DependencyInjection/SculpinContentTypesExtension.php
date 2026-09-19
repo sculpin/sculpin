@@ -64,7 +64,7 @@ class SculpinContentTypesExtension extends Extension
             }
 
             // What should be used for the singular name?
-            $singularName = $setup['singular_name'] ?? (new EnglishInflector())->singularize($type)[0];
+            $singularName = $setup['singular_name'] ?? array_last(new EnglishInflector()->singularize($type));
 
             // How is the type detected?
             $detectionTypes = is_array($setup['type']) ? $setup['type'] : [$setup['type']];
@@ -185,12 +185,18 @@ class SculpinContentTypesExtension extends Extension
             // Default Data Map
             //
 
-            $defaultDataMapId = $this->generateTypesId($type, 'default_data_map');
-            $defaultDataMap = new Definition(DefaultDataMap::class);
-            $defaultDataMap->addArgument([
+            $defaultData = [
                 'layout' => $setup['layout'] ?? $singularName,
                 'permalink' => $setup['permalink'] ?? 'none',
-            ]);
+            ];
+
+            if (!empty($setup['use'])) {
+                $defaultData['use'] = $setup['use'];
+            }
+
+            $defaultDataMapId = $this->generateTypesId($type, 'default_data_map');
+            $defaultDataMap = new Definition(DefaultDataMap::class);
+            $defaultDataMap->addArgument($defaultData);
             $defaultDataMap->addTag($this->generateTypesId($type, 'map'));
             $container->setDefinition($defaultDataMapId, $defaultDataMap);
 
@@ -256,7 +262,7 @@ class SculpinContentTypesExtension extends Extension
                 $permalinkStrategies->addArgument($taxonomy);
                 $container->setDefinition($permalinkStrategyId, $permalinkStrategies);
 
-                $taxon = (new EnglishInflector())->singularize($taxonomyName)[0];
+                $taxon = array_last(new EnglishInflector()->singularize($taxonomyName));
 
                 $taxonomyDataProviderName = $type.'_'.$taxonomyName;
                 $taxonomyIndexGeneratorName = $type.'_'.$taxon.'_index';

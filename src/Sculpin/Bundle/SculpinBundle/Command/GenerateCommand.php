@@ -148,15 +148,17 @@ class GenerateCommand extends AbstractCommand
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
-                (int) $input->getOption('port')
+                (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
             );
 
             if ($watch) {
-                Loop::addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
-                    clearstatcache();
-                    $sourceSet->reset();
-                    $fetcher->buildPathMap($sourceSet);
-                    $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
+                Loop::addPeriodicTimer(
+                    1,
+                    function () use ($sculpin, $dataSource, $sourceSet, $fetcher, $consoleIo): void {
+                        clearstatcache();
+                        $sourceSet->reset();
+                        $fetcher->buildPathMap($sourceSet);
+                        $this->runSculpin($sculpin, $dataSource, $sourceSet, $consoleIo);
                     }
                 );
             }

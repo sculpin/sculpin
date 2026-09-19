@@ -54,6 +54,15 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('publish_drafts')->defaultNull()->end()
                 ->scalarNode('permalink')->end()
                 ->scalarNode('layout')->end()
+                ->arrayNode('use')
+                    ->beforeNormalization()
+                        // Default case is we want the user to specify just one
+                        // data provider but we can allow for multiple if they want to.
+                        ->ifString()
+                        ->then(fn($v): array => [$v])
+                    ->end()
+                    ->prototype('scalar')->end()
+                ->end()
                 ->arrayNode('taxonomies')
                     ->beforeNormalization()
                         // Default case is we want the user to specify just one
