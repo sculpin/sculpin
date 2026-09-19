@@ -55,6 +55,16 @@ jobs:
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sculpin-bin-linux-${{ matrix.arch }}
-          path: build/sculpin-linux-${{ matrix.arch }}
-          retention-days: 30
+            name: sculpin-bin-linux-${{ matrix.arch }}
+            path: build/sculpin-linux-${{ matrix.arch }}
+            retention-days: 30
+
+      - name: Verify generate command passes on ${{ matrix.platform }}
+        run: |
+            docker run --rm --platform ${{ matrix.platform }} \
+              -v "$PWD:/app" php:8.5-cli \
+              /bin/sh -c "apt-get update && apt-get install -y curl \
+              && (curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer) \
+              && cd /app && composer install \
+              && SCULPIN_TEST_BIN=/app/build/sculpin-linux-${{ matrix.arch }} vendor/bin/phpunit src/Sculpin/Tests/Functional/GenerateCommandTest.php"
+
