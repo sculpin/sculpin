@@ -12,9 +12,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: x86_64
-            target: ''
-            platform: linux/amd64
           - arch: aarch64
             target: aarch64-linux-musl
             platform: linux/arm64
@@ -23,6 +20,9 @@ jobs:
             platform: linux/arm/v7
             # php_micro_fileinfo.c omits `typedef Elf32_Shdr Elf_Shdr` in arm32
             compiler_extra: -DElf_Shdr=Elf32_Shdr
+          - arch: x86_64
+            target: ''
+            platform: linux/amd64
 
     steps:
       - uses: actions/checkout@v4

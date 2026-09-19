@@ -25,6 +25,8 @@ if (
 $externalAutoloaderPath = getcwd()
     . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$externalAutoloader = includeIfExists($externalAutoloaderPath);
+if (realpath($externalAutoloaderPath) !== realpath(__DIR__ . '/../vendor/autoload.php')) {
+    $externalAutoloader = includeIfExists($externalAutoloaderPath);
+}
 
 include __DIR__ . '/sculpin.php';
