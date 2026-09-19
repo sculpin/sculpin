@@ -65,6 +65,6 @@ jobs:
               -v "$PWD:/app" php:8.5-cli \
               /bin/sh -c "apt-get update && apt-get install -y curl zip \
               && (curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer) \
-              && cd /app && composer install \
+              && cd /app && composer install && /app/build/sculpin-linux-${{ matrix.arch }} --version \
               && SCULPIN_TEST_BIN=/app/build/sculpin-linux-${{ matrix.arch }} vendor/bin/phpunit src/Sculpin/Tests/Functional/GenerateCommandTest.php"
 
