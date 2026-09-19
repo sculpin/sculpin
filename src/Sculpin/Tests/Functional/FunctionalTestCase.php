@@ -111,9 +111,10 @@ class FunctionalTestCase extends TestCase
      */
     protected function executeSculpinAsync(array $command, bool $start = true, ?callable $callback = null): Process
     {
-        $binPath    = __DIR__ . '/../../../../bin';
+        $binPath = getenv('SCULPIN_TEST_BIN') ?: null;
+        $binPath ??= __DIR__ . '/../../../../bin/sculpin';
         $projectDir = static::projectDir();
-        $process    = new Process([$binPath . '/sculpin', ...$command, "--project-dir", $projectDir, "--env", "test"]);
+        $process    = new Process([$binPath, ...$command, "--project-dir", $projectDir, "--env", "test"]);
 
         if ($start) {
             $process->start($callback);
