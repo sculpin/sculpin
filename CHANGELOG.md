@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 4.0.0-alpha3 - TBD
+## 4.0.0-alpha3 - 2026-09-25
 
 ### Added
 
 * [Add `use` option to content type configuration](https://github.com/sculpin/sculpin/pull/547) (thanks, @opdavies!)
 * [add spc workflow to build linux binaries](https://github.com/sculpin/sculpin/pull/537) (thanks, @henderkes!)
+* [Create a new "Add File" interface](https://github.com/sculpin/sculpin/pull/542)
 
 ### Changed
 
@@ -20,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * [Fix for Bug 541: .twig extensions in filesource](https://github.com/sculpin/sculpin/pull/545)
 * [Fix for #540, content type pluralization/singularization](https://github.com/sculpin/sculpin/pull/543)
-* 
+* [Fix Port setting for generate/serve/run commands](https://github.com/sculpin/sculpin/pull/551)
 
 ## 4.0.0-alpha2 - 2026-07-24
 
