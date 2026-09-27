@@ -10,8 +10,10 @@ function includeIfExists($file): null|\Composer\Autoload\ClassLoader
         : null;
 }
 
+$directAutoloaderPath = __DIR__ . '/../vendor/autoload.php';
+
 if (
-    (!$classLoader = includeIfExists(__DIR__ . '/../vendor/autoload.php')) &&
+    (!$classLoader = includeIfExists($directAutoloaderPath)) &&
     (!$classLoader = includeIfExists(__DIR__ . '/../../../autoload.php'))
 ) {
     echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL .
@@ -22,10 +24,14 @@ if (
 
 // Attempt to load an optional External autoloader, in case the Sculpin project
 // being operated on is more advanced than the stock configuration allows.
-$externalAutoloaderPath = getcwd()
-    . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+$externalAutoloaderPath = getcwd() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-if (realpath($externalAutoloaderPath) !== realpath(__DIR__ . '/../vendor/autoload.php')) {
+// Additional checks are required to prevent the static binary from re-loading the same autoloader it was built with
+$autoloaderPathExists = file_exists($externalAutoloaderPath);
+$autoloaderHasSamePath = $autoloaderPathExists && (realpath($externalAutoloaderPath) === realpath($directAutoloaderPath));
+$autoloaderHasSameHash = $autoloaderHasSamePath || (md5_file($externalAutoloaderPath) === md5_file($directAutoloaderPath));
+
+if ($autoloaderPathExists && !$autoloaderHasSamePath && !$autoloaderHasSameHash) {
     $externalAutoloader = includeIfExists($externalAutoloaderPath);
 }
 
