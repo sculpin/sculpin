@@ -12,7 +12,7 @@ build-options:
 extra-env:
     SPC_DEFAULT_CFLAGS: "-Oz -fPIC -ffunction-sections -fdata-sections -g"
     SPC_DEFAULT_CXXFLAGS: "-Oz -fPIC -ffunction-sections -fdata-sections"
-    SPC_DEFAULT_LDFLAGS: "-Wl,--gc-sections"
+    SPC_DEFAULT_LDFLAGS: "-Wl,-dead_strip"
 
 #  with-hardcoded-ini:
 #    - "memory_limit=8G"
