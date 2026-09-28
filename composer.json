@@ -92,6 +92,11 @@
         "rector-apply": "rector",
         "test": "phpunit --colors=always",
         "test-coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-clover clover.xml --coverage-text --colors=always",
+        "build:clean": [
+            "Composer\\Config::disableProcessTimeout",
+            "[ -d build ] && cd build && spc reset --with-pkgroot --with-download --yes",
+            "echo This House Is Clean."
+        ],
         "build:from-git": [
             "Composer\\Config::disableProcessTimeout",
             "echo building ...",
