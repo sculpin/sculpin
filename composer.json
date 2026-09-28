@@ -97,7 +97,7 @@
             "echo building ...",
             "[ ! -d build ] && mkdir build || true",
             "git archive HEAD | tar -x -C build",
-            "cd build && rm -Rf tests/ && composer install --ignore-platform-reqs --no-dev -a"
+            "cd build && rm -Rf tests/ src/Sculpin/Tests/ && composer install --ignore-platform-reqs --no-dev -a"
         ],
         "build:phar": [
             "Composer\\Config::disableProcessTimeout",
@@ -110,7 +110,6 @@
             "echo packaging binary ...",
             "cd build && spc craft && spc micro:combine bin/sculpin.phar --output=sculpin.bin"
         ]
-
     },
     "config": {
         "allow-plugins": {
