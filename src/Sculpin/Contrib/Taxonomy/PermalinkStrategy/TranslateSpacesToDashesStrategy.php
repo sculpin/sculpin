@@ -15,7 +15,7 @@ namespace Sculpin\Contrib\Taxonomy\PermalinkStrategy;
 
 class TranslateSpacesToDashesStrategy implements PermalinkStrategyInterface
 {
-    public function process($str)
+    public function process(string $str): string
     {
         return str_replace(' ', '-', $str);
     }

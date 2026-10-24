@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sculpin\Core;
 
-use Dflydev\DotAccessConfiguration\Configuration;
 use Sculpin\Core\Converter\ConverterManager;
 use Sculpin\Core\Event\SourceSetEvent;
 use Sculpin\Core\Formatter\FormatterManager;
@@ -33,105 +32,110 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-final class Sculpin
+final readonly class Sculpin
 {
-    public const EVENT_BEFORE_RUN = 'sculpin.core.before_run';
-    public const EVENT_AFTER_RUN = 'sculpin.core.after_run';
-
-    public const EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
-
-    public const EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
-    public const EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
-
-    public const EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
-    public const EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
-
-    /**
-     * @var Configuration
-     */
-    private $siteConfiguration;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @var SourcePermalinkFactoryInterface
-     */
-    private $permalinkFactory;
-
-    /**
-     * @var WriterInterface
-     */
-    private $writer;
-
-    /**
-     * @var GeneratorManager
-     */
-    private $generatorManager;
-
-    /**
-     * @var FormatterManager
-     */
-    private $formatterManager;
-
-    /**
-     * @var ConverterManager
-     */
-    private $converterManager;
+    public const string EVENT_BEFORE_RUN = 'sculpin.core.before_run';
+    public const string EVENT_AFTER_RUN = 'sculpin.core.after_run';
+    public const string EVENT_AFTER_GENERATE = 'sculpin.core.after_generate';
+    public const string EVENT_BEFORE_CONVERT = 'sculpin.core.before_convert';
+    public const string EVENT_AFTER_CONVERT = 'sculpin.core.after_convert';
+    public const string EVENT_BEFORE_FORMAT = 'sculpin.core.before_format';
+    public const string EVENT_AFTER_FORMAT = 'sculpin.core.after_format';
 
     public function __construct(
-        Configuration $siteConfiguration,
-        EventDispatcherInterface $eventDispatcher,
-        SourcePermalinkFactoryInterface $permalinkFactory,
-        WriterInterface $writer,
-        GeneratorManager $generatorManager,
-        FormatterManager $formatterManager,
-        ConverterManager $converterManager
+        private EventDispatcherInterface $eventDispatcher,
+        private SourcePermalinkFactoryInterface $permalinkFactory,
+        private WriterInterface $writer,
+        private GeneratorManager $generatorManager,
+        private FormatterManager $formatterManager,
+        private ConverterManager $converterManager
     ) {
-        $this->siteConfiguration = $siteConfiguration;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->permalinkFactory = $permalinkFactory;
-        $this->writer = $writer;
-        $this->generatorManager = $generatorManager;
-        $this->formatterManager = $formatterManager;
-        $this->converterManager = $converterManager;
     }
 
-    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null)
+    public function run(DataSourceInterface $dataSource, SourceSet $sourceSet, ?IoInterface $io = null): void
     {
-        if (null === $io) {
-            $io = new NullIo();
-        }
-        $found = false;
+        $io ??= new NullIo();
         $startTime = microtime(true);
-
         $dataSource->refresh($sourceSet);
 
-        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_BEFORE_RUN);
+        $found = false;
 
-        if ($updatedSources = array_filter($sourceSet->updatedSources(), function (SourceInterface $source) {
-            return !$source->isGenerated();
-        })) {
-            if (!$found) {
-                $io->write('Detected new or updated files');
-                $found = true;
-            }
+        $this
+            ->sendEvent($sourceSet, self::EVENT_BEFORE_RUN)
+            ->generatePhase($sourceSet, $io, $found)
+            ->permalinkPhase($sourceSet)
+            ->sendEvent($sourceSet, self::EVENT_AFTER_GENERATE)
+            ->convertPhase($sourceSet, $io, $found)
+            ->formatPhase($sourceSet, $io, $found)
+            ->writeOutputPhase($sourceSet, $io)
+            ->sendEvent($sourceSet, self::EVENT_AFTER_RUN)
+        ;
 
-            $total = count($updatedSources);
+        if ($found) {
+            $io->write(
+                sprintf(
+                    'Processing completed in %4.2f seconds',
+                    microtime(true) - $startTime
+                )
+            );
+        }
+    }
 
-            $io->write('Generating: ', false);
-            $io->write('', false);
-            $counter = 0;
-            $timer = microtime(true);
-            foreach ($updatedSources as $source) {
-                $this->generatorManager->generate($source, $sourceSet);
-                $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
-            }
-            $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
+    /**
+     * @param SourceSet $sourceSet
+     * @param string $eventName
+     * @return Sculpin
+     */
+    protected function sendEvent(SourceSet $sourceSet, string $eventName): self
+    {
+        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), $eventName);
+
+        return $this;
+    }
+
+    /**
+     * @param SourceSet $sourceSet The list of all sources
+     * @param NullIo|IoInterface|null $io Helper for writing/overwriting console output
+     * @param bool $found
+     * @return Sculpin
+     */
+    protected function generatePhase(SourceSet $sourceSet, NullIo|IoInterface|null $io, bool &$found): self
+    {
+        $updatedSources = array_filter(
+            $sourceSet->updatedSources(),
+            fn(SourceInterface $source): bool => !$source->isGenerated()
+        );
+
+        if (!$updatedSources) {
+            return $this;
         }
 
+        $found = true;
+
+        $io->write('Detected new or updated files (Generate Phase)');
+        $total = count($updatedSources);
+
+        $io->write('Generating: ', false);
+        $io->write('', false);
+        $counter = 0;
+        $timer = microtime(true);
+
+        foreach ($updatedSources as $source) {
+            $this->generatorManager->generate($source, $sourceSet);
+            $io->overwrite(sprintf('%3d%%', 100 * ((++$counter) / $total)), false);
+        }
+
+        $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
+
+        return $this;
+    }
+
+    /**
+     * @param SourceSet $sourceSet      The list of all sources
+     * @return Sculpin
+     */
+    protected function permalinkPhase(SourceSet $sourceSet): self
+    {
         foreach ($sourceSet->updatedSources() as $source) {
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
@@ -140,57 +144,105 @@ final class Sculpin
             $source->data()->set('filename', $source->filename());
         }
 
-        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_GENERATE);
+        return $this;
+    }
 
-        if ($updatedSources = $sourceSet->updatedSources()) {
-            if (!$found) {
-                $io->write('Detected new or updated files');
-                $found = true;
-            }
+    /**
+     * @param SourceSet $sourceSet
+     * @param NullIo|IoInterface|null $io
+     * @param bool $found
+     * @return Sculpin
+     */
+    protected function convertPhase(SourceSet $sourceSet, NullIo|IoInterface|null $io, bool &$found): self
+    {
+        $updatedSources = $sourceSet->updatedSources();
 
-            $total = count($updatedSources);
-
-            $io->write('Converting: ', false);
-            $io->write('', false);
-            $counter = 0;
-            $timer = microtime(true);
-            foreach ($updatedSources as $source) {
-                $this->converterManager->convertSource($source);
-
-                if ($source->canBeFormatted()) {
-                    $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
-                }
-                $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
-            }
-            $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
+        if (!$updatedSources) {
+            return $this;
         }
 
-        if ($updatedSources = $sourceSet->updatedSources()) {
-            if (!$found) {
-                $io->write('Detected new or updated files');
-                $found = true;
-            }
-
-            $total = count($updatedSources);
-
-            $io->write('Formatting: ', false);
-            $io->write('', false);
-            $counter = 0;
-            $timer = microtime(true);
-            foreach ($updatedSources as $source) {
-                if ($source->canBeFormatted()) {
-                    $source->setFormattedContent($this->formatterManager->formatSourcePage($source));
-                } else {
-                    $source->setFormattedContent($source->content());
-                }
-                $io->overwrite(sprintf('%3d%%', 100*((++$counter)/$total)), false);
-            }
-            $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_FORMAT);
-            $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
+        if (!$found) {
+            $io->write('Detected new or updated files (Convert Phase)');
+            $found = true;
         }
 
+        $total = count($updatedSources);
+
+        $io->write('Converting: ', false);
+        $io->write('', false);
+        $counter = 0;
+        $timer = microtime(true);
+
+        foreach ($updatedSources as $source) {
+            $this->converterManager->convertSource($source);
+
+            if ($source->canBeFormatted()) {
+                $source->data()->set('blocks', $this->formatterManager->formatSourceBlocks($source));
+            }
+
+            $io->overwrite(sprintf('%3d%%', 100 * ((++$counter) / $total)), false);
+        }
+
+        $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
+
+        return $this;
+    }
+
+    /**
+     * After formatting, dispatches the 'AFTER_FORMAT' event.
+     *
+     * @param SourceSet $sourceSet
+     * @param NullIo|IoInterface|null $io
+     * @param bool $found
+     * @return Sculpin
+     */
+    protected function formatPhase(SourceSet $sourceSet, NullIo|IoInterface|null $io, bool &$found): self
+    {
+        $updatedSources = $sourceSet->updatedSources();
+
+        if (!$updatedSources) {
+            return $this;
+        }
+
+        if (!$found) {
+            $io->write('Detected new or updated files (Format Phase');
+            $found = true;
+        }
+
+        $total = count($updatedSources);
+
+        $io->write('Formatting: ', false);
+        $io->write('', false);
+        $counter = 0;
+        $timer = microtime(true);
+
+        foreach ($updatedSources as $source) {
+            $source->canBeFormatted()
+                ? $source->setFormattedContent($this->formatterManager->formatSourcePage($source))
+                : $source->setFormattedContent($source->content());
+
+            $io->overwrite(sprintf('%3d%%', 100 * ((++$counter) / $total)), false);
+        }
+
+        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_FORMAT);
+        $io->write(sprintf(' (%d sources / %4.2f seconds)', $total, microtime(true) - $timer));
+
+        return $this;
+    }
+
+    /**
+     * @param SourceSet $sourceSet
+     * @param NullIo|IoInterface|null $io
+     * @return Sculpin
+     */
+    protected function writeOutputPhase(SourceSet $sourceSet, NullIo|IoInterface|null $io): self
+    {
         foreach ($sourceSet->updatedSources() as $source) {
-            if ($source->isGenerator() || $source->shouldBeSkipped()) {
+            if ($source->isGenerator()) {
+                continue;
+            }
+
+            if ($source->shouldBeSkipped()) {
                 continue;
             }
 
@@ -201,10 +253,6 @@ final class Sculpin
             }
         }
 
-        $this->eventDispatcher->dispatch(new SourceSetEvent($sourceSet), self::EVENT_AFTER_RUN);
-
-        if ($found) {
-            $io->write(sprintf('Processing completed in %4.2f seconds', microtime(true) - $startTime));
-        }
+        return $this;
     }
 }

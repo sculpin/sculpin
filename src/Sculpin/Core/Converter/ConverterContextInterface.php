@@ -28,5 +28,5 @@ interface ConverterContextInterface
     /**
      * Set the converted content.
      */
-    public function setContent(string $content);
+    public function setContent(string $content): void;
 }

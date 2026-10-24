@@ -43,14 +43,18 @@ class GenerateFromTextileTest extends FunctionalTestCase
     /** @test */
     public function shouldGenerateHtmlUsingALayout()
     {
-        $this->addProjectFile('/source/_layouts/my_layout.html.twig', <<<EOT
+        $this->addProjectFile(
+            '/source/_layouts/my_layout.html.twig',
+            <<<EOT
         <body>
             <div class="page-content">{% block content %}{% endblock content %}</div>
         </body>
         EOT
         );
 
-        $this->addProjectFile('/source/my_page_with_layout.textile', <<<EOT
+        $this->addProjectFile(
+            '/source/my_page_with_layout.textile',
+            <<<EOT
         ---
         layout: my_layout.html.twig
         ---
@@ -74,11 +78,11 @@ class GenerateFromTextileTest extends FunctionalTestCase
     /** @test */
     public function shouldRefreshGeneratedHtmlAfterFilesystemChange(): void
     {
-        $layoutFile    = '/source/_layouts/my_layout.html.twig';
-        $pageFile      = '/source/my_page_with_layout.textile';
+        $layoutFile = '/source/_layouts/my_layout.html.twig';
+        $pageFile = '/source/my_page_with_layout.textile';
         $pageGenerated = '/my_page_with_layout/index.html';
 
-        $expectedHeader  = 'ORIGINAL_HEADER';
+        $expectedHeader = 'ORIGINAL_HEADER';
         $expectedContent = 'Hello World';
 
         $layoutContent = <<<EOT
@@ -122,14 +126,14 @@ class GenerateFromTextileTest extends FunctionalTestCase
         $this->assertStringContainsString($expectedContent, $pageContentEl->text());
 
         // update the content
-        $originalHeader  = $expectedHeader;
+        $originalHeader = $expectedHeader;
         $originalContent = $expectedContent;
 
-        $expectedHeader  = 'FRESH HEADER';
+        $expectedHeader = 'FRESH HEADER';
         $expectedContent = 'HELLO WORLD!';
 
         $layoutContent = str_replace($originalHeader, $expectedHeader, $layoutContent);
-        $pageContent   = str_replace($originalContent, $expectedContent, $pageContent);
+        $pageContent = str_replace($originalContent, $expectedContent, $pageContent);
 
         // test that page content refreshes properly
         $this->addProjectFile($pageFile, $pageContent);
@@ -197,7 +201,10 @@ class GenerateFromTextileTest extends FunctionalTestCase
 
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/_posts/hello_world');
         $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/_posts/hello_world2');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/_posts/hello_world3.textile');
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.textile',
+            '/source/_posts/hello_world3.textile'
+        );
 
         $this->executeSculpin(['generate']);
 
@@ -207,7 +214,10 @@ class GenerateFromTextileTest extends FunctionalTestCase
             $actualOutput
         );
         $this->assertStringContainsString('Skipping empty or unknown file: _posts/hello_world2', $actualOutput);
-        $this->assertStringNotContainsString('Skipping empty or unknown file: _posts/hello_world3.textile', $actualOutput);
+        $this->assertStringNotContainsString(
+            'Skipping empty or unknown file: _posts/hello_world3.textile',
+            $actualOutput
+        );
 
         $this->assertProjectLacksFile('/output_test/_posts/hello_world');
         $this->assertProjectLacksFile('/output_test/_posts/hello_world2');
@@ -234,7 +244,10 @@ class GenerateFromTextileTest extends FunctionalTestCase
 
         $this->addProjectFile('/source/_posts/.DS_Store');
         $this->addProjectFile('/source/_posts/.hello_world2.swp');
-        $this->copyFixtureToProject(__DIR__ . '/Fixture/source/hello_world.textile', '/source/_posts/hello_world3.textile');
+        $this->copyFixtureToProject(
+            __DIR__ . '/Fixture/source/hello_world.textile',
+            '/source/_posts/hello_world3.textile'
+        );
 
         $this->executeSculpin(['generate']);
 

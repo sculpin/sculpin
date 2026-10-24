@@ -18,9 +18,6 @@ namespace Sculpin\Core\Source;
  */
 interface DataSourceInterface
 {
-    /**
-     * @return string
-     */
     public function dataSourceId(): string;
 
     /**

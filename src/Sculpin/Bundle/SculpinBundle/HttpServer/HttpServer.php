@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Psr\Http\Message\ServerRequestInterface;
-use React\EventLoop\StreamSelectLoop;
+use React\EventLoop\Loop;
 use React\Http\Message\Response;
-use React\Http\Server as ReactHttpServer;
-use React\Socket\Server as ReactSocketServer;
+use React\Http\HttpServer as ReactHttpServer;
+use React\Socket\SocketServer as ReactSocketServer;
+use Sculpin\Bundle\EditorBundle\InBrowserEditorContentFetcher;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mime\MimeTypes;
 
@@ -26,92 +27,22 @@ use Symfony\Component\Mime\MimeTypes;
  */
 final class HttpServer
 {
-    /**
-     * @var bool
-     */
-    private $debug;
+    public const int DEFAULT_PORT = 8000;
 
-    /**
-     * @var string
-     */
-    private $env;
-
-    /**
-     * @var StreamSelectLoop
-     */
-    private $loop;
-
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var int
-     */
-    private $port;
-
-    public function __construct(OutputInterface $output, string $docroot, string $env, bool $debug, ?int $port = null)
-    {
-        $mimeTypes = new MimeTypes();
-
-        $this->debug  = $debug;
-        $this->env    = $env;
-        $this->output = $output;
-        $this->port   = $port ?: 8000;
-
-        $this->loop   = new StreamSelectLoop;
+    public function __construct(
+        private readonly OutputInterface $output,
+        private readonly ContentFetcher $fetcher,
+        string $docroot,
+        private readonly string $env,
+        private readonly bool $debug,
+        private int $port = self::DEFAULT_PORT
+    ) {
         $socketServer = new ReactSocketServer(
             sprintf('0.0.0.0:%d', $this->port),
-            $this->loop
         );
 
-        $httpServer = new ReactHttpServer($this->loop, function (ServerRequestInterface $request) use (
-            $mimeTypes,
-            $docroot,
-            $output
-        ) {
-            $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
-
-            if (is_dir($path)) {
-                $path = rtrim($path, '/') . '/index.html';
-            }
-
-            if (!file_exists($path)) {
-                HttpServer::logRequest($output, 404, $request);
-
-                $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
-                    . '<p>'
-                    . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
-                    . 'could not find the requested resource.'
-                    . '</p>';
-
-                return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
-            }
-
-            $type = 'application/octet-stream';
-
-            if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
-                $type = $mimeTypes->getMimeTypes($extension)[0] ?? $type;
-            }
-
-            HttpServer::logRequest($output, 200, $request);
-
-            return new Response(200, ['Content-Type' => $type], file_get_contents($path));
-        });
-
+        $httpServer = $this->getHttpServer($docroot, $output);
         $httpServer->listen($socketServer);
-    }
-
-    /**
-     * Add a periodic timer
-     *
-     * @param int      $interval Interval
-     * @param callable $callback Callback
-     */
-    public function addPeriodicTimer(int $interval, callable $callback): void
-    {
-        $this->loop->addPeriodicTimer($interval, $callback);
     }
 
     /**
@@ -131,7 +62,7 @@ final class HttpServer
         ));
         $this->output->writeln('Quit the server with CONTROL-C.');
 
-        $this->loop->run();
+        Loop::run();
     }
 
     /**
@@ -163,5 +94,54 @@ final class HttpServer
                 $wrapClose
             )
         );
+    }
+
+    private function getHttpServer(string $docroot, OutputInterface $output): ReactHttpServer
+    {
+        $fetcher = $this->fetcher;
+        $mimeTypes = new MimeTypes();
+
+        return new ReactHttpServer(function (ServerRequestInterface $request) use (
+            $mimeTypes,
+            $docroot,
+            $fetcher,
+            $output
+        ) {
+            $path = $docroot . '/' . ltrim(rawurldecode($request->getUri()->getPath()), '/');
+
+            if (is_dir($path)) {
+                $path = rtrim($path, '/') . '/index.html';
+            }
+
+            $response = $fetcher instanceof InBrowserEditorContentFetcher
+                ? $fetcher->handleRequest($path, $request, $output)
+                : null;
+
+            if ($response) {
+                return $response;
+            }
+
+            if (!file_exists($path)) {
+                HttpServer::logRequest($output, 404, $request);
+
+                $notFoundMessage = '<h1>404</h1><h2>Not Found</h2>'
+                    . '<p>'
+                    . 'The embedded <a href="https://sculpin.io">Sculpin</a> web server '
+                    . 'could not find the requested resource.'
+                    . '</p>';
+
+                return new Response(404, ['Content-Type' => 'text/html'], $notFoundMessage);
+            }
+
+            $type = 'application/octet-stream';
+
+            if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
+                $type = $mimeTypes->getMimeTypes($extension)[0] ?? $type;
+            }
+
+            HttpServer::logRequest($output, 200, $request);
+
+            return new Response(200, ['Content-Type' => $type], $fetcher->fetchData($path));
+        });
     }
 }

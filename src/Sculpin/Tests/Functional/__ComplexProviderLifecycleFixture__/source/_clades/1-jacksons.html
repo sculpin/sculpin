@@ -1,0 +1,31 @@
+---
+title: Jacksons
+slug: jacksons
+use:
+- jacksons
+- jacksons_categories
+- jacksons_tags
+---
+
+<p>A total of {{data.jacksons|length}} populations have been identified across
+    <em>{{ site.latinname}}</em> and {{ data.jacksons_tags|length - 1}} clades. Familial species are listed
+    by date of first appearance. Within each group may be multiple populations which differ by colour.</p>
+
+<p>|
+    {% for category in data.jacksons_categories|keys %}
+    {% if site.families[category] %}
+    <a href="#variation-{{ category|url_encode }}">{{ site.families[category].common }}</a> |
+    {% endif %}
+    {% endfor %}
+</p>
+
+{% for category,variations in data.jacksons_categories %}
+{% if site.families[category] %}
+<h4 id="variation-{{ category }}">{{ site.families[category].common }}</h4>
+<p><em>{{ site.latinname}} {{ site.families[category].latin }} ({{ variations[0].date|date("Y") }})</em></p>
+{% endif %}
+{% for jackson in variations %}
+
+{% include 'jackson.html' %}
+{% endfor %}
+{% endfor %}

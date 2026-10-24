@@ -1,14 +1,15 @@
 name: PHPUnit
 on: [pull_request]
+env:
+    PHP_VERSION: "8.5"
+
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - name: Composer dependencies
-              run: composer install
-            - name: Configure matchers
-              uses: mheap/phpunit-matcher-action@v1
-            - name: Run Tests
-              run: ./vendor/bin/phpunit --teamcity
-
+            - uses: actions/checkout@v4
+            - uses: shivammathur/setup-php@v2
+              with:
+                php-version: ${{ env.PHP_VERSION }}
+            - uses: ramsey/composer-install@v3
+            - run: composer test

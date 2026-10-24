@@ -21,12 +21,12 @@ class SourceSet
     /**
      * @var SourceInterface[]
      */
-    protected $sources = [];
+    protected array $sources = [];
 
     /**
      * @var SourceInterface[]
      */
-    protected $newSources = [];
+    protected array $newSources = [];
 
     /**
      * @param SourceInterface[] $sources
@@ -37,6 +37,7 @@ class SourceSet
             $this->sources[$source->sourceId()] = $source;
         }
     }
+
     /**
      * Whether this set contains the specified source.
      */
@@ -55,6 +56,7 @@ class SourceSet
         } else {
             $this->newSources[$source->sourceId()] = $source;
         }
+
         $this->sources[$source->sourceId()] = $source;
     }
 
@@ -73,9 +75,7 @@ class SourceSet
      */
     public function updatedSources(): array
     {
-        return array_filter($this->sources, function (SourceInterface $source) {
-            return $source->hasChanged();
-        });
+        return array_filter($this->sources, fn(SourceInterface $source): bool => $source->hasChanged());
     }
 
     /**

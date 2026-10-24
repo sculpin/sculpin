@@ -21,11 +21,11 @@ class MapPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $typesId = self::generateId('types');
+        $typesId = $this->generateId('types');
         $types = $container->getParameter($typesId);
 
         foreach ($types as $type) {
-            $mapId = self::generateTypesId($type, 'map');
+            $mapId = $this->generateTypesId($type, 'map');
 
             if (false === $container->hasDefinition($mapId)) {
                 continue;
@@ -41,12 +41,12 @@ class MapPass implements CompilerPassInterface
         }
     }
 
-    private static function generateId(string $value): string
+    private function generateId(string $value): string
     {
         return implode('.', ['sculpin_content_types', $value]);
     }
 
-    private static function generateTypesId(string $type, string $value): string
+    private function generateTypesId(string $type, string $value): string
     {
         return implode('.', ['sculpin_content_types.types', $type, $value]);
     }

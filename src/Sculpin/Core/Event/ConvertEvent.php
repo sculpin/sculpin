@@ -22,26 +22,11 @@ use Sculpin\Core\Source\SourceInterface;
  */
 final class ConvertEvent extends Event
 {
-    /**
-     * @var SourceInterface
-     */
-    private $source;
-
-    /**
-     * @var string
-     */
-    private $converter;
-
-    /**
-     * @var string
-     */
-    private $defaultFormatter;
-
-    public function __construct(SourceInterface $source, string $converter, string $defaultFormatter)
-    {
-        $this->source = $source;
-        $this->converter = $converter;
-        $this->defaultFormatter = $defaultFormatter;
+    public function __construct(
+        private readonly SourceInterface $source,
+        private readonly string $converter,
+        private readonly string $defaultFormatter
+    ) {
     }
 
     public function source(): SourceInterface
@@ -75,6 +60,6 @@ final class ConvertEvent extends Event
      */
     public function isHandledBy(string $requestedConverter, string $requestedFormatter): bool
     {
-        return $this->isConvertedBy($requestedConverter) and $this->isFormattedBy($requestedFormatter);
+        return $this->isConvertedBy($requestedConverter) && $this->isFormattedBy($requestedFormatter);
     }
 }

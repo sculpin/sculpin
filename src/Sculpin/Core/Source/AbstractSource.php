@@ -14,94 +14,50 @@ declare(strict_types=1);
 namespace Sculpin\Core\Source;
 
 use Sculpin\Core\Permalink\PermalinkInterface;
-use Dflydev\DotAccessConfiguration\Configuration as Data;
-use Sculpin\Core\Source\SourceInterface;
+use Dflydev\DotAccessConfiguration\ConfigurationInterface as Data;
+use Dflydev\DotAccessConfiguration\Configuration as ConfigData;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
  */
 abstract class AbstractSource implements SourceInterface
 {
-    /**
-     * @var string
-     */
-    protected $sourceId;
+    protected string $sourceId;
 
-    /**
-     * @var boolean
-     */
-    protected $isRaw;
+    protected bool $isRaw;
 
-    /**
-     * @var string
-     */
-    protected $content;
+    protected string $content;
 
-    /**
-     * @var string
-     */
-    protected $formattedContent;
+    protected string $formattedContent;
 
-    /**
-     * @var Data
-     */
-    protected $data;
+    protected Data $data;
 
-    /**
-     * @var boolean
-     */
-    protected $hasChanged;
+    protected bool $hasChanged;
 
-    /**
-     * @var PermalinkInterface
-     */
-    protected $permalink;
+    protected PermalinkInterface $permalink;
 
-    /**
-     * @var \SplFileInfo
-     */
-    protected $file;
+    protected \SplFileInfo $file;
 
-    /**
-     * @var string
-     */
-    protected $relativePathname;
+    protected string $relativePathname;
 
-    /**
-     * @var string
-     */
-    protected $filename;
+    protected string $filename;
 
-    /**
-     * @var boolean
-     */
-    protected $useFileReference = false;
+    protected bool $useFileReference = false;
 
-    /**
-     * @var boolean
-     */
-    protected $canBeFormatted = false;
+    protected bool $canBeFormatted = false;
 
-    /**
-     * @var boolean
-     */
-    protected $isGenerator = false;
+    protected bool $isGenerator = false;
 
-    /**
-     * @var boolean
-     */
-    protected $isGenerated = false;
+    protected bool $isGenerated = false;
 
-    /**
-     * @var boolean
-     */
-    protected $shouldBeSkipped = false;
+    protected bool $shouldBeSkipped = false;
 
-    protected function init(bool $hasChanged = false)
+    protected function init(bool $hasChanged = false): void
     {
         if ($hasChanged) {
             $this->hasChanged = $hasChanged;
         }
+
         $this->shouldBeSkipped = false;
     }
 
@@ -200,7 +156,7 @@ abstract class AbstractSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function setPermalink(PermalinkInterface $permalink)
+    public function setPermalink(PermalinkInterface $permalink): void
     {
         $this->permalink = $permalink;
     }
@@ -347,16 +303,16 @@ abstract class AbstractSource implements SourceInterface
     public function duplicate(string $newSourceId, array $options = []): SourceInterface
     {
         return new MemorySource(
-            $newSourceId,
-            new Data($this->data->exportRaw()),
-            isset($options['content']) ? $options['content'] : $this->content,
-            isset($options['formattedContent']) ? $options['formattedContent'] : $this->formattedContent,
-            isset($options['relativePathname']) ? $options['relativePathname'] : $this->relativePathname,
-            isset($options['filename']) ? $options['filename'] : $this->filename,
-            isset($options['file']) ? $options['file'] : $this->file,
-            isset($options['isRaw']) ? $options['isRaw'] : $this->isRaw,
-            isset($options['canBeFormatted']) ? $options['canBeFormatted'] : $this->canBeFormatted,
-            isset($options['hasChanged']) ? $options['hasChanged'] : $this->hasChanged
+            sourceId: $newSourceId,
+            data: new ConfigData($this->data->exportRaw()),
+            content: $options['content'] ?? $this->content,
+            formattedContent: $options['formattedContent'] ?? $this->formattedContent,
+            relativePathname: $options['relativePathname'] ?? $this->relativePathname,
+            filename: $options['filename'] ?? $this->filename,
+            file: $options['file'] ?? $this->file,
+            isRaw: $options['isRaw'] ?? $this->isRaw,
+            canBeFormatted: $options['canBeFormatted'] ?? $this->canBeFormatted,
+            hasChanged: $options['hasChanged'] ?? $this->hasChanged
         );
     }
 }

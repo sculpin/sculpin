@@ -21,19 +21,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSubscriberInterface
 {
-    private $taxons = [];
-    private $dataProviderManager;
-    private $dataProviderName;
-    private $taxonomyKey;
+    private array $taxons = [];
 
     public function __construct(
-        DataProviderManager $dataProviderManager,
-        $dataProviderName,
-        $taxonomyKey
+        private readonly DataProviderManager $dataProviderManager,
+        private readonly string $dataProviderName,
+        private readonly string $taxonomyKey
     ) {
-        $this->dataProviderManager = $dataProviderManager;
-        $this->dataProviderName = $dataProviderName;
-        $this->taxonomyKey = $taxonomyKey;
     }
 
     public function provideData(): array
@@ -41,14 +35,14 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
         return $this->taxons;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Sculpin::EVENT_BEFORE_RUN => 'beforeRun',
         ];
     }
 
-    public function beforeRun(SourceSetEvent $sourceSetEvent)
+    public function beforeRun(SourceSetEvent $sourceSetEvent): void
     {
         $taxons = [];
         $dataProvider = $this->dataProviderManager->dataProvider($this->dataProviderName);
@@ -57,10 +51,11 @@ class ProxySourceTaxonomyDataProvider implements DataProviderInterface, EventSub
             if ($itemTaxons = $item->data()->get($this->taxonomyKey)) {
                 $normalizedItemTaxons = [];
                 foreach ((array) $itemTaxons as $itemTaxon) {
-                    $normalizedItemTaxon = trim($itemTaxon);
+                    $normalizedItemTaxon = trim((string) $itemTaxon);
                     $taxons[$normalizedItemTaxon][] = $item;
                     $normalizedItemTaxons[] = $normalizedItemTaxon;
                 }
+
                 $item->data()->set($this->taxonomyKey, $normalizedItemTaxons);
             }
         }

@@ -25,39 +25,15 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class FormatterManager
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected array $formatters = [];
 
-    /**
-     * @var Configuration
-     */
-    protected $siteConfiguration;
-
-    /**
-     * @var DataProviderManager
-     */
-    protected $dataProviderManager;
-
-    /**
-     * @var array
-     */
-    protected $formatters = [];
-
-    /**
-     * @var string
-     */
-    protected $defaultFormatter;
+    protected string $defaultFormatter;
 
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        Configuration $siteConfiguration,
-        ?DataProviderManager $dataProviderManager = null
+        protected EventDispatcherInterface $eventDispatcher,
+        protected Configuration $siteConfiguration,
+        protected ?DataProviderManager $dataProviderManager = null
     ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->siteConfiguration = $siteConfiguration;
-        $this->dataProviderManager = $dataProviderManager;
     }
 
     protected function buildBaseFormatContext(array $context): Configuration
@@ -70,12 +46,9 @@ class FormatterManager
         ]);
 
         if (isset($context['url'])) {
-            if ('/' === $context['url']) {
-                $relativeUrl = '.';
-            } else {
-                $relativeUrl = rtrim(str_repeat('../', substr_count($context['url'], '/')), '/');
-            }
-
+            $relativeUrl = '/' === $context['url']
+                ? '.'
+                : rtrim(str_repeat('../', substr_count((string)$context['url'], '/')), '/');
             $baseContext->set('relative_root_url', $relativeUrl);
         }
 
@@ -104,10 +77,7 @@ class FormatterManager
     public function registerFormatter(string $name, FormatterInterface $formatter): void
     {
         $this->formatters[$name] = $formatter;
-
-        if (null === $this->defaultFormatter) {
-            $this->defaultFormatter = $name;
-        }
+        $this->defaultFormatter ??= $name;
     }
 
     public function formatter(string $name): FormatterInterface
@@ -124,9 +94,8 @@ class FormatterManager
         }
 
         $this->eventDispatcher->dispatch(new FormatEvent($formatContext), Sculpin::EVENT_BEFORE_FORMAT);
-        $response = $this->formatter($formatContext->formatter())->formatPage($formatContext);
 
-        return $response;
+        return $this->formatter($formatContext->formatter())->formatPage($formatContext);
     }
 
     public function formatSourcePage(SourceInterface $source): string
@@ -147,9 +116,8 @@ class FormatterManager
         }
 
         $this->eventDispatcher->dispatch(new FormatEvent($formatContext), Sculpin::EVENT_BEFORE_FORMAT);
-        $response = $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
 
-        return $response;
+        return $this->formatter($formatContext->formatter())->formatBlocks($formatContext);
     }
 
     public function formatSourceBlocks(SourceInterface $source): array
@@ -173,7 +141,7 @@ class FormatterManager
      * Manager via constructor injection as some data providers might also rely
      * on formatter. Hurray for circular dependencies. :(
      *
-     * @param DataProviderManager $dataProviderManager Data Provider Manager
+     * @param DataProviderManager|null $dataProviderManager Data Provider Manager
      */
     public function setDataProviderManager(?DataProviderManager $dataProviderManager = null): void
     {

@@ -1,11 +1,14 @@
 <?php
 
-class SculpinKernel extends \Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel
+use Sculpin\Bundle\SculpinBundle\HttpKernel\AbstractKernel;
+use Sculpin\Tests\Functional\EventListenerTestFixtureBundle\EventListenerTestFixtureBundle;
+
+class SculpinKernel extends AbstractKernel
 {
     protected function getAdditionalSculpinBundles(): array
     {
         return [
-            \Sculpin\Tests\Functional\EventListenerTestFixtureBundle\EventListenerTestFixtureBundle::class,
+            EventListenerTestFixtureBundle::class,
         ];
     }
 }

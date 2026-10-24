@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
 use Sculpin\Core\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,7 +32,7 @@ class CacheClearCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('cache:clear')
@@ -51,7 +52,7 @@ class CacheClearCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $cacheDir = $this->getContainer()->getParameter('kernel.cache_dir');
         $filesystem   = $this->getContainer()->get('filesystem');
@@ -64,6 +65,6 @@ class CacheClearCommand extends ContainerAwareCommand
             $filesystem->remove($cacheDir);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

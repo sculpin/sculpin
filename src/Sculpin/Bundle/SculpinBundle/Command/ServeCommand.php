@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
+use Sculpin\Bundle\SculpinBundle\HttpServer\DefaultContentFetcher;
+use Symfony\Component\Console\Command\Command;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,21 +48,22 @@ class ServeCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
         $kernel = $this->getContainer()->get('kernel');
 
         $httpServer = new HttpServer(
             $output,
+            new DefaultContentFetcher(),
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
-            (int) $input->getOption('port')
+            (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
         );
 
         $httpServer->run();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

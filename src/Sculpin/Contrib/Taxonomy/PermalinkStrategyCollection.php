@@ -17,16 +17,16 @@ use Sculpin\Contrib\Taxonomy\PermalinkStrategy\PermalinkStrategyInterface;
 
 class PermalinkStrategyCollection
 {
-    protected $strategies;
+    protected \SplObjectStorage $strategies;
 
     public function __construct()
     {
         $this->strategies = new \SplObjectStorage();
     }
 
-    public function push(PermalinkStrategyInterface $strategy)
+    public function push(PermalinkStrategyInterface $strategy): void
     {
-        $this->strategies->attach($strategy);
+        $this->strategies->offsetSet($strategy);
     }
 
     public function process($str)

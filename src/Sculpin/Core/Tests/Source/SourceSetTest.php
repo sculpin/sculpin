@@ -13,19 +13,18 @@ declare(strict_types=1);
 
 namespace Sculpin\Core\Tests\Source;
 
-use Dflydev\DotAccessConfiguration\Configuration;
 use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sculpin\Core\Source\SourceSet;
 use Sculpin\Core\Source\SourceInterface;
 
-class SourceSetTest extends TestCase
+final class SourceSetTest extends TestCase
 {
     public function makeTestSource($sourceId, $hasChanged = true, array $dataMap = []): MockObject&SourceInterface
     {
         $source = $this->createMock(SourceInterface::class);
-        $data = $this->createMock(Configuration::class);
+        $data = $this->createMock(ConfigurationInterface::class);
 
         if ($dataMap) {
             $data
@@ -54,7 +53,7 @@ class SourceSetTest extends TestCase
         return $source;
     }
 
-    public function testContainsSource()
+    public function testContainsSource(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
@@ -73,7 +72,7 @@ class SourceSetTest extends TestCase
         $this->assertTrue($sourceSet->containsSource($source002));
     }
 
-    public function testMergeSource()
+    public function testMergeSource(): void
     {
         $source000a = $this->makeTestSource('TestSource:000');
         $source000a
@@ -104,7 +103,7 @@ class SourceSetTest extends TestCase
         $this->assertEquals('b', $internalSources['TestSource:000']->content());
     }
 
-    public function testAllSources()
+    public function testAllSources(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
@@ -119,7 +118,7 @@ class SourceSetTest extends TestCase
         ], $sourceSet->allSources());
     }
 
-    public function testUpdatedSources()
+    public function testUpdatedSources(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001', false);
@@ -133,7 +132,7 @@ class SourceSetTest extends TestCase
         ], $sourceSet->updatedSources());
     }
 
-    public function testReset()
+    public function testReset(): void
     {
         $source000 = $this->makeTestSource('TestSource:000');
         $source001 = $this->makeTestSource('TestSource:001');
@@ -171,14 +170,14 @@ class SourceSetTest extends TestCase
 
         $this->assertSame(
             ['TestSource:000', 'TestSource:001', 'TestSource:002'],
-            array_keys($sourceSet->allSources())
+            $sourceSet->allSources()|>array_keys(...)
         );
 
         $sourceSet->sort();
 
         $this->assertSame(
             ['TestSource:001', 'TestSource:002', 'TestSource:000'],
-            array_keys($sourceSet->allSources()),
+            $sourceSet->allSources()|>array_keys(...),
             'Item with "use" data provider is sorted last'
         );
     }

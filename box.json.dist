@@ -1,0 +1,8 @@
+{
+  "chmod": "0700",
+  "force-autodiscovery": true,
+  "files": [
+    "bin/sculpin",
+    "bin/sculpin.php"
+  ]
+}

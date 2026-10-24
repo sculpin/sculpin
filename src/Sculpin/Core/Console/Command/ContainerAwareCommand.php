@@ -15,27 +15,22 @@ namespace Sculpin\Core\Console\Command;
 
 use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Contracts\Service\ContainerProviderInterface;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class ContainerAwareCommand extends Command implements ContainerProviderInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     /**
-     * @return ContainerInterface
-     *
      * @throws \RuntimeException    if the expected Sculpin Console Application instance could not be found
      */
-    protected function getContainer(): ContainerInterface
+    public function getContainer(): ContainerInterface
     {
-        if (null === $this->container) {
+        if (!isset($this->container)) {
             $app = $this->getApplication();
 
             if (!$app instanceof Application) {
@@ -51,11 +46,9 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     /**
      * Set Container.
      *
-     * @param ContainerInterface $container Container
-     *
-     * @see ContainerAwareInterface::setContainer()
+     * @param ContainerInterface|null $container Container
      */
-    public function setContainer(?ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

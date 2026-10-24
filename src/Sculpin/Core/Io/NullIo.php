@@ -70,7 +70,7 @@ class NullIo implements IoInterface
     /**
      * {@inheritDoc}
      */
-    public function overwrite($messages, bool $newline = true, ?int $size = 80)
+    public function overwrite(string|array $messages, bool $newline = true, ?int $size = 80)
     {
     }
 }

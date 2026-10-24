@@ -17,13 +17,8 @@ use Sculpin\Core\Source\SourceInterface;
 
 class ChainFilter implements FilterInterface
 {
-    private $filters = [];
-    private $or;
-
-    public function __construct(array $filters = [], $or = false)
+    public function __construct(private array $filters = [], private readonly bool $or = false)
     {
-        $this->filters = $filters;
-        $this->or = $or;
     }
 
     public function match(SourceInterface $source): bool
@@ -41,12 +36,10 @@ class ChainFilter implements FilterInterface
                 }
 
                 $matched = true;
-            } else {
-                if (! $this->or) {
-                    // If we would not have accepted any filter ("and") we can
-                    // return false at this point since at least one failed.
-                    return false;
-                }
+            } elseif (! $this->or) {
+                // If we would not have accepted any filter ("and") we can
+                // return false at this point since at least one failed.
+                return false;
             }
         }
 
