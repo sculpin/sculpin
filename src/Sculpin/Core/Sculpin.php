@@ -142,6 +142,18 @@ final readonly class Sculpin
             $source->data()->set('url', $permalink->relativeUrlPath());
             $source->data()->set('relative_pathname', $source->relativePathname());
             $source->data()->set('filename', $source->filename());
+
+            if (!$source->isGenerated() && 'none' === $source->data()->get('permalink')) {
+                // A permalink of "none" means the source should not be written
+                // to the output directory, e.g. content type items and other
+                // sources that only exist to be referenced from another page.
+                // Mark it so the write phase skips it. The permalink and url
+                // stay assigned, so template side `url` lookups on these
+                // sources keep the same value as before. Generated (virtual)
+                // sources may inherit "none" from a duplicated parent source,
+                // but they are their own pages and are still written out.
+                $source->setShouldBeSkipped();
+            }
         }
 
         return $this;
