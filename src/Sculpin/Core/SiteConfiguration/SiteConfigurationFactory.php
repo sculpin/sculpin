@@ -16,6 +16,7 @@ namespace Sculpin\Core\SiteConfiguration;
 use Dflydev\DotAccessConfiguration\Configuration;
 use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 use Dflydev\DotAccessConfiguration\YamlFileConfigurationBuilder;
+use Sculpin\Core\Util\YamlFileResolver;
 
 /**
  * @author Beau Simensen <beau@dflydev.com>
@@ -54,11 +55,11 @@ final readonly class SiteConfigurationFactory
      */
     public function detectConfig(): ConfigurationInterface
     {
-        if (file_exists($file = $this->projectDir . '/app/config/sculpin_site_' . $this->environment . '.yml')) {
-            return $this->getConfigFile($file);
-        }
+        $file = YamlFileResolver::resolve(
+            $this->projectDir . '/app/config/sculpin_site_' . $this->environment
+        ) ?? YamlFileResolver::resolve($this->projectDir . '/app/config/sculpin_site');
 
-        if (file_exists($file = $this->projectDir . '/app/config/sculpin_site.yml')) {
+        if (null !== $file) {
             return $this->getConfigFile($file);
         }
 
