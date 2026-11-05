@@ -27,11 +27,11 @@ if (
 $externalAutoloaderPath = getcwd() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 // Additional checks are required to prevent the static binary from re-loading the same autoloader it was built with
-$autoloaderPathExists = file_exists($externalAutoloaderPath);
-$autoloaderHasSamePath = $autoloaderPathExists && (realpath($externalAutoloaderPath) === realpath($directAutoloaderPath));
-$autoloaderHasSameHash = $autoloaderHasSamePath || (md5_file($externalAutoloaderPath) === md5_file($directAutoloaderPath));
-
-if ($autoloaderPathExists && !$autoloaderHasSamePath && !$autoloaderHasSameHash) {
+if (
+    file_exists($externalAutoloaderPath)
+    && realpath($externalAutoloaderPath) !== realpath($directAutoloaderPath)
+    && md5_file($externalAutoloaderPath) !== md5_file($directAutoloaderPath)
+) {
     $externalAutoloader = includeIfExists($externalAutoloaderPath);
 }
 
