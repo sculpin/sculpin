@@ -22,6 +22,7 @@ use Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle;
 use Sculpin\Bundle\PaginationBundle\SculpinPaginationBundle;
 use Sculpin\Bundle\SculpinBundle\SculpinBundle;
 use Sculpin\Bundle\ThemeBundle\SculpinThemeBundle;
+use Sculpin\Core\Util\YamlFileResolver;
 use Sculpin\Bundle\TwigBundle\SculpinTwigBundle;
 use Sculpin\Bundle\PostsBundle\SculpinPostsBundle;
 use Symfony\Component\Config\FileLocator;
@@ -106,9 +107,9 @@ abstract class AbstractKernel extends Kernel
         // Load defaults.
         $loader->load(__DIR__.'/../Resources/config/kernel.yml');
 
-        if (file_exists($file = $this->getProjectDir().'/app/config/sculpin_kernel_'.$this->getEnvironment().'.yml')) {
+        if ($file = YamlFileResolver::resolve($this->getProjectDir().'/app/config/sculpin_kernel_'.$this->getEnvironment())) {
             $loader->load($file);
-        } elseif (file_exists($file = $this->getProjectDir().'/app/config/sculpin_kernel.yml')) {
+        } elseif ($file = YamlFileResolver::resolve($this->getProjectDir().'/app/config/sculpin_kernel')) {
             $loader->load($file);
         }
     }
@@ -139,9 +140,9 @@ abstract class AbstractKernel extends Kernel
         $container->addObjectResource($this);
         $this->prepareContainer($container);
 
-        if (file_exists($this->getProjectDir().'/app/config/sculpin_services.yml')) {
+        if ($file = YamlFileResolver::resolve($this->getProjectDir().'/app/config/sculpin_services')) {
             $loader = new YamlFileLoader($container, new FileLocator($this->getProjectDir().'/app/config'));
-            $loader->load('sculpin_services.yml');
+            $loader->load($file);
         }
 
         $this->registerContainerConfiguration($this->getContainerLoader($container));

@@ -16,6 +16,7 @@ namespace Sculpin\Bundle\ThemeBundle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
+use Sculpin\Core\Util\YamlFileResolver;
 
 class ThemeRegistry
 {
@@ -41,8 +42,8 @@ class ThemeRegistry
         foreach ($directories as $directory) {
             $name = basename(dirname($directory->getRealPath())).'/'.basename($directory->getRealPath());
             $theme = ['name' => $name, 'path' => $directory];
-            if (file_exists($directory.'/theme.yml')) {
-                $theme = array_merge((array) Yaml::parse(file_get_contents($directory.'/theme.yml')), $theme);
+            if ($file = YamlFileResolver::resolve($directory.'/theme')) {
+                $theme = array_merge((array) Yaml::parse(file_get_contents($file)), $theme);
             }
 
             $themes[$theme['name']] = $theme;

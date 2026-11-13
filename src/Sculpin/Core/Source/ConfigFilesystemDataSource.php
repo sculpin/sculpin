@@ -63,6 +63,7 @@ final class ConfigFilesystemDataSource implements DataSourceInterface
 
         $files = Finder::create()
             ->files()
+            ->name('sculpin_site*.yaml')
             ->name('sculpin_site*.yml')
             ->date('>=' . $sinceTimeLast)
             ->in($this->sourceDir);
