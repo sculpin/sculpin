@@ -145,6 +145,9 @@ final class InitCommand extends AbstractCommand
         // 4. Create source folder (with or without posts)
         $this->createSourceFolder($projectDir, $posts);
 
+        // 5. Create a .gitignore file.
+        $this->createGitignoreFile($projectDir);
+
         $output->writeln('<info>Success!</info>');
         $output->writeln('Run "sculpin generate --watch --server --editor" to see your static site in action.');
         $output->writeln('');
@@ -372,6 +375,16 @@ final class InitCommand extends AbstractCommand
 
             $contentService->processManifest($manifest);
         }
+    }
+
+    private function createGitignoreFile(string $projectDir): void {
+        $this->createFile(
+            $projectDir . '/.gitignore',
+            <<<EOT
+            output_*/
+            vendor/
+            EOT,
+        );
     }
 
     private function createFile(string $path, string $contents): void

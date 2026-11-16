@@ -178,9 +178,10 @@ final class InitCommandTest extends FunctionalTestCase
 
     private function assertProjectInitialized(string $projectDir, array $extraExpected = []): void
     {
-        $files = $this->finder->in($projectDir);
+        $files = $this->finder->in($projectDir)->ignoreDotFiles(false);
 
         $expected = array_merge([
+            $projectDir . '/.gitignore',
             $projectDir . '/app',
             $projectDir . '/app/config',
             $projectDir . '/app/config/sculpin_site.yml',
