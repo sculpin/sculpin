@@ -1,4 +1,4 @@
-FROM alpine:3.24 AS staticphpbuilder
+FROM alpine:3.21 AS staticphpbuilder
 
 # Composer version
 ARG SPC_COMPOSER=latest-stable
