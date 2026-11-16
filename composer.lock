@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c244173481ea6ccbd873588021819b6",
+    "content-hash": "82109898387cecbad5b56b30a802dabd",
     "packages": [
         {
             "name": "dflydev/ant-path-matcher",
@@ -516,23 +516,26 @@
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.9.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "5024d623c1a057dcd2d076d25b7d270a1d0d55f3"
+                "reference": "eb176f173fbac58a045aff78e55f833264b34e71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/5024d623c1a057dcd2d076d25b7d270a1d0d55f3",
-                "reference": "5024d623c1a057dcd2d076d25b7d270a1d0d55f3",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/eb176f173fbac58a045aff78e55f833264b34e71",
+                "reference": "eb176f173fbac58a045aff78e55f833264b34e71",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=7.4"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.3 <5.8"
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": ">=1.0",
+                "phpstan/phpstan-phpunit": ">=1.0",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
@@ -563,9 +566,10 @@
             ],
             "support": {
                 "issues": "https://github.com/michelf/php-markdown/issues",
-                "source": "https://github.com/michelf/php-markdown/tree/1.9.1"
+                "source": "https://github.com/michelf/php-markdown/tree/2.0.0"
             },
-            "time": "2021-11-24T02:52:38+00:00"
+            "time": "2022-09-26T12:21:08+00:00",
+            "published-time": "2022-09-26T12:28:12+00:00"
         },
         {
             "name": "netcarver/textile",
@@ -1054,30 +1058,30 @@
         },
         {
             "name": "react/http",
-            "version": "v1.11.1",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/http.git",
-                "reference": "e5b8eb2654dec6cbbc692a39f05ea4ecd40c8cc1"
+                "reference": "37f13159cdcaf2b1387020751aa1ae1882477f78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/http/zipball/e5b8eb2654dec6cbbc692a39f05ea4ecd40c8cc1",
-                "reference": "e5b8eb2654dec6cbbc692a39f05ea4ecd40c8cc1",
+                "url": "https://api.github.com/repos/reactphp/http/zipball/37f13159cdcaf2b1387020751aa1ae1882477f78",
+                "reference": "37f13159cdcaf2b1387020751aa1ae1882477f78",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "^3.0 || ^2.0 || ^1.0",
                 "fig/http-message-util": "^1.1",
                 "php": ">=5.3.0",
-                "psr/http-message": "^1.0",
+                "psr/http-message": "^2.0 || ^1.0",
                 "react/event-loop": "^1.2",
                 "react/promise": "^3.2 || ^2.3 || ^1.2.1",
                 "react/socket": "^1.16",
                 "react/stream": "^1.4"
             },
             "require-dev": {
-                "clue/http-proxy-react": "^1.8",
+                "clue/http-proxy-react": "^1.10",
                 "clue/reactphp-ssh-proxy": "^1.4",
                 "clue/socks-react": "^1.4",
                 "phpunit/phpunit": "^9.6 || ^8.5 || ^5.7 || ^4.8.36",
@@ -1089,7 +1093,10 @@
             "autoload": {
                 "psr-4": {
                     "React\\Http\\": "src/"
-                }
+                },
+                "exclude-from-classmap": [
+                    "src/**.v2.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1133,7 +1140,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/http/issues",
-                "source": "https://github.com/reactphp/http/tree/v1.11.1"
+                "source": "https://github.com/reactphp/http/tree/v1.12.0"
             },
             "funding": [
                 {
@@ -1141,7 +1148,8 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-09-09T07:08:28+00:00"
+            "time": "2026-11-03T06:18:33+00:00",
+            "published-time": "2026-11-03T06:22:35+00:00"
         },
         {
             "name": "react/promise",
@@ -1596,16 +1604,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v7.4.17",
+            "version": "v7.4.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "f318ac9da5aba0be2cf43ecdd562c05a33bc11c0"
+                "reference": "4df0d83a8253d95b222c2f136b9dca3a1a9451a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f318ac9da5aba0be2cf43ecdd562c05a33bc11c0",
-                "reference": "f318ac9da5aba0be2cf43ecdd562c05a33bc11c0",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/4df0d83a8253d95b222c2f136b9dca3a1a9451a7",
+                "reference": "4df0d83a8253d95b222c2f136b9dca3a1a9451a7",
                 "shasum": ""
             },
             "require": {
@@ -1656,7 +1664,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v7.4.17"
+                "source": "https://github.com/symfony/dependency-injection/tree/v7.4.23"
             },
             "funding": [
                 {
@@ -1676,7 +1684,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T17:40:08+00:00"
+            "time": "2026-11-01T17:38:00+00:00",
+            "published-time": "2026-11-04T11:27:44+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1913,7 +1922,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T17:40:08+00:00"
+            "time": "2026-08-21T17:40:08+00:00",
+            "published-time": "2026-08-22T13:44:01+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -3566,32 +3576,32 @@
         },
         {
             "name": "webignition/internet-media-type",
-            "version": "0.4.8",
+            "version": "2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/internet-media-type.git",
-                "reference": "1a5bbe38033b00b23acd5e1dd10489bb07eed77c"
+                "reference": "cd797dfc3a43099d3caf2feee7ff8c000bb121af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/internet-media-type/zipball/1a5bbe38033b00b23acd5e1dd10489bb07eed77c",
-                "reference": "1a5bbe38033b00b23acd5e1dd10489bb07eed77c",
+                "url": "https://api.github.com/repos/webignition/internet-media-type/zipball/cd797dfc3a43099d3caf2feee7ff8c000bb121af",
+                "reference": "cd797dfc3a43099d3caf2feee7ff8c000bb121af",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0",
+                "php": ">=7.2.0",
+                "webignition/internet-media-type-interface": ">=0.4,<1.0",
                 "webignition/quoted-string": ">=0.2.1,<1.0",
                 "webignition/string-parser": ">=0.2.3,<1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.0",
-                "squizlabs/php_codesniffer": "3.*"
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "^3"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "webignition\\InternetMediaType\\": "src/",
-                    "webignition\\Tests\\InternetMediaType\\": "tests/"
+                    "webignition\\InternetMediaType\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3617,7 +3627,57 @@
                 "issues": "https://github.com/webignition/internet-media-type/issues",
                 "source": "https://github.com/webignition/internet-media-type/tree/master"
             },
-            "time": "2018-03-12T14:54:00+00:00"
+            "time": "2019-02-06T18:14:07+00:00",
+            "published-time": "2019-02-06T18:14:37+00:00"
+        },
+        {
+            "name": "webignition/internet-media-type-interface",
+            "version": "0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webignition/internet-media-type-interface.git",
+                "reference": "dde668e8fa9e0c49b9925a4eeadfa0bc65b26747"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webignition/internet-media-type-interface/zipball/dde668e8fa9e0c49b9925a4eeadfa0bc65b26747",
+                "reference": "dde668e8fa9e0c49b9925a4eeadfa0bc65b26747",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "webignition\\InternetMediaTypeInterface\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jon Cram",
+                    "email": "jon@webignition.net"
+                }
+            ],
+            "description": "PHP interfaces for a model of an http://en.wikipedia.org/wiki/Internet_media_type",
+            "homepage": "https://github.com/webignition/internet-media-type-interface",
+            "keywords": [
+                "content type",
+                "content-type",
+                "internet media type",
+                "media type",
+                "media-type"
+            ],
+            "support": {
+                "issues": "https://github.com/webignition/internet-media-type-interface/issues",
+                "source": "https://github.com/webignition/internet-media-type-interface/tree/master"
+            },
+            "time": "2018-10-09T09:16:21+00:00",
+            "published-time": "2018-10-09T09:16:50+00:00"
         },
         {
             "name": "webignition/quoted-string",
@@ -4257,7 +4317,8 @@
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
                 "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.7"
             },
-            "time": "2026-03-18T20:47:46+00:00"
+            "time": "2026-03-18T20:47:46+00:00",
+            "published-time": "2026-03-18T20:49:11+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -4366,11 +4427,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.2.14",
+            "version": "2.3.6",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9c672e7a8e791dfc3d30e55f683e73fc0b63a3ac",
-                "reference": "9c672e7a8e791dfc3d30e55f683e73fc0b63a3ac",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/00cedebb76cc82c1592414fa4f616cefdccda16f",
+                "reference": "00cedebb76cc82c1592414fa4f616cefdccda16f",
                 "shasum": ""
             },
             "require": {
@@ -4426,7 +4487,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-12T21:39:33+00:00"
+            "time": "2026-11-15T19:58:26+00:00",
+            "published-time": "2026-11-15T19:58:39+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4897,7 +4959,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-13T20:17:44+00:00"
+            "time": "2026-09-13T20:17:44+00:00",
+            "published-time": "2026-09-13T20:17:50+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -5912,26 +5975,31 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.13.6",
+            "version": "4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "4c378e1a528ea066890fc2397cbdd2f94eb2fc91"
+                "reference": "bbdc3d0532623e21838b7041a4364383a8126f96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/4c378e1a528ea066890fc2397cbdd2f94eb2fc91",
-                "reference": "4c378e1a528ea066890fc2397cbdd2f94eb2fc91",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/bbdc3d0532623e21838b7041a4364383a8126f96",
+                "reference": "bbdc3d0532623e21838b7041a4364383a8126f96",
                 "shasum": ""
             },
             "require": {
+                "ext-libxml": "*",
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
-                "php": ">=5.4.0"
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.3.4"
+                "phpunit/phpunit": "^8.4.0 || ^9.3.4 || ^10.5.32 || 11.3.3 - 11.5.28 || ^11.5.31"
+            },
+            "suggest": {
+                "ext-iconv": "For accurate character length calculation when the checked files contain multi-byte characters.",
+                "ext-pcntl": "For parallel processing support via the --parallel CLI option."
             },
             "bin": [
                 "bin/phpcbf",
@@ -5956,7 +6024,7 @@
                     "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer/graphs/contributors"
                 }
             ],
-            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "description": "PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards.",
             "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
             "keywords": [
                 "phpcs",
@@ -5987,7 +6055,8 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-08-06T00:17:32+00:00"
+            "time": "2026-08-06T02:45:27+00:00",
+            "published-time": "2026-08-06T02:57:35+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -6060,16 +6129,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v7.4.17",
+            "version": "v7.4.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "6b037d62595666cf65de867073c9a1f00184be0c"
+                "reference": "cc5c3d6275873fd463c2a772251d65379015682f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/6b037d62595666cf65de867073c9a1f00184be0c",
-                "reference": "6b037d62595666cf65de867073c9a1f00184be0c",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/cc5c3d6275873fd463c2a772251d65379015682f",
+                "reference": "cc5c3d6275873fd463c2a772251d65379015682f",
                 "shasum": ""
             },
             "require": {
@@ -6108,7 +6177,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/v7.4.17"
+                "source": "https://github.com/symfony/dom-crawler/tree/v7.4.22"
             },
             "funding": [
                 {
@@ -6128,7 +6197,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T17:40:08+00:00"
+            "time": "2026-10-25T14:40:16+00:00",
+            "published-time": "2026-10-28T18:20:14+00:00"
         },
         {
             "name": "symfony/process",
@@ -6323,5 +6393,5 @@
         "ext-fileinfo": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
