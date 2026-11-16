@@ -46,7 +46,10 @@ RUN <<-EOF
         gettext-dev \
         binutils-gold \
         pkgconfig \
-        llvm19
+        llvm19 \
+        llvm19-dev \
+        llvm19-linker-tools \
+        llvm19-static
 EOF
 
 RUN <<-EOF
