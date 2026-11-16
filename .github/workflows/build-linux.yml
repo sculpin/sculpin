@@ -15,11 +15,11 @@ jobs:
           - arch: aarch64
             target: aarch64-linux-musl
             platform: linux/arm64
-          - arch: armv7l
-            target: arm-linux-musleabihf
-            platform: linux/arm/v7
-            # php_micro_fileinfo.c omits `typedef Elf32_Shdr Elf_Shdr` in arm32
-            compiler_extra: -DElf_Shdr=Elf32_Shdr
+#          - arch: armv7l
+#            target: arm-linux-musleabihf
+#            platform: linux/arm/v7
+#            # php_micro_fileinfo.c omits `typedef Elf32_Shdr Elf_Shdr` in arm32
+#            compiler_extra: -DElf_Shdr=Elf32_Shdr
           - arch: x86_64
             target: ''
             platform: linux/amd64
@@ -39,7 +39,7 @@ jobs:
             --build-arg SPC_TARGET=${{ matrix.target }} \
             --build-arg ARCH=${{ matrix.arch }} \
             --build-arg SPC_COMPILER_EXTRA='${{ matrix.compiler_extra }}' \
-            -t sculpin-build:${{ matrix.arch }} -f Dockerfile .
+            -t sculpin-build:${{ matrix.arch }} -f Dockerfile_staticbuild .
           docker create --name temp-container sculpin-build:${{ matrix.arch }}
           docker cp temp-container:/app/sculpin-linux-${{ matrix.arch }} .
           docker rm temp-container
