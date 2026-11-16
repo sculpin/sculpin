@@ -45,6 +45,7 @@ RUN <<-EOF
         xz \
         gettext-dev \
         binutils-gold \
+        pkgconfig \
         llvm19
 EOF
 
