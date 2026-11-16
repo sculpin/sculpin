@@ -54,7 +54,7 @@ EOF
 
 RUN <<-EOF
     # Fetch pre-built static-php-cli PHP version for Linux
-    curl -#fSL "https://dl.static-php.dev/static-php-cli/common/php-${SPC_PHP_VERSION}-cli-linux-$(uname -m).tar.gz" | tar -xz -C /usr/local/bin
+    curl -#fSL "https://dl.static-php.dev/${SPC_VERSION}/php-bin/common/php-${SPC_PHP_VERSION}-cli-linux-$(uname -m).tar.gz" | tar -xz -C /usr/local/bin
     chmod +x /usr/local/bin/php
 
     # Fetch pre-built static-php-cli binary
