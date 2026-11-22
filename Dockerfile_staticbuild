@@ -3,7 +3,7 @@ FROM alpine:3.21 AS staticphpbuilder
 # Composer version
 ARG SPC_COMPOSER=latest-stable
 
-ARG SPC_PHP_VERSION=8.6.0
+ARG SPC_PHP_VERSION=8.5.12
 
 # StaticPHP 3.0-alpha1 (nightly)
 ARG SPC_VERSION=v3
