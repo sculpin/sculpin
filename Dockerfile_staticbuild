@@ -25,9 +25,10 @@ RUN <<-EOF
         bison \
         build-base \
         cmake \
-        clang \
-        clang-dev \
-        clang-tools-19 \
+        clang19 \
+        clang19-dev \
+        clang19-extra-tools \
+        clang19-libclang \
         curl \
         file \
         flex \
@@ -40,6 +41,9 @@ RUN <<-EOF
         libtool \
         libstdc++ \
         linux-headers \
+        llvm19 \
+        llvm19-dev \
+        llvm19-extra-tools \
         m4 \
         make \
         pkgconfig \
