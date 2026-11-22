@@ -3,8 +3,7 @@ FROM alpine:3.21 AS staticphpbuilder
 # Composer version
 ARG SPC_COMPOSER=latest-stable
 
-# PHP Version (intended to be >8.6, but keeping at 8.5.x for now)
-ARG SPC_PHP_VERSION=8.5.12
+ARG SPC_PHP_VERSION=8.6.0
 
 # StaticPHP 3.0-alpha1 (nightly)
 ARG SPC_VERSION=v3
@@ -26,6 +25,8 @@ RUN <<-EOF
         bison \
         build-base \
         cmake \
+        clang \
+        clang-dev \
         curl \
         file \
         flex \
@@ -76,7 +77,7 @@ RUN ln -sf /usr/bin/llvm-objcopy /usr/local/bin/objcopy && \
     ln -sf /usr/bin/llvm-strip /usr/local/bin/strip
 
 WORKDIR /app
-RUN spc doctor --auto-fix -vvv
+RUN spc install-pkg zig && spc install-pkg llvm-tools && spc doctor --auto-fix -vvv
 ARG SPC_TARGET=""
 ARG ARCH
 ARG SPC_COMPILER_EXTRA=""
@@ -98,8 +99,8 @@ RUN <<-EOF
 
     rm -rf /app/tests /app/src/Sculpin/Tests
     composer install --no-dev -a
-    spc craft
-    box compile
-    spc micro:combine bin/sculpin.phar
+    spc craft && \
+    box compile && \
+    spc micro:combine bin/sculpin.phar && \
     mv my-app sculpin-linux-${ARCH:-$(uname -m)}
 EOF
