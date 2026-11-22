@@ -33,6 +33,7 @@ RUN <<-EOF
         g++ \
         gcc \
         git \
+        gperf \
         jq \
         libgcc \
         libtool \
