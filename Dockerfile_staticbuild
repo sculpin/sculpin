@@ -27,6 +27,7 @@ RUN <<-EOF
         cmake \
         clang \
         clang-dev \
+        clang-tools \
         curl \
         file \
         flex \
