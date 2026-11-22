@@ -78,7 +78,7 @@ RUN ln -sf /usr/bin/llvm-objcopy /usr/local/bin/objcopy && \
     ln -sf /usr/bin/llvm-strip /usr/local/bin/strip
 
 WORKDIR /app
-RUN spc install-pkg zig && spc install-pkg llvm-tools && spc doctor --auto-fix -vvv
+RUN spc install-pkg zig && spc doctor --auto-fix -vvv
 ARG SPC_TARGET=""
 ARG ARCH
 ARG SPC_COMPILER_EXTRA=""
