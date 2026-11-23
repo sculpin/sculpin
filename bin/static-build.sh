@@ -15,6 +15,7 @@ composer install --no-dev -a
 mkdir -p downloads
 spc craft
 box compile
+# strip micro.sfx BEFORE combining: micro appends the the phar after the ELF section
+strip --strip-debug "${BUILD_ROOT_PATH:-$PWD/buildroot}/bin/micro.sfx"
 spc micro:combine bin/sculpin.phar
-objcopy -S my-app
 mv my-app "$OUT"
