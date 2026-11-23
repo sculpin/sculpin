@@ -1,13 +1,11 @@
-FROM alpine:3.21 AS staticphpbuilder
+FROM alpine:3.24 AS staticphpbuilder
 
 # Composer version
 ARG SPC_COMPOSER=latest-stable
 
-ARG SPC_PHP_VERSION=8.5.12
-
-# StaticPHP 3.0-alpha1 (nightly)
-ARG SPC_VERSION=v3
-ARG SPC_BUILD=nightly
+# StaticPHP 3 (spc) source
+ARG SPC_REPO=https://github.com/crazywhalecc/static-php-cli
+ARG SPC_REF=fix/zig-cross
 
 # Box Project Releases: https://github.com/box-project/box/releases
 ARG SPC_BOX_RELEASE=4.7.1
@@ -25,10 +23,6 @@ RUN <<-EOF
         bison \
         build-base \
         cmake \
-        clang19 \
-        clang19-dev \
-        clang19-extra-tools \
-        clang19-libclang \
         curl \
         file \
         flex \
@@ -41,9 +35,6 @@ RUN <<-EOF
         libtool \
         libstdc++ \
         linux-headers \
-        llvm19 \
-        llvm19-dev \
-        llvm19-extra-tools \
         m4 \
         make \
         pkgconfig \
@@ -53,40 +44,48 @@ RUN <<-EOF
         gettext-dev \
         binutils-gold \
         pkgconfig \
-        llvm19 \
-        llvm19-dev \
-        llvm19-linker-tools \
-        llvm19-static
+        llvm22 \
+        llvm22-dev \
+        llvm22-linker-tools \
+        llvm22-static \
+        php85 \
+        php85-common \
+        php85-ctype \
+        php85-dom \
+        php85-fileinfo \
+        php85-iconv \
+        php85-mbstring \
+        php85-openssl \
+        php85-pcntl \
+        php85-phar \
+        php85-posix \
+        php85-simplexml \
+        php85-tokenizer \
+        php85-xml \
+        php85-xmlwriter
 EOF
 
-RUN <<-EOF
-    # Fetch pre-built static-php-cli PHP version for Linux
-    curl -#fSL "https://dl.static-php.dev/${SPC_VERSION}/php-bin/common/php-${SPC_PHP_VERSION}-cli-linux-$(uname -m).tar.gz" | tar -xz -C /usr/local/bin
-    chmod +x /usr/local/bin/php
-
-    # Fetch pre-built static-php-cli binary
-    curl -#fSL https://dl.static-php.dev/${SPC_VERSION}/spc-bin/${SPC_BUILD}/spc-linux-$(uname -m) -o spc
-    mv spc /usr/local/bin/spc
-    chmod +x /usr/local/bin/spc
-
-    # fetch specified composer
-    curl -#fSL https://getcomposer.org/download/${SPC_COMPOSER}/composer.phar -o /usr/local/bin/composer
+# fetch specified composer
+RUN curl -#fSL "https://getcomposer.org/download/${SPC_COMPOSER}/composer.phar" -o /usr/local/bin/composer && \
     chmod +x /usr/local/bin/composer
 
-    # fetch specified version of Box
-    curl -#fSL "https://github.com/box-project/box/releases/download/${SPC_BOX_RELEASE}/box.phar" -o /usr/local/bin/box
+# fetch specified version of Box
+RUN curl -#fSL "https://github.com/box-project/box/releases/download/${SPC_BOX_RELEASE}/box.phar" -o /usr/local/bin/box && \
     chmod +x /usr/local/bin/box
-EOF
 
 # GNU objcopy/strip aren't multi-arch
-RUN ln -sf /usr/bin/llvm-objcopy /usr/local/bin/objcopy && \
-    ln -sf /usr/bin/llvm-strip /usr/local/bin/strip
+RUN ln -sf /usr/lib/llvm22/bin/llvm-objcopy /usr/local/bin/objcopy && \
+    ln -sf /usr/lib/llvm22/bin/llvm-strip /usr/local/bin/strip
+
+RUN echo "spc ref: ${SPC_REF}" && \
+    git clone --depth 1 --branch "$SPC_REF" "$SPC_REPO" /opt/spc && \
+    cd /opt/spc && \
+    composer install --no-dev -a && \
+    printf '#!/bin/sh\nexec /usr/bin/php -d memory_limit=-1 /opt/spc/bin/spc "$@"\n' > /usr/local/bin/spc && \
+    chmod +x /usr/local/bin/spc
 
 WORKDIR /app
 RUN spc install-pkg zig && spc doctor --auto-fix -vvv
-ARG SPC_TARGET=""
-ARG ARCH
-ARG SPC_COMPILER_EXTRA=""
 
 COPY ./composer.* /app/
 COPY ./craft.yml /app/craft.yml
@@ -94,19 +93,5 @@ COPY ./box.json.dist /app/box.json
 COPY ./bin /app/bin
 COPY ./src /app/src
 
-RUN <<-EOF
-    --mount=type=cache,target=/app/downloads,sharing=locked
-
-    if [ -n "$SPC_TARGET" ]; then
-        export SPC_EXTRA_PHP_VARS="--host=$SPC_TARGET";
-    else
-        unset SPC_TARGET SPC_COMPILER_EXTRA;
-    fi
-
-    rm -rf /app/tests /app/src/Sculpin/Tests
-    composer install --no-dev -a
-    spc craft && \
-    box compile && \
-    spc micro:combine bin/sculpin.phar && \
-    mv my-app sculpin-linux-${ARCH:-$(uname -m)}
-EOF
+ENV SCULPIN_STATIC_BUILDER=1
+CMD ["sh", "/app/bin/static-build.sh"]

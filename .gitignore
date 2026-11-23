@@ -15,6 +15,7 @@ clover.xml
 downloads
 source
 pkgroot
+logs
 buildroot
 log
 .spc.cache.php

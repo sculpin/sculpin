@@ -105,4 +105,3 @@ final class YamlExtensionTest extends FunctionalTestCase
         $this->assertGeneratedFileHasContent('/hello_world/index.html', 'title: "YML Project"');
     }
 }
-
