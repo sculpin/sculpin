@@ -34,7 +34,7 @@
         "symfony/dependency-injection": "^7.4",
         "symfony/event-dispatcher": "^7.4",
         "symfony/filesystem": "^7.4",
-        "symfony/finder": "^7.4",
+        "symfony/finder": "^8.1",
         "symfony/http-kernel": "^7.4",
         "symfony/yaml": "^7.4",
         "symfony/mime": "^7.4",
