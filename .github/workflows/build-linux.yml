@@ -14,11 +14,8 @@ jobs:
         include:
           - arch: aarch64
             target: aarch64-linux-musl
-#          - arch: armv7l
-#            target: arm-linux-musleabihf
-#            platform: linux/arm/v7
-#            # php_micro_fileinfo.c omits `typedef Elf32_Shdr Elf_Shdr` in arm32
-#            compiler_extra: -DElf_Shdr=Elf32_Shdr
+          - arch: x86_64
+            target: arm-linux-musleabihf
           - arch: x86_64
             target: x86_64-linux-musl
 
