@@ -12,17 +12,20 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: aarch64
-            target: aarch64-linux-musl
-          - arch: x86_64
-            target: arm-linux-musleabihf
-          - arch: x86_64
-            target: x86_64-linux-musl
+          - target: aarch64-linux-musl
+            platform: linux/arm64
+          - target: arm-linux-musleabihf
+            platform: linux/arm/v7
+          - target: x86_64-linux-musl
+            platform: linux/amd64
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile ${{ matrix.arch }} binary
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Compile ${{ matrix.target }} binary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./bin/docker-static-build.sh "${{ matrix.target }}"
@@ -33,13 +36,12 @@ jobs:
           file "$f"
           # x86_64 isn't valid, replace with x86-64
           file "$f" | grep -iqw "$(echo '${{ matrix.target }}' | cut -d- -f1 | tr _ -)"
-          if [ "${{ matrix.arch }}" = "$(uname -m)" ]; then
-            docker run --rm -v "$PWD/build:/b" alpine:3.24 "/b/$(basename "$f")" --version
-          fi
+          docker run --rm --platform "${{ matrix.platform }}" \
+            -v "$PWD/build:/b" alpine:3.24 "/b/$(basename "$f")" --version
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
-            name: sculpin-bin-linux-${{ matrix.arch }}
+            name: sculpin-bin-linux-${{ matrix.target }}
             path: build/sculpin-${{ matrix.target }}
             retention-days: 30
