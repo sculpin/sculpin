@@ -22,7 +22,7 @@
         "ext-fileinfo": "*",
         "dflydev/ant-path-matcher": "^1.0.3",
         "dflydev/dot-access-configuration": "^2.0.0",
-        "doctrine/inflector": "^1.4",
+        "doctrine/inflector": "^2.1",
         "league/mime-type-detection": "^1.17.0",
         "michelf/php-markdown": "^2.0",
         "netcarver/textile": "^4.1",
