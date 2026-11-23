@@ -97,6 +97,10 @@ the following list:
 ### Building a sculpin binary
 
 ```bash
-docker build -t sculpin .
-docker run --rm -v $(pwd):/out sculpin cp /app/sculpin-linux-$(uname -m) /out
+bin/docker-static-build.sh [target]
 ```
+
+Builds the `sculpin-builder` image and runs the static compile in it; the binary lands in
+`build/sculpin-<zig-target-triple>`
+
+See https://clang.llvm.org/docs/CrossCompilation.html#target-triple and https://ziglang.org/intro/platform-support for available targets.
