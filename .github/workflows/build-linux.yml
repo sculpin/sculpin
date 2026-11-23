@@ -30,6 +30,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./bin/docker-static-build.sh "${{ matrix.target }}"
 
+      - name: Upload logs if the build failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+            name: sculpin-logs-${{ matrix.target }}
+            path: logs
+            retention-days: 30
+            if-no-files-found: ignore
+
       - name: Verify ${{ matrix.target }} binary
         run: |
           f="build/sculpin-${{ matrix.target }}"

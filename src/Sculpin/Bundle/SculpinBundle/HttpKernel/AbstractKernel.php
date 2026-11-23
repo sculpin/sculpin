@@ -107,7 +107,8 @@ abstract class AbstractKernel extends Kernel
         // Load defaults.
         $loader->load(__DIR__.'/../Resources/config/kernel.yml');
 
-        if ($file = YamlFileResolver::resolve($this->getProjectDir().'/app/config/sculpin_kernel_'.$this->getEnvironment())) {
+        $envConfig = $this->getProjectDir().'/app/config/sculpin_kernel_'.$this->getEnvironment();
+        if ($file = YamlFileResolver::resolve($envConfig)) {
             $loader->load($file);
         } elseif ($file = YamlFileResolver::resolve($this->getProjectDir().'/app/config/sculpin_kernel')) {
             $loader->load($file);

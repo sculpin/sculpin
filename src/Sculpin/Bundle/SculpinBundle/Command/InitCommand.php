@@ -377,7 +377,8 @@ final class InitCommand extends AbstractCommand
         }
     }
 
-    private function createGitignoreFile(string $projectDir): void {
+    private function createGitignoreFile(string $projectDir): void
+    {
         $this->createFile(
             $projectDir . '/.gitignore',
             <<<EOT

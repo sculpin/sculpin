@@ -162,9 +162,9 @@ class InBrowserEditorContentFetcher implements ContentFetcher
 
             if ($aStartsWithUnderscore && $bStartsWithUnderscore) {
                 return $b <=> $a;
-            } else if ($aStartsWithUnderscore) {
+            } elseif ($aStartsWithUnderscore) {
                 return 1;
-            } else if ($bStartsWithUnderscore) {
+            } elseif ($bStartsWithUnderscore) {
                 return -1;
             }
 
