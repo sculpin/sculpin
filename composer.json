@@ -47,7 +47,7 @@
         "squizlabs/php_codesniffer": "^4.0",
         "symfony/css-selector": "^7.4",
         "symfony/dom-crawler": "^7.4",
-        "symfony/process": "^7.4",
+        "symfony/process": "^8.1",
         "phpstan/phpstan": "^2.3",
         "rector/rector": "^2.6"
     },
