@@ -33,7 +33,7 @@
         "symfony/console": "^7.4",
         "symfony/dependency-injection": "^7.4",
         "symfony/event-dispatcher": "^7.4",
-        "symfony/filesystem": "^7.4",
+        "symfony/filesystem": "^8.1",
         "symfony/finder": "^7.4",
         "symfony/http-kernel": "^7.4",
         "symfony/yaml": "^7.4",
