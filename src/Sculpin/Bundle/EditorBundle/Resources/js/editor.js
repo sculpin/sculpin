@@ -9,7 +9,6 @@ var SculpinEditor = {
         // Check if bar has already been drawn
         let menuBar = document.getElementById('SCULPIN_EDITOR_BAR');
         if (menuBar) {
-            this.registerListeners();
             return;
         }
 
@@ -17,7 +16,7 @@ var SculpinEditor = {
         let body = document.getElementsByTagName('body')[0];
 
         // render menu bar with edit button
-        body.innerHTML += '<div id="SCULPIN_EDITOR_BAR">' +
+        body.insertAdjacentHTML('beforeend', '<div id="SCULPIN_EDITOR_BAR">' +
             '<div>' +
             '<a href="#edit" id="SCULPIN_EDIT_BUTTON">' +
             '<svg width="25px" height="25px" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">\n' +
@@ -44,7 +43,7 @@ var SculpinEditor = {
             '</div>' +
             '<div class="gap"></div>' +
             '<div class="right padr"><strong>Sculpin</strong> <em>In-Browser Editor</em></div> ' +
-            '</div>';
+            '</div>');
 
         this.registerListeners();
     },
@@ -55,13 +54,12 @@ var SculpinEditor = {
         // Check if editor has already been drawn
         let editor = document.getElementById('SCULPIN_EDIT_PANEL');
         if (editor) {
-            this.registerEditorListeners();
             return;
         }
 
         // load editor box with content
         let body = document.getElementsByTagName('body')[0];
-        body.innerHTML += '<div id="SCULPIN_EDIT_PANEL">' +
+        body.insertAdjacentHTML('beforeend', '<div id="SCULPIN_EDIT_PANEL">' +
             '<div class="top-controls">' +
             '<div><h3>Editing:</h3>' +
             '<form><select id="SCULPIN_FILE_SELECTOR" name="file-selector">' +
@@ -85,7 +83,7 @@ var SculpinEditor = {
             '<div class="controls">' +
             '<button id="SCULPIN_CANCEL_CHANGES">Cancel</button> ' +
             '<button id="SCULPIN_SAVE_CHANGES">Save Changes</button>' +
-            '</div></div>';
+            '</div></div>');
 
         this.registerEditorListeners();
     },
@@ -94,16 +92,15 @@ var SculpinEditor = {
         console.log('Drawing Add File Modal');
 
         // Check if modal has already been drawn
-        let addModal = document.getElementById('SCULPIN_ADD_MODAL');
+        var addModal = document.getElementById('SCULPIN_ADD_MODAL');
         if (addModal) {
-            this.registerAddModalListeners();
             return;
         }
 
         // load editor box with content
-        let body = document.getElementsByTagName('body')[0];
-        body.innerHTML += '<div id="SCULPIN_ADD_MODAL">' +
-            '<dialog id="add-file-modal">\n' +
+        var body = document.getElementsByTagName('body')[0];
+        body.insertAdjacentHTML('beforeend', '<div id="SCULPIN_ADD_MODAL">' +
+            '<dialog id="add-file-modal" closedby="any">\n' +
             '  <p>Create a file in your Sculpin <strong>"source/"</strong> folder.</p>\n' +
             '<form>' +
             '  <input type="text" name="filename" placeholder="_posts/second-post.md"/>' +
@@ -111,16 +108,17 @@ var SculpinEditor = {
             '  </div>' +
             '</form>' +
             '    <button commandfor="add-file-modal" command="close" name="create">Add</button>\n' +
+            '    <button commandfor="add-file-modal" command="cancel" name="cancel">Cancel</button>\n' +
             '</dialog>' +
-            '</div>';
+            '</div>');
 
         this.registerAddModalListeners();
     },
 
     registerListeners: function () {
         console.log('Registering Edit Bar Listeners');
-        let editButton = document.getElementById("SCULPIN_EDIT_BUTTON");
-        let addButton = document.getElementById("SCULPIN_ADD_BUTTON");
+        var editButton = document.getElementById("SCULPIN_EDIT_BUTTON");
+        var addButton = document.getElementById("SCULPIN_ADD_BUTTON");
 
         editButton && editButton.addEventListener('click', function () {
             console.log('Clicked Edit');
@@ -136,7 +134,8 @@ var SculpinEditor = {
             }
         });
 
-        addButton && addButton.addEventListener('click', function () {
+        addButton && addButton.addEventListener('click', function (e) {
+            e.preventDefault();
             console.log('Clicked Add');
             SculpinEditor.renderAddModal();
 
@@ -177,24 +176,40 @@ var SculpinEditor = {
             document.getElementById('SCULPIN_EDITOR_BAR').style.visibility = 'visible';
             document.getElementById('SCULPIN_EDIT_PANEL').style.visibility = 'collapse';
 
+            if ('edit' === window.location.hash.substring(1)) {
+                window.location.hash = '';
+            }
+
             SculpinEditor.renderBar();
         });
     },
 
     registerAddModalListeners: function () {
         console.log('Registering Add-Modal Listeners');
-        let createButton = document.querySelector("#SCULPIN_ADD_MODAL button[name=create]");
+        let addFileModal = document.querySelector("#SCULPIN_ADD_MODAL > dialog#add-file-modal");
+        let createButton = addFileModal.querySelector("button[name=create]");
+        let cancelButton = addFileModal.querySelector("button[name=cancel]");
 
         // Add Button
         // @todo should also work with pressing enter key!
         createButton && createButton.addEventListener('click', function (e) {
             e.preventDefault();
-            console.log('Clicked Create');
+            console.log('Clicked Add');
             SculpinEditor.addFile();
         });
 
         // Cancel Button
         // Other dismissal behaviours (i.e., clicking outside the modal or pressing escape)
+        cancelButton && cancelButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            addFileModal.requestClose('requestClose');
+        });
+        addFileModal.addEventListener('cancel', (e) => {
+            // @todo kinda introduces a bug if the previous hash value was `edit`
+            if ('add' === window.location.hash.substring(1)) {
+                window.location.hash = '';
+            }
+        });
     },
 
     saveChanges: function () {
@@ -363,7 +378,7 @@ var SculpinEditor = {
                 console.log('Expected File to Exist: ' + file, data);
 
                 // check if the response confirms the file exists
-                if (data.exists === true) {
+                if (data?.exists === true) {
                     document.location.reload();
                 }
             })
@@ -425,3 +440,8 @@ function ready(fn)
 }
 
 ready(() => SculpinEditor.init());
+ready(() => {
+    if ('edit' === window.location.hash.substring(1)) {
+        document.getElementById("SCULPIN_EDIT_BUTTON").click();
+    }
+});
