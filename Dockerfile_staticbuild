@@ -3,9 +3,9 @@ FROM alpine:3.24 AS staticphpbuilder
 # Composer version
 ARG SPC_COMPOSER=latest-stable
 
-# StaticPHP 3 (spc) source
+# StaticPHP 3 (spc) source (https://static-php.dev/)
 ARG SPC_REPO=https://github.com/crazywhalecc/static-php-cli
-ARG SPC_REF=fix/zig-cross
+ARG SPC_REF=v3
 
 # Box Project Releases: https://github.com/box-project/box/releases
 ARG SPC_BOX_RELEASE=4.7.1
