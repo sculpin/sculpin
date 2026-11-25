@@ -36,6 +36,7 @@ class ServeCommand extends AbstractCommand
             ->setName($prefix.'serve')
             ->setDescription('Serve a site.')
             ->setDefinition([
+                self::getHostInputOption(),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
             ])
             ->setHelp(<<<EOT
@@ -54,16 +55,34 @@ class ServeCommand extends AbstractCommand
         $kernel = $this->getContainer()->get('kernel');
 
         $httpServer = new HttpServer(
-            $output,
-            new DefaultContentFetcher(),
-            $docroot,
-            $kernel->getEnvironment(),
-            $kernel->isDebug(),
-            (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
+            output: $output,
+            fetcher: new DefaultContentFetcher(),
+            docroot: $docroot,
+            env: $kernel->getEnvironment(),
+            debug: $kernel->isDebug(),
+            host: (string) ($input->getOption('host') ?? HttpServer::DEFAULT_HOST),
+            port: (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
         );
 
         $httpServer->run();
 
         return Command::SUCCESS;
+    }
+
+    public static function getHostInputOption(): InputOption
+    {
+        return new InputOption(
+            'host',
+            null,
+            InputOption::VALUE_REQUIRED,
+            <<<EOT
+            Host Interface:
+            - 127.0.0.1 to prevent external access
+            - 0.0.0.0 or 'localhost' to allow access on all interfaces
+            - "[::1]" to listen on IPv6 (host MUST be enclosed in square brackets for IPv6)
+
+            EOT,
+            '127.0.0.1',
+        );
     }
 }

@@ -41,6 +41,7 @@ class RunCommand extends AbstractCommand
                     'Cleans the output directory prior to generation.'
                 ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
+                ServeCommand::getHostInputOption(),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
                 new InputOption('no-editor', null, InputOption::VALUE_NONE, 'Turn off the in-browser editor.'),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),

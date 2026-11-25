@@ -27,6 +27,7 @@ use Symfony\Component\Mime\MimeTypes;
  */
 final class HttpServer
 {
+    public const string DEFAULT_HOST = '127.0.0.1';
     public const int DEFAULT_PORT = 8000;
 
     public function __construct(
@@ -35,10 +36,11 @@ final class HttpServer
         string $docroot,
         private readonly string $env,
         private readonly bool $debug,
-        private int $port = self::DEFAULT_PORT
+        private string $host = self::DEFAULT_HOST,
+        private int $port = self::DEFAULT_PORT,
     ) {
         $socketServer = new ReactSocketServer(
-            sprintf('0.0.0.0:%d', $this->port),
+            sprintf('%s:%d', $this->host, $this->port),
         );
 
         $httpServer = $this->getHttpServer($docroot, $output);
@@ -57,8 +59,8 @@ final class HttpServer
         ));
         $this->output->writeln(sprintf(
             'Development server is running at <info>http://%s:%s</info>',
-            'localhost',
-            $this->port
+            $this->host,
+            $this->port,
         ));
         $this->output->writeln('Quit the server with CONTROL-C.');
 
