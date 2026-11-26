@@ -143,13 +143,21 @@ class GenerateCommand extends AbstractCommand
 
             $kernel = $this->getContainer()->get('kernel');
 
+            $hostIp = (string) ($input->getOption('host') ?? HttpServer::DEFAULT_HOST);
+
+            if ($hostIp && !ServeCommand::validateInterfaceIp($hostIp)) {
+                $output->writeln('<error>Invalid Host IP Provided. Must be a valid IPv4 or [IPv6] string, or "localhost".</error>');
+
+                return Command::FAILURE;
+            }
+
             $httpServer = new HttpServer(
                 output: $output,
                 fetcher: $fetcher,
                 docroot: $docroot,
                 env: $kernel->getEnvironment(),
                 debug: $kernel->isDebug(),
-                host: (string) ($input->getOption('host') ?? HttpServer::DEFAULT_HOST),
+                host: $hostIp,
                 port: (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT),
             );
 

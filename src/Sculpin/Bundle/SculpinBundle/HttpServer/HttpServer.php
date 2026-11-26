@@ -39,6 +39,11 @@ final class HttpServer
         private string $host = self::DEFAULT_HOST,
         private int $port = self::DEFAULT_PORT,
     ) {
+        // This preserves a legacy behaviour of HttpServer
+        if ($this->host === 'localhost') {
+            $this->host = '0.0.0.0';
+        }
+
         $socketServer = new ReactSocketServer(
             sprintf('%s:%d', $this->host, $this->port),
         );
@@ -59,7 +64,7 @@ final class HttpServer
         ));
         $this->output->writeln(sprintf(
             'Development server is running at <info>http://%s:%s</info>',
-            $this->host,
+            $this->host === '0.0.0.0' ? 'localhost' : $this->host,
             $this->port,
         ));
         $this->output->writeln('Quit the server with CONTROL-C.');
