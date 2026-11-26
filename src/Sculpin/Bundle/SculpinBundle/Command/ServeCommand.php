@@ -57,7 +57,9 @@ class ServeCommand extends AbstractCommand
         $hostIp = (string) ($input->getOption('host') ?? HttpServer::DEFAULT_HOST);
 
         if ($hostIp && !self::validateInterfaceIp($hostIp)) {
-            $output->writeln('<error>Invalid Host IP Provided. Must be a valid IPv4 or [IPv6] string, or "localhost".</error>');
+            $output->writeln(
+                '<error>Invalid Host IP Provided. Must be a valid IPv4 or [IPv6] string, or "localhost".</error>',
+            );
 
             return Command::FAILURE;
         }
