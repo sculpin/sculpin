@@ -80,6 +80,7 @@ class GenerateCommand extends AbstractCommand
                 ),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                ServeCommand::getHostInputOption(),
                 new InputOption('output-dir', null, InputOption::VALUE_REQUIRED, 'Output Directory'),
                 new InputOption('source-dir', null, InputOption::VALUE_REQUIRED, 'Source Directory'),
             ])
@@ -142,13 +143,24 @@ class GenerateCommand extends AbstractCommand
 
             $kernel = $this->getContainer()->get('kernel');
 
+            $hostIp = (string) ($input->getOption('host') ?? HttpServer::DEFAULT_HOST);
+
+            if ($hostIp && !ServeCommand::validateInterfaceIp($hostIp)) {
+                $output->writeln(
+                    '<error>Invalid Host IP Provided. Must be a valid IPv4 or [IPv6] string, or "localhost".</error>',
+                );
+
+                return Command::FAILURE;
+            }
+
             $httpServer = new HttpServer(
-                $output,
-                $fetcher,
-                $docroot,
-                $kernel->getEnvironment(),
-                $kernel->isDebug(),
-                (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT)
+                output: $output,
+                fetcher: $fetcher,
+                docroot: $docroot,
+                env: $kernel->getEnvironment(),
+                debug: $kernel->isDebug(),
+                host: $hostIp,
+                port: (int) ($input->getOption('port') ?? HttpServer::DEFAULT_PORT),
             );
 
             if ($watch) {
