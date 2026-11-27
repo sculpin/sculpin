@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: '0 0 * * 0'
   push:
+    branches:
+      - 3.3.x-dev
+      - 4.0.x-dev
+      - 4.1.x-dev
+      - main
 
 jobs:
   build:
