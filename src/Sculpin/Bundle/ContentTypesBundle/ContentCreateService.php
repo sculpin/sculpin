@@ -82,7 +82,7 @@ class ContentCreateService
     public function getYamlString(string $type, string $singularType, array $taxonomies = []): string
     {
         $outputMessage = <<<EOT
-            {$type}:
+        {$type}:
                 type: path
                 path: _{$type}
                 singular_name: {$singularType}
