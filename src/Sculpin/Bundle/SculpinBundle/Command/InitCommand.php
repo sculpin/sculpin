@@ -149,7 +149,9 @@ final class InitCommand extends AbstractCommand
         $this->createGitignoreFile($projectDir);
 
         $output->writeln('<info>Success!</info>');
-        $output->writeln('Run "sculpin run" or "sculpin generate --watch --server --editor" to see your static site in action.');
+        $output->writeln(
+            'Run "sculpin run" or "sculpin generate --watch --server --editor" to see your static site in action.'
+        );
         $output->writeln('');
 
         if (!$posts) {
