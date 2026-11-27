@@ -34,7 +34,7 @@ final class InitCommandTest extends FunctionalTestCase
 
         $this->assertYamlFileEqualsArray(
             ['sculpin_content_types' => ['posts' => ['enabled' => false]]],
-            $projectDir . '/app/config/sculpin_kernel.yml'
+            $projectDir . '/app/config/sculpin_kernel.yaml'
         );
 
         $this->assertYamlFileEqualsArray(
@@ -44,7 +44,7 @@ final class InitCommandTest extends FunctionalTestCase
                 'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
-            $projectDir . '/app/config/sculpin_site.yml'
+            $projectDir . '/app/config/sculpin_site.yaml'
         );
     }
 
@@ -89,7 +89,7 @@ final class InitCommandTest extends FunctionalTestCase
 
         $this->assertYamlFileEqualsArray(
             ['sculpin_content_types' => ['posts' => ['enabled' => false]]],
-            $projectDir . '/app/config/sculpin_kernel.yml'
+            $projectDir . '/app/config/sculpin_kernel.yaml'
         );
 
         $this->assertYamlFileEqualsArray(
@@ -99,7 +99,7 @@ final class InitCommandTest extends FunctionalTestCase
                 'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
-            $projectDir . '/app/config/sculpin_site.yml'
+            $projectDir . '/app/config/sculpin_site.yaml'
         );
     }
 
@@ -142,7 +142,7 @@ final class InitCommandTest extends FunctionalTestCase
                     ]
                 ]
             ],
-            $projectDir . '/app/config/sculpin_kernel.yml'
+            $projectDir . '/app/config/sculpin_kernel.yaml'
         );
 
         $this->assertYamlFileEqualsArray(
@@ -152,7 +152,7 @@ final class InitCommandTest extends FunctionalTestCase
                 'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
-            $projectDir . '/app/config/sculpin_site.yml'
+            $projectDir . '/app/config/sculpin_site.yaml'
         );
     }
 
@@ -184,8 +184,8 @@ final class InitCommandTest extends FunctionalTestCase
             $projectDir . '/.gitignore',
             $projectDir . '/app',
             $projectDir . '/app/config',
-            $projectDir . '/app/config/sculpin_site.yml',
-            $projectDir . '/app/config/sculpin_kernel.yml',
+            $projectDir . '/app/config/sculpin_site.yaml',
+            $projectDir . '/app/config/sculpin_kernel.yaml',
             $projectDir . '/app/SculpinKernel.php',
             $projectDir . '/source',
             $projectDir . '/source/_includes',

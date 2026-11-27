@@ -219,7 +219,7 @@ final class InitCommand extends AbstractCommand
             EOT;
         }
 
-        $this->createFile($projectDir . '/app/config/sculpin_kernel.yml', $contents);
+        $this->createFile($projectDir . '/app/config/sculpin_kernel.yaml', $contents);
     }
 
     private function createSiteConfigFile(
@@ -236,7 +236,7 @@ final class InitCommand extends AbstractCommand
         url: ''
 
         EOT;
-        $this->createFile($projectDir . '/app/config/sculpin_site.yml', $contents);
+        $this->createFile($projectDir . '/app/config/sculpin_site.yaml', $contents);
     }
 
     private function createSourceFolder(string $projectDir, bool $posts = false): void
