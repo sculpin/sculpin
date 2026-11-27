@@ -232,7 +232,6 @@ final class InitCommand extends AbstractCommand
         # Example: `{{ site.title }}`
         title: "{$title}"
         subtitle: "{$subTitle}"
-        google_analytics_tracking_id: ''
         url: ''
 
         EOT;
