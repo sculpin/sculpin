@@ -41,7 +41,6 @@ final class InitCommandTest extends FunctionalTestCase
             [
                 'title'                        => InitCommand::DEFAULT_TITLE,
                 'subtitle'                     => InitCommand::DEFAULT_SUBTITLE,
-                'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
             $projectDir . '/app/config/sculpin_site.yml'
@@ -96,7 +95,6 @@ final class InitCommandTest extends FunctionalTestCase
             [
                 'title'                        => 'My Custom Title',
                 'subtitle'                     => 'Custom Subtitle',
-                'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
             $projectDir . '/app/config/sculpin_site.yml'
@@ -149,7 +147,6 @@ final class InitCommandTest extends FunctionalTestCase
             [
                 'title'                        => 'My Custom Title',
                 'subtitle'                     => 'Custom Subtitle',
-                'google_analytics_tracking_id' => '',
                 'url'                          => '',
             ],
             $projectDir . '/app/config/sculpin_site.yml'
